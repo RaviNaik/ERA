@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERA V5 · Session 1 — Deep Learning Foundations</title>
+  <meta name="description" content="Interactive widgets demonstrating activations, depth, embeddings and generalization in deep learning." />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <!-- Network Visualizer (must load before widgets) -->
+  <script src="network-viz.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="badge">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    ERA V5 · Session 1
+  </div>
+  <h1>From Neural Networks to the Transformer</h1>
+  <p>Four interactive proofs — run live in your browser using TensorFlow.js. Each widget trains a real model and shows you the evidence.</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════
+     WIDGETS
+══════════════════════════════════════════════════════════ -->
+<main class="widgets-container">
+
+  <!-- ────────────────────────────────────────────────────────
+       S1-1 · Activations Exist for a Reason
+  ──────────────────────────────────────────────────────────── -->
+  <section class="widget-card widget-1" id="widget-1">
+    <div class="widget-header">
+      <div class="widget-number">S1·1</div>
+      <div class="widget-title-group">
+        <h2>Activations Exist for a Reason</h2>
+        <p class="subtitle">A linear model can only draw a straight boundary and gets stuck near 55% on the ring task. One ReLU hidden layer wraps around the ring to ~99%. Only the activation changed.</p>
+      </div>
+      <span class="claim-badge">Claim Verified</span>
+    </div>
+
+    <div class="widget-body">
+      <!-- Controls -->
+      <div class="controls-row">
+        <button class="btn btn-primary" id="w1-train-btn">
+          <span class="btn-text">▶ Train Both Models</span>
+          <span class="spinner"></span>
+        </button>
+        <div class="status-chips">
+          <span class="chip chip-purple" id="w1-status">Click Train to begin</span>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="training-progress">
+        <div class="progress-label">
+          <span>Training progress</span>
+          <span id="w1-pct">0%</span>
+        </div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="w1-progress" style="width:0%"></div></div>
+      </div>
+
+      <!-- Plots -->
+      <div class="plots-grid plots-grid-2" style="margin-top:20px;">
+        <div class="plot-card">
+          <h3>🔴 Linear + Sigmoid (no hidden layer)</h3>
+          <canvas id="w1-canvas-linear" width="320" height="320"></canvas>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Inner ring (class 0)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Outer ring (class 1)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#9b82d0;width:20px;height:4px;border-radius:2px;"></div>Decision boundary</div>
+          </div>
+          <div class="accuracy-card" style="width:100%;margin-top:6px;">
+            <div class="label">Accuracy</div>
+            <div class="value" id="w1-acc-linear" style="background:linear-gradient(135deg,#e07b6a,#c85a47);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">Linear model</div>
+          </div>
+        </div>
+
+        <div class="plot-card">
+          <h3>🟢 ReLU Hidden Layer (16 → 8 → 1)</h3>
+          <canvas id="w1-canvas-relu" width="320" height="320"></canvas>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Inner ring (class 0)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Outer ring (class 1)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788;width:20px;height:4px;border-radius:2px;"></div>Decision boundary</div>
+          </div>
+          <div class="accuracy-card" style="width:100%;margin-top:6px;">
+            <div class="label">Accuracy</div>
+            <div class="value" id="w1-acc-relu" style="background:linear-gradient(135deg,#52b788,#3a9e72);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">ReLU model</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Architecture Diagrams -->
+      <div class="section-divider"></div>
+      <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9b94b0;margin-bottom:12px;">THE NETWORK · STACKED LAYERS OF NEURONS</p>
+      <div class="plots-grid plots-grid-2">
+        <div class="plot-card">
+          <h3>Linear Model Architecture (2 → 1)</h3>
+          <canvas id="w1-net-linear" width="480" height="220" style="width:100%;"></canvas>
+          <div class="legend" style="margin-top:4px;">
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Input</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Output</div>
+            <div class="legend-line" style="background:#e07b6a"></div><span style="font-size:12px;color:#9b94b0;">positive weight</span>
+            <div class="legend-line" style="background:#6baed6"></div><span style="font-size:12px;color:#9b94b0;">negative weight</span>
+          </div>
+        </div>
+        <div class="plot-card">
+          <h3>ReLU Model Architecture (2 → 16 → 8 → 1)</h3>
+          <canvas id="w1-net-relu" width="480" height="220" style="width:100%;"></canvas>
+          <div class="legend" style="margin-top:4px;">
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Input</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f0a04a"></div>Hidden (ReLU)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Output</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>The money shot:</strong> Both models see identical data. The linear model's boundary is always a straight line — it simply cannot wrap around a ring. Adding one ReLU layer bends the space, letting the network carve a curved region around the inner class. The boundary picture tells the whole story.
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────
+       S1-2 · Depth Without Nonlinearity is a Lie
+  ──────────────────────────────────────────────────────────── -->
+  <section class="widget-card widget-2" id="widget-2">
+    <div class="widget-header">
+      <div class="widget-number">S1·2</div>
+      <div class="widget-title-group">
+        <h2>Depth Without Nonlinearity is a Lie</h2>
+        <p class="subtitle">Five stacked linear layers collapse to a single linear map — no stronger than 1 layer. Both fail identically. Insert ReLUs between the same five layers and it suddenly solves the ring task.</p>
+      </div>
+      <span class="claim-badge">Claim Verified</span>
+    </div>
+
+    <div class="widget-body">
+      <div class="controls-row">
+        <button class="btn btn-primary" id="w2-train-btn">
+          <span class="btn-text">▶ Train All Three Models</span>
+          <span class="spinner"></span>
+        </button>
+        <div class="status-chips">
+          <span class="chip chip-blue" id="w2-status">Click Train to begin</span>
+        </div>
+      </div>
+
+      <div class="training-progress">
+        <div class="progress-label"><span>Training progress</span><span id="w2-pct">0%</span></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="w2-progress" style="width:0%;background:linear-gradient(90deg,#6baed6,#4a90c4)"></div></div>
+      </div>
+
+      <!-- 3-column plot grid -->
+      <div class="plots-grid plots-grid-3" style="margin-top:20px;">
+        <div class="plot-card">
+          <h3>1-Layer Linear</h3>
+          <canvas id="w2-canvas-1layer" width="300" height="300"></canvas>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Class 0</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Class 1</div>
+          </div>
+          <div class="accuracy-card" style="width:100%;margin-top:6px;">
+            <div class="label">Accuracy</div>
+            <div class="value" id="w2-acc-1layer" style="background:linear-gradient(135deg,#6baed6,#4a90c4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">1 linear layer</div>
+          </div>
+        </div>
+
+        <div class="plot-card">
+          <h3>5-Layer Linear (no activations)</h3>
+          <canvas id="w2-canvas-5linear" width="300" height="300"></canvas>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Class 0</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Class 1</div>
+          </div>
+          <div class="accuracy-card" style="width:100%;margin-top:6px;">
+            <div class="label">Accuracy</div>
+            <div class="value" id="w2-acc-5linear" style="background:linear-gradient(135deg,#6baed6,#4a90c4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">5 linear layers</div>
+          </div>
+        </div>
+
+        <div class="plot-card">
+          <h3>5-Layer + ReLU</h3>
+          <canvas id="w2-canvas-5relu" width="300" height="300"></canvas>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Class 0</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Class 1</div>
+          </div>
+          <div class="accuracy-card" style="width:100%;margin-top:6px;">
+            <div class="label">Accuracy</div>
+            <div class="value" id="w2-acc-5relu" style="background:linear-gradient(135deg,#52b788,#3a9e72);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">5 layers + ReLU</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Architecture Diagrams -->
+      <div class="section-divider"></div>
+      <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9b94b0;margin-bottom:12px;">THE NETWORK · STACKED LAYERS OF NEURONS</p>
+      <div class="plots-grid plots-grid-3">
+        <div class="plot-card">
+          <h3>1-Layer Linear (2 → 1)</h3>
+          <canvas id="w2-net-1layer" width="380" height="210" style="width:100%;"></canvas>
+        </div>
+        <div class="plot-card">
+          <h3>5-Layer Linear — collapses to one map</h3>
+          <canvas id="w2-net-5linear" width="380" height="210" style="width:100%;"></canvas>
+        </div>
+        <div class="plot-card">
+          <h3>5-Layer + ReLU — genuinely deep</h3>
+          <canvas id="w2-net-5relu" width="380" height="210" style="width:100%;"></canvas>
+        </div>
+      </div>
+      <div class="legend" style="margin-top:8px;">
+        <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Input</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f0a04a"></div>Hidden</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Output</div>
+        <div class="legend-line" style="background:#e07b6a"></div><span style="font-size:12px;color:#9b94b0;margin-left:4px;">positive weight</span>
+        <div class="legend-line" style="background:#6baed6;margin-left:10px;"></div><span style="font-size:12px;color:#9b94b0;margin-left:4px;">negative weight</span>
+      </div>
+
+      <!-- Matrix product display -->
+      <div class="matrix-display" id="w2-matrix-product">
+        <h4>Weight Matrix Product (W₄ · W₃ · W₂ · W₁) — shown after training</h4>
+        <div style="color:#9b94b0;font-size:12px;">Train the models to see the 5 weight matrices numerically collapse into one.</div>
+      </div>
+
+      <div class="info-box">
+        <strong>The proof:</strong> The 1-layer and 5-linear-layer accuracies and decision boundaries are identical — both just a straight line. Multiplying five weight matrices gives back a single matrix (shown above). ReLUs break the linear collapse: with nonlinearities, the same five layers suddenly solve the ring.
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────
+       S1-3 · Embeddings Learn Similarity from Nothing
+  ──────────────────────────────────────────────────────────── -->
+  <section class="widget-card widget-3" id="widget-3">
+    <div class="widget-header">
+      <div class="widget-number">S1·3</div>
+      <div class="widget-title-group">
+        <h2>Embeddings Learn Similarity from Next-Token</h2>
+        <p class="subtitle">Trained only to predict the next token in a toy grammar, the embedding table clusters related tokens — even though similarity was never supplied. Emergent structure from nothing but co-occurrence.</p>
+      </div>
+      <span class="claim-badge">Claim Verified</span>
+    </div>
+
+    <div class="widget-body">
+      <!-- Vocabulary reference -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="chip chip-coral" style="background:rgba(224,123,106,0.1);color:#c85a47;border-color:rgba(224,123,106,0.25);">🐾 Animals: cat, dog, cow</div>
+        <div class="chip chip-blue">🍎 Fruits: apple, mango</div>
+        <div class="chip chip-green">🏃 Verbs: eat, chase, see</div>
+        <div style="font-size:12.5px;color:#9b94b0;align-self:center;">Template: &lt;S&gt; [animal] [verb] [fruit] &lt;E&gt;</div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn btn-primary" id="w3-train-btn">
+          <span class="btn-text">▶ Train Embedding Model</span>
+          <span class="spinner"></span>
+        </button>
+        <div class="status-chips">
+          <span class="chip chip-green" id="w3-status">Click Train to begin</span>
+        </div>
+      </div>
+
+      <div class="training-progress">
+        <div class="progress-label"><span>Training progress</span></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="w3-progress" style="width:0%;background:linear-gradient(90deg,#52b788,#3a9e72)"></div></div>
+      </div>
+
+      <!-- Embedding plot + NN table -->
+      <div class="embedding-section" style="margin-top:20px;">
+        <div class="plot-card" style="align-items:stretch;">
+          <h3>2D PCA Projection of Learned Embeddings</h3>
+          <canvas id="w3-canvas" width="380" height="340" style="max-width:100%;"></canvas>
+          <div class="legend" style="margin-top:8px;">
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Animals</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Fruits</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Verbs</div>
+          </div>
+        </div>
+
+        <div class="plot-card" style="align-items:stretch;">
+          <h3>Nearest Neighbours by Cosine Similarity</h3>
+          <div style="overflow-x:auto;width:100%;">
+            <table class="nn-table" id="w3-nn-table">
+              <tr><th>Token</th><th>Category</th><th>Nearest</th><th>2nd Nearest</th></tr>
+              <tr><td colspan="4" style="color:#9b94b0;text-align:center;padding:24px;">Train the model to see nearest neighbours</td></tr>
+            </table>
+          </div>
+          <div class="info-box" style="margin-top:12px;">
+            <strong>Emergent clustering:</strong> The model never saw category labels. It learned only to predict the next token. Yet tokens that appear in the same slot (e.g., all animals precede a verb) share next-token distributions — so their embeddings converge in space.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────────────────────────────────
+       S1-4 · Memorization vs Generalization
+  ──────────────────────────────────────────────────────────── -->
+  <section class="widget-card widget-4" id="widget-4">
+    <div class="widget-header">
+      <div class="widget-number">S1·4</div>
+      <div class="widget-title-group">
+        <h2>Memorization vs Generalization</h2>
+        <p class="subtitle">A high-capacity model on tiny data drives train loss to ~0 while test loss stays high. Growing the dataset closes the gap. The generalization gap vs dataset size is the proof.</p>
+      </div>
+      <span class="claim-badge">Claim Verified</span>
+    </div>
+
+    <div class="widget-body">
+      <div class="controls-row">
+        <button class="btn btn-primary" id="w4-train-btn">
+          <span class="btn-text">▶ Run All Dataset Sizes</span>
+          <span class="spinner"></span>
+        </button>
+        <div class="status-chips">
+          <span class="chip chip-coral" id="w4-status">Click Train to begin (trains n=20, 200, 2000)</span>
+        </div>
+      </div>
+
+      <div class="training-progress">
+        <div class="progress-label"><span>Overall progress</span></div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" id="w4-progress" style="width:0%;background:linear-gradient(90deg,#e07b6a,#c85a47)"></div></div>
+      </div>
+
+      <!-- Loss metrics row -->
+      <div class="accuracy-row" style="margin-top:20px;">
+        <div class="accuracy-card" id="w4-acc-20">
+          <div class="label">n = 20</div>
+          <div class="value" style="font-size:18px;background:linear-gradient(135deg,#e07b6a,#c85a47);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+          <div class="sublabel">train / test loss</div>
+        </div>
+        <div class="accuracy-card" id="w4-gap-20">
+          <div class="label">Gap (n=20)</div>
+          <div class="value" style="font-size:18px;color:#e07b6a;">—</div>
+        </div>
+        <div class="accuracy-card" id="w4-acc-200">
+          <div class="label">n = 200</div>
+          <div class="value" style="font-size:18px;background:linear-gradient(135deg,#6baed6,#4a90c4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+          <div class="sublabel">train / test loss</div>
+        </div>
+        <div class="accuracy-card" id="w4-gap-200">
+          <div class="label">Gap (n=200)</div>
+          <div class="value" style="font-size:18px;color:#6baed6;">—</div>
+        </div>
+        <div class="accuracy-card" id="w4-acc-2000">
+          <div class="label">n = 2000</div>
+          <div class="value" style="font-size:18px;background:linear-gradient(135deg,#52b788,#3a9e72);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+          <div class="sublabel">train / test loss</div>
+        </div>
+        <div class="accuracy-card" id="w4-gap-2000">
+          <div class="label">Gap (n=2000)</div>
+          <div class="value" style="font-size:18px;color:#52b788;">—</div>
+        </div>
+      </div>
+
+      <!-- Network Architecture Diagram -->
+      <div class="section-divider"></div>
+      <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9b94b0;margin-bottom:12px;">THE NETWORK · OVER-PARAMETERIZED CLASSIFIER (2 → 64 → 64 → 32 → 1)</p>
+      <div class="plot-card" style="margin-bottom:16px;">
+        <canvas id="w4-network" width="900" height="220" style="width:100%;"></canvas>
+        <div class="legend" style="margin-top:4px;">
+          <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Input (2)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f0a04a"></div>Hidden (ReLU)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Output (Sigmoid)</div>
+          <div class="legend-line" style="background:#e07b6a"></div><span style="font-size:12px;color:#9b94b0;margin-left:4px;">positive weight</span>
+          <div class="legend-line" style="background:#6baed6;margin-left:10px;"></div><span style="font-size:12px;color:#9b94b0;margin-left:4px;">negative weight</span>
+        </div>
+      </div>
+
+      <!-- Two charts side by side -->
+      <div class="plots-grid plots-grid-2" style="margin-top:20px;">
+        <div class="plot-card" style="align-items:stretch;">
+          <h3>Train vs Test Loss Curves</h3>
+          <div style="position:relative;height:280px;width:100%;">
+            <canvas id="w4-loss-chart"></canvas>
+          </div>
+          <div class="legend" style="margin-top:8px;">
+            <div class="legend-item"><div class="legend-line" style="background:#e07b6a"></div>n=20 train</div>
+            <div class="legend-item"><div class="legend-line" style="background:#e07b6a;opacity:0.5;"></div>n=20 test</div>
+            <div class="legend-item"><div class="legend-line" style="background:#6baed6"></div>n=200 train</div>
+            <div class="legend-item"><div class="legend-line" style="background:#6baed6;opacity:0.5;"></div>n=200 test</div>
+            <div class="legend-item"><div class="legend-line" style="background:#52b788"></div>n=2000 train</div>
+            <div class="legend-item"><div class="legend-line" style="background:#52b788;opacity:0.5;"></div>n=2000 test</div>
+          </div>
+        </div>
+
+        <div class="plot-card" style="align-items:stretch;">
+          <h3>Generalization Gap vs Dataset Size</h3>
+          <div style="position:relative;height:280px;width:100%;">
+            <canvas id="w4-gap-chart"></canvas>
+          </div>
+          <div class="info-box" style="margin-top:12px;">
+            <strong>Data is everything:</strong> At n=20 the model memorises training samples (train→0, test stays high). As dataset size grows, the network is forced to generalise. The gap shrinks because real patterns emerge from more examples.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  ERA V5 · Session 1 — From Neural Networks to the Transformer · All computations run client-side via TensorFlow.js
+</footer>
+
+<!-- ── Progress % updaters ── -->
+<script>
+  // Patch progress bars to also update the % label
+  function updateProgress(id, pct) {
+    const el = document.getElementById(id);
+    if (el) el.style.width = pct + '%';
+    const pctId = id.replace('progress', 'pct');
+    const pctEl = document.getElementById(pctId);
+    if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+  }
+</script>
+
+<script src="widget1.js"></script>
+<script src="widget2.js"></script>
+<script src="widget3.js"></script>
+<script src="widget4.js"></script>
+
+<script>
+  // Initialise all widgets after TF.js is ready
+  tf.ready().then(() => {
+    W1.init();
+    W2.init();
+    W3.init();
+    W4.init();
+    console.log('All widgets initialised. TF backend:', tf.getBackend());
+  });
+</script>
+</body>
+</html>
