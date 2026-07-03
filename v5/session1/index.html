@@ -43,7 +43,6 @@
         <h2>Activations Exist for a Reason</h2>
         <p class="subtitle">A linear model can only draw a straight boundary and gets stuck near 55% on the ring task. One ReLU hidden layer wraps around the ring to ~99%. Only the activation changed.</p>
       </div>
-      <span class="claim-badge">Claim Verified</span>
     </div>
 
     <div class="widget-body">
@@ -53,6 +52,8 @@
           <span class="btn-text">▶ Train Both Models</span>
           <span class="spinner"></span>
         </button>
+        <button id="w1-stop-btn" disabled style="padding:8px 16px;border-radius:10px;border:1px solid rgba(224,123,106,0.4);background:rgba(224,123,106,0.1);color:#e07b6a;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="if(!this.disabled)this.style.background='rgba(224,123,106,0.2)'" onmouseout="this.style.background='rgba(224,123,106,0.1)'">⏹ Stop</button>
+        <button id="w1-reset-btn" style="padding:8px 16px;border-radius:10px;border:1px solid rgba(155,148,176,0.35);background:rgba(155,148,176,0.08);color:#9b94b0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.background='rgba(155,148,176,0.18)'" onmouseout="this.style.background='rgba(155,148,176,0.08)'">↺ Reset</button>
         <div class="status-chips">
           <span class="chip chip-purple" id="w1-status">Click Train to begin</span>
         </div>
@@ -125,9 +126,7 @@
         </div>
       </div>
 
-      <div class="info-box">
-        <strong>The money shot:</strong> Both models see identical data. The linear model's boundary is always a straight line — it simply cannot wrap around a ring. Adding one ReLU layer bends the space, letting the network carve a curved region around the inner class. The boundary picture tells the whole story.
-      </div>
+      <div class="info-box" id="w1-conclusion" style="display:none;"></div>
     </div>
   </section>
 
@@ -141,7 +140,6 @@
         <h2>Depth Without Nonlinearity is a Lie</h2>
         <p class="subtitle">Five stacked linear layers collapse to a single linear map — no stronger than 1 layer. Both fail identically. Insert ReLUs between the same five layers and it suddenly solves the ring task.</p>
       </div>
-      <span class="claim-badge">Claim Verified</span>
     </div>
 
     <div class="widget-body">
@@ -150,6 +148,8 @@
           <span class="btn-text">▶ Train All Three Models</span>
           <span class="spinner"></span>
         </button>
+        <button id="w2-stop-btn" disabled style="padding:8px 16px;border-radius:10px;border:1px solid rgba(224,123,106,0.4);background:rgba(224,123,106,0.1);color:#e07b6a;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="if(!this.disabled)this.style.background='rgba(224,123,106,0.2)'" onmouseout="this.style.background='rgba(224,123,106,0.1)'">⏹ Stop</button>
+        <button id="w2-reset-btn" style="padding:8px 16px;border-radius:10px;border:1px solid rgba(155,148,176,0.35);background:rgba(155,148,176,0.08);color:#9b94b0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.background='rgba(155,148,176,0.18)'" onmouseout="this.style.background='rgba(155,148,176,0.08)'">↺ Reset</button>
         <div class="status-chips">
           <span class="chip chip-blue" id="w2-status">Click Train to begin</span>
         </div>
@@ -236,9 +236,7 @@
         <div style="color:#9b94b0;font-size:12px;">Train the models to see the 5 weight matrices numerically collapse into one.</div>
       </div>
 
-      <div class="info-box">
-        <strong>The proof:</strong> The 1-layer and 5-linear-layer accuracies and decision boundaries are identical — both just a straight line. Multiplying five weight matrices gives back a single matrix (shown above). ReLUs break the linear collapse: with nonlinearities, the same five layers suddenly solve the ring.
-      </div>
+      <div class="info-box" id="w2-conclusion" style="display:none;"></div>
     </div>
   </section>
 
@@ -252,7 +250,6 @@
         <h2>Embeddings Learn Similarity from Next-Token</h2>
         <p class="subtitle">We train a tiny model on three explicit chains (cat→dog→cow, apple→mango→banana, eat→chase→see) to predict the next token. Nothing about "similarity" is ever given. Yet PCA of the embedding table shows chain-mates clustering together — emergent structure from co-occurrence alone.</p>
       </div>
-      <span class="claim-badge">Claim Verified</span>
     </div>
 
     <div class="widget-body">
@@ -336,9 +333,7 @@
               <tr><td colspan="4" style="color:#9b94b0;text-align:center;padding:24px;">Train the model to see nearest neighbours</td></tr>
             </table>
           </div>
-          <div class="info-box" style="margin-top:12px;">
-            <strong>Emergent clustering:</strong> The model never saw any notion of "similarity". It only learned to predict <em>cat→dog</em>, <em>dog→cow</em>, <em>apple→mango</em>, etc. Because tokens in the same chain share the same next-token distribution, gradient descent pushes their embedding vectors together. The ✓ ticks above confirm same-chain nearest neighbours after training.
-          </div>
+          <div class="info-box" id="w3-conclusion" style="display:none;"></div>
         </div>
       </div>
     </div>
@@ -354,7 +349,6 @@
         <h2>Memorization vs Generalization</h2>
         <p class="subtitle">A high-capacity model on tiny data drives train loss to ~0 while test loss stays high. Growing the dataset closes the gap. The generalization gap vs dataset size is the proof.</p>
       </div>
-      <span class="claim-badge">Claim Verified</span>
     </div>
 
     <div class="widget-body">
@@ -362,6 +356,16 @@
         <button class="btn btn-primary" id="w4-train-btn">
           <span class="btn-text">▶ Run All Dataset Sizes</span>
           <span class="spinner"></span>
+        </button>
+        <button id="w4-stop-btn" disabled style="padding:8px 16px;border-radius:10px;border:1px solid rgba(224,123,106,0.4);background:rgba(224,123,106,0.1);color:#e07b6a;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;"
+          onmouseover="if(!this.disabled)this.style.background='rgba(224,123,106,0.2)'"
+          onmouseout="this.style.background='rgba(224,123,106,0.1)'">
+          ⏹ Stop
+        </button>
+        <button id="w4-reset-btn" style="padding:8px 16px;border-radius:10px;border:1px solid rgba(155,148,176,0.35);background:rgba(155,148,176,0.08);color:#9b94b0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;"
+          onmouseover="this.style.background='rgba(155,148,176,0.18)'"
+          onmouseout="this.style.background='rgba(155,148,176,0.08)'">
+          ↺ Reset
         </button>
         <div class="status-chips">
           <span class="chip chip-coral" id="w4-status">Click Train to begin (trains n=20, 200, 2000)</span>
@@ -408,7 +412,7 @@
       <div class="section-divider"></div>
       <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9b94b0;margin-bottom:12px;">THE NETWORK · OVER-PARAMETERIZED CLASSIFIER (2 → 64 → 64 → 32 → 1)</p>
       <div class="plot-card" style="margin-bottom:16px;">
-        <canvas id="w4-network" width="900" height="220" style="width:100%;"></canvas>
+        <canvas id="w4-network" width="900" height="600" style="width:100%;"></canvas>
         <div class="legend" style="margin-top:4px;">
           <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Input (2)</div>
           <div class="legend-item"><div class="legend-dot" style="background:#f0a04a"></div>Hidden (ReLU)</div>
@@ -440,9 +444,7 @@
           <div style="position:relative;height:280px;width:100%;">
             <canvas id="w4-gap-chart"></canvas>
           </div>
-          <div class="info-box" style="margin-top:12px;">
-            <strong>Data is everything:</strong> At n=20 the model memorises training samples (train→0, test stays high). As dataset size grows, the network is forced to generalise. The gap shrinks because real patterns emerge from more examples.
-          </div>
+          <div class="info-box" id="w4-conclusion" style="display:none;"></div>
         </div>
       </div>
     </div>

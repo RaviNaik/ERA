@@ -342,6 +342,9 @@ const W3 = (() => {
     // Reset NN table
     resetNNTable();
 
+    const conc = document.getElementById('w3-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
+
     setButtons(false);
   }
 
@@ -353,6 +356,9 @@ const W3 = (() => {
     const { epochs, lr } = getHP();
     const setStatus   = msg => { const e = document.getElementById('w3-status');   if (e) e.textContent = msg; };
     const setProgress = pct => { const e = document.getElementById('w3-progress'); if (e) e.style.width  = pct + '%'; };
+
+    const conc = document.getElementById('w3-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
 
     try {
       setStatus(`Building model (lr=${lr}, epochs=${epochs}, batch=6)…`);
@@ -380,6 +386,7 @@ const W3 = (() => {
       const CHUNK = Math.max(1, Math.floor(epochs / 80));
 
       let ep = 0;
+      let finalLoss = 0, finalAcc = 0;
       while (ep < epochs && !stopFlag) {
         const end = Math.min(ep + CHUNK, epochs);
         if (stopFlag) break;
@@ -396,6 +403,8 @@ const W3 = (() => {
 
         const loss = h.history.loss[h.history.loss.length - 1];
         const acc  = (h.history.acc ?? h.history.accuracy ?? [0])[h.history.loss.length - 1] ?? 0;
+        finalLoss = loss;
+        finalAcc = acc;
         losses.push(loss);
         ep = end;
 
@@ -428,6 +437,11 @@ const W3 = (() => {
 
       setStatus('✓ Done! Chain-mates cluster — learned only from next-token prediction.');
       setProgress(100);
+
+      if (conc) {
+        conc.style.display = 'block';
+        conc.innerHTML = `<strong>Conclusion:</strong> The model reached a loss of <strong>${finalLoss.toFixed(4)}</strong> and accuracy of <strong>${(finalAcc*100).toFixed(0)}%</strong>. Without any explicit notion of similarity, tokens appearing in similar contexts naturally clustered together.`;
+      }
 
     } catch (err) {
       console.error('[W3] Training error:', err);

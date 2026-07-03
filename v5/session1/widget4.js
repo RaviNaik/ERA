@@ -1,6 +1,8 @@
 /* ===== WIDGET 4: Memorization vs Generalization ===== */
 
 const W4 = (() => {
+  let stopRequested = false;
+
   // ── Network layer definitions ─────────────────────────────────────────────
   const LAYERS_MODEL = [
     { nodes: 2,  label: 'Input',   type: 'input',  activation: null,      nodeLabels: ['x₁','x₂'] },
@@ -88,14 +90,7 @@ const W4 = (() => {
         animation: { duration: 0 },
         plugins: {
           legend: {
-            position: 'bottom',
-            labels: {
-              font: { family: 'Inter', size: 11 },
-              color: '#6b6480',
-              padding: 12,
-              usePointStyle: true,
-              pointStyleWidth: 20
-            }
+            display: false
           },
           tooltip: {
             mode: 'index',
@@ -202,6 +197,10 @@ const W4 = (() => {
       shuffle: true,
       callbacks: {
         onEpochEnd: async (ep, logs) => {
+          if (stopRequested) {
+            model.stopTraining = true;
+            return;
+          }
           const evalResult = model.evaluate(xsTest, ysTest, { verbose: 0 });
           const testLoss = (await evalResult[0].data())[0];
           evalResult.forEach(t => t.dispose());
@@ -224,15 +223,20 @@ const W4 = (() => {
 
   // ── Main training ─────────────────────────────────────────────────────────
   async function train() {
+    stopRequested = false;
     const btn = document.getElementById('w4-train-btn');
     btn.disabled = true;
     btn.classList.add('loading');
+    document.getElementById('w4-stop-btn').disabled = false;
 
     const setStatus = (msg) => { document.getElementById('w4-status').textContent = msg; };
     const setProgress = (pct) => {
       const el = document.getElementById('w4-progress');
       if (el) el.style.width = pct + '%';
     };
+
+    const conc = document.getElementById('w4-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
 
     setStatus('Generating dataset (2500 samples)…');
     const bigDataset = generateDataset(2500);
@@ -246,8 +250,10 @@ const W4 = (() => {
     const gapIds = ['w4-gap-20', 'w4-gap-200', 'w4-gap-2000'];
 
     for (let s = 0; s < sizes.length; s++) {
+      if (stopRequested) break;
       setStatus(`Training at dataset size ${sizes[s]}…`);
       const result = await trainAtSize(sizes[s], chart, s * 2, s * 2 + 1, bigDataset);
+      if (stopRequested) break;
       gaps.push(Math.max(0, result.gap));
 
       // Update accuracy display
@@ -285,12 +291,20 @@ const W4 = (() => {
       setProgress((s + 1) / sizes.length * 100);
     }
 
-    drawGapChart(gaps);
+    if (!stopRequested) {
+      drawGapChart(gaps);
 
-    setStatus('✓ Training complete — the gap shrinks as data grows!');
-    setProgress(100);
-    btn.disabled = false;
-    btn.classList.remove('loading');
+      setStatus('✓ Training complete — the gap shrinks as data grows!');
+      setProgress(100);
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      document.getElementById('w4-stop-btn').disabled = true;
+
+      if (conc && gaps.length >= 3) {
+        conc.style.display = 'block';
+        conc.innerHTML = `<strong>Conclusion:</strong> With n=20, the model easily memorized the data but failed to generalize, leaving a large generalization gap of <strong>${gaps[0].toFixed(3)}</strong>. As the dataset grew to n=2000, the gap shrank to <strong>${gaps[2].toFixed(3)}</strong>, proving that larger datasets force the model to learn generalizable patterns.`;
+      }
+    }
   }
 
   return { init: () => {
@@ -298,5 +312,57 @@ const W4 = (() => {
     NetworkViz.draw(document.getElementById('w4-network'), LAYERS_MODEL, null);
 
     document.getElementById('w4-train-btn').addEventListener('click', train);
+    
+    document.getElementById('w4-stop-btn').addEventListener('click', () => {
+      stopRequested = true;
+      document.getElementById('w4-stop-btn').disabled = true;
+      document.getElementById('w4-status').textContent = 'Training stopped.';
+      document.getElementById('w4-train-btn').disabled = false;
+      document.getElementById('w4-train-btn').classList.remove('loading');
+    });
+
+    document.getElementById('w4-reset-btn').addEventListener('click', () => {
+      stopRequested = true;
+      document.getElementById('w4-stop-btn').disabled = true;
+      document.getElementById('w4-train-btn').disabled = false;
+      document.getElementById('w4-train-btn').classList.remove('loading');
+      document.getElementById('w4-status').textContent = 'Click Train to begin (trains n=20, 200, 2000)';
+      document.getElementById('w4-progress').style.width = '0%';
+      
+      const conc = document.getElementById('w4-conclusion');
+      if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
+      
+      const accIds = ['w4-acc-20', 'w4-acc-200', 'w4-acc-2000'];
+      const gapIds = ['w4-gap-20', 'w4-gap-200', 'w4-gap-2000'];
+      const labels = ['n = 20', 'n = 200', 'n = 2000'];
+      const colors = ['#e07b6a', '#6baed6', '#52b788'];
+      
+      for (let s = 0; s < accIds.length; s++) {
+        const accEl = document.getElementById(accIds[s]);
+        if (accEl) {
+          accEl.innerHTML = `
+            <div class="label">${labels[s]}</div>
+            <div class="value" style="font-size:18px;background:linear-gradient(135deg,${colors[s]},${colors[s]});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">—</div>
+            <div class="sublabel">train / test loss</div>
+          `;
+        }
+        const gapEl = document.getElementById(gapIds[s]);
+        if (gapEl) {
+          gapEl.innerHTML = `
+            <div class="label">Gap (${labels[s].replace(/\s/g, '')})</div>
+            <div class="value" style="font-size:18px;color:${colors[s]};">—</div>
+          `;
+        }
+      }
+      
+      initLossChart();
+      const ctx = document.getElementById('w4-gap-chart').getContext('2d');
+      ctx.clearRect(0, 0, 400, 400); // Clear the gap chart canvas
+      if (gapChart) {
+        gapChart.destroy();
+        gapChart = null;
+      }
+      NetworkViz.draw(document.getElementById('w4-network'), LAYERS_MODEL, null);
+    });
   }};
 })();

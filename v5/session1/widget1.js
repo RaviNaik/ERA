@@ -40,6 +40,47 @@ const W1 = (() => {
   let data = generateRings(300);
   let modelLinear = null, modelRelu = null;
   let accLinear = 0, accRelu = 0;
+  let stopFlag = false;
+
+  function setButtons(training) {
+    const trainBtn = document.getElementById('w1-train-btn');
+    const stopBtn  = document.getElementById('w1-stop-btn');
+    const resetBtn = document.getElementById('w1-reset-btn');
+    if (trainBtn) { trainBtn.disabled = training; training ? trainBtn.classList.add('loading') : trainBtn.classList.remove('loading'); }
+    if (stopBtn)  stopBtn.disabled  = !training;
+    if (resetBtn) resetBtn.disabled = training;
+  }
+
+  function stop() {
+    stopFlag = true;
+    if (modelLinear) modelLinear.stopTraining = true;
+    if (modelRelu) modelRelu.stopTraining = true;
+  }
+
+  function reset() {
+    stopFlag = true;
+    modelLinear = null;
+    modelRelu = null;
+    accLinear = 0; accRelu = 0;
+    
+    document.getElementById('w1-acc-linear').textContent = '—';
+    document.getElementById('w1-acc-relu').textContent = '—';
+    document.getElementById('w1-status').textContent = 'Weights reset. Click Train to start fresh.';
+    updateProgress('w1-progress', 0);
+    
+    const conc = document.getElementById('w1-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
+    
+    setTimeout(async () => {
+      data = generateRings(300);
+      await drawDecisionBoundary(document.getElementById('w1-canvas-linear'), null, data.X, data.y, '', '#9b82d0');
+      await drawDecisionBoundary(document.getElementById('w1-canvas-relu'), null, data.X, data.y, '', '#52b788');
+    }, 10);
+    
+    NetworkViz.draw(document.getElementById('w1-net-linear'), LAYERS_LINEAR, null);
+    NetworkViz.draw(document.getElementById('w1-net-relu'),   LAYERS_RELU,   null);
+    setButtons(false);
+  }
 
   // ── Model factories ───────────────────────────────────────────────────────
   function buildLinearModel() {
@@ -134,9 +175,10 @@ const W1 = (() => {
 
   // ── Training ──────────────────────────────────────────────────────────────
   async function train() {
-    const btn = document.getElementById('w1-train-btn');
-    btn.disabled = true;
-    btn.classList.add('loading');
+    stopFlag = false;
+    setButtons(true);
+    const conc = document.getElementById('w1-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
 
     document.getElementById('w1-status').textContent = 'Generating data…';
 
@@ -160,12 +202,19 @@ const W1 = (() => {
       shuffle: true,
       callbacks: {
         onEpochEnd: (ep, logs) => {
+          if (stopFlag) modelLinear.stopTraining = true;
           updateProgress('w1-progress', (ep + 1) / 200 * 50);
           document.getElementById('w1-status').textContent =
             `Linear training: epoch ${ep + 1}/200, loss ${logs.loss.toFixed(4)}`;
         }
       }
     });
+
+    if (stopFlag) {
+      document.getElementById('w1-status').textContent = '⏹ Training stopped.';
+      setButtons(false);
+      return;
+    }
 
     document.getElementById('w1-status').textContent = 'Training ReLU model…';
     modelRelu = buildReluModel();
@@ -175,12 +224,19 @@ const W1 = (() => {
       shuffle: true,
       callbacks: {
         onEpochEnd: (ep, logs) => {
+          if (stopFlag) modelRelu.stopTraining = true;
           updateProgress('w1-progress', 50 + (ep + 1) / 300 * 50);
           document.getElementById('w1-status').textContent =
             `ReLU training: epoch ${ep + 1}/300, loss ${logs.loss.toFixed(4)}`;
         }
       }
     });
+
+    if (stopFlag) {
+      document.getElementById('w1-status').textContent = '⏹ Training stopped.';
+      setButtons(false);
+      return;
+    }
 
     // Compute accuracies
     const predLinear = modelLinear.predict(xs);
@@ -215,8 +271,12 @@ const W1 = (() => {
     document.getElementById('w1-status').textContent = `✓ Training complete`;
     updateProgress('w1-progress', 100);
 
-    btn.disabled = false;
-    btn.classList.remove('loading');
+    if (conc) {
+      conc.style.display = 'block';
+      conc.innerHTML = `<strong>Conclusion:</strong> The Linear model achieved <strong>${accLinear}%</strong> accuracy, while the ReLU model achieved <strong>${accRelu}%</strong> accuracy. This validates that non-linear activations are essential for drawing non-linear decision boundaries.`;
+    }
+
+    setButtons(false);
   }
 
   return { init: () => {
@@ -232,5 +292,7 @@ const W1 = (() => {
     }, 300);
 
     document.getElementById('w1-train-btn').addEventListener('click', train);
+    document.getElementById('w1-stop-btn').addEventListener('click', stop);
+    document.getElementById('w1-reset-btn').addEventListener('click', reset);
   }};
 })();

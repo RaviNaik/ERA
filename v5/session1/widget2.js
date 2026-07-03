@@ -24,6 +24,57 @@ const W2 = (() => {
   ];
 
   let data = null;
+  let m1 = null, m5l = null, m5r = null;
+  let acc1 = 0, acc5l = 0, acc5r = 0;
+  let stopFlag = false;
+
+  function setButtons(training) {
+    const trainBtn = document.getElementById('w2-train-btn');
+    const stopBtn  = document.getElementById('w2-stop-btn');
+    const resetBtn = document.getElementById('w2-reset-btn');
+    if (trainBtn) { trainBtn.disabled = training; training ? trainBtn.classList.add('loading') : trainBtn.classList.remove('loading'); }
+    if (stopBtn)  stopBtn.disabled  = !training;
+    if (resetBtn) resetBtn.disabled = training;
+  }
+
+  function stop() {
+    stopFlag = true;
+    if (m1) m1.stopTraining = true;
+    if (m5l) m5l.stopTraining = true;
+    if (m5r) m5r.stopTraining = true;
+  }
+
+  function reset() {
+    stopFlag = true;
+    m1 = null; m5l = null; m5r = null;
+    acc1 = 0; acc5l = 0; acc5r = 0;
+    
+    document.getElementById('w2-acc-1layer').textContent = '—';
+    document.getElementById('w2-acc-5linear').textContent = '—';
+    document.getElementById('w2-acc-5relu').textContent = '—';
+    document.getElementById('w2-status').textContent = 'Weights reset. Click Train to start fresh.';
+    
+    const prog = document.getElementById('w2-progress');
+    if (prog) prog.style.width = '0%';
+    
+    const conc = document.getElementById('w2-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
+    
+    const mp = document.getElementById('w2-matrix-product');
+    if (mp) mp.innerHTML = '<h4>Weight Matrix Product (W₄ · W₃ · W₂ · W₁) — shown after training</h4><div style="color:#9b94b0;font-size:12px;">Train the models to see the 5 weight matrices numerically collapse into one.</div>';
+    
+    setTimeout(async () => {
+      data = generateRings(300);
+      await drawBoundary('w2-canvas-1layer', null, data.X, data.y, '#6baed6');
+      await drawBoundary('w2-canvas-5linear', null, data.X, data.y, '#6baed6');
+      await drawBoundary('w2-canvas-5relu', null, data.X, data.y, '#52b788');
+    }, 10);
+    
+    NetworkViz.draw(document.getElementById('w2-net-1layer'),   LAYERS_1L,        null);
+    NetworkViz.draw(document.getElementById('w2-net-5linear'),  LAYERS_5L_LINEAR, null);
+    NetworkViz.draw(document.getElementById('w2-net-5relu'),    LAYERS_5L_RELU,   null);
+    setButtons(false);
+  }
 
   function generateRings(n = 300) {
     const X = [], y = [];
@@ -198,9 +249,10 @@ const W2 = (() => {
 
   // ── Main training ─────────────────────────────────────────────────────────
   async function train() {
-    const btn = document.getElementById('w2-train-btn');
-    btn.disabled = true;
-    btn.classList.add('loading');
+    stopFlag = false;
+    setButtons(true);
+    const conc = document.getElementById('w2-conclusion');
+    if (conc) { conc.style.display = 'none'; conc.innerHTML = ''; }
 
     data = generateRings(300);
     const xs = tf.tensor2d(data.X);
@@ -219,12 +271,16 @@ const W2 = (() => {
 
     // ─── 1-layer linear ───────────────────────────
     setStatus('Training 1-layer linear…');
-    const m1 = build1LayerLinear();
+    m1 = build1LayerLinear();
     await m1.fit(xs, ys, {
       epochs: 200, batchSize: 64, shuffle: true,
-      callbacks: { onEpochEnd: (ep) => setProgress((ep + 1) / 200 * 33) }
+      callbacks: { onEpochEnd: (ep) => {
+        if (stopFlag) m1.stopTraining = true;
+        setProgress((ep + 1) / 200 * 33);
+      }}
     });
-    const acc1 = await getAccuracy(m1, xs);
+    if (stopFlag) { setStatus('⏹ Training stopped.'); setButtons(false); return; }
+    acc1 = await getAccuracy(m1, xs);
     document.getElementById('w2-acc-1layer').textContent = acc1 + '%';
     await drawBoundary('w2-canvas-1layer', m1, data.X, data.y, '#6baed6');
     const w1Mat = await NetworkViz.extractWeights(m1);
@@ -232,12 +288,16 @@ const W2 = (() => {
 
     // ─── 5-layer linear ───────────────────────────
     setStatus('Training 5-layer linear (no activations)…');
-    const m5l = build5LayerLinear();
+    m5l = build5LayerLinear();
     await m5l.fit(xs, ys, {
       epochs: 200, batchSize: 64, shuffle: true,
-      callbacks: { onEpochEnd: (ep) => setProgress(33 + (ep + 1) / 200 * 33) }
+      callbacks: { onEpochEnd: (ep) => {
+        if (stopFlag) m5l.stopTraining = true;
+        setProgress(33 + (ep + 1) / 200 * 33);
+      }}
     });
-    const acc5l = await getAccuracy(m5l, xs);
+    if (stopFlag) { setStatus('⏹ Training stopped.'); setButtons(false); return; }
+    acc5l = await getAccuracy(m5l, xs);
     document.getElementById('w2-acc-5linear').textContent = acc5l + '%';
     await drawBoundary('w2-canvas-5linear', m5l, data.X, data.y, '#6baed6');
     const w5lMat = await NetworkViz.extractWeights(m5l);
@@ -248,12 +308,16 @@ const W2 = (() => {
 
     // ─── 5-layer ReLU ─────────────────────────────
     setStatus('Training 5-layer ReLU…');
-    const m5r = build5LayerRelu();
+    m5r = build5LayerRelu();
     await m5r.fit(xs, ys, {
       epochs: 300, batchSize: 64, shuffle: true,
-      callbacks: { onEpochEnd: (ep) => setProgress(66 + (ep + 1) / 300 * 34) }
+      callbacks: { onEpochEnd: (ep) => {
+        if (stopFlag) m5r.stopTraining = true;
+        setProgress(66 + (ep + 1) / 300 * 34);
+      }}
     });
-    const acc5r = await getAccuracy(m5r, xs);
+    if (stopFlag) { setStatus('⏹ Training stopped.'); setButtons(false); return; }
+    acc5r = await getAccuracy(m5r, xs);
     document.getElementById('w2-acc-5relu').textContent = acc5r + '%';
     await drawBoundary('w2-canvas-5relu', m5r, data.X, data.y, '#52b788');
     const w5rMat = await NetworkViz.extractWeights(m5r);
@@ -262,8 +326,12 @@ const W2 = (() => {
     xs.dispose(); ys.dispose();
     setStatus('✓ Training complete');
     setProgress(100);
-    btn.disabled = false;
-    btn.classList.remove('loading');
+
+    if (conc) {
+      conc.style.display = 'block';
+      conc.innerHTML = `<strong>Conclusion:</strong> The 1-layer and 5-layer linear models performed equally poorly (~<strong>${acc1}%</strong> / <strong>${acc5l}%</strong> accuracy), demonstrating that depth without non-linearity is no more expressive than a single linear projection. The 5-layer ReLU model succeeded with <strong>${acc5r}%</strong> accuracy.`;
+    }
+    setButtons(false);
   }
 
   return { init: () => {
@@ -279,5 +347,7 @@ const W2 = (() => {
       await drawBoundary('w2-canvas-5relu', null, data.X, data.y, '#52b788');
     }, 400);
     document.getElementById('w2-train-btn').addEventListener('click', train);
+    document.getElementById('w2-stop-btn').addEventListener('click', stop);
+    document.getElementById('w2-reset-btn').addEventListener('click', reset);
   }};
 })();
