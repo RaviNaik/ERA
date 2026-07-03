@@ -250,26 +250,47 @@
       <div class="widget-number">S1·3</div>
       <div class="widget-title-group">
         <h2>Embeddings Learn Similarity from Next-Token</h2>
-        <p class="subtitle">Trained only to predict the next token in a toy grammar, the embedding table clusters related tokens — even though similarity was never supplied. Emergent structure from nothing but co-occurrence.</p>
+        <p class="subtitle">We train a tiny model on three explicit chains (cat→dog→cow, apple→mango→banana, eat→chase→see) to predict the next token. Nothing about "similarity" is ever given. Yet PCA of the embedding table shows chain-mates clustering together — emergent structure from co-occurrence alone.</p>
       </div>
       <span class="claim-badge">Claim Verified</span>
     </div>
 
     <div class="widget-body">
-      <!-- Vocabulary reference -->
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
-        <div class="chip chip-coral" style="background:rgba(224,123,106,0.1);color:#c85a47;border-color:rgba(224,123,106,0.25);">🐾 Animals: cat, dog, cow</div>
-        <div class="chip chip-blue">🍎 Fruits: apple, mango</div>
-        <div class="chip chip-green">🏃 Verbs: eat, chase, see</div>
-        <div style="font-size:12.5px;color:#9b94b0;align-self:center;">Template: &lt;S&gt; [animal] [verb] [fruit] &lt;E&gt;</div>
+      <!-- Toy dataset reference -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+        <div class="chip chip-coral" style="background:rgba(224,123,106,0.12);color:#e07b6a;border-color:rgba(224,123,106,0.3);">🐾 Chain 1 &nbsp;cat → dog → cow</div>
+        <div class="chip chip-blue" style="background:rgba(107,174,214,0.12);color:#6baed6;border-color:rgba(107,174,214,0.3);">🍎 Chain 2 &nbsp;apple → mango → banana</div>
+        <div class="chip chip-green" style="background:rgba(82,183,136,0.12);color:#52b788;border-color:rgba(82,183,136,0.3);">🏃 Chain 3 &nbsp;eat → chase → see</div>
+        <div style="font-size:12px;color:#9b94b0;align-self:center;">9 tokens · 6 bigrams · embed_dim=4</div>
       </div>
 
-      <div class="controls-row">
-        <button class="btn btn-primary" id="w3-train-btn">
-          <span class="btn-text">▶ Train Embedding Model</span>
+      <!-- Hyperparameter controls -->
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:14px;">
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="w3-epochs-input" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9b94b0;">Epochs</label>
+          <input id="w3-epochs-input" type="number" value="150" min="10" max="1000" step="10"
+            style="width:90px;padding:6px 10px;border-radius:8px;border:1px solid rgba(82,183,136,0.35);background:#fff;color:#2d2640;font-size:13px;font-family:inherit;outline:none;box-shadow:inset 0 1px 3px rgba(0,0,0,0.06);" />
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <label for="w3-lr-input" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9b94b0;">Learning Rate</label>
+          <input id="w3-lr-input" type="number" value="0.1" min="0.0001" max="1" step="0.01"
+            style="width:100px;padding:6px 10px;border-radius:8px;border:1px solid rgba(82,183,136,0.35);background:#fff;color:#2d2640;font-size:13px;font-family:inherit;outline:none;box-shadow:inset 0 1px 3px rgba(0,0,0,0.06);" />
+        </div>
+        <button class="btn btn-primary" id="w3-train-btn" style="align-self:flex-end;">
+          <span class="btn-text">▶ Train</span>
           <span class="spinner"></span>
         </button>
-        <div class="status-chips">
+        <button id="w3-stop-btn" disabled style="align-self:flex-end;padding:8px 16px;border-radius:10px;border:1px solid rgba(224,123,106,0.4);background:rgba(224,123,106,0.1);color:#e07b6a;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;"
+          onmouseover="if(!this.disabled)this.style.background='rgba(224,123,106,0.2)'"
+          onmouseout="this.style.background='rgba(224,123,106,0.1)'">
+          ⏹ Stop
+        </button>
+        <button id="w3-reset-btn" style="align-self:flex-end;padding:8px 16px;border-radius:10px;border:1px solid rgba(155,148,176,0.35);background:rgba(155,148,176,0.08);color:#9b94b0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;"
+          onmouseover="this.style.background='rgba(155,148,176,0.18)'"
+          onmouseout="this.style.background='rgba(155,148,176,0.08)'">
+          ↺ Reset
+        </button>
+        <div class="status-chips" style="align-self:flex-end;">
           <span class="chip chip-green" id="w3-status">Click Train to begin</span>
         </div>
       </div>
@@ -278,17 +299,33 @@
         <div class="progress-label"><span>Training progress</span></div>
         <div class="progress-bar-track"><div class="progress-bar-fill" id="w3-progress" style="width:0%;background:linear-gradient(90deg,#52b788,#3a9e72)"></div></div>
       </div>
+      <!-- Live loss sparkline -->
+      <canvas id="w3-loss-canvas" width="700" height="44" style="width:100%;height:44px;margin-top:6px;border-radius:6px;background:rgba(82,183,136,0.05);"></canvas>
+
+      <!-- Network Architecture -->
+      <div class="section-divider" style="margin:18px 0 12px;"></div>
+      <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:#9b94b0;margin-bottom:8px;">THE NETWORK · token_id → Embedding(4) → Softmax(9)</p>
+      <div class="plot-card" style="padding:12px 16px;margin-bottom:4px;">
+        <canvas id="w3-net-canvas" width="700" height="220" style="width:100%;border-radius:6px;"></canvas>
+        <div class="legend" style="margin-top:8px;flex-wrap:wrap;">
+          <div class="legend-item"><div class="legend-dot" style="background:#9b82d0"></div>Input token (integer id)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f0a04a"></div>Embedding dimensions (e1–e4)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Output logits (softmax over 9 tokens)</div>
+          <div style="font-size:11px;color:#9b94b0;width:100%;margin-top:4px;">Coloured connections = one example token per chain. After training, tokens in the same chain get similar embedding vectors (e1–e4), so their rows in the embedding table cluster together.</div>
+        </div>
+      </div>
 
       <!-- Embedding plot + NN table -->
       <div class="embedding-section" style="margin-top:20px;">
         <div class="plot-card" style="align-items:stretch;">
           <h3>2D PCA Projection of Learned Embeddings</h3>
-          <canvas id="w3-canvas" width="380" height="340" style="max-width:100%;"></canvas>
+          <canvas id="w3-canvas" width="420" height="360" style="max-width:100%;border-radius:8px;"></canvas>
           <div class="legend" style="margin-top:8px;">
-            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Animals</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Fruits</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Verbs</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Chain 1 (cat→dog→cow)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#6baed6"></div>Chain 2 (apple→mango→banana)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Chain 3 (eat→chase→see)</div>
           </div>
+          <div style="font-size:11px;color:#9b94b0;margin-top:4px;">Dashed arrows = next-token direction in training data. ✓ = same-chain nearest neighbour.</div>
         </div>
 
         <div class="plot-card" style="align-items:stretch;">
@@ -300,7 +337,7 @@
             </table>
           </div>
           <div class="info-box" style="margin-top:12px;">
-            <strong>Emergent clustering:</strong> The model never saw category labels. It learned only to predict the next token. Yet tokens that appear in the same slot (e.g., all animals precede a verb) share next-token distributions — so their embeddings converge in space.
+            <strong>Emergent clustering:</strong> The model never saw any notion of "similarity". It only learned to predict <em>cat→dog</em>, <em>dog→cow</em>, <em>apple→mango</em>, etc. Because tokens in the same chain share the same next-token distribution, gradient descent pushes their embedding vectors together. The ✓ ticks above confirm same-chain nearest neighbours after training.
           </div>
         </div>
       </div>
