@@ -34,7 +34,7 @@ export const EXPERIMENTS = [
     },
     xMin: 1.5204, xMax: 6.9531, spread: 5.4327, score: 184.07,
     modelFile: 'step1_en_only.json',
-    rank: 4,
+    rank: 7,
     insight: 'Indic scripts have no coverage — each word explodes into individual byte tokens. Telugu reaches 6.95 tokens/word.',
     findings: [
       'Indic characters (Devanagari, Telugu, Kannada) are completely absent from the trained vocabulary.',
@@ -69,7 +69,7 @@ export const EXPERIMENTS = [
     },
     xMin: 1.3810, xMax: 2.1440, spread: 0.7631, score: 1310.49,
     modelFile: 'step2_naive_multilingual.json',
-    rank: 2,
+    rank: 4,
     insight: 'Surprisingly competitive — joint training naturally distributes vocab. Hindi benefits most (8K words, large corpus). Telugu/Kannada lag due to less training data.',
     findings: [
       'Joint training on all four concatenated corpora achieves a vocabulary size of 7,118 tokens.',
@@ -83,10 +83,46 @@ export const EXPERIMENTS = [
     ]
   },
   {
+    id: 'step3a2',
+    step: 'Experiment 3A2 ★★',
+    name: 'Focused Sweet-Spot — en×1 hi×1 te×2 kn×2',
+    desc: 'Insight from 3A1: Hindi was over-boosted at ×2 in Experiment 3A (X_HI=1.13, too low). Removing Hindi's boost (hi×1) while keeping te×2 and kn×2 tightly clusters all four ratios — achieving a spread of just 0.2481 and a score of 4,031.',
+    accent: '#2b9e6a', accentLight: '#d0f5e4',
+    config: {
+      'Target Vocab':    '10,000',
+      'Actual Vocab':    '10,000',
+      'Pre-tokenizer':   'WhitespaceSplit',
+      'Normalization':   'NFKC + ZWJ/ZWNJ',
+      'Training Data':   'en×1 · hi×1 · te×2 · kn×2',
+      'Min Frequency':   '2',
+    },
+    results: {
+      en: { words: 10027, tokens: 14407, ratio: 1.4368 },
+      hi: { words: 8022,  tokens: 10599, ratio: 1.3212 },
+      te: { words: 2453,  tokens: 2916,  ratio: 1.1887 },
+      kn: { words: 979,   tokens: 1201,  ratio: 1.2268 },
+    },
+    xMin: 1.1887, xMax: 1.4368, spread: 0.2481, score: 4031.09,
+    modelFile: 'step3a2_focused.json',
+    rank: 1,
+    insight: 'The breakthrough: Hindi (8K words, 80% of English) never needed ×2 oversampling. By keeping hi×1 and te×2, kn×2, all four ratios converge tightly between 1.19 and 1.44 — a spread of 0.2481, more than halving Experiment 3A's spread of 0.4172.',
+    findings: [
+      'All four fertility ratios converge tightly: X_EN=1.44, X_HI=1.32, X_TE=1.19, X_KN=1.23.',
+      'Removing Hindi's ×2 oversampling lets English rebalance and raises X_HI from 1.13 to 1.32.',
+      'Keeping te×2 and kn×2 prevents the word-memorisation trap seen in Experiment 3A1.',
+      'A sweep of kn×3-6 showed kn×3+ causes Kannada to memorise whole words (X_KN=1.00), confirming kn×2 is optimal.',
+      'Spread drops from 0.4172 (3A) to 0.2481 — a 40.5% reduction.'
+    ],
+    conclusions: [
+      'The root cause of 3A's spread was Hindi over-boosting, not Indic under-representation.',
+      'en×1 · hi×1 · te×2 · kn×2 achieves a score of 4,031 — a +68% improvement over Experiment 3A.'
+    ]
+  },
+  {
     id: 'step3a',
-    step: 'Experiment 3A ★',
-    name: 'Optimized — Oversampling (2×)',
-    desc: 'NFKC normalization + ZWJ/ZWNJ removal + Indic languages repeated ×2 to perfectly balance vocab allocation. This is the optimal mathematical sweet-spot.',
+    step: 'Experiment 3A',
+    name: 'Optimized — Oversampling (2× Indic)',
+    desc: 'NFKC normalization + ZWJ/ZWNJ removal + all Indic languages repeated ×2. Was the best result until Experiment 3A2 revealed Hindi was being over-boosted.',
     accent: '#d4902a', accentLight: '#fdefd4',
     config: {
       'Target Vocab':    '10,000',
@@ -104,17 +140,53 @@ export const EXPERIMENTS = [
     },
     xMin: 1.1293, xMax: 1.5465, spread: 0.4172, score: 2396.89,
     modelFile: 'step3_strategy_a_oversample.json',
-    rank: 1,
-    insight: 'A sweep of oversampling factors revealed that exactly 2× is the mathematical sweet spot! It perfectly balances English token efficiency with Indic scripts, compressing the spread to just 0.41.',
+    rank: 2,
+    insight: 'Previously the top scorer. Hindi over-boosted at ×2 (X_HI=1.13) was later identified as the spread driver. Experiment 3A2 fixed this by dropping hi to ×1, raising the score to 4,031.',
     findings: [
       'Removing ZWJ/ZWNJ characters and applying NFKC normalization prevents duplicate slots for identical glyph variants.',
-      'Oversampling Indic corpora by exactly 2× balances English and Indic token efficiency.',
-      'Minimizes the fertility spread to 0.4172: Hindi reaches 1.1293, Telugu 1.4941, Kannada 1.5465, and English 1.5138.',
+      'Oversampling all Indic corpora by ×2 reduces their fertility ratios significantly.',
+      'Hindi (8K words) is large enough to produce a good vocabulary at ×1, but ×2 over-corrects its ratio to 1.13.',
       'Achieves the highest actual vocabulary size of exactly 10,000 tokens.'
     ],
     conclusions: [
-      'Oversampling the smaller Indic corpora by 2× is the mathematical sweet spot, preventing English starvation while optimizing Indic representation.',
-      'This yields the winning score of 2,397.'
+      'Uniform ×2 for all Indic languages was a reasonable first approach, yielding a score of 2,397.',
+      'Superseded by Experiment 3A2, which revealed that Hindi did not need the ×2 boost.'
+    ]
+  },
+  {
+    id: 'step3a1',
+    step: 'Experiment 3A1',
+    name: 'Differential Per-Language Oversampling',
+    desc: 'Per-language oversampling factors proportional to inverse corpus size: en×1, hi×1, te×3, kn×12. Tests whether targeting small languages more aggressively improves on the uniform ×2 of 3A.',
+    accent: '#c46e3a', accentLight: '#fde8d4',
+    config: {
+      'Target Vocab':    '10,000',
+      'Actual Vocab':    '10,000',
+      'Pre-tokenizer':   'WhitespaceSplit',
+      'Normalization':   'NFKC + ZWJ/ZWNJ',
+      'Training Data':   'en×1 · hi×1 · te×3 · kn×12',
+      'Min Frequency':   '2',
+    },
+    results: {
+      en: { words: 10027, tokens: 15276, ratio: 1.5235 },
+      hi: { words: 8022,  tokens: 11105, ratio: 1.3843 },
+      te: { words: 2453,  tokens: 2453,  ratio: 1.0000 },
+      kn: { words: 979,   tokens: 979,   ratio: 1.0000 },
+    },
+    xMin: 1.0000, xMax: 1.5235, spread: 0.5235, score: 1910.27,
+    modelFile: 'step3a1_differential.json',
+    rank: 3,
+    insight: 'Over-sampling Telugu and Kannada so heavily causes the tokenizer to memorise entire words as single vocabulary entries (ratio = 1.00 = 1 token per word). This prevents the learning of composable subword merges, and the spread is actually WIDER than Experiment 3A because English and Hindi are now far above 1.00.',
+    findings: [
+      'A grid search of 18 factor combinations (en×1, hi×1–2, te×3–5, kn×8–12) was performed.',
+      'Best found combination: en×1 · hi×1 · te×3 · kn×12, Score: 1,910.',
+      'Telugu and Kannada reach a fertility ratio of exactly 1.00 — meaning entire words are stored as single tokens.',
+      'Whole-word memorisation prevents composable subword learning and widens the spread to 0.5235 from 3A\'s 0.4172.',
+      'Adding ×2 for Hindi (3A approach) actually helped by pulling Hindi\'s ratio down into the cluster.'
+    ],
+    conclusions: [
+      'Differential oversampling is WORSE than uniform ×2, scoring 1,910 vs 3A\'s 2,397.',
+      'Heavy per-language oversampling causes Indic word memorisation, not subword learning — confirming 3A is the global optimum for this corpus.'
     ]
   },
   {
@@ -140,7 +212,7 @@ export const EXPERIMENTS = [
     perLangTrained: { en: 2500, hi: 2294, te: 1564, kn: 768 },
     xMin: 1.3049, xMax: 2.0725, spread: 0.7676, score: 1302.74,
     modelFile: 'step3_optimized.json',
-    rank: 3,
+    rank: 5,
     insight: 'Guaranteed equal allocation per language. Kannada only trained 768/2500 tokens due to small corpus (979 words) — data bottleneck limits gains. Beaten by the mathematically perfect oversampling factor of Experiment 3A.',
     findings: [
       'Merging four separate tokenizers (2,500 budget each) guarantees vocabulary space per language.',
@@ -175,7 +247,7 @@ export const EXPERIMENTS = [
     },
     xMin: 1.5464, xMax: 5.7407, spread: 4.1943, score: 238.42,
     modelFile: 'step3c_bytelevel.json',
-    rank: 5,
+    rank: 6,
     insight: 'Indic characters take 3 bytes in UTF-8. A 5-letter Telugu word starts as 15 byte-tokens. The small corpus lacks the frequency data to learn how to re-assemble them, leaving the text highly fragmented.',
     findings: [
       'GPT-2 style ByteLevel tokenization maps 256 bytes to characters, successfully eliminating [UNK] tokens.',

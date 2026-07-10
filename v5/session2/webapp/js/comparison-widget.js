@@ -111,7 +111,7 @@ function renderLeaderboard() {
       ${LEADERBOARD.map((exp, i) => {
         const pct = ((exp.score / maxScore) * 100).toFixed(1);
         const scoreCol = exp.score >= 1200 ? '#5eba80' : exp.score >= 900 ? '#5080d0' : exp.score >= 600 ? '#d4902a' : '#e07c8c';
-        const rankE = ['🥇','🥈','🥉','4️⃣'][i];
+        const rankE = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣'][i];
         return `
         <tr>
           <td class="lb-rank">${rankE}</td>

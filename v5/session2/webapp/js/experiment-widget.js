@@ -12,7 +12,7 @@ function scoreColor(score) {
 }
 
 function rankEmoji(rank) {
-  return ['🥇','🥈','🥉','4️⃣'][rank - 1] ?? rank;
+  return ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣'][rank - 1] ?? rank;
 }
 
 function ratioRow(lang, data) {
