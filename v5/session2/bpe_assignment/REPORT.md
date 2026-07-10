@@ -216,19 +216,54 @@ Score  = 1000 / 0.7676 = 1302.74
 
 ---
 
+### 3.5 Step 3C — Experiment: ByteLevel BPE
+
+**Configuration**:
+- Retained the optimal `2x` oversampling from Step 3A.
+- Pre-tokenizer: `ByteLevel(add_prefix_space=True)`
+- Decoder: `ByteLevel()`
+- Initial Alphabet: 256 mapped bytes.
+
+**Why test ByteLevel?**
+ByteLevel tokenization (made famous by GPT-2 and RoBERTa) maps all 256 bytes to unique Unicode characters. This completely eliminates the need for an `[UNK]` token, guaranteeing that any string can be encoded.
+
+**Token Statistics**:
+
+| Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
+|---|---:|---:|---:|---|
+| English  | 10,027 |  15,506 | **1.5464** | Lowest (best) |
+| Hindi    |  8,022 |  28,005 | **3.4910** | 2nd |
+| Kannada  |    979 |   5,072 | **5.1808** | 3rd |
+| Telugu   |  2,453 |  14,082 | **5.7407** | Highest (worst) |
+
+**Score Calculation**:
+
+```
+X_min = 1.5464  (English)
+X_max = 5.7407  (Telugu)
+Spread = 5.7407 - 1.5464 = 4.1943
+Score  = 1000 / 4.1943 = 238.42
+```
+
+**Why ByteLevel Failed Spectacularly (Score 238):**
+In UTF-8 encoding, English ASCII characters take exactly **1 byte**. However, Indic scripts (like Devanagari, Telugu, Kannada) take **3 bytes per character**.
+This means the ByteLevel pre-tokenizer immediately multiplies the length of Indic sequences by 3! A 5-letter Telugu word starts as 15 separate byte-tokens. Because the Indic corpora are so small (especially Kannada with 979 words), the BPE frequency algorithm doesn't have enough data to learn the merges to re-assemble those 15 bytes into 5 characters, let alone merge those characters into meaningful words. Consequently, the Indic languages are left highly fragmented, destroying the fertility ratios.
+
+---
+
 ## 4. Full Comparison Table
 
-| Metric | Step 1 (EN only) | Step 2 (Naive) | Step 3A (Oversample 2×) | Step 3B (Merged) |
-|---|---:|---:|---:|---:|
-| Vocab size | 2,922 | 7,118 | 10,000 | 6,848 |
-| English ratio (X1) | 1.5204 | 1.5156 | 1.5138 | 1.5442 |
-| Hindi ratio (X2)   | 4.3662 | 1.3810 | 1.1293 | 1.3049 |
-| Telugu ratio (X3)  | 6.9531 | 2.0946 | 1.4941 | 1.9825 |
-| Kannada ratio (X4) | 6.5720 | 2.1440 | 1.5465 | 2.0725 |
-| X_min | 1.5204 | 1.3810 | 1.1293 | 1.3049 |
-| X_max | 6.9531 | 2.1440 | 1.5465 | 2.0725 |
-| **Spread** | **5.4327** | **0.7631** | **0.4172** | **0.7676** |
-| **Score** | **184.07** | **1310.49** | **2396.89** | **1302.74** |
+| Metric | Step 1 (EN) | Step 2 (Naive) | Step 3A (2×) | Step 3B (Merged) | Step 3C (ByteLevel) |
+|---|---:|---:|---:|---:|---:|
+| Vocab size | 2,922 | 7,118 | 10,000 | 6,848 | 5,907 |
+| English ratio (X1) | 1.5204 | 1.5156 | 1.5138 | 1.5442 | 1.5464 |
+| Hindi ratio (X2)   | 4.3662 | 1.3810 | 1.1293 | 1.3049 | 3.4910 |
+| Telugu ratio (X3)  | 6.9531 | 2.0946 | 1.4941 | 1.9825 | 5.7407 |
+| Kannada ratio (X4) | 6.5720 | 2.1440 | 1.5465 | 2.0725 | 5.1808 |
+| X_min | 1.5204 | 1.3810 | 1.1293 | 1.3049 | 1.5464 |
+| X_max | 6.9531 | 2.1440 | 1.5465 | 2.0725 | 5.7407 |
+| **Spread** | **5.4327** | **0.7631** | **0.4172** | **0.7676** | **4.1943** |
+| **Score** | **184.07** | **1310.49** | **2396.89** | **1302.74** | **238.42** |
 
 **Winner: Step 3A — Oversampling (2×) with Score 2396.89**
 
@@ -247,11 +282,10 @@ Score
  800 |          ████            ████  ████
  600 |          ████            ████  ████
  400 |          ████            ████  ████
- 200 | ████     ████            ████  ████
- 100 | ████     ████            ████  ████
-   0 +--+-------+------------------+----------+----
-       Step 1  Step 2          Step 3A      Step 3B
-      (EN only)(Naive)       (Oversample) (Merged)
+ 200 | ████     ████            ████  ████  ████ (Step 3C: 238)
+ 100 | ████     ████            ████  ████  ████
+   0 +--+-------+------------------+----------+--------+----
+       Step 1  Step 2          Step 3A      Step 3B   Step 3C
 ```
 
 ---
@@ -305,7 +339,6 @@ Would consume 3 vocabulary slots for what is effectively one word. In a 10,000-t
 |---|---|---|
 | Tune oversampling factor (try ×3, ×5) | Potentially score > 1400 | Low |
 | Supplement with more Kannada/Telugu text (other articles) | Directly reduces ratios | Medium |
-| Grapheme-cluster pre-tokenizer (`regex` Grapheme mode) | Prevents matra/halant splits | Medium |
 | Byte-level fallback BPE (like GPT-2 style) | Eliminates [UNK] fallback | High |
 | Sentencepiece UNIGRAM model | Better language-agnostic segmentation | High |
 

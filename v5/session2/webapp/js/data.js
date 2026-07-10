@@ -113,6 +113,31 @@ export const EXPERIMENTS = [
     rank: 3,
     insight: 'Guaranteed equal allocation per language. Kannada only trained 768/2500 tokens due to small corpus (979 words) — data bottleneck limits gains. Beaten by the mathematically perfect oversampling factor of Step 3A.',
   },
+  {
+    id: 'step3c',
+    step: 'Step 3C',
+    name: 'Experiment — ByteLevel BPE',
+    desc: 'Uses GPT-2 style ByteLevel tokenization, mapping 256 bytes to characters. Eliminated [UNK] tokens but failed spectacularly on Indic scripts.',
+    accent: '#8e7cc3', accentLight: '#e4dcf5',
+    config: {
+      'Target Vocab':    '10,000',
+      'Actual Vocab':    '5,907',
+      'Pre-tokenizer':   'ByteLevel',
+      'Normalization':   'NFKC + ZWJ/ZWNJ',
+      'Training Data':   'English 1× · Indic 2×',
+      'Min Frequency':   '2',
+    },
+    results: {
+      en: { words: 10027, tokens: 15506, ratio: 1.5464 },
+      hi: { words: 8022,  tokens: 28005, ratio: 3.4910 },
+      te: { words: 2453,  tokens: 14082, ratio: 5.7407 },
+      kn: { words: 979,   tokens: 5072,  ratio: 5.1808 },
+    },
+    xMin: 1.5464, xMax: 5.7407, spread: 4.1943, score: 238.42,
+    modelFile: 'step3c_bytelevel.json',
+    rank: 5,
+    insight: 'Indic characters take 3 bytes in UTF-8. A 5-letter Telugu word starts as 15 byte-tokens. The small corpus lacks the frequency data to learn how to re-assemble them, leaving the text highly fragmented.',
+  },
 ];
 
 // Ordered by score descending for leaderboard
