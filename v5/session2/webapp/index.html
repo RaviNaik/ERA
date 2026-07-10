@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BPE Tokenizer Experiments — ERA Session 2</title>
+  <meta name="description" content="Multilingual BPE Tokenizer experiments for India's Wikipedia pages in English, Hindi, Telugu and Kannada." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Navigation ───────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="nav-logo-icon">🔤</span>
+        <span>BPE Experiments</span>
+      </div>
+      <div class="nav-links">
+        <a href="#corpus">Corpus</a>
+        <a href="#step1">Step 1</a>
+        <a href="#step2">Step 2</a>
+        <a href="#step3a">Step 3A</a>
+        <a href="#step3b">Step 3B ★</a>
+        <a href="#comparison">Compare</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-tag">ERA Session 2 · BPE Tokenizer Assignment</div>
+      <h1 class="hero-title">Multilingual BPE<br/><span class="gradient-text">Tokenizer Experiments</span></h1>
+      <p class="hero-subtitle">
+        Designing a 10,000-token BPE vocabulary across <strong>English · Hindi · Telugu · Kannada</strong> Wikipedia pages of India.
+        Goal: minimize the fertility ratio spread to maximize the assignment score.
+      </p>
+      <div class="formula-box">
+        <div class="formula-label">Scoring Formula</div>
+        <div class="formula">
+          <span class="f-big">Score</span>
+          <span class="f-eq">=</span>
+          <span class="f-frac">
+            <span class="f-num">1000</span>
+            <span class="f-bar"></span>
+            <span class="f-den">X<sub>max</sub> − X<sub>min</sub></span>
+          </span>
+          <span class="f-where">where X<sub>i</sub> = total tokens / total words for language i</span>
+        </div>
+      </div>
+      <!-- Quick score cards populated by JS -->
+      <div class="hero-scores" id="hero-scores"></div>
+    </div>
+  </section>
+
+  <!-- ── Corpus Overview ───────────────────────────────────── -->
+  <section id="corpus" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Data</div>
+        <h2 class="section-title">Corpus Overview</h2>
+        <p class="section-desc">India's Wikipedia page scraped in four languages via the Wikipedia Plain-Text Extract API.</p>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="lang-cards" id="lang-cards"></div>
+
+      <div class="two-col">
+        <!-- Bar chart -->
+        <div class="glass-card chart-card">
+          <div class="card-label">Word Count by Language</div>
+          <canvas id="corpusChart" height="220"></canvas>
+        </div>
+        <!-- Corpus viewer -->
+        <div class="glass-card corpus-viewer">
+          <div class="card-label">Dataset Viewer</div>
+          <div class="corpus-tabs" id="corpus-tabs"></div>
+          <div class="corpus-preview" id="corpus-preview">
+            <div class="corpus-loading">Select a language to preview the corpus…</div>
+          </div>
+          <div class="corpus-actions" id="corpus-actions"></div>
+        </div>
+      </div>
+
+      <!-- Script difficulty table -->
+      <div class="glass-card mt-lg">
+        <div class="card-label">Why Indic Scripts Are Harder to Tokenize</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>English</th>
+                <th>Hindi (Devanagari)</th>
+                <th>Telugu</th>
+                <th>Kannada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Base alphabet size</td><td>26</td><td>~47</td><td>~56</td><td>~49</td></tr>
+              <tr><td>Vowel sign (matra) combos</td><td>~5</td><td>~12 per consonant</td><td>~12 per consonant</td><td>~12 per consonant</td></tr>
+              <tr><td>Conjunct consonants</td><td>None</td><td>Yes (halant)</td><td>Yes</td><td>Yes</td></tr>
+              <tr><td>Unicode codepoints per "letter"</td><td>1</td><td>1 – 4</td><td>1 – 4</td><td>1 – 4</td></tr>
+              <tr><td>Invisible control chars (ZWJ/ZWNJ)</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experiments ───────────────────────────────────────── -->
+  <section id="experiments" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Experiments</div>
+        <h2 class="section-title">Four BPE Experiments</h2>
+        <p class="section-desc">Each experiment targets a 10,000-token shared vocabulary. Fertility ratio X = tokens produced ÷ whitespace words.</p>
+      </div>
+      <!-- Experiment cards injected by JS -->
+      <div id="exp-cards"></div>
+    </div>
+  </section>
+
+  <!-- ── Comparison ────────────────────────────────────────── -->
+  <section id="comparison" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Summary</div>
+        <h2 class="section-title">Experiment Comparison</h2>
+        <p class="section-desc">Fertility ratios and scores across all four experiments.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="glass-card chart-card" style="min-height:340px">
+          <div class="card-label">Fertility Ratios — All Experiments</div>
+          <div style="position:relative;height:280px">
+            <canvas id="comparisonChart"></canvas>
+          </div>
+        </div>
+        <div class="glass-card chart-card" style="min-height:340px">
+          <div class="card-label">Score by Experiment</div>
+          <div style="position:relative;height:280px">
+            <canvas id="scoreChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="glass-card mt-lg">
+        <div class="card-label">Leaderboard</div>
+        <div class="table-wrap" id="leaderboard"></div>
+      </div>
+
+      <!-- Score calculator -->
+      <div class="glass-card mt-lg">
+        <div class="card-label">🧮 Score Calculator — Try Your Own Ratios</div>
+        <p class="calc-desc">Enter custom fertility ratios to see what score you'd achieve.</p>
+        <div class="calc-grid" id="calc-grid"></div>
+        <div class="calc-result" id="calc-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <p>ERA Session 2 · BPE Tokenizer Assignment · Data from <a href="https://en.wikipedia.org/wiki/India" target="_blank">Wikipedia</a></p>
+    </div>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[project]
+name = "session2"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "regex>=2026.6.28",
+    "requests>=2.34.2",
+    "tokenizers>=0.23.1",
+]

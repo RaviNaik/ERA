@@ -1,0 +1,13 @@
+[build]
+  publish = ".."
+
+# Redirect root to the webapp subfolder
+[[redirects]]
+  from = "/"
+  to   = "/webapp/"
+  status = 301
+
+[[redirects]]
+  from = "/webapp"
+  to   = "/webapp/"
+  status = 301

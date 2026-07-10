@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "truncation": null,
+  "padding": null,
+  "added_tokens": [
+    {
+      "id": 0,
+      "content": "[UNK]",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    }
+  ],
+  "normalizer": null,
+  "pre_tokenizer": {
+    "type": "Whitespace"
+  },
+  "post_processor": null,
+  "decoder": null,
+  "model": {
+    "type": "BPE",
+    "dropout": null,
+    "unk_token": "[UNK]",
+    "continuing_subword_prefix": null,
+    "end_of_word_suffix": null,
+    "fuse_unk": false,
+    "byte_fallback": false,
+    "ignore_merges": false,
+    "vocab": {
+      "[UNK]": 0,
+      ".": 1,
+      "F": 2,
+      "H": 3,
+      "T": 4,
+      "a": 5,
+      "b": 6,
+      "c": 7,
+      "d": 8,
+      "e": 9,
+      "f": 10,
+      "g": 11,
+      "h": 12,
+      "i": 13,
+      "k": 14,
+      "l": 15,
+      "m": 16,
+      "n": 17,
+      "o": 18,
+      "p": 19,
+      "r": 20,
+      "s": 21,
+      "t": 22,
+      "u": 23,
+      "v": 24,
+      "w": 25,
+      "x": 26,
+      "y": 27,
+      "z": 28,
+      "in": 29,
+      "en": 30,
+      "ra": 31,
+      "ing": 32,
+      "er": 33,
+      "fo": 34,
+      "for": 35,
+      "Tra": 36,
+      "ar": 37,
+      "ce": 38,
+      "de": 39,
+      "iz": 40,
+      "ken": 41,
+      "oken": 42,
+      "ro": 43,
+      "st": 44,
+      "token": 45,
+      "ers": 46,
+      "tokeniz": 47
+    },
+    "merges": [
+      [
+        "i",
+        "n"
+      ],
+      [
+        "e",
+        "n"
+      ],
+      [
+        "r",
+        "a"
+      ],
+      [
+        "in",
+        "g"
+      ],
+      [
+        "e",
+        "r"
+      ],
+      [
+        "f",
+        "o"
+      ],
+      [
+        "fo",
+        "r"
+      ],
+      [
+        "T",
+        "ra"
+      ],
+      [
+        "a",
+        "r"
+      ],
+      [
+        "c",
+        "e"
+      ],
+      [
+        "d",
+        "e"
+      ],
+      [
+        "i",
+        "z"
+      ],
+      [
+        "k",
+        "en"
+      ],
+      [
+        "o",
+        "ken"
+      ],
+      [
+        "r",
+        "o"
+      ],
+      [
+        "s",
+        "t"
+      ],
+      [
+        "t",
+        "oken"
+      ],
+      [
+        "er",
+        "s"
+      ],
+      [
+        "token",
+        "iz"
+      ]
+    ]
+  }
+}
