@@ -105,16 +105,16 @@ export const EXPERIMENTS = [
     xMin: 1.1887, xMax: 1.4368, spread: 0.2481, score: 4031.09,
     modelFile: 'step3a2_focused.json',
     rank: 1,
-    insight: 'The breakthrough: Hindi (8K words, 80% of English) never needed ×2 oversampling. By keeping hi×1 and te×2, kn×2, all four ratios converge tightly between 1.19 and 1.44 — a spread of 0.2481, more than halving Experiment 3A's spread of 0.4172.',
+    insight: 'The breakthrough: Hindi (8K words, 80% of English) never needed ×2 oversampling. By keeping hi×1 and te×2, kn×2, all four ratios converge tightly between 1.19 and 1.44 — a spread of 0.2481, more than halving Experiment 3A\\'s spread of 0.4172.',
     findings: [
       'All four fertility ratios converge tightly: X_EN=1.44, X_HI=1.32, X_TE=1.19, X_KN=1.23.',
-      'Removing Hindi's ×2 oversampling lets English rebalance and raises X_HI from 1.13 to 1.32.',
+      'Removing Hindi\\'s ×2 oversampling lets English rebalance and raises X_HI from 1.13 to 1.32.',
       'Keeping te×2 and kn×2 prevents the word-memorisation trap seen in Experiment 3A1.',
       'A sweep of kn×3-6 showed kn×3+ causes Kannada to memorise whole words (X_KN=1.00), confirming kn×2 is optimal.',
       'Spread drops from 0.4172 (3A) to 0.2481 — a 40.5% reduction.'
     ],
     conclusions: [
-      'The root cause of 3A's spread was Hindi over-boosting, not Indic under-representation.',
+      'The root cause of 3A\\'s spread was Hindi over-boosting, not Indic under-representation.',
       'en×1 · hi×1 · te×2 · kn×2 achieves a score of 4,031 — a +68% improvement over Experiment 3A.'
     ]
   },
