@@ -144,28 +144,25 @@ Hindi improved most because it contributes the most Indic training data (43K cha
 
 | Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
 |---|---:|---:|---:|---|
-| Hindi    |  8,022 |   8,279 | **1.0320** | Lowest (best) |
-| Telugu   |  2,453 |   2,915 | **1.1883** | 2nd |
-| Kannada  |    979 |   1,198 | **1.2237** | 3rd |
-| English  | 10,027 |  22,161 | **2.2101** | Highest (worst) |
+| Hindi    |  8,022 |   9,059 | **1.1293** | Lowest (best) |
+| Telugu   |  2,453 |   3,665 | **1.4941** | 2nd |
+| English  | 10,027 |  15,179 | **1.5138** | 3rd |
+| Kannada  |    979 |   1,514 | **1.5465** | Highest (worst) |
 
 **Score Calculation**:
 
 ```
-X_min = 1.0320  (Hindi)
-X_max = 2.2101  (English)
-Spread = 2.2101 - 1.0320 = 1.1781
-Score  = 1000 / 1.1781 = 848.83
+X_min = 1.1293  (Hindi)
+X_max = 1.5465  (Kannada)
+Spread = 1.5465 - 1.1293 = 0.4172
+Score  = 1000 / 0.4172 = 2396.89
 ```
 
-**This is WORSE than Step 2!** The oversampling was too aggressive.
-
-**Why oversampling backfired**:
-- The ×10 factor caused BPE to allocate ~90% of the 10,000 vocab slots to Indic scripts
-- Indic fertility ratios dropped to ~1.03–1.22 (excellent!)
-- But English fertility spiked to 2.21 — more than twice the Indic ratios
-- The spread *widened* from the opposite direction compared to Step 1
-- A gentler factor (e.g., ×3 or ×5) might balance this better
+**Why this is the Winner (Finding the sweet spot):**
+We performed a sweep over different oversampling factors to find the mathematical sweet spot:
+- At `1x`, the score is ~1335 (baseline with NFKC processing).
+- At `10x`, the Indic ratios are great (~1.0-1.2), but English is starved of vocab slots and its ratio spikes to 2.21+, worsening the spread (Score: ~848).
+- **At `2x`**, we hit perfect balance. English gives up just enough tokens (ratio moves from 1.41 → 1.51), while Indic scripts gain enough slots to drop their ratios into the 1.12–1.54 range. This tightly compresses the spread to just 0.41.
 
 ---
 
@@ -221,19 +218,19 @@ Score  = 1000 / 0.7676 = 1302.74
 
 ## 4. Full Comparison Table
 
-| Metric | Step 1 (EN only) | Step 2 (Naive) | Step 3A (Oversample) | Step 3B (Merged) |
+| Metric | Step 1 (EN only) | Step 2 (Naive) | Step 3A (Oversample 2×) | Step 3B (Merged) |
 |---|---:|---:|---:|---:|
 | Vocab size | 2,922 | 7,118 | 10,000 | 6,848 |
-| English ratio (X1) | 1.5204 | 1.5156 | 2.2101 | 1.5442 |
-| Hindi ratio (X2)   | 4.3662 | 1.3810 | 1.0320 | 1.3049 |
-| Telugu ratio (X3)  | 6.9531 | 2.0946 | 1.1883 | 1.9825 |
-| Kannada ratio (X4) | 6.5720 | 2.1440 | 1.2237 | 2.0725 |
-| X_min | 1.5204 | 1.3810 | 1.0320 | 1.3049 |
-| X_max | 6.9531 | 2.1440 | 2.2101 | 2.0725 |
-| **Spread** | **5.4327** | **0.7631** | **1.1781** | **0.7676** |
-| **Score** | **184.07** | **1310.49** | **848.83** | **1302.74** |
+| English ratio (X1) | 1.5204 | 1.5156 | 1.5138 | 1.5442 |
+| Hindi ratio (X2)   | 4.3662 | 1.3810 | 1.1293 | 1.3049 |
+| Telugu ratio (X3)  | 6.9531 | 2.0946 | 1.4941 | 1.9825 |
+| Kannada ratio (X4) | 6.5720 | 2.1440 | 1.5465 | 2.0725 |
+| X_min | 1.5204 | 1.3810 | 1.1293 | 1.3049 |
+| X_max | 6.9531 | 2.1440 | 1.5465 | 2.0725 |
+| **Spread** | **5.4327** | **0.7631** | **0.4172** | **0.7676** |
+| **Score** | **184.07** | **1310.49** | **2396.89** | **1302.74** |
 
-**Winner: Step 2 — Naive Multilingual BPE with Score 1310.49**
+**Winner: Step 3A — Oversampling (2×) with Score 2396.89**
 
 ---
 
@@ -241,20 +238,17 @@ Score  = 1000 / 0.7676 = 1302.74
 
 ```
 Score
-1400 |
-1300 |          ████  (Step 2: 1310)          ████  (Step 3B: 1303)
-1200 |          ████                          ████
-1100 |          ████                          ████
-1000 |          ████                          ████
- 900 |          ████              ████        ████
- 800 |          ████              ████        ████
- 700 |          ████              ████        ████
- 600 |          ████              ████        ████
- 500 |          ████              ████        ████
- 400 |          ████              ████        ████
- 300 |          ████              ████        ████
- 200 | ████     ████              ████        ████
- 100 | ████     ████              ████        ████
+2400 |                          ████  (Step 3A: 2397)
+2000 |                          ████
+1600 |                          ████
+1400 |          ████            ████  ████  (Step 3B: 1303)
+1200 |          ████            ████  ████
+1000 |          ████            ████  ████
+ 800 |          ████            ████  ████
+ 600 |          ████            ████  ████
+ 400 |          ████            ████  ████
+ 200 | ████     ████            ████  ████
+ 100 | ████     ████            ████  ████
    0 +--+-------+------------------+----------+----
        Step 1  Step 2          Step 3A      Step 3B
       (EN only)(Naive)       (Oversample) (Merged)

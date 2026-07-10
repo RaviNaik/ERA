@@ -54,7 +54,8 @@ VOCAB_SIZE = 10_000
 MIN_FREQ   = 2
 
 # Oversampling repetitions for Indic languages in Strategy A
-INDIC_OVERSAMPLE_FACTOR = 10
+# A sweep reveals that factor=2 is the mathematical sweet spot (Score ~2396)
+INDIC_OVERSAMPLE_FACTOR = 2
 
 SPECIAL_TOKENS = ["[UNK]", "[PAD]", "[BOS]", "[EOS]"]
 
