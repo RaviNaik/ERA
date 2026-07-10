@@ -22,7 +22,7 @@ function ratioRow(lang, data) {
   <tr>
     <td>
       <span class="lang-pill" style="background:${m.light};color:${m.color}">
-        ${m.flag} ${m.name}
+        ${m.name}
       </span>
     </td>
     <td class="num">${data.words.toLocaleString()}</td>
@@ -59,7 +59,7 @@ function perLangMerge(perLangTrained) {
         const pct = ((trained / 2500) * 100).toFixed(0);
         return `
         <div class="metric-box">
-          <label style="color:${m.color}">${m.flag} ${m.name}</label>
+          <label style="color:${m.color}">${m.name}</label>
           <input type="text" readonly value="${trained.toLocaleString()} / 2,500">
           <div style="height:4px;background:${m.soft};border-radius:2px;margin-top:4px">
             <div style="height:4px;width:${pct}%;background:${m.color};border-radius:2px"></div>
@@ -145,6 +145,24 @@ export function renderExperiments(experiments) {
       </div>
       <div style="margin-top:8px;font-size:.82rem;color:var(--txt-3);line-height:1.6">
         💡 ${exp.insight}
+      </div>
+    </div>
+
+    <!-- Analysis (Findings & Conclusions) -->
+    <div class="exp-analysis">
+      <div class="analysis-grid">
+        <div class="analysis-box findings">
+          <div class="analysis-title">📋 Key Findings</div>
+          <ul class="analysis-list">
+            ${exp.findings.map(f => `<li>${f}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="analysis-box conclusion">
+          <div class="analysis-title">🎯 Conclusion</div>
+          <ul class="analysis-list">
+            ${exp.conclusions.map(c => `<li>${c}</li>`).join('')}
+          </ul>
+        </div>
       </div>
     </div>
 

@@ -18,7 +18,7 @@ function renderCalcInputs(defaults) {
     const def = defaults[lang]?.toFixed(4) ?? '1.5000';
     return `
     <div class="metric-box">
-      <label style="color:${m.color}">${m.flag} ${LANG_LABELS[lang]}</label>
+      <label style="color:${m.color}">${LANG_LABELS[lang]}</label>
       <input type="number" id="calc-${lang}" step="0.01" min="1" max="10" value="${def}"
         style="border-color:${m.color}"
         oninput="window._recalcScore()">

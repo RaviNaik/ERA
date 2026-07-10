@@ -5,16 +5,16 @@
 export const ASSET_BASE = '../bpe_assignment';
 
 export const LANG_META = {
-  en: { name: 'English',  title: 'India',       flag: '🇬🇧', chars: 64971, words: 10027, avgLen: 5.48, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
-  hi: { name: 'Hindi',   title: 'भारत',          flag: '🇮🇳', chars: 43596, words: 8022,  avgLen: 4.43, color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
-  te: { name: 'Telugu',  title: 'భారతదేశం',      flag: '🏛️', chars: 19822, words: 2453,  avgLen: 6.58, color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
-  kn: { name: 'Kannada', title: 'ಭಾರತ',          flag: '🌟', chars: 7600,  words: 979,   avgLen: 6.43, color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
+  en: { name: 'English',  title: 'India',       chars: 64971, words: 10027, avgLen: 5.48, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
+  hi: { name: 'Hindi',   title: 'भारत',          chars: 43596, words: 8022,  avgLen: 4.43, color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
+  te: { name: 'Telugu',  title: 'భారతదేశం',      chars: 19822, words: 2453,  avgLen: 6.58, color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
+  kn: { name: 'Kannada', title: 'ಭಾರತ',          chars: 7600,  words: 979,   avgLen: 6.43, color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
 };
 
 export const EXPERIMENTS = [
   {
     id: 'step1',
-    step: 'Step 1',
+    step: 'Experiment 1',
     name: 'English-Only BPE',
     desc: 'Vanilla BPE trained on English Wikipedia only. Establishes a baseline — no Indic awareness whatsoever.',
     accent: '#e07c8c', accentLight: '#fde0e6',
@@ -36,10 +36,20 @@ export const EXPERIMENTS = [
     modelFile: 'step1_en_only.json',
     rank: 4,
     insight: 'Indic scripts have no coverage — each word explodes into individual byte tokens. Telugu reaches 6.95 tokens/word.',
+    findings: [
+      'Indic characters (Devanagari, Telugu, Kannada) are completely absent from the trained vocabulary.',
+      'Indic words are heavily fragmented, falling back to individual bytes (e.g., Telugu splits into 6.95 tokens/word).',
+      'The vocabulary size is limited to 2,922 tokens (instead of the target 10,000) due to the small size of the English corpus.',
+      'The difference between the minimum (English: 1.52) and maximum (Telugu: 6.95) fertility ratios is extremely large.'
+    ],
+    conclusions: [
+      'An English-only vocabulary has zero Indic script awareness, yielding highly inefficient tokenization.',
+      'This establishes our baseline with a very low score of 184.'
+    ]
   },
   {
     id: 'step2',
-    step: 'Step 2',
+    step: 'Experiment 2',
     name: 'Naive Multilingual BPE',
     desc: 'All 4 languages concatenated equally (1× each) with no preprocessing. Exposes the imbalance issues.',
     accent: '#5eba80', accentLight: '#d0f5e4',
@@ -61,10 +71,20 @@ export const EXPERIMENTS = [
     modelFile: 'step2_naive_multilingual.json',
     rank: 2,
     insight: 'Surprisingly competitive — joint training naturally distributes vocab. Hindi benefits most (8K words, large corpus). Telugu/Kannada lag due to less training data.',
+    findings: [
+      'Joint training on all four concatenated corpora achieves a vocabulary size of 7,118 tokens.',
+      'Vocabulary is distributed naturally by raw language frequency: Hindi and English dominate the vocabulary slots.',
+      'Fertility ratios drop drastically for Indic languages (e.g., Telugu drops from 6.95 to 2.09).',
+      'Telugu and Kannada still lag behind English and Hindi due to their smaller training corpus sizes.'
+    ],
+    conclusions: [
+      'Joint training is highly effective at distributing subwords naturally across languages, raising the score to 1,310.',
+      'Performance remains bottlenecked by corpus size imbalances.'
+    ]
   },
   {
     id: 'step3a',
-    step: 'Step 3A ★',
+    step: 'Experiment 3A ★',
     name: 'Optimized — Oversampling (2×)',
     desc: 'NFKC normalization + ZWJ/ZWNJ removal + Indic languages repeated ×2 to perfectly balance vocab allocation. This is the optimal mathematical sweet-spot.',
     accent: '#d4902a', accentLight: '#fdefd4',
@@ -86,10 +106,20 @@ export const EXPERIMENTS = [
     modelFile: 'step3_strategy_a_oversample.json',
     rank: 1,
     insight: 'A sweep of oversampling factors revealed that exactly 2× is the mathematical sweet spot! It perfectly balances English token efficiency with Indic scripts, compressing the spread to just 0.41.',
+    findings: [
+      'Removing ZWJ/ZWNJ characters and applying NFKC normalization prevents duplicate slots for identical glyph variants.',
+      'Oversampling Indic corpora by exactly 2× balances English and Indic token efficiency.',
+      'Minimizes the fertility spread to 0.4172: Hindi reaches 1.1293, Telugu 1.4941, Kannada 1.5465, and English 1.5138.',
+      'Achieves the highest actual vocabulary size of exactly 10,000 tokens.'
+    ],
+    conclusions: [
+      'Oversampling the smaller Indic corpora by 2× is the mathematical sweet spot, preventing English starvation while optimizing Indic representation.',
+      'This yields the winning score of 2,397.'
+    ]
   },
   {
     id: 'step3b',
-    step: 'Step 3B',
+    step: 'Experiment 3B',
     name: 'Optimized — Merged Vocabulary',
     desc: 'Four independent BPE tokenizers (2,500 tokens each) merged into one. NFKC + ZWJ/ZWNJ preprocessing applied.',
     accent: '#5080d0', accentLight: '#d4e4f8',
@@ -111,11 +141,21 @@ export const EXPERIMENTS = [
     xMin: 1.3049, xMax: 2.0725, spread: 0.7676, score: 1302.74,
     modelFile: 'step3_optimized.json',
     rank: 3,
-    insight: 'Guaranteed equal allocation per language. Kannada only trained 768/2500 tokens due to small corpus (979 words) — data bottleneck limits gains. Beaten by the mathematically perfect oversampling factor of Step 3A.',
+    insight: 'Guaranteed equal allocation per language. Kannada only trained 768/2500 tokens due to small corpus (979 words) — data bottleneck limits gains. Beaten by the mathematically perfect oversampling factor of Experiment 3A.',
+    findings: [
+      'Merging four separate tokenizers (2,500 budget each) guarantees vocabulary space per language.',
+      'Due to small data volume, Kannada trains only 768 tokens, leaving 1,732 slots unused.',
+      'The final merged vocabulary size is only 6,848 unique tokens.',
+      'The resulting fertility ratio spread (0.7676) leads to a score of 1,302.'
+    ],
+    conclusions: [
+      'Guaranteed allocation is severely limited by a data bottleneck in small languages, resulting in wasted vocabulary slots.',
+      'This strategy is outperformed by the joint training with oversampling (3A).'
+    ]
   },
   {
     id: 'step3c',
-    step: 'Step 3C',
+    step: 'Experiment 3C',
     name: 'Experiment — ByteLevel BPE',
     desc: 'Uses GPT-2 style ByteLevel tokenization, mapping 256 bytes to characters. Eliminated [UNK] tokens but failed spectacularly on Indic scripts.',
     accent: '#8e7cc3', accentLight: '#e4dcf5',
@@ -137,6 +177,16 @@ export const EXPERIMENTS = [
     modelFile: 'step3c_bytelevel.json',
     rank: 5,
     insight: 'Indic characters take 3 bytes in UTF-8. A 5-letter Telugu word starts as 15 byte-tokens. The small corpus lacks the frequency data to learn how to re-assemble them, leaving the text highly fragmented.',
+    findings: [
+      'GPT-2 style ByteLevel tokenization maps 256 bytes to characters, successfully eliminating [UNK] tokens.',
+      'Indic characters require 3 bytes per character in UTF-8, tripling the initial length of sequences.',
+      'Due to data scarcity, the tokenizer fails to learn merges to re-assemble bytes, resulting in extreme fragmentation.',
+      'Fertility ratios explode for Hindi (3.49), Telugu (5.74), and Kannada (5.18).'
+    ],
+    conclusions: [
+      'Byte-level tokenization is highly detrimental for Indic scripts under low-resource constraints.',
+      'The heavy byte-level fragmentation results in a low score of 238.'
+    ]
   },
 ];
 

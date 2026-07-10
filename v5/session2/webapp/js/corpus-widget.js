@@ -25,7 +25,6 @@ export function renderLangCards() {
     const m = LANG_META[lang];
     return `
     <div class="lang-card" style="background:${m.light};border-color:${m.soft}">
-      <div class="lang-card-flag">${m.flag}</div>
       <div class="lang-card-name" style="color:${m.color}">${m.name}</div>
       <div class="lang-card-title">${m.title}</div>
       <div class="lang-card-stats">
@@ -90,7 +89,7 @@ export function initCorpusViewer() {
     return `<button class="corpus-tab" data-lang="${lang}"
       style="border-color:${m.color};color:${m.color}"
       onclick="window._selectCorpusLang('${lang}')">
-      ${m.flag} ${m.name}
+      ${m.name}
     </button>`;
   }).join('');
 
