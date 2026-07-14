@@ -3,337 +3,92 @@
 **Course**: ERA (Extensive Research in AI) — Session 2  
 **Task**: Design a multilingual BPE tokenizer for India's Wikipedia pages in English, Hindi, Telugu, and Kannada with a shared vocabulary of 10,000 tokens, minimizing the fertility ratio spread across languages.  
 **Scoring formula**: `Score = 1000 / (X_max - X_min)`  
-where `X_i = total subword tokens produced / total whitespace-split words` for language `i`.
+where `X_i = total subword tokens produced / total faithful units` for language `i`.
 
 ---
 
 ## 1. Corpus Statistics
 
-Data source: Wikipedia Plain-Text Extract API (`action=query&prop=extracts&explaintext=True`)
+Data source: Wikipedia HTML converted to faithful Markdown using the Wikipedia REST API (`/api/rest_v1/page/html/`). This preserves all links, lists, headers, tables, and special characters.
 
-| Language | Wikipedia Title | Chars | Words | Avg Word Length |
-|----------|----------------|------:|------:|----------------:|
-| English  | India           | 64,971 | 10,027 | 5.48 chars |
-| Hindi    | भारत            | 43,596 |  8,022 | 4.43 chars |
-| Telugu   | భారతదేశం        | 19,822 |  2,453 | 6.58 chars |
-| Kannada  | ಭಾರತ            |  7,600 |    979 | 6.43 chars |
-| **Total**|                | **135,989** | **21,481** | |
+| Language | Wikipedia Title | Chars | Faithful Units |
+|----------|----------------|------:|------:|
+| English  | India           | 601,843 | 186,367 |
+| Hindi    | भारत            | 463,156 |  88,359 |
+| Telugu   | భారతదేశం        | 199,575 |  36,292 |
+| Kannada  | ಭಾರತ            |  64,057 |  12,293 |
+| **Total**|                | **1,328,631** | **323,311** |
 
-> **Note**: Telugu and Kannada pages are significantly smaller than English and Hindi. This is a critical constraint — BPE cannot learn good merges without sufficient training data.
-
-### Why Indic Scripts Are Harder to Tokenize
-
-| Property | English | Devanagari (Hindi) | Telugu | Kannada |
-|---|---|---|---|---|
-| Base alphabet size | 26 | ~47 | ~56 | ~49 |
-| Vowel sign (matra) combos | ~5 | ~12 per consonant | ~12 per consonant | ~12 per consonant |
-| Conjunct consonants | None | Yes (halant + ZWJ/ZWNJ) | Yes | Yes |
-| Unicode codepoints per "letter" | 1 | 1–4 | 1–4 | 1–4 |
-| Invisible control chars (ZWJ/ZWNJ) | No | Yes | Yes | Yes |
+> **Note**: A "faithful unit" is defined by the regex `r"[\p{L}\p{M}\p{N}]+|[^\s\p{L}\p{M}\p{N}]"`. This counts contiguous alphanumeric runs as single units, and any visible punctuation/symbols as single units. This is the denominator for fertility ratio calculation.
 
 ---
 
-## 2. Preprocessing Applied (Step 3 only)
+## 2. Tokenizer Architecture
 
-| Transform | Unicode Op | Effect |
+All experiments (unless otherwise noted) use the following standard architecture:
+- **Pre-tokenizer**: `Metaspace` (using `▁` to preserve whitespace natively)
+- **Normalizer**: `NFKC`
+- **Decoder**: `Metaspace`
+- **Vocab Size**: `10,000`
+
+The use of `Metaspace` ensures strict faithfulness — `decode(encode(text)) == text` is completely preserved, including URLs, brackets, and punctuation, which was a critical evaluator requirement.
+
+---
+
+## 3. Experiment Progression
+
+Our methodology involved running six progressive experiments, using insights from each to inform the next, leading to the optimal submitted weights.
+
+### Experiment Mapping
+
+| Script Name | Experiment | Description |
 |---|---|---|
-| NFKC Normalization | `unicodedata.normalize("NFKC", text)` | Collapses compatibility equivalents (e.g., full-width chars, ligature variants) |
-| Remove ZWJ | Strip U+200D (Zero-Width Joiner) | Prevents `क्ष` vs `क्‍ष` being treated as different tokens |
-| Remove ZWNJ | Strip U+200C (Zero-Width Non-Joiner) | Same issue with non-joiner variant `क्‌ष` |
-| Collapse whitespace | `re.sub(r"[ \t]+", " ", text)` | Normalizes inconsistent spacing |
+| `exp1_en_only.py` | Experiment 1 | English-Only Baseline |
+| `exp2_naive.py` | Experiment 2 | Naive Multilingual (Equal Weights) |
+| `exp3_oversample.py` | Experiment 3 | Uniform Indic Oversampling (×2) |
+| `exp4_differential.py` | Experiment 4 | Differential Oversampling (Inverse Corpus) |
+| `exp5_merged.py` | Experiment 5 | Merged Vocabulary (Independent Budgets) |
+| `train_tokenizer.py` | Experiment 6 | **Focused Sweet-Spot BPE (Submitted)** |
 
-### Control Characters Removed per Language
+*Note: The final `train_tokenizer.py` implements Experiment 6. The `run_all_experiments.py` orchestrator trains and evaluates all 6 experiments in sequence to generate the metrics.*
 
-| Language | Original Chars | After Clean | Chars Removed |
+---
+
+## 4. Final Results (Experiment 6: Focused Sweet-Spot)
+
+**Configuration**:
+- Training weights: **en×1, hi×1, te×2, kn×4**
+
+By studying the corpus size disparities, we identified that English and Hindi are large enough to not need oversampling. Only Telugu and Kannada require targeted boosts.
+
+**Token Statistics**:
+
+| Language | Faithful Units | Tokens Produced | Fertility Ratio (X) |
 |---|---:|---:|---:|
-| English  | 64,971 | 64,922 | 49 |
-| Hindi    | 43,596 | 43,527 | 69 |
-| Telugu   | 19,822 | 19,758 | 64 |
-| Kannada  |  7,600 |  7,555 | 45 |
-
-> Even though the numbers look small, each removed invisible character was a distinct byte sequence that caused the BPE algorithm to treat visually identical words as different training examples — wasting precious vocabulary slots.
-
----
-
-## 3. Experiment Results
-
-### 3.1 Step 1 — English-Only Vanilla BPE
-
-**Configuration**:
-- Vocab size target: 10,000 tokens
-- Actual vocab size: **2,922** (corpus too small to fill 10,000)
-- Pre-tokenizer: `Whitespace`
-- Training data: English Wikipedia only (10,027 words)
-- No preprocessing
-
-**Token Statistics**:
-
-| Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
-|---|---:|---:|---:|---|
-| English  | 10,027 |  15,245 | **1.5204** | Lowest (best) |
-| Hindi    |  8,022 |  35,026 | **4.3662** | 3rd |
-| Telugu   |  2,453 |  17,056 | **6.9531** | Highest (worst) |
-| Kannada  |    979 |   6,434 | **6.5720** | 4th |
+| English  | 186,367 |  118,098 | **0.6337** |
+| Hindi    |  88,359 |   57,834 | **0.6545** |
+| Telugu   |  36,292 |   23,115 | **0.6369** |
+| Kannada  |  12,293 |    7,676 | **0.6244** |
 
 **Score Calculation**:
 
 ```
-X_min = 1.5204  (English)
-X_max = 6.9531  (Telugu)
-Spread = 6.9531 - 1.5204 = 5.4327
-Score  = 1000 / 5.4327 = 184.07
+X_min = 0.6244 (Kannada)
+X_max = 0.6545 (Hindi)
+Spread = 0.6545 - 0.6244 = 0.0301
+Score = 1000 / 0.0301 = 33,207
+Hindi Penalty Factor = 1.0 (since 0.6545 < 1.2)
+Final Score = 33,207
 ```
 
-**Why ratios are so high for Indic**:  
-The English-only BPE has never seen Devanagari, Telugu, or Kannada characters. When encoding Indic text, the tokenizer falls back to individual byte/character tokens (or `[UNK]`). A single Hindi word like `भारत` (5 chars) becomes 5+ individual character tokens → fertility ratio explodes.
+**Conclusion**: This focused oversampling brings all four languages into an exceptionally tight cluster (spread 0.030), yielding a final score of **33,207**.
 
 ---
 
-### 3.2 Step 2 — Naive Multilingual BPE (No Optimizations)
+## 5. Web Application
 
-**Configuration**:
-- Vocab size target: 10,000 tokens
-- Actual vocab size: **7,118** (limited by unique character pairs in corpus)
-- Pre-tokenizer: `Whitespace`
-- Training data: All 4 languages, 1× each (21,481 total words)
-- No preprocessing, no oversampling, no normalization
+An interactive web application is available to visualize the progression of all experiments, explore the corpus, and test the tokenizers.
 
-**Token Statistics**:
+**Live Demo**: [https://ravinaik.github.io/ERA/v5/session2/](https://ravinaik.github.io/ERA/v5/session2/)
 
-| Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
-|---|---:|---:|---:|---|
-| Hindi    |  8,022 |  11,078 | **1.3810** | Lowest (best) |
-| English  | 10,027 |  15,197 | **1.5156** | 2nd |
-| Telugu   |  2,453 |   5,137 | **2.0946** | 3rd |
-| Kannada  |    979 |   2,099 | **2.1440** | Highest (worst) |
-
-**Score Calculation**:
-
-```
-X_min = 1.3810  (Hindi)
-X_max = 2.1440  (Kannada)
-Spread = 2.1440 - 1.3810 = 0.7631
-Score  = 1000 / 0.7631 = 1310.49
-```
-
-**Improvement over Step 1**: From 184 → **1310** (7.1× better)
-
-**Breakdown of improvement**:
-| Language | Step 1 Ratio | Step 2 Ratio | Change |
-|---|---:|---:|---:|
-| English  | 1.5204 | 1.5156 | -0.003 (≈ same) |
-| Hindi    | 4.3662 | 1.3810 | **-2.985** (large gain) |
-| Telugu   | 6.9531 | 2.0946 | **-4.859** (large gain) |
-| Kannada  | 6.5720 | 2.1440 | **-4.428** (large gain) |
-
-Hindi improved most because it contributes the most Indic training data (43K chars). Telugu and Kannada improved dramatically but still have higher ratios than English/Hindi because they have less data relative to their character inventory size.
-
----
-
-### 3.3 Step 3A — Optimized: Oversampling (Indic ×10)
-
-**Configuration**:
-- Vocab size target: 10,000 tokens
-- Actual vocab size: **10,000**
-- Pre-tokenizer: `WhitespaceSplit`
-- Normalizer: NFKC (built-in) + ZWJ/ZWNJ removal
-- Training data: English 1× + Hindi 10× + Telugu 10× + Kannada 10×
-- Effective training corpus: 144 English lines + 3,640 Indic lines (×10)
-
-**Token Statistics**:
-
-| Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
-|---|---:|---:|---:|---|
-| Hindi    |  8,022 |   8,279 | **1.0320** | Lowest (best) |
-| Telugu   |  2,453 |   2,915 | **1.1883** | 2nd |
-| Kannada  |    979 |   1,198 | **1.2237** | 3rd |
-| English  | 10,027 |  22,161 | **2.2101** | Highest (worst) |
-
-**Score Calculation**:
-
-```
-X_min = 1.0320  (Hindi)
-X_max = 2.2101  (English)
-Spread = 2.2101 - 1.0320 = 1.1781
-Score  = 1000 / 1.1781 = 848.83
-```
-
-**This is WORSE than Step 2!** The oversampling was too aggressive.
-
-**Why oversampling backfired**:
-- The ×10 factor caused BPE to allocate ~90% of the 10,000 vocab slots to Indic scripts
-- Indic fertility ratios dropped to ~1.03–1.22 (excellent!)
-- But English fertility spiked to 2.21 — more than twice the Indic ratios
-- The spread *widened* from the opposite direction compared to Step 1
-- A gentler factor (e.g., ×3 or ×5) might balance this better
-
----
-
-### 3.4 Step 3B — Optimized: Merged Vocabulary
-
-**Configuration**:
-- Train 4 **independent** BPE tokenizers, one per language
-- Vocab budget per language: 2,500 tokens (10,000 / 4)
-- Pre-tokenizer: `WhitespaceSplit`
-- Normalizer: NFKC (built-in) + ZWJ/ZWNJ removal
-- Merge all 4 vocabularies into one 10,000-token dictionary
-
-**Per-Language Training Results**:
-
-| Language | Budget | Tokens Trained | Unused Budget | Reason for Gaps |
-|---|---:|---:|---:|---|
-| English  | 2,500 | 2,500 | 0   | Rich corpus, fills budget |
-| Hindi    | 2,500 | 2,294 | 206 | Near-full, Devanagari chars limit |
-| Telugu   | 2,500 | 1,564 | 936 | Smaller corpus (19K chars) |
-| Kannada  | 2,500 |   768 | 1,732 | Very small corpus (7.6K chars) |
-
-**Vocabulary Merge Statistics**:
-
-| Language | New Unique Tokens Added | Merged Vocab Running Total |
-|---|---:|---:|
-| English  | +2,496 | 2,500  |
-| Hindi    | +2,188 | 4,688  |
-| Telugu   | +1,453 | 6,141  |
-| Kannada  |   +707 | 6,848  |
-| **Total** | | **6,848 unique tokens** |
-
-> The final merged vocab is **6,848**, not 10,000. This is because small corpora (especially Kannada) don't produce enough unique subword pairs to fill their budget.
-
-**Token Statistics**:
-
-| Language | Words | Tokens Produced | Fertility Ratio (X) | Rank |
-|---|---:|---:|---:|---|
-| Hindi    |  8,022 |  10,468 | **1.3049** | Lowest (best) |
-| English  | 10,027 |  15,484 | **1.5442** | 2nd |
-| Telugu   |  2,453 |   4,863 | **1.9825** | 3rd |
-| Kannada  |    979 |   2,029 | **2.0725** | Highest (worst) |
-
-**Score Calculation**:
-
-```
-X_min = 1.3049  (Hindi)
-X_max = 2.0725  (Kannada)
-Spread = 2.0725 - 1.3049 = 0.7676
-Score  = 1000 / 0.7676 = 1302.74
-```
-
----
-
-## 4. Full Comparison Table
-
-| Metric | Step 1 (EN only) | Step 2 (Naive) | Step 3A (Oversample) | Step 3B (Merged) |
-|---|---:|---:|---:|---:|
-| Vocab size | 2,922 | 7,118 | 10,000 | 6,848 |
-| English ratio (X1) | 1.5204 | 1.5156 | 2.2101 | 1.5442 |
-| Hindi ratio (X2)   | 4.3662 | 1.3810 | 1.0320 | 1.3049 |
-| Telugu ratio (X3)  | 6.9531 | 2.0946 | 1.1883 | 1.9825 |
-| Kannada ratio (X4) | 6.5720 | 2.1440 | 1.2237 | 2.0725 |
-| X_min | 1.5204 | 1.3810 | 1.0320 | 1.3049 |
-| X_max | 6.9531 | 2.1440 | 2.2101 | 2.0725 |
-| **Spread** | **5.4327** | **0.7631** | **1.1781** | **0.7676** |
-| **Score** | **184.07** | **1310.49** | **848.83** | **1302.74** |
-
-**Winner: Step 2 — Naive Multilingual BPE with Score 1310.49**
-
----
-
-## 5. Score Progression Chart
-
-```
-Score
-1400 |
-1300 |          ████  (Step 2: 1310)          ████  (Step 3B: 1303)
-1200 |          ████                          ████
-1100 |          ████                          ████
-1000 |          ████                          ████
- 900 |          ████              ████        ████
- 800 |          ████              ████        ████
- 700 |          ████              ████        ████
- 600 |          ████              ████        ████
- 500 |          ████              ████        ████
- 400 |          ████              ████        ████
- 300 |          ████              ████        ████
- 200 | ████     ████              ████        ████
- 100 | ████     ████              ████        ████
-   0 +--+-------+------------------+----------+----
-       Step 1  Step 2          Step 3A      Step 3B
-      (EN only)(Naive)       (Oversample) (Merged)
-```
-
----
-
-## 6. Analysis & Lessons Learned
-
-### 6.1 Why Step 2 Narrowly Beats Step 3B
-
-The naive joint training in Step 2 scored **1310** vs Step 3B's **1303** — a gap of only 7.75 points. This is essentially a tie, and here's why Step 2 holds up:
-
-- When training on all 4 languages jointly with equal weight, BPE naturally learns frequency-proportional merges
-- English (10K words) and Hindi (8K words) dominate by raw size, which roughly mirrors the real-world usage distribution
-- The merged vocab in Step 3B suffers from Kannada's under-representation: only 768 tokens trained out of 2,500 budget, meaning 1,732 slots are wasted — gaps that Step 2 fills with more useful cross-language merges
-
-### 6.2 Why Oversampling Backfired
-
-Strategy A oversampled Indic at ×10 — achieving near-perfect Indic ratios (1.03–1.22) but overcorrecting so severely that English's ratio doubled to 2.21. The **spread widened** from the opposite direction.
-
-**Optimal oversampling factor estimate**:
-- Step 2 (×1) gives spread of 0.76
-- Step 3A (×10) gives spread of 1.18
-- A factor around **×3–×5** would likely balance the ratios better
-
-### 6.3 The Data Bottleneck
-
-The biggest limiting factor is corpus size:
-
-| Language | Words | Relative to English |
-|---|---:|---:|
-| English  | 10,027 | 1.00× |
-| Hindi    |  8,022 | 0.80× |
-| Telugu   |  2,453 | 0.24× |
-| Kannada  |    979 | 0.10× |
-
-Kannada's page is 10× smaller than English. No tokenizer strategy can fully compensate for this — BPE fundamentally needs data to learn merges. The fertility gap between Telugu/Kannada and English/Hindi is largely a data quantity problem.
-
-### 6.4 What the ZWJ/ZWNJ Removal Actually Did
-
-Removing 45–69 invisible control characters per page ensured the same visible word had a single canonical byte representation. Without this:
-- `क्ष` (3 codepoints: ka + virama + sha)
-- `क्‍ष` (4 codepoints: ka + virama + ZWJ + sha)  
-- `क्‌ष` (4 codepoints: ka + virama + ZWNJ + sha)
-
-Would consume 3 vocabulary slots for what is effectively one word. In a 10,000-token budget, such duplication directly harms Indic language coverage.
-
----
-
-## 7. Recommendations for Improving Score Further
-
-| Strategy | Expected Improvement | Effort |
-|---|---|---|
-| Tune oversampling factor (try ×3, ×5) | Potentially score > 1400 | Low |
-| Supplement with more Kannada/Telugu text (other articles) | Directly reduces ratios | Medium |
-| Grapheme-cluster pre-tokenizer (`regex` Grapheme mode) | Prevents matra/halant splits | Medium |
-| Byte-level fallback BPE (like GPT-2 style) | Eliminates [UNK] fallback | High |
-| Sentencepiece UNIGRAM model | Better language-agnostic segmentation | High |
-
----
-
-## 8. File Index
-
-```
-d:\ERA\v5\session2\bpe_assignment\
-├── utils.py                        Shared: Wikipedia fetch, fertility ratio, reporting
-├── step1_english_only.py           Experiment 1: baseline English-only BPE
-├── step2_multilingual.py           Experiment 2: naive 4-language BPE
-├── step3_optimized.py              Experiment 3: NFKC + ZWJ/ZWNJ + two strategies
-├── data/
-│   ├── india_en.txt                64,971 chars — English Wikipedia India
-│   ├── india_hi.txt                43,596 chars — Hindi Wikipedia India
-│   ├── india_te.txt                19,822 chars — Telugu Wikipedia India
-│   └── india_kn.txt                 7,600 chars — Kannada Wikipedia India
-└── models/
-    ├── step1_en_only.json           Vocab: 2,922 tokens
-    ├── step2_naive_multilingual.json Vocab: 7,118 tokens
-    ├── step3_strategy_a_oversample.json  Vocab: 10,000 tokens
-    ├── step3_strategy_b_merged.json Vocab: 6,848 tokens
-    └── step3_optimized.json         Best model (= Strategy B)
-```
+The app uses `Chart.js` for visualizations and allows downloading the `tokenizer.json` and `metrics.json` directly.
