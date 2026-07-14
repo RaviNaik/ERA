@@ -1,0 +1,45 @@
+{
+  "experiment_number": 2,
+  "title": "Naive Multilingual BPE",
+  "subtitle": "Equal Corpus Weights",
+  "corpus": "wiki_faithful_markdown",
+  "pre_tokenizer": "Metaspace",
+  "normalizer": "NFKC",
+  "training_weights": {
+    "en": 1,
+    "hi": 1,
+    "te": 1,
+    "kn": 1
+  },
+  "vocab_size": 10000,
+  "model_file": "exp2_naive.json",
+  "faithfulness": "PASS - decode(encode(text)) preserves all visible non-whitespace characters",
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "te": "Telugu",
+    "kn": "Kannada"
+  },
+  "faithful_units": {
+    "en": 186367,
+    "hi": 88359,
+    "te": 36292,
+    "kn": 12293
+  },
+  "token_counts": {
+    "en": 111759,
+    "hi": 54454,
+    "te": 25561,
+    "kn": 10617
+  },
+  "fertility_ratios": {
+    "en": 0.5996716156830341,
+    "hi": 0.616281306941002,
+    "te": 0.7043150005510856,
+    "kn": 0.863662246807126
+  },
+  "spread": 0.26399063112409193,
+  "score": 3788.013217521868,
+  "hindi_penalty": 1.0,
+  "adjusted_score": 3788.013217521868
+}

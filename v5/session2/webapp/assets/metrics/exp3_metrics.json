@@ -1,0 +1,45 @@
+{
+  "experiment_number": 3,
+  "title": "Uniform Indic Oversampling",
+  "subtitle": "All Indic Languages x2",
+  "corpus": "wiki_faithful_markdown",
+  "pre_tokenizer": "Metaspace",
+  "normalizer": "NFKC",
+  "training_weights": {
+    "en": 1,
+    "hi": 2,
+    "te": 2,
+    "kn": 2
+  },
+  "vocab_size": 10000,
+  "model_file": "exp3a_oversample.json",
+  "faithfulness": "PASS - decode(encode(text)) preserves all visible non-whitespace characters",
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "te": "Telugu",
+    "kn": "Kannada"
+  },
+  "faithful_units": {
+    "en": 186367,
+    "hi": 88359,
+    "te": 36292,
+    "kn": 12293
+  },
+  "token_counts": {
+    "en": 120872,
+    "hi": 50610,
+    "te": 23674,
+    "kn": 9811
+  },
+  "fertility_ratios": {
+    "en": 0.6485697575214496,
+    "hi": 0.5727769666926968,
+    "te": 0.6523200705389618,
+    "kn": 0.7980964776702189
+  },
+  "spread": 0.225319510977522,
+  "score": 4438.142066178018,
+  "hindi_penalty": 1.0,
+  "adjusted_score": 4438.142066178018
+}

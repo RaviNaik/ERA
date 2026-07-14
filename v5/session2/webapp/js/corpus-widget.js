@@ -11,7 +11,7 @@ export function renderHeroScores(experiments) {
   el.innerHTML = experiments.map(exp => `
     <a href="#${exp.id}" class="hero-score-card" style="border-top:3px solid ${exp.accent}">
       <div class="hsc-step" style="color:${exp.accent}">${exp.step}</div>
-      <div class="hsc-name">${exp.name.split(' \u2014')[0]}</div>
+      <div class="hsc-name">${exp.name}</div>
       <div class="hsc-score" style="color:${scoreColor(exp.score)}">${exp.score.toFixed(0)}</div>
     </a>`).join('');
 }

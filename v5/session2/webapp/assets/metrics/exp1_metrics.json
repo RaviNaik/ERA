@@ -1,0 +1,42 @@
+{
+  "experiment_number": 1,
+  "title": "English-Only BPE",
+  "subtitle": "Monolingual Baseline",
+  "corpus": "wiki_faithful_markdown",
+  "pre_tokenizer": "Metaspace",
+  "normalizer": "NFKC",
+  "training_weights": {
+    "en": 1
+  },
+  "vocab_size": 10000,
+  "model_file": "exp1_en_only.json",
+  "faithfulness": "PASS - decode(encode(text)) preserves all visible non-whitespace characters",
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "te": "Telugu",
+    "kn": "Kannada"
+  },
+  "faithful_units": {
+    "en": 186367,
+    "hi": 88359,
+    "te": 36292,
+    "kn": 12293
+  },
+  "token_counts": {
+    "en": 95249,
+    "hi": 153208,
+    "te": 65149,
+    "kn": 21272
+  },
+  "fertility_ratios": {
+    "en": 0.511082970697602,
+    "hi": 1.7339263685646058,
+    "te": 1.795133913810206,
+    "kn": 1.7304156837224436
+  },
+  "spread": 1.2840509431126041,
+  "score": 778.7853008198799,
+  "hindi_penalty": 1.0,
+  "adjusted_score": 778.7853008198799
+}

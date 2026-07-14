@@ -92,6 +92,7 @@ export function renderExperiments(experiments) {
       <div class="exp-header-left">
         <div class="exp-step-badge" style="background:${exp.accent}">${exp.step}</div>
         <h2 class="exp-title">${exp.name}</h2>
+        ${exp.subtitle ? `<div class="exp-subtitle" style="color:${exp.accent};font-size:.85rem;font-weight:600;margin-top:2px;margin-bottom:4px">${exp.subtitle}</div>` : ''}
         <p class="exp-desc">${exp.desc}</p>
       </div>
       <div class="score-badge">
@@ -179,11 +180,18 @@ export function renderExperiments(experiments) {
 
     <div class="exp-footer">
       <div style="font-size:.82rem;color:var(--txt-3)">
-        Model: <code>${exp.modelFile}</code>
+        Tokenizer: <code>${exp.modelFile}</code>
+        &nbsp;&middot;&nbsp;
+        Metrics: <code>${exp.metricsFile}</code>
       </div>
-      <a href="${ASSET_BASE}/models/${exp.modelFile}" download="${exp.modelFile}" class="btn btn-primary btn-sm">
-        \u2b07 Download Tokenizer JSON
-      </a>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="${ASSET_BASE}/models/${exp.modelFile}" download="${exp.modelFile}" class="btn btn-primary btn-sm">
+          \u2b07 Tokenizer JSON
+        </a>
+        <a href="${ASSET_BASE}/metrics/${exp.metricsFile}" download="${exp.metricsFile}" class="btn btn-outline btn-sm">
+          \u2b07 Metrics JSON
+        </a>
+      </div>
     </div>
   </article>
   `).join('');

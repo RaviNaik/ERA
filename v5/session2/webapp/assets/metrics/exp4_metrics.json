@@ -1,0 +1,45 @@
+{
+  "experiment_number": 4,
+  "title": "Differential Oversampling",
+  "subtitle": "Inverse-Corpus-Size Weights",
+  "corpus": "wiki_faithful_markdown",
+  "pre_tokenizer": "Metaspace",
+  "normalizer": "NFKC",
+  "training_weights": {
+    "en": 1,
+    "hi": 1,
+    "te": 3,
+    "kn": 6
+  },
+  "vocab_size": 10000,
+  "model_file": "exp3a1_differential.json",
+  "faithfulness": "PASS - decode(encode(text)) preserves all visible non-whitespace characters",
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "te": "Telugu",
+    "kn": "Kannada"
+  },
+  "faithful_units": {
+    "en": 186367,
+    "hi": 88359,
+    "te": 36292,
+    "kn": 12293
+  },
+  "token_counts": {
+    "en": 121722,
+    "hi": 60631,
+    "te": 21905,
+    "kn": 6739
+  },
+  "fertility_ratios": {
+    "en": 0.6531306508126439,
+    "hi": 0.6861892959404249,
+    "te": 0.6035765457952166,
+    "kn": 0.5481981615553567
+  },
+  "spread": 0.13799113438506816,
+  "score": 7246.842374738885,
+  "hindi_penalty": 1.0,
+  "adjusted_score": 7246.842374738885
+}

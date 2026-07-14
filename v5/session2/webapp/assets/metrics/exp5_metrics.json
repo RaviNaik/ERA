@@ -1,0 +1,45 @@
+{
+  "experiment_number": 5,
+  "title": "Merged Vocabulary BPE",
+  "subtitle": "Per-Language Budget Allocation (2500 each)",
+  "corpus": "wiki_faithful_markdown",
+  "pre_tokenizer": "Metaspace",
+  "normalizer": "NFKC",
+  "training_weights": {
+    "en": 2500,
+    "hi": 2500,
+    "te": 2500,
+    "kn": 2500
+  },
+  "vocab_size": 7997,
+  "model_file": "exp3b_merged.json",
+  "faithfulness": "PASS - decode(encode(text)) preserves all visible non-whitespace characters",
+  "languages": {
+    "en": "English",
+    "hi": "Hindi",
+    "te": "Telugu",
+    "kn": "Kannada"
+  },
+  "faithful_units": {
+    "en": 186367,
+    "hi": 88359,
+    "te": 36292,
+    "kn": 12293
+  },
+  "token_counts": {
+    "en": 139934,
+    "hi": 65811,
+    "te": 29646,
+    "kn": 9755
+  },
+  "fertility_ratios": {
+    "en": 0.7508518138940907,
+    "hi": 0.7448137710929277,
+    "te": 0.8168742422572468,
+    "kn": 0.7935410396160416
+  },
+  "spread": 0.07206047116431913,
+  "score": 13877.233715551278,
+  "hindi_penalty": 1.0,
+  "adjusted_score": 13877.233715551278
+}

@@ -97,7 +97,7 @@ a:hover { text-decoration: underline; }
 .nav-dropdown:hover .nav-dropbtn { background: rgba(96,85,216,0.1); color: var(--accent); }
 .nav-dropdown-content {
   display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-  background: white; min-width: 180px; box-shadow: var(--shadow);
+  background: white; min-width: 280px; box-shadow: var(--shadow);
   border-radius: var(--radius); padding: 8px 0; z-index: 200;
   border: 1px solid rgba(180,200,230,0.3);
   margin-top: 8px;
