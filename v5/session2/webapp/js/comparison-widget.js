@@ -42,7 +42,7 @@ function renderComparisonChart(experiments) {
         x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11 } } },
         y: {
           grid: { color: 'rgba(0,0,0,.05)' },
-          title: { display: true, text: 'Fertility Ratio (tokens/word)', font: { family: 'Inter', size: 11 } },
+          title: { display: true, text: 'Fertility Ratio (tokens/faithful-unit)', font: { family: 'Inter', size: 11 } },
           ticks: { font: { family: 'JetBrains Mono', size: 10 } },
         },
       },

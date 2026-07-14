@@ -1,40 +1,46 @@
 // js/data.js — All experiment constants and metadata
-// Assets live at ../bpe_assignment/ relative to webapp/index.html,
-// which resolves to /bpe_assignment/ on the Netlify-served session2 root.
+// All experiments now use the faithful Markdown corpus (HTML->MD conversion)
+// and Metaspace pre-tokenizer/decoder (satisfies evaluator faithfulness check).
+// Fertility = tokens / faithful_units  (NOT tokens / whitespace words)
 
 export const ASSET_BASE = './assets';
 
-// LANG_META — corpus sizes from faithful Markdown corpus (HTML -> MD conversion)
-// Faithful Markdown is significantly larger than the plain-text API extract
+// Corpus sizes from faithful Markdown (HTML -> Markdown, links/URLs preserved)
+// These are much larger than the plain-text API extract
 export const LANG_META = {
-  en: { name: 'English',  title: 'India',       chars: 598265, faithfulUnits: 186367, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
-  hi: { name: 'Hindi',   title: 'भारत',          chars: 266728, faithfulUnits: 88359,  color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
-  te: { name: 'Telugu',  title: 'భారతదేశం',      chars: 113835, faithfulUnits: 36292,  color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
-  kn: { name: 'Kannada', title: 'ಭಾರತ',          chars: 38454,  faithfulUnits: 12293,  color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
+  en: { name: 'English',  title: 'India',     chars: 601843, faithfulUnits: 186367, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
+  hi: { name: 'Hindi',   title: '\u092d\u093e\u0930\u0924',        chars: 463156, faithfulUnits: 88359,  color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
+  te: { name: 'Telugu',  title: '\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36\u0c02',    chars: 199575, faithfulUnits: 36292,  color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
+  kn: { name: 'Kannada', title: '\u0cad\u0cbe\u0cb0\u0ca4',        chars: 64057,  faithfulUnits: 12293,  color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
 };
 
+// Helper: compute score from results object
+function score(results) {
+  const ratios = Object.values(results).map(r => r.ratio);
+  const spread = Math.max(...ratios) - Math.min(...ratios);
+  return 1000 / spread;
+}
+
 export const EXPERIMENTS = [
-  // —— BEST MODEL: Faithful Markdown (submitted tokenizer) ————————————————
+  // ── SUBMITTED TOKENIZER (Best Model) ─────────────────────────────────────
   {
     id: 'faithful',
-    step: 'Best Model ★★★',
-    name: 'Faithful Markdown BPE (Submitted)',
-    desc: 'Final submitted tokenizer. Trained on HTML-to-Markdown faithful corpus (preserving URLs, links, punctuation). ' +
-          'Uses Metaspace pre-tokenizer/decoder for lossless round-trips. Weights: en×3, hi×4, te×4, kn×6. ' +
-          'Passes decode(encode(text)) faithfulness check for all sample strings including URLs.',
+    step: 'Submitted \u2605\u2605\u2605',
+    name: 'Faithful Markdown BPE — en\u00d73 hi\u00d74 te\u00d74 kn\u00d76',
+    desc: 'Final submitted tokenizer. Trained on HTML\u2192Markdown faithful corpus. ' +
+          'Weights en\u00d73\u00b7hi\u00d74\u00b7te\u00d74\u00b7kn\u00d76 were chosen to balance all four languages under 0.8. ' +
+          'Passes decode(encode(text)) faithfulness check \u2014 URLs, punctuation and brackets are perfectly preserved.',
     accent: '#1db954', accentLight: '#d0f8e4',
     config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '10,000',
-      'Pre-tokenizer':   'Metaspace (▱)',
-      'Normalization':   'NFKC',
-      'Training Data':   'en×3 · hi×4 · te×4 · kn×6 (faithful Markdown)',
-      'Min Frequency':   '1',
-      'Corpus':          'HTML → Markdown (links, URLs, tables preserved)',
-      'Faithfulness':    'PASS — decode(encode(x)) == x for all samples',
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'en\u00d73 \u00b7 hi\u00d74 \u00b7 te\u00d74 \u00b7 kn\u00d76 (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
     },
     results: {
-      // Fertility = tokens / faithful_units (NOT words)
       en: { faithfulUnits: 186367, tokens: 115768, ratio: 0.6212 },
       hi: { faithfulUnits: 88359,  tokens: 53036,  ratio: 0.6002 },
       te: { faithfulUnits: 36292,  tokens: 24793,  ratio: 0.6832 },
@@ -42,277 +48,264 @@ export const EXPERIMENTS = [
     },
     xMin: 0.6002, xMax: 0.7587, spread: 0.1585, score: 6309.49,
     modelFile: 'tokenizer.json',
-    rank: 1,
-    insight: 'Faithful Markdown corpus is ~5-8x larger than plain-text extract (URLs, refs, tables included). ' +
-             'Metaspace tokenizer perfectly preserves punctuation and URL structure. All four ratios are well under 0.8 — far below the 1.2 threshold.',
-    findings: [
-      'All four fertility ratios are between 0.60 and 0.76 — well under the 1.2 threshold.',
-      'English ratio 0.621 and Hindi ratio 0.600 are nearly identical, showing excellent cross-lingual balance.',
-      'Kannada ratio 0.759 benefits from kn×6 oversampling without reaching word-memorisation (ratio 1.0).',
-      'Hindi penalty factor = 1.0 (no penalty): Hindi fertility 0.600 is far below 1.2 threshold.',
-      'decode(encode(text)) passes for all sample strings including URLs with #, /, ?, and parentheses.',
-    ],
-    conclusions: [
-      'Score 6309 vs previous best 4031 (old Step 3A2) — a 56% improvement from corpus and tokenizer fixes.',
-      'The faithful Markdown approach is required by the evaluator and is the only valid submission format.',
-    ],
-  },
-  {
-    id: 'step1',
-    step: 'Experiment 1',
-    name: 'English-Only BPE',
-    desc: `Vanilla BPE trained on English Wikipedia only. Establishes a baseline — no Indic awareness whatsoever.`,
-    accent: '#e07c8c', accentLight: '#fde0e6',
-    config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '2,922',
-      'Pre-tokenizer':   'Whitespace',
-      'Normalization':   'None',
-      'Training Data':   'English only (1×)',
-      'Min Frequency':   '2',
-    },
-    results: {
-      en: { words: 10027, tokens: 15245, ratio: 1.5204 },
-      hi: { words: 8022,  tokens: 35026, ratio: 4.3662 },
-      te: { words: 2453,  tokens: 17056, ratio: 6.9531 },
-      kn: { words: 979,   tokens: 6434,  ratio: 6.5720 },
-    },
-    xMin: 1.5204, xMax: 6.9531, spread: 5.4327, score: 184.07,
-    modelFile: 'step1_en_only.json',
-    rank: 7,
-    insight: `Indic scripts have no coverage — each word explodes into individual byte tokens. Telugu reaches 6.95 tokens/word.`,
-    findings: [
-      `Indic characters (Devanagari, Telugu, Kannada) are completely absent from the trained vocabulary.`,
-      `Indic words are heavily fragmented, falling back to individual bytes (e.g., Telugu splits into 6.95 tokens/word).`,
-      `The vocabulary size is limited to 2,922 tokens (instead of the target 10,000) due to the small size of the English corpus.`,
-      `The difference between the minimum (English: 1.52) and maximum (Telugu: 6.95) fertility ratios is extremely large.`,
-    ],
-    conclusions: [
-      `An English-only vocabulary has zero Indic script awareness, yielding highly inefficient tokenization.`,
-      `This establishes our baseline with a very low score of 184.`,
-    ],
-  },
-  {
-    id: 'step2',
-    step: 'Experiment 2',
-    name: 'Naive Multilingual BPE',
-    desc: `All 4 languages concatenated equally (1× each) with no preprocessing. Exposes the imbalance issues.`,
-    accent: '#5eba80', accentLight: '#d0f5e4',
-    config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '7,118',
-      'Pre-tokenizer':   'Whitespace',
-      'Normalization':   'None',
-      'Training Data':   'All 4 languages (1× each)',
-      'Min Frequency':   '2',
-    },
-    results: {
-      en: { words: 10027, tokens: 15197, ratio: 1.5156 },
-      hi: { words: 8022,  tokens: 11078, ratio: 1.3810 },
-      te: { words: 2453,  tokens: 5137,  ratio: 2.0946 },
-      kn: { words: 979,   tokens: 2099,  ratio: 2.1440 },
-    },
-    xMin: 1.3810, xMax: 2.1440, spread: 0.7631, score: 1310.49,
-    modelFile: 'step2_naive_multilingual.json',
     rank: 4,
-    insight: `Surprisingly competitive — joint training naturally distributes vocab. Hindi benefits most (8K words, large corpus). Telugu/Kannada lag due to less training data.`,
+    insight: 'Submitted tokenizer. Score 6309 with all ratios < 0.8. ' +
+             'The faithful Markdown corpus (5\u20138\u00d7 larger than plain-text) + Metaspace decoder are the key fixes from the original rejected submission.',
     findings: [
-      `Joint training on all four concatenated corpora achieves a vocabulary size of 7,118 tokens.`,
-      `Vocabulary is distributed naturally by raw language frequency: Hindi and English dominate the vocabulary slots.`,
-      `Fertility ratios drop drastically for Indic languages (e.g., Telugu drops from 6.95 to 2.09).`,
-      `Telugu and Kannada still lag behind English and Hindi due to their smaller training corpus sizes.`,
+      'All four fertility ratios are between 0.60 and 0.76 \u2014 well under the 1.2 threshold.',
+      'English 0.621 and Hindi 0.600 are nearly identical, showing excellent cross-lingual balance.',
+      'Kannada 0.759 benefits from kn\u00d76 oversampling without reaching word-memorisation.',
+      'Hindi penalty factor = 1.0 (no penalty): ratio 0.600 is far below the 1.2 threshold.',
+      'decode(encode(text)) passes for all sample strings including URLs with #, /, (, ), [, ].',
     ],
     conclusions: [
-      `Joint training is highly effective at distributing subwords naturally across languages, raising the score to 1,310.`,
-      `Performance remains bottlenecked by corpus size imbalances.`,
+      'Faithful Markdown corpus + Metaspace tokenizer satisfies the evaluator faithfulness requirement.',
+      'This tokenizer is the valid, reproducible submission for the assignment.',
     ],
   },
+
+  // ── Experiment 3A2: Focused sweet-spot ────────────────────────────────────
   {
     id: 'step3a2',
-    step: 'Experiment 3A2 ★★',
-    name: 'Focused Sweet-Spot — en×1 hi×1 te×2 kn×2',
-    desc: `Insight from 3A1: Hindi was over-boosted at ×2 in Experiment 3A (X_HI=1.13, too low). Removing Hindi's boost (hi×1) while keeping te×2 and kn×2 tightly clusters all four ratios — achieving a spread of just 0.2481 and a score of 4,031.`,
+    step: 'Experiment 3A2 \u2605\u2605',
+    name: 'Focused Sweet-Spot \u2014 en\u00d71 hi\u00d71 te\u00d72 kn\u00d74',
+    desc: 'Best scoring experiment. Hypothesis: en and hi have enough data at \u00d71; ' +
+          'only te and kn need boosting. Result: all four ratios compress into a 0.03 spread.',
     accent: '#2b9e6a', accentLight: '#d0f5e4',
     config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '10,000',
-      'Pre-tokenizer':   'WhitespaceSplit',
-      'Normalization':   'NFKC + ZWJ/ZWNJ',
-      'Training Data':   'en×1 · hi×1 · te×2 · kn×2',
-      'Min Frequency':   '2',
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'en\u00d71 \u00b7 hi\u00d71 \u00b7 te\u00d72 \u00b7 kn\u00d74 (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
     },
     results: {
-      en: { words: 10027, tokens: 14407, ratio: 1.4368 },
-      hi: { words: 8022,  tokens: 10599, ratio: 1.3212 },
-      te: { words: 2453,  tokens: 2916,  ratio: 1.1887 },
-      kn: { words: 979,   tokens: 1201,  ratio: 1.2268 },
+      en: { faithfulUnits: 186367, tokens: 118098, ratio: 0.6337 },
+      hi: { faithfulUnits: 88359,  tokens: 57834,  ratio: 0.6545 },
+      te: { faithfulUnits: 36292,  tokens: 23115,  ratio: 0.6369 },
+      kn: { faithfulUnits: 12293,  tokens: 7676,   ratio: 0.6244 },
     },
-    xMin: 1.1887, xMax: 1.4368, spread: 0.2481, score: 4031.09,
-    modelFile: 'step3a2_focused.json',
+    xMin: 0.6244, xMax: 0.6545, spread: 0.0301, score: 33207.21,
+    modelFile: 'exp3a2_focused.json',
     rank: 1,
-    insight: `The breakthrough: Hindi (8K words, 80% of English) never needed ×2 oversampling. By keeping hi×1 and te×2, kn×2, all four ratios converge tightly between 1.19 and 1.44 — a spread of 0.2481, more than halving Experiment 3A's spread of 0.4172.`,
+    insight: 'Extraordinary score of 33,207 \u2014 all four languages cluster within a 0.03 band (0.62\u20130.65). ' +
+             'en\u00d71 and hi\u00d71 are sufficient as they have large corpora; te\u00d72 and kn\u00d74 correct the smaller-corpus languages.',
     findings: [
-      `All four fertility ratios converge tightly: X_EN=1.44, X_HI=1.32, X_TE=1.19, X_KN=1.23.`,
-      `Removing Hindi's ×2 oversampling lets English rebalance and raises X_HI from 1.13 to 1.32.`,
-      `Keeping te×2 and kn×2 prevents the word-memorisation trap seen in Experiment 3A1.`,
-      `A sweep of kn×3–6 showed kn×3+ causes Kannada to memorise whole words (X_KN=1.00), confirming kn×2 is optimal.`,
-      `Spread drops from 0.4172 (3A) to 0.2481 — a 40.5% reduction.`,
+      'All four ratios lie within 0.6244\u20130.6545 \u2014 a spread of just 0.0301.',
+      'English (186K units) and Hindi (88K units) need no boosting; their large corpora self-regulate.',
+      'Telugu \u00d72 and Kannada \u00d74 bring smaller languages into the same band without over-fitting.',
+      'Score 33,207 is 5.3\u00d7 better than the submitted tokenizer (6,309).',
     ],
     conclusions: [
-      `The root cause of 3A's spread was Hindi over-boosting, not Indic under-representation.`,
-      `en×1 · hi×1 · te×2 · kn×2 achieves a score of 4,031 — a +68% improvement over Experiment 3A.`,
+      'Targeted per-language oversampling is far superior to uniform oversampling.',
+      'This configuration achieves near-optimal ratio compression on the faithful Markdown corpus.',
     ],
   },
-  {
-    id: 'step3a',
-    step: 'Experiment 3A',
-    name: 'Optimized — Oversampling (2× Indic)',
-    desc: `NFKC normalization + ZWJ/ZWNJ removal + all Indic languages repeated ×2. Was the best result until Experiment 3A2 revealed Hindi was being over-boosted.`,
-    accent: '#d4902a', accentLight: '#fdefd4',
-    config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '10,000',
-      'Pre-tokenizer':   'WhitespaceSplit',
-      'Normalization':   'NFKC + ZWJ/ZWNJ',
-      'Training Data':   'English 1× · Indic 2×',
-      'Min Frequency':   '2',
-    },
-    results: {
-      en: { words: 10027, tokens: 15179, ratio: 1.5138 },
-      hi: { words: 8022,  tokens: 9059,  ratio: 1.1293 },
-      te: { words: 2453,  tokens: 3665,  ratio: 1.4941 },
-      kn: { words: 979,   tokens: 1514,  ratio: 1.5465 },
-    },
-    xMin: 1.1293, xMax: 1.5465, spread: 0.4172, score: 2396.89,
-    modelFile: 'step3_strategy_a_oversample.json',
-    rank: 2,
-    insight: `Previously the top scorer. Hindi over-boosted at ×2 (X_HI=1.13) was later identified as the spread driver. Experiment 3A2 fixed this by dropping hi to ×1, raising the score to 4,031.`,
-    findings: [
-      `Removing ZWJ/ZWNJ characters and applying NFKC normalization prevents duplicate slots for identical glyph variants.`,
-      `Oversampling all Indic corpora by ×2 reduces their fertility ratios significantly.`,
-      `Hindi (8K words) is large enough to produce a good vocabulary at ×1, but ×2 over-corrects its ratio to 1.13.`,
-      `Achieves the highest actual vocabulary size of exactly 10,000 tokens.`,
-    ],
-    conclusions: [
-      `Uniform ×2 for all Indic languages was a reasonable first approach, yielding a score of 2,397.`,
-      `Superseded by Experiment 3A2, which revealed that Hindi did not need the ×2 boost.`,
-    ],
-  },
-  {
-    id: 'step3a1',
-    step: 'Experiment 3A1',
-    name: 'Differential Per-Language Oversampling',
-    desc: `Per-language oversampling factors proportional to inverse corpus size: en×1, hi×1, te×3, kn×12. Tests whether targeting small languages more aggressively improves on the uniform ×2 of 3A.`,
-    accent: '#c46e3a', accentLight: '#fde8d4',
-    config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '10,000',
-      'Pre-tokenizer':   'WhitespaceSplit',
-      'Normalization':   'NFKC + ZWJ/ZWNJ',
-      'Training Data':   'en×1 · hi×1 · te×3 · kn×12',
-      'Min Frequency':   '2',
-    },
-    results: {
-      en: { words: 10027, tokens: 15276, ratio: 1.5235 },
-      hi: { words: 8022,  tokens: 11105, ratio: 1.3843 },
-      te: { words: 2453,  tokens: 2453,  ratio: 1.0000 },
-      kn: { words: 979,   tokens: 979,   ratio: 1.0000 },
-    },
-    xMin: 1.0000, xMax: 1.5235, spread: 0.5235, score: 1910.27,
-    modelFile: 'step3a1_differential.json',
-    rank: 3,
-    insight: `Over-sampling Telugu and Kannada so heavily causes the tokenizer to memorise entire words as single vocabulary entries (ratio = 1.00 = 1 token per word). This prevents the learning of composable subword merges, and the spread is actually WIDER than Experiment 3A because English and Hindi are now far above 1.00.`,
-    findings: [
-      `A grid search of 18 factor combinations (en×1, hi×1–2, te×3–5, kn×8–12) was performed.`,
-      `Best found combination: en×1 · hi×1 · te×3 · kn×12, Score: 1,910.`,
-      `Telugu and Kannada reach a fertility ratio of exactly 1.00 — meaning entire words are stored as single tokens.`,
-      `Whole-word memorisation prevents composable subword learning and widens the spread to 0.5235 from 3A's 0.4172.`,
-      `Adding ×2 for Hindi (3A approach) actually helped by pulling Hindi's ratio down into the cluster.`,
-    ],
-    conclusions: [
-      `Differential oversampling is WORSE than uniform ×2, scoring 1,910 vs 3A's 2,397.`,
-      `Heavy per-language oversampling causes Indic word memorisation, not subword learning — confirming 3A2 is the global optimum for this corpus.`,
-    ],
-  },
+
+  // ── Experiment 3B: Merged vocabulary ─────────────────────────────────────
   {
     id: 'step3b',
     step: 'Experiment 3B',
-    name: 'Optimized — Merged Vocabulary',
-    desc: `Four independent BPE tokenizers (2,500 tokens each) merged into one. NFKC + ZWJ/ZWNJ preprocessing applied.`,
+    name: 'Merged Vocabulary \u2014 4 independent tokenizers',
+    desc: 'Four independent BPE tokenizers (2,500 vocab each) trained per language, then merged. ' +
+          'Guarantees vocabulary space allocation but suffers from merge compatibility issues.',
     accent: '#5080d0', accentLight: '#d4e4f8',
     config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '6,848',
-      'Pre-tokenizer':   'WhitespaceSplit',
-      'Normalization':   'NFKC + ZWJ/ZWNJ',
-      'Training Data':   'Per-language (2,500 each)',
-      'Min Frequency':   '2',
+      'Target Vocab':  '10,000 (2,500 per lang)',
+      'Actual Vocab':  '7,997',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'Per-language independent (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
     },
     results: {
-      en: { words: 10027, tokens: 15484, ratio: 1.5442 },
-      hi: { words: 8022,  tokens: 10468, ratio: 1.3049 },
-      te: { words: 2453,  tokens: 4863,  ratio: 1.9825 },
-      kn: { words: 979,   tokens: 2029,  ratio: 2.0725 },
+      en: { faithfulUnits: 186367, tokens: 139934, ratio: 0.7509 },
+      hi: { faithfulUnits: 88359,  tokens: 65811,  ratio: 0.7448 },
+      te: { faithfulUnits: 36292,  tokens: 29646,  ratio: 0.8169 },
+      kn: { faithfulUnits: 12293,  tokens: 9755,   ratio: 0.7935 },
     },
-    perLangTrained: { en: 2500, hi: 2294, te: 1564, kn: 768 },
-    xMin: 1.3049, xMax: 2.0725, spread: 0.7676, score: 1302.74,
-    modelFile: 'step3_optimized.json',
-    rank: 5,
-    insight: `Guaranteed equal allocation per language. Kannada only trained 768/2500 tokens due to small corpus (979 words) — data bottleneck limits gains. Beaten by the mathematically perfect oversampling factor of Experiment 3A2.`,
+    perLangTrained: { en: 2499, hi: 1871, te: 1843, kn: 1783 },
+    xMin: 0.7448, xMax: 0.8169, spread: 0.0721, score: 13877.23,
+    modelFile: 'exp3b_merged.json',
+    rank: 2,
+    insight: 'Merged vocab achieves score 13,877 with ratios in 0.74\u20130.82 range. ' +
+             'Each language gets guaranteed allocation, but cross-language merge conflicts produce slightly higher ratios than the joint-training experiments.',
     findings: [
-      `Merging four separate tokenizers (2,500 budget each) guarantees vocabulary space per language.`,
-      `Due to small data volume, Kannada trains only 768 tokens, leaving 1,732 slots unused.`,
-      `The final merged vocabulary size is only 6,848 unique tokens.`,
-      `The resulting fertility ratio spread (0.7676) leads to a score of 1,302.`,
+      'All four ratios are tightly clustered between 0.74 and 0.82.',
+      'Hindi trained only 1,871/2,500 budget tokens \u2014 enough data to fill nearly the full budget.',
+      'Telugu and Kannada each trained ~1,800 tokens despite smaller corpora.',
+      'Score 13,877 is 2.2\u00d7 better than the submitted tokenizer.',
     ],
     conclusions: [
-      `Guaranteed allocation is severely limited by a data bottleneck in small languages, resulting in wasted vocabulary slots.`,
-      `This strategy is outperformed by the joint training with oversampling (3A2).`,
+      'Merged vocabulary is a robust strategy but slightly sub-optimal vs joint training with targeted oversampling.',
+      'Score 13,877 validates the approach; further gains require inter-language merge alignment.',
     ],
   },
+
+  // ── Experiment 3A1: Differential oversampling ─────────────────────────────
   {
-    id: 'step3c',
-    step: 'Experiment 3C',
-    name: 'Experiment — ByteLevel BPE',
-    desc: `Uses GPT-2 style ByteLevel tokenization, mapping 256 bytes to characters. Eliminated [UNK] tokens but failed spectacularly on Indic scripts.`,
-    accent: '#8e7cc3', accentLight: '#e4dcf5',
+    id: 'step3a1',
+    step: 'Experiment 3A1',
+    name: 'Differential Oversampling \u2014 en\u00d71 hi\u00d71 te\u00d73 kn\u00d76',
+    desc: 'Aggressive per-language oversampling proportional to inverse corpus size. ' +
+          'Dramatically boosts small languages but still leaves a 0.138 spread due to English having too much data.',
+    accent: '#c46e3a', accentLight: '#fde8d4',
     config: {
-      'Target Vocab':    '10,000',
-      'Actual Vocab':    '5,907',
-      'Pre-tokenizer':   'ByteLevel',
-      'Normalization':   'NFKC + ZWJ/ZWNJ',
-      'Training Data':   'English 1× · Indic 2×',
-      'Min Frequency':   '2',
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'en\u00d71 \u00b7 hi\u00d71 \u00b7 te\u00d73 \u00b7 kn\u00d76 (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
     },
     results: {
-      en: { words: 10027, tokens: 15506, ratio: 1.5464 },
-      hi: { words: 8022,  tokens: 28005, ratio: 3.4910 },
-      te: { words: 2453,  tokens: 14082, ratio: 5.7407 },
-      kn: { words: 979,   tokens: 5072,  ratio: 5.1808 },
+      en: { faithfulUnits: 186367, tokens: 121722, ratio: 0.6531 },
+      hi: { faithfulUnits: 88359,  tokens: 60631,  ratio: 0.6862 },
+      te: { faithfulUnits: 36292,  tokens: 21905,  ratio: 0.6036 },
+      kn: { faithfulUnits: 12293,  tokens: 6739,   ratio: 0.5482 },
     },
-    xMin: 1.5464, xMax: 5.7407, spread: 4.1943, score: 238.42,
-    modelFile: 'step3c_bytelevel.json',
-    rank: 6,
-    insight: `Indic characters take 3 bytes in UTF-8. A 5-letter Telugu word starts as 15 byte-tokens. The small corpus lacks the frequency data to learn how to re-assemble them, leaving the text highly fragmented.`,
+    xMin: 0.5482, xMax: 0.6862, spread: 0.1380, score: 7246.84,
+    modelFile: 'exp3a1_differential.json',
+    rank: 3,
+    insight: 'Score 7,247. Kannada drops to 0.548 and Telugu to 0.604, but this creates a new spread ' +
+             'because English (0.653) and Hindi (0.686) are now the outliers. ' +
+             'The fix in 3A2 was to also reduce te and kn slightly, pulling everything into a tighter band.',
     findings: [
-      `GPT-2 style ByteLevel tokenization maps 256 bytes to characters, successfully eliminating [UNK] tokens.`,
-      `Indic characters require 3 bytes per character in UTF-8, tripling the initial length of sequences.`,
-      `Due to data scarcity, the tokenizer fails to learn merges to re-assemble bytes, resulting in extreme fragmentation.`,
-      `Fertility ratios explode for Hindi (3.49), Telugu (5.74), and Kannada (5.18).`,
+      'Telugu (0.604) and Kannada (0.548) benefit most from aggressive oversampling.',
+      'But English (0.653) and Hindi (0.686) become the new spread drivers.',
+      'Spread 0.138 is larger than 3A2 (0.030) because the large languages are not compressed enough.',
     ],
     conclusions: [
-      `Byte-level tokenization is highly detrimental for Indic scripts under low-resource constraints.`,
-      `The heavy byte-level fragmentation results in a low score of 238.`,
+      'Aggressive small-language oversampling alone is insufficient \u2014 must also moderate large-language ratios.',
+      'The insight that led to 3A2: reduce te to \u00d72 (instead of \u00d73) to bring it back up toward en/hi.',
+    ],
+  },
+
+  // ── Experiment 3A: Uniform oversampling ──────────────────────────────────
+  {
+    id: 'step3a',
+    step: 'Experiment 3A',
+    name: 'Uniform Oversampling \u2014 en\u00d71 hi\u00d72 te\u00d72 kn\u00d72',
+    desc: 'All Indic languages oversampled \u00d72. First major improvement over naive equal-weight training.',
+    accent: '#d4902a', accentLight: '#fdefd4',
+    config: {
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'en\u00d71 \u00b7 hi\u00d72 \u00b7 te\u00d72 \u00b7 kn\u00d72 (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
+    },
+    results: {
+      en: { faithfulUnits: 186367, tokens: 120872, ratio: 0.6486 },
+      hi: { faithfulUnits: 88359,  tokens: 50610,  ratio: 0.5728 },
+      te: { faithfulUnits: 36292,  tokens: 23674,  ratio: 0.6523 },
+      kn: { faithfulUnits: 12293,  tokens: 9811,   ratio: 0.7981 },
+    },
+    xMin: 0.5728, xMax: 0.7981, spread: 0.2253, score: 4438.14,
+    modelFile: 'exp3a_oversample.json',
+    rank: 5,
+    insight: 'Score 4,438. Uniform \u00d72 boosts Hindi too aggressively (0.573 \u2014 lowest), ' +
+             'while Kannada at 0.798 is still the highest. ' +
+             'The spread is driven by the Hindi\u2013Kannada gap.',
+    findings: [
+      'Hindi benefits most from \u00d72: ratio drops from 0.616 (Exp2) to 0.573.',
+      'Kannada (smallest corpus) still lags at 0.798 despite \u00d72 boost.',
+      'English rises slightly (0.600 \u2192 0.649) because vocab allocation shifts to Indic scripts.',
+      'Uniform oversampling is better than naive but leaves a 0.225 spread.',
+    ],
+    conclusions: [
+      'Uniform oversampling is a good starting point but needs per-language tuning.',
+      'Hindi\u00d72 is unnecessary \u2014 hi has enough data at \u00d71 (discovered in 3A1/3A2).',
+    ],
+  },
+
+  // ── Experiment 2: Naive multilingual ─────────────────────────────────────
+  {
+    id: 'step2',
+    step: 'Experiment 2',
+    name: 'Naive Multilingual \u2014 equal weights',
+    desc: 'All four languages concatenated equally (1\u00d7 each). No oversampling, no special tuning. ' +
+          'Surprising baseline: score 3,788 already competitive because the faithful corpus is well-balanced.',
+    accent: '#5eba80', accentLight: '#d0f5e4',
+    config: {
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'en\u00d71 \u00b7 hi\u00d71 \u00b7 te\u00d71 \u00b7 kn\u00d71 (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
+    },
+    results: {
+      en: { faithfulUnits: 186367, tokens: 111759, ratio: 0.5997 },
+      hi: { faithfulUnits: 88359,  tokens: 54454,  ratio: 0.6163 },
+      te: { faithfulUnits: 36292,  tokens: 25561,  ratio: 0.7043 },
+      kn: { faithfulUnits: 12293,  tokens: 10617,  ratio: 0.8637 },
+    },
+    xMin: 0.5997, xMax: 0.8637, spread: 0.2640, score: 3788.01,
+    modelFile: 'exp2_naive.json',
+    rank: 6,
+    insight: 'Even with equal weights, the faithful Markdown corpus produces good ratios (0.60\u20130.86). ' +
+             'The 0.264 spread is driven by Kannada (smallest corpus, highest ratio 0.864). ' +
+             'Oversampling Kannada is the clear next step.',
+    findings: [
+      'English (0.600) and Hindi (0.616) are nearly balanced \u2014 their large corpora self-regulate.',
+      'Telugu (0.704) lags because its corpus is 5\u00d7 smaller than English.',
+      'Kannada (0.864) is the spread driver \u2014 only 12K faithful units vs English 186K.',
+    ],
+    conclusions: [
+      'Naive equal-weight training on faithful corpus already achieves score 3,788 \u2014 a strong baseline.',
+      'The bottleneck is Kannada\u2019s small corpus; per-language oversampling is the fix.',
+    ],
+  },
+
+  // ── Experiment 1: English-only ────────────────────────────────────────────
+  {
+    id: 'step1',
+    step: 'Experiment 1',
+    name: 'English-Only BPE \u2014 Baseline',
+    desc: 'Vanilla BPE trained on English Wikipedia only. Establishes that an English-only vocabulary ' +
+          'has no Indic coverage \u2014 all three Indic languages fragment badly.',
+    accent: '#e07c8c', accentLight: '#fde0e6',
+    config: {
+      'Target Vocab':  '10,000',
+      'Actual Vocab':  '10,000',
+      'Pre-tokenizer': 'Metaspace (\u25b1)',
+      'Normalization': 'NFKC',
+      'Training Data': 'English only (faithful Markdown)',
+      'Min Frequency': '1',
+      'Faithfulness':  'PASS \u2014 decode(encode(x)) == x',
+    },
+    results: {
+      en: { faithfulUnits: 186367, tokens: 95249,  ratio: 0.5111 },
+      hi: { faithfulUnits: 88359,  tokens: 153208, ratio: 1.7339 },
+      te: { faithfulUnits: 36292,  tokens: 65149,  ratio: 1.7951 },
+      kn: { faithfulUnits: 12293,  tokens: 21272,  ratio: 1.7304 },
+    },
+    xMin: 0.5111, xMax: 1.7951, spread: 1.2841, score: 778.79,
+    modelFile: 'exp1_en_only.json',
+    rank: 7,
+    insight: 'English-only vocabulary fragments all Indic text. Hindi, Telugu, and Kannada all cluster near 1.73 \u2014 ' +
+             'each Indic word becomes ~3.4 tokens on average (because Devanagari/Telugu/Kannada characters ' +
+             'have no BPE merges and fall back to individual Unicode code points).',
+    findings: [
+      'English ratio 0.511 is excellent (the tokenizer was trained on English).',
+      'All three Indic languages cluster near 1.73 \u2014 character-level fragmentation.',
+      'Score 778 is low because the spread (1.284) is dominated by the English vs Indic gap.',
+      'This establishes the floor: even a perfect single-language tokenizer fails multilingually.',
+    ],
+    conclusions: [
+      'English-only BPE has zero Indic awareness. Multilingual training is necessary.',
+      'Baseline score 778 vs submitted 6,309 = 8\u00d7 improvement from adding all four languages.',
     ],
   },
 ];
 
 // Ordered by score descending for leaderboard
 export const LEADERBOARD = [...EXPERIMENTS].sort((a, b) => b.score - a.score);
-
-export const PREPROCESSING = [
-  { transform: 'NFKC Normalization', op: 'unicodedata.normalize("NFKC", text)', effect: 'Collapses compatibility equivalents — different byte sequences for the same visible glyph', removed: { en: 49, hi: 69, te: 64, kn: 45 } },
-  { transform: 'Remove ZWJ', op: 'Strip U+200D', effect: 'Prevents क्ष vs क्‍ष being treated as different tokens' },
-  { transform: 'Remove ZWNJ', op: 'Strip U+200C', effect: 'Prevents क्‌ष variant from creating a 3rd duplicate token' },
-  { transform: 'Collapse whitespace', op: 're.sub(r"[ \\t]+", " ", text)', effect: 'Normalizes inconsistent spacing in Wikipedia extracts' },
-];

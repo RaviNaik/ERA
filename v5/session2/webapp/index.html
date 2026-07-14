@@ -25,13 +25,12 @@
         <div class="nav-dropdown">
           <button class="nav-dropbtn">Prior Experiments ▼</button>
           <div class="nav-dropdown-content">
-            <a href="#step3a2">Experiment 3A2</a>
-            <a href="#step1">Experiment 1</a>
-            <a href="#step2">Experiment 2</a>
-            <a href="#step3a">Experiment 3A</a>
-            <a href="#step3a1">Experiment 3A1</a>
+            <a href="#step3a2">Experiment 3A2 ★★</a>
             <a href="#step3b">Experiment 3B</a>
-            <a href="#step3c">Experiment 3C</a>
+            <a href="#step3a1">Experiment 3A1</a>
+            <a href="#step3a">Experiment 3A</a>
+            <a href="#step2">Experiment 2</a>
+            <a href="#step1">Experiment 1</a>
           </div>
         </div>
         <a href="#comparison">Compare</a>
@@ -47,7 +46,8 @@
       <h1 class="hero-title">Multilingual BPE<br/><span class="gradient-text">Tokenizer Experiments</span></h1>
       <p class="hero-subtitle">
         Designing a 10,000-token BPE vocabulary across <strong>English · Hindi · Telugu · Kannada</strong> Wikipedia pages of India.
-        Goal: minimize the fertility ratio spread to maximize the assignment score.
+        Corpus fetched as faithful Markdown (HTML→MD conversion). Fertility X = tokens / faithful units.
+        Goal: minimize the spread to maximize score = 1000÷(X₁₋₀ − X₂₋₀).
       </p>
       <div class="formula-box">
         <div class="formula-label">Scoring Formula</div>
@@ -132,7 +132,7 @@
       <div class="section-header">
         <div class="section-tag">Experiments</div>
         <h2 class="section-title">Five Multilingual Indic BPE Experiments</h2>
-        <p class="section-desc">Each experiment targets a 10,000-token shared vocabulary. Fertility ratio X = tokens produced ÷ whitespace words.</p>
+        <p class="section-desc">Each experiment targets a 10,000-token shared vocabulary. All experiments use the faithful Markdown corpus and Metaspace tokenizer (satisfies evaluator faithfulness check). Fertility ratio X = tokens ÷ faithful units.</p>
       </div>
       <!-- Experiment cards injected by JS -->
       <div id="exp-cards"></div>

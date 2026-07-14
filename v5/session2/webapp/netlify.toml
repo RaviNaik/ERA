@@ -1,7 +1,7 @@
 [build]
   publish = ".."
 
-# Redirect root to the webapp subfolder
+# Redirect root to webapp
 [[redirects]]
   from = "/"
   to   = "/webapp/"
@@ -11,3 +11,28 @@
   from = "/webapp"
   to   = "/webapp/"
   status = 301
+
+# Ensure ES module scripts get correct MIME type
+[[headers]]
+  for = "/webapp/js/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/webapp/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/webapp/assets/models/*.json"
+  [headers.values]
+    Content-Type = "application/json; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/webapp/assets/data/*.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"

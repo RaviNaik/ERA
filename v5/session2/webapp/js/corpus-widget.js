@@ -1,5 +1,5 @@
 // js/corpus-widget.js — Corpus overview section: stat cards, chart, viewer
-import { LANG_META, ASSET_BASE } from './data.js';
+import { LANG_META, ASSET_BASE, EXPERIMENTS } from './data.js';
 
 const LANGS = Object.keys(LANG_META);
 
@@ -7,12 +7,11 @@ const LANGS = Object.keys(LANG_META);
 export function renderHeroScores(experiments) {
   const el = document.getElementById('hero-scores');
   if (!el) return;
-  const colors = { step1: '#e07c8c', step2: '#5eba80', step3a: '#d4902a', step3b: '#5080d0' };
-  const scoreColor = s => s >= 1200 ? '#5eba80' : s >= 800 ? '#d4902a' : '#e07c8c';
+  const scoreColor = s => s >= 10000 ? '#1db954' : s >= 5000 ? '#5eba80' : s >= 2000 ? '#d4902a' : '#e07c8c';
   el.innerHTML = experiments.map(exp => `
     <a href="#${exp.id}" class="hero-score-card" style="border-top:3px solid ${exp.accent}">
       <div class="hsc-step" style="color:${exp.accent}">${exp.step}</div>
-      <div class="hsc-name">${exp.name}</div>
+      <div class="hsc-name">${exp.name.split(' \u2014')[0]}</div>
       <div class="hsc-score" style="color:${scoreColor(exp.score)}">${exp.score.toFixed(0)}</div>
     </a>`).join('');
 }
@@ -29,8 +28,8 @@ export function renderLangCards() {
       <div class="lang-card-title">${m.title}</div>
       <div class="lang-card-stats">
         <div class="lcs-row"><span class="lcs-key">Characters</span><span class="lcs-val">${m.chars.toLocaleString()}</span></div>
-        <div class="lcs-row"><span class="lcs-key">Words</span><span class="lcs-val">${m.words.toLocaleString()}</span></div>
-        <div class="lcs-row"><span class="lcs-key">Avg word length</span><span class="lcs-val">${m.avgLen} ch</span></div>
+        <div class="lcs-row"><span class="lcs-key">Faithful Units</span><span class="lcs-val">${m.faithfulUnits.toLocaleString()}</span></div>
+        <div class="lcs-row"><span class="lcs-key">Corpus type</span><span class="lcs-val">Faithful Markdown</span></div>
       </div>
     </div>`;
   }).join('');
@@ -47,14 +46,14 @@ export function renderCorpusChart() {
       labels: meta.map(m => m.name),
       datasets: [
         {
-          label: 'Words',
-          data: meta.map(m => m.words),
+          label: 'Faithful Units',
+          data: meta.map(m => m.faithfulUnits),
           backgroundColor: meta.map(m => m.soft),
           borderColor:     meta.map(m => m.color),
           borderWidth: 2, borderRadius: 8,
         },
         {
-          label: 'Chars',
+          label: 'Characters',
           data: meta.map(m => m.chars),
           backgroundColor: meta.map(m => m.color + '44'),
           borderColor:     meta.map(m => m.color),
@@ -68,7 +67,7 @@ export function renderCorpusChart() {
       plugins: { legend: { position: 'top', labels: { usePointStyle: true, font: { family: 'Inter', size: 11 } } } },
       scales: {
         x: { grid: { display: false }, ticks: { font: { family: 'Inter' } } },
-        y:  { title: { display: true, text: 'Words', font: { family: 'Inter', size: 11 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y:  { title: { display: true, text: 'Faithful Units', font: { family: 'Inter', size: 11 } }, grid: { color: 'rgba(0,0,0,.05)' } },
         y2: { position: 'right', title: { display: true, text: 'Characters', font: { family: 'Inter', size: 11 } }, grid: { display: false } },
       },
     },
@@ -113,7 +112,7 @@ export function initCorpusViewer() {
       }
     });
 
-    previewEl.innerHTML = `<div class="corpus-loading">Loading ${m.name} corpus…</div>`;
+    previewEl.innerHTML = `<div class="corpus-loading">Loading ${m.name} corpus\u2026</div>`;
     actionsEl.innerHTML = '';
 
     try {
@@ -121,12 +120,12 @@ export function initCorpusViewer() {
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(resp.statusText);
       const text = await resp.text();
-      const preview = text.slice(0, 800).trim();
-      const wordCount = text.trim().split(/\s+/).length;
-      previewEl.textContent = preview + (text.length > 800 ? '\n\n[… truncated — showing first 800 chars]' : '');
+      const preview = text.slice(0, 1200).trim();
+      const unitCount = m.faithfulUnits;
+      previewEl.textContent = preview + (text.length > 1200 ? '\n\n[\u2026 truncated \u2014 showing first 1200 chars of faithful Markdown]' : '');
       actionsEl.innerHTML = `
-        <span class="text-muted" style="font-size:.8rem">${wordCount.toLocaleString()} words · ${text.length.toLocaleString()} chars</span>
-        <a href="${url}" download="${m.file}" class="btn btn-outline btn-sm">⬇ Download ${m.name} Text</a>`;
+        <span class="text-muted" style="font-size:.8rem">${unitCount.toLocaleString()} faithful units \u00b7 ${text.length.toLocaleString()} chars (HTML\u2192Markdown)</span>
+        <a href="${url}" download="${m.file}" class="btn btn-outline btn-sm">\u2b07 Download ${m.name} Faithful Markdown</a>`;
     } catch (e) {
       previewEl.innerHTML = `<div class="corpus-loading" style="color:#e07c8c">Failed to load: ${e.message}</div>`;
     }

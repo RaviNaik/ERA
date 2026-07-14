@@ -15,11 +15,11 @@ function renderCalcInputs(defaults) {
 
   grid.innerHTML = LANGS.map(lang => {
     const m = LANG_META[lang];
-    const def = defaults[lang]?.toFixed(4) ?? '1.5000';
+    const def = defaults[lang]?.toFixed(4) ?? '0.6500';
     return `
     <div class="metric-box">
       <label style="color:${m.color}">${LANG_LABELS[lang]}</label>
-      <input type="number" id="calc-${lang}" step="0.01" min="1" max="10" value="${def}"
+      <input type="number" id="calc-${lang}" step="0.001" min="0.1" max="5" value="${def}"
         style="border-color:${m.color}"
         oninput="window._recalcScore()">
     </div>`;
@@ -42,7 +42,7 @@ function renderCalcInputs(defaults) {
     const score = spread > 0 ? (1000 / spread) : Infinity;
     const minLang = LANG_META[LANGS[vals.indexOf(xMin)]].name;
     const maxLang = LANG_META[LANGS[vals.indexOf(xMax)]].name;
-    const scoreCol = score >= 1200 ? '#5eba80' : score >= 900 ? '#5080d0' : score >= 600 ? '#d4902a' : '#e07c8c';
+    const scoreCol = score >= 10000 ? '#1db954' : score >= 5000 ? '#5eba80' : score >= 2000 ? '#5080d0' : score >= 1000 ? '#d4902a' : '#e07c8c';
 
     result.innerHTML = `
       <span class="calc-score-val" style="color:${scoreCol}">

@@ -2,22 +2,32 @@
 import { LANG_META, ASSET_BASE } from './data.js';
 
 const LANGS = ['en', 'hi', 'te', 'kn'];
-const MAX_RATIO = 8; // for ratio bar scaling
+const MAX_RATIO = 2.5; // for ratio bar scaling
 
 function scoreColor(score) {
-  if (score >= 1200) return '#5eba80';
-  if (score >= 900)  return '#5080d0';
-  if (score >= 600)  return '#d4902a';
+  if (score >= 20000) return '#1db954';
+  if (score >= 5000)  return '#5eba80';
+  if (score >= 2000)  return '#5080d0';
+  if (score >= 1000)  return '#d4902a';
   return '#e07c8c';
 }
 
 function rankEmoji(rank) {
-  return ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣'][rank - 1] ?? rank;
+  return ['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49','4\ufe0f\u20e3','5\ufe0f\u20e3','6\ufe0f\u20e3','7\ufe0f\u20e3'][rank - 1] ?? rank;
 }
 
+// results.ratio is always tokens / faithfulUnits now
 function ratioRow(lang, data) {
   const m = LANG_META[lang];
+  if (!data) return '';
   const pct = Math.min((data.ratio / MAX_RATIO) * 100, 100).toFixed(1);
+  const threshold = data.ratio <= 1.2
+    ? `<span style="color:#5eba80;font-size:.75rem">\u2713&nbsp;&lt;&nbsp;1.2</span>`
+    : `<span style="color:#e07c8c;font-size:.75rem">\u2717&nbsp;over&nbsp;1.2</span>`;
+  const denomLabel = data.faithfulUnits
+    ? `${data.faithfulUnits.toLocaleString()} units`
+    : `${data.tokens.toLocaleString()} toks`;
+
   return `
   <tr>
     <td>
@@ -25,11 +35,12 @@ function ratioRow(lang, data) {
         ${m.name}
       </span>
     </td>
-    <td class="num">${data.words.toLocaleString()}</td>
     <td class="num">${data.tokens.toLocaleString()}</td>
+    <td class="num">${(data.faithfulUnits || m.faithfulUnits).toLocaleString()}</td>
     <td>
       <div class="ratio-val">
         <span style="color:${m.color};font-weight:700">${data.ratio.toFixed(4)}</span>
+        ${threshold}
         <div class="ratio-bar-wrap">
           <div class="ratio-bar" style="width:${pct}%;background:${m.color}"></div>
         </div>
@@ -52,7 +63,7 @@ function perLangMerge(perLangTrained) {
   if (!perLangTrained) return '';
   return `
   <div style="margin-top:12px">
-    <div class="card-label" style="margin-bottom:8px">Per-Language Tokens Trained</div>
+    <div class="card-label" style="margin-bottom:8px">Per-Language Tokens Trained (budget: 2,500)</div>
     <div class="metric-grid" style="grid-template-columns:repeat(4,1fr)">
       ${Object.entries(perLangTrained).map(([lang, trained]) => {
         const m = LANG_META[lang];
@@ -100,14 +111,14 @@ export function renderExperiments(experiments) {
 
       <!-- Results -->
       <div class="exp-results">
-        <div class="exp-results-title">Fertility Ratios (tokens ÷ words)</div>
+        <div class="exp-results-title">Fertility Ratios (tokens \u00f7 faithful units)</div>
         <table class="ratio-table">
           <thead>
             <tr>
               <th>Language</th>
-              <th>Words</th>
               <th>Tokens</th>
-              <th>Ratio (X)</th>
+              <th>Faithful Units</th>
+              <th>Ratio (X) &nbsp;&nbsp; Threshold</th>
             </tr>
           </thead>
           <tbody>
@@ -134,7 +145,7 @@ export function renderExperiments(experiments) {
             <input type="text" readonly value="${exp.xMax.toFixed(4)}">
           </div>
           <div class="metric-box">
-            <label>Spread (X_max − X_min)</label>
+            <label>Spread (X_max \u2212 X_min)</label>
             <input type="text" readonly value="${exp.spread.toFixed(4)}">
           </div>
         </div>
@@ -144,7 +155,7 @@ export function renderExperiments(experiments) {
         <div class="score-final" style="color:${scoreColor(exp.score)}">${exp.score.toFixed(0)}</div>
       </div>
       <div style="margin-top:8px;font-size:.82rem;color:var(--txt-3);line-height:1.6">
-        💡 ${exp.insight}
+        \ud83d\udca1 ${exp.insight}
       </div>
     </div>
 
@@ -152,13 +163,13 @@ export function renderExperiments(experiments) {
     <div class="exp-analysis">
       <div class="analysis-grid">
         <div class="analysis-box findings">
-          <div class="analysis-title">📋 Key Findings</div>
+          <div class="analysis-title">\ud83d\udccb Key Findings</div>
           <ul class="analysis-list">
             ${exp.findings.map(f => `<li>${f}</li>`).join('')}
           </ul>
         </div>
         <div class="analysis-box conclusion">
-          <div class="analysis-title">🎯 Conclusion</div>
+          <div class="analysis-title">\ud83c\udfaf Conclusion</div>
           <ul class="analysis-list">
             ${exp.conclusions.map(c => `<li>${c}</li>`).join('')}
           </ul>
@@ -171,7 +182,7 @@ export function renderExperiments(experiments) {
         Model: <code>${exp.modelFile}</code>
       </div>
       <a href="${ASSET_BASE}/models/${exp.modelFile}" download="${exp.modelFile}" class="btn btn-primary btn-sm">
-        ⬇ Download Tokenizer JSON
+        \u2b07 Download Tokenizer JSON
       </a>
     </div>
   </article>
@@ -184,8 +195,8 @@ export function renderExperiments(experiments) {
 function createExpChart(exp) {
   const ctx = document.getElementById(`chart-${exp.id}`);
   if (!ctx) return;
-  const labels = LANGS.map(l => LANG_META[l].name);
-  const ratios = LANGS.map(l => exp.results[l].ratio);
+  const labels   = LANGS.map(l => LANG_META[l].name);
+  const ratios   = LANGS.map(l => exp.results[l]?.ratio ?? 0);
   const bgColors = LANGS.map(l => LANG_META[l].soft);
   const bdColors = LANGS.map(l => LANG_META[l].color);
 
@@ -206,19 +217,29 @@ function createExpChart(exp) {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
+        annotation: {
+          annotations: {
+            threshold: {
+              type: 'line', yMin: 1.2, yMax: 1.2,
+              borderColor: 'rgba(224,124,140,0.6)', borderWidth: 1.5,
+              borderDash: [4, 4],
+              label: { content: '1.2 threshold', display: true, position: 'end', font: { size: 10 } }
+            }
+          }
+        },
         tooltip: {
           callbacks: {
-            label: ctx => ` Ratio: ${ctx.raw.toFixed(4)} · Score contribution`
+            label: ctx => ` Ratio: ${ctx.raw.toFixed(4)} (tokens/faithful-unit)`
           }
         }
       },
       scales: {
         x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11 } } },
         y: {
-          min: 0, max: Math.ceil(exp.xMax) + 0.5,
+          min: 0, max: Math.max(Math.ceil(exp.xMax * 10) / 10 + 0.1, 1.4),
           grid: { color: 'rgba(0,0,0,.05)' },
           ticks: { font: { family: 'JetBrains Mono', size: 10 } },
-          title: { display: true, text: 'X (tokens/word)', font: { family: 'Inter', size: 10 } },
+          title: { display: true, text: 'X (tokens / faithful-unit)', font: { family: 'Inter', size: 10 } },
         },
       },
     },
