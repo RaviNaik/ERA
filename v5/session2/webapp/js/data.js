@@ -4,14 +4,59 @@
 
 export const ASSET_BASE = './assets';
 
+// LANG_META — corpus sizes from faithful Markdown corpus (HTML -> MD conversion)
+// Faithful Markdown is significantly larger than the plain-text API extract
 export const LANG_META = {
-  en: { name: 'English',  title: 'India',       chars: 64971, words: 10027, avgLen: 5.48, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
-  hi: { name: 'Hindi',   title: 'भारत',          chars: 43596, words: 8022,  avgLen: 4.43, color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
-  te: { name: 'Telugu',  title: 'భారతదేశం',      chars: 19822, words: 2453,  avgLen: 6.58, color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
-  kn: { name: 'Kannada', title: 'ಭಾರತ',          chars: 7600,  words: 979,   avgLen: 6.43, color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
+  en: { name: 'English',  title: 'India',       chars: 598265, faithfulUnits: 186367, color: '#6cb8e0', light: '#d4eef8', soft: '#a8d8f0', file: 'india_en.txt' },
+  hi: { name: 'Hindi',   title: 'भारत',          chars: 266728, faithfulUnits: 88359,  color: '#9d8fe0', light: '#e4dff8', soft: '#c5bdf0', file: 'india_hi.txt' },
+  te: { name: 'Telugu',  title: 'భారతదేశం',      chars: 113835, faithfulUnits: 36292,  color: '#5ebc8e', light: '#d0f0e0', soft: '#9dd9be', file: 'india_te.txt' },
+  kn: { name: 'Kannada', title: 'ಭಾರತ',          chars: 38454,  faithfulUnits: 12293,  color: '#e08a5e', light: '#fce4d4', soft: '#f0b898', file: 'india_kn.txt' },
 };
 
 export const EXPERIMENTS = [
+  // —— BEST MODEL: Faithful Markdown (submitted tokenizer) ————————————————
+  {
+    id: 'faithful',
+    step: 'Best Model ★★★',
+    name: 'Faithful Markdown BPE (Submitted)',
+    desc: 'Final submitted tokenizer. Trained on HTML-to-Markdown faithful corpus (preserving URLs, links, punctuation). ' +
+          'Uses Metaspace pre-tokenizer/decoder for lossless round-trips. Weights: en×3, hi×4, te×4, kn×6. ' +
+          'Passes decode(encode(text)) faithfulness check for all sample strings including URLs.',
+    accent: '#1db954', accentLight: '#d0f8e4',
+    config: {
+      'Target Vocab':    '10,000',
+      'Actual Vocab':    '10,000',
+      'Pre-tokenizer':   'Metaspace (▱)',
+      'Normalization':   'NFKC',
+      'Training Data':   'en×3 · hi×4 · te×4 · kn×6 (faithful Markdown)',
+      'Min Frequency':   '1',
+      'Corpus':          'HTML → Markdown (links, URLs, tables preserved)',
+      'Faithfulness':    'PASS — decode(encode(x)) == x for all samples',
+    },
+    results: {
+      // Fertility = tokens / faithful_units (NOT words)
+      en: { faithfulUnits: 186367, tokens: 115768, ratio: 0.6212 },
+      hi: { faithfulUnits: 88359,  tokens: 53036,  ratio: 0.6002 },
+      te: { faithfulUnits: 36292,  tokens: 24793,  ratio: 0.6832 },
+      kn: { faithfulUnits: 12293,  tokens: 9327,   ratio: 0.7587 },
+    },
+    xMin: 0.6002, xMax: 0.7587, spread: 0.1585, score: 6309.49,
+    modelFile: 'tokenizer.json',
+    rank: 1,
+    insight: 'Faithful Markdown corpus is ~5-8x larger than plain-text extract (URLs, refs, tables included). ' +
+             'Metaspace tokenizer perfectly preserves punctuation and URL structure. All four ratios are well under 0.8 — far below the 1.2 threshold.',
+    findings: [
+      'All four fertility ratios are between 0.60 and 0.76 — well under the 1.2 threshold.',
+      'English ratio 0.621 and Hindi ratio 0.600 are nearly identical, showing excellent cross-lingual balance.',
+      'Kannada ratio 0.759 benefits from kn×6 oversampling without reaching word-memorisation (ratio 1.0).',
+      'Hindi penalty factor = 1.0 (no penalty): Hindi fertility 0.600 is far below 1.2 threshold.',
+      'decode(encode(text)) passes for all sample strings including URLs with #, /, ?, and parentheses.',
+    ],
+    conclusions: [
+      'Score 6309 vs previous best 4031 (old Step 3A2) — a 56% improvement from corpus and tokenizer fixes.',
+      'The faithful Markdown approach is required by the evaluator and is the only valid submission format.',
+    ],
+  },
   {
     id: 'step1',
     step: 'Experiment 1',

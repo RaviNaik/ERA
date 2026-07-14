@@ -1,0 +1,10 @@
+{
+  "lang": "kn",
+  "title": "ಭಾರತ",
+  "source_url": "https://kn.wikipedia.org/api/rest_v1/page/html/%E0%B2%AD%E0%B2%BE%E0%B2%B0%E0%B2%A4",
+  "variant": "wiki_faithful_markdown",
+  "generated_at": "2026-07-14T04:26:49Z",
+  "chars": 38454,
+  "faithful_units": 12293,
+  "unit_policy": "Counts each contiguous Unicode letter/mark/number run as one unit and each visible non-space punctuation/symbol character as one unit."
+}

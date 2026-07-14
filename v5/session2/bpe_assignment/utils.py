@@ -4,7 +4,9 @@ utils.py — Shared utilities for BPE Tokenizer Assignment
 Contains helpers for:
   - Fetching India's Wikipedia page in exactly 4 languages
     (only the 4 specified pages, nothing more)
-  - Computing the fertility ratio (total tokens / total whitespace words)
+  - Computing fertility ratios (two methods):
+      count_words()          — whitespace split (used in Step 1/2/3 experiments)
+      count_faithful_units() — regex-based faithful unit count (used by evaluator)
   - Printing a formatted report of X1..X4 and the assignment score
 
 Data sources (fixed — no other pages allowed):
@@ -18,7 +20,24 @@ import re
 import time
 import unicodedata
 import requests
+import regex as _regex
 from pathlib import Path
+
+# ──────────────────────────────────────────────────────────────
+# Faithful-unit regex (used by evaluator and new pipeline)
+# One faithful unit = contiguous Unicode letter/mark/number run
+#                  OR one visible non-space punctuation/symbol char
+# ──────────────────────────────────────────────────────────────
+FAITHFUL_UNIT_RE = _regex.compile(r"[\p{L}\p{M}\p{N}]+|[^\s\p{L}\p{M}\p{N}]")
+
+
+def count_faithful_units(text: str) -> int:
+    """
+    Count the number of faithful units in text.
+    Used by train_tokenizer.py and evaluate_tokenizer.py as the
+    denominator for fertility ratios (replacing whitespace word count).
+    """
+    return len(FAITHFUL_UNIT_RE.findall(text))
 
 # ──────────────────────────────────────────────────────────────
 # Paths

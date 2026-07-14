@@ -21,10 +21,11 @@
       </div>
       <div class="nav-links">
         <a href="#corpus">Corpus</a>
-        <a href="#step3a2">Best Model (3A2) ★★</a>
+        <a href="#faithful">Best Model ★★★</a>
         <div class="nav-dropdown">
-          <button class="nav-dropbtn">Other Experiments ▼</button>
+          <button class="nav-dropbtn">Prior Experiments ▼</button>
           <div class="nav-dropdown-content">
+            <a href="#step3a2">Experiment 3A2</a>
             <a href="#step1">Experiment 1</a>
             <a href="#step2">Experiment 2</a>
             <a href="#step3a">Experiment 3A</a>
@@ -58,7 +59,10 @@
             <span class="f-bar"></span>
             <span class="f-den">X<sub>max</sub> − X<sub>min</sub></span>
           </span>
-          <span class="f-where">where X<sub>i</sub> = total tokens / total words for language i</span>
+          <span class="f-where">where X<sub>i</sub> = total tokens / <strong>faithful units</strong> for language i</span>
+        </div>
+        <div style="font-size:0.75rem;opacity:0.65;margin-top:0.5rem;">
+          Faithful unit = one contiguous Unicode letter/mark/number run OR one visible non-space punctuation character
         </div>
       </div>
       <!-- Quick score cards populated by JS -->
@@ -72,7 +76,7 @@
       <div class="section-header">
         <div class="section-tag">Data</div>
         <h2 class="section-title">Corpus Overview</h2>
-        <p class="section-desc">India's Wikipedia page scraped in four languages via the Wikipedia Plain-Text Extract API.</p>
+        <p class="section-desc">India's Wikipedia page scraped in four languages via the Wikipedia REST HTML API and converted to faithful Markdown (preserving links, URLs, tables, references, and image captions).</p>
       </div>
 
       <!-- Stat cards -->
