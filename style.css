@@ -2,26 +2,28 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #07050f;
-  --bg-2:      #0d0b1a;
-  --surface:   rgba(255,255,255,0.04);
-  --surface-h: rgba(255,255,255,0.07);
-  --border:    rgba(255,255,255,0.08);
-  --border-h:  rgba(167,139,250,0.35);
-  --text:      #e8e4f4;
-  --text-muted:#9b94b0;
-  --accent-1:  #a78bfa;
-  --accent-2:  #60a5fa;
-  --accent-3:  #34d399;
+  --bg:        #f4f6f9;
+  --bg-2:      #ffffff;
+  --surface:   rgba(255, 255, 255, 0.65);
+  --surface-h: rgba(255, 255, 255, 0.95);
+  --border:    rgba(130, 110, 180, 0.15);
+  --border-h:  rgba(130, 110, 180, 0.4);
+  --text:      #2d2640;
+  --text-muted:#6b6480;
+  --accent-1:  #7c5cbf;
+  --accent-2:  #4a90c4;
+  --accent-3:  #3a9e72;
   --font:      'Inter', system-ui, sans-serif;
   --mono:      'JetBrains Mono', monospace;
+  --shadow:    0 8px 32px rgba(130, 100, 180, 0.12);
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background: linear-gradient(135deg, #e8e0f5 0%, #d4eaf7 35%, #d9f0e8 70%, #fde8e0 100%);
+  background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -51,7 +53,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(7,5,15,0.75);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -70,8 +72,8 @@ body {
 }
 .logo-icon {
   width: 36px; height: 36px;
-  background: rgba(167,139,250,0.1);
-  border: 1px solid rgba(167,139,250,0.25);
+  background: rgba(124, 92, 191, 0.1);
+  border: 1px solid rgba(124, 92, 191, 0.25);
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
 }
@@ -93,6 +95,7 @@ body {
   padding: 7px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
   transition: all 0.2s;
 }
 .nav-link:hover {
@@ -118,24 +121,24 @@ body {
   width: 600px; height: 400px;
   top: -100px; left: 50%;
   transform: translateX(-70%);
-  background: radial-gradient(ellipse, rgba(167,139,250,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(124, 92, 191, 0.15) 0%, transparent 70%);
 }
 .hero-glow-2 {
   width: 500px; height: 350px;
   top: 0; right: 10%;
-  background: radial-gradient(ellipse, rgba(96,165,250,0.09) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(74, 144, 196, 0.12) 0%, transparent 70%);
 }
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid rgba(124, 92, 191, 0.3);
   border-radius: 100px;
   font-size: 12px;
   font-weight: 600;
   color: var(--accent-1);
-  background: rgba(167,139,250,0.08);
+  background: rgba(124, 92, 191, 0.08);
   letter-spacing: 0.4px;
   text-transform: uppercase;
   margin-bottom: 28px;
@@ -174,10 +177,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0;
-  border: 1px solid var(--border);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   background: var(--surface);
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
 .stat {
@@ -206,7 +210,7 @@ body {
 .stat-divider {
   width: 1px;
   height: 40px;
-  background: var(--border);
+  background: rgba(180, 200, 230, 0.3);
 }
 
 /* ── Sessions grid ───────────────────────────────────────── */
@@ -251,10 +255,10 @@ body {
   font-size: 12px;
   font-weight: 500;
   padding: 3px 10px;
-  border: 1px solid rgba(167,139,250,0.35);
+  border: 1px solid rgba(124, 92, 191, 0.35);
   border-radius: 6px;
   color: var(--accent-1);
-  background: rgba(167,139,250,0.08);
+  background: rgba(124, 92, 191, 0.08);
 }
 .version-name {
   font-size: 13px;
@@ -275,17 +279,19 @@ body {
   display: block;
   text-decoration: none;
   color: inherit;
-  border: 1px solid var(--border);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
   border-radius: 20px;
   background: var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
   overflow: hidden;
   transition: border-color 0.3s, transform 0.25s, box-shadow 0.3s;
   cursor: pointer;
 }
 .session-card:not(.session-card-future):hover {
-  border-color: var(--border-h);
+  border-color: rgba(255, 255, 255, 1);
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.15);
+  box-shadow: 0 16px 48px rgba(130, 100, 180, 0.18);
 }
 /* Cursor-following glow */
 .session-card:not(.session-card-future):hover .card-glow {
@@ -296,7 +302,7 @@ body {
   inset: 0;
   background: radial-gradient(
     circle at var(--mx, 50%) var(--my, 0%),
-    rgba(167,139,250,0.12) 0%,
+    rgba(124, 92, 191, 0.08) 0%,
     transparent 60%
   );
   opacity: 0;
@@ -305,7 +311,7 @@ body {
   border-radius: inherit;
 }
 .session-card-future {
-  opacity: 0.4;
+  opacity: 0.6;
   cursor: default;
   border-style: dashed;
 }
@@ -329,11 +335,11 @@ body {
   letter-spacing: 0.5px;
   padding: 4px 12px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent-1), #c084fc);
+  background: linear-gradient(135deg, var(--accent-1), #9b82d0);
   color: #fff;
 }
 .card-number-future {
-  background: rgba(255,255,255,0.1);
+  background: rgba(130, 110, 180, 0.1);
   color: var(--text-muted);
 }
 .card-tags {
@@ -346,8 +352,8 @@ body {
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 5px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(130, 110, 180, 0.2);
   color: var(--text-muted);
   letter-spacing: 0.3px;
 }
@@ -385,7 +391,7 @@ body {
 .card-footer {
   margin-top: auto;
   padding-top: 12px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(180, 200, 230, 0.4);
 }
 .card-open-label {
   font-size: 13px;
@@ -399,7 +405,7 @@ body {
 
 /* ── Footer ──────────────────────────────────────────────── */
 .site-footer {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
   padding: 24px 0;
   position: relative;
   z-index: 1;

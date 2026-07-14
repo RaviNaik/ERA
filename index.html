@@ -212,7 +212,7 @@
           const alpha = s.a * (0.4 + 0.6 * Math.sin(t * s.speed + s.phase));
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(200,192,230,${alpha})`;
+          ctx.fillStyle = `rgba(130,100,180,${alpha * 0.4})`;
           ctx.fill();
         }
         requestAnimationFrame(draw);
