@@ -9,8 +9,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .era-topbar {
+      position: sticky; top: 0; z-index: 1000;
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 24px;
+      background: rgba(13, 11, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(155, 148, 176, 0.15);
+      font-size: 12px; font-family: inherit;
+    }
+    .era-topbar-link {
+      color: #9b94b0; text-decoration: none;
+      display: flex; align-items: center; gap: 5px;
+      transition: color 0.2s;
+    }
+    .era-topbar-link:hover { color: #c8c2e0; }
+    .era-topbar-sep { color: rgba(155,148,176,0.4); }
+    .era-topbar-crumb { color: rgba(155,148,176,0.6); }
+  </style>
 </head>
 <body>
+
+  <!-- ── Site-wide back nav ───────────────────────────────── -->
+  <nav class="era-topbar">
+    <a href="/ERA/" class="era-topbar-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px">
+        <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      ERA Course Home
+    </a>
+    <span class="era-topbar-sep">·</span>
+    <span class="era-topbar-crumb">V5 · Session 2</span>
+  </nav>
 
   <!-- ── Navigation ───────────────────────────────────────── -->
   <nav id="navbar">
