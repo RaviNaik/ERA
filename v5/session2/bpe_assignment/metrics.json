@@ -7,10 +7,10 @@
     "kn": "Kannada"
   },
   "weights": {
-    "en": 3,
-    "hi": 4,
-    "te": 4,
-    "kn": 6
+    "en": 1,
+    "hi": 1,
+    "te": 2,
+    "kn": 4
   },
   "vocab_size": 10000,
   "faithful_units": {
@@ -21,19 +21,19 @@
   },
   "unit_policy": "Counts each contiguous Unicode letter/mark/number run as one unit and each visible non-space punctuation/symbol character as one unit.",
   "token_counts": {
-    "en": 115768,
-    "hi": 53036,
-    "te": 24793,
-    "kn": 9327
+    "en": 118098,
+    "hi": 57834,
+    "te": 23115,
+    "kn": 7676
   },
   "ratios": {
-    "en": 0.6211829347470313,
-    "hi": 0.6002331398046605,
-    "te": 0.6831533120246887,
-    "kn": 0.7587244773448304
+    "en": 0.6336851481217168,
+    "hi": 0.6545343428513224,
+    "te": 0.636917226937066,
+    "kn": 0.624420401854714
   },
-  "spread": 0.15849133754016986,
-  "score": 6309.493096091441,
+  "spread": 0.030113940996608357,
+  "score": 33207.21124188385,
   "hindi_exp1_penalty_factor": 1.0,
-  "hindi_exp1_adjusted_score": 6309.493096091441
+  "hindi_exp1_adjusted_score": 33207.21124188385
 }

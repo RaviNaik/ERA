@@ -14,7 +14,7 @@ Training choices:
   - Pre-tokenizer: Metaspace (▁ as space marker)
   - Decoder:       Metaspace
   - Languages:     English, Hindi, Telugu, Kannada
-  - Weights:       en×3, hi×4, te×4, kn×6
+  - Weights:       en×1, hi×1, te×2, kn×4
 
 Metaspace is used instead of ByteLevel because ByteLevel spends too many
 tokens on UTF-8 bytes for Indic scripts (3 bytes/char for Devanagari etc.).
@@ -50,7 +50,7 @@ OUT_TOKENIZER = ROOT / "tokenizer.json"
 OUT_METRICS   = ROOT / "metrics.json"
 
 LANGS   = ["en", "hi", "te", "kn"]
-WEIGHTS = {"en": 3, "hi": 4, "te": 4, "kn": 6}
+WEIGHTS = {"en": 1, "hi": 1, "te": 2, "kn": 4}  # Exp3A2 optimal: score ~33,207
 
 # Faithful unit = contiguous letter/mark/number run OR one visible non-space char
 FAITHFUL_UNIT_RE = regex.compile(r"[\p{L}\p{M}\p{N}]+|[^\s\p{L}\p{M}\p{N}]")
