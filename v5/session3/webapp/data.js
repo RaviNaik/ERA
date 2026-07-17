@@ -1,7 +1,7 @@
 // ── Benchmark data ──────────────────────────────────────────────
 const BENCH = {
   general:[
-    {name:'MMLU',gemma:85.2,bharat:85,gap:'≈',note:'Match via general web'},
+  {name:'MMLU',gemma:85.2,bharat:85,gap:'≈',note:'Match via general web'},
     {name:'MMLU-Pro',gemma:82,bharat:78,gap:'close',note:'Professional reasoning'},
     {name:'GPQA Diamond',gemma:84.3,bharat:72,gap:'close',note:'PhD-level science'},
     {name:'IFEval',gemma:88,bharat:87,gap:'≈',note:'Instruction following'},
@@ -42,7 +42,7 @@ const BENCH_LABELS = {
 };
 
 const BENCH_INSIGHTS = {
-  general:'General benchmarks: Bharat-40B roughly matches Gemma 4 31B. We trade slight headroom on GPQA for massive Indic gains — the correct tradeoff for an India-first model.',
+  general:'General benchmarks: our model roughly matches Gemma 4 31B. We trade slight headroom on GPQA for massive Indic gains — the correct tradeoff for an India-first model.',
   indic:'This is the primary differentiation. MILU +17 pts and BharatBench +16 pts come from the always-on Indic Tier 2 channel and the India-perspective classifier. No other open model targets this gap.',
   coding:'LiveCodeBench +2 pts via code-heavy pre-training (15% share). IndicEval-XL is our custom benchmark for Indic-prompted coding — a market gap no existing model covers.',
   math:'IIT-JEE and NEET custom benchmarks cover the biggest exam prep market in the world. India has 2M+ JEE aspirants annually. This is a unique differentiator over any existing model.',

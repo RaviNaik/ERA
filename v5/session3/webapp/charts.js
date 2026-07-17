@@ -92,7 +92,7 @@ function drawBenchChart(canvasId, rows, label) {
   ctx.fillText('Gemma 4 31B', pad.left + 13, H - 4);
   ctx.fillStyle = 'rgba(82,183,136,0.82)';
   ctx.fillRect(pad.left + 100, H - 12, 10, 9);
-  ctx.fillText('Bharat-40B', pad.left + 113, H - 4);
+  ctx.fillText('Our Model', pad.left + 113, H - 4);
 }
 
 function roundRect(ctx, x, y, w, h, r) {

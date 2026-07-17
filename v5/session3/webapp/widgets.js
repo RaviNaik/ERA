@@ -242,6 +242,6 @@ function renderPostTab(key) {
           </div>`).join('')}
         </div>`).join('')}
       </div>
-      <div class="info-box" style="margin-top:14px"><strong>★ Custom India benchmarks</strong> — IIT-JEE Bench (5 years of JEE Advanced), NEET-Bench, IndiaKnowledge-1000, LegalIndia-500, and IndiaCosMo-200 are unique to Bharat-40B and held strictly in the golden proxy.</div>`;
+      <div class="info-box" style="margin-top:14px"><strong>★ Custom India benchmarks</strong> — IIT-JEE Bench (5 years of JEE Advanced), NEET-Bench, IndiaKnowledge-1000, LegalIndia-500, and IndiaCosMo-200 are unique to our model and held strictly in the golden proxy.</div>`;
   }
 }
