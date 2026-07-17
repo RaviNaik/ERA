@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bharat-40B | India-First LLM Strategy</title>
+  <meta name="description" content="Bharat-40B: A 40B dense India-first language model — data strategy, tokenizer design, cleaning pipeline, and evaluation framework." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header class="site-header">
+    <a href="../../" class="back-link">← ERA</a>
+    <div class="header-center">
+      <div class="badge">🇮🇳 ERA V5 · Session 3 · July 2026</div>
+      <h1>Bharat<span class="gradient-text">-40B</span></h1>
+      <p>An India-First 40B Language Model — Data Strategy & Training Blueprint</p>
+    </div>
+    <div class="header-kpi-row" id="kpi-row">
+      <div class="kpi-card"><div class="kpi-val">40B</div><div class="kpi-label">Parameters</div></div>
+      <div class="kpi-card"><div class="kpi-val">15–18T</div><div class="kpi-label">Tokens</div></div>
+      <div class="kpi-card"><div class="kpi-val">160K</div><div class="kpi-label">Vocab Size</div></div>
+      <div class="kpi-card"><div class="kpi-val">15</div><div class="kpi-label">Indic Languages</div></div>
+      <div class="kpi-card"><div class="kpi-val">≥75%</div><div class="kpi-label">MILU Target</div></div>
+    </div>
+  </header>
+
+  <!-- ── Stage Nav ────────────────────────────────────────────── -->
+  <nav class="stage-nav" id="stage-nav">
+    <button class="stage-btn active" data-stage="1" id="nav-btn-1">
+      <span class="stage-num">01</span>
+      <span class="stage-label">Target Bar</span>
+    </button>
+    <div class="stage-arrow">→</div>
+    <button class="stage-btn" data-stage="2" id="nav-btn-2">
+      <span class="stage-num">02</span>
+      <span class="stage-label">Data Architecture</span>
+    </button>
+    <div class="stage-arrow">→</div>
+    <button class="stage-btn" data-stage="3" id="nav-btn-3">
+      <span class="stage-num">03</span>
+      <span class="stage-label">Tokenizer</span>
+    </button>
+    <div class="stage-arrow">→</div>
+    <button class="stage-btn" data-stage="4" id="nav-btn-4">
+      <span class="stage-num">04</span>
+      <span class="stage-label">Cleaning</span>
+    </button>
+    <div class="stage-arrow">→</div>
+    <button class="stage-btn" data-stage="5" id="nav-btn-5">
+      <span class="stage-num">05</span>
+      <span class="stage-label">Post-Training</span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE 1 — Target Bar & Benchmarks
+  ══════════════════════════════════════════════════════════ -->
+  <section class="stage" id="stage-1">
+    <div class="widget-card widget-1">
+      <div class="widget-header">
+        <div class="widget-number">01</div>
+        <div class="widget-title-group">
+          <h2>Target Bar — Gemma 4 31B vs Bharat-40B</h2>
+          <p class="subtitle">We match Gemma 4 on general tasks and <em>surpass it by 15–20 points</em> on Indic, coding, and agentic benchmarks. Click a category to drill down.</p>
+        </div>
+        <span class="claim-badge">Benchmark Targets</span>
+      </div>
+      <div class="widget-body">
+        <!-- Category tabs -->
+        <div class="tab-row" id="bench-tabs">
+          <button class="tab-btn active" data-tab="general" id="tab-general">General</button>
+          <button class="tab-btn" data-tab="indic" id="tab-indic">🇮🇳 Indic</button>
+          <button class="tab-btn" data-tab="coding" id="tab-coding">💻 Coding</button>
+          <button class="tab-btn" data-tab="math" id="tab-math">🔢 Math</button>
+          <button class="tab-btn" data-tab="agentic" id="tab-agentic">🤖 Agentic</button>
+        </div>
+
+        <div class="bench-layout">
+          <!-- Chart -->
+          <div class="plot-card bench-chart-card">
+            <h3 id="bench-chart-title">General &amp; Reasoning</h3>
+            <canvas id="bench-chart" width="480" height="280"></canvas>
+          </div>
+          <!-- Table -->
+          <div class="bench-table-wrap">
+            <div class="table-scroll">
+              <table class="data-table" id="bench-table">
+                <thead>
+                  <tr><th>Benchmark</th><th>Gemma 4 31B</th><th>Bharat-40B</th><th>Gap</th></tr>
+                </thead>
+                <tbody id="bench-tbody"></tbody>
+              </table>
+            </div>
+            <div class="info-box" id="bench-insight"></div>
+          </div>
+        </div>
+
+        <!-- Score card summary -->
+        <div class="score-summary" id="score-summary">
+          <div class="score-card" id="sc-match"><div class="sc-val">5</div><div class="sc-label">Match</div></div>
+          <div class="score-card sc-exceed" id="sc-exceed"><div class="sc-val">4</div><div class="sc-label">Exceed</div></div>
+          <div class="score-card sc-close" id="sc-close"><div class="sc-val">2</div><div class="sc-label">Close</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE 2 — Data Architecture
+  ══════════════════════════════════════════════════════════ -->
+  <section class="stage hidden" id="stage-2">
+    <div class="widget-card widget-2">
+      <div class="widget-header">
+        <div class="widget-number">02</div>
+        <div class="widget-title-group">
+          <h2>Pre-training Data Architecture</h2>
+          <p class="subtitle">Three-tier system: OPUS-eligible pools, always-on Indic channel, and a golden proxy firewall. Toggle between <strong>Token Budget</strong> and <strong>Domain Mix</strong> views.</p>
+        </div>
+        <span class="claim-badge">~15–18T Tokens</span>
+      </div>
+      <div class="widget-body">
+        <div class="tab-row" id="data-tabs">
+          <button class="tab-btn active" data-tab="tier" id="tab-tier">Tier Architecture</button>
+          <button class="tab-btn" data-tab="domain" id="tab-domain">Domain Mix</button>
+          <button class="tab-btn" data-tab="sources" id="tab-sources">Key Sources</button>
+          <button class="tab-btn" data-tab="anneal" id="tab-anneal">Annealing</button>
+        </div>
+
+        <div class="data-layout">
+          <!-- Left: visual -->
+          <div class="data-visual-panel" id="data-visual-panel">
+            <!-- JS renders here -->
+          </div>
+          <!-- Right: detail -->
+          <div class="data-detail-panel" id="data-detail-panel">
+            <!-- JS renders here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE 3 — Tokenizer Design
+  ══════════════════════════════════════════════════════════ -->
+  <section class="stage hidden" id="stage-3">
+    <div class="widget-card widget-3">
+      <div class="widget-header">
+        <div class="widget-number">03</div>
+        <div class="widget-title-group">
+          <h2>Tokenizer Design &amp; Fertility Targets</h2>
+          <p class="subtitle">160K-token SentencePiece BPE vocabulary. Hover languages to see fertility improvement. The vocab budget calculator shows how 160K is allocated.</p>
+        </div>
+        <span class="claim-badge">160K Vocab</span>
+      </div>
+      <div class="widget-body">
+        <div class="tok-layout">
+          <!-- Fertility chart -->
+          <div class="tok-left">
+            <div class="plot-card">
+              <h3>Fertility: Current vs Target (tokens/word)</h3>
+              <canvas id="fertility-chart" width="460" height="310"></canvas>
+              <div class="legend" id="fertility-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#e07b6a"></div>Current (Gemma 4)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#52b788"></div>Bharat-40B Target</div>
+              </div>
+            </div>
+          </div>
+          <!-- Vocab allocation donut -->
+          <div class="tok-right">
+            <div class="plot-card">
+              <h3>Vocab Allocation (160K tokens)</h3>
+              <canvas id="vocab-donut" width="300" height="300"></canvas>
+            </div>
+            <div class="plot-card" style="margin-top:16px">
+              <h3>Why 160K? (Not 128K or 256K)</h3>
+              <div class="comparison-table-wrap">
+                <table class="data-table" id="vocab-compare-table">
+                  <thead><tr><th>Vocab Size</th><th>Pros</th><th>Cons</th><th>Decision</th></tr></thead>
+                  <tbody>
+                    <tr><td class="num">128K</td><td>Small embedding table</td><td>Insufficient Brahmic depth</td><td>❌ Skip</td></tr>
+                    <tr class="highlight-row"><td class="num">160K</td><td>Optimal script depth + code</td><td>Slightly larger embedding</td><td>✅ Chosen</td></tr>
+                    <tr><td class="num">256K</td><td>Global language coverage</td><td>Vocab dilution, wasted params</td><td>❌ Skip</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language fertility detail table -->
+        <div class="section-divider"></div>
+        <div class="fertility-detail-wrap">
+          <h3 class="sub-section-title">Per-Language Fertility & Priority</h3>
+          <div class="table-scroll">
+            <table class="data-table" id="lang-table">
+              <thead>
+                <tr><th>Language</th><th>Script</th><th>Speakers</th><th>Priority</th><th>Current Fertility</th><th>Target</th><th>Improvement</th><th>Vocab Budget</th></tr>
+              </thead>
+              <tbody id="lang-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE 4 — Data Cleaning Pipeline
+  ══════════════════════════════════════════════════════════ -->
+  <section class="stage hidden" id="stage-4">
+    <div class="widget-card widget-4">
+      <div class="widget-header">
+        <div class="widget-number">04</div>
+        <div class="widget-title-group">
+          <h2>Data Cleaning Pipeline</h2>
+          <p class="subtitle">9-step pipeline from raw crawl to clean corpus. Click each step to see what it removes and why. Retention rates are shown per data type.</p>
+        </div>
+        <span class="claim-badge">~30% Retention</span>
+      </div>
+      <div class="widget-body">
+        <div class="pipeline-layout">
+          <!-- Pipeline steps visual -->
+          <div class="pipeline-steps" id="pipeline-steps">
+            <!-- JS renders steps -->
+          </div>
+          <!-- Detail panel -->
+          <div class="pipeline-detail" id="pipeline-detail">
+            <!-- JS renders detail -->
+          </div>
+        </div>
+        <!-- Retention funnel chart -->
+        <div class="section-divider"></div>
+        <div class="retention-section">
+          <h3 class="sub-section-title">Retention Funnel by Data Type</h3>
+          <canvas id="retention-chart" width="900" height="240"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STAGE 5 — Post-Training: SFT + RL/RLVR + Evaluation
+  ══════════════════════════════════════════════════════════ -->
+  <section class="stage hidden" id="stage-5">
+    <div class="widget-card widget-5">
+      <div class="widget-header">
+        <div class="widget-number">05</div>
+        <div class="widget-title-group">
+          <h2>Post-Training: SFT → DPO → RLVR + Evaluation</h2>
+          <p class="subtitle">From base model to aligned assistant. Switch between SFT data breakdown, RL/alignment tracks, and the evaluation firewall.</p>
+        </div>
+        <span class="claim-badge">7.5M SFT Pairs</span>
+      </div>
+      <div class="widget-body">
+        <div class="tab-row" id="post-tabs">
+          <button class="tab-btn active" data-tab="sft" id="tab-sft">SFT Data</button>
+          <button class="tab-btn" data-tab="rl" id="tab-rl">RL / Alignment</button>
+          <button class="tab-btn" data-tab="eval" id="tab-eval">Evaluation</button>
+        </div>
+        <div id="post-content"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Bharat-40B Strategy Report · ERA V5 Session 3 · July 2026</span>
+      <span class="footer-sep">·</span>
+      <a href="https://github.com/RaviNaik/ERA" target="_blank">GitHub ↗</a>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="charts.js"></script>
+  <script src="widgets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

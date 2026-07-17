@@ -66,12 +66,12 @@
       </p>
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-num" id="stat-sessions">2</span>
+          <span class="stat-num" id="stat-sessions">3</span>
           <span class="stat-label">Sessions</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-num">5</span>
+          <span class="stat-num">10</span>
           <span class="stat-label">Experiments</span>
         </div>
         <div class="stat-divider"></div>
@@ -157,19 +157,35 @@
           </div>
         </a>
 
-        <!-- Future session placeholder -->
-        <div class="session-card session-card-future">
+        <!-- Session 3 -->
+        <a href="v5/session3/" class="session-card" id="card-s3">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(244,167,111,0.18) 0%, transparent 70%)"></div>
           <div class="card-inner">
             <div class="card-top">
-              <div class="card-number card-number-future">S3</div>
+              <div class="card-number" style="background:linear-gradient(135deg,#f4a76f,#e07b6a)">S3</div>
+              <div class="card-tags">
+                <span class="tag">LLM Strategy</span>
+                <span class="tag">Indic NLP</span>
+                <span class="tag">5 stages</span>
+              </div>
             </div>
-            <h3 class="card-title card-title-future">Coming Soon</h3>
-            <p class="card-desc" style="opacity:0.4">The next session will appear here once published.</p>
+            <h3 class="card-title">Bharat-40B<br/>India-First LLM</h3>
+            <p class="card-desc">
+              A 40B dense model strategy matching Gemma 4: data architecture, tokenizer design,
+              cleaning pipeline, SFT + RLVR alignment, and evaluation framework.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#9b82d0"></span>S3·1 Benchmark Targets vs Gemma 4</li>
+              <li><span class="exp-dot" style="background:#6baed6"></span>S3·2 Pre-training Data Architecture</li>
+              <li><span class="exp-dot" style="background:#52b788"></span>S3·3 Tokenizer & Fertility (160K vocab)</li>
+              <li><span class="exp-dot" style="background:#e07b6a"></span>S3·4 9-Step Cleaning Pipeline</li>
+              <li><span class="exp-dot" style="background:#f4a76f"></span>S3·5 SFT → DPO → RLVR + Evaluation</li>
+            </ul>
             <div class="card-footer">
-              <span class="card-open-label" style="opacity:0.35">In progress…</span>
+              <span class="card-open-label">Open Session →</span>
             </div>
           </div>
-        </div>
+        </a>
 
       </div>
     </div>
