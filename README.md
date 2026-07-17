@@ -14,3 +14,4 @@ Each session is a fully self-contained, browser-based interactive web app. No se
 | :--- | :--- | :--- | :--- |
 | **v5** | **Session 1** — Deep Learning Foundations | Four interactive proofs: why activations matter, why depth without nonlinearity is a lie, how embeddings learn similarity from co-occurrence, and memorization vs generalization. Uses TensorFlow.js. | [Open →](https://ravinaik.github.io/ERA/v5/session1/) |
 | **v5** | **Session 2** — Multilingual BPE Tokenizer | Design a 10,000-token BPE vocabulary across English, Hindi, Telugu and Kannada Wikipedia pages. Minimize fertility ratio spread to maximize score. Interactive experiment dashboard. | [Open →](https://ravinaik.github.io/ERA/v5/session2/) |
+| **v5** | **Session 3** — Indic Language Model Strategy | A 40B dense India-first LLM strategy: data architecture, tokenizer design, cleaning pipeline, SFT + RLVR alignment, and evaluation framework. | [Open →](https://ravinaik.github.io/ERA/v5/session3/) |
