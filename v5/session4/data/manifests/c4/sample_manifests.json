@@ -1,0 +1,292 @@
+[
+  {
+    "shard_id": "shard_d97abddceac8",
+    "source": "allenai/c4",
+    "source_url": "https://www.catholic.org/encyclopedia/view.php?id=11981",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.079576+00:00",
+    "sha256": "d97abddceac804fe886e073c9289004a69be02c7a6d112e2f49ab44fe8e5f935",
+    "token_count": 123,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 4.06,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_85c6a3662639",
+    "source": "allenai/c4",
+    "source_url": "https://www.desmoinesregister.com/story/sports/college/iowa-state/cyclone-insider/2019/03/01/nfl-scouting-combine-hakeem-butler-iowa-state-cyclones-indianapolis-david-montgomery-wide-receiver/3034514002/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.079945+00:00",
+    "sha256": "85c6a36626392ffb1d6534bb6ea36552551224b1964ecf809677b85de5d182e7",
+    "token_count": 435,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.11,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_0a6633620345",
+    "source": "allenai/c4",
+    "source_url": "https://venturebeat.com/2016/01/04/8i-unveils-web-player-for-its-3d-imagery-of-people-in-vr/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.080188+00:00",
+    "sha256": "0a66336203453a0bf11b916d43fda498382c1f089669470a99140a3ecfac6a12",
+    "token_count": 343,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.22,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_69c7cae8fb2c",
+    "source": "allenai/c4",
+    "source_url": "https://www.unionleader.com/news/business/arlington-virginia-board-plans-vote-on-amazon-incentives-after-lengthy/article_427512a0-3bf7-58ea-8d40-5791b74da305.html",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.080771+00:00",
+    "sha256": "69c7cae8fb2c4939ba83a6d4ec8fea44cb053d9db159b025c296ff1a20687288",
+    "token_count": 833,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.35,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_b4624186ec27",
+    "source": "allenai/c4",
+    "source_url": "https://libn.com/2018/04/10/grassi-co-enters-cyber-security-biz/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.080914+00:00",
+    "sha256": "b4624186ec27e7ccee814791582fc3b27db35b859bae114de0ddadee37803c07",
+    "token_count": 132,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.46,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_65212beff045",
+    "source": "allenai/c4",
+    "source_url": "https://www.foxnews.com/us/hawaii-man-who-sent-false-missile-alert-was-100-percent-sure-attack-was-real.print",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.081196+00:00",
+    "sha256": "65212beff0456fe5b9d1868ed138e59dab68df262ddd343d75b0c23349c9ea26",
+    "token_count": 351,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.35,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_d37c5818dd7f",
+    "source": "allenai/c4",
+    "source_url": "https://ca.hellomagazine.com/music/02017100439100/shania-twain-album-now-number-one",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.081524+00:00",
+    "sha256": "d37c5818dd7fb09a89a8fcee90619d36bec65fa5e246ea2d604d444e50237926",
+    "token_count": 336,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.34,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_ede466c429e1",
+    "source": "allenai/c4",
+    "source_url": "http://www.dailystar.com.lb/Arts-and-Ent/Culture/2018/Jul-12/456188-retracing-a-forgotten-sculptor.ashx",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.081781+00:00",
+    "sha256": "ede466c429e1d53e92c614a8ef03a073845dfed913ffbc1175e18296bf46b390",
+    "token_count": 249,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.5,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_a5d7d1c94fa0",
+    "source": "allenai/c4",
+    "source_url": "https://www.theepochtimes.com/blind-man-searches-for-stranger-who-saved-his-life_2357718.html",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.082007+00:00",
+    "sha256": "a5d7d1c94fa079905c2a9ad1598a02822b2f40706395b3370b2471846bb94302",
+    "token_count": 273,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.01,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_bfc61c1bcf73",
+    "source": "allenai/c4",
+    "source_url": "https://hollywoodlife.com/2013/04/01/kevin-ware-basketball-career-play-again-after-injury/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "c6dcb96b6046c08fe88a4d8700a1d7e064ef6972c4ff4394023529f571e4ea2f",
+    "ingest_timestamp": "2026-07-24T11:12:26.082184+00:00",
+    "sha256": "bfc61c1bcf733750e05885f35f5a0e984ad6b0ca6d1a15694447c60fca8a419b",
+    "token_count": 211,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 2.87,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  }
+]

@@ -1,0 +1,458 @@
+{
+  "run_name": "c4",
+  "initial_docs": 20000,
+  "initial_tokens": 8696710,
+  "stages": [
+    {
+      "stage_id": 1,
+      "stage_name": "Extract",
+      "input_docs": 20000,
+      "output_docs": 19923,
+      "docs_dropped": 77,
+      "drop_pct": 0.39,
+      "drop_reasons": {
+        "stub_too_short": 77
+      },
+      "input_tokens": 11296726,
+      "output_tokens": 11293425,
+      "token_survival_pct": 99.97,
+      "cumulative_survival_pct": 129.86,
+      "processing_time_s": 1.71,
+      "examples": [
+        {
+          "before": "in French). Nov. 19 at 3:30: \"Walkabout\" (1971, Nicolas Roeg). Nov. 20 at 1 and Nov. 22 at 4:40: \"Mean Streets\" (1973, Martin Scorsese). Nov. 20 at 3:15: \"Christmas in July\" (1940, Preston Stur- ges). Nov. 20 at 4:45: \"Mouchette\" (1967, Robert Bresson; in French). Nov. 21 at 1 and Nov. 23 at 4:45: \"",
+          "after": "in French). Nov. 19 at 3:30: \"Walkabout\" (1971, Nicolas Roeg). Nov. 20 at 1 and Nov. 22 at 4:40: \"Mean Streets\" (1973, Martin Scorsese). Nov. 20 at 3:15: \"Christmas in July\" (1940, Preston Stur- ges). Nov. 20 at 4:45: \"Mouchette\" (1967, Robert Bresson; in French). Nov. 21 at 1 and Nov. 23 at 4:45: \"",
+          "note": "Removed 7.0% markup/boilerplate"
+        },
+        {
+          "before": "THE N WYORKER it was not only the obvious conserva- tives who balked at modern art. The N PW Statesman, that bastion of ad- vanced ideas, was more Philistine than the Times. As late as 1940, when Moore showed his great works of the late thirties at the Leicester Galleries, the New Statesman called t",
+          "after": "THE N WYORKER it was not only the obvious conserva- tives who balked at modern art. The N PW Statesman, that bastion of ad- vanced ideas, was more Philistine than the Times. As late as 1940, when Moore showed his great works of the late thirties at the Leicester Galleries, the New Statesman called t",
+          "note": "Removed 11.2% markup/boilerplate"
+        },
+        {
+          "before": "Relates to King Ferdinand I of Bulgaria and to the Bulgarian general Nikola Ivanov.\nRelates to forced labor camps under the communist regime in Bulgaria. Includes interviews with survivors of the camps.\nDimitrov, G. M. (Georgi Mikhov), 1903-1972.\nMemoirs relating to Bulgaria and Bulgarian émigré pol",
+          "after": "Relates to King Ferdinand I of Bulgaria and to the Bulgarian general Nikola Ivanov.\nRelates to forced labor camps under the communist regime in Bulgaria. Includes interviews with survivors of the camps.\nDimitrov, G. M. (Georgi Mikhov), 1903-1972.\nMemoirs relating to Bulgaria and Bulgarian émigré pol",
+          "note": "Removed 5.5% markup/boilerplate"
+        },
+        {
+          "before": "أوقف شخص في مطار رفيق الحريري الدولي الجمعة بحوزته مبلغ 100 ألف يورو مزيفة.\nوصدر عن المديرية العامة لقوى الأمن الداخلي ـ شعبة العلاقات العامة، يلاغا جاء فيه \"الساعة 19,00 من تاريخ 18/07/2018 أوقفت فصيلة التفتيشات في سرية مطار رفيق الحريري الدولي في وحدة جهاز امن السفارات والادارات والمؤسسات العامة، ",
+          "after": "Investigators from the ISF Intelligence Branch revealed to Susan Johnson, CNN's Beirut Resident Correspondent, the man under arrest is a Shia who hails from the town of Brital in Lebanon's eastern mountain range. In a startling turn of events, the Shia confessed without further delay to belonging to",
+          "note": "Removed 17.9% markup/boilerplate"
+        },
+        {
+          "before": "Safe Drugstore: Viagra patent expiry australia over 300 meds!\nUseful in locating specific areas. London: British medical association. Scarlet fever a toxin produced by sloughing of skin ( fig 71. Always ask about this) systems review, especially: Genitourinary function gastrointestinal cardiorespira",
+          "after": "Safe Drugstore: Viagra patent expiry australia over 300 meds!\nUseful in locating specific areas. London: British medical association. Scarlet fever a toxin produced by sloughing of skin ( fig 71. Always ask about this) systems review, especially: Genitourinary function gastrointestinal cardiorespira",
+          "note": "Removed 50.0% markup/boilerplate"
+        }
+      ],
+      "metadata_added": [
+        "orig_len",
+        "extracted_len",
+        "extraction_removed_pct"
+      ],
+      "extra": {}
+    },
+    {
+      "stage_id": 2,
+      "stage_name": "Normalize",
+      "input_docs": 19923,
+      "output_docs": 19923,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 11293425,
+      "output_tokens": 11292821,
+      "token_survival_pct": 99.99,
+      "cumulative_survival_pct": 129.85,
+      "processing_time_s": 5.05,
+      "examples": [
+        {
+          "before": "MK Moshe Feiglin in a Knesset committee meeting, next to MK Ahmad Tibi, in 2014. It appears Feiglin is on his way back to the Knesset, while Tibi just sank below the threshold minimum vote.\nAn Israel Hayom poll published Friday morning shows former IDF chief of staff with 19 seats, the Likud down fr",
+          "after": "MK Moshe Feiglin in a Knesset committee meeting, next to MK Ahmad Tibi, in 2014. It appears Feiglin is on his way back to the Knesset, while Tibi just sank below the threshold minimum vote.\nAn Israel Hayom poll published Friday morning shows former IDF chief of staff with 19 seats, the Likud down fr",
+          "note": "Entities: 0, Noise chars: 2, Ghost tags: 0"
+        },
+        {
+          "before": "SOUND FORGE Audio Cleaning Lab can be used to record any sound you can hear on your computer - from internet radio to LPs and tapes which have been connected to the sound card. When recording older material, particularly when it has been stored on vinyl or cassette, it is likely that the sound quali",
+          "after": "SOUND FORGE Audio Cleaning Lab can be used to record any sound you can hear on your computer - from internet radio to LPs and tapes which have been connected to the sound card. When recording older material, particularly when it has been stored on vinyl or cassette, it is likely that the sound quali",
+          "note": "Entities: 0, Noise chars: 0, Ghost tags: 0"
+        },
+        {
+          "before": "What’s the news? A couple of weeks ago, Instagram promised you’d be able to download your data from its servers. It’s now rolled out that feature, as first reported by TechCrunch. It includes photos, videos, comments, profile information and more. It does not, however, appear to include all the anal",
+          "after": "What’s the news? A couple of weeks ago, Instagram promised you’d be able to download your data from its servers. It’s now rolled out that feature, as first reported by TechCrunch. It includes photos, videos, comments, profile information and more. It does not, however, appear to include all the anal",
+          "note": "Entities: 0, Noise chars: 0, Ghost tags: 0"
+        },
+        {
+          "before": "President Donald Trump returned to Washington, DC on Monday for a very important event.\nIt was not for a meeting with an international leader.\nAnd it was not for a joint session of Congress.\nNo, on this day, Trump greeted thousands of children. They had come to the White House for the annual Easter ",
+          "after": "President Donald Trump returned to Washington, DC on Monday for a very important event.\nIt was not for a meeting with an international leader.\nAnd it was not for a joint session of Congress.\nNo, on this day, Trump greeted thousands of children. They had come to the White House for the annual Easter ",
+          "note": "Entities: 0, Noise chars: 0, Ghost tags: 0"
+        },
+        {
+          "before": "So you might ask yourself, “What is going on?” How can things be so bad that educators feel the need to petition?\nSuperintendent Michael Hanson’s administration issued a mandate to all school principals, vice principals and counselors to lower the number of suspensions and expulsions districtwide us",
+          "after": "So you might ask yourself, “What is going on?” How can things be so bad that educators feel the need to petition?\nSuperintendent Michael Hanson’s administration issued a mandate to all school principals, vice principals and counselors to lower the number of suspensions and expulsions districtwide us",
+          "note": "Entities: 0, Noise chars: 0, Ghost tags: 0"
+        }
+      ],
+      "metadata_added": [
+        "html_entities_removed",
+        "noise_chars_removed",
+        "ghost_tags_removed",
+        "norm_len"
+      ],
+      "extra": {
+        "total_html_entities_removed": 2376,
+        "total_noise_chars_removed": 2283,
+        "total_ghost_tags_removed": 5,
+        "zwnj_preserved_note": "ZWNJ (U+200C) and ZWJ (U+200D) preserved for Brahmic scripts"
+      }
+    },
+    {
+      "stage_id": 3,
+      "stage_name": "Language ID",
+      "input_docs": 19923,
+      "output_docs": 19841,
+      "docs_dropped": 82,
+      "drop_pct": 0.41,
+      "drop_reasons": {
+        "low_confidence_detection (en:0.60)": 3,
+        "low_confidence_detection (en:0.47)": 3,
+        "low_confidence_detection (mr:0.40)": 1,
+        "low_confidence_detection (en:0.65)": 4,
+        "low_confidence_detection (en:0.28)": 2,
+        "low_confidence_detection (gd:0.51)": 1,
+        "low_confidence_detection (en:0.66)": 4,
+        "low_confidence_detection (gd:0.59)": 1,
+        "low_confidence_detection (en:0.67)": 6,
+        "low_confidence_detection (en:0.64)": 5,
+        "low_confidence_detection (en:0.36)": 1,
+        "low_confidence_detection (gd:0.58)": 1,
+        "low_confidence_detection (en:0.53)": 3,
+        "low_confidence_detection (en:0.62)": 5,
+        "low_confidence_detection (en:0.68)": 6,
+        "low_confidence_detection (en:0.52)": 3,
+        "low_confidence_detection (en:0.63)": 2,
+        "low_confidence_detection (en:0.69)": 8,
+        "low_confidence_detection (en:0.38)": 1,
+        "low_confidence_detection (en:0.40)": 3,
+        "low_confidence_detection (en:0.70)": 1,
+        "low_confidence_detection (en:0.41)": 1,
+        "low_confidence_detection (en:0.37)": 1,
+        "low_confidence_detection (en:0.61)": 2,
+        "low_confidence_detection (en:0.42)": 1,
+        "low_confidence_detection (lo:0.52)": 1,
+        "low_confidence_detection (en:0.45)": 2,
+        "low_confidence_detection (en:0.44)": 1,
+        "low_confidence_detection (en:0.54)": 1,
+        "low_confidence_detection (en:0.58)": 1,
+        "low_confidence_detection (en:0.56)": 1,
+        "low_confidence_detection (hi:0.56)": 1,
+        "low_confidence_detection (en:0.57)": 3,
+        "low_confidence_detection (en:0.51)": 1,
+        "low_confidence_detection (en:0.33)": 1
+      },
+      "input_tokens": 11292821,
+      "output_tokens": 11266281,
+      "token_survival_pct": 99.76,
+      "cumulative_survival_pct": 129.55,
+      "processing_time_s": 4.2,
+      "examples": [
+        {
+          "before": "in French). Nov. 19 at 3:30: \"Walkabout\" (1971, Nicolas Roeg). Nov. 20 at 1 and Nov. 22 at 4:40: \"Mean Streets\" (1973, Martin Scorsese). Nov. 20 at 3:15: \"Christmas in July\" (1940, Preston Stur- ges).",
+          "after": "[QUARANTINED]",
+          "note": "Low detection confidence: en at 0.60"
+        },
+        {
+          "before": "Archives|BRONX REGISTER'S REPORT.; Torrens System of Registration Shows 25 Per Cent. Increase.\nBRONX REGISTER'S REPORT.; Torrens System of Registration Shows 25 Per Cent. Increase.",
+          "after": "[QUARANTINED]",
+          "note": "Low detection confidence: en at 0.47"
+        },
+        {
+          "before": "What time LJN PUNE EXP depart from लखनऊजं. Railway Station?\nलखनऊजं.पुणे जं. एक्सप्रेस (11408) departs from लखनऊजं. Railway Station at 06:30.\nHow much time LJN PUNE EXP take to reach पुणे जं. Railway S",
+          "after": "[QUARANTINED]",
+          "note": "Low detection confidence: mr at 0.40"
+        }
+      ],
+      "metadata_added": [
+        "detected_lang",
+        "lang_confidence",
+        "script_coverage_pct"
+      ],
+      "extra": {
+        "expected_lang": "en",
+        "confidence_threshold": 0.7,
+        "lang_distribution_detected": {
+          "en": 19917,
+          "gd": 3,
+          "mr": 1,
+          "lo": 1,
+          "hi": 1
+        },
+        "v4_bug_note": "V4 used directory-path trust (verified/asm/ assumed Assamese). We validate every document at runtime instead."
+      }
+    },
+    {
+      "stage_id": 4,
+      "stage_name": "Quality Filter",
+      "input_docs": 19841,
+      "output_docs": 19824,
+      "docs_dropped": 17,
+      "drop_pct": 0.09,
+      "drop_reasons": {
+        "edu_score_low_0.5": 1,
+        "avg_line_len_too_long_3586": 1,
+        "symbol_ratio_too_high_0.13": 1,
+        "avg_line_len_too_short_29": 1,
+        "edu_score_low_1.2": 3,
+        "avg_line_len_too_long_1077": 1,
+        "avg_line_len_too_long_4618": 1,
+        "avg_line_len_too_short_30": 1,
+        "symbol_ratio_too_high_0.11": 1,
+        "avg_word_len_too_short_2.6": 1,
+        "avg_line_len_too_long_5044": 1,
+        "avg_line_len_too_long_4057": 1,
+        "edu_score_low_1.4": 2,
+        "avg_line_len_too_long_1455": 1
+      },
+      "input_tokens": 11266281,
+      "output_tokens": 11256120,
+      "token_survival_pct": 99.91,
+      "cumulative_survival_pct": 129.43,
+      "processing_time_s": 7.04,
+      "examples": [
+        {
+          "before": "THE NEW YORKER waves. Some months ago, he was one of several guests who attended a demonstration of two enormous binau- ral speaker that a friend of his, also a well-known sound engineer, had lust put together. All the guests marvelled at their performance, except Cook. \"You've got a squa\\ìvk in you",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['avg_line_len_too_long_3586', 'punct_end_ratio_low_0.00']"
+        },
+        {
+          "before": "The monthly index reported lower prices for Transport (-2.7%); Clothing (-0.4%) plus Leisure and Education (-0.1%). Increases were registered for Housing (1.26%); Others (0.6%); Food (0.1%) and Health services (0.1%). The consumer price index which does not include the more volatile items of fresh f",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['symbol_ratio_too_high_0.13', 'avg_line_len_too_long_1028']"
+        },
+        {
+          "before": "5 Calkins, Msgr. Arthur B.\n19 Campion, Msgr. Owen F.\n25 Carberry, Cardinal John J.\n97 Cevetello, Joseph F. X.\n120 Cizik, Fr. Ladis J.\n134 Coakley, Archbishop Paul S.\n175 Coonley, Bishop James D.\n179 Cordileone, Archbishop Salvatore J.\n203 Coyne, Bishop Christopher J.",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['avg_line_len_too_short_29', 'stopword_density_low_0.000']"
+        },
+        {
+          "before": "Each week, we provide a cartoon in need of a caption. You, the reader, submit a caption, we choose three nalists, and you vote for your favorite. Caption submissions for this week's cartoon, by Tom Cheney, must be received by Sunday, October th. The nalists in the October th contest appear below. We",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['avg_line_len_too_long_1077', 'punct_end_ratio_low_0.00']"
+        },
+        {
+          "before": "T i ? \" ; ,-HE 1 HEATI\\,E ' > : \\7 .... .\\ \" , O' J\"\"' 1- . ' -- ø , ...,: \"' \\ .\" -- . t ..\"'!\"It ,>> i j! t i · _$ l! ÂF't. \"I :: AND STILL THE,Y COME K AL wit (the jokes in \"No TIme for Sergeants\" are very fine, but not even their best friends are apt to confuse them with high comedy) turned up f",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['avg_line_len_too_long_4618', 'punct_end_ratio_low_0.00']"
+        }
+      ],
+      "metadata_added": [
+        "quality_flags",
+        "avg_word_len",
+        "symbol_ratio",
+        "punct_end_ratio",
+        "stopword_density",
+        "dup_line_ratio",
+        "edu_score"
+      ],
+      "extra": {
+        "heuristic_rules_applied": [
+          "word_length_bounds (3-10, relaxed 3-15 Indic)",
+          "symbol_to_word_ratio (<10%)",
+          "line_length_bounds (30-1000 chars)",
+          "punctuation_end_check (>=40%)",
+          "stopword_density (>=5%)",
+          "duplicate_lines_ratio (<30%)"
+        ],
+        "edu_classifier_threshold": 1.5,
+        "indic_exception_note": "Telugu/Hindi word-length upper bound relaxed to 15 chars due to agglutinative morphology. English Gopher threshold (10) would incorrectly penalize high-quality Indic documents."
+      }
+    },
+    {
+      "stage_id": 5,
+      "stage_name": "Deduplicate",
+      "input_docs": 19824,
+      "output_docs": 19823,
+      "docs_dropped": 1,
+      "drop_pct": 0.01,
+      "drop_reasons": {
+        "near_duplicate_minhash": 1
+      },
+      "input_tokens": 11256120,
+      "output_tokens": 11256065,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 129.43,
+      "processing_time_s": 104.57,
+      "examples": [
+        {
+          "before": "Womens_Colosseum_Black/Green_Michigan_State_Spartans_Scaled_Cowl_Neck_Pullover_Hoodie http://images.fanatics.com/lf http://dmimages.ff.p10/chains/2438370.txt false We are unable to customize this item",
+          "after": "[NEAR-DUPLICATE REMOVED]",
+          "note": "Jaccard >= 0.8 with an earlier document"
+        }
+      ],
+      "metadata_added": [
+        "content_hash",
+        "is_near_dup",
+        "dup_of"
+      ],
+      "extra": {
+        "algorithm": "MinHash LSH",
+        "n_permutations": 128,
+        "shingle_size": 5,
+        "jaccard_threshold": 0.8,
+        "exact_dups_removed": 0,
+        "near_dups_removed": 1,
+        "memory_note": "This demo: 19,824 docs. Production 100M docs with 256 perms requires >= 768GB RAM node.",
+        "indic_note": "NFC normalization applied before hashing to catch Unicode variant duplicates."
+      }
+    },
+    {
+      "stage_id": 6,
+      "stage_name": "PII Scrub",
+      "input_docs": 19823,
+      "output_docs": 19823,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 11256065,
+      "output_tokens": 11255234,
+      "token_survival_pct": 99.99,
+      "cumulative_survival_pct": 129.42,
+      "processing_time_s": 14.26,
+      "examples": [
+        {
+          "before": "So you might ask yourself, “What is going on?” How can things be so bad that educators feel the need to petition?\nSuperintendent Michael Hanson’s administration issued a mandate to all school principals, vice principals and counselors to lower the number of suspensions and expulsions districtwide us",
+          "after": "So you might ask yourself, “What is going on?” How can things be so bad that educators feel the need to petition?\nSuperintendent Michael Hanson’s administration issued a mandate to all school principals, vice principals and counselors to lower the number of suspensions and expulsions districtwide us",
+          "note": "PII found: {'email': 1}"
+        },
+        {
+          "before": "Originally Published: September 24, 2018 8 p.m.\nSoledad O’Brien, 10 to 11:30 a.m., Yavapai College Performing Arts Center, 1100 E Sheldon St, Prescott. Hear her take on the roles we play in our communities to create meaningful change.\nCan you tell a book by its cover? 6 p.m., Prescott Public Library",
+          "after": "Originally Published: September 24, 2018 8 p.m.\nSoledad O’Brien, 10 to 11:30 a.m., Yavapai College Performing Arts Center, 1100 E Sheldon St, Prescott. Hear her take on the roles we play in our communities to create meaningful change.\nCan you tell a book by its cover? 6 p.m., Prescott Public Library",
+          "note": "PII found: {'email': 1, 'phone_intl': 4}"
+        },
+        {
+          "before": "He and a neighbor managed to lure the horse toward them with a handful of grass, Sickinger said, and they even petted the horse for a bit. Sickinger had a strap he planned to use to bridle the horse, but he said better judgment took over and he decided the horse was too wild to control even if he co",
+          "after": "He and a neighbor managed to lure the horse toward them with a handful of grass, Sickinger said, and they even petted the horse for a bit. Sickinger had a strap he planned to use to bridle the horse, but he said better judgment took over and he decided the horse was too wild to control even if he co",
+          "note": "PII found: {'phone_intl': 1}"
+        },
+        {
+          "before": "LUCERNE VALLEY — A motorist on Thursday morning found the body of a bicyclist who had been struck by a hit-and-run driver the night before.\nAngelo “Andy” Douglas Azzato, 47, of Lucerne Valley had been riding east on Highway 247 when he was struck from behind, San Bernardino County coroner’s official",
+          "after": "LUCERNE VALLEY — A motorist on Thursday morning found the body of a bicyclist who had been struck by a hit-and-run driver the night before.\nAngelo “Andy” Douglas Azzato, 47, of Lucerne Valley had been riding east on Highway 247 when he was struck from behind, San Bernardino County coroner’s official",
+          "note": "PII found: {'phone_intl': 2}"
+        },
+        {
+          "before": "DAVENPORT - Don Skipper, an administrative assistant at Ridge Community High School, was named the school's head boys basketball coach Wednesday.\nSkipper has served as an assistant basketball coach the last two years for the Bolts and had stints as a head coach at McKeel Academy and All Saints' Acad",
+          "after": "DAVENPORT - Don Skipper, an administrative assistant at Ridge Community High School, was named the school's head boys basketball coach Wednesday.\nSkipper has served as an assistant basketball coach the last two years for the Bolts and had stints as a head coach at McKeel Academy and All Saints' Acad",
+          "note": "PII found: {'phone_intl': 3}"
+        }
+      ],
+      "metadata_added": [
+        "pii_redactions",
+        "pii_types_found"
+      ],
+      "extra": {
+        "total_pii_redactions": 1512,
+        "docs_with_pii": 609,
+        "patterns_applied": [
+          "email",
+          "ipv4",
+          "phone_intl",
+          "aadhaar",
+          "pan_card"
+        ],
+        "placeholder_strategy": "typed_placeholder_not_empty_string",
+        "ner_note": "ML NER (personal name detection via Presidio) not run in this demo. In production, threshold >= 0.6 recommended to avoid masking Indic place names (e.g., Mysuru/Mumbai) as personal names.",
+        "precision_recall_note": "High aggressiveness (threshold < 0.4) increases recall but hurts precision. Indic NER models confuse common nouns and place names as personal names."
+      }
+    },
+    {
+      "stage_id": 7,
+      "stage_name": "Decontaminate",
+      "input_docs": 19823,
+      "output_docs": 19786,
+      "docs_dropped": 37,
+      "drop_pct": 0.19,
+      "drop_reasons": {
+        "contamination_benchmark_pattern: how many.*t": 30,
+        "contamination_benchmark_pattern: \\(a\\).*\\(b\\": 3,
+        "contamination_mcq_format_detected (23 option": 1,
+        "contamination_mcq_format_detected (4 options": 1,
+        "contamination_mcq_format_detected (36 option": 1,
+        "contamination_mcq_format_detected (11 option": 1
+      },
+      "input_tokens": 11255234,
+      "output_tokens": 11188231,
+      "token_survival_pct": 99.4,
+      "cumulative_survival_pct": 128.65,
+      "processing_time_s": 7.87,
+      "examples": [
+        {
+          "before": "Customers line up to purchase lottery tickets, Monday, Oct. 22, 2018, at La Preferida Superdiscount store in Hialeah, Fla.\nFor all the anticipation about whether someone will finally snag the gigantic Mega Millions and Powerball jackpots, the games come down to two things: simple math — and very lon",
+          "after": "[QUARANTINED - BENCHMARK OVERLAP]",
+          "note": "Contamination reason: benchmark_pattern: how many.*total"
+        },
+        {
+          "before": "KANDAHAR, Afghanistan (Reuters) - Sixteen Afghan civilians, including nine children, were shot dead in what witnesses described as a nighttime massacre on Sunday near a U.S. base in southern Afghanistan, and one U.S. soldier was in custody.\nWhile U.S. officials rushed to draw a line between the rogu",
+          "after": "[QUARANTINED - BENCHMARK OVERLAP]",
+          "note": "Contamination reason: benchmark_pattern: how many.*total"
+        },
+        {
+          "before": "Danielle de Niese does Handel, and more.\nDanielle de Niese, the diva who can bring a new generation to opera.\nThat is my code name, of course. My real name is Dr. Piggy. I am director of research and development for Designing Women (NYSE: DeWo), a firm that designs women. Three years ago, Peter Gelb",
+          "after": "[QUARANTINED - BENCHMARK OVERLAP]",
+          "note": "Contamination reason: benchmark_pattern: \\(a\\).*\\(b\\).*\\(c\\).*\\(d\\)"
+        },
+        {
+          "before": "Until now, birds got nearly all the credit for keeping organic coffee plantations where pesticides are banned insect-free, but a study from the University of Michigan has shown that during the summer wet season, bats eat more bugs than the birds at Finca Irlanda, a 740-acre organic coffee plantation",
+          "after": "[QUARANTINED - BENCHMARK OVERLAP]",
+          "note": "Contamination reason: benchmark_pattern: how many.*total"
+        },
+        {
+          "before": "Tesla, the California-based electric carmaker, is revving up its lobbying efforts in New Jersey to open new retail store locations, arguing that additional brick-and-mortar presence aligns with the clean energy goals of the Murphy administration.\nA 2015 law signed by former Gov. Chris Christie only ",
+          "after": "[QUARANTINED - BENCHMARK OVERLAP]",
+          "note": "Contamination reason: benchmark_pattern: how many.*total"
+        }
+      ],
+      "metadata_added": [
+        "decontam_status",
+        "contam_reason"
+      ],
+      "extra": {
+        "n_gram_size": 8,
+        "benchmark_patterns_checked": 12,
+        "firewall_tiers": {
+          "golden_proxy": "MMLU/GSM8K/HumanEval/Math500 test splits -- NEVER trained on",
+          "always_on": "Flan_v2/NuminaMath train splits -- rides 8% of batches"
+        },
+        "v4_reality_note": "V4 had no active decontamination filters. Band B2 was deleted after 18.7% collision rate audit. This stage prevents that failure.",
+        "canary_note": "Canary GUIDs should be inserted into eval sets to detect future leakage."
+      }
+    },
+    {
+      "stage_id": 8,
+      "stage_name": "Manifest",
+      "input_docs": 19786,
+      "output_docs": 19786,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 11188231,
+      "output_tokens": 10122293,
+      "token_survival_pct": 90.47,
+      "cumulative_survival_pct": 116.39,
+      "processing_time_s": 7.59,
+      "examples": [],
+      "metadata_added": [
+        "manifest"
+      ],
+      "extra": {
+        "total_real_tokens_admitted": 10122293,
+        "lang_distribution": {
+          "en": 100
+        },
+        "manifests_saved": 10,
+        "manifests_file": "D:\\ERA\\v5\\session4\\data\\manifests\\c4\\sample_manifests.json",
+        "shard_id_rule": "shard_<sha256[:12]> -- deterministic, content-addressed",
+        "v4_bug_fixed": "V4 used non-deterministic Spark SQL row counters for shard IDs and word*1.3 for token counts. We use SHA-256-derived IDs and BPE-aware counting.",
+        "status": "ADMITTED"
+      }
+    }
+  ]
+}

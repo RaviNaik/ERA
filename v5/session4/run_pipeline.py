@@ -2,8 +2,9 @@
 run_pipeline.py
 ---------------
 Main pipeline orchestrator. Runs the full 8-stage cleaning pipeline on:
-  Run 1: wikimedia/wikipedia (English, 100K articles)
-  Run 2: ai4bharat/sangraha  (Hindi + Telugu, 20K docs)
+  Run 1: wikimedia/wikipedia   (English, 100K articles)
+  Run 2: ai4bharat/sangraha   (Hindi + Telugu, 20K docs)
+  Run 3: allenai/c4 realnews  (Messy web crawl, 20K docs)
 
 Saves per-stage statistics JSON and sample manifests after each run.
 """
@@ -169,6 +170,191 @@ def _synthetic_indic_sample(n: int = 500) -> list[dict]:
     return samples
 
 
+def load_c4_crawl(max_docs: int = 20_000) -> list[dict]:
+    """
+    Load genuinely messy web-crawl documents from allenai/c4 en.noclean split.
+
+    WHY en.noclean and NOT realnewslike:
+      - realnewslike = already quality-filtered to news-like pages → 98%+ survival
+      - en.noclean   = raw unfiltered CommonCrawl text, no heuristic quality
+                       filtering applied → nav boilerplate, SEO spam, symbol-
+                       heavy pages, short stubs, repeated boilerplate all present
+
+    This is the split used in the C4 paper ablation studies specifically to
+    demonstrate the effect of quality filtering — exactly what Session 4 teaches.
+    """
+    print(f"\nLoading allenai/c4 en.noclean (up to {max_docs:,} docs)...")
+    print("  Source: Unfiltered CommonCrawl — real nav boilerplate, SEO spam, ")
+    print("          symbol-heavy pages, short stubs, multilingual noise.")
+    docs = []
+
+    try:
+        from datasets import load_dataset
+        ds = load_dataset(
+            "allenai/c4",
+            "en.noclean",       # ← unfiltered raw web crawl
+            split="train",
+            streaming=True,
+        )
+        for i, row in enumerate(ds):
+            if i >= max_docs:
+                break
+            text = row.get("text", "")
+            if text:
+                docs.append({
+                    "id":  f"c4_{i}",
+                    "url": row.get("url", ""),
+                    "text": text,
+                    "timestamp": row.get("timestamp", ""),
+                })
+            if (i + 1) % 5_000 == 0:
+                print(f"  Streamed {i+1:,} docs...")
+    except Exception as e:
+        print(f"  Warning: C4 en.noclean access failed: {e}")
+        docs = []
+
+    if not docs:
+        print("  Falling back to synthetic messy web sample...")
+        docs = _synthetic_messy_web_sample(max_docs)
+
+    print(f"  Done: {len(docs):,} web crawl docs loaded")
+    return docs
+
+
+# Keep old name as alias for backwards compat
+load_c4_realnews = load_c4_crawl
+
+
+def _synthetic_messy_web_sample(n: int = 20_000) -> list[dict]:
+    """
+    Synthetic messy web crawl sample mimicking real CommonCrawl noise:
+    - Navigation boilerplate pages (short, non-prose)
+    - Non-English pages mixed in
+    - High symbol-ratio pages (JS/CSS fragments)
+    - SEO keyword-stuffed pages
+    - Clean news articles (what we want to keep)
+    - Near-duplicate syndicated content
+    - Cookie banner / legal page boilerplate
+    - Low-confidence language detection pages (code-mixed)
+    """
+    import random
+    import hashlib
+    random.seed(42)
+
+    # ── Templates for different noise types ──────────────────────────────────
+
+    nav_boilerplate = [
+        "Home | About | Contact | Privacy Policy | Terms of Service\nLogin | Register | Help | FAQ\nCopyright {year} All Rights Reserved. Sitemap | RSS Feed",
+        "Skip to main content\nMenu\nSearch\nHome\nNews\nSports\nEntertainment\nBusiness\nTechnology\nHealth\nScience\nTravel\nCookies Policy | Accessibility | Advertise with us",
+        "Home > News > Local\nShare Tweet Email\nRelated Articles\nMost Popular\nRecently Viewed\nNewsletter Sign Up\nGet breaking news alerts. Never miss a story.",
+        "ADVERTISEMENT\nSkip Ad\nYour video will start in 5 seconds.\nClose Ad\nClose X\n© {year} Media Corp. All Rights Reserved.",
+    ]
+
+    seo_spam = [
+        "Best cheap flights deals online. Book cheap flights today. Cheap airline tickets. Cheap flights. Compare cheap flights. Find cheap flights online. Book now save money. Cheap international flights. Domestic flights cheap. Last minute cheap flights.",
+        "Buy cheap car insurance online. Compare car insurance quotes. Best car insurance rates. Cheap car insurance quotes. Auto insurance comparison. Get free quotes today. Save on car insurance. Cheap auto insurance online.",
+        "Free online games. Play free online games. Best free games. Online games free play. Free browser games. HTML5 games free. Play online now. Best free online games 2024.",
+    ]
+
+    non_english = [
+        "Le gouvernement français a annoncé aujourd'hui de nouvelles mesures pour lutter contre l'inflation. Le Premier ministre a déclaré que ces mesures aideront les ménages à faibles revenus. L'économie française continue de faire face à des défis importants malgré une légère amélioration des indicateurs.",
+        "Die Bundesregierung hat heute neue Maßnahmen zur Bekämpfung der Inflation angekündigt. Der Bundeskanzler erklärte, dass diese Maßnahmen einkommensschwachen Haushalten helfen werden. Die deutsche Wirtschaft steht weiterhin vor Herausforderungen, obwohl einige Indikatoren leichte Verbesserungen zeigen.",
+        "El gobierno español anunció hoy nuevas medidas para combatir la inflación. El presidente del gobierno declaró que estas medidas ayudarán a los hogares con ingresos más bajos. La economía española sigue enfrentando desafíos importantes a pesar de una ligera mejora de los indicadores.",
+        "Il governo italiano ha annunciato oggi nuove misure per combattere l'inflazione. Il Presidente del Consiglio ha dichiarato che queste misure aiuteranno le famiglie a basso reddito. L'economia italiana continua ad affrontare sfide importanti nonostante un leggero miglioramento degli indicatori.",
+        "Правительство России объявило сегодня о новых мерах по борьбе с инфляцией. Премьер-министр заявил, что эти меры помогут малообеспеченным домохозяйствам. Российская экономика продолжает сталкиваться с серьезными вызовами.",
+        "中国政府今天宣布了新的反通货膨胀措施。总理表示，这些措施将帮助低收入家庭。尽管一些指标略有改善，但中国经济继续面临重大挑战。",
+    ]
+
+    symbol_heavy = [
+        "function loadAd() { var ad = document.getElementById('ad-slot'); if (ad) { var cfg = {'type':'banner','w':728,'h':90,'key':'abc123','cb':Math.random()}; var url = 'https://ads.example.com/serve?'+Object.keys(cfg).map(k=>k+'='+cfg[k]).join('&'); ad.src=url; } } window.onload=loadAd;",
+        ".nav-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; background: #fff; border-bottom: 1px solid #e0e0e0; } .nav-logo { font-size: 24px; font-weight: 700; color: #333; } @media (max-width: 768px) { .nav-wrapper { flex-direction: column; padding: 10px; } }",
+        ">>> import numpy as np\n>>> arr = np.random.rand(100, 100)\n>>> result = np.linalg.eig(arr)\n>>> print(f'eigenvalues: {result[0][:5]}')\n[0.234+1.2j, 0.56+0j, ...]",
+    ]
+
+    cookie_legal = [
+        "Privacy Policy\nLast updated: January 1, 2024\nWe use cookies. By continuing to use this site you accept our cookie policy.\nTypes of cookies we use:\n- Essential cookies\n- Analytics cookies\n- Marketing cookies\nYou can opt out at any time. Contact us at privacy@example.com. See also: Terms of Service | GDPR Rights | California Privacy Rights | Do Not Sell My Information",
+        "Terms and Conditions\nBy accessing this website you agree to these terms. Unauthorised use of this website may give rise to a claim for damages. This website uses cookies.\nAll content is © Copyright {year}. All rights reserved. Reproduction prohibited without permission.",
+    ]
+
+    clean_news = [
+        "The Federal Reserve raised interest rates by 25 basis points on Wednesday, marking the tenth consecutive increase as the central bank continues its battle against persistent inflation. Fed Chair Jerome Powell said further hikes could be forthcoming if inflation does not cool. Markets reacted negatively, with the S&P 500 falling 1.2% in afternoon trading. Economists are divided on whether the Fed can engineer a soft landing for the economy without triggering a recession.",
+        "Scientists at MIT have developed a new battery technology that could charge electric vehicles in under five minutes while storing three times more energy than lithium-ion batteries. The breakthrough, published Thursday in the journal Nature Energy, uses a novel solid-state electrolyte that remains stable at high charging voltages. Researchers say commercial production could begin within five years if manufacturing challenges are resolved.",
+        "The Supreme Court ruled 6-3 that states may restrict access to social media platforms under certain conditions, in a landmark decision that could reshape how tech companies moderate content. Justice Clarence Thomas wrote the majority opinion, saying states have a legitimate interest in preventing viewpoint discrimination. Critics argue the ruling undermines the First Amendment rights of private companies.",
+        "A powerful 7.4 magnitude earthquake struck the coast of Japan early Tuesday morning, triggering tsunami warnings across the Pacific. Japanese authorities ordered evacuations of coastal communities. The quake, centered 50 miles offshore from Honshu, was felt as far away as Tokyo. Initial reports indicate significant structural damage in several coastal towns, though the full extent of casualties remains unclear.",
+        "Global leaders gathered in Dubai for COP28 amid intense pressure to phase out fossil fuels. Nearly 200 countries are represented at the United Nations climate conference, which runs through December 12. The United Arab Emirates, as host country, has faced criticism over its status as a major oil producer. However, officials say the location presents a unique opportunity to engage petrostate cooperation on the transition to renewables.",
+        "Apple Inc. reported quarterly earnings that beat analyst expectations, driven by strong iPhone sales in emerging markets and growth in its services segment. Revenue rose 8% year-over-year to $94.8 billion. CEO Tim Cook said demand for the iPhone 15 lineup remained robust despite macroeconomic headwinds. Apple's services revenue, which includes the App Store, Apple Music and iCloud, hit a record $23.2 billion.",
+        "The Biden administration announced a sweeping new rule requiring automakers to significantly increase fuel efficiency standards for vehicles sold in the United States through 2032. The rule, finalized by the Environmental Protection Agency, aims to cut carbon dioxide emissions by more than 7 billion tons over the regulation's lifetime. Industry groups said the timeline is too aggressive and could increase vehicle costs for consumers.",
+        "Researchers have identified a previously unknown species of deep-sea fish in the Pacific Ocean off the coast of New Zealand. The translucent creature, discovered at depths exceeding 8,000 meters, possesses an unusual bioluminescent pattern that scientists believe serves as camouflage against predators. The finding adds to growing evidence that the deep ocean remains one of Earth's least explored frontiers.",
+    ]
+
+    near_dup_base = "A wildfire burning in northern California has forced the evacuation of thousands of residents as crews battle the blaze across rugged terrain. The fire, which broke out Monday amid record heat and low humidity, has consumed more than 15,000 acres and is 10 percent contained. Governor Gavin Newsom declared a state of emergency for three counties. Air quality alerts have been issued across a wide region as smoke drifts southward."
+
+    samples = []
+
+    # Distribution to mimic messy web crawl:
+    # 35% clean news (what survives)
+    # 15% nav boilerplate (short, fails quality)
+    # 12% SEO spam (fails quality)
+    # 12% non-English pages (fails lang ID)
+    # 8% symbol-heavy (fails quality)
+    # 8% cookie/legal (fails quality)
+    # 10% near-duplicates (dedup removes)
+
+    total = n
+    counts = {
+        "clean":    int(total * 0.35),
+        "nav":      int(total * 0.15),
+        "seo":      int(total * 0.12),
+        "foreign":  int(total * 0.12),
+        "symbol":   int(total * 0.08),
+        "legal":    int(total * 0.08),
+        "neardup":  int(total * 0.10),
+    }
+
+    idx = 0
+    for kind, cnt in counts.items():
+        for i in range(cnt):
+            if kind == "clean":
+                base = clean_news[i % len(clean_news)]
+                # Vary slightly but keep coherent
+                variation = f" This report was filed on {2023 + (i % 2)}-{(i % 12)+1:02d}-{(i % 28)+1:02d}. " \
+                            f"Updated at {(i % 24):02d}:{(i % 60):02d} GMT."
+                text = base + variation
+            elif kind == "nav":
+                base = nav_boilerplate[i % len(nav_boilerplate)]
+                text = base.replace("{year}", str(2022 + i % 3))
+                text += f"\nPage {i+1} | Sort by: Relevance | Date | Popularity"
+            elif kind == "seo":
+                base = seo_spam[i % len(seo_spam)]
+                text = base + f" Visit us online. Call {1800 + i}-555-{1000 + i}."
+            elif kind == "foreign":
+                text = non_english[i % len(non_english)]
+            elif kind == "symbol":
+                base = symbol_heavy[i % len(symbol_heavy)]
+                text = base + f" // version {i}.{i % 10}.{i % 5} build {1000+i}"
+            elif kind == "legal":
+                base = cookie_legal[i % len(cookie_legal)]
+                text = base.replace("{year}", str(2022 + i % 3))
+            elif kind == "neardup":
+                # Slight variation of near-dup base
+                text = near_dup_base + f" Incident number {i+1}. Crews from {i+1} counties responded."
+
+            sha = hashlib.sha256(text.encode()).hexdigest()[:8]
+            samples.append({
+                "id": f"c4_{kind}_{idx}_{sha}",
+                "url": f"https://news-site-{idx % 500}.com/article/{idx}",
+                "text": text,
+                "_kind": kind,  # debug label, stripped before pipeline
+            })
+            idx += 1
+
+    random.shuffle(samples)
+    # Strip debug labels
+    for s in samples:
+        s.pop("_kind", None)
+    return samples[:n]
+
+
 # ===================================================================
 # PIPELINE RUNNER
 # ===================================================================
@@ -270,17 +456,20 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="ERA Session 4 — Data Cleaning Pipeline")
-    parser.add_argument("--run", choices=["wikipedia", "sangraha", "both"],
+    parser.add_argument("--run", choices=["wikipedia", "sangraha", "c4", "all",
+                                          "both"],  # 'both' kept for backwards compat
                         default="both", help="Which dataset run to execute")
     parser.add_argument("--wiki-docs",  type=int, default=100_000,
                         help="Number of Wikipedia articles to process")
     parser.add_argument("--indic-docs", type=int, default=20_000,
                         help="Number of Sangraha docs to process")
+    parser.add_argument("--c4-docs",    type=int, default=20_000,
+                        help="Number of C4 realnewslike docs to process")
     args = parser.parse_args()
 
     results = []
 
-    if args.run in ("wikipedia", "both"):
+    if args.run in ("wikipedia", "both", "all"):
         wiki_docs = load_wikipedia(max_docs=args.wiki_docs)
         r = run_pipeline(
             wiki_docs,
@@ -291,7 +480,7 @@ if __name__ == "__main__":
         )
         results.append(r)
 
-    if args.run in ("sangraha", "both"):
+    if args.run in ("sangraha", "both", "all"):
         indic_docs = load_sangraha(max_docs=args.indic_docs)
         r = run_pipeline(
             indic_docs,
@@ -299,6 +488,17 @@ if __name__ == "__main__":
             expected_lang="hi",   # primary, but accepts all Indic
             source="ai4bharat/sangraha",
             license_class="CC-BY-4.0",
+        )
+        results.append(r)
+
+    if args.run in ("c4", "all"):
+        c4_docs = load_c4_crawl(max_docs=args.c4_docs)
+        r = run_pipeline(
+            c4_docs,
+            run_name="c4_crawl",
+            expected_lang="en",
+            source="allenai/c4 en.noclean",
+            license_class="ODC-BY",
         )
         results.append(r)
 

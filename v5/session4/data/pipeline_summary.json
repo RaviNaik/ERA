@@ -1,7 +1,7 @@
 [
   {
-    "run_name": "sangraha",
+    "run_name": "c4_crawl",
     "initial_docs": 20000,
-    "admitted_docs": 15
+    "admitted_docs": 6814
   }
 ]

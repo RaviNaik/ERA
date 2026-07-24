@@ -356,6 +356,9 @@ body {
 .drop-pill { padding: 3px 10px; border-radius: 99px; font-size: .72rem; font-weight: 600; background: #fee2e2; color: #991b1b; }
 .green-pill{ background: var(--green-l); color: #065f46; }
 
+/* ── C4 / Web-Crawl badges ───────────────────────────────────────────────── */
+.highlight-red { color: #dc2626; font-weight: 800; }
+
 /* ── Responsive — Mobile ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .sidebar {

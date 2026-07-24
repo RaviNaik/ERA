@@ -1,0 +1,292 @@
+[
+  {
+    "shard_id": "shard_39b9923b95ee",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "http://usapokersites2014.com/usapokersites2014-%D0%BF%D0%BE%D0%BA%D0%B5%D1%80-%D0%B4%D1%83%D1%80%D0%B0%D0%BA.html",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.785508+00:00",
+    "sha256": "39b9923b95eedd6549797baf3691a6826eacdeed69a8641b5f7e76d03986ca05",
+    "token_count": 12999,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 2.28,
+    "pii_redactions": 20,
+    "extraction_removed_pct": 0.01,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_42140bbe03c3",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "http://bond.dpsk12.org/category/news/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.785926+00:00",
+    "sha256": "42140bbe03c3ec2a7ef3a63e3eb87c62973aa026e63d95b7b49eab83ab97099f",
+    "token_count": 848,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.43,
+    "pii_redactions": 2,
+    "extraction_removed_pct": 0.31,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_479eed8b8d45",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://tatkalforsure.com/trains-between-stations/bangalore-cy-junction-sbc-to-gondia-junction-g/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.786191+00:00",
+    "sha256": "479eed8b8d451dbb6edb740a575ec78f43b6a8b456bb8495e361077119a1f642",
+    "token_count": 827,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.37,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.18,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_b1edc656e0a6",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "http://trivisionglobal.com/members-dashboard/the-kings-table-members/the-kings-table-video-vault/other-videos/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.786409+00:00",
+    "sha256": "b1edc656e0a61ad3d301dd9e4266817c8c4a18e58a189576569814fa7b865a83",
+    "token_count": 779,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.34,
+    "pii_redactions": 2,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_6ee3e378ba21",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://www.breakingnews.ie/maintopics/religion-4467.html",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.786870+00:00",
+    "sha256": "6ee3e378ba21b7b72874e6a9e632c8b4d38b8d100478c8d0b8d3b81373b28a7d",
+    "token_count": 1496,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.68,
+    "pii_redactions": 1,
+    "extraction_removed_pct": 0.2,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_c912c40b2fca",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://www.crownchryslerdublin.com/global-incentives/request-form.htm?globalVehicleTrimId=US2019DDG38eb185893e2fd3c5daa0a6&selectedIncentiveId=b0b6d5300a0e097875a31a84f05513c5&incentiveId=b0b6d5300a0e097875a31a84f05513c5&selectedAccountId=crownchryslerjeepcllc&itemType=2&useGlobalVehicleIdMatch=true&autoExpandDisclaimer=true&showIncentiveDetails=true&showSeeTrimsLink=false&showContactForm=false",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.786965+00:00",
+    "sha256": "c912c40b2fca36bcaf9e2d4f2b0f2b481e0001d30e1b2f7c101c1d2b0517cf6a",
+    "token_count": 322,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.51,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_a97c9fb7db32",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://kitchenbyte.com/best-bakeware-sets/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.787935+00:00",
+    "sha256": "a97c9fb7db326b4a89214103cb4ef5bd6b65df4c22e5a8e27020ce515026134e",
+    "token_count": 3245,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 2.98,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.01,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_910bbe50fc6e",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://www.archiscene.net/tower/four-frankfurt-unstudio/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.789247+00:00",
+    "sha256": "910bbe50fc6ec37caae70a3b2b89330b1d4a3d0aa2240e29187ad98ee0ecd3b9",
+    "token_count": 4462,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.53,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_f33029ad3cf7",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "https://hearthandmadeblog.com/dual-colorful-natural/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.789504+00:00",
+    "sha256": "f33029ad3cf78ee95001893918aa1167a6dfd08cf89a034ebc138702c7e16610",
+    "token_count": 822,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.76,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_9089f9e237ea",
+    "source": "allenai/c4 en.noclean",
+    "source_url": "http://thecounty.me/2018/07/11/opinion/rescue-the-children/",
+    "license_class": "ODC-BY",
+    "contributor_id": "era5-s4-c4_crawl",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
+    "ingest_timestamp": "2026-07-24T11:29:52.789785+00:00",
+    "sha256": "9089f9e237ea5b803616032452afdf4d6e857805ce651da2d30080ae87a3f9e8",
+    "token_count": 923,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.63,
+    "pii_redactions": 1,
+    "extraction_removed_pct": 0.33,
+    "status": "ADMITTED"
+  }
+]
