@@ -66,7 +66,7 @@
       </p>
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-num" id="stat-sessions">3</span>
+          <span class="stat-num" id="stat-sessions">4</span>
           <span class="stat-label">Sessions</span>
         </div>
         <div class="stat-divider"></div>
@@ -183,6 +183,36 @@
             </ul>
             <div class="card-footer">
               <span class="card-open-label">Open Session →</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Session 4 -->
+        <a href="v5/session4/webapp/" class="session-card" id="card-s4">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(99,102,241,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">S4</div>
+              <div class="card-tags">
+                <span class="tag">Data Pipeline</span>
+                <span class="tag">Wikipedia</span>
+                <span class="tag">7 widgets</span>
+              </div>
+            </div>
+            <h3 class="card-title">LLM Data<br/>Cleaning Pipeline</h3>
+            <p class="card-desc">
+              Production-grade 8-stage data cleaning pipeline on 100K Wikipedia articles.
+              Tracks survival rates, PII redactions, dedup, and benchmark decontamination
+              with real pipeline metrics.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#6366f1"></span>S4·1 Extract &amp; Normalize (NFC + Ghost-Tag)</li>
+              <li><span class="exp-dot" style="background:#06b6d4"></span>S4·2 LangID + Quality Filter (Gopher/C4)</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S4·3 MinHash LSH Deduplication</li>
+              <li><span class="exp-dot" style="background:#ef4444"></span>S4·4 PII Scrub + Decontam + Manifest</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
             </div>
           </div>
         </a>
