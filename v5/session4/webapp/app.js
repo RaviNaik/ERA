@@ -35,13 +35,13 @@ function jumpToPanel(n) {
 // ── W1: Pipeline Flow ─────────────────────────────────────────────────────
 function buildPipelineFlow() {
   const flow = document.getElementById("pipeline-flow");
-  const stages = D.wikipedia.stages;
-  const initialDocs = D.wikipedia.meta.initial_docs;
+  const stages = D.c4_crawl.stages;
+  const initialDocs = D.c4_crawl.meta.initial_docs;
   let html = "";
   stages.forEach((s, i) => {
     const pct = Math.round(s.output / initialDocs * 100);
     html += `
-      <div class="pipe-node" onclick="jumpToPanel(4); setTimeout(()=>selectStageTab('en',${i}),200)">
+      <div class="pipe-node" onclick="jumpToPanel(8); setTimeout(()=>selectStageTab('c4_crawl',${i}),200)">
         <div class="pipe-bubble" style="background:${s.color}" data-pct="${pct}">
           <span style="font-size:1.3rem">${s.icon}</span>
         </div>
@@ -55,8 +55,8 @@ function buildPipelineFlow() {
 
 function buildFunnel() {
   const wrap = document.getElementById("funnel-bars");
-  const stages = D.wikipedia.stages;
-  const initial = D.wikipedia.meta.initial_docs;
+  const stages = D.c4_crawl.stages;
+  const initial = D.c4_crawl.meta.initial_docs;
   let html = `<div class="funnel-row">
     <div class="funnel-label">Raw Input</div>
     <div class="funnel-bar-bg"><div class="funnel-bar" style="width:100%;background:#6366f1">${initial.toLocaleString()}</div></div>
@@ -426,7 +426,7 @@ function populateHeaderStats() {
   document.getElementById("sidebar-footer-text").textContent =
     `Wikipedia ${(w.initial_docs/1000).toFixed(0)}K · Indic ${(s.initial_docs/1000).toFixed(0)}K · Web ${(c.initial_docs/1000).toFixed(0)}K`;
   document.getElementById("funnel-title").textContent =
-    `▼ Survival Funnel — Wikipedia Run (${w.initial_docs.toLocaleString()} articles)`;
+    `▼ Survival Funnel — Web Crawl Run (C4 en.noclean, ${c.initial_docs.toLocaleString()} pages)`;
   document.getElementById("wiki-panel-summary").textContent =
     `${w.initial_docs.toLocaleString()} English Wikipedia articles processed through all 8 stages. Click each stage to see what was removed, why, and real before/after examples.`;
 

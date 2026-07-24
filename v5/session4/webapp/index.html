@@ -37,19 +37,19 @@
     <nav class="sidebar-nav" id="sidebar-nav">
       <div class="nav-section-label">Sections</div>
 
-      <button class="nav-widget active" data-panel="1" id="nav-btn-1">
-        <div class="nav-widget-icon">&#x1F9EA;</div>
-        <div class="nav-widget-body">
-          <div class="nav-widget-title">Pipeline Overview</div>
-          <div class="nav-widget-desc">8 stages &middot; flow &amp; funnel</div>
-        </div>
-      </button>
-
-      <button class="nav-widget" data-panel="2" id="nav-btn-2">
+      <button class="nav-widget active" data-panel="2" id="nav-btn-2">
         <div class="nav-widget-icon">&#x1F4CB;</div>
         <div class="nav-widget-body">
           <div class="nav-widget-title">Strategies</div>
           <div class="nav-widget-desc">8 stages + Ghost-Tag bonus</div>
+        </div>
+      </button>
+
+      <button class="nav-widget" data-panel="1" id="nav-btn-1">
+        <div class="nav-widget-icon">&#x1F9EA;</div>
+        <div class="nav-widget-body">
+          <div class="nav-widget-title">Pipeline Overview</div>
+          <div class="nav-widget-desc">8 stages &middot; flow &amp; funnel</div>
         </div>
       </button>
 
@@ -119,13 +119,28 @@
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL 2 — Strategy Catalogue
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="panel active" id="panel-2">
+      <div class="section-header">
+        <div class="section-badge">W2 &mdash; Strategy Catalogue</div>
+        <h2>8 Pipeline Strategies + Ghost-Tag Bonus</h2>
+        <p>Session 4 defines 8 mandatory cleaning stages addressing specific pipeline gaps. The Ghost-Tag Trap is a bonus stage preventing SFT training collisions.</p>
+      </div>
+      <div class="cards-grid" id="strategy-cards"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
          PANEL 1 — Pipeline Overview
     ══════════════════════════════════════════════════════════════════════ -->
-    <div class="panel active" id="panel-1">
+    <div class="panel" id="panel-1">
       <div class="section-header">
         <div class="section-badge">W1 &mdash; Pipeline Overview</div>
         <h2>8-Stage LLM Data Cleaning Pipeline</h2>
         <p>Raw datasets enter Stage 1 and pass through deterministic, reproducible cleaning stages. Each stage drops noise while the manifest stamps provenance. Click any node to jump to stage details.</p>
+        <div class="pipeline-gap-alert" style="margin-top:16px;">
+          &#x1F4A1; <strong>Note:</strong> The flow and funnel below use the <strong>Web Crawl (C4 en.noclean)</strong> run, not Wikipedia &mdash; unfiltered CommonCrawl is the most representative real-world case, since pre-curated sources like Wikipedia survive at unusually high rates.
+        </div>
       </div>
 
       <!-- Pipeline Flow nodes -->
@@ -134,23 +149,11 @@
       <!-- 3-way Survival Comparison -->
       <div class="three-way-compare" id="three-way-compare"></div>
 
-      <!-- Wikipedia Survival Funnel -->
+      <!-- Web Crawl Survival Funnel -->
       <div class="funnel-card mt-20">
-        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;" id="funnel-title">&#x25BC; Survival Funnel &mdash; Wikipedia Run</h3>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;" id="funnel-title">&#x25BC; Survival Funnel &mdash; Web Crawl Run (C4 en.noclean)</h3>
         <div class="funnel-bar-wrap" id="funnel-bars"></div>
       </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         PANEL 2 — Strategy Catalogue
-    ══════════════════════════════════════════════════════════════════════ -->
-    <div class="panel" id="panel-2">
-      <div class="section-header">
-        <div class="section-badge">W2 &mdash; Strategy Catalogue</div>
-        <h2>8 Pipeline Strategies + Ghost-Tag Bonus</h2>
-        <p>Session 4 defines 8 mandatory cleaning stages addressing specific pipeline gaps. The Ghost-Tag Trap is a bonus stage preventing SFT training collisions.</p>
-      </div>
-      <div class="cards-grid" id="strategy-cards"></div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
@@ -172,6 +175,22 @@
           <strong>C4 en.noclean (Web Crawl)</strong> is <em>unfiltered CommonCrawl</em> — the same data the trainer benchmarks apply to. <span id="c4-why-text">Stage 3 (Lang ID) and Stage 4 (Quality) do the heavy lifting.</span> This is why pre-curated sources like Wikipedia survive far more than raw web data.
         </div>
       </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL 8 — Web Crawl Run (C4 en.noclean)
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="panel" id="panel-8">
+      <div class="section-header">
+        <div class="section-badge">W8 &mdash; Stage Transitions (Web Crawl)</div>
+        <h2>C4 Web Crawl Run &mdash; allenai/c4 en.noclean</h2>
+        <p id="c4-panel-summary">Unfiltered CommonCrawl pages run through the identical 8-stage pipeline.</p>
+        <div class="pipeline-gap-alert" style="margin-top:16px;" id="c4-panel-alert">
+          &#x1F4A1; <strong>Key insight:</strong> Pre-curated sources like Wikipedia survive at a much higher rate than unfiltered CommonCrawl — the pipeline is doing real work.
+        </div>
+      </div>
+      <div class="stage-tabs" id="c4-stage-tabs"></div>
+      <div id="c4-stage-details"></div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
@@ -305,22 +324,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         PANEL 8 — Web Crawl Run (C4 en.noclean)
-    ══════════════════════════════════════════════════════════════════════ -->
-    <div class="panel" id="panel-8">
-      <div class="section-header">
-        <div class="section-badge">W8 &mdash; Stage Transitions (Web Crawl)</div>
-        <h2>C4 Web Crawl Run &mdash; allenai/c4 en.noclean</h2>
-        <p id="c4-panel-summary">Unfiltered CommonCrawl pages run through the identical 8-stage pipeline.</p>
-        <div class="pipeline-gap-alert" style="margin-top:16px;" id="c4-panel-alert">
-          &#x1F4A1; <strong>Key insight:</strong> Pre-curated sources like Wikipedia survive at a much higher rate than unfiltered CommonCrawl — the pipeline is doing real work.
-        </div>
-      </div>
-      <div class="stage-tabs" id="c4-stage-tabs"></div>
-      <div id="c4-stage-details"></div>
     </div>
 
   </main>
