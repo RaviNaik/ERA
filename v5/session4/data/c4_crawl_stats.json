@@ -1,7 +1,7 @@
 {
   "run_name": "c4_crawl",
   "initial_docs": 20000,
-  "initial_tokens": 18849063,
+  "initial_tokens": 24494758,
   "stages": [
     {
       "stage_id": 1,
@@ -16,8 +16,8 @@
       "input_tokens": 24494758,
       "output_tokens": 23691479,
       "token_survival_pct": 96.72,
-      "cumulative_survival_pct": 125.69,
-      "processing_time_s": 5.96,
+      "cumulative_survival_pct": 96.72,
+      "processing_time_s": 4.5,
       "examples": [
         {
           "before": "Kitchen Thermometers - Kitchen - Shop\nFree Ground Shipping on orders over $25\nTaylor\nLog In\nMy Cart\nCheckout\nFacebook\nTwitter\nSearch\nToggle navigation\nShop\nKitchen\nBath\nWeather\nGrill Tools\nReplacement Parts\nSupport\nApp Partners\nCustomer Service\nAbout Us\nLog In\nMy Cart\nCheckout\nFacebook\nTwitter\nSearc",
@@ -63,8 +63,8 @@
       "input_tokens": 23691479,
       "output_tokens": 23689850,
       "token_survival_pct": 99.99,
-      "cumulative_survival_pct": 125.68,
-      "processing_time_s": 16.9,
+      "cumulative_survival_pct": 96.71,
+      "processing_time_s": 11.26,
       "examples": [
         {
           "before": "Slot Seeding with New Holland TM150. | Gasilski Dom Nova Gorica Poker\nGasilski Dom Nova Gorica Poker - Slot Seeding with New Holland TM150.\n++NEW Coyote Queen slot machine, DBG\nHere is another Aristocrat game designed for players that like razzle dazzle and also progressives. I'm not a big fan of th",
@@ -394,8 +394,8 @@
       "input_tokens": 23689850,
       "output_tokens": 14903264,
       "token_survival_pct": 62.91,
-      "cumulative_survival_pct": 79.07,
-      "processing_time_s": 8.71,
+      "cumulative_survival_pct": 60.84,
+      "processing_time_s": 4.56,
       "examples": [
         {
           "before": "Download Link page 2\nTCV Menu\nHome\nGeneral\nSecurity\nWordpress Template\nWordpress Plugin\nVideo\nTutorial\nDereferer\nYYEN.INFO This tool will help you turn a long and complicated link into a short one. Sh",
@@ -594,8 +594,8 @@
       "input_tokens": 14903264,
       "output_tokens": 9662442,
       "token_survival_pct": 64.83,
-      "cumulative_survival_pct": 51.26,
-      "processing_time_s": 13.65,
+      "cumulative_survival_pct": 39.45,
+      "processing_time_s": 6.41,
       "examples": [
         {
           "before": "November 24, 2016 – World News, Breaking News\nWednesday, April 24, 2019\nLatest:\nFitbit introduced “smart” watches, Versa Lite, and a fitness bracelets under $100\nUpgraded Acer laptop Aspire 3 entered the Ukrainian market with a price tag from 8939 UAH\nMicrosoft discontinues support fitness bracelets",
@@ -659,8 +659,8 @@
       "input_tokens": 9662442,
       "output_tokens": 9636720,
       "token_survival_pct": 99.73,
-      "cumulative_survival_pct": 51.13,
-      "processing_time_s": 114.83,
+      "cumulative_survival_pct": 39.34,
+      "processing_time_s": 65.4,
       "examples": [
         {
           "before": "Plan cul cougar instacougar rencontre femme mure\nXML Sitemap\nThis is a XML Sitemap which is supposed to be processed by search engines which follow the XML Sitemap standard like Ask.com, Bing, Google ",
@@ -705,8 +705,8 @@
       "input_tokens": 9636720,
       "output_tokens": 9628366,
       "token_survival_pct": 99.91,
-      "cumulative_survival_pct": 51.08,
-      "processing_time_s": 7.99,
+      "cumulative_survival_pct": 39.31,
+      "processing_time_s": 7.28,
       "examples": [
         {
           "before": "Slot Seeding with New Holland TM150. | Gasilski Dom Nova Gorica Poker\nGasilski Dom Nova Gorica Poker - Slot Seeding with New Holland TM150.\n++NEW Coyote Queen slot machine, DBG\nHere is another Aristocrat game designed for players that like razzle dazzle and also progressives. I'm not a big fan of th",
@@ -772,8 +772,8 @@
       "input_tokens": 9628366,
       "output_tokens": 9227034,
       "token_survival_pct": 95.83,
-      "cumulative_survival_pct": 48.95,
-      "processing_time_s": 3.8,
+      "cumulative_survival_pct": 37.67,
+      "processing_time_s": 3.23,
       "examples": [
         {
           "before": "Cyrsti's Condo: The Right or Wrong Person for the Job?\nCyrsti's Condo\nYour Transgender Girl in the Neighborhood-JJ'S HOUSE!\nTuesday, August 25, 2015\nThe Right or Wrong Person for the Job?\nI really don't know how many times I have sworn myself off the \"allure\" or lack of it from Caitlin Jenner.\nKrist",
@@ -825,23 +825,23 @@
       "drop_pct": 0.0,
       "drop_reasons": {},
       "input_tokens": 9227034,
-      "output_tokens": 8319664,
-      "token_survival_pct": 90.17,
-      "cumulative_survival_pct": 44.14,
-      "processing_time_s": 3.33,
+      "output_tokens": 9227034,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 37.67,
+      "processing_time_s": 0.77,
       "examples": [],
       "metadata_added": [
         "manifest"
       ],
       "extra": {
-        "total_real_tokens_admitted": 8319664,
+        "total_real_tokens_admitted": 9227034,
         "lang_distribution": {
           "en": 100
         },
         "manifests_saved": 10,
         "manifests_file": "D:\\ERA\\v5\\session4\\data\\manifests\\c4_crawl\\sample_manifests.json",
         "shard_id_rule": "shard_<sha256[:12]> -- deterministic, content-addressed",
-        "v4_bug_fixed": "V4 used non-deterministic Spark SQL row counters for shard IDs and word*1.3 for token counts. We use SHA-256-derived IDs and BPE-aware counting.",
+        "v4_bug_fixed": "V4 used non-deterministic Spark SQL row counters for shard IDs. We use SHA-256-derived, content-addressed shard IDs instead. Token counts here use the same word-based estimator as every other stage for internal consistency; production must swap in a real tokenizer (tiktoken/SentencePiece) to fix the Indic undercount V4 shipped with.",
         "status": "ADMITTED"
       }
     }

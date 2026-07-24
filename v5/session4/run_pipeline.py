@@ -26,7 +26,7 @@ DATA_DIR = SCRIPT_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 sys.path.insert(0, str(PIPELINE_DIR))
 
-from stats_tracker import PipelineTracker
+from stats_tracker import PipelineTracker, estimate_tokens
 from stage1_extract   import run_stage1
 from stage2_normalize import run_stage2
 from stage3_langid    import run_stage3
@@ -82,34 +82,34 @@ def load_sangraha(max_docs: int = 20_000) -> list[dict]:
 
     try:
         from datasets import load_dataset
-        configs_to_try = [
-            ("hi", "sangraha_verified_hi"),
-            ("te", "sangraha_verified_te"),
-        ]
-        for lang_code, config in configs_to_try:
+        # Real HF layout: dataset config is "verified", language is the SPLIT
+        # (not a per-language config name). Fields are doc_id/type/text.
+        langs_to_try = ["hin", "tel"]
+        for lang_code in langs_to_try:
             try:
                 ds = load_dataset(
                     "ai4bharat/sangraha",
-                    config,
-                    split="train",
+                    "verified",
+                    split=lang_code,
                     streaming=True,
-                    trust_remote_code=True,
                 )
-                per_lang = max_docs // len(configs_to_try)
+                per_lang = max_docs // len(langs_to_try)
                 for i, row in enumerate(ds):
                     if i >= per_lang:
                         break
-                    text = row.get("text", row.get("content", ""))
+                    text = row.get("text", "")
                     if text:
                         docs.append({
-                            "id":   row.get("id", f"{lang_code}_{i}"),
-                            "url":  row.get("url", ""),
+                            "id":   row.get("doc_id", f"{lang_code}_{i}"),
+                            "url":  "",
                             "text": text,
-                            "declared_lang": lang_code,
+                            "declared_lang": "hi" if lang_code == "hin" else "te",
+                            "source_type": row.get("type", ""),
                         })
-                print(f"  Loaded {len([d for d in docs if d.get('declared_lang')==lang_code]):,} {lang_code} docs")
+                short = "hi" if lang_code == "hin" else "te"
+                print(f"  Loaded {len([d for d in docs if d.get('declared_lang')==short]):,} {short} docs")
             except Exception as e:
-                print(f"  Warning: Could not load {config}: {e}")
+                print(f"  Warning: Could not load split {lang_code}: {e}")
     except Exception as e:
         print(f"  Warning: Sangraha dataset access failed: {e}")
 
@@ -376,7 +376,10 @@ def run_pipeline(
 
     tracker = PipelineTracker(run_name, DATA_DIR)
     tracker.initial_docs  = len(docs)
-    tracker.initial_tokens = sum(len(d["text"].split()) for d in docs)
+    # Must use the SAME estimator every stage uses (stats_tracker.estimate_tokens),
+    # otherwise cumulative_survival_pct is computed against a different token
+    # scale than every stage reports and can read >100% -- the bug this fixes.
+    tracker.initial_tokens = sum(estimate_tokens(d["text"]) for d in docs)
 
     # Compute script hash for manifest provenance
     orchestrator_hash = script_sha256(SCRIPT_DIR / "run_pipeline.py")

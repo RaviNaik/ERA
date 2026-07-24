@@ -6,10 +6,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.950068+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.027646+00:00",
     "sha256": "44e2681d9009d89d8cda8513dc6389f073872e9c476eccb8f748fc4a3f74e185",
-    "token_count": 7856,
+    "token_count": 8725,
     "lang_distribution": {
       "en": 100
     },
@@ -35,10 +35,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.951937+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.027909+00:00",
     "sha256": "890dcb286cf3c8579bd6e91ad50d6e239d1bfdf4331fc5133d569a1c6f8dfa2d",
-    "token_count": 4528,
+    "token_count": 5036,
     "lang_distribution": {
       "en": 100
     },
@@ -64,10 +64,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.953112+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.028191+00:00",
     "sha256": "23840bee0bf9e4438125d184e3e15389ffc533a22ce3f7c2a7c737b25e7a518a",
-    "token_count": 2139,
+    "token_count": 2388,
     "lang_distribution": {
       "en": 100
     },
@@ -93,10 +93,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.958907+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.029660+00:00",
     "sha256": "edbe1c2fe94570defed0b1c06772cb7fcbcdbfdac7a88a0b3ea909de0fb3dbd1",
-    "token_count": 14119,
+    "token_count": 15667,
     "lang_distribution": {
       "en": 100
     },
@@ -122,10 +122,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.962852+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.031068+00:00",
     "sha256": "4c3f0ed74b4cbe212f08a4bcc5741e2f22b533462109ebf21ae8bfb0dbfc0acd",
-    "token_count": 8876,
+    "token_count": 9900,
     "lang_distribution": {
       "en": 100
     },
@@ -151,10 +151,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.969113+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.031969+00:00",
     "sha256": "3b8a325a45232618fe401c82d79930a40036522656042ba5babbc8143e4ca91c",
-    "token_count": 16534,
+    "token_count": 18379,
     "lang_distribution": {
       "en": 100
     },
@@ -180,10 +180,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.973256+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.032607+00:00",
     "sha256": "15d3e2cd30135011a30db6735bb8f83ecd058e1393155cae5e9315729fe691d9",
-    "token_count": 11838,
+    "token_count": 13149,
     "lang_distribution": {
       "en": 100
     },
@@ -209,10 +209,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.974006+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.032726+00:00",
     "sha256": "e2b17a1c2b00ba5ae317546f835a71c8ae397422b642021aae23e3a5702c108a",
-    "token_count": 2104,
+    "token_count": 2325,
     "lang_distribution": {
       "en": 100
     },
@@ -238,10 +238,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.977732+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.033238+00:00",
     "sha256": "672362618c49d9f63dc9ea0560dd5b6424b9e7e9dcd0f8bab90650027d5a7f17",
-    "token_count": 9627,
+    "token_count": 10706,
     "lang_distribution": {
       "en": 100
     },
@@ -267,10 +267,10 @@
     "license_class": "CC-BY-SA-4.0",
     "contributor_id": "era5-s4-wikipedia",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
-    "ingest_timestamp": "2026-07-23T18:37:06.977953+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:39:22.033280+00:00",
     "sha256": "a80a5d41fa542e2f8fbd6e08b3831818d5fb25b594b2ffd60f5048aa8a599d47",
-    "token_count": 455,
+    "token_count": 503,
     "lang_distribution": {
       "en": 100
     },

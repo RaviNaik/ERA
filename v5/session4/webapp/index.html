@@ -27,10 +27,10 @@
 
     <!-- KPI mini-cards in sidebar -->
     <div class="sidebar-kpis">
-      <div class="skpi"><span class="skpi-val" id="kpi-docs">95,404</span><span class="skpi-lbl">Docs Admitted</span></div>
-      <div class="skpi"><span class="skpi-val" id="kpi-tokens">84.4M</span><span class="skpi-lbl">Tokens (EN)</span></div>
-      <div class="skpi"><span class="skpi-val" id="kpi-survival">95.4%</span><span class="skpi-lbl">Survival</span></div>
-      <div class="skpi"><span class="skpi-val" id="kpi-pii">2,013</span><span class="skpi-lbl">PII Redacted</span></div>
+      <div class="skpi"><span class="skpi-val" id="kpi-docs">&nbsp;</span><span class="skpi-lbl">Docs Admitted</span></div>
+      <div class="skpi"><span class="skpi-val" id="kpi-tokens">&nbsp;</span><span class="skpi-lbl">Tokens (EN)</span></div>
+      <div class="skpi"><span class="skpi-val" id="kpi-survival">&nbsp;</span><span class="skpi-lbl">Survival</span></div>
+      <div class="skpi"><span class="skpi-val" id="kpi-pii">&nbsp;</span><span class="skpi-lbl">PII Redacted</span></div>
     </div>
 
     <!-- Navigation widgets -->
@@ -65,7 +65,7 @@
         <div class="nav-widget-icon">&#x1F310;</div>
         <div class="nav-widget-body">
           <div class="nav-widget-title">Web Crawl Run</div>
-          <div class="nav-widget-desc">C4 en.noclean &middot; 34.1% survival</div>
+          <div class="nav-widget-desc" id="nav-c4-desc">C4 en.noclean</div>
         </div>
       </button>
 
@@ -103,7 +103,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <div class="sidebar-footer-text">Wikipedia 100K &middot; Indic 20K &middot; Web 20K</div>
+      <div class="sidebar-footer-text" id="sidebar-footer-text">&nbsp;</div>
     </div>
   </aside>
 
@@ -136,7 +136,7 @@
 
       <!-- Wikipedia Survival Funnel -->
       <div class="funnel-card mt-20">
-        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;">&#x25BC; Survival Funnel &mdash; Wikipedia Run (100,000 articles)</h3>
+        <h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px;" id="funnel-title">&#x25BC; Survival Funnel &mdash; Wikipedia Run</h3>
         <div class="funnel-bar-wrap" id="funnel-bars"></div>
       </div>
     </div>
@@ -169,7 +169,7 @@
         <div class="card-body">
           <strong>Wikipedia</strong> provides clean, well-studied English prose with known noise patterns: disambiguation pages, stub articles, heavy citation markup, and math-symbol-heavy content. It exercises every heuristic rule in Stage 4.<br/><br/>
           <strong>Sangraha (Indic)</strong> demonstrates the <em>Sovereign Indic Exception</em> — where English Gopher thresholds fail on Telugu's agglutinative morphology, where ZWNJ/ZWJ must be preserved for Devanagari ligatures, and where AADHAAR/PAN regex patterns become relevant for PII scrubbing.<br/><br/>
-          <strong>C4 en.noclean (Web Crawl)</strong> is <em>unfiltered CommonCrawl</em> — the same data the trainer benchmarks apply to. Stage 3 (Lang ID) drops 37.4% and Stage 4 (Quality) drops 43.1%, yielding only 34.1% survival. This is why pre-curated sources like Wikipedia survive at 95%+ while raw web data does not.
+          <strong>C4 en.noclean (Web Crawl)</strong> is <em>unfiltered CommonCrawl</em> — the same data the trainer benchmarks apply to. <span id="c4-why-text">Stage 3 (Lang ID) and Stage 4 (Quality) do the heavy lifting.</span> This is why pre-curated sources like Wikipedia survive far more than raw web data.
         </div>
       </div>
     </div>
@@ -181,7 +181,7 @@
       <div class="section-header">
         <div class="section-badge">W4 &mdash; Stage Transitions (English)</div>
         <h2>Wikipedia Run &mdash; Stage-by-Stage</h2>
-        <p>100,000 English Wikipedia articles processed through all 8 stages. Click each stage to see what was removed, why, and real before/after examples.</p>
+        <p id="wiki-panel-summary">English Wikipedia articles processed through all 8 stages. Click each stage to see what was removed, why, and real before/after examples.</p>
       </div>
       <div class="stage-tabs" id="en-stage-tabs"></div>
       <div id="en-stage-details"></div>
@@ -314,9 +314,9 @@
       <div class="section-header">
         <div class="section-badge">W8 &mdash; Stage Transitions (Web Crawl)</div>
         <h2>C4 Web Crawl Run &mdash; allenai/c4 en.noclean</h2>
-        <p>20,000 unfiltered CommonCrawl pages run through the identical 8-stage pipeline. Stage 3 (Lang ID) dropped <strong>37.4%</strong> of docs due to multilingual noise and mixed-script nav pages. Stage 4 (Quality Filter) dropped <strong>43.1%</strong> due to nav boilerplate, SEO spam from real websites, and forum link lists. Final survival: <strong class="highlight-red">34.1%</strong> — matching the trainer&rsquo;s typical web crawl benchmark.</p>
-        <div class="pipeline-gap-alert" style="margin-top:16px;">
-          &#x1F4A1; <strong>Key insight:</strong> Wikipedia survives at 95.4% because it is a <em>pre-curated source</em>. Unfiltered CommonCrawl (en.noclean) survives at only 34.1% — the pipeline is doing real work.
+        <p id="c4-panel-summary">Unfiltered CommonCrawl pages run through the identical 8-stage pipeline.</p>
+        <div class="pipeline-gap-alert" style="margin-top:16px;" id="c4-panel-alert">
+          &#x1F4A1; <strong>Key insight:</strong> Pre-curated sources like Wikipedia survive at a much higher rate than unfiltered CommonCrawl — the pipeline is doing real work.
         </div>
       </div>
       <div class="stage-tabs" id="c4-stage-tabs"></div>

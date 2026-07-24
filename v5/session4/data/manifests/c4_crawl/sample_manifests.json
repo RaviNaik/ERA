@@ -6,10 +6,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.785508+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704393+00:00",
     "sha256": "39b9923b95eedd6549797baf3691a6826eacdeed69a8641b5f7e76d03986ca05",
-    "token_count": 12999,
+    "token_count": 14045,
     "lang_distribution": {
       "en": 100
     },
@@ -35,10 +35,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.785926+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704457+00:00",
     "sha256": "42140bbe03c3ec2a7ef3a63e3eb87c62973aa026e63d95b7b49eab83ab97099f",
-    "token_count": 848,
+    "token_count": 951,
     "lang_distribution": {
       "en": 100
     },
@@ -64,10 +64,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.786191+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704502+00:00",
     "sha256": "479eed8b8d451dbb6edb740a575ec78f43b6a8b456bb8495e361077119a1f642",
-    "token_count": 827,
+    "token_count": 932,
     "lang_distribution": {
       "en": 100
     },
@@ -93,10 +93,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.786409+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704531+00:00",
     "sha256": "b1edc656e0a61ad3d301dd9e4266817c8c4a18e58a189576569814fa7b865a83",
-    "token_count": 779,
+    "token_count": 846,
     "lang_distribution": {
       "en": 100
     },
@@ -122,10 +122,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.786870+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704605+00:00",
     "sha256": "6ee3e378ba21b7b72874e6a9e632c8b4d38b8d100478c8d0b8d3b81373b28a7d",
-    "token_count": 1496,
+    "token_count": 1670,
     "lang_distribution": {
       "en": 100
     },
@@ -151,10 +151,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.786965+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704622+00:00",
     "sha256": "c912c40b2fca36bcaf9e2d4f2b0f2b481e0001d30e1b2f7c101c1d2b0517cf6a",
-    "token_count": 322,
+    "token_count": 358,
     "lang_distribution": {
       "en": 100
     },
@@ -180,10 +180,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.787935+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704769+00:00",
     "sha256": "a97c9fb7db326b4a89214103cb4ef5bd6b65df4c22e5a8e27020ce515026134e",
-    "token_count": 3245,
+    "token_count": 3541,
     "lang_distribution": {
       "en": 100
     },
@@ -209,10 +209,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.789247+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.704981+00:00",
     "sha256": "910bbe50fc6ec37caae70a3b2b89330b1d4a3d0aa2240e29187ad98ee0ecd3b9",
-    "token_count": 4462,
+    "token_count": 4986,
     "lang_distribution": {
       "en": 100
     },
@@ -238,10 +238,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.789504+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.705025+00:00",
     "sha256": "f33029ad3cf78ee95001893918aa1167a6dfd08cf89a034ebc138702c7e16610",
-    "token_count": 822,
+    "token_count": 925,
     "lang_distribution": {
       "en": 100
     },
@@ -267,10 +267,10 @@
     "license_class": "ODC-BY",
     "contributor_id": "era5-s4-c4_crawl",
     "cleaning_script": "run_pipeline.py",
-    "cleaning_script_hash": "f1f7b608c1fec9cb36aa56b6430836bb41c95a7fd87b60aea2a6da490c397bbf",
-    "ingest_timestamp": "2026-07-24T11:29:52.789785+00:00",
+    "cleaning_script_hash": "96cb9fda3534758e35cb0182bb267da79c8a7d7962ed630a177091514289944f",
+    "ingest_timestamp": "2026-07-24T16:45:37.705073+00:00",
     "sha256": "9089f9e237ea5b803616032452afdf4d6e857805ce651da2d30080ae87a3f9e8",
-    "token_count": 923,
+    "token_count": 1027,
     "lang_distribution": {
       "en": 100
     },

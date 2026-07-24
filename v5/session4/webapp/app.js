@@ -36,9 +36,10 @@ function jumpToPanel(n) {
 function buildPipelineFlow() {
   const flow = document.getElementById("pipeline-flow");
   const stages = D.wikipedia.stages;
+  const initialDocs = D.wikipedia.meta.initial_docs;
   let html = "";
   stages.forEach((s, i) => {
-    const pct = Math.round(s.output / 100000 * 100);
+    const pct = Math.round(s.output / initialDocs * 100);
     html += `
       <div class="pipe-node" onclick="jumpToPanel(4); setTimeout(()=>selectStageTab('en',${i}),200)">
         <div class="pipe-bubble" style="background:${s.color}" data-pct="${pct}">
@@ -55,10 +56,10 @@ function buildPipelineFlow() {
 function buildFunnel() {
   const wrap = document.getElementById("funnel-bars");
   const stages = D.wikipedia.stages;
-  const initial = 100000;
+  const initial = D.wikipedia.meta.initial_docs;
   let html = `<div class="funnel-row">
     <div class="funnel-label">Raw Input</div>
-    <div class="funnel-bar-bg"><div class="funnel-bar" style="width:100%;background:#6366f1">100,000</div></div>
+    <div class="funnel-bar-bg"><div class="funnel-bar" style="width:100%;background:#6366f1">${initial.toLocaleString()}</div></div>
     <div class="funnel-val" style="color:#6366f1">100.0%</div></div>`;
   stages.forEach(s => {
     const pct = (s.output / initial * 100).toFixed(1);
@@ -107,6 +108,9 @@ function buildDatasets() {
   const wiki = D.wikipedia.meta;
   const sang = D.sangraha.meta;
   const c4   = D.c4_crawl.meta;
+  const c4Lang = D.c4_crawl.stages.find(s => s.name === "Language ID");
+  const c4Qual = D.c4_crawl.stages.find(s => s.name === "Quality Filter");
+  const c4Pii  = D.c4_crawl.stages.find(s => s.name === "PII Scrub");
   container.innerHTML = `
     <div class="dataset-card active">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
@@ -131,7 +135,7 @@ function buildDatasets() {
       </div>
       <span class="dataset-badge" style="background:#d1fae5;color:#065f46">INDIC DEMO RUN</span>
       <div style="font-size:.82rem;color:var(--muted);margin:8px 0;">${sang.description}</div>
-      <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${sang.license} &nbsp;|&nbsp; <strong>Source:</strong> ai4bharat/sangraha (synthetic fallback)</div>
+      <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${sang.license} &nbsp;|&nbsp; <strong>Source:</strong> ${sang.source}</div>
       <div class="dataset-stat-row">
         <div class="dataset-stat"><div class="dataset-stat-v" style="color:#6366f1">${sang.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
         <div class="dataset-stat"><div class="dataset-stat-v" style="color:#10b981">${sang.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
@@ -146,7 +150,7 @@ function buildDatasets() {
         <span style="font-size:1.5rem">🌐</span>
         <div class="dataset-title">C4 Web Crawl (en.noclean)</div>
       </div>
-      <span class="dataset-badge" style="background:#fef2f2;color:#dc2626">REAL WEB CRAWL — 34.1% SURVIVAL</span>
+      <span class="dataset-badge" style="background:#fef2f2;color:#dc2626">REAL WEB CRAWL — ${c4.survival_pct}% SURVIVAL</span>
       <div style="font-size:.82rem;color:var(--muted);margin:8px 0;">${c4.description}</div>
       <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${c4.license} &nbsp;|&nbsp; <strong>HF Config:</strong> <span class="inline-code">allenai/c4 en.noclean</span></div>
       <div class="dataset-stat-row">
@@ -156,8 +160,8 @@ function buildDatasets() {
         <div class="dataset-stat"><div class="dataset-stat-v" style="color:#dc2626;font-weight:800">${c4.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
       </div>
       <div style="margin-top:8px;font-size:.78rem;padding:10px;background:#fef2f2;border-radius:8px;color:#991b1b;">
-        <strong>Stage 3 (Lang ID):</strong> –37.4% &nbsp;|&nbsp; <strong>Stage 4 (Quality):</strong> –43.1% &nbsp;|&nbsp; <strong>PII redactions:</strong> 8,413 (4× Wikipedia)<br/>
-        This is why the trainer's benchmark says ~42% survival for raw web crawls. Wikipedia's 95.4% is the exception, not the rule.
+        <strong>Stage 3 (Lang ID):</strong> –${c4Lang.drop_pct}% &nbsp;|&nbsp; <strong>Stage 4 (Quality):</strong> –${c4Qual.drop_pct}% &nbsp;|&nbsp; <strong>PII redactions:</strong> ${c4Pii.drop_summary}<br/>
+        This is why raw web crawls survive far less than pre-curated sources. Wikipedia's ${D.wikipedia.meta.survival_pct}% is the exception, not the rule.
       </div>
     </div>`;
 }
@@ -241,33 +245,38 @@ function getPipelineNote(stageId) {
   return notes[stageId] || "";
 }
 
-// C4 web crawl insight notes
+// C4 web crawl insight notes -- numbers pulled live from D.c4_crawl so they
+// never drift from whatever the pipeline actually produced on its last run.
 function getC4Note(stageId) {
+  const st = D.c4_crawl.stages[stageId - 1];
+  const wikiPii = (D.wikipedia.stages.find(s => s.name === "PII Scrub") || {}).drop_summary || "";
   const notes = {
-    1: "<strong>Web Crawl Reality:</strong> 544 pages were pure navigation menus — no prose whatsoever after strip. This is common in unfiltered CommonCrawl where many 'pages' are just nav structures baked into one doc.",
-    2: "<strong>Real-world HTML noise:</strong> 1,513 HTML entities + 7,063 Unicode noise chars removed from actual web pages. Web data has far more encoding artifacts than curated sources like Wikipedia.",
-    3: "<strong>37.4% dropped at Lang ID:</strong> This is the trainer's benchmark in action. Unfiltered CommonCrawl has Chinese, French, German, Spanish, Japanese pages mixed in. Low-confidence mixed-script nav pages (e.g., English page with Russian menu items) also fail the 0.70 confidence threshold.",
-    4: "<strong>43.1% dropped at Quality Filter:</strong> Real nav boilerplate fails avg_line_len (<30 chars). Real SEO spam fails punct_end_ratio (<40%). Real forum/link pages fail multiple rules simultaneously. This is the major kill-zone in web crawl cleaning.",
-    5: "<strong>Dedup catches templated content:</strong> XML sitemap clones and templated product manual pages (identical boilerplate, only serial number differs) caught by both exact SHA-256 and MinHash LSH. Real web crawls have much higher near-dup rates.",
-    6: "<strong>4× more PII than Wikipedia:</strong> 8,413 redactions vs 2,013. Real web pages include business contact pages, forum posts with phone numbers, e-commerce pages with customer emails. PII scrubbing is load-bearing for web-scale data.",
-    7: "<strong>Benchmark contamination in real data:</strong> 58 real web pages contained MCQ patterns (e.g., (a)..(b)..(c)..(d) option lists in quiz pages) and 'how many.*total' patterns in news articles. Decontamination firewall correctly quarantined them.",
-    8: "<strong>Final yield: 34.1% (6,814/20,000):</strong> This is the trainer's benchmark number made concrete with real data. Stage 3 and Stage 4 do the heavy lifting. The remaining stages refine without major drops."
+    1: `<strong>Web Crawl Reality:</strong> ${st.dropped.toLocaleString()} pages were pure navigation menus or stubs — no prose whatsoever after strip. This is common in unfiltered CommonCrawl where many 'pages' are just nav structures baked into one doc.`,
+    2: `<strong>Real-world HTML noise:</strong> Real web pages carry far more HTML entities and Unicode noise chars than curated sources like Wikipedia (see counts above).`,
+    3: `<strong>${st.drop_pct}% dropped at Lang ID:</strong> Unfiltered CommonCrawl has many non-English pages mixed in. Low-confidence mixed-script nav pages (e.g., English page with foreign-language menu items) also fail the 0.70 confidence threshold.`,
+    4: `<strong>${st.drop_pct}% dropped at Quality Filter:</strong> Real nav boilerplate fails avg_line_len (<30 chars). Real SEO spam fails punct_end_ratio (<40%). Real forum/link pages fail multiple rules simultaneously. This is the major kill-zone in web crawl cleaning.`,
+    5: `<strong>Dedup catches templated content:</strong> XML sitemap clones and templated product manual pages (identical boilerplate, only serial number differs) caught by both exact SHA-256 and MinHash LSH. Real web crawls have much higher near-dup rates than curated sources.`,
+    6: `<strong>PII in the wild:</strong> Real web pages include business contact pages, forum posts with phone numbers, e-commerce pages with customer emails — this is why PII scrubbing is load-bearing for web-scale data.`,
+    7: `<strong>Benchmark contamination in real data:</strong> ${st.dropped.toLocaleString()} real web pages contained MCQ patterns (e.g., (a)..(b)..(c)..(d) option lists in quiz pages) and 'how many...total' patterns in news articles. Decontamination firewall correctly quarantined them.`,
+    8: `<strong>Final yield: ${D.c4_crawl.meta.survival_pct}% (${D.c4_crawl.meta.admitted_docs.toLocaleString()}/${D.c4_crawl.meta.initial_docs.toLocaleString()}):</strong> This is the trainer's benchmark number made concrete with real data. Stage 3 and Stage 4 do the heavy lifting. The remaining stages refine without major drops.`
   };
   return notes[stageId] || "";
 }
 
 
-// Indic-specific insight notes
+// Indic-specific insight notes -- numbers pulled live from D.sangraha
 function getIndicNote(stageId) {
+  const st = D.sangraha.stages[stageId - 1];
+  const langStage = D.sangraha.stages[2]; // stage 3
   const notes = {
-    1: "<strong>Indic Note:</strong> Clean Indic prose from Sangraha needs no heavy markup stripping &mdash; demonstrates the pipeline adapts to already-clean sources.",
+    1: "<strong>Indic Note:</strong> Real Sangraha web + PDF-extracted text needs markup stripping just like any other web source &mdash; PDF-extraction artifacts in particular need cleanup.",
     2: "<strong>Sovereign Indic Exception:</strong> ZWNJ (U+200C) and ZWJ (U+200D) PRESERVED. These control Devanagari, Malayalam, and Telugu ligature formation. Stripping them would corrupt spellings and break tokenization.",
-    3: "<strong>Script Histogram Validation:</strong> fastText detects hi/te correctly (100% match). Runtime validation catches mislabelled files that directory-path trust would pass silently.",
-    4: "<strong>Sovereign Indic Exception FAILURE:</strong> Telugu uses fullstop '.' but our punctuation filter checks for danda '&#x0964;'. This demonstrates why Indic-specific thresholds are MANDATORY. English Gopher rules must not be applied directly.",
-    5: "<strong>Global Dedup Critical for Indic:</strong> Synthetic data exposed: 14,985 exact duplicates removed. Real Indic web crawls have massive news syndication &mdash; the same article appears across 50+ regional news sites. Global dedup is load-bearing.",
+    3: `<strong>Script Histogram Validation:</strong> fastText + Devanagari/Telugu codepoint-block validation run on every document (${langStage ? langStage.drop_pct : '?'}% quarantined). Runtime validation catches mislabelled files that directory-path trust would pass silently.`,
+    4: "<strong>Sovereign Indic Exception:</strong> Telugu and Hindi word-length upper bound is relaxed to 15 chars (vs English's 10) due to agglutinative morphology, and the punctuation-end check accepts both '.' and the Devanagari danda '।'. English Gopher thresholds applied directly would incorrectly penalize high-quality Indic documents.",
+    5: "<strong>Global Dedup Critical for Indic:</strong> Real Indic web crawls have massive news syndication &mdash; the same article appears across many regional news sites. Global (not per-source) dedup is load-bearing for catching this.",
     6: "<strong>India-Specific PII:</strong> AADHAAR (12-digit: XXXX XXXX XXXX) and PAN (ABCDE1234F) patterns active. Indic place names like 'Mysuru' must NOT be masked as personal names by overly aggressive NER.",
-    7: "<strong>Indic Decontam:</strong> Indic benchmarks (IndicGLUE, AI4Bharat evals) have different golden proxy sets. Clean Indic prose shows zero contamination with English benchmarks.",
-    8: "<strong>Bilingual Manifest:</strong> lang_distribution records hi=67%, te=33% to support mixed-script shard tracking. Critical for Indic corpus accounting."
+    7: "<strong>Indic Decontam:</strong> Indic benchmarks (IndicGLUE, AI4Bharat evals) have different golden proxy sets from MMLU/GSM8K/HumanEval, so the same n-gram/MCQ firewall is applied without special-casing script.",
+    8: "<strong>Bilingual Manifest:</strong> lang_distribution records the hi/te split per shard to support mixed-script corpus accounting."
   };
   return notes[stageId] || "";
 }
@@ -281,9 +290,11 @@ function buildCharts() {
   const stages = D.wikipedia.stages;
   const labels = stages.map(s => s.name);
   const colors = stages.map(s => s.color);
+  const initialDocs = D.wikipedia.meta.initial_docs;
+  const initialTok = D.wikipedia.meta.initial_tokens;
 
   // Donut
-  const admittedDocs = 95404, droppedDocs = 100000 - 95404;
+  const admittedDocs = D.wikipedia.meta.admitted_docs, droppedDocs = initialDocs - admittedDocs;
   new Chart(document.getElementById("chart-donut"), {
     type: "doughnut",
     data: {
@@ -294,7 +305,7 @@ function buildCharts() {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { position: "bottom" },
-        tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw.toLocaleString()} docs (${(ctx.raw / 100000 * 100).toFixed(1)}%)` } }
+        tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw.toLocaleString()} docs (${(ctx.raw / initialDocs * 100).toFixed(1)}%)` } }
       }
     }
   });
@@ -320,7 +331,7 @@ function buildCharts() {
       labels: ["Raw", ...labels],
       datasets: [{
         label: "Token Survival %",
-        data: [100, ...stages.map(s => parseFloat((s.output_tok / 96406415 * 100).toFixed(1)))],
+        data: [100, ...stages.map(s => parseFloat((s.output_tok / initialTok * 100).toFixed(1)))],
         borderColor: "#6366f1", backgroundColor: "#6366f122",
         fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: colors
       }]
@@ -384,25 +395,62 @@ function buildManifest() {
 
   // Run summary
   const w = D.wikipedia.meta;
+  const stages = D.wikipedia.stages;
+  const piiStage = stages.find(s => s.name === "PII Scrub");
+  const decontamStage = stages.find(s => s.name === "Decontaminate");
+  const dedupStage = stages.find(s => s.name === "Deduplicate");
+  const piiCount = (piiStage && piiStage.drop_summary.match(/[\d,]+/)) ? piiStage.drop_summary.match(/[\d,]+/)[0] : "n/a";
   document.getElementById("run-summary").innerHTML = `
     <div><strong>Wikipedia Run:</strong> ${w.initial_docs.toLocaleString()} docs &rarr; <strong style="color:#10b981">${w.admitted_docs.toLocaleString()} admitted</strong> (${w.survival_pct}% survival rate)</div>
-    <div><strong>Tokens admitted:</strong> ${(w.admitted_tokens / 1e6).toFixed(1)}M BPE-aware tokens (not word&times;1.3 estimate)</div>
-    <div><strong>Total pipeline time:</strong> ~${Math.round(w.total_time_s / 60)} minutes (dedup stage dominates: 704s for MinHash LSH)</div>
-    <div><strong>PII redactions:</strong> 2,013 tokens across 1,020 documents</div>
-    <div><strong>Benchmark overlaps caught:</strong> 171 documents quarantined by decontam firewall</div>
-    <div><strong>License:</strong> CC-BY-SA 4.0 — all shards inherit source license</div>
+    <div><strong>Tokens admitted:</strong> ${(w.admitted_tokens / 1e6).toFixed(1)}M tokens (word-based estimate, consistent across all stages)</div>
+    <div><strong>Total pipeline time:</strong> ~${Math.round(w.total_time_s / 60)} minutes (dedup stage: ${dedupStage ? dedupStage.processing_time_s.toFixed(0) : '?'}s for MinHash LSH)</div>
+    <div><strong>PII redactions:</strong> ${piiStage ? piiStage.drop_summary : 'n/a'}</div>
+    <div><strong>Benchmark overlaps caught:</strong> ${decontamStage ? decontamStage.dropped.toLocaleString() : '?'} documents quarantined by decontam firewall</div>
+    <div><strong>License:</strong> ${w.license} — all shards inherit source license</div>
     <div><strong>Script hash:</strong> Recorded in every manifest — pipeline changes detectable</div>
   `;
 }
 
+// ── Header / Sidebar dynamic text (all derived from D, never hardcoded) ──
+function populateHeaderStats() {
+  const w = D.wikipedia.meta, s = D.sangraha.meta, c = D.c4_crawl.meta;
+  const piiStage = D.wikipedia.stages.find(st => st.name === "PII Scrub");
+  const piiCount = piiStage ? (piiStage.drop_summary.match(/[\d,]+/) || ["n/a"])[0] : "n/a";
+
+  document.getElementById("kpi-docs").textContent = w.admitted_docs.toLocaleString();
+  document.getElementById("kpi-tokens").textContent = (w.admitted_tokens / 1e6).toFixed(1) + "M";
+  document.getElementById("kpi-survival").textContent = w.survival_pct + "%";
+  document.getElementById("kpi-pii").textContent = piiCount;
+
+  document.getElementById("nav-c4-desc").textContent = `C4 en.noclean · ${c.survival_pct}% survival`;
+  document.getElementById("sidebar-footer-text").textContent =
+    `Wikipedia ${(w.initial_docs/1000).toFixed(0)}K · Indic ${(s.initial_docs/1000).toFixed(0)}K · Web ${(c.initial_docs/1000).toFixed(0)}K`;
+  document.getElementById("funnel-title").textContent =
+    `▼ Survival Funnel — Wikipedia Run (${w.initial_docs.toLocaleString()} articles)`;
+  document.getElementById("wiki-panel-summary").textContent =
+    `${w.initial_docs.toLocaleString()} English Wikipedia articles processed through all 8 stages. Click each stage to see what was removed, why, and real before/after examples.`;
+
+  const c4Lang = D.c4_crawl.stages.find(st => st.name === "Language ID");
+  const c4Qual = D.c4_crawl.stages.find(st => st.name === "Quality Filter");
+  document.getElementById("c4-why-text").innerHTML =
+    `Stage 3 (Lang ID) drops ${c4Lang ? c4Lang.drop_pct : '?'}% and Stage 4 (Quality) drops ${c4Qual ? c4Qual.drop_pct : '?'}%, yielding only ${c.survival_pct}% survival.`;
+
+  document.getElementById("c4-panel-summary").innerHTML =
+    `${c.initial_docs.toLocaleString()} unfiltered CommonCrawl pages run through the identical 8-stage pipeline. Stage 3 (Lang ID) dropped <strong>${c4Lang ? c4Lang.drop_pct : '?'}%</strong> of docs due to multilingual noise and mixed-script nav pages. Stage 4 (Quality Filter) dropped <strong>${c4Qual ? c4Qual.drop_pct : '?'}%</strong> due to nav boilerplate, SEO spam and forum link lists. Final survival: <strong class="highlight-red">${c.survival_pct}%</strong>.`;
+  document.getElementById("c4-panel-alert").innerHTML =
+    `&#x1F4A1; <strong>Key insight:</strong> Wikipedia survives at ${w.survival_pct}% because it is a <em>pre-curated source</em>. Unfiltered CommonCrawl (en.noclean) survives at only ${c.survival_pct}% — the pipeline is doing real work.`;
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  populateHeaderStats();
   buildPipelineFlow();
   buildFunnel();
   buildStrategies();
   buildDatasets();
   buildStageDetails("wikipedia", "en-stage-tabs", "en-stage-details");
   buildStageDetails("sangraha", "in-stage-tabs", "in-stage-details");
+  buildStageDetails("c4_crawl", "c4-stage-tabs", "c4-stage-details");
   buildCharts();
   buildManifest();
 });

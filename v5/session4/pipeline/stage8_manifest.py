@@ -37,23 +37,18 @@ def sha256_of_text(text: str) -> str:
 
 def real_token_count(text: str) -> int:
     """
-    Best-effort token count without full tokenizer.
-    Uses BPE-aware estimate: subword splits on apostrophes/hyphens,
-    slightly better than naive word count * 1.3.
+    Token count for the manifest. Uses the SAME estimator as every other
+    stage (stats_tracker.estimate_tokens) so counts are comparable end to
+    end -- a prior version of this function used a different, incompatible
+    heuristic here, which made cumulative_survival_pct exceed 100% because
+    stage 8's token count was computed on a different scale than stages 1-7.
 
-    V4 bug: used words * 1.3, underestimated Indic by up to 10x.
-    Production fix: always use the actual tokenizer (tiktoken, SentencePiece, etc.)
+    This is still a word-count estimate, not a real tokenizer -- production
+    pipelines must swap in the actual tokenizer (tiktoken, SentencePiece,
+    etc.) per the Session 4 V4 bug note (words*1.3 undercounts Indic by
+    up to 10x). Demo-scale here; the point being enforced is consistency.
     """
-    # Split by whitespace + handle apostrophes as subword boundaries
-    tokens = text.split()
-    subword_count = 0
-    for tok in tokens:
-        # Each punctuation cluster counts separately
-        parts = [p for p in tok.split("'") if p]
-        parts = sum([p.split("-") for p in parts], [])
-        subword_count += max(1, len(parts))
-    # Apply BPE inflation factor (1.15 for English prose)
-    return max(1, int(subword_count * 1.15))
+    return estimate_tokens(text)
 
 
 def compute_lang_distribution(docs: list[dict]) -> dict:
@@ -154,9 +149,12 @@ def run_stage8(docs: list[dict], stats: StageStats,
         "manifests_file": str(samples_path),
         "shard_id_rule": "shard_<sha256[:12]> -- deterministic, content-addressed",
         "v4_bug_fixed": (
-            "V4 used non-deterministic Spark SQL row counters for shard IDs "
-            "and word*1.3 for token counts. "
-            "We use SHA-256-derived IDs and BPE-aware counting."
+            "V4 used non-deterministic Spark SQL row counters for shard IDs. "
+            "We use SHA-256-derived, content-addressed shard IDs instead. "
+            "Token counts here use the same word-based estimator as every "
+            "other stage for internal consistency; production must swap in "
+            "a real tokenizer (tiktoken/SentencePiece) to fix the Indic "
+            "undercount V4 shipped with."
         ),
         "status": "ADMITTED",
     }

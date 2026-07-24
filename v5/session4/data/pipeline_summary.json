@@ -1,5 +1,15 @@
 [
   {
+    "run_name": "wikipedia",
+    "initial_docs": 100000,
+    "admitted_docs": 95404
+  },
+  {
+    "run_name": "sangraha",
+    "initial_docs": 20000,
+    "admitted_docs": 18483
+  },
+  {
     "run_name": "c4_crawl",
     "initial_docs": 20000,
     "admitted_docs": 6814

@@ -1,5 +1,5 @@
 import json, pathlib
-for fname in ["wikipedia_stats.json", "sangraha_stats.json"]:
+for fname in ["wikipedia_stats.json", "sangraha_stats.json", "c4_crawl_stats.json"]:
     path = pathlib.Path("data") / fname
     if not path.exists():
         print(fname + ": NOT FOUND")
