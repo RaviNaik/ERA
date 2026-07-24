@@ -1,0 +1,272 @@
+{
+  "run_name": "sangraha",
+  "initial_docs": 20000,
+  "initial_tokens": 1204000,
+  "stages": [
+    {
+      "stage_id": 1,
+      "stage_name": "Extract",
+      "input_docs": 20000,
+      "output_docs": 20000,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1557000,
+      "output_tokens": 1557000,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 129.32,
+      "processing_time_s": 0.41,
+      "examples": [],
+      "metadata_added": [
+        "orig_len",
+        "extracted_len",
+        "extraction_removed_pct"
+      ],
+      "extra": {}
+    },
+    {
+      "stage_id": 2,
+      "stage_name": "Normalize",
+      "input_docs": 20000,
+      "output_docs": 20000,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1557000,
+      "output_tokens": 1557000,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 129.32,
+      "processing_time_s": 1.09,
+      "examples": [],
+      "metadata_added": [
+        "html_entities_removed",
+        "noise_chars_removed",
+        "ghost_tags_removed",
+        "norm_len"
+      ],
+      "extra": {
+        "total_html_entities_removed": 0,
+        "total_noise_chars_removed": 0,
+        "total_ghost_tags_removed": 0,
+        "zwnj_preserved_note": "ZWNJ (U+200C) and ZWJ (U+200D) preserved for Brahmic scripts"
+      }
+    },
+    {
+      "stage_id": 3,
+      "stage_name": "Language ID",
+      "input_docs": 20000,
+      "output_docs": 20000,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1557000,
+      "output_tokens": 1557000,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 129.32,
+      "processing_time_s": 2.46,
+      "examples": [],
+      "metadata_added": [
+        "detected_lang",
+        "lang_confidence",
+        "script_coverage_pct"
+      ],
+      "extra": {
+        "expected_lang": "hi",
+        "confidence_threshold": 0.7,
+        "lang_distribution_detected": {
+          "hi": 10000,
+          "te": 10000
+        },
+        "v4_bug_note": "V4 used directory-path trust (verified/asm/ assumed Assamese). We validate every document at runtime instead."
+      }
+    },
+    {
+      "stage_id": 4,
+      "stage_name": "Quality Filter",
+      "input_docs": 20000,
+      "output_docs": 15000,
+      "docs_dropped": 5000,
+      "drop_pct": 25.0,
+      "drop_reasons": {
+        "punct_end_ratio_low_0.00": 5000
+      },
+      "input_tokens": 1557000,
+      "output_tokens": 1265000,
+      "token_survival_pct": 81.25,
+      "cumulative_survival_pct": 105.07,
+      "processing_time_s": 1.1,
+      "examples": [
+        {
+          "before": "భారతదేశం వైవిధ్యంతో నిండిన దేశం. ఇక్కడ వివిధ భాషలు, మతాలు మరియు సంస్కృతులు కలిసి జీవిస్తున్నాయి. తెలుగు భాష ద్రావిడ భాషా కుటుంబానికి చెందినది. మహాత్మా గాంధీ భారత స్వాతంత్ర్య పోరాటంలో గొప్ప నాయక తెలంగాణ మరియు ఆంధ్రప్రదేశ్ తెలుగు మాట్లాడే రాష్ట్ర భారత రాజ్యాంగం ప్రపంచంలోనే అతి పెద్ద లిఖిత రాజ్యాం తెలు",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['punct_end_ratio_low_0.00', 'stopword_density_low_0.045']"
+        },
+        {
+          "before": "తెలంగాణ మరియు ఆంధ్రప్రదేశ్ తెలుగు మాట్లాడే రాష్ట్రాలు. హైదరాబాద్ నగరం సాంకేతిక పరిశ్రమకు ప్రసిద్ధి చెందింది. ఇక్కడ అనేక బహుళజాతి సంస్థలు కార్యాలయాలు నెలకొల్పాయి. భారత రాజ్యాంగం ప్రపంచంలోనే అతి పెద్ద లిఖిత రాజ్యాం తెలుగు సాహిత్యం చాలా సుసంపన్నమైనది. నన్నయ, తిక్కన, హిమాలయాలు భారతదేశం ఉత్తర సరిహద్దున ఉ",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['punct_end_ratio_low_0.00', 'stopword_density_low_0.045']"
+        },
+        {
+          "before": "భారత రాజ్యాంగం ప్రపంచంలోనే అతి పెద్ద లిఖిత రాజ్యాంగం. దీనిని 1950 జనవరి 26న అమలులోకి తెచ్చారు. డాక్టర్ బి.ఆర్. అంబేద్కర్ దీని రచనలో ముఖ్య భూమిక పోషించారు. తెలుగు సాహిత్యం చాలా సుసంపన్నమైనది. నన్నయ, తిక్కన, హిమాలయాలు భారతదేశం ఉత్తర సరిహద్దున ఉన్న విశాలమైన ప భారతీయ వంటకాలు ప్రపంచ ప్రఖ్యాతి పొందాయి. మస",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['punct_end_ratio_low_0.00', 'stopword_density_low_0.043']"
+        },
+        {
+          "before": "తెలుగు సాహిత్యం చాలా సుసంపన్నమైనది. నన్నయ, తిక్కన, ఎర్రన మహాభారత అనువాదం చేశారు. పోతన రచించిన భాగవతం తెలుగు సాహిత్యంలో అత్యంత ప్రముఖ రచన. హిమాలయాలు భారతదేశం ఉత్తర సరిహద్దున ఉన్న విశాలమైన ప భారతీయ వంటకాలు ప్రపంచ ప్రఖ్యాతి పొందాయి. మసాలాలు, విజ్ఞాన మరియు సాంకేతిక రంగంలో భారతదేశం గొప్ప పురోగ భారతీయ చలన",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['punct_end_ratio_low_0.00', 'stopword_density_low_0.044']"
+        },
+        {
+          "before": "విజ్ఞాన మరియు సాంకేతిక రంగంలో భారతదేశం గొప్ప పురోగతి సాధించింది. ఇస్రో అనేక విజయవంతమైన అంతరిక్ష ప్రయోగాలు నిర్వహించింది. మంగళయాన్ మిషన్ మొదటి ప్రయత్నంలోనే విజయవంతమైంది. భారతీయ చలనచిత్ర పరిశ్రమ ప్రపంచంలోనే అతి పెద్దది. త గోదావరి నది ఆంధ్రప్రదేశ్ మరియు తెలంగాణలో ప్రవహిస్త భారతదేశం వైవిధ్యంతో నిండిన దే",
+          "after": "[DROPPED]",
+          "note": "Failed heuristics: ['punct_end_ratio_low_0.00', 'stopword_density_low_0.043']"
+        }
+      ],
+      "metadata_added": [
+        "quality_flags",
+        "avg_word_len",
+        "symbol_ratio",
+        "punct_end_ratio",
+        "stopword_density",
+        "dup_line_ratio",
+        "edu_score"
+      ],
+      "extra": {
+        "heuristic_rules_applied": [
+          "word_length_bounds (3-10, relaxed 3-15 Indic)",
+          "symbol_to_word_ratio (<10%)",
+          "line_length_bounds (30-1000 chars)",
+          "punctuation_end_check (>=40%)",
+          "stopword_density (>=5%)",
+          "duplicate_lines_ratio (<30%)"
+        ],
+        "edu_classifier_threshold": 1.5,
+        "indic_exception_note": "Telugu/Hindi word-length upper bound relaxed to 15 chars due to agglutinative morphology. English Gopher threshold (10) would incorrectly penalize high-quality Indic documents."
+      }
+    },
+    {
+      "stage_id": 5,
+      "stage_name": "Deduplicate",
+      "input_docs": 15000,
+      "output_docs": 15,
+      "docs_dropped": 14985,
+      "drop_pct": 99.9,
+      "drop_reasons": {
+        "exact_duplicate": 14985
+      },
+      "input_tokens": 1265000,
+      "output_tokens": 1265,
+      "token_survival_pct": 0.1,
+      "cumulative_survival_pct": 0.11,
+      "processing_time_s": 0.27,
+      "examples": [],
+      "metadata_added": [
+        "content_hash",
+        "is_near_dup",
+        "dup_of"
+      ],
+      "extra": {
+        "algorithm": "MinHash LSH",
+        "n_permutations": 128,
+        "shingle_size": 5,
+        "jaccard_threshold": 0.8,
+        "exact_dups_removed": 14985,
+        "near_dups_removed": 0,
+        "memory_note": "This demo: 15,000 docs. Production 100M docs with 256 perms requires >= 768GB RAM node.",
+        "indic_note": "NFC normalization applied before hashing to catch Unicode variant duplicates."
+      }
+    },
+    {
+      "stage_id": 6,
+      "stage_name": "PII Scrub",
+      "input_docs": 15,
+      "output_docs": 15,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1265,
+      "output_tokens": 1265,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 0.11,
+      "processing_time_s": 0.0,
+      "examples": [],
+      "metadata_added": [
+        "pii_redactions",
+        "pii_types_found"
+      ],
+      "extra": {
+        "total_pii_redactions": 0,
+        "docs_with_pii": 0,
+        "patterns_applied": [
+          "email",
+          "ipv4",
+          "phone_intl",
+          "aadhaar",
+          "pan_card"
+        ],
+        "placeholder_strategy": "typed_placeholder_not_empty_string",
+        "ner_note": "ML NER (personal name detection via Presidio) not run in this demo. In production, threshold >= 0.6 recommended to avoid masking Indic place names (e.g., Mysuru/Mumbai) as personal names.",
+        "precision_recall_note": "High aggressiveness (threshold < 0.4) increases recall but hurts precision. Indic NER models confuse common nouns and place names as personal names."
+      }
+    },
+    {
+      "stage_id": 7,
+      "stage_name": "Decontaminate",
+      "input_docs": 15,
+      "output_docs": 15,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1265,
+      "output_tokens": 1265,
+      "token_survival_pct": 100.0,
+      "cumulative_survival_pct": 0.11,
+      "processing_time_s": 0.0,
+      "examples": [],
+      "metadata_added": [
+        "decontam_status",
+        "contam_reason"
+      ],
+      "extra": {
+        "n_gram_size": 8,
+        "benchmark_patterns_checked": 12,
+        "firewall_tiers": {
+          "golden_proxy": "MMLU/GSM8K/HumanEval/Math500 test splits -- NEVER trained on",
+          "always_on": "Flan_v2/NuminaMath train splits -- rides 8% of batches"
+        },
+        "v4_reality_note": "V4 had no active decontamination filters. Band B2 was deleted after 18.7% collision rate audit. This stage prevents that failure.",
+        "canary_note": "Canary GUIDs should be inserted into eval sets to detect future leakage."
+      }
+    },
+    {
+      "stage_id": 8,
+      "stage_name": "Manifest",
+      "input_docs": 15,
+      "output_docs": 15,
+      "docs_dropped": 0,
+      "drop_pct": 0.0,
+      "drop_reasons": {},
+      "input_tokens": 1265,
+      "output_tokens": 1119,
+      "token_survival_pct": 88.46,
+      "cumulative_survival_pct": 0.09,
+      "processing_time_s": 0.0,
+      "examples": [],
+      "metadata_added": [
+        "manifest"
+      ],
+      "extra": {
+        "total_real_tokens_admitted": 1119,
+        "lang_distribution": {
+          "hi": 67,
+          "te": 33
+        },
+        "manifests_saved": 10,
+        "manifests_file": "D:\\ERA\\v5\\session4\\data\\manifests\\sangraha\\sample_manifests.json",
+        "shard_id_rule": "shard_<sha256[:12]> -- deterministic, content-addressed",
+        "v4_bug_fixed": "V4 used non-deterministic Spark SQL row counters for shard IDs and word*1.3 for token counts. We use SHA-256-derived IDs and BPE-aware counting.",
+        "status": "ADMITTED"
+      }
+    }
+  ]
+}

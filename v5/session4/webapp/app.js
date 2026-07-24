@@ -5,14 +5,25 @@ const D = window.PIPELINE_DATA;
 // ── Colour helpers ────────────────────────────────────────────────────────
 const lighten = c => c + "22";
 
+// ── Sidebar toggle (mobile) ───────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar  = document.getElementById("sidebar");
+  const overlay  = document.getElementById("sidebar-overlay");
+  const isOpen   = sidebar.classList.contains("open");
+  sidebar.classList.toggle("open", !isOpen);
+  overlay.classList.toggle("visible", !isOpen);
+}
+
 // ── Navigation ────────────────────────────────────────────────────────────
-document.querySelectorAll(".stage-btn").forEach(btn => {
+document.querySelectorAll(".nav-widget").forEach(btn => {
   btn.addEventListener("click", () => {
     const p = btn.dataset.panel;
-    document.querySelectorAll(".stage-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".nav-widget").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById("panel-" + p).classList.add("active");
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth <= 768) toggleSidebar();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
@@ -81,7 +92,7 @@ function buildStrategies() {
       <div class="card-icon">${s.icon}</div>
       <div class="card-title" style="color:${s.color}">Stage ${s.id}: ${s.name}</div>
       <div class="card-body">
-        <strong style="color:#991b1b">V4 Gap:</strong> ${s.gap}<br/><br/>
+        <strong style="color:#92400e">Pipeline Gap:</strong> ${s.gap}<br/><br/>
         <strong>Fix:</strong> ${s.fix}<br/><br/>
         <strong>Drops:</strong> ${s.drop}
       </div>
@@ -157,8 +168,8 @@ function buildStageDetails(runKey, tabsId, detailsId) {
           <div style="font-size:.8rem;"><strong>What was removed:</strong><br/><span style="color:var(--muted)">${s.what_removed}</span></div>
           <div style="margin-top:10px;"><strong style="font-size:.78rem;">Metadata added:</strong><br/>${s.metadata_added.map(m=>`<span class="inline-code">${m}</span>`).join(" ")}</div>
         </div>
-        <div class="v4-alert">${runKey==='wikipedia'
-          ? getV4Note(s.id)
+        <div class="pipeline-gap-alert">${runKey==='wikipedia'
+          ? getPipelineNote(s.id)
           : getIndicNote(s.id)}
         </div>
       </div>
@@ -189,20 +200,22 @@ function selectStageTab(runKey, idx) {
   document.getElementById(`${runKey}-detail-${idx}`)?.classList.add("active");
 }
 
-function getV4Note(stageId) {
+// Pipeline gap notes for English (Wikipedia) run
+function getPipelineNote(stageId) {
   const notes = {
-    1: "<strong>V4 Bug:</strong> Naive HTML stripping kept navigation links and cookie banners as document body content.",
-    2: "<strong>V4 Bug:</strong> No shared clean_text() normalization function in any ingestion script &rarr; 46 garbage vocabulary tokens baked into tokenizer.",
-    3: "<strong>V4 Bug:</strong> Trusted directory naming (verified/asm/) without runtime validation. Nested Python dict LANG_3_TO_2 caused silent language misrouting.",
-    4: "<strong>V4 Bug:</strong> English-heavy heuristic proxy classifier systematically undervalued Indic scripts. Manual always-on bypass allowed bad noise in.",
-    5: "<strong>V4 Bug:</strong> Only local per-source deduplication &mdash; no global dedup. Cross-shard duplicates leaked, wasting compute and raising memorization risk.",
-    6: "<strong>V4 Bug:</strong> Lacked PII scrubbing for Indic pipelines entirely. Personal identifiers exposed in training set.",
-    7: "<strong>V4 Bug:</strong> No active decontamination. Band B2 was deleted AFTER an 18.7% benchmark collision rate was discovered post-training.",
-    8: "<strong>V4 Bug:</strong> Non-deterministic Spark SQL ORDER BY for shard IDs + words&times;1.3 token estimates &rarr; undercount by up to 10&times; for Indic."
+    1: "<strong>Pipeline Gap fixed:</strong> Earlier approach naively stripped HTML which kept navigation links and cookie banners as document body content.",
+    2: "<strong>Pipeline Gap fixed:</strong> No shared clean_text() normalization function existed in any ingestion script &rarr; 46 garbage vocabulary tokens were baked into the tokenizer.",
+    3: "<strong>Pipeline Gap fixed:</strong> Trusted directory naming (verified/asm/) without runtime validation. Nested dict LANG_3_TO_2 caused silent language misrouting.",
+    4: "<strong>Pipeline Gap fixed:</strong> English-heavy heuristic proxy classifier systematically undervalued Indic scripts. Manual always-on bypass allowed bad noise in.",
+    5: "<strong>Pipeline Gap fixed:</strong> Only local per-source deduplication &mdash; no global dedup. Cross-shard duplicates leaked, wasting compute and raising memorization risk.",
+    6: "<strong>Pipeline Gap fixed:</strong> Lacked PII scrubbing for Indic pipelines entirely. Personal identifiers were exposed in training set.",
+    7: "<strong>Pipeline Gap fixed:</strong> No active decontamination firewall. An 18.7% benchmark collision rate was discovered only post-training, requiring Band B2 deletion.",
+    8: "<strong>Pipeline Gap fixed:</strong> Non-deterministic row counters for shard IDs + words&times;1.3 token estimates &rarr; undercount by up to 10&times; for Indic languages."
   };
   return notes[stageId] || "";
 }
 
+// Indic-specific insight notes
 function getIndicNote(stageId) {
   const notes = {
     1: "<strong>Indic Note:</strong> Clean Indic prose from Sangraha needs no heavy markup stripping &mdash; demonstrates the pipeline adapts to already-clean sources.",

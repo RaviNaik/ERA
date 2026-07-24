@@ -1,0 +1,292 @@
+[
+  {
+    "shard_id": "shard_44e2681d9009",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Anarchism",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.950068+00:00",
+    "sha256": "44e2681d9009d89d8cda8513dc6389f073872e9c476eccb8f748fc4a3f74e185",
+    "token_count": 7856,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 2.81,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_890dcb286cf3",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Albedo",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.951937+00:00",
+    "sha256": "890dcb286cf3c8579bd6e91ad50d6e239d1bfdf4331fc5133d569a1c6f8dfa2d",
+    "token_count": 4528,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.23,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.01,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_23840bee0bf9",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/A",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.953112+00:00",
+    "sha256": "23840bee0bf9e4438125d184e3e15389ffc533a22ce3f7c2a7c737b25e7a518a",
+    "token_count": 2139,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.3,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.04,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_edbe1c2fe945",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Alabama",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.958907+00:00",
+    "sha256": "edbe1c2fe94570defed0b1c06772cb7fcbcdbfdac7a88a0b3ea909de0fb3dbd1",
+    "token_count": 14119,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.13,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_4c3f0ed74b4c",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Achilles",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.962852+00:00",
+    "sha256": "4c3f0ed74b4cbe212f08a4bcc5741e2f22b533462109ebf21ae8bfb0dbfc0acd",
+    "token_count": 8876,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.25,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_3b8a325a4523",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Abraham%20Lincoln",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.969113+00:00",
+    "sha256": "3b8a325a45232618fe401c82d79930a40036522656042ba5babbc8143e4ca91c",
+    "token_count": 16534,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.11,
+    "pii_redactions": 1,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_15d3e2cd3013",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Aristotle",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.973256+00:00",
+    "sha256": "15d3e2cd30135011a30db6735bb8f83ecd058e1393155cae5e9315729fe691d9",
+    "token_count": 11838,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.17,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.01,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_e2b17a1c2b00",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/An%20American%20in%20Paris",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.974006+00:00",
+    "sha256": "e2b17a1c2b00ba5ae317546f835a71c8ae397422b642021aae23e3a5702c108a",
+    "token_count": 2104,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.31,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_672362618c49",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Academy%20Awards",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.977732+00:00",
+    "sha256": "672362618c49d9f63dc9ea0560dd5b6424b9e7e9dcd0f8bab90650027d5a7f17",
+    "token_count": 9627,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.15,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_a80a5d41fa54",
+    "source": "wikimedia/wikipedia",
+    "source_url": "https://en.wikipedia.org/wiki/Actrius",
+    "license_class": "CC-BY-SA-4.0",
+    "contributor_id": "era5-s4-wikipedia",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "1f513310f5cf1882dcfbe0a19a85ca2de912c9e438826c6ff6143cc8a9b6fcba",
+    "ingest_timestamp": "2026-07-23T18:37:06.977953+00:00",
+    "sha256": "a80a5d41fa542e2f8fbd6e08b3831818d5fb25b594b2ffd60f5048aa8a599d47",
+    "token_count": 455,
+    "lang_distribution": {
+      "en": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.83,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  }
+]

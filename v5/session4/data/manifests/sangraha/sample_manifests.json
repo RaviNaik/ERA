@@ -1,0 +1,292 @@
+[
+  {
+    "shard_id": "shard_55ec2d983975",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542430+00:00",
+    "sha256": "55ec2d983975f2f066462ecc4453f2a5915fc8cccddba9910165437951c72525",
+    "token_count": 85,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.59,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_9642cd647698",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542513+00:00",
+    "sha256": "9642cd647698b3f6e3fb6ce54398b53627efb7f52b89dc9488a04c649fc00f67",
+    "token_count": 82,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.85,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_753dbc251ec0",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542591+00:00",
+    "sha256": "753dbc251ec0a61552070c82683e362050c03d4beea705a54365b560cc527e78",
+    "token_count": 85,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.75,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_efda37eaff0c",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542633+00:00",
+    "sha256": "efda37eaff0c8a404724b8a7549f3c0dbcb2a517b83553fa8dea0cce20c9a954",
+    "token_count": 89,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.23,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.25,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_fb08818eeb0d",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542673+00:00",
+    "sha256": "fb08818eeb0d8f0ef12c457129ac7c1395682740410b01211fd33c51494ea884",
+    "token_count": 88,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.37,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_4e5ac22b8da7",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542732+00:00",
+    "sha256": "4e5ac22b8da73f89757f77a1a1c7def128f378757b922ca21080f2b886a0b224",
+    "token_count": 88,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 2.94,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_942821b47bf7",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542790+00:00",
+    "sha256": "942821b47bf7851abd87a0af86a294afa188398cf8f7125cf7baca7c361296e7",
+    "token_count": 93,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.12,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_1335d4dc38cb",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542851+00:00",
+    "sha256": "1335d4dc38cbb48cb3d83b1e9b3de34440839a904dcc91b7ec701c70ae3efc15",
+    "token_count": 82,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.3,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_73eda9bf6bee",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542912+00:00",
+    "sha256": "73eda9bf6bee39d6bebef89741bd41fa3dabe856942d3409a951ff76f6d93cac",
+    "token_count": 82,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.04,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.24,
+    "status": "ADMITTED"
+  },
+  {
+    "shard_id": "shard_cda586d402ad",
+    "source": "ai4bharat/sangraha",
+    "source_url": "",
+    "license_class": "CC-BY-4.0",
+    "contributor_id": "era5-s4-sangraha",
+    "cleaning_script": "run_pipeline.py",
+    "cleaning_script_hash": "ea72a754874564c25b50c0919367570f0238c30eb9c7bd6e83379a6bfa694cf7",
+    "ingest_timestamp": "2026-07-24T01:54:16.542969+00:00",
+    "sha256": "cda586d402ade7d56794fd899da16598ab2a1c51c9e8b205fb80bf1c4854a39c",
+    "token_count": 82,
+    "lang_distribution": {
+      "hi": 100
+    },
+    "pipeline_stages_applied": [
+      "extraction",
+      "normalization",
+      "langid",
+      "quality_filter",
+      "deduplication",
+      "pii_scrub",
+      "decontamination",
+      "manifest"
+    ],
+    "quality_score": 3.42,
+    "pii_redactions": 0,
+    "extraction_removed_pct": 0.0,
+    "status": "ADMITTED"
+  }
+]
