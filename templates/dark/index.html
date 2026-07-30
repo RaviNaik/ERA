@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[SESSION TITLE] | ERA V5</title>
+  <meta name="description" content="[Session description for SEO]" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Theme Toggle ───────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S[N]</div>
+      <div class="sidebar-brand-title">[Session Title]<br/><span class="sidebar-gradient-text">[Subtitle]</span></div>
+      <div class="sidebar-brand-sub">[N] Sections · [Month] 2026</div>
+    </div>
+    <nav>
+      <!--
+        Add navigation items here. Each follows this pattern:
+        <a class="nav-item active" href="#section-id" data-target="section-id">
+          <span class="nav-icon">🔣</span> Section Label
+        </a>
+
+        The "active" class is toggled by app.js on click.
+      -->
+      <a class="nav-item active" href="#section1" data-target="section1">
+        <span class="nav-icon">📌</span> Section 1
+      </a>
+      <a class="nav-item" href="#section2" data-target="section2">
+        <span class="nav-icon">📊</span> Section 2
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session [N] Assignment</div>
+      <h1>[Session Title]<br>[Subtitle]</h1>
+      <p>
+        [Hero description — 1-2 sentences explaining what this dashboard covers.]
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="val indigo">[Value]</span>
+          <span class="lbl">[Label]</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">[Value]</span>
+          <span class="lbl">[Label]</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val amber">[Value]</span>
+          <span class="lbl">[Label]</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Section 1 ─────────────────────────────────────── -->
+    <section class="section" id="section1">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / [TOTAL] · [TOPIC TAG]</span>
+          <h2 class="section-title">[Section 1 Title]</h2>
+          <p class="section-desc">
+            [Brief description of what this section shows and how to interact with it.]
+          </p>
+        </div>
+        <!-- Optional tab bar -->
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tab1a">[Tab A]</button>
+          <button class="tab-btn"        id="tab1b">[Tab B]</button>
+        </div>
+      </div>
+
+      <!-- Section content goes here -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">[Card Title]</span>
+          <span class="badge badge-blue">[Badge]</span>
+        </div>
+        <div class="card-body">
+          <!-- Your charts, tables, or interactive widgets -->
+          <p style="color:var(--text-secondary);">Add your content here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 2 ─────────────────────────────────────── -->
+    <section class="section" id="section2">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / [TOTAL] · [TOPIC TAG]</span>
+          <h2 class="section-title">[Section 2 Title]</h2>
+          <p class="section-desc">
+            [Brief description.]
+          </p>
+        </div>
+      </div>
+      <!-- Section content goes here -->
+    </section>
+
+    <!-- ── Footer ────────────────────────────────────────── -->
+    <footer class="footer">
+      [Session Title] · ERA V5 Session [N] ·
+      <a href="../README.md">Full Written Notes (README.md)</a>
+    </footer>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline Theme Toggle (no extra file needed) ─────────── */
+(function () {
+  const btn    = document.getElementById('themeToggle');
+  const icon   = document.getElementById('themeIcon');
+  const label  = document.getElementById('themeLabel');
+  const root   = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-theme', theme);
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    }
+  }
+
+  // Restore saved preference
+  const saved = localStorage.getItem('era-theme') || 'dark';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+})();
+</script>
+</body>
+</html>

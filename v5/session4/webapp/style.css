@@ -3,13 +3,14 @@
 html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #f1f5f9;
-  color: #1e293b;
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
+  transition: background 0.22s ease, color 0.22s ease;
 }
 
-/* ── Design Tokens ───────────────────────────────────────────────────────── */
+/* ── Design Tokens ── Light (default) ───────────────────────────────────── */
 :root {
   --sidebar-w:  260px;
   --bg:         #f1f5f9;
@@ -40,7 +41,68 @@ body {
   --slate-l:    #f1f5f9;
   --radius:     14px;
   --radius-sm:  8px;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ── Design Tokens ── Dark override ─────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:         #050811;
+  --surface:    #0d1117;
+  --surface2:   #111827;
+  --border:     rgba(255,255,255,0.07);
+  --shadow:     0 4px 24px rgba(0,0,0,0.45);
+  --shadow-lg:  0 8px 40px rgba(0,0,0,0.55);
+  --text:       #f1f5f9;
+  --muted:      #64748b;
+  --primary:    #6366f1;
+  --primary-l:  rgba(99,102,241,0.12);
+  --green:      #10b981;
+  --green-l:    rgba(16,185,129,0.15);
+  --amber:      #f59e0b;
+  --amber-l:    rgba(245,158,11,0.15);
+  --red:        #ef4444;
+  --red-l:      rgba(239,68,68,0.15);
+  --cyan:       #22d3ee;
+  --cyan-l:     rgba(34,211,238,0.12);
+  --purple:     #8b5cf6;
+  --purple-l:   rgba(139,92,246,0.15);
+  --orange:     #f97316;
+  --orange-l:   rgba(249,115,22,0.15);
+  --pink:       #ec4899;
+  --pink-l:     rgba(236,72,153,0.15);
+  --slate-l:    rgba(100,116,139,0.15);
+}
+
+/* ── Theme Toggle Button ─────────────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 14px 6px 10px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+  user-select: none;
+}
+.theme-toggle:hover {
+  border-color: var(--primary);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+.theme-toggle-icon  { font-size: 15px; }
+.theme-toggle-label { letter-spacing: 0.2px; }
+
 
 /* ── App Shell ───────────────────────────────────────────────────────────── */
 .app-shell {

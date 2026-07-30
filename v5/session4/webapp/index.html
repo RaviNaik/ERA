@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,6 +10,12 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+
+<!-- ── Theme Toggle ────────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle colour theme">
+  <span class="theme-toggle-icon" id="themeIcon">🌙</span>
+  <span class="theme-toggle-label" id="themeLabel">Dark</span>
+</button>
 
 <!-- ── App Shell ─────────────────────────────────────────────────────────── -->
 <div class="app-shell">
@@ -336,5 +342,35 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<script>
+/* ── Theme Toggle ────────────────────────────────────────── */
+(function () {
+  const btn   = document.getElementById('themeToggle');
+  const icon  = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root  = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-s4-theme', theme);
+    if (theme === 'light') {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    } else {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    }
+  }
+
+  const saved = localStorage.getItem('era-s4-theme') || 'light';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+  });
+})();
+</script>
 </body>
 </html>

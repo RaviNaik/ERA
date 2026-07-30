@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<!-- ── Theme Toggle ──────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle colour theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
 
 <div class="app-shell">
 
@@ -371,5 +377,35 @@
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<script>
+/* ── Theme Toggle ──────────────────────────────────────── */
+(function () {
+  const btn   = document.getElementById('themeToggle');
+  const icon  = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root  = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-s5-theme', theme);
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    }
+  }
+
+  const saved = localStorage.getItem('era-s5-theme') || 'dark';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+})();
+</script>
 </body>
 </html>
