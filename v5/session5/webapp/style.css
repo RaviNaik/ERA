@@ -75,22 +75,60 @@ body {
   scrollbar-color: var(--border) transparent;
 }
 
-.sidebar-brand {
-  padding: 0 20px 24px;
+/* ── Sidebar Header + Back-link ────────────────────────────── */
+.sidebar-header {
+  padding: 20px 18px 16px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(245,158,11,0.08) 100%);
+  margin-bottom: 8px;
 }
-.sidebar-brand .brand-title {
-  font-size: 15px;
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  transition: color var(--transition);
+  letter-spacing: 0.2px;
+}
+.back-link:hover { color: var(--indigo); }
+
+.sidebar-badge {
+  display: inline-block;
+  background: var(--indigo);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
 }
-.sidebar-brand .brand-sub {
+
+.sidebar-brand-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.sidebar-gradient-text {
+  background: linear-gradient(135deg, #f59e0b 0%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-brand-sub {
   font-size: 11px;
   color: var(--text-muted);
-  margin-top: 3px;
-  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
 }
 
 .nav-item {
