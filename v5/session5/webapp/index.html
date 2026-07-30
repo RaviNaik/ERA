@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>V5 Mixture & Curriculum Plan | ERA Session 5</title>
+  <meta name="description" content="Interactive dashboard for the V5 40B India-first language model mixture-and-curriculum specification — Session 5 assignment." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-title">V5 Mixture Plan</div>
+      <div class="brand-sub">ERA · Session 5</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#mixture"    data-target="mixture">
+        <span class="nav-icon">🧩</span> Budget Allocation
+      </a>
+      <a class="nav-item" href="#indic"     data-target="indic">
+        <span class="nav-icon">🌐</span> Indic Tier Breakdown
+      </a>
+      <a class="nav-item" href="#floors"   data-target="floors">
+        <span class="nav-icon">🛡</span> Protected Floors
+      </a>
+      <a class="nav-item" href="#anneal"   data-target="anneal">
+        <span class="nav-icon">🔥</span> Anneal Reserve
+      </a>
+      <a class="nav-item" href="#agentic"  data-target="agentic">
+        <span class="nav-icon">🤖</span> Agentic Slot
+      </a>
+      <a class="nav-item" href="#bands"    data-target="bands">
+        <span class="nav-icon">📊</span> Difficulty Bands
+      </a>
+      <a class="nav-item" href="#curriculum" data-target="curriculum">
+        <span class="nav-icon">📅</span> Curriculum Stages
+      </a>
+      <a class="nav-item" href="#proxy"    data-target="proxy">
+        <span class="nav-icon">🧪</span> Proxy Experiment
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- Hero -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 5 Assignment</div>
+      <h1>V5 Mixture &amp;<br>Curriculum Plan</h1>
+      <p>
+        A defended specification for the 40B India-first language model.
+        Every lane is sized against real supply, every number is a testable
+        hypothesis anchored to a benchmark, and the Indic slot is broken
+        across all four tiers — no headline-number accounting.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="val indigo">2T</span>
+          <span class="lbl">Token Budget</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">7</span>
+          <span class="lbl">Capability Lanes</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val amber">40B</span>
+          <span class="lbl">Anneal Reserve</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val rose">95×</span>
+          <span class="lbl">Agentic Synthesis Gap</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">1B</span>
+          <span class="lbl">Proxy Run Scale</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Section 1: Budget Allocation ──────────────────── -->
+    <section class="section" id="mixture">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 08 · BUDGET ALLOCATION</span>
+          <h2 class="section-title">Pretrain vs Anneal Mixture</h2>
+          <p class="section-desc">
+            Click a lane row to see the benchmark target, dataset list, and supply accounting.
+            Toggle between the Pretrain (2T main run) and Anneal (40B reserve) compositions.
+          </p>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tabPretrain">Pretrain</button>
+          <button class="tab-btn"        id="tabAnneal">Anneal</button>
+        </div>
+      </div>
+
+      <div class="mixture-layout">
+        <!-- Donut -->
+        <div class="donut-wrap">
+          <div class="donut-canvas-wrap">
+            <canvas id="donutCanvas" width="280" height="280"></canvas>
+            <div class="donut-center-label">
+              <span class="center-val" id="centerVal">2T</span>
+              <span class="center-lbl" id="centerLbl">Total Budget</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lane Table -->
+        <div>
+          <table class="lane-table" id="laneTable">
+            <thead>
+              <tr>
+                <th>Lane</th>
+                <th>Share</th>
+                <th>Demand</th>
+                <th>Supply</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="laneTbody"></tbody>
+          </table>
+          <div id="laneDetailPanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 2: Indic Tier ───────────────────────────── -->
+    <section class="section" id="indic">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 08 · INDIC SLOT</span>
+          <h2 class="section-title">Indic Tier Breakdown</h2>
+          <p class="section-desc">
+            18% of 2T = 360B tokens. Real supply is 276B. The 84B gap is closed
+            through repetition and synthesis. No headline-number hiding.
+          </p>
+        </div>
+      </div>
+
+      <div class="indic-layout" id="indicTierCards"></div>
+
+      <div class="indic-bar-chart" style="margin-top:28px;">
+        <div style="font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;">
+          Demand vs Real Supply by Tier (Billions of tokens)
+        </div>
+        <div id="indicBars"></div>
+      </div>
+    </section>
+
+    <!-- ── Section 3: Protected Floors ────────────────────── -->
+    <section class="section" id="floors">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 08 · OPUS ALWAYS-ON</span>
+          <h2 class="section-title">Protected Floors</h2>
+          <p class="section-desc">
+            Two floors the OPUS selector cannot breach regardless of proxy utility score.
+            Without the always-on channel, an English-heavy proxy starves both lanes to zero.
+          </p>
+        </div>
+      </div>
+      <div class="floors-grid" id="floorsGrid"></div>
+    </section>
+
+    <!-- ── Section 4: Anneal Reserve ──────────────────────── -->
+    <section class="section" id="anneal">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 08 · ANNEAL RESERVE</span>
+          <h2 class="section-title">Anneal Reserve Design</h2>
+          <p class="section-desc">
+            2% of 2T = 40B tokens held back for low-LR cooldown.
+            Concentrates the scarcest, highest-quality data at the end of training.
+          </p>
+        </div>
+      </div>
+
+      <div class="anneal-stat-row">
+        <div class="anneal-stat"><div class="av">40B</div><div class="al">Reserve Size</div></div>
+        <div class="anneal-stat"><div class="av">2%</div><div class="al">of 2T Run</div></div>
+        <div class="anneal-stat"><div class="av" style="color:var(--amber)">3B</div><div class="al">Warmup Band</div></div>
+        <div class="anneal-stat"><div class="av" style="color:var(--rose)">60/40</div><div class="al">Blend at Seam</div></div>
+      </div>
+
+      <div class="anneal-layout">
+        <!-- Anneal donut -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Anneal Mixture Composition</span>
+            <span class="badge badge-purple">40B tokens</span>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;justify-content:center;">
+              <canvas id="annealDonut" width="220" height="220"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reserved datasets -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Datasets Reserved for Anneal</span>
+            <span class="badge badge-yellow">Not used in main run</span>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:10px;" id="annealDatasets"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header">
+          <span class="card-title">⚡ Warmup Band — Gradient Stability</span>
+        </div>
+        <div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+          At the pretrain → anneal boundary, a <strong style="color:var(--amber)">3B-token 60/40 warmup band</strong>  
+          is inserted. 60% old mixture, 40% anneal mixture, ramped over 3 billion tokens
+          before the full anneal composition takes over. This prevents gradient norm explosion —
+          the V4 Hindi embedding spike reached <strong style="color:var(--rose)">150× baseline</strong>
+          without this band. Embeddings are explicitly unfrozen at every mixture seam.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 5: Agentic Slot ─────────────────────────── -->
+    <section class="section" id="agentic">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 08 · AGENTIC SLOT</span>
+          <h2 class="section-title">Agentic Dataset Inventory &amp; Synthesis Gap</h2>
+          <p class="section-desc">
+            Real supply: 627M tokens. Demand at 3%: 60B tokens.
+            The gap is 95×. This lane must be <em>built</em>, not collected.
+            Highest-signal datasets (SWE-Gym, OpenHands) are anneal-reserved.
+          </p>
+        </div>
+      </div>
+      <div class="agentic-layout">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;display:flex;gap:16px;">
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--amber);border-radius:2px;margin-right:4px;"></span>Anneal-reserved (not in main run)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--rose);border-radius:2px;margin-right:4px;"></span>Main run</span>
+          </div>
+          <div class="agentic-items" id="agenticItems"></div>
+        </div>
+        <div class="agentic-panel">
+          <div class="gap-stat">
+            <div class="gap-val">95×</div>
+            <div class="gap-lbl">Synthesis Gap</div>
+          </div>
+          <div style="font-size:11px;color:var(--text-secondary);line-height:1.6;">
+            <strong style="color:var(--text-primary);">Synthesis Strategy</strong><br><br>
+            <strong>Tier 1</strong> — One-shot function calls from OpenAPI schemas: 40B tokens<br><br>
+            <strong>Tier 2</strong> — Multi-turn tool-use conversations: 15B tokens<br><br>
+            <strong>Tier 3</strong> — Long trajectory rollouts (anneal-only): ~4.4B tokens<br><br>
+            <div style="margin-top:8px;padding:8px;background:var(--bg-card);border-radius:6px;border-left:3px solid var(--rose);">
+              ⚠️ Tool observations always <strong>masked in loss</strong>. Applying loss to tool returns would teach the model to hallucinate environment state.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 6: Difficulty Bands ────────────────────── -->
+    <section class="section" id="bands">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 08 · REASONING DEPTH</span>
+          <h2 class="section-title">Difficulty &amp; Reasoning-Length Bands</h2>
+          <p class="section-desc">
+            The effort dial (low / medium / high / ultra) is learned, not created at inference.
+            The model can only produce different reasoning depths if it saw examples across this full range during training.
+          </p>
+        </div>
+      </div>
+      <div class="bands-grid" id="bandsGrid"></div>
+    </section>
+
+    <!-- ── Section 7: Curriculum ────────────────────────────── -->
+    <section class="section" id="curriculum">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 08 · CURRICULUM ORDER</span>
+          <h2 class="section-title">Curriculum Stages</h2>
+          <p class="section-desc">
+            A mixture decides <em>how much</em>; a curriculum decides <em>when</em>.
+            Click a stage card to inspect its data diet and difficulty band.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stage track -->
+      <div class="stage-track" id="stageTrack">
+        <div class="stage-segments" id="stageSegments"></div>
+      </div>
+      <div class="stage-labels" id="stageLabels"></div>
+
+      <div class="stage-details-grid" id="stageDetailsGrid"></div>
+
+      <!-- Active stage detail -->
+      <div id="stageExpandedDetail" style="margin-top:16px;"></div>
+    </section>
+
+    <!-- ── Section 8: Proxy Experiment ─────────────────────── -->
+    <section class="section" id="proxy">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 08 · PROXY EXPERIMENT</span>
+          <h2 class="section-title">Proxy Runs at 1B and 3B Scale</h2>
+          <p class="section-desc">
+            A trillion-token decision should not be based on intuition.
+            The 1B proxy costs ~$200, takes ~4 hours, and ranks competing recipes reliably
+            before any of them is trusted at full scale.
+          </p>
+        </div>
+      </div>
+
+      <div class="proxy-grid">
+        <!-- Variants -->
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">
+            Ablation Variants — 1B × 30B tokens
+          </div>
+          <div class="variant-cards" id="variantCards"></div>
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header"><span class="card-title">3B Follow-up Run</span></div>
+            <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.6;">
+              If the 1B proxy endorses variant A, a <strong style="color:var(--text-primary);">3B parameter / 100B token</strong> run
+              confirms the mix scales. The 3B run also tests the anneal reserve composition using a 2% anneal of 2B tokens.
+              Cost: ~$2,000 · Duration: ~2 days.
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">
+            Decision Metrics
+          </div>
+          <div class="card">
+            <div class="card-body" style="padding:0;">
+              <table class="metric-table" id="metricTable">
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Benchmark</th>
+                    <th>Decision Rule (A endorsed if…)</th>
+                  </tr>
+                </thead>
+                <tbody id="metricTbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header"><span class="card-title">Data Gating Threshold</span><span class="badge badge-red">Required before any proxy run</span></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:8px;" id="gatingItems"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      V5 Mixture &amp; Curriculum Plan · ERA Session 5 ·
+      <a href="../README.md">Full Written Spec (README.md)</a>
+    </footer>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
