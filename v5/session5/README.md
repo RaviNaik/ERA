@@ -3,8 +3,7 @@
 
 > **Author:** Ravi Naik  
 > **Session:** ERA V5 — Session 5 (Data Mixtures and Curriculum)  
-> **Live Demo:** [https://ravinaik.github.io/ERA/v5/session5/webapp/](https://ravinaik.github.io/ERA/v5/session5/webapp/)  
-> **Local copy:** [`./webapp/index.html`](./webapp/index.html) — GitHub's file viewer renders this as source, not a running page; open it locally or use the Live Demo link above.
+> **Live Demo:** [https://ravinaik.github.io/ERA/v5/session5/webapp/](https://ravinaik.github.io/ERA/v5/session5/webapp/)
 
 ---
 
