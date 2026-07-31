@@ -93,7 +93,7 @@ function buildStrategies() {
       <div class="card-icon">${s.icon}</div>
       <div class="card-title" style="color:${s.color}">Stage ${s.id}: ${s.name}</div>
       <div class="card-body">
-        <strong style="color:#92400e">Pipeline Gap:</strong> ${s.gap}<br/><br/>
+        <strong class="text-amber">Pipeline Gap:</strong> ${s.gap}<br/><br/>
         <strong>Fix:</strong> ${s.fix}<br/><br/>
         <strong>Drops:</strong> ${s.drop}
       </div>
@@ -117,14 +117,14 @@ function buildDatasets() {
         <span style="font-size:1.5rem">📖</span>
         <div class="dataset-title">Wikipedia (English)</div>
       </div>
-      <span class="dataset-badge" style="background:#eef2ff;color:#6366f1">PRIMARY RUN</span>
+      <span class="dataset-badge db-primary">PRIMARY RUN</span>
       <div style="font-size:.82rem;color:var(--muted);margin:8px 0;">${wiki.description}</div>
       <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${wiki.license} &nbsp;|&nbsp; <strong>HF Config:</strong> <span class="inline-code">${wiki.config}</span></div>
       <div class="dataset-stat-row">
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#6366f1">${wiki.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#10b981">${wiki.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#f59e0b">${(wiki.admitted_tokens / 1e6).toFixed(1)}M</div><div class="dataset-stat-l">Tokens</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#06b6d4">${wiki.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-blue">${wiki.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-green">${wiki.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-amber">${(wiki.admitted_tokens / 1e6).toFixed(1)}M</div><div class="dataset-stat-l">Tokens</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-cyan">${wiki.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
       </div>
       <div style="margin-top:12px;font-size:.78rem;color:var(--muted);"><strong>Why chosen:</strong> Known noise profile (disambiguation, cite markup, math symbols). Exercises all 8 pipeline stages. Referenced as Tier 1 D1 source in Session 3.</div>
     </div>
@@ -133,34 +133,34 @@ function buildDatasets() {
         <span style="font-size:1.5rem">🇮🇳</span>
         <div class="dataset-title">Sangraha (Hindi + Telugu)</div>
       </div>
-      <span class="dataset-badge" style="background:#d1fae5;color:#065f46">INDIC DEMO RUN</span>
+      <span class="dataset-badge db-indic">INDIC DEMO RUN</span>
       <div style="font-size:.82rem;color:var(--muted);margin:8px 0;">${sang.description}</div>
       <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${sang.license} &nbsp;|&nbsp; <strong>Source:</strong> ${sang.source}</div>
       <div class="dataset-stat-row">
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#6366f1">${sang.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#10b981">${sang.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#f59e0b">${sang.initial_tokens.toLocaleString()}</div><div class="dataset-stat-l">Input Tokens</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#ef4444">${sang.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-blue">${sang.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-green">${sang.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-amber">${sang.initial_tokens.toLocaleString()}</div><div class="dataset-stat-l">Input Tokens</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-red">${sang.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
       </div>
       <div style="margin-top:12px;font-size:.78rem;color:var(--muted);"><strong>Why chosen:</strong> Demonstrates ZWNJ/ZWJ preservation, Telugu quality filter failure (Sovereign Indic Exception), AADHAAR/PAN PII patterns, and aggressive dedup on repeated web content. Session 3 Tier 2 Always-ON Channel source.</div>
-      <div style="margin-top:8px;font-size:.75rem;padding:8px;background:#fef3c7;border-radius:6px;color:#92400e;">${sang.dedup_note}</div>
+      <div class="note-badge" style="margin-top:8px;">${sang.dedup_note}</div>
     </div>
     <div class="dataset-card">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
         <span style="font-size:1.5rem">🌐</span>
         <div class="dataset-title">C4 Web Crawl (en.noclean)</div>
       </div>
-      <span class="dataset-badge" style="background:#fef2f2;color:#dc2626">REAL WEB CRAWL — ${c4.survival_pct}% SURVIVAL</span>
+      <span class="dataset-badge db-web">REAL WEB CRAWL — ${c4.survival_pct}% SURVIVAL</span>
       <div style="font-size:.82rem;color:var(--muted);margin:8px 0;">${c4.description}</div>
       <div style="font-size:.78rem;margin-bottom:8px;"><strong>License:</strong> ${c4.license} &nbsp;|&nbsp; <strong>HF Config:</strong> <span class="inline-code">allenai/c4 en.noclean</span></div>
       <div class="dataset-stat-row">
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#6366f1">${c4.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#10b981">${c4.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#f59e0b">${(c4.admitted_tokens / 1e6).toFixed(1)}M</div><div class="dataset-stat-l">Tokens</div></div>
-        <div class="dataset-stat"><div class="dataset-stat-v" style="color:#dc2626;font-weight:800">${c4.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-blue">${c4.initial_docs.toLocaleString()}</div><div class="dataset-stat-l">Input Docs</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-green">${c4.admitted_docs.toLocaleString()}</div><div class="dataset-stat-l">Admitted</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v text-amber">${(c4.admitted_tokens / 1e6).toFixed(1)}M</div><div class="dataset-stat-l">Tokens</div></div>
+        <div class="dataset-stat"><div class="dataset-stat-v highlight-red">${c4.survival_pct}%</div><div class="dataset-stat-l">Survival</div></div>
       </div>
-      <div style="margin-top:8px;font-size:.78rem;padding:10px;background:#fef2f2;border-radius:8px;color:#991b1b;">
-        <strong>Stage 3 (Lang ID):</strong> –${c4Lang.drop_pct}% &nbsp;|&nbsp; <strong>Stage 4 (Quality):</strong> –${c4Qual.drop_pct}% &nbsp;|&nbsp; <strong>PII redactions:</strong> ${c4Pii.drop_summary}<br/>
+      <div class="pipeline-gap-alert" style="margin-top:8px;">
+        <strong>Stage 3 (Lang ID):</strong> &ndash;${c4Lang.drop_pct}% &nbsp;|&nbsp; <strong>Stage 4 (Quality):</strong> &ndash;${c4Qual.drop_pct}% &nbsp;|&nbsp; <strong>PII redactions:</strong> ${c4Pii.drop_summary}<br/>
         This is why raw web crawls survive far less than pre-curated sources. Wikipedia's ${D.wikipedia.meta.survival_pct}% is the exception, not the rule.
       </div>
     </div>`;
@@ -183,10 +183,10 @@ function buildStageDetails(runKey, tabsId, detailsId) {
         <div class="detail-box" style="margin-bottom:14px;">
           <h3><span style="font-size:1.3rem">${s.icon}</span> Stage ${s.id}: ${s.name} &mdash; Stats</h3>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
-            <span class="stat-pill" style="background:#eef2ff;color:#6366f1">&#8594; IN: ${s.input.toLocaleString()}</span>
-            <span class="stat-pill" style="background:#d1fae5;color:#065f46">&#10003; OUT: ${s.output.toLocaleString()}</span>
-            <span class="stat-pill" style="background:#fee2e2;color:#991b1b">&#x2715; DROPPED: ${s.dropped.toLocaleString()} (${s.drop_pct}%)</span>
-            <span class="stat-pill" style="background:#fef3c7;color:#92400e">&#128172; Tokens out: ${(s.output_tok / 1e6).toFixed(1)}M</span>
+            <span class="stat-pill pill-blue">&rarr; IN: ${s.input.toLocaleString()}</span>
+            <span class="stat-pill pill-green">&check; OUT: ${s.output.toLocaleString()}</span>
+            <span class="stat-pill pill-red">&times; DROPPED: ${s.dropped.toLocaleString()} (${s.drop_pct}%)</span>
+            <span class="stat-pill pill-amber">&#128172; Tokens out: ${(s.output_tok / 1e6).toFixed(1)}M</span>
           </div>
           <div style="font-size:.83rem;color:var(--muted);margin-bottom:10px;">${s.drop_summary}</div>
           <div style="font-size:.8rem;"><strong>What was removed:</strong><br/><span style="color:var(--muted)">${s.what_removed}</span></div>
@@ -210,7 +210,7 @@ function buildStageDetails(runKey, tabsId, detailsId) {
           <div class="example-arrow">&#x2193;</div>
           <div class="example-block">
             <div class="example-label">&#x2705; AFTER (stage output)</div>
-            <div class="example-text" style="color:${s.example.after.startsWith('[') ? '#dc2626' : '#065f46'}">${escHtml(s.example.after)}</div>
+            <div class="example-text ${s.example.after.startsWith('[') ? 'example-after-dropped' : 'example-after-ok'}">${escHtml(s.example.after)}</div>
           </div>
           <div class="note-badge">&#x1F4A1; ${s.example.note}</div>
         </div>
@@ -360,12 +360,12 @@ function buildCharts() {
   // Summary table
   const tbody = document.getElementById("summary-tbody");
   tbody.innerHTML = stages.map((s, i) => `
-    <tr style="border-bottom:1px solid #f1f5f9;${i % 2 === 1 ? 'background:#f8fafc' : ''}">
+    <tr class="summary-row ${i % 2 === 1 ? 'summary-row-alt' : ''}">
       <td style="padding:10px 14px;font-weight:600;">${s.icon} ${s.name}</td>
       <td style="padding:10px 14px;text-align:right;">${s.input.toLocaleString()}</td>
-      <td style="padding:10px 14px;text-align:right;color:#065f46;font-weight:600">${s.output.toLocaleString()}</td>
-      <td style="padding:10px 14px;text-align:right;color:${s.dropped > 0 ? '#dc2626' : '#64748b'}">${s.dropped.toLocaleString()}</td>
-      <td style="padding:10px 14px;text-align:right;color:${s.drop_pct > 1 ? '#f59e0b' : '#64748b'}">${s.drop_pct}%</td>
+      <td style="padding:10px 14px;text-align:right;color:#10b981;font-weight:600">${s.output.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:right;color:${s.dropped > 0 ? '#f43f5e' : 'var(--muted)'}">${s.dropped.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:right;color:${s.drop_pct > 1 ? '#f59e0b' : 'var(--muted)'}">${s.drop_pct}%</td>
       <td style="padding:10px 14px;text-align:right;color:var(--muted)">${(s.processing_time_s || 0).toFixed(1)}s</td>
     </tr>`
   ).join("");
