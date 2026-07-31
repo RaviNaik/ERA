@@ -199,6 +199,7 @@ flowchart LR
     A["Candidate batch"] --> B{"OPUS utility score<br/>vs proxy direction"}
     B -->|"High utility"| C["Admitted via<br/>keep-fraction (default 40%)"]
     B -->|"Low utility,<br/>but Indic or Agentic<br/>share below floor"| D["Always-on channel<br/>forces admission"]
+    B -->|"Low utility,<br/>floor already met"| G["Rejected — not used"]
     C --> E["Training batch mix"]
     D --> E
     E --> F["Indic ≥ 12% · Agentic ≥ 2%<br/>guaranteed every batch"]
@@ -422,9 +423,11 @@ Running the full 2T experiment to validate a mixture choice costs ~$100K and 60+
 | Code perplexity | Held-out The Stack v2 test set | A perplexity ≤ B + 0.5 |
 | General knowledge | MMLU 5-shot | A ≥ B − 1pp (acceptable small trade-off for Indic) |
 
-**If A fails any of these conditions**, the mixture is revised. Specifically:
-- If MILU A < B + 3pp → raise Indic share to 20%, run 3B proxy
-- If general knowledge degrades by > 2pp → lower Indic to 16%, raise Web to 34%
+**If A fails any of these conditions**, the mixture is revised and re-tested at the cheap 1B scale before any 3B spend is committed — the whole point of §9.1's proxy economics is that a $200 re-run is what should absorb this uncertainty, not a $2,000 one:
+- If MILU A < B + 3pp → raise Indic share to 20%, re-run the 1B proxy
+- If general knowledge degrades by > 2pp → lower Indic to 16%, raise Web to 34%, re-run the 1B proxy
+
+Only a revised mixture that clears §9.3's conditions on this cheap loop earns the 3B confirmation run below.
 
 ### 9.4 3B Follow-up Run
 
@@ -436,9 +439,11 @@ flowchart TD
     B -->|"A passes all"| C["3B proxy · 100B tokens<br/>confirms mix + anneal composition"]
     B -->|"MILU fails"| D["Raise Indic to 20%<br/>re-run 1B proxy"]
     B -->|"General knowledge fails"| E["Lower Indic to 16%<br/>raise Web to 34%<br/>re-run 1B proxy"]
+    D --> A
+    E --> A
     C --> F["Full run · 40B params<br/>2T main + 40B anneal"]
 ```
-*One-glance summary of the decision logic — the exact thresholds and revision rules are in §9.3 above.*
+*One-glance summary of the decision logic — the exact thresholds and revision rules are in §9.3 above. The loop back into the 1B proxy is deliberate: a failed variant is re-tested cheaply before any 3B spend is committed.*
 
 ### 9.5 Data Gating Threshold
 
