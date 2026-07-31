@@ -146,6 +146,16 @@ The 18% Indic slot demands **360B tokens** at a 2T run. Real supply is **276B to
 | **D: Synthetic** | **20%** | **72B** | Sangraha synthetic: **162B** | ✅ **Covered, 90B surplus** — select top-quality 72B by classifier score |
 | **Total** | 100% | 360B | **276B real** | **84B shortfall** — closed via Tier A/B repetition (real tokens reused) + **~67B of genuinely new Tier-C synthesis**; Tier D needs no new generation |
 
+```mermaid
+pie showData
+    title Indic Slot — Tier Split (360B demand, 18% of 2T)
+    "Tier A — Verified native (38%)" : 38
+    "Tier B — Unverified crawl (22%)" : 22
+    "Tier C — Translated (20%)" : 20
+    "Tier D — Synthetic (20%)" : 20
+```
+*One-glance summary only — the table above remains the source of truth for demand, real supply, and repetition/synthesis figures.*
+
 ### 3.3 Honest Accounting Notes
 
 **Tier A** at 2.1× repetition is defensible. The V4 run showed that high-quality data can be repeated up to ~4× before marginal value degrades significantly. 2.1× is well inside that window.
@@ -183,6 +193,17 @@ The OPUS dynamic selector (used in V4 production) optimizes for token utility ag
 |---|---|---|
 | **Indic** | **≥ 12% of every batch** | OPUS always-on channel forces best Indic batches regardless of proxy utility score until 12% is reached |
 | **Agentic** | **≥ 2% of every batch** | Same mechanism; ensures agentic trajectory data is never completely absent |
+
+```mermaid
+flowchart LR
+    A["Candidate batch"] --> B{"OPUS utility score<br/>vs proxy direction"}
+    B -->|"High utility"| C["Admitted via<br/>keep-fraction (default 40%)"]
+    B -->|"Low utility,<br/>but Indic or Agentic<br/>share below floor"| D["Always-on channel<br/>forces admission"]
+    C --> E["Training batch mix"]
+    D --> E
+    E --> F["Indic ≥ 12% · Agentic ≥ 2%<br/>guaranteed every batch"]
+```
+*One-glance summary of the enforcement mechanism — the exact floors and rationale are in the table and prose above.*
 
 **Why 12% for Indic?** This is the minimum at which MILU accuracy in Tier-1 languages (Hindi, Tamil, Telugu) remains competitive at 3B parameter scale based on V4 ablation data. Below 12%, the V4 proxy showed Hindi comprehension degrading faster than English on identical parameter counts.
 
@@ -338,6 +359,16 @@ Main-run stages (Seed → Long-context) sum to exactly **2T**, matching §2.1's 
 
 At each seam between stages, a **~3B-token 60/40 warmup band** (60% old mix / 40% new mix) prevents gradient norm explosion, for the same reason detailed in §5.4 (V4's Hindi embedding gradient spike).
 
+```mermaid
+flowchart LR
+    A["Seed<br/>0–30B · B0–B1"] --> B["General<br/>30B–600B · B0–B2"]
+    B --> C["Reasoning<br/>600B–1.4T · B2–B3"]
+    C --> D["Long-context<br/>1.4T–2T · B3–B4"]
+    D --> E["Warmup Band<br/>2T–2.003T · 60/40 blend"]
+    E --> F["Anneal<br/>2.003T–2.043T · B3–B5"]
+```
+*One-glance summary of the stage order — exact token ranges and lane shares are defined in the table above.*
+
 ### 8.1 Reconciling the Curriculum With the Headline Mixture (§2.1)
 
 Widening the Long-context stage to close the 2T budget (above) improves reconciliation for every lane, not just Code, but does not make it exact on its own. This spec goes one step further: the per-stage percentages in the table above were solved with a biproportional (RAS) fit so that (a) every stage still sums to exactly 100%, and (b) every lane's token-weighted average across the main run — Seed(30B) + General(570B) + Reasoning(800B) + Long-context(600B) = 2000B — lands on its §2.1 headline share, not just approximates it:
@@ -398,6 +429,16 @@ Running the full 2T experiment to validate a mixture choice costs ~$100K and 60+
 ### 9.4 3B Follow-up Run
 
 If the 1B proxy endorses variant A, a **3B parameter, 100B token** run confirms the mix scales before going to full 40B. The 3B run also tests the anneal reserve composition (§5) using a 2% anneal of 2B tokens.
+
+```mermaid
+flowchart TD
+    A["1B proxy · 30B tokens<br/>Variants A / B / C · 3 seeds each"] --> B{"§9.3 decision rules:<br/>MILU · AIME · BFCL ·<br/>Code ppl · MMLU"}
+    B -->|"A passes all"| C["3B proxy · 100B tokens<br/>confirms mix + anneal composition"]
+    B -->|"MILU fails"| D["Raise Indic to 20%<br/>re-run 1B proxy"]
+    B -->|"General knowledge fails"| E["Lower Indic to 16%<br/>raise Web to 34%<br/>re-run 1B proxy"]
+    C --> F["Full run · 40B params<br/>2T main + 40B anneal"]
+```
+*One-glance summary of the decision logic — the exact thresholds and revision rules are in §9.3 above.*
 
 ### 9.5 Data Gating Threshold
 
