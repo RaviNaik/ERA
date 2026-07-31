@@ -3,10 +3,29 @@
 
 > **Author:** Ravi Naik  
 > **Session:** ERA V5 — Session 5 (Data Mixtures and Curriculum)  
-> **Interactive Dashboard:** [Launch Webapp →](./webapp/index.html)
+> **Live Demo:** [https://ravinaik.github.io/ERA/v5/session5/webapp/](https://ravinaik.github.io/ERA/v5/session5/webapp/)  
+> **Local copy:** [`./webapp/index.html`](./webapp/index.html) — GitHub's file viewer renders this as source, not a running page; open it locally or use the Live Demo link above.
 
 ---
 
+### Table of Contents
+
+- [0. Preamble: How This Spec Is Structured](#section-0)
+- [1. Target Benchmarks — Composing Backward](#section-1)
+- [2. The Pretrain Mixture — Main Run (2T token budget)](#section-2)
+- [3. The Indic Slot — Tier-by-Tier Breakdown](#section-3)
+- [4. Protected Floors — What the Selector Cannot Cross](#section-4)
+- [5. The Anneal Reserve — What's Held Back for the Cooldown](#section-5)
+- [6. Agentic Slot — Synthesis Strategy](#section-6)
+- [7. Difficulty and Reasoning-Length Bands — B0 to B5 With Worked Examples](#section-7)
+- [8. Curriculum Staging Order — When Each Lane Enters](#section-8)
+- [9. Proxy Experiment Specification — Testing the Mixture Before Trusting It](#section-9)
+- [10. Summary — Decisions at a Glance](#section-10)
+- [11. Appendix — Full Dataset Inventory by Slot](#section-11)
+
+---
+
+<a id="section-0"></a>
 ## 0. Preamble: How This Spec Is Structured
 
 A mixture plan that cannot be falsified is not a plan — it is a wish list. Every number in this document is therefore written as a **testable hypothesis** tied to a concrete benchmark and a real supply figure from the dataset inventory. Where a target cannot be met with real data, this document says so plainly and states what must be synthesized instead.
@@ -23,6 +42,7 @@ The plan proceeds in this order:
 
 ---
 
+<a id="section-1"></a>
 ## 1. Target Benchmarks — Composing Backward
 
 The model has three primary capability mandates: **agentic/coding excellence**, **controllable reasoning**, and **native Indic fluency**. Working backward from those mandates produces this benchmark set:
@@ -46,6 +66,7 @@ These formats are the shopping list. The mixture sections below are the budget t
 
 ---
 
+<a id="section-2"></a>
 ## 2. The Pretrain Mixture — Main Run (2T token budget)
 
 The total pretrain budget is **2 trillion tokens**. The anneal budget (§5) is held separately and not counted here.
@@ -60,8 +81,23 @@ The total pretrain budget is **2 trillion tokens**. The anneal budget (§5) is h
 | STEM / Math | **12%** | 240B | 146B (proof-pile-2 55B + D4 STEM 49B + peS2o 42B) | ⚠️ Needs ~1.6× repetition |
 | Reasoning traces | **6%** | 120B | 85B (AON + OpenThoughts2 + OpenMathReasoning + OpenR1-Math + NuminaMath) | ⚠️ 1.4× repetition |
 | Long-context | **5%** | 100B | 100B (repo-packed 60B + book corpora 40B) | ✅ Exactly covered |
-| Agentic / Tool-use | **3%** | 60B | 0.363B (main-run share; 264M more reserved for anneal — §5.3) | 🔴 Must synthesize (165× gap; 95× pre-reservation) |
+| Agentic / Tool-use | **3%** | 60B | 363M (main-run share; 264M more reserved for anneal — §5.3) | 🔴 Must synthesize (165× gap; 95× pre-reservation) |
 | **Total** | **100%** | **2T** | | |
+
+*Status legend (used throughout this document): ✅ Covered from real supply · ⚠️ Needs repetition and/or partial synthesis · 🔴 Must synthesize (real supply cannot fill demand even with safe repetition).*
+
+```mermaid
+pie showData
+    title Main-Run Pretrain Mixture (2T tokens)
+    "General Web (32%)" : 32
+    "Code (24%)" : 24
+    "Indic (18%)" : 18
+    "STEM / Math (12%)" : 12
+    "Reasoning traces (6%)" : 6
+    "Long-context (5%)" : 5
+    "Agentic / Tool-use (3%)" : 3
+```
+*One-glance summary only — the table above is the source of truth for all demand, supply, and status figures.*
 
 ### 2.2 Rationale for Each Lane
 
@@ -87,6 +123,7 @@ The total pretrain budget is **2 trillion tokens**. The anneal budget (§5) is h
 
 ---
 
+<a id="section-3"></a>
 ## 3. The Indic Slot — Tier-by-Tier Breakdown
 
 The 18% Indic slot demands **360B tokens** at a 2T run. Real supply is **276B tokens** across 6 datasets. The 84B gap must be closed by repetition and synthesis. This section does not hide behind a single headline number.
@@ -138,6 +175,7 @@ Priority languages (by verified native supply and benchmark coverage in MILU):
 
 ---
 
+<a id="section-4"></a>
 ## 4. Protected Floors — What the Selector Cannot Cross
 
 The OPUS dynamic selector (used in V4 production) optimizes for token utility against a proxy direction. When the proxy is English-heavy (as in V4), the selector naturally starves Indic and Agentic lanes. Two floors are set in the OPUS always-on channel:
@@ -155,7 +193,8 @@ The OPUS dynamic selector (used in V4 production) optimizes for token utility ag
 
 ---
 
-## 5. The Anneal Reserve
+<a id="section-5"></a>
+## 5. The Anneal Reserve — What's Held Back for the Cooldown
 
 The anneal is a short, low-learning-rate cooldown phase at the end of pretraining. It concentrates the best, scarcest data that was intentionally held back from the main run.
 
@@ -169,14 +208,18 @@ The 2% figure matches the V4 reality (stage 2/6 in the training lifecycle) and i
 
 | Lane | Anneal % | Anneal Tokens (40B × %) | Datasets Reserved |
 |---|---|---|---|
-| Indic | **28%** | 11.2B | Sangraha verified **top-quartile shards** (educational score ≥ 4.0/5.0) |
+| Indic | **28%** | 11.2B | Sangraha verified, top-quartile shards¹ |
 | Reasoning | **18%** | 7.2B | AON best shards + OpenThoughts2 (full) |
 | Code | **20%** | 8.0B | CommitPackFT + Stack v2 top-quality subset |
-| Agentic | **8%** | 3.2B | **SWE-Gym (150M)** + **OpenHands rollouts (90M)** + **SWE-smith top-5K (~24M)** = 264M raw reserved, topped up with **~2.9B** held-back rollout-generated trajectories from the Tier-3 synthesis pipeline (§6.1) to reach the 3.2B budget |
+| Agentic | **8%** | 3.2B | Raw reserved trajectories + Tier-3 rollout-generated² |
 | Long-context | **8%** | 3.2B | Book-length corpora top subset |
-| STEM / Math | **10%** | 4.0B | Top-scoring slice of proof-pile-2 (highest educational scores); the full 55B corpus otherwise backs the main run's STEM supply (§2.2) |
+| STEM / Math | **10%** | 4.0B | proof-pile-2, top-scoring slice³ |
 | General Web | **8%** | 3.2B | FineWeb-Edu educational score ≥ 4.5/5.0 |
 | **Total** | **100%** | **40B** | |
+
+¹ Educational classifier score ≥ 4.0/5.0.
+² SWE-Gym (150M) + OpenHands rollouts (90M) + SWE-smith top-5K (~24M) = 264M raw reserved, topped up with ~2.9B held-back rollout-generated trajectories from the Tier-3 synthesis pipeline (§6.1) to reach the 3.2B budget.
+³ The full 55B proof-pile-2 corpus otherwise backs the main run's STEM supply (§2.2); only the top-scoring slice (highest educational scores) is additionally held back for anneal.
 
 ### 5.3 What Gets Reserved Starting Now
 
@@ -197,6 +240,7 @@ At the pretrain→anneal boundary, a **3B-token 60/40 warmup band** (60% main-ru
 
 ---
 
+<a id="section-6"></a>
 ## 6. Agentic Slot — Synthesis Strategy
 
 Real supply: **627M tokens** across 9 datasets, but **264M** of that (SWE-Gym, OpenHands, SWE-smith top-5K) is reserved for the anneal (§5.3), leaving **363M** available to the main run. Demand at 3%: **60B tokens**. Synthesis gap against the main-run-available figure: **~59.6B tokens (~165×)**.
@@ -218,7 +262,8 @@ Tool observations and environment returns are **always masked** in agentic train
 
 ---
 
-## 7. Difficulty and Reasoning-Length Bands
+<a id="section-7"></a>
+## 7. Difficulty and Reasoning-Length Bands — B0 to B5 With Worked Examples
 
 The model must be trained to produce different reasoning depths so the reasoning-effort control (low/medium/high/ultra) can be learned. This requires the pretrain corpus to contain traces **binned by length** across all capability lanes.
 
@@ -278,26 +323,44 @@ B5 examples are anneal-only. Introducing PhD-level reasoning too early (before t
 
 ---
 
-## 8. Curriculum Staging Order
+<a id="section-8"></a>
+## 8. Curriculum Staging Order — When Each Lane Enters
 
 | Stage | Token Range | Key Mixture Properties | Difficulty Band |
 |---|---|---|---|
-| **Seed** | 0–30B | 50% General Web, 18% Code, 12% STEM, 15% Indic, 5% Reasoning | B0–B1 only |
-| **General** | 30B–600B | 34% General Web, 24% Code, 18% Indic, 12% STEM, 6% Reasoning, 5% Long-ctx, 3% Agentic | B0–B2 |
-| **Reasoning** | 600B–1.4T | Reasoning rises to 8%, Code stays 24%, General Web falls to 28% | B2–B3 |
-| **Long-context** | 1.4T–2T | Long-context rises to 12%, Reasoning steady at 8%, Code 22% | B3–B4 |
+| **Seed** | 0–30B | 52.3% General Web, 17.6% Code, 14.5% Indic, 11.7% STEM, 3.9% Reasoning | B0–B1 only |
+| **General** | 30B–600B | 36.6% General Web, 24.2% Code, 18% Indic, 12.1% STEM, 4.8% Reasoning, 2.3% Long-ctx, 2% Agentic | B0–B2 |
+| **Reasoning** | 600B–1.4T | Reasoning rises to 6.6%, Code stays ~24.7%, General Web falls to 30.8% | B2–B3 |
+| **Long-context** | 1.4T–2T | Long-context surges to 9.4%, Reasoning holds at 6.6%, Code 23.1% | B3–B4 |
 | **Warmup Band** | 2T–2.003T | 60% main-run / 40% anneal blend — gradient stabilizer | B2–B3 |
 | **Anneal** | 2.003T–2.043T | See §5 anneal mixture (~40B tokens) | B3–B5 |
 
 Main-run stages (Seed → Long-context) sum to exactly **2T**, matching §2.1's headline budget; the warmup band and anneal add the **~40B** reserve from §5.1 on top, for a grand total of **~2.04T**. The earlier version of this table gave Long-context only a 300B span (1.4T–1.7T) and then stretched the anneal across a 240B range (1.72T–1.96T) — six times the 40B this plan actually reserves. Both are corrected here to match §5.1.
 
-At each seam between stages, a **~3B-token 60/40 warmup band** (60% old mix / 40% new mix) prevents gradient norm explosion. Embeddings are unfrozen at every seam to avoid the V4 Hindi 150× gradient spike.
+At each seam between stages, a **~3B-token 60/40 warmup band** (60% old mix / 40% new mix) prevents gradient norm explosion, for the same reason detailed in §5.4 (V4's Hindi embedding gradient spike).
 
-**Reconciling the curriculum with the headline mixture (§2.1):** curricula are illustrative snapshots of a smoothly-interpolated schedule, not per-stage sub-budgets that must sum exactly to the headline share — but they should come close. Token-weighting Code's share across the main-run stages (18%×30B + 24%×570B + 24%×800B + 22%×600B) gives ≈466B effective Code tokens, within 3% of the §2.1 headline of 480B (24% of 2T). That is the standard this table is held to: stage percentages are free to ramp a lane up or down mid-run (as V4 did — §5, Session 5 notes), but the token-weighted average across the full main run should land close to the lane's stated headline share, not drift from it.
+### 8.1 Reconciling the Curriculum With the Headline Mixture (§2.1)
+
+Widening the Long-context stage to close the 2T budget (above) improves reconciliation for every lane, not just Code, but does not make it exact on its own. This spec goes one step further: the per-stage percentages in the table above were solved with a biproportional (RAS) fit so that (a) every stage still sums to exactly 100%, and (b) every lane's token-weighted average across the main run — Seed(30B) + General(570B) + Reasoning(800B) + Long-context(600B) = 2000B — lands on its §2.1 headline share, not just approximates it:
+
+| Lane | Curriculum-implied (weighted avg) | §2.1 Headline | Delta |
+|---|---|---|---|
+| General Web | 31.97% (639.3B) | 32% (640B) | −0.03pp |
+| Code | 23.97% (479.4B) | 24% (480B) | −0.03pp |
+| Indic | 18.02% (360.3B) | 18% (360B) | +0.02pp |
+| STEM | 11.99% (239.9B) | 12% (240B) | −0.01pp |
+| Reasoning | 6.05% (120.9B) | 6% (120B) | +0.05pp |
+| Long-context | 5.00% (99.9B) | 5% (100B) | −0.005pp |
+| Agentic | 3.01% (60.2B) | 3% (60B) | +0.01pp |
+
+An earlier version of this table used round, hand-picked per-stage percentages that individually looked reasonable but, token-weighted, overshot the Agentic headline by 45%, Long-context by 29%, and Reasoning by 23% — precisely the kind of drift that would have quietly reopened the agentic synthesis gap this document worked hard to pin down exactly in §6 (a curriculum that actually draws 87B agentic tokens instead of 60B would leave the Tier 1/2/3 synthesis pipeline ~27B short). The table now enforces the same reconciliation standard on every lane, not only the one a reviewer happened to check first: stages still ramp a lane up or down for pedagogical reasons (Long-context genuinely surges late; General Web genuinely falls), but the token-weighted average across the full main run is held to the §2.1 headline, because that headline — not the curriculum table — is what §6 and §3 size their synthesis and repetition pipelines against.
+
+**The percentages above are OPUS selector targets, not hard token allocations.** OPUS scores and admits batches continuously (see the Session 5 lecture notes' OPUS dynamic-selection section); a stage's stated share is the instantaneous mix it aims for, not a separate sub-budget carved out alongside §2.1. The §2.1 lane shares (and the §6 agentic synthesis budget sized against them) remain the enforced ceiling regardless of what any one stage nominally requests — which is exactly why the table above is held to the reconciliation standard rather than left to drift.
 
 ---
 
-## 9. Proxy Experiment Specification
+<a id="section-9"></a>
+## 9. Proxy Experiment Specification — Testing the Mixture Before Trusting It
 
 > **The mixture is a hypothesis. This section defines the experiment that tests it.**
 
@@ -345,10 +408,11 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 - **Indic Tier A**: ≥ 30B verified tokens with educational score ≥ 2.0
 - **Code**: ≥ 50B Stack v2 tokens through the 8-stage pipeline
 - **Reasoning**: ≥ 20B AON tokens with pipeline stages 1–7 applied
-- All shards must carry a valid provenance manifest (§8, Session 4)
+- All shards must carry a valid provenance manifest (see the Session 4 lecture notes' provenance-stamping section)
 
 ---
 
+<a id="section-10"></a>
 ## 10. Summary — Decisions at a Glance
 
 | Decision Point | Value | Reasoning |
@@ -370,6 +434,7 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 
 ---
 
+<a id="section-11"></a>
 ## 11. Appendix — Full Dataset Inventory by Slot
 
 ### Code (1.1T tokens total)
