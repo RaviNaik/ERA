@@ -168,6 +168,7 @@ function renderLaneDetail(data) {
           <div class="mono" style="font-size:11px;width:60px;text-align:right;color:var(--text-secondary);">${fmtB(lane.demand2T)}</div>
         </div>
         ${gapB > 0 ? `<div style="margin-top:8px;font-size:11px;color:var(--rose);">Gap: ${fmtB(gapB)} must be synthesized or repeated</div>` : ''}
+        ${lane.note ? `<div style="margin-top:8px;font-size:11px;color:var(--text-muted);font-style:italic;">${lane.note}</div>` : ''}
       </div>
     `;
   }
@@ -234,6 +235,7 @@ function renderIndicTiers() {
       <div class="tier-share-big" style="color:${t.color};">${t.share}%</div>
       <div class="tier-meta">${t.note}</div>
       ${t.warning ? `<div class="warning-banner">⚠️ 14.4× synthesis gap — flagged</div>` : ''}
+      ${t.surplus ? `<div class="warning-banner" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:#34d399;">✅ 90B surplus — no synthesis needed</div>` : ''}
       <div class="tier-supply-row">
         <span>Real supply: <span class="have">${fmtB(t.realSupplyB)}</span></span>
         <span>Demand: <span class="need">${fmtB(t.demandB)}</span></span>
@@ -294,10 +296,11 @@ function renderAnneal() {
     { name: 'SWE-Gym',           tokens: '150M', lane: 'Agentic', note: '2.4K samples; highest token/sample density' },
     { name: 'SWE-smith (top 5K)', tokens: '~24M', lane: 'Agentic', note: 'Top 5K of 26K trajectories' },
     { name: 'OpenHands rollouts', tokens: '90M',  lane: 'Agentic', note: '10K multi-step agent trajectories' },
+    { name: 'Tier-3 rollout-generated (held back)', tokens: '~2.9B', lane: 'Agentic', note: 'Best rollouts from §6.1 synthesis, withheld from main run' },
     { name: 'OpenThoughts2',      tokens: '3B',   lane: 'Reasoning', note: 'Full dataset reserved for anneal' },
-    { name: 'Sangraha verified ≥ 4.0', tokens: '~16B', lane: 'Indic', note: 'Top-quartile educational score shards' },
-    { name: 'AON best shards',    tokens: '~10B', lane: 'Reasoning', note: 'Highest quality reasoning traces' },
-    { name: 'proof-pile-2',       tokens: '55B',  lane: 'STEM', note: 'Full EleutherAI math corpus' },
+    { name: 'AON best shards',    tokens: '~4.2B', lane: 'Reasoning', note: 'Highest quality reasoning traces (fills the 7.2B Reasoning anneal budget alongside OpenThoughts2)' },
+    { name: 'Sangraha verified ≥ 4.0', tokens: '~11.2B', lane: 'Indic', note: 'Top-quartile educational score shards — fills the full Indic anneal budget' },
+    { name: 'proof-pile-2 (top slice)', tokens: '~4B',  lane: 'STEM', note: 'Curated subset for anneal; full 55B corpus still backs the main-run STEM supply' },
   ];
 
   const laneColors = {

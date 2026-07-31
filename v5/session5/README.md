@@ -57,10 +57,10 @@ The total pretrain budget is **2 trillion tokens**. The anneal budget (§5) is h
 | General Web | **32%** | 640B | 4.5T (DCLM + FineWeb-Edu + V4 D1/D2) | ✅ Covered |
 | Code | **24%** | 480B | 1.1T (Stack v2 + D3 + CommitPack) | ✅ Covered |
 | Indic | **18%** | 360B | 276B (all tiers) | ⚠️ Needs repetition + synthesis |
-| STEM / Math | **12%** | 240B | 250B (proof-pile-2 + D4 + peS2o + Reasoning) | ✅ Barely covered |
-| Reasoning traces | **6%** | 120B | 85B (AON + OpenThoughts2 + NuminaMath) | ⚠️ 1.4× repetition |
+| STEM / Math | **12%** | 240B | 146B (proof-pile-2 55B + D4 STEM 49B + peS2o 42B) | ⚠️ Needs ~1.6× repetition |
+| Reasoning traces | **6%** | 120B | 85B (AON + OpenThoughts2 + OpenMathReasoning + OpenR1-Math + NuminaMath) | ⚠️ 1.4× repetition |
 | Long-context | **5%** | 100B | 100B (repo-packed 60B + book corpora 40B) | ✅ Exactly covered |
-| Agentic / Tool-use | **3%** | 60B | 0.63B (all 9 agentic datasets combined) | 🔴 Must synthesize (95× gap) |
+| Agentic / Tool-use | **3%** | 60B | 0.363B (main-run share; 264M more reserved for anneal — §5.3) | 🔴 Must synthesize (165× gap; 95× pre-reservation) |
 | **Total** | **100%** | **2T** | | |
 
 ### 2.2 Rationale for Each Lane
@@ -71,13 +71,13 @@ The total pretrain budget is **2 trillion tokens**. The anneal budget (§5) is h
 
 **Indic (18%)** sits 6 percentage points above the protected floor (§4). The floor is 12%; 18% is a deliberate purchase of headroom for MILU and IndicGenBench. At 360B demand vs 276B real supply, the lane needs repetition and synthesis — detailed in §3.
 
-**STEM / Math (12%)** feeds AIME, GPQA, and HLE. At 240B demand versus 250B real supply, this lane is exactly at parity with no repetition needed in the main run. Raising it further (e.g., to 15%) would require either synthesis or repetition immediately and yields diminishing returns at pretrain — AIME gains primarily come from the later reasoning and RLVR stages.
+**STEM / Math (12%)** feeds AIME, GPQA, and HLE. At 240B demand versus a **146B** real supply (proof-pile-2 55B + D4 STEM 49B + peS2o 42B — the only three datasets in the inventory actually tagged STEM), this lane needs **~1.6× repetition**, not the parity this document originally claimed. The earlier 250B figure was reached by folding in the separately-allocated Reasoning slot, which cannot back two lanes at once (§2.1 Reasoning row already spends that 85B). 1.6× repetition is well inside the sub-2× range judged safe elsewhere in this plan (§3.3). Raising STEM further (e.g., to 15%) would push repetition past 2× for no proven benefit — AIME gains primarily come from the later reasoning and RLVR stages, not pretrain token volume.
 
 **Reasoning traces (6%)** deposits the structural pattern of careful multi-step reasoning into the base weights before the dedicated reasoning training stages (Sessions 17–18). 120B demand vs 85B real supply requires 1.4× repetition — acceptable, since repetition below 2× carries very low marginal cost. All five datasets (AON, OpenThoughts2, OpenMathReasoning, OpenR1-Math, NuminaMath) are used. AON (78B) provides the bulk.
 
 **Long-context (5%)** is sized at the exact real supply (100B tokens: 60B repo-packed code at 32K+ context, 40B book-length corpora). Going beyond 5% would require synthesis and is not warranted in pretraining; the long-eval benchmark gains primarily from the model's ability to track dependencies, not from sheer token volume.
 
-**Agentic (3%)** is the most constrained lane. Real supply across all 9 datasets (SWE-Gym, SWE-smith, OpenHands, ToolBench, ToolACE, Glaive, xLAM, NexusRaven, Hermes) totals only 627M tokens. At 3% of 2T, demand is 60B — a **95× gap**. This lane cannot be filled; it must be built. The 3% allocation is set at 1 point above the protected floor (§4) to signal intent while acknowledging that pretraining cannot deliver agentic capability alone — the anneal and SFT stages are where agentic ability concentrates (§5). The synthesis strategy is described in §6.
+**Agentic (3%)** is the most constrained lane. Real supply across all 9 datasets (SWE-Gym, SWE-smith, OpenHands, ToolBench, ToolACE, Glaive, xLAM, NexusRaven, Hermes) totals 627M tokens — but 264M of that (SWE-Gym 150M + OpenHands 90M + SWE-smith's top-5K slice, ~24M) is reserved exclusively for the anneal (§5.3), leaving only **363M tokens actually available to the main run**. At 3% of 2T, demand is 60B against that 363M — a **165× gap**, not the 95× gap this document gets if it naively divides by the full pre-reservation inventory. Both numbers are reported (§2.1) because a reviewer may ask for either, but 165× is the one that governs what the main run must actually synthesize. This lane cannot be filled from real data; it must be built. The 3% allocation is set at 1 point above the protected floor (§4) to signal intent while acknowledging that pretraining cannot deliver agentic capability alone — the anneal and SFT stages are where agentic ability concentrates (§5). The synthesis strategy is described in §6.
 
 ### 2.3 What This Mixture Buys vs. What It Starves
 
@@ -106,17 +106,19 @@ The 18% Indic slot demands **360B tokens** at a 2T run. Real supply is **276B to
 |---|---|---|---|---|
 | **A: Verified native** | **38%** | **137B** | Sangraha verified: 64B | **2.1× repeat** of verified shards |
 | **B: Unverified crawl** | **22%** | **79B** | Sangraha unverified 24B + IndicCorpV2 20.9B = **45B** | **1.8× repeat** |
-| **C: Translated** | **20%** | **72B** | BPCC 3B + Samanantar 2B = **5B** | **14.4× gap → synthesis** |
-| **D: Synthetic** | **20%** | **72B** | None (purpose-built) | **100% synthesis** |
-| **Total** | 100% | 360B | 114B real | 246B synthesized or repeated |
+| **C: Translated** | **20%** | **72B** | BPCC 3B + Samanantar 2B = **5B** | **14.4× gap → synthesis** (real 5B used as seed, not repeated) |
+| **D: Synthetic** | **20%** | **72B** | Sangraha synthetic: **162B** | ✅ **Covered, 90B surplus** — select top-quality 72B by classifier score |
+| **Total** | 100% | 360B | **276B real** | **84B shortfall** — closed via Tier A/B repetition (real tokens reused) + **~67B of genuinely new Tier-C synthesis**; Tier D needs no new generation |
 
 ### 3.3 Honest Accounting Notes
 
 **Tier A** at 2.1× repetition is defensible. The V4 run showed that high-quality data can be repeated up to ~4× before marginal value degrades significantly. 2.1× is well inside that window.
 
-**Tier C is the problem.**  BPCC and Samanantar together provide only ~5B tokens of translated parallel text. Reaching 72B requires either 14× repetition (unacceptable — this would cause memorization artifacts in parallel sentence patterns) or **synthetic parallel generation**. The proxy experiment (§7) will test whether 14× Tier C repetition or Tier C synthesis produces better IndicGenBench chrF scores.
+**Tier D is not the problem — it was misreported.** Sangraha synthetic supplies 162B tokens, comfortably covering the 72B Tier D demand with 90B tokens to spare. This document previously listed Tier D real supply as "None," which is the exact wishful-accounting failure mode this session warns against, just inverted: a well-supplied lane made to look unsolvable. The corrected action is not "run a synthesis pipeline" but "rank the existing 162B by an Indic quality classifier (MuRIL-based, trained on Sangraha verified as positives) and admit only the top-scoring 72B." The 90B surplus is held as buffer capacity — a candidate source if Tier C's gap (below) is only partially closed by synthesis, since both tiers are model-generated text and a lower Tier-D admission bar could absorb some translated-style continuations if needed.
 
-**Tier D synthesis pipeline:** Use Sangraha verified documents as seeds. Prompt a teacher model (e.g., Gemini Flash) to generate: (1) paraphrases of verified documents in the same language, (2) domain-diverse continuations, (3) style-varied rewrites. All synthetic documents are scored by an Indic quality classifier (MuRIL-based, trained on Sangraha verified as positives) and only examples scoring ≥ 3.5/5 are admitted.
+**Tier C is the real problem.** BPCC and Samanantar together provide only ~5B tokens of translated parallel text. Reaching 72B requires either 14× repetition (unacceptable — this would cause memorization artifacts in parallel sentence patterns) or **synthetic parallel generation**. The 5B real tokens are used once, as-is, plus as seed material for the teacher model; the remaining ~67B is newly synthesized. The proxy experiment (§9) will test whether 14× Tier C repetition or Tier C synthesis produces better IndicGenBench chrF scores.
+
+**Tier C synthesis pipeline:** Use BPCC/Samanantar parallel pairs as seeds. Prompt a teacher model (e.g., Gemini Flash) to generate: (1) new parallel sentence pairs in the same domain and register, (2) back-translated round-trip pairs for consistency filtering, (3) domain-diverse continuations of existing parallel documents. All synthetic pairs are scored by an Indic quality classifier (MuRIL-based, trained on Sangraha verified as positives) and only examples scoring ≥ 3.5/5 are admitted.
 
 ### 3.4 Language Distribution Within the Indic Slot
 
@@ -159,9 +161,9 @@ The anneal is a short, low-learning-rate cooldown phase at the end of pretrainin
 
 ### 5.1 Reserve Size
 
-**2% of the 2T total run = 40 billion tokens** are held back for the anneal. This reserve is separate from the main pretrain budget in §2; the main run trains on 1.96T tokens total.
+**40 billion tokens (2% of the 2T main-run budget) are reserved for the anneal.** Per §2, this reserve is held *additional to*, not carved out of, the 2T main-run budget: the main run trains the full 2T tokens, and the anneal adds 40B on top, for a grand total of **~2.04T tokens** across the whole pretraining arc (main + anneal + the warmup band in §5.4). Earlier drafts of this document also described the anneal as "carved out of" the 2T (implying a 1.96T main run) and separately gave the anneal a 240B curriculum range in §8 — both were arithmetic slips against this section's own 40B figure and have been corrected throughout.
 
-The 2% figure matches the V4 reality (stage 2/6 in the training lifecycle). Too small and the anneal cannot shift the model's final quality distribution meaningfully; too large and the main run loses coverage.
+The 2% figure matches the V4 reality (stage 2/6 in the training lifecycle) and is deliberately sized as a fraction of the main run so it can be added on without shrinking the main run's own coverage. Too small and the anneal cannot shift the model's final quality distribution meaningfully; too large and it stops being a short, cheap cooldown.
 
 ### 5.2 Anneal Mixture
 
@@ -170,9 +172,9 @@ The 2% figure matches the V4 reality (stage 2/6 in the training lifecycle). Too 
 | Indic | **28%** | 11.2B | Sangraha verified **top-quartile shards** (educational score ≥ 4.0/5.0) |
 | Reasoning | **18%** | 7.2B | AON best shards + OpenThoughts2 (full) |
 | Code | **20%** | 8.0B | CommitPackFT + Stack v2 top-quality subset |
-| Agentic | **8%** | 3.2B | **SWE-Gym (150M)** + **SWE-smith (120M)** + **OpenHands rollouts (90M)** — all reserved for anneal |
+| Agentic | **8%** | 3.2B | **SWE-Gym (150M)** + **OpenHands rollouts (90M)** + **SWE-smith top-5K (~24M)** = 264M raw reserved, topped up with **~2.9B** held-back rollout-generated trajectories from the Tier-3 synthesis pipeline (§6.1) to reach the 3.2B budget |
 | Long-context | **8%** | 3.2B | Book-length corpora top subset |
-| STEM / Math | **10%** | 4.0B | proof-pile-2 + peS2o (highest educational scores) |
+| STEM / Math | **10%** | 4.0B | Top-scoring slice of proof-pile-2 (highest educational scores); the full 55B corpus otherwise backs the main run's STEM supply (§2.2) |
 | General Web | **8%** | 3.2B | FineWeb-Edu educational score ≥ 4.5/5.0 |
 | **Total** | **100%** | **40B** | |
 
@@ -180,10 +182,12 @@ The 2% figure matches the V4 reality (stage 2/6 in the training lifecycle). Too 
 
 The following datasets are **not used in the main pretrain run** and are held exclusively for anneal:
 - SWE-Gym (150M tokens, 2.4K samples) — the highest-signal agentic dataset
-- SWE-smith top 5K samples (out of 26K)
+- SWE-smith top 5K samples (out of 26K, ~24M of its 120M tokens, sample-proportional estimate)
 - OpenHands rollouts (90M tokens)
 - Sangraha verified shards with educational classifier score ≥ 4.0
 - OpenThoughts2 (3B tokens, full dataset)
+
+This raw reservation totals 264M agentic tokens (150M + 90M + 24M) — far short of the 3.2B agentic anneal budget in §5.2. The remaining ~2.9B is filled by held-back output from the Tier-3 rollout-generation pipeline (§6.1), not by additional raw dataset reservation.
 
 Spending these in the main run would waste them on a model that cannot yet exploit them. The anneal concentrates them into the final low-LR phase where they land cleanest.
 
@@ -195,18 +199,18 @@ At the pretrain→anneal boundary, a **3B-token 60/40 warmup band** (60% main-ru
 
 ## 6. Agentic Slot — Synthesis Strategy
 
-Real supply: **627M tokens** across 9 datasets. Demand at 3%: **60B tokens**. Synthesis gap: **~59.4B tokens (95×)**.
+Real supply: **627M tokens** across 9 datasets, but **264M** of that (SWE-Gym, OpenHands, SWE-smith top-5K) is reserved for the anneal (§5.3), leaving **363M** available to the main run. Demand at 3%: **60B tokens**. Synthesis gap against the main-run-available figure: **~59.6B tokens (~165×)**.
 
 ### 6.1 Synthesis Tiers for Agentic Data
 
 **Tier 1 — One-shot function calls (cheap, high volume):**  
-Synthesize using API schemas from public sources (OpenAPI specs, GitHub function definitions). Prompt a teacher model with the schema and a user intent; the teacher generates the matching function call. Score by AST validity and schema conformance. Target: 40B tokens of Tier 1.
+Synthesize using API schemas from public sources (OpenAPI specs, GitHub function definitions). Prompt a teacher model with the schema and a user intent; the teacher generates the matching function call. Score by AST validity and schema conformance. Target: 40B tokens, main run.
 
 **Tier 2 — Multi-turn tool-use conversations:**  
-Take Tier 1 calls and build multi-turn dialogues. Insert tool return observations (masked in the loss) and model responses. Target: 15B tokens.
+Take Tier 1 calls and build multi-turn dialogues. Insert tool return observations (masked in the loss) and model responses. Target: 15B tokens, main run.
 
-**Tier 3 — Long trajectory generation (expensive, reserved for anneal):**  
-Use SWE-Gym and SWE-smith scaffolding to generate new trajectories via rollout. Only the top-quality (verified-passing) trajectories are admitted. These ~4.4B tokens are anneal-only (already reserved in §5.2).
+**Tier 3 — Long trajectory generation (expensive, used sparingly):**  
+Use SWE-Gym and SWE-smith scaffolding to generate new trajectories via rollout. Only the top-quality (verified-passing) trajectories are admitted. Target: **~4.6B tokens for the main run** — this closes the budget: 363M real + 40B (Tier 1) + 15B (Tier 2) + 4.6B (Tier 3) ≈ 60B, matching demand. Separately, the **highest-scoring** rollouts from this same pipeline (~2.9B tokens) are held back rather than spent in the main run, and instead fill most of the 3.2B agentic anneal budget (§5.2) alongside the 264M raw reserved trajectories.
 
 ### 6.2 Loss Map Rule (Critical)
 
@@ -281,11 +285,15 @@ B5 examples are anneal-only. Introducing PhD-level reasoning too early (before t
 | **Seed** | 0–30B | 50% General Web, 18% Code, 12% STEM, 15% Indic, 5% Reasoning | B0–B1 only |
 | **General** | 30B–600B | 34% General Web, 24% Code, 18% Indic, 12% STEM, 6% Reasoning, 5% Long-ctx, 3% Agentic | B0–B2 |
 | **Reasoning** | 600B–1.4T | Reasoning rises to 8%, Code stays 24%, General Web falls to 28% | B2–B3 |
-| **Long-context** | 1.4T–1.7T | Long-context rises to 8%, Reasoning 6%, Code 22% | B3–B4 |
-| **Warmup Band** | 1.7T–1.72T | 60% main-run / 40% anneal blend — gradient stabilizer | B2–B3 |
-| **Anneal** | 1.72T–1.96T | See §5 anneal mixture | B3–B5 |
+| **Long-context** | 1.4T–2T | Long-context rises to 12%, Reasoning steady at 8%, Code 22% | B3–B4 |
+| **Warmup Band** | 2T–2.003T | 60% main-run / 40% anneal blend — gradient stabilizer | B2–B3 |
+| **Anneal** | 2.003T–2.043T | See §5 anneal mixture (~40B tokens) | B3–B5 |
+
+Main-run stages (Seed → Long-context) sum to exactly **2T**, matching §2.1's headline budget; the warmup band and anneal add the **~40B** reserve from §5.1 on top, for a grand total of **~2.04T**. The earlier version of this table gave Long-context only a 300B span (1.4T–1.7T) and then stretched the anneal across a 240B range (1.72T–1.96T) — six times the 40B this plan actually reserves. Both are corrected here to match §5.1.
 
 At each seam between stages, a **~3B-token 60/40 warmup band** (60% old mix / 40% new mix) prevents gradient norm explosion. Embeddings are unfrozen at every seam to avoid the V4 Hindi 150× gradient spike.
+
+**Reconciling the curriculum with the headline mixture (§2.1):** curricula are illustrative snapshots of a smoothly-interpolated schedule, not per-stage sub-budgets that must sum exactly to the headline share — but they should come close. Token-weighting Code's share across the main-run stages (18%×30B + 24%×570B + 24%×800B + 22%×600B) gives ≈466B effective Code tokens, within 3% of the §2.1 headline of 480B (24% of 2T). That is the standard this table is held to: stage percentages are free to ramp a lane up or down mid-run (as V4 did — §5, Session 5 notes), but the token-weighted average across the full main run should land close to the lane's stated headline share, not drift from it.
 
 ---
 
@@ -345,13 +353,17 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 
 | Decision Point | Value | Reasoning |
 |---|---|---|
-| Total pretrain budget | 2T tokens | Compute-optimal + repeat margin for scarce lanes |
-| Anneal reserve | 40B (2%) | Matches V4 reality; concentrates best data at low LR |
+| Total pretrain budget | 2T tokens (main run) | Compute-optimal + repeat margin for scarce lanes |
+| Anneal reserve | 40B (2%), **additional to** the 2T | Matches V4 reality; concentrates best data at low LR |
+| Grand total incl. anneal | ~2.04T tokens | 2T main + 40B anneal, held separately (§5.1) |
 | Indic floor (OPUS) | 12% always-on | Below this, MILU degrades non-linearly at 3B scale |
 | Agentic floor (OPUS) | 2% always-on | Minimum for embedding-space representation |
 | Indic: Tier A share | 38% of 18% | Max quality; 2.1× repeat is safe |
+| Indic: Tier D real supply | 162B vs 72B demand | Covered with 90B surplus — no synthesis needed (§3.3) |
 | Indic: Tier C honest gap | 14.4× synthesis needed | States the problem, not a solution by fiat |
-| Anneal agentic datasets | SWE-Gym + SWE-smith + OpenHands | Reserved; highest token-per-sample density |
+| STEM real supply | 146B (not 250B) | Only datasets actually tagged STEM; ~1.6× repeat needed (§2.2) |
+| Agentic main-run supply | 363M of 627M total | 264M reserved for anneal; 165× gap on the main-run figure (§2.1) |
+| Anneal agentic datasets | SWE-Gym + SWE-smith top-5K + OpenHands | Reserved; highest token-per-sample density (§5.3) |
 | Warmup band at seams | 3B tokens, 60/40 blend | Prevents gradient explosion at mixture transitions |
 | Proxy experiment scale | 1B / 30B tokens | Sufficient for mix ranking; costs ~$200 |
 | Decision metric for Indic | MILU: A > B by ≥ 3pp | Concrete, falsifiable, benchmark-anchored |
@@ -370,9 +382,9 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 ### Agentic & Tool-use (627M tokens total — real supply)
 | Dataset | Tokens | Tier | Reserved for Anneal? |
 |---|---|---|---|
-| SWE-Gym | 150M | A | **Yes — anneal only** |
-| SWE-smith | 120M | A | **Partial (top 5K)** |
-| OpenHands rollouts | 90M | A | **Yes — anneal only** |
+| SWE-Gym | 150M | A | **Yes — anneal only (150M)** |
+| SWE-smith | 120M | A | **Partial — top-5K (~24M) to anneal, ~96M to main run** |
+| OpenHands rollouts | 90M | A | **Yes — anneal only (90M)** |
 | ToolBench | 80M | D | Main run |
 | ToolACE | 60M | A/D | Main run |
 | Glaive FC v2 | 50M | D | Main run |
@@ -380,7 +392,7 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 | xLAM / APIGen | 25M | A/D | Main run |
 | Hermes FC | 22M | A/D | Main run |
 
-**Main run real supply: ~337M tokens.** The remaining ~59.7B must be synthesized (§6).
+**Main run real supply: ~363M tokens** (80+60+50+30+25+22+96, i.e. all nine datasets minus the 264M reserved for anneal). The remaining ~59.6B must be synthesized (§6).
 
 ### Reasoning & Math (85.1B tokens total)
 | Dataset | Tokens | Tier | Use |
@@ -400,11 +412,11 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 ### Indic (276B total; see §3 for tier breakdown)
 | Dataset | Tokens | Tier |
 |---|---|---|
-| Sangraha synthetic | 162B | C/D |
+| Sangraha synthetic | 162B | D |
 | Sangraha verified | 64B | A |
 | IndicCorpV2 | ~20.9B | B |
 | Sangraha unverified | ~24B | B |
-| BPCC parallel | ~3B | B |
+| BPCC parallel | ~3B | C |
 | Samanantar | ~2B | C |
 
 ### General Web & STEM (4.8T tokens)
@@ -417,6 +429,8 @@ The plan is only trustworthy once the corpus behind it meets minimum cleaning st
 | proof-pile-2 | ~55B | A |
 | D4 STEM (V4) | ~49B | B |
 | peS2o | ~42B | A |
+
+The source inventory groups these seven datasets into one combined 4.8T "General Web & STEM" slot. This plan splits them across two separate mixture lanes (§2.1): **General Web** draws on DCLM + FineWeb-Edu + D1/D2 (4.5T), while **STEM / Math** draws only on the three STEM-tagged sets — proof-pile-2 + D4 STEM + peS2o = **146B**. An earlier draft's STEM supply figure (250B) came from also counting the separately-allocated Reasoning slot, which cannot back two lanes at once; the 146B figure here is the one actually traceable to named datasets.
 
 ---
 
