@@ -27,12 +27,3 @@ uv run pytest tests/ -v       # 20 invariant tests
 ```
 
 Then open `webapp/index.html` to see that run visualized.
-
-## Grading
-
-All 9 requirements from `evidence.json` (tokenizer integrity, eval firewall,
-packing correctness, mixture compliance, OPUS audit trail, crash recovery,
-replay, learning trace, throughput) are produced by the implementation, not
-asserted — see `train_data_exec_system/submission_artifacts/evidence.md` for
-the human-readable table and `train_data_exec_system/README.md` for the full
-scoring-coverage breakdown against the assignment's 1,000-point rubric.
