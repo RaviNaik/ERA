@@ -29,6 +29,14 @@ const CURRICULUM_STAGES = D.curriculumStages || [];
 const MIXTURE_ACTUAL = D.mixtureActual || {};
 const TOKENIZER = D.tokenizer || {};
 
+// webapp/ and train_data_exec_system/ are sibling folders under v5/session6/,
+// and evidence.json's paths (e.g. "submission_artifacts/tokenizer_spec.json")
+// are relative to the project root — so this prefix resolves them from here.
+const ARTIFACTS_BASE = '../train_data_exec_system/';
+const GITHUB_ARTIFACTS_URL = 'https://github.com/RaviNaik/ERA/tree/main/v5/session6/train_data_exec_system/submission_artifacts';
+const artifactUrl = (relPath) => ARTIFACTS_BASE + relPath;
+const filenameOf = (relPath) => relPath.split('/').pop();
+
 // ── DOM helpers ─────────────────────────────────────────────
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
@@ -433,6 +441,33 @@ function renderReplay() {
 // SECTION 8 — Evidence Board
 // ═══════════════════════════════════════════════════════════
 
+// Top-level artifacts every submission is required to produce, per the
+// assignment spec — offered as one-click downloads regardless of which
+// evidence card references them.
+const EVIDENCE_BUNDLE_FILES = [
+  { path: 'submission_artifacts/run.log', icon: '📜', label: 'run.log', desc: 'Full execution log' },
+  { path: 'submission_artifacts/evidence.json', icon: '🗂️', label: 'evidence.json', desc: 'Machine-readable evidence' },
+  { path: 'submission_artifacts/evidence.md', icon: '📄', label: 'evidence.md', desc: 'Human-readable summary' },
+  { path: 'submission_artifacts/performance.json', icon: '⚡', label: 'performance.json', desc: 'Throughput & packing report' },
+  { path: 'submission_artifacts/tokenizer_spec.json', icon: '🔑', label: 'tokenizer_spec.json', desc: 'Frozen tokenizer spec' },
+];
+
+function renderEvidenceDownloads() {
+  const wrap = $('#evidence-downloads');
+  if (wrap) {
+    EVIDENCE_BUNDLE_FILES.forEach(f => {
+      const a = el('a', 'dl-link');
+      a.href = artifactUrl(f.path);
+      a.download = f.label;
+      a.title = f.desc;
+      a.innerHTML = `<span class="dl-icon">${f.icon}</span> ${f.label} <span class="dl-size">⬇</span>`;
+      wrap.appendChild(a);
+    });
+  }
+  const browseLink = $('#evidence-browse-link');
+  if (browseLink) browseLink.href = GITHUB_ARTIFACTS_URL;
+}
+
 const EVIDENCE_INFO = {
   tokenizer_integrity: { icon: '🔑', label: 'Tokenizer Integrity' },
   eval_firewall:       { icon: '🛡️', label: 'Evaluation Firewall' },
@@ -461,7 +496,9 @@ function renderEvidence() {
           </div>
         </div>
         <div class="ev-desc">${val.description || val.reason || ''}</div>
-        <div class="ev-evidence">Evidence: ${val.evidence || '—'}</div>
+        ${val.evidence
+          ? `<a class="ev-evidence-link" href="${artifactUrl(val.evidence)}" download="${filenameOf(val.evidence)}">⬇ ${val.evidence}</a>`
+          : `<div class="ev-evidence">Evidence: —</div>`}
       `;
       grid.appendChild(card);
     });
@@ -575,6 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLedgerTabs();
   renderCheckpoints();
   renderReplay();
+  renderEvidenceDownloads();
   renderEvidence();
   renderTimeline();
   initNav();

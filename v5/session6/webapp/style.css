@@ -719,6 +719,37 @@ body {
 .ckpt-meta strong { color: var(--text-primary); }
 .ckpt-forked-from { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--purple); }
 
+/* ── Evidence Downloads ───────────────────────────────────────────── */
+.download-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.dl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.dl-link:hover { border-color: var(--border-glow); background: var(--bg-hover); transform: translateY(-1px); }
+.dl-link .dl-icon { font-size: 13px; }
+.dl-link .dl-size { color: var(--text-muted); font-weight: 500; font-size: 10.5px; }
+.ev-evidence-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--indigo);
+  font-family: 'JetBrains Mono', monospace;
+  word-break: break-all;
+  text-decoration: none;
+}
+.ev-evidence-link:hover { text-decoration: underline; }
+
 /* ── Evidence Board ────────────────────────────────────────────── */
 .evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px; }
 .evidence-card {
