@@ -1,0 +1,27 @@
+{
+  "planned": {
+    "web": 0.49,
+    "code": 0.18,
+    "indic": 0.16,
+    "agentic": 0.02,
+    "reasoning": 0.06,
+    "stem": 0.09
+  },
+  "actual": {
+    "indic": 0.3873,
+    "code": 0.3707,
+    "agentic": 0.2421
+  },
+  "floor_compliance": {
+    "indic": {
+      "floor": 0.12,
+      "actual": 0.5904,
+      "compliant": true
+    },
+    "agentic": {
+      "floor": 0.02,
+      "actual": 0.1771,
+      "compliant": true
+    }
+  }
+}

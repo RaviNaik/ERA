@@ -1,0 +1,11 @@
+{
+  "total": 27,
+  "admitted": 24,
+  "blocked": 3,
+  "eval_shards": [
+    "shard_ca51f610fcf6",
+    "shard_f8dea85b952b",
+    "shard_8f703fea119c"
+  ],
+  "tokenizer_sha": "tok_27b6a09dd8613291"
+}

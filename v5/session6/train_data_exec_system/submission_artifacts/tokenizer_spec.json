@@ -1,0 +1,16 @@
+{
+  "model_name": "cl100k_base",
+  "tokenizer_sha": "tok_27b6a09dd8613291",
+  "vocab_size": 100277,
+  "eos_token_string": "EOT",
+  "agentic_mask_spans": [
+    "[OBSERVATION]",
+    "[/OBSERVATION]"
+  ],
+  "normalizer_id": "unicode_nfc",
+  "special_tokens": {
+    "pad": "<pad>",
+    "eos": "<eos>",
+    "bos": "<bos>"
+  }
+}

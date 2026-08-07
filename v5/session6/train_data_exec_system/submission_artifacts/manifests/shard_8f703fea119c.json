@@ -1,0 +1,61 @@
+{
+  "shard_id": "shard_8f703fea119c",
+  "shard_path": "D:\\ERA\\v5\\session6\\train_data_exec_system\\submission_artifacts\\shards\\shard_8f703fea119c.npz",
+  "source_ids": [
+    "https://eval.held-out/0026"
+  ],
+  "document_ids": [
+    "eval_0026"
+  ],
+  "tokenizer_hash": "tok_27b6a09dd8613291",
+  "token_count": 75,
+  "language": "en",
+  "script": "latin",
+  "capability_lane": "web",
+  "license_tier": "safe",
+  "cleaning_pipeline_hash": "clean_07c800d87060",
+  "dedup_status": "passed",
+  "contam_status": "eval_held_out",
+  "pii_screen_status": "screened",
+  "content_hash": "sha256_8f703fea119c217652eea59ad3b13f2b9232b5348d45198a34605ac351aa4330",
+  "parent_shard_ids": [],
+  "is_eval": true,
+  "gates": {
+    "tokenizer_hash": {
+      "status": "OK",
+      "value": "tok_27b6a09dd8613291"
+    },
+    "cleaning_pipeline_hash": {
+      "status": "OK",
+      "value": "clean_07c800d87060"
+    },
+    "dedup_status": {
+      "status": "OK",
+      "value": "passed"
+    },
+    "contam_status": {
+      "status": "BLOCKED",
+      "value": "eval_held_out"
+    },
+    "pii_screen_status": {
+      "status": "OK",
+      "value": "screened"
+    },
+    "license_tier": {
+      "status": "OK",
+      "value": "safe"
+    },
+    "parent_manifest_ids": {
+      "status": "WARN",
+      "value": []
+    },
+    "source_manifest": {
+      "status": "OK",
+      "value": "https://eval.held-out/0026"
+    }
+  },
+  "admission_score": 51,
+  "admission": "blocked",
+  "admission_reason": "eval_held_out=True",
+  "created_at": "2026-08-07T05:55:40Z"
+}

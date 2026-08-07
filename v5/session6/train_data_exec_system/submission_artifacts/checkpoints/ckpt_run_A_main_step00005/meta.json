@@ -1,0 +1,12 @@
+{
+  "checkpoint_id": "ckpt_run_A_main_step00005",
+  "step": 5,
+  "ledger_offset": 5,
+  "run_id": "run_A",
+  "branch_id": "main",
+  "optimizer_lr": 0.001,
+  "weights_hash": "weights_0d767a6724f2",
+  "rng_state": {},
+  "next_expected_batch_offset": 5,
+  "saved_at": "2026-08-07T05:55:43Z"
+}

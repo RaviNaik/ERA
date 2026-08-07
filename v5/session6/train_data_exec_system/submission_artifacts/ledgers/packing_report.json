@@ -1,0 +1,47 @@
+{
+  "pad_each_doc": {
+    "policy": "pad_each_doc",
+    "num_sequences": 24,
+    "context_len": 128,
+    "total_positions": 3072,
+    "useful_tokens": 2436,
+    "utilization_pct": 79.3,
+    "avg_loss_bearing": 101.5
+  },
+  "concat_and_chop": {
+    "policy": "concat_and_chop",
+    "num_sequences": 38,
+    "context_len": 128,
+    "total_positions": 4864,
+    "useful_tokens": 4795,
+    "utilization_pct": 98.58,
+    "avg_loss_bearing": 126.18
+  },
+  "greedy_pack": {
+    "policy": "greedy_pack",
+    "num_sequences": 23,
+    "context_len": 128,
+    "total_positions": 2944,
+    "useful_tokens": 2436,
+    "utilization_pct": 82.74,
+    "avg_loss_bearing": 105.91
+  },
+  "best_fit_pack": {
+    "policy": "best_fit_pack",
+    "num_sequences": 23,
+    "context_len": 128,
+    "total_positions": 2944,
+    "useful_tokens": 2436,
+    "utilization_pct": 82.74,
+    "avg_loss_bearing": 105.91
+  },
+  "structure_preserving": {
+    "policy": "structure_preserving",
+    "num_sequences": 23,
+    "context_len": 128,
+    "total_positions": 2944,
+    "useful_tokens": 2436,
+    "utilization_pct": 82.74,
+    "avg_loss_bearing": 105.91
+  }
+}

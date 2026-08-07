@@ -1,0 +1,47 @@
+{
+  "tokenizer_integrity": {
+    "result": "PASS",
+    "description": "tokenizer_sha=tok_27b6a09dd8613291",
+    "evidence": "submission_artifacts/tokenizer_spec.json"
+  },
+  "eval_firewall": {
+    "result": "PASS",
+    "description": "3 eval shards blocked, 0 violations",
+    "evidence": "submission_artifacts/manifests/manifest_summary.json"
+  },
+  "packing_correctness": {
+    "result": "PASS",
+    "description": "structure_preserving: 82.7% util, agentic masks applied",
+    "evidence": "submission_artifacts/ledgers/packing_report.json"
+  },
+  "crash_recovery": {
+    "result": "PASS",
+    "description": "next_batch=run_A_batch_0010 matched, hash verified",
+    "evidence": "submission_artifacts/checkpoints/ckpt_run_A_main_step00010/meta.json"
+  },
+  "replay": {
+    "result": "PASS",
+    "description": "All 5 replayed batches hash-matched original",
+    "evidence": "submission_artifacts/ledgers/replay_hashes.json"
+  },
+  "opus_audit_trail": {
+    "result": "PASS",
+    "description": "12 decisions logged, 2 floor overrides",
+    "evidence": "submission_artifacts/ledgers/opus_decisions.jsonl"
+  },
+  "mixture_compliance": {
+    "result": "PASS",
+    "description": "Curriculum stages executed, floors enforced",
+    "evidence": "submission_artifacts/ledgers/mixture_actual.json"
+  },
+  "learning_trace": {
+    "result": "PASS",
+    "description": "Loss linked to 16 source documents",
+    "evidence": "submission_artifacts/ledgers/doc_loss_summary.json"
+  },
+  "throughput": {
+    "result": "PASS",
+    "description": "packing=82.7%, avg_tps=696",
+    "evidence": "submission_artifacts/performance.json"
+  }
+}

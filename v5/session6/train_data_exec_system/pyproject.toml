@@ -1,0 +1,13 @@
+[project]
+name = "train-data-exec-system"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.5.1",
+    "pytest>=9.1.1",
+    "rich>=15.0.0",
+    "tiktoken>=0.13.0",
+    "torch>=2.0",
+]

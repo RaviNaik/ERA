@@ -1,0 +1,45 @@
+{
+  "steps_replayed": [
+    {
+      "step": 5,
+      "original_batch_id": "run_A_batch_0005",
+      "original_hash": "bh_9903e65b8eea1548",
+      "replay_batch_id": "run_A_batch_0005",
+      "replay_hash": "bh_9903e65b8eea1548",
+      "match": true
+    },
+    {
+      "step": 6,
+      "original_batch_id": "run_A_batch_0006",
+      "original_hash": "bh_8bad92b9ae6c0d59",
+      "replay_batch_id": "run_A_batch_0006",
+      "replay_hash": "bh_8bad92b9ae6c0d59",
+      "match": true
+    },
+    {
+      "step": 7,
+      "original_batch_id": "run_A_batch_0007",
+      "original_hash": "bh_8c2db90d56f6e431",
+      "replay_batch_id": "run_A_batch_0007",
+      "replay_hash": "bh_8c2db90d56f6e431",
+      "match": true
+    },
+    {
+      "step": 8,
+      "original_batch_id": "run_A_batch_0008",
+      "original_hash": "bh_5a90fd6a6339a45b",
+      "replay_batch_id": "run_A_batch_0008",
+      "replay_hash": "bh_5a90fd6a6339a45b",
+      "match": true
+    },
+    {
+      "step": 9,
+      "original_batch_id": "run_A_batch_0009",
+      "original_hash": "bh_28f87ae7c41c0170",
+      "replay_batch_id": "run_A_batch_0009",
+      "replay_hash": "bh_28f87ae7c41c0170",
+      "match": true
+    }
+  ],
+  "all_match": true
+}

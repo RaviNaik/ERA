@@ -1,0 +1,61 @@
+{
+  "shard_id": "shard_c1d0d139ede8",
+  "shard_path": "D:\\ERA\\v5\\session6\\train_data_exec_system\\submission_artifacts\\shards\\shard_c1d0d139ede8.npz",
+  "source_ids": [
+    "https://example-code.corpus/0009"
+  ],
+  "document_ids": [
+    "doc_0009"
+  ],
+  "tokenizer_hash": "tok_27b6a09dd8613291",
+  "token_count": 123,
+  "language": "en",
+  "script": "latin",
+  "capability_lane": "code",
+  "license_tier": "safe",
+  "cleaning_pipeline_hash": "clean_07c800d87060",
+  "dedup_status": "passed",
+  "contam_status": "clear",
+  "pii_screen_status": "screened",
+  "content_hash": "sha256_c1d0d139ede8c3d4aeca740978ce1888e1ecd538df05d5e7ff520adbebb466b9",
+  "parent_shard_ids": [],
+  "is_eval": false,
+  "gates": {
+    "tokenizer_hash": {
+      "status": "OK",
+      "value": "tok_27b6a09dd8613291"
+    },
+    "cleaning_pipeline_hash": {
+      "status": "OK",
+      "value": "clean_07c800d87060"
+    },
+    "dedup_status": {
+      "status": "OK",
+      "value": "passed"
+    },
+    "contam_status": {
+      "status": "OK",
+      "value": "clear"
+    },
+    "pii_screen_status": {
+      "status": "OK",
+      "value": "screened"
+    },
+    "license_tier": {
+      "status": "OK",
+      "value": "safe"
+    },
+    "parent_manifest_ids": {
+      "status": "WARN",
+      "value": []
+    },
+    "source_manifest": {
+      "status": "OK",
+      "value": "https://example-code.corpus/0009"
+    }
+  },
+  "admission_score": 87,
+  "admission": "admitted",
+  "admission_reason": "all_checks_passed",
+  "created_at": "2026-08-07T05:55:40Z"
+}
