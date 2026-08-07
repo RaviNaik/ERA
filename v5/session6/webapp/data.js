@@ -17,7 +17,7 @@ window.TDES_DATA = {
     "admitted_docs": 24,
     "blocked_docs": 3,
     "test_count": 20,
-    "generated_at": "2026-08-07T08:44:31Z"
+    "generated_at": "2026-08-07T10:22:41Z"
   },
   "evidence": {
     "tokenizer_integrity": {
@@ -62,7 +62,7 @@ window.TDES_DATA = {
     },
     "throughput": {
       "result": "PASS",
-      "description": "packing=82.7%, avg_tps=628",
+      "description": "packing=82.7%, avg_tps=624",
       "evidence": "submission_artifacts/performance.json"
     }
   },
@@ -70,13 +70,13 @@ window.TDES_DATA = {
     "total_steps": 18,
     "average_loss": 11.515662,
     "final_loss": 11.513892,
-    "average_tokens_per_sec": 627.5,
+    "average_tokens_per_sec": 623.9,
     "packing_policy": "structure_preserving",
     "packing_utilization_pct": 82.74,
     "useful_tokens_total": 2436,
     "num_packed_sequences": 23,
     "context_len": 128,
-    "generated_at": "2026-08-07T08:44:31Z"
+    "generated_at": "2026-08-07T10:22:41Z"
   },
   "packingReport": {
     "pad_each_doc": {
@@ -376,253 +376,253 @@ window.TDES_DATA = {
       "batch_id": "run_A_batch_0000",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6638,
-      "reason": "score=0.664 in defer zone [0.592,0.697)",
+      "score": 0.6563,
+      "reason": "score=0.656 in defer zone [0.583,0.686)",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:23Z"
     },
     {
       "step": 1,
       "batch_id": "run_A_batch_0001",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6024,
-      "reason": "score=0.602 in defer zone [0.592,0.697)",
+      "score": 0.6206,
+      "reason": "score=0.621 in defer zone [0.583,0.686)",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:23Z"
     },
     {
       "step": 2,
       "batch_id": "run_A_batch_0002",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6689,
-      "reason": "score=0.669 in defer zone [0.592,0.697)",
+      "score": 0.6544,
+      "reason": "score=0.654 in defer zone [0.583,0.686)",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:23Z"
     },
     {
       "step": 3,
       "batch_id": "run_A_batch_0003",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.5934,
-      "reason": "score=0.593 in defer zone [0.592,0.697)",
+      "score": 0.6303,
+      "reason": "score=0.630 in defer zone [0.583,0.686)",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:23Z"
     },
     {
       "step": 4,
       "batch_id": "run_A_batch_0004",
       "lane": "code",
       "decision": "accept",
-      "score": 0.8093,
-      "reason": "score=0.809 >= threshold=0.697",
+      "score": 0.7963,
+      "reason": "score=0.796 >= threshold=0.686",
       "token_count": 124,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:23Z"
     },
     {
       "step": 5,
       "batch_id": "run_A_batch_0005",
       "lane": "web",
       "decision": "accept",
-      "score": 0.878,
-      "reason": "score=0.878 >= threshold=0.697",
+      "score": 0.858,
+      "reason": "score=0.858 >= threshold=0.686",
       "token_count": 121,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 6,
       "batch_id": "run_A_batch_0006",
       "lane": "indic",
       "decision": "accept",
-      "score": 0.5999,
+      "score": 0.5815,
       "reason": "protected_floor_override: indic below 12%",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 7,
       "batch_id": "run_A_batch_0007",
       "lane": "agentic",
       "decision": "accept",
-      "score": 0.3649,
+      "score": 0.3356,
       "reason": "protected_floor_override: agentic below 2%",
       "token_count": 95,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 8,
       "batch_id": "run_A_batch_0008",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8842,
-      "reason": "score=0.884 >= threshold=0.697",
+      "score": 0.876,
+      "reason": "score=0.876 >= threshold=0.686",
       "token_count": 72,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 9,
       "batch_id": "run_A_batch_0009",
       "lane": "code",
       "decision": "accept",
-      "score": 0.8235,
-      "reason": "score=0.823 >= threshold=0.697",
+      "score": 0.7895,
+      "reason": "score=0.790 >= threshold=0.686",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 10,
       "batch_id": "run_A_batch_0010",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8027,
-      "reason": "score=0.803 >= threshold=0.697",
+      "score": 0.7813,
+      "reason": "score=0.781 >= threshold=0.686",
       "token_count": 72,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:20Z"
+      "timestamp": "2026-08-07T10:22:30Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "lane": "agentic",
       "decision": "reject",
-      "score": 0.336,
-      "reason": "score=0.336 < defer_threshold=0.592",
+      "score": 0.3544,
+      "reason": "score=0.354 < defer_threshold=0.583",
       "token_count": 97,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:20Z"
+      "timestamp": "2026-08-07T10:22:30Z"
     },
     {
       "step": 10,
       "batch_id": "run_A_batch_0010",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8027,
-      "reason": "score=0.803 >= threshold=0.697",
+      "score": 0.7813,
+      "reason": "score=0.781 >= threshold=0.686",
       "token_count": 72,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:20Z"
+      "timestamp": "2026-08-07T10:22:30Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "lane": "agentic",
       "decision": "accept",
-      "score": 0.336,
+      "score": 0.3544,
       "reason": "protected_floor_override: agentic below 2%",
       "token_count": 97,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 12,
       "batch_id": "run_A_batch_0012",
       "lane": "code",
       "decision": "accept",
-      "score": 0.8083,
-      "reason": "score=0.808 >= threshold=0.697",
+      "score": 0.7642,
+      "reason": "score=0.764 >= threshold=0.686",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 13,
       "batch_id": "run_A_batch_0013",
       "lane": "web",
       "decision": "accept",
-      "score": 0.7647,
-      "reason": "score=0.765 >= threshold=0.697",
+      "score": 0.8126,
+      "reason": "score=0.813 >= threshold=0.686",
       "token_count": 71,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 14,
       "batch_id": "run_A_batch_0014",
       "lane": "code",
       "decision": "accept",
-      "score": 0.7891,
-      "reason": "score=0.789 >= threshold=0.697",
+      "score": 0.7772,
+      "reason": "score=0.777 >= threshold=0.686",
       "token_count": 99,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:22Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 15,
       "batch_id": "run_A_batch_0015",
       "lane": "indic",
       "decision": "accept",
-      "score": 0.5869,
+      "score": 0.6364,
       "reason": "protected_floor_override: indic below 12%",
       "token_count": 128,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:24Z"
+      "timestamp": "2026-08-07T10:22:34Z"
     },
     {
       "step": 16,
       "batch_id": "run_A_batch_0016",
       "lane": "agentic",
       "decision": "reject",
-      "score": 0.3402,
-      "reason": "score=0.340 < defer_threshold=0.592",
+      "score": 0.3432,
+      "reason": "score=0.343 < defer_threshold=0.583",
       "token_count": 94,
       "stage_id": "stage_1_general",
-      "timestamp": "2026-08-07T08:44:24Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 17,
       "batch_id": "run_A_batch_0017",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8491,
-      "reason": "score=0.849 >= threshold=0.697",
+      "score": 0.8505,
+      "reason": "score=0.851 >= threshold=0.686",
       "token_count": 80,
       "stage_id": "stage_2_reasoning",
-      "timestamp": "2026-08-07T08:44:24Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 18,
       "batch_id": "run_A_batch_0018",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8382,
-      "reason": "score=0.838 >= threshold=0.697",
+      "score": 0.8233,
+      "reason": "score=0.823 >= threshold=0.686",
       "token_count": 63,
       "stage_id": "stage_2_reasoning",
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 19,
       "batch_id": "run_A_batch_0019",
       "lane": "agentic",
       "decision": "reject",
-      "score": 0.3617,
-      "reason": "score=0.362 < defer_threshold=0.592",
+      "score": 0.3443,
+      "reason": "score=0.344 < defer_threshold=0.583",
       "token_count": 97,
       "stage_id": "stage_2_reasoning",
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 20,
       "batch_id": "run_A_batch_0020",
       "lane": "web",
       "decision": "accept",
-      "score": 0.8387,
-      "reason": "score=0.839 >= threshold=0.697",
+      "score": 0.8329,
+      "reason": "score=0.833 >= threshold=0.686",
       "token_count": 71,
       "stage_id": "stage_2_reasoning",
-      "timestamp": "2026-08-07T08:44:27Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 21,
@@ -630,10 +630,10 @@ window.TDES_DATA = {
       "lane": "code",
       "decision": "accept",
       "score": 1.0,
-      "reason": "score=1.000 >= threshold=0.697",
+      "reason": "score=1.000 >= threshold=0.686",
       "token_count": 128,
       "stage_id": "stage_3_anneal",
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 22,
@@ -641,10 +641,10 @@ window.TDES_DATA = {
       "lane": "code",
       "decision": "accept",
       "score": 1.0,
-      "reason": "score=1.000 >= threshold=0.697",
+      "reason": "score=1.000 >= threshold=0.686",
       "token_count": 128,
       "stage_id": "stage_3_anneal",
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     }
   ],
   "consumption": [
@@ -666,7 +666,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.9688,
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:24Z"
     },
     {
       "step": 5,
@@ -688,7 +688,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.9453,
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 6,
@@ -708,7 +708,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 7,
@@ -728,7 +728,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7422,
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 8,
@@ -748,7 +748,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.5625,
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 9,
@@ -768,7 +768,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 10,
@@ -788,7 +788,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.5625,
-      "timestamp": "2026-08-07T08:44:20Z"
+      "timestamp": "2026-08-07T10:22:30Z"
     },
     {
       "step": 10,
@@ -808,7 +808,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.5625,
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 11,
@@ -828,7 +828,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7578,
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 12,
@@ -848,7 +848,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 13,
@@ -868,7 +868,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.5547,
-      "timestamp": "2026-08-07T08:44:22Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 14,
@@ -888,7 +888,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7734,
-      "timestamp": "2026-08-07T08:44:22Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 15,
@@ -908,7 +908,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:24Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 17,
@@ -928,7 +928,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.625,
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 18,
@@ -948,7 +948,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.4922,
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 20,
@@ -968,7 +968,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.5547,
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 21,
@@ -988,7 +988,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 22,
@@ -1008,7 +1008,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:39Z"
     }
   ],
   "learning": [
@@ -1017,235 +1017,235 @@ window.TDES_DATA = {
       "batch_id": "run_A_batch_0004",
       "loss": 11.515396,
       "loss_bearing_tokens": 124,
-      "tokens_per_sec": 862.8,
+      "tokens_per_sec": 927.8,
       "perplexity": 100247.4064,
       "lane": "code",
       "doc_loss_map": {
         "doc_0009": 11.515396
       },
-      "timestamp": "2026-08-07T08:44:13Z"
+      "timestamp": "2026-08-07T10:22:24Z"
     },
     {
       "step": 5,
       "batch_id": "run_A_batch_0005",
       "loss": 11.514143,
       "loss_bearing_tokens": 121,
-      "tokens_per_sec": 781.2,
+      "tokens_per_sec": 686.9,
       "perplexity": 100121.8082,
       "lane": "web",
       "doc_loss_map": {
         "doc_0007": 11.513462,
         "doc_0000": 11.515016
       },
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 6,
       "batch_id": "run_A_batch_0006",
       "loss": 11.514783,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 788.4,
+      "tokens_per_sec": 854.6,
       "perplexity": 100185.9075,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0017": 11.514783
       },
-      "timestamp": "2026-08-07T08:44:16Z"
+      "timestamp": "2026-08-07T10:22:26Z"
     },
     {
       "step": 7,
       "batch_id": "run_A_batch_0007",
       "loss": 11.516112,
       "loss_bearing_tokens": 95,
-      "tokens_per_sec": 484.8,
+      "tokens_per_sec": 576.2,
       "perplexity": 100319.2061,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0023": 11.516112
       },
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 8,
       "batch_id": "run_A_batch_0008",
       "loss": 11.513796,
       "loss_bearing_tokens": 72,
-      "tokens_per_sec": 447.4,
+      "tokens_per_sec": 403.4,
       "perplexity": 100087.0582,
       "lane": "web",
       "doc_loss_map": {
         "doc_0006": 11.513796
       },
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 9,
       "batch_id": "run_A_batch_0009",
       "loss": 11.513728,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 719.9,
+      "tokens_per_sec": 905.7,
       "perplexity": 100080.2693,
       "lane": "code",
       "doc_loss_map": {
         "doc_0010": 11.513728
       },
-      "timestamp": "2026-08-07T08:44:17Z"
+      "timestamp": "2026-08-07T10:22:27Z"
     },
     {
       "step": 10,
       "batch_id": "run_A_batch_0010",
       "loss": 11.514212,
       "loss_bearing_tokens": 72,
-      "tokens_per_sec": 384.4,
+      "tokens_per_sec": 472.0,
       "perplexity": 100128.6962,
       "lane": "web",
       "doc_loss_map": {
         "doc_0003": 11.514212
       },
-      "timestamp": "2026-08-07T08:44:20Z"
+      "timestamp": "2026-08-07T10:22:30Z"
     },
     {
       "step": 10,
       "batch_id": "run_A_batch_0010",
       "loss": 11.514212,
       "loss_bearing_tokens": 72,
-      "tokens_per_sec": 463.4,
+      "tokens_per_sec": 384.3,
       "perplexity": 100128.6962,
       "lane": "web",
       "doc_loss_map": {
         "doc_0003": 11.514212
       },
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "loss": 11.520509,
       "loss_bearing_tokens": 97,
-      "tokens_per_sec": 618.9,
+      "tokens_per_sec": 488.7,
       "perplexity": 100761.2735,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0020": 11.520509
       },
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:31Z"
     },
     {
       "step": 12,
       "batch_id": "run_A_batch_0012",
       "loss": 11.514877,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 752.7,
+      "tokens_per_sec": 783.7,
       "perplexity": 100195.3323,
       "lane": "code",
       "doc_loss_map": {
         "doc_0012": 11.514877
       },
-      "timestamp": "2026-08-07T08:44:21Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 13,
       "batch_id": "run_A_batch_0013",
       "loss": 11.515753,
       "loss_bearing_tokens": 71,
-      "tokens_per_sec": 399.5,
+      "tokens_per_sec": 426.7,
       "perplexity": 100283.1836,
       "lane": "web",
       "doc_loss_map": {
         "doc_0005": 11.515753
       },
-      "timestamp": "2026-08-07T08:44:22Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 14,
       "batch_id": "run_A_batch_0014",
       "loss": 11.51759,
       "loss_bearing_tokens": 99,
-      "tokens_per_sec": 646.9,
+      "tokens_per_sec": 593.7,
       "perplexity": 100467.5011,
       "lane": "code",
       "doc_loss_map": {
         "doc_0011": 11.51759
       },
-      "timestamp": "2026-08-07T08:44:22Z"
+      "timestamp": "2026-08-07T10:22:32Z"
     },
     {
       "step": 15,
       "batch_id": "run_A_batch_0015",
       "loss": 11.517296,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 961.0,
+      "tokens_per_sec": 688.7,
       "perplexity": 100437.9776,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0014": 11.517296
       },
-      "timestamp": "2026-08-07T08:44:24Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 17,
       "batch_id": "run_A_batch_0017",
       "loss": 11.517703,
       "loss_bearing_tokens": 80,
-      "tokens_per_sec": 584.2,
+      "tokens_per_sec": 529.5,
       "perplexity": 100478.9449,
       "lane": "web",
       "doc_loss_map": {
         "doc_0002": 11.517703
       },
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 18,
       "batch_id": "run_A_batch_0018",
       "loss": 11.51544,
       "loss_bearing_tokens": 63,
-      "tokens_per_sec": 442.9,
+      "tokens_per_sec": 410.8,
       "perplexity": 100251.75,
       "lane": "web",
       "doc_loss_map": {
         "doc_0004": 11.51544
       },
-      "timestamp": "2026-08-07T08:44:25Z"
+      "timestamp": "2026-08-07T10:22:35Z"
     },
     {
       "step": 20,
       "batch_id": "run_A_batch_0020",
       "loss": 11.517883,
       "loss_bearing_tokens": 71,
-      "tokens_per_sec": 485.9,
+      "tokens_per_sec": 385.3,
       "perplexity": 100497.0154,
       "lane": "web",
       "doc_loss_map": {
         "doc_0001": 11.517883
       },
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 21,
       "batch_id": "run_A_batch_0021",
       "loss": 11.514591,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 686.2,
+      "tokens_per_sec": 869.7,
       "perplexity": 100166.6592,
       "lane": "code",
       "doc_loss_map": {
         "doc_0013": 11.514591
       },
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:38Z"
     },
     {
       "step": 22,
       "batch_id": "run_A_batch_0022",
       "loss": 11.513892,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 784.9,
+      "tokens_per_sec": 842.7,
       "perplexity": 100096.7287,
       "lane": "code",
       "doc_loss_map": {
         "doc_0008": 11.513892
       },
-      "timestamp": "2026-08-07T08:44:28Z"
+      "timestamp": "2026-08-07T10:22:39Z"
     }
   ],
   "checkpoints": [
@@ -1259,7 +1259,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_08935d291aec",
       "rng_state": {},
       "next_expected_batch_offset": 5,
-      "saved_at": "2026-08-07T08:44:16Z"
+      "saved_at": "2026-08-07T10:22:26Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00010",
@@ -1271,7 +1271,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_4712548130f9",
       "rng_state": {},
       "next_expected_batch_offset": 10,
-      "saved_at": "2026-08-07T08:44:20Z"
+      "saved_at": "2026-08-07T10:22:30Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00015",
@@ -1283,7 +1283,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_c194bd00e848",
       "rng_state": {},
       "next_expected_batch_offset": 15,
-      "saved_at": "2026-08-07T08:44:24Z"
+      "saved_at": "2026-08-07T10:22:34Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00020",
@@ -1295,7 +1295,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_6fde1256619a",
       "rng_state": {},
       "next_expected_batch_offset": 20,
-      "saved_at": "2026-08-07T08:44:27Z"
+      "saved_at": "2026-08-07T10:22:38Z"
     },
     {
       "checkpoint_id": "ckpt_run_FORK_experiment_v2_step00010",
@@ -1307,7 +1307,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_4712548130f9",
       "rng_state": {},
       "next_expected_batch_offset": 10,
-      "saved_at": "2026-08-07T08:44:31Z",
+      "saved_at": "2026-08-07T10:22:41Z",
       "forked_from": "ckpt_run_A_main_step00010"
     }
   ],

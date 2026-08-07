@@ -576,7 +576,39 @@ ev.add_section("PHASE 12: AUDIT COMPLETE — WRITING EVIDENCE BUNDLE")
 ev.log("\naudit completed")
 log_path = ev.write_run_log()
 evidence_json = ev.write_evidence_json()
-evidence_md = ev.write_evidence_md()
+
+evidence_context = {
+    "run_id": RUN_ID,
+    "tokenizer_model": tokenizer.MODEL_NAME,
+    "tokenizer_sha": tokenizer.tokenizer_sha,
+    "vocab_size": tokenizer.vocab_size,
+    "manifest_summary": manifest_summary,
+    "packing_results": packing_results,
+    "production_policy": "structure_preserving",
+    "curriculum_stages": [
+        {"name": s.name, "token_budget_fraction": s.token_budget_fraction,
+         "lane_weights": s.lane_weights}
+        for s in scheduler.stages
+    ],
+    "opus_summary": opus_summary,
+    "mixture_actual": mixture_actual,
+    "floor_compliance": floor_compliance,
+    "checkpoints": ckpt_manager.list_checkpoints(),
+    "fork_source_checkpoint_id": last_ckpt["checkpoint_id"] if last_ckpt else None,
+    "crash_at_step": CRASH_AT_STEP,
+    "resume_from_step": RESUME_FROM_STEP,
+    "checkpoint_every": CHECKPOINT_EVERY,
+    "replay_results": replay_results,
+    "doc_avg_loss": doc_avg_loss if all_learning else {},
+    "loss_series": [e["loss"] for e in all_learning],
+    "performance": {
+        "average_loss": avg_loss if all_learning else 0.0,
+        "average_tokens_per_sec": avg_tps if all_learning else 0.0,
+        "packing_utilization_pct": sp_stats["utilization_pct"],
+        "useful_tokens": sp_stats["useful_tokens"],
+    },
+}
+evidence_md = ev.write_evidence_md(evidence_context)
 
 # Final summary of all PASS markers
 ev.log("\n" + "="*60)

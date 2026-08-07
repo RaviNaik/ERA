@@ -41,7 +41,7 @@
   },
   "throughput": {
     "result": "PASS",
-    "description": "packing=82.7%, avg_tps=628",
+    "description": "packing=82.7%, avg_tps=624",
     "evidence": "submission_artifacts/performance.json"
   }
 }

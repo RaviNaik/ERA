@@ -1,6 +1,14 @@
 # Training Data Execution System (TDES) — V5
 
-A complete, auditable, reproducible **Training Data Execution System** implementing the full pipeline from raw documents to verified training checkpoints.
+A complete, auditable, reproducible **Training Data Execution System** implementing the full pipeline from raw documents to verified training checkpoints:
+
+```
+documents → tokenized shards → manifests → mixture schedule → packing → batches
+  → training → consumption ledger → learning ledger → checkpoint → crash
+  → resume → replay → fork → audit
+```
+
+Every claim below is backed by evidence `run_demo.py` generates itself — see [`submission_artifacts/evidence.md`](submission_artifacts/evidence.md) for this run's actual numbers, and the live [dashboard](../webapp/) for an interactive view.
 
 ## Quick Start
 
@@ -23,12 +31,49 @@ uv run pytest tests/ -v
 
 ---
 
-## Architecture
+## System Architecture
 
-```
-documents → tokenized shards → manifests → mixture schedule → packing
-  → batches → training → consumption ledger → learning ledger
-  → checkpoint → crash → resume → replay → audit
+Each stage enforces a contract from an earlier ERA session (tokenizer freeze from Session 2, provenance from Session 3, cleaning/dedup/PII from Session 4, curriculum/floors/OPUS from Session 5) before data is allowed further down the pipeline.
+
+```mermaid
+flowchart TD
+    subgraph PREP["📦 Data Preparation"]
+        A["Documents<br/>src/corpus"] --> B["Frozen Tokenizer<br/>src/tokenizer"]
+        B --> C["Immutable Shards<br/>src/shards"]
+        C --> D["Manifests + Admission Gate<br/>src/manifests"]
+        D --> FW{"Eval Firewall<br/>src/firewall"}
+    end
+
+    subgraph MIX["⚖️ Packing & Mixture"]
+        FW -->|admitted| PK["5 Packing Policies<br/>src/packing"]
+        PK --> MS["Curriculum Stages<br/>src/mixture"]
+        MS --> OP["OPUS Accept/Reject/Defer<br/>src/mixture/opus_selector.py"]
+    end
+
+    subgraph TRAIN["🧠 Training Loop"]
+        OP -->|accept| TR["Trainer<br/>src/training"]
+        TR --> LG["Consumption + Learning Ledgers<br/>src/ledgers"]
+        TR --> CK["Checkpoint<br/>src/checkpoints"]
+    end
+
+    subgraph PROOF["✅ Reconstruction Proof"]
+        CK --> CR(("Simulated Crash"))
+        CR --> RS["Resume: seek + verify next batch"]
+        RS --> RP["Replay: re-derive historical batches"]
+        RS --> FK["Fork: new branch from earlier checkpoint"]
+    end
+
+    LG --> EV["Evidence Bundle<br/>src/audit"]
+    RP --> EV
+    FK --> EV
+
+    FW -->|held out| BLOCK["Blocked — never trained"]
+
+    style FW fill:#7c3aed,color:#fff
+    style OP fill:#f59e0b,color:#fff
+    style CR fill:#ef4444,color:#fff
+    style RS fill:#10b981,color:#fff
+    style EV fill:#3b82f6,color:#fff
 ```
 
 ### Module Overview
@@ -52,6 +97,102 @@ documents → tokenized shards → manifests → mixture schedule → packing
 
 ---
 
+## Crash Recovery, In Sequence
+
+The whole "prove it can be reconstructed" requirement collapses to one guarantee: **after a crash, the next batch the resumed run asks for must be bit-identical to the batch the original run would have asked for next.** That's enforced by tying every checkpoint to a `ledger_offset` and re-deriving batches deterministically from `(seed, run_id)` rather than storing them.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant T as Trainer
+    participant DL as DataLoader
+    participant CK as CheckpointManager
+    participant D as Disk
+
+    T->>DL: get_batch_at(step)
+    T->>T: forward + backward (if accepted)
+    T->>CK: save(step, weights, ledger_offset=step+1)
+    CK->>D: write checkpoints/ckpt_..._stepNNNNN/
+
+    Note over T: step continues... crash simulated at step 12
+
+    rect rgb(255, 230, 230)
+    Note over T,D: 💥 SimulatedCrashError raised — process state is gone
+    end
+
+    T->>CK: get_latest()
+    CK->>D: read last checkpoint meta.json
+    CK-->>T: ledger_offset = 10
+    T->>DL: seek(10)
+    T->>DL: get_batch_at(10)
+    DL-->>T: batch_id, input_ids
+    T->>T: assert batch_id == expected_next_batch_id
+    T->>T: assert batch_hash(batch) == original_hash[10]
+    Note over T: [PASS] resume_next_batch_matched
+```
+
+---
+
+## OPUS Selection Logic
+
+`OPUSSelector.select_batch` runs once per candidate batch. Curriculum stage weights (from `MixtureScheduler`) bias the proxy score *before* the accept/defer/reject cut, so the recipe has a real effect on outcomes — not just a number printed alongside them.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Scored: candidate batch (lane, batch_id)
+    Scored: proxy_score = lane_base_score × curriculum_stage_multiplier + noise
+
+    Scored --> FloorCheck
+    FloorCheck: is this lane below its protected floor<br/>(Indic ≥12%, Agentic ≥2%) right now?
+
+    FloorCheck --> Accept_Override: yes
+    FloorCheck --> RankCheck: no
+
+    RankCheck: rank against the top keep_fraction (40%) of scores this batch
+    RankCheck --> Accept: score ≥ accept threshold
+    RankCheck --> Defer: score in the defer band (top 40–55%)
+    RankCheck --> Reject: score below defer band
+
+    Accept_Override --> Ledgers: forced accept, reason="protected_floor_override"
+    Accept --> Ledgers: forward + backward pass runs
+    Ledgers --> [*]
+
+    Defer --> Skip: no gradient this cycle — boundary case
+    Reject --> Skip: no gradient — hard drop
+    Skip --> [*]
+
+    note right of Ledgers
+        Only accepted batches enter
+        consumption.jsonl / learning.jsonl.
+        Checkpoint cadence still fires
+        every N dataloader positions
+        regardless of this decision.
+    end note
+```
+
+---
+
+## Checkpoint & Fork Timeline (schematic)
+
+Checkpoints land on `main` on a fixed cadence; forking clones an earlier checkpoint's weights onto a new branch that trains independently from there. (This is a schematic shape — see `evidence.md`'s gitGraph, generated from this run's actual checkpoint IDs and steps.)
+
+```mermaid
+gitGraph
+    commit id: "run_start"
+    commit id: "ckpt_step_05" tag: "checkpoint"
+    commit id: "ckpt_step_10" tag: "checkpoint"
+    branch experiment_v2
+    checkout main
+    commit id: "CRASH" type: REVERSE
+    commit id: "RESUME" type: HIGHLIGHT
+    commit id: "ckpt_step_15" tag: "checkpoint"
+    commit id: "ckpt_step_20" tag: "checkpoint"
+    checkout experiment_v2
+    commit id: "ckpt_fork_step_10" tag: "forked"
+```
+
+---
+
 ## Design Decisions
 
 ### 1. Immutable Shards (Content-Addressed Storage)
@@ -61,12 +202,18 @@ Every shard is stored as `shard_{sha256[:12]}.npz` — the filename IS the conte
 The tokenizer SHA is computed deterministically from the model name + vocabulary snapshot. Every shard manifest carries this SHA. Training with a different tokenizer requires re-tokenizing every shard — this is enforced by the manifest admission gate.
 
 ### 3. Five Packing Policies
-Implements all policies from Session 6 Widget 5:
-- **pad_each_doc**: ~79% util — safe boundaries, wastes compute
-- **concat_and_chop**: ~99% util — high boundary risk, pretraining only
-- **greedy_pack**: ~83% util — medium risk
-- **best_fit_pack**: ~83% util — bin-packing variant
-- **structure_preserving**: ~83% util — **correct for SFT/agentic** — each doc has its own attention scope via intra-sequence attention masks
+
+Implements all policies from Session 6 Widget 5. Utilization below is the widget's reference shape for a 64-token window on a 10-doc/270-token toy set — this run's actual measurement (on this run's actual corpus) is in `evidence.md` and `ledgers/packing_report.json`.
+
+| Policy | Reference Utilization | | Boundary Risk | Notes |
+|--------|-----------------------:|---|:--------------:|-------|
+| `pad_each_doc` | 42% | `████████▍           ` | None | Safe, wastes compute |
+| `concat_and_chop` | 70% | `██████████████       ` | High | Pretraining only |
+| `greedy_pack` | 84% | `████████████████▊   ` | Medium | General pretraining |
+| `best_fit_pack` | 84% | `████████████████▊   ` | Medium | Bin-packing variant of greedy |
+| `structure_preserving` | 84% | `████████████████▊   ` | **Low** | **Production policy** — SFT/agentic/reasoning |
+
+`structure_preserving` matches greedy/best-fit utilization while using intra-sequence attention masks to keep every document's attention scope isolated — the right tradeoff when sample integrity matters more than the last few points of packing density.
 
 ### 4. Three Mask Types (Per Session 6, Section 3)
 Each packed batch produces:
@@ -98,6 +245,9 @@ The ledger_offset is the single source of truth for training position:
 - Checkpoint stores `ledger_offset = N` after step N
 - On crash+resume: `loader.seek(N)` → next batch is exactly `batch[N]`
 - Verified by matching `batch_id` AND `batch_hash`
+- Checkpoint cadence is checked on every dataloader position, independent of
+  that step's OPUS decision — so a reject/defer landing on a checkpoint
+  boundary can't silently drop the checkpoint.
 
 ### 7. Deterministic Replay
 Same `run_id` + `seed=42` → identical batch sequence every time:
@@ -112,7 +262,8 @@ Same `run_id` + `seed=42` → identical batch sequence every time:
 submission_artifacts/
   run.log               # Complete event log with [PASS] markers
   evidence.json         # Machine-readable evidence for all 9 requirements
-  evidence.md           # Human-readable evidence table
+  evidence.md           # Human-readable evidence bundle — tables, mermaid
+                         # diagrams, bar charts, all generated from this run
   tokenizer_spec.json   # Frozen tokenizer specification
   manifests/            # Per-shard manifest JSON files
   ledgers/
