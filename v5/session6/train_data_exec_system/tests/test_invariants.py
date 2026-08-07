@@ -19,12 +19,13 @@ from src.manifests.manifest_builder import (build_manifest, get_admitted_shards,
 from src.firewall.eval_firewall import EvalFirewall, EvalFirewallViolation
 from src.packing.packer import Packer, DocToken, compute_packing_stats, extract_agentic_masked_spans
 from src.mixture.mixture_scheduler import MixtureScheduler, PROTECTED_FLOORS
-from src.mixture.opus_selector import OPUSSelector
+from src.mixture.opus_selector import OPUSSelector, summarize_decisions
 from src.dataloader.deterministic_dataloader import DeterministicDataLoader, batch_hash
 from src.model.tiny_gpt import TinyGPT
 from src.ledgers.consumption_ledger import ConsumptionLedger
 from src.ledgers.learning_ledger import LearningLedger
 from src.checkpoints.checkpoint_manager import CheckpointManager
+from src.training.trainer import Trainer, SimulatedCrashError
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
@@ -181,6 +182,7 @@ def test_loss_mask_agentic(doc_tokens, tokenizer):
     packer = Packer(context_len=256, policy="structure_preserving")
     batches = packer.pack(agentic_docs[:2])
 
+    checked_a_masked_doc = False
     for batch in batches:
         if batch.lane == "agentic" or any(dt.is_agentic for dt in agentic_docs
                                            if dt.shard_id in batch.shard_ids):
@@ -188,14 +190,26 @@ def test_loss_mask_agentic(doc_tokens, tokenizer):
             # At minimum, verify loss_mask is valid [0,1]
             assert batch.loss_mask.min() >= 0.0
             assert batch.loss_mask.max() <= 1.0
-            # Agentic docs with masked spans should have some 0 positions
+            # Agentic docs with masked spans must have some 0 positions —
+            # this is the actual property that matters: tool observations
+            # must not be loss-bearing, or the model learns to hallucinate
+            # tool results instead of calling tools.
             for dt in agentic_docs:
                 if dt.shard_id in batch.shard_ids and dt.masked_spans:
                     total_loss = batch.loss_mask.sum()
                     total_positions = len(batch.loss_mask)
-                    # Should not be 100% loss-bearing if there are masked spans
-                    # (allow some tolerance for packing edge cases)
+                    assert total_loss < total_positions, (
+                        f"doc {dt.doc_id} has masked_spans={dt.masked_spans} but "
+                        f"loss_mask sum ({total_loss}) == total positions "
+                        f"({total_positions}) — no tokens were actually masked"
+                    )
+                    checked_a_masked_doc = True
                     break
+
+    assert checked_a_masked_doc, (
+        "No agentic doc with masked_spans was found in any packed batch — "
+        "the test didn't actually verify the masking property"
+    )
 
 
 # ── Test 7: Ledger Monotonicity ────────────────────────────────────────────────
@@ -384,3 +398,147 @@ def test_no_eval_in_admitted(shards_and_manifests):
     eval_in_admitted = [m for m in admitted if m.get("is_eval")]
     assert len(eval_in_admitted) == 0, \
         f"Found {len(eval_in_admitted)} eval shards in admitted list!"
+
+
+# ── Test 16: Curriculum Stage Weights Actually Affect OPUS Scoring ────────────
+
+
+def test_curriculum_stage_weights_affect_opus_score():
+    """
+    MixtureScheduler's per-stage lane weights must have a real, measurable
+    effect on OPUS's proxy score — not just be computed for display. Indic is
+    weighted much higher in the anneal stage (28%) than the seed stage (16%),
+    so the same candidate batch must score higher when evaluated under the
+    anneal stage's weights.
+    """
+    opus = OPUSSelector(proxy_mix="balanced", keep_fraction=0.4)
+    batch_info = {"batch_id": "batch_stage_test", "lane": "indic", "token_count": 100}
+
+    scheduler = MixtureScheduler()
+    seed_weights = scheduler.get_lane_weights(0, 100)     # stage 1 (seed): indic=16%
+    anneal_weights = scheduler.get_lane_weights(99, 100)  # stage 3 (anneal): indic=28%
+    assert anneal_weights["indic"] > seed_weights["indic"], \
+        "test assumption: anneal stage should weight indic higher than seed stage"
+
+    # Same batch_id -> same noise draw, so only the stage weighting differs.
+    score_seed = opus._proxy_score(batch_info, stage_weights=seed_weights)
+    score_anneal = opus._proxy_score(batch_info, stage_weights=anneal_weights)
+    assert score_anneal > score_seed, (
+        f"indic candidate should score higher under the anneal stage's weights "
+        f"than the seed stage's: seed={score_seed:.4f} anneal={score_anneal:.4f}"
+    )
+
+    # And the un-adjusted score sits between them (sanity check that
+    # stage_weights=None is a neutral baseline, not accidentally a no-op alias
+    # for one of the two stages).
+    score_unadjusted = opus._proxy_score(batch_info)
+    assert score_seed <= score_unadjusted <= score_anneal
+
+
+# ── Test 17: Defer and Reject Both Skip Training ───────────────────────────────
+
+
+def test_defer_and_reject_skip_training(shards_and_manifests, tokenizer, firewall, tmp_path):
+    """
+    Only accepted batches may enter the consumption/learning ledgers. With
+    keep_fraction=0.0, almost every candidate is rejected or deferred — none
+    of those batch_ids should ever appear as a trained (ledger-recorded) step.
+    """
+    _, manifests = shards_and_manifests
+    loader = DeterministicDataLoader(
+        manifests=manifests, tokenizer=tokenizer, firewall=firewall,
+        context_len=128, policy="structure_preserving", seed=42, run_id="test_defer")
+    model = TinyGPT(vocab_size=tokenizer.vocab_size, n_embd=16, n_head=2, n_layer=1, context_len=128)
+    consumption = ConsumptionLedger(tmp_path / "consumption_defer.jsonl")
+    learning = LearningLedger(tmp_path / "learning_defer.jsonl")
+    ckpt_manager = CheckpointManager(tmp_path / "checkpoints_defer")
+    scheduler = MixtureScheduler()
+    opus = OPUSSelector(proxy_mix="balanced", keep_fraction=0.0)
+    trainer = Trainer(
+        model=model, loader=loader, consumption_ledger=consumption,
+        learning_ledger=learning, checkpoint_manager=ckpt_manager,
+        scheduler=scheduler, opus=opus, run_id="test_defer", branch_id="main",
+        checkpoint_every=1000, crash_at_step=None, lr=1e-3, total_steps=len(loader),
+    )
+    trainer.run(start_step=0)
+
+    decisions = opus.get_decisions()
+    non_accepted = [d for d in decisions if d["decision"] != "accept"]
+    assert non_accepted, "Expected at least one reject/defer decision with keep_fraction=0.0"
+
+    consumed_batch_ids = {e["batch_id"] for e in consumption.get_all()}
+    learned_batch_ids = {e["batch_id"] for e in learning.get_all()}
+    for d in non_accepted:
+        assert d["batch_id"] not in consumed_batch_ids, (
+            f"batch {d['batch_id']} was {d['decision']} but appears in the "
+            f"consumption ledger — defer/reject must both skip training"
+        )
+        assert d["batch_id"] not in learned_batch_ids, (
+            f"batch {d['batch_id']} was {d['decision']} but appears in the "
+            f"learning ledger — defer/reject must both skip training"
+        )
+
+
+# ── Test 18: Trainer Respects the total_steps Budget ───────────────────────────
+
+
+def test_trainer_respects_total_steps_budget(shards_and_manifests, tokenizer, firewall, tmp_path):
+    """
+    Trainer.run() must stop at its configured total_steps budget even when
+    the dataloader has more batches available (previously total_steps was
+    accepted but never actually enforced).
+    """
+    _, manifests = shards_and_manifests
+    loader = DeterministicDataLoader(
+        manifests=manifests, tokenizer=tokenizer, firewall=firewall,
+        context_len=128, policy="structure_preserving", seed=42, run_id="test_budget")
+    assert len(loader) > 3, "fixture corpus must yield more than 3 batches for this test"
+
+    model = TinyGPT(vocab_size=tokenizer.vocab_size, n_embd=16, n_head=2, n_layer=1, context_len=128)
+    consumption = ConsumptionLedger(tmp_path / "consumption_budget.jsonl")
+    learning = LearningLedger(tmp_path / "learning_budget.jsonl")
+    ckpt_manager = CheckpointManager(tmp_path / "checkpoints_budget")
+    scheduler = MixtureScheduler()
+    opus = OPUSSelector(proxy_mix="balanced", keep_fraction=1.0)  # accept everything
+    trainer = Trainer(
+        model=model, loader=loader, consumption_ledger=consumption,
+        learning_ledger=learning, checkpoint_manager=ckpt_manager,
+        scheduler=scheduler, opus=opus, run_id="test_budget", branch_id="main",
+        checkpoint_every=1000, crash_at_step=None, lr=1e-3, total_steps=3,
+    )
+    result = trainer.run(start_step=0)
+
+    assert trainer._step == 3, f"trainer advanced to step {trainer._step}, past its total_steps=3 budget"
+    assert result["steps_run"] == 3, f"expected exactly 3 trained steps, got {result['steps_run']}"
+
+
+# ── Test 19: OPUS Decisions Merge Correctly Across a Resume Boundary ──────────
+
+
+def test_opus_decision_merge_across_resume():
+    """
+    A fresh OPUSSelector is used for the resumed run, so the persisted audit
+    trail is built by merging decisions from two instances. Merged records
+    must be step-numbered continuously (not restart from 0), and
+    summarize_decisions() must summarize the merged list correctly.
+    """
+    pre = OPUSSelector(proxy_mix="balanced", keep_fraction=0.5)
+    post = OPUSSelector(proxy_mix="balanced", keep_fraction=0.5)
+
+    pre_infos = [{"batch_id": f"batch_{i:04d}", "lane": "web", "token_count": 10} for i in range(4)]
+    pre_scores = [pre._proxy_score(bi) for bi in pre_infos]
+    for i, bi in enumerate(pre_infos):
+        pre.select_batch(bi, pre_scores, step=i)
+
+    post_infos = [{"batch_id": f"batch_{i:04d}", "lane": "code", "token_count": 10} for i in range(4, 8)]
+    post_scores = [post._proxy_score(bi) for bi in post_infos]
+    for i, bi in enumerate(post_infos, start=4):
+        post.select_batch(bi, post_scores, step=i)
+
+    merged = pre.get_decisions() + post.get_decisions()
+    assert [d["step"] for d in merged] == list(range(8)), \
+        "merged decisions must be step-numbered continuously across the resume boundary"
+
+    summary = summarize_decisions(merged, keep_fraction_target=0.5)
+    assert summary["total_candidates"] == 8
+    assert summary["accepted"] + summary["rejected"] + summary["deferred"] == 8

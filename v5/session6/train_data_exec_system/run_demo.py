@@ -53,7 +53,7 @@ from src.ledgers.learning_ledger import LearningLedger
 from src.manifests.manifest_builder import (build_manifest, get_admitted_shards,
                                               get_eval_shards, load_all_manifests)
 from src.mixture.mixture_scheduler import MixtureScheduler
-from src.mixture.opus_selector import OPUSSelector
+from src.mixture.opus_selector import OPUSSelector, summarize_decisions
 from src.model.tiny_gpt import TinyGPT
 from src.packing.packer import Packer, DocToken, compute_packing_stats, extract_agentic_masked_spans
 from src.shards.shard_creator import create_shard, load_shard_tokens, verify_shard_integrity
@@ -62,7 +62,7 @@ from src.training.trainer import Trainer, SimulatedCrashError
 
 # Config
 CONTEXT_LEN = 128        # small context for fast demo
-TOTAL_STEPS = 18         # total training steps
+TOTAL_STEPS = None       # set below, once the loader's real length is known
 CHECKPOINT_EVERY = 5     # checkpoint every N steps
 CRASH_AT_STEP = 12       # crash here (after checkpoint at step 10)
 RESUME_FROM_STEP = 10    # resume from this checkpoint
@@ -76,7 +76,7 @@ ev = EvidenceBuilder(ARTIFACTS)
 ev.add_section("PHASE 1: CORPUS & TOKENIZER")
 # ═══════════════════════════════════════════════════════════════════════════════
 
-ev.log("Building toy corpus (30 documents across 4 capability lanes + 3 eval)...")
+ev.log("Building toy corpus (24 documents across 4 capability lanes + 3 eval)...")
 docs = build_corpus()
 corpus_path = save_corpus(docs, ARTIFACTS)
 ev.log(f"  {len(docs)} documents: {sum(1 for d in docs if d.lane=='web')} web, "
@@ -263,6 +263,12 @@ loader = DeterministicDataLoader(
     run_id=RUN_ID,
 )
 ev.log(f"DataLoader: {len(loader)} packed batches, seed=42, policy=structure_preserving")
+
+# TOTAL_STEPS is the trainer's real, enforced step budget (Trainer.run() now
+# bounds on it — see src/training/trainer.py). Bind it to the loader's actual
+# length so the full corpus is the intended budget rather than an arbitrary
+# guess that happens to under- or over-shoot it.
+TOTAL_STEPS = len(loader)
 
 # Record original batch IDs and hashes for replay verification
 original_batch_ids = [bid for bid, _ in loader._packed_batches]
@@ -489,22 +495,29 @@ for lane, check in floor_compliance.items():
     if not check["compliant"]:
         all_floors_ok = False
 
-# OPUS audit
-opus_summary = opus.get_summary()
+# OPUS audit — merge the pre-crash and post-resume selectors' decisions into
+# one trail. A fresh OPUSSelector is used after resume (opus vs resumed_opus),
+# so without this merge the audit trail would silently cover only the
+# pre-crash portion of the run even though ledgers include both.
+all_opus_decisions = opus.get_decisions() + resumed_opus.get_decisions()
+opus_summary = summarize_decisions(all_opus_decisions, opus.keep_fraction)
 (LEDGERS_DIR / "opus_decisions.jsonl").write_text(
-    "\n".join(json.dumps(d) for d in opus.get_decisions()))
+    "\n".join(json.dumps(d) for d in all_opus_decisions))
 (LEDGERS_DIR / "opus_summary.json").write_text(json.dumps(opus_summary, indent=2))
-ev.log(f"\nOPUS decisions: accept={opus_summary['accepted']} reject={opus_summary['rejected']} "
+ev.log(f"\nOPUS decisions ({len(all_opus_decisions)} total, pre-crash + post-resume): "
+       f"accept={opus_summary['accepted']} reject={opus_summary['rejected']} "
        f"defer={opus_summary['deferred']} floor_overrides={opus_summary['floor_overrides']}")
 
 if opus_summary["accepted"] > 0:
     ev.record_pass("opus_audit_trail",
-                   f"{len(opus.get_decisions())} decisions logged, "
+                   f"{len(all_opus_decisions)} decisions logged (pre-crash + post-resume), "
                    f"{opus_summary['floor_overrides']} floor overrides",
                    "submission_artifacts/ledgers/opus_decisions.jsonl")
     ev.log("[PASS] opus_decisions_recorded")
 
-# Mixture compliance
+# Mixture compliance — gated on actual floor compliance, not recorded
+# unconditionally. If a protected floor was violated in what was actually
+# consumed, this must FAIL rather than assert PASS regardless.
 mixture_actual = {k: round(v/max(1,total_tokens), 4) for k, v in lane_totals.items()}
 planned = scheduler.stages[0].lane_weights
 (LEDGERS_DIR / "mixture_actual.json").write_text(json.dumps({
@@ -512,10 +525,16 @@ planned = scheduler.stages[0].lane_weights
     "actual": mixture_actual,
     "floor_compliance": floor_compliance,
 }, indent=2))
-ev.record_pass("mixture_compliance",
-               "Curriculum stages executed, floors enforced",
-               "submission_artifacts/ledgers/mixture_actual.json")
-ev.log("[PASS] mixture_compiled")
+if all_floors_ok:
+    ev.record_pass("mixture_compliance",
+                   "Curriculum stages executed, floors enforced",
+                   "submission_artifacts/ledgers/mixture_actual.json")
+    ev.log("[PASS] mixture_compiled")
+else:
+    ev.record_fail("mixture_compliance",
+                    "Protected floor violated in actual consumption",
+                    json.dumps(floor_compliance))
+    ev.log("[FAIL] mixture_compiled: protected floor violated")
 
 # Learning trace
 if all_learning:

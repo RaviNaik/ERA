@@ -1,10 +1,10 @@
 {
-  "total_candidates": 12,
-  "accepted": 5,
+  "total_candidates": 25,
+  "accepted": 18,
   "rejected": 3,
   "deferred": 4,
-  "floor_overrides": 2,
+  "floor_overrides": 4,
   "keep_fraction_target": 0.4,
-  "keep_fraction_actual": 0.417,
-  "effective_token_multiplier": 2.4
+  "keep_fraction_actual": 0.72,
+  "effective_token_multiplier": 1.39
 }

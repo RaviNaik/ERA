@@ -10,6 +10,12 @@ uv run python run_demo.py
 
 This single command runs the complete demonstration and produces all artifacts in `submission_artifacts/`.
 
+> **Network note**: the frozen tokenizer wraps `tiktoken`'s `cl100k_base` encoding.
+> `tiktoken` downloads that encoding's BPE file on first use and caches it locally
+> (respects the `TIKTOKEN_CACHE_DIR` env var — set it to a pre-warmed directory,
+> or run once with network access, to make later runs fully offline). This is the
+> only network dependency in the pipeline.
+
 Run tests:
 ```bash
 uv run pytest tests/ -v
@@ -29,7 +35,7 @@ documents → tokenized shards → manifests → mixture schedule → packing
 
 | Module | Purpose |
 |--------|---------|
-| `src/corpus/` | Synthetic toy corpus (30 docs × 4 capability lanes + 3 eval) |
+| `src/corpus/` | Synthetic toy corpus (24 docs across 4 capability lanes + 3 held-out eval) |
 | `src/tokenizer/` | Frozen tiktoken tokenizer with deterministic SHA |
 | `src/shards/` | Immutable SHA-256-addressed token shards |
 | `src/manifests/` | Shard manifests with full admission gate (7 checks) |
@@ -68,11 +74,24 @@ Each packed batch produces:
 - `attention_mask[seq_len, seq_len]`: causal within doc boundaries (no cross-doc leakage)
 - `position_ids[seq_len]`: reset per document in structure-preserving mode
 
-### 5. OPUS Dynamic Selection
+### 5. OPUS Dynamic Selection — driven by the curriculum, not just logged next to it
 Simulates the OPUS (Optimizer-induced Projected Utility Selection) mechanism from Session 5:
 - Keep-fraction: 40% of candidates accepted per iteration
 - Protected-floor override: force-accepts best Indic/Agentic batches when below floor
-- Every decision logged with score, reason, lane, timestamp
+- `Trainer.run()` calls `MixtureScheduler.get_stage_for_step`/`get_lane_weights` every
+  step and passes the active stage's lane weights into `OPUSSelector.select_batch`,
+  which folds them into the proxy score (`_proxy_score`) — a lane weighted above the
+  stage's average gets a score boost, a lane the stage has nearly abandoned gets
+  suppressed. The curriculum recipe therefore has a real, observable effect on
+  accept/reject/defer outcomes, not just a value printed for display.
+- `reject` and `defer` both skip training for that candidate (only `accept` reaches
+  the consumption/learning ledgers); `defer` is logged distinctly since real OPUS
+  treats it as a boundary case eligible for reconsideration, while `reject` is a
+  hard drop.
+- Every decision logged with score, reason, lane, `stage_id`, timestamp — the
+  pre-crash and post-resume selectors' decisions are merged into one
+  `opus_decisions.jsonl` so the audit trail covers the whole run, not just the
+  pre-crash portion.
 
 ### 6. Ledger-Offset Crash Recovery
 The ledger_offset is the single source of truth for training position:
@@ -140,7 +159,7 @@ blocks local `<script src>` loads.
 | Checkpoint, crash, resume, replay, fork | ✅ All demonstrated and hash-verified |
 | Evaluation and validation firewall | ✅ 3 eval shards blocked, 0 violations |
 | Throughput and packing efficiency | ✅ 82.7% utilization, tps measured |
-| Tests, evidence quality, documentation | ✅ 16 tests, evidence.json, evidence.md |
+| Tests, evidence quality, documentation | ✅ 20 tests, evidence.json, evidence.md |
 
 ---
 

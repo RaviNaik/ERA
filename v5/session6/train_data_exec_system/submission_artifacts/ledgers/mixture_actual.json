@@ -8,20 +8,20 @@
     "stem": 0.09
   },
   "actual": {
-    "indic": 0.3628,
-    "code": 0.3472,
-    "agentic": 0.2267,
-    "web": 0.0633
+    "code": 0.4072,
+    "web": 0.3446,
+    "indic": 0.1418,
+    "agentic": 0.1064
   },
   "floor_compliance": {
     "indic": {
       "floor": 0.12,
-      "actual": 0.5904,
+      "actual": 0.173,
       "compliant": true
     },
     "agentic": {
       "floor": 0.02,
-      "actual": 0.1771,
+      "actual": 0.1284,
       "compliant": true
     }
   }

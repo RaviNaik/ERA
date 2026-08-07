@@ -23,7 +23,7 @@ documents → tokenized shards → manifests → mixture schedule → packing �
 ```bash
 cd train_data_exec_system
 uv run python run_demo.py     # regenerates submission_artifacts/ and ../webapp/data.js
-uv run pytest tests/ -v       # 16 invariant tests
+uv run pytest tests/ -v       # 20 invariant tests
 ```
 
 Then open `webapp/index.html` to see that run visualized.

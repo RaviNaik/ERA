@@ -1,5 +1,6 @@
 """
-Corpus Generator — produces 30 synthetic documents across 4 capability lanes.
+Corpus Generator — produces 27 synthetic documents: 24 across 4 capability
+lanes (8 web, 6 code, 6 indic, 4 agentic) plus 3 held-out eval documents.
 Each document carries full provenance metadata as required by Session 3/6 contracts.
 """
 
@@ -288,7 +289,7 @@ _EVAL_DOCS = [
 
 
 def build_corpus() -> List[Document]:
-    """Build the full 30-document toy corpus with provenance metadata."""
+    """Build the full 27-document toy corpus (24 lane docs + 3 eval) with provenance metadata."""
     docs = []
     idx = 0
 

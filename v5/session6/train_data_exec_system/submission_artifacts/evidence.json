@@ -26,7 +26,7 @@
   },
   "opus_audit_trail": {
     "result": "PASS",
-    "description": "12 decisions logged, 2 floor overrides",
+    "description": "25 decisions logged (pre-crash + post-resume), 4 floor overrides",
     "evidence": "submission_artifacts/ledgers/opus_decisions.jsonl"
   },
   "mixture_compliance": {
@@ -41,7 +41,7 @@
   },
   "throughput": {
     "result": "PASS",
-    "description": "packing=82.7%, avg_tps=624",
+    "description": "packing=82.7%, avg_tps=628",
     "evidence": "submission_artifacts/performance.json"
   }
 }

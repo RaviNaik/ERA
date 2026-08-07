@@ -1,219 +1,229 @@
-[12:10:17] 
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 1: CORPUS & TOKENIZER
-[12:10:17] ============================================================
-[12:10:17] Building toy corpus (30 documents across 4 capability lanes + 3 eval)...
-[12:10:17]   27 documents: 11 web, 6 code, 6 indic, 4 agentic, 3 eval (held-out)
-[12:10:17] 
+[14:14:13]   PHASE 1: CORPUS & TOKENIZER
+[14:14:13] ============================================================
+[14:14:13] Building toy corpus (24 documents across 4 capability lanes + 3 eval)...
+[14:14:13]   27 documents: 11 web, 6 code, 6 indic, 4 agentic, 3 eval (held-out)
+[14:14:13] 
 Freezing tokenizer...
-[12:10:17]   tokenizer_sha = tok_27b6a09dd8613291
-[12:10:17]   vocab_size    = 100,277
-[12:10:17] [PASS] tokenizer_integrity: tokenizer_sha=tok_27b6a09dd8613291
-[12:10:17] [PASS] tokenizer_hash_verified
-[12:10:17] 
+[14:14:13]   tokenizer_sha = tok_27b6a09dd8613291
+[14:14:13]   vocab_size    = 100,277
+[14:14:13] [PASS] tokenizer_integrity: tokenizer_sha=tok_27b6a09dd8613291
+[14:14:13] [PASS] tokenizer_hash_verified
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 2: TOKENIZE -> SHARDS -> MANIFESTS
-[12:10:17] ============================================================
-[12:10:17] Tokenizing documents and creating immutable shards...
-[12:10:17]   Created 27 shards in D:\ERA\v5\session6\train_data_exec_system\submission_artifacts\shards
-[12:10:17]   [PASS] All 27 shards passed integrity verification
-[12:10:17] 
+[14:14:13]   PHASE 2: TOKENIZE -> SHARDS -> MANIFESTS
+[14:14:13] ============================================================
+[14:14:13] Tokenizing documents and creating immutable shards...
+[14:14:13]   Created 27 shards in D:\ERA\v5\session6\train_data_exec_system\submission_artifacts\shards
+[14:14:13]   [PASS] All 27 shards passed integrity verification
+[14:14:13] 
 Building shard manifests with admission gate...
-[12:10:17]   Total shards:    27
-[12:10:17]   Admitted:        24
-[12:10:17]   Blocked (eval):  3
-[12:10:17]   Avg score:       87.0/100
-[12:10:17] 
+[14:14:13]   Total shards:    27
+[14:14:13]   Admitted:        24
+[14:14:13]   Blocked (eval):  3
+[14:14:13]   Avg score:       87.0/100
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 3: EVALUATION FIREWALL
-[12:10:17] ============================================================
-[12:10:17]   [PASS] eval_shard_blocked: shard=shard_ca51f610fcf6
-[12:10:17]   [PASS] eval_shard_blocked: shard=shard_f8dea85b952b
-[12:10:17]   [PASS] eval_shard_blocked: shard=shard_8f703fea119c
-[12:10:17] [PASS] eval_firewall: 3 eval shards blocked, 0 violations
-[12:10:17] [PASS] eval_shard_blocked (all eval shards intercepted)
-[12:10:17] 
+[14:14:13]   PHASE 3: EVALUATION FIREWALL
+[14:14:13] ============================================================
+[14:14:13]   [PASS] eval_shard_blocked: shard=shard_ca51f610fcf6
+[14:14:13]   [PASS] eval_shard_blocked: shard=shard_f8dea85b952b
+[14:14:13]   [PASS] eval_shard_blocked: shard=shard_8f703fea119c
+[14:14:13] [PASS] eval_firewall: 3 eval shards blocked, 0 violations
+[14:14:13] [PASS] eval_shard_blocked (all eval shards intercepted)
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 4: PACKING — ALL 5 POLICIES
-[12:10:17] ============================================================
-[12:10:17] Comparing all 5 packing policies...
-[12:10:17]   pad_each_doc             : util= 79.3%  sequences= 24
-[12:10:17]   concat_and_chop          : util= 98.6%  sequences= 38
-[12:10:17]   greedy_pack              : util= 82.7%  sequences= 23
-[12:10:17]   best_fit_pack            : util= 82.7%  sequences= 23
-[12:10:17]   structure_preserving     : util= 82.7%  sequences= 23
-[12:10:17] [PASS] packing_correctness: structure_preserving: 82.7% util, agentic masks applied
-[12:10:17] [PASS] packing_correctness: util=82.7%
-[12:10:17] 
+[14:14:13]   PHASE 4: PACKING — ALL 5 POLICIES
+[14:14:13] ============================================================
+[14:14:13] Comparing all 5 packing policies...
+[14:14:13]   pad_each_doc             : util= 79.3%  sequences= 24
+[14:14:13]   concat_and_chop          : util= 98.6%  sequences= 38
+[14:14:13]   greedy_pack              : util= 82.7%  sequences= 23
+[14:14:13]   best_fit_pack            : util= 82.7%  sequences= 23
+[14:14:13]   structure_preserving     : util= 82.7%  sequences= 23
+[14:14:13] [PASS] packing_correctness: structure_preserving: 82.7% util, agentic masks applied
+[14:14:13] [PASS] packing_correctness: util=82.7%
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 5: MIXTURE SCHEDULE & OPUS SELECTION
-[12:10:17] ============================================================
-[12:10:17] Curriculum stages:
-[12:10:17]   stage_1_general: Seed / General — budget=70%
-[12:10:17]     weights: web=49%, code=18%, indic=16%, agentic=2%, reasoning=6%, stem=9%
-[12:10:17]   stage_2_reasoning: Reasoning / Code — budget=20%
-[12:10:17]     weights: web=25%, code=28%, indic=14%, agentic=3%, reasoning=18%, stem=12%
-[12:10:17]   stage_3_anneal: Anneal (Low-LR Cooldown) — budget=10%
-[12:10:17]     weights: web=8%, code=20%, indic=28%, agentic=8%, reasoning=18%, stem=10%, long_context=8%
-[12:10:17] 
+[14:14:13]   PHASE 5: MIXTURE SCHEDULE & OPUS SELECTION
+[14:14:13] ============================================================
+[14:14:13] Curriculum stages:
+[14:14:13]   stage_1_general: Seed / General — budget=70%
+[14:14:13]     weights: web=49%, code=18%, indic=16%, agentic=2%, reasoning=6%, stem=9%
+[14:14:13]   stage_2_reasoning: Reasoning / Code — budget=20%
+[14:14:13]     weights: web=25%, code=28%, indic=14%, agentic=3%, reasoning=18%, stem=12%
+[14:14:13]   stage_3_anneal: Anneal (Low-LR Cooldown) — budget=10%
+[14:14:13]     weights: web=8%, code=20%, indic=28%, agentic=8%, reasoning=18%, stem=10%, long_context=8%
+[14:14:13] 
 Protected floors:
-[12:10:17]   Indic  >= 12% (hard floor)
-[12:10:17]   Agentic >= 2% (hard floor)
-[12:10:17] 
+[14:14:13]   Indic  >= 12% (hard floor)
+[14:14:13]   Agentic >= 2% (hard floor)
+[14:14:13] 
 ============================================================
-[12:10:17]   PHASE 6: TRAINING RUN A (with crash at step 12)
-[12:10:17] ============================================================
-[12:10:17] Model: TinyGPT ~12.8M params
-[12:10:17] DataLoader: 23 packed batches, seed=42, policy=structure_preserving
-[12:10:17] Original batch sequence (23 batches):
-[12:10:17]   [0] run_A_batch_0000 hash=bh_84b8730b3052711c
-[12:10:17]   [1] run_A_batch_0001 hash=bh_58e16bcf5404d01e
-[12:10:17]   [2] run_A_batch_0002 hash=bh_ba8b9d8e2bef3451
-[12:10:17]   [3] run_A_batch_0003 hash=bh_c09f25acc2238cf5
-[12:10:17]   [4] run_A_batch_0004 hash=bh_df651e253290222a
-[12:10:17]   [5] run_A_batch_0005 hash=bh_9903e65b8eea1548
-[12:10:17]   ... (17 more)
-[12:10:17] 
-Starting training (steps 0-18, crash planned at step 12)...
-[12:10:18]   step=000 loss=11.5184 lane=indic tps=859 opus=defer
-[12:10:18]   step=001 loss=11.5178 lane=indic tps=715 opus=defer
-[12:10:18]   step=002 loss=11.5193 lane=indic tps=740 opus=defer
-[12:10:19]   step=003 loss=11.5160 lane=indic tps=881 opus=defer
-[12:10:19]   step=004 loss=11.5154 lane=code tps=652 opus=accept
-[12:10:21]   [CHECKPOINT] ckpt_run_A_main_step00005 at ledger_offset=5
-[12:10:22]   step=006 loss=11.5148 lane=indic tps=633 opus=accept
-[12:10:22]   step=007 loss=11.5161 lane=agentic tps=535 opus=accept
-[12:10:22]   step=009 loss=11.5137 lane=code tps=825 opus=accept
-[12:10:24]   [CHECKPOINT] ckpt_run_A_main_step00010 at ledger_offset=10
-[12:10:25]   step=011 loss=11.5205 lane=agentic tps=607 opus=accept
-[12:10:25] [CRASH] Simulated crash at step 12
-[12:10:25] 
+[14:14:13]   PHASE 6: TRAINING RUN A (with crash at step 12)
+[14:14:13] ============================================================
+[14:14:13] Model: TinyGPT ~12.8M params
+[14:14:13] DataLoader: 23 packed batches, seed=42, policy=structure_preserving
+[14:14:13] Original batch sequence (23 batches):
+[14:14:13]   [0] run_A_batch_0000 hash=bh_84b8730b3052711c
+[14:14:13]   [1] run_A_batch_0001 hash=bh_58e16bcf5404d01e
+[14:14:13]   [2] run_A_batch_0002 hash=bh_ba8b9d8e2bef3451
+[14:14:13]   [3] run_A_batch_0003 hash=bh_c09f25acc2238cf5
+[14:14:13]   [4] run_A_batch_0004 hash=bh_df651e253290222a
+[14:14:13]   [5] run_A_batch_0005 hash=bh_9903e65b8eea1548
+[14:14:13]   ... (17 more)
+[14:14:13] 
+Starting training (steps 0-23, crash planned at step 12)...
+[14:14:13]   [STAGE] step=000 entering stage_1_general (Seed / General)
+[14:14:13]   step=000 lane=indic opus=defer (skipped: score=0.664 in defer zone [0.592,0.697))
+[14:14:13]   step=001 lane=indic opus=defer (skipped: score=0.602 in defer zone [0.592,0.697))
+[14:14:13]   step=002 lane=indic opus=defer (skipped: score=0.669 in defer zone [0.592,0.697))
+[14:14:13]   step=003 lane=indic opus=defer (skipped: score=0.593 in defer zone [0.592,0.697))
+[14:14:13]   step=004 loss=11.5154 lane=code tps=863 opus=accept
+[14:14:16]   [CHECKPOINT] ckpt_run_A_main_step00005 at ledger_offset=5
+[14:14:16]   step=005 loss=11.5141 lane=web tps=781 opus=accept
+[14:14:16]   step=006 loss=11.5148 lane=indic tps=788 opus=accept
+[14:14:17]   step=007 loss=11.5161 lane=agentic tps=485 opus=accept
+[14:14:17]   step=008 loss=11.5138 lane=web tps=447 opus=accept
+[14:14:17]   step=009 loss=11.5137 lane=code tps=720 opus=accept
+[14:14:20]   [CHECKPOINT] ckpt_run_A_main_step00010 at ledger_offset=10
+[14:14:20]   step=010 loss=11.5142 lane=web tps=384 opus=accept
+[14:14:20]   step=011 lane=agentic opus=reject (skipped: score=0.336 < defer_threshold=0.592)
+[14:14:20] [CRASH] Simulated crash at step 12
+[14:14:20] 
 [CRASH] Deliberate crash at step 12
-[12:10:25]   Ledger offset at crash: 9
-[12:10:25]   Last checkpoint: ckpt_run_A_main_step00010
-[12:10:25] [PASS] crash_simulated
-[12:10:25] [PASS] checkpoint_saved: ckpt_run_A_main_step00010 at ledger_offset=10
-[12:10:25] 
+[14:14:20]   Ledger offset at crash: 7
+[14:14:20]   Last checkpoint: ckpt_run_A_main_step00010
+[14:14:20] [PASS] crash_simulated
+[14:14:20] [PASS] checkpoint_saved: ckpt_run_A_main_step00010 at ledger_offset=10
+[14:14:20] 
 ============================================================
-[12:10:25]   PHASE 7: CRASH RECOVERY — RESUME
-[12:10:25] ============================================================
-[12:10:25] 
+[14:14:20]   PHASE 7: CRASH RECOVERY — RESUME
+[14:14:20] ============================================================
+[14:14:20] 
 Resuming from checkpoint: ckpt_run_A_main_step00010
-[12:10:25]   Checkpoint ledger_offset = 10
-[12:10:25]   Expected next batch: [10] run_A_batch_0010
-[12:10:25]   Model restored from checkpoint (weights_hash=weights_d2a2f8d02a21)
-[12:10:25]   Actual  next batch: [10] run_A_batch_0010
-[12:10:25] [PASS] crash_recovery: next_batch=run_A_batch_0010 matched, hash verified
-[12:10:25] [PASS] resume_next_batch_matched: expected=run_A_batch_0010, got=run_A_batch_0010
-[12:10:25] 
+[14:14:20]   Checkpoint ledger_offset = 10
+[14:14:20]   Expected next batch: [10] run_A_batch_0010
+[14:14:20]   Model restored from checkpoint (weights_hash=weights_4712548130f9)
+[14:14:20]   Actual  next batch: [10] run_A_batch_0010
+[14:14:20] [PASS] crash_recovery: next_batch=run_A_batch_0010 matched, hash verified
+[14:14:20] [PASS] resume_next_batch_matched: expected=run_A_batch_0010, got=run_A_batch_0010
+[14:14:20] 
 Continuing training from step 10...
-[12:10:26]   step=011 loss=11.5205 lane=agentic tps=530 opus=accept
-[12:10:26]   step=012 loss=11.5149 lane=code tps=447 opus=accept
-[12:10:27]   step=014 loss=11.5176 lane=code tps=447 opus=accept
-[12:10:29]   [CHECKPOINT] ckpt_run_A_main_step00015 at ledger_offset=15
-[12:10:29]   step=015 loss=11.5173 lane=indic tps=683 opus=accept
-[12:10:30]   step=016 loss=11.5174 lane=agentic tps=438 opus=accept
-[12:10:30]   step=018 loss=11.5154 lane=web tps=378 opus=defer
-[12:10:30]   step=019 loss=11.5195 lane=agentic tps=570 opus=defer
-[12:10:33]   [CHECKPOINT] ckpt_run_A_main_step00020 at ledger_offset=20
-[12:10:33]   step=020 loss=11.5179 lane=web tps=348 opus=defer
-[12:10:34]   step=021 loss=11.5146 lane=code tps=762 opus=accept
-[12:10:34]   step=022 loss=11.5139 lane=code tps=802 opus=accept
-[12:10:34]   Steps completed after resume: 10
-[12:10:34] [PASS] run_resumed successfully
-[12:10:34] 
+[14:14:20]   [STAGE] step=010 entering stage_1_general (Seed / General)
+[14:14:21]   step=010 loss=11.5142 lane=web tps=463 opus=accept
+[14:14:21]   step=011 loss=11.5205 lane=agentic tps=619 opus=accept
+[14:14:21]   step=012 loss=11.5149 lane=code tps=753 opus=accept
+[14:14:22]   step=013 loss=11.5158 lane=web tps=400 opus=accept
+[14:14:22]   step=014 loss=11.5176 lane=code tps=647 opus=accept
+[14:14:24]   [CHECKPOINT] ckpt_run_A_main_step00015 at ledger_offset=15
+[14:14:24]   step=015 loss=11.5173 lane=indic tps=961 opus=accept
+[14:14:24]   step=016 lane=agentic opus=reject (skipped: score=0.340 < defer_threshold=0.592)
+[14:14:24]   [STAGE] step=017 entering stage_2_reasoning (Reasoning / Code)
+[14:14:25]   step=017 loss=11.5177 lane=web tps=584 opus=accept
+[14:14:25]   step=018 loss=11.5154 lane=web tps=443 opus=accept
+[14:14:25]   step=019 lane=agentic opus=reject (skipped: score=0.362 < defer_threshold=0.592)
+[14:14:27]   [CHECKPOINT] ckpt_run_A_main_step00020 at ledger_offset=20
+[14:14:28]   step=020 loss=11.5179 lane=web tps=486 opus=accept
+[14:14:28]   [STAGE] step=021 entering stage_3_anneal (Anneal (Low-LR Cooldown))
+[14:14:28]   step=021 loss=11.5146 lane=code tps=686 opus=accept
+[14:14:28]   step=022 loss=11.5139 lane=code tps=785 opus=accept
+[14:14:28]   Steps completed after resume: 11
+[14:14:28] [PASS] run_resumed successfully
+[14:14:28] 
 ============================================================
-[12:10:34]   PHASE 8: HISTORICAL STREAM REPLAY
-[12:10:34] ============================================================
-[12:10:34] 
+[14:14:28]   PHASE 8: HISTORICAL STREAM REPLAY
+[14:14:28] ============================================================
+[14:14:28] 
 Replaying steps [5..10) with same seed=42...
-[12:10:34]   step=005: orig=bh_9903e65b8eea1548  replay=bh_9903e65b8eea1548  match=YES
-[12:10:34]   step=006: orig=bh_8bad92b9ae6c0d59  replay=bh_8bad92b9ae6c0d59  match=YES
-[12:10:34]   step=007: orig=bh_8c2db90d56f6e431  replay=bh_8c2db90d56f6e431  match=YES
-[12:10:34]   step=008: orig=bh_5a90fd6a6339a45b  replay=bh_5a90fd6a6339a45b  match=YES
-[12:10:34]   step=009: orig=bh_28f87ae7c41c0170  replay=bh_28f87ae7c41c0170  match=YES
-[12:10:34] [PASS] replay: All 5 replayed batches hash-matched original
-[12:10:34] [PASS] replay_hash_matched: 5 batches verified
-[12:10:34] 
+[14:14:28]   step=005: orig=bh_9903e65b8eea1548  replay=bh_9903e65b8eea1548  match=YES
+[14:14:28]   step=006: orig=bh_8bad92b9ae6c0d59  replay=bh_8bad92b9ae6c0d59  match=YES
+[14:14:28]   step=007: orig=bh_8c2db90d56f6e431  replay=bh_8c2db90d56f6e431  match=YES
+[14:14:28]   step=008: orig=bh_5a90fd6a6339a45b  replay=bh_5a90fd6a6339a45b  match=YES
+[14:14:28]   step=009: orig=bh_28f87ae7c41c0170  replay=bh_28f87ae7c41c0170  match=YES
+[14:14:28] [PASS] replay: All 5 replayed batches hash-matched original
+[14:14:28] [PASS] replay_hash_matched: 5 batches verified
+[14:14:28] 
 ============================================================
-[12:10:34]   PHASE 9: FORK FROM EARLIER CHECKPOINT
-[12:10:34] ============================================================
-[12:10:34] 
+[14:14:28]   PHASE 9: FORK FROM EARLIER CHECKPOINT
+[14:14:28] ============================================================
+[14:14:28] 
 Forking from checkpoint at step 10...
-[12:10:34]   Forked: ckpt_run_A_main_step00010 → run_FORK/experiment_v2
-[12:10:34]   Branch starts at ledger_offset=10
-[12:10:38]   Fork checkpoint written: ckpt_run_FORK_experiment_v2_step00010
-[12:10:38] [PASS] branch_forked
-[12:10:38] 
+[14:14:29]   Forked: ckpt_run_A_main_step00010 → run_FORK/experiment_v2
+[14:14:29]   Branch starts at ledger_offset=10
+[14:14:31]   Fork checkpoint written: ckpt_run_FORK_experiment_v2_step00010
+[14:14:31] [PASS] branch_forked
+[14:14:31] 
 ============================================================
-[12:10:38]   PHASE 10: LEDGER AUDIT & LEARNING TRACE
-[12:10:38] ============================================================
-[12:10:38] 
-Consumption ledger: 19 entries
-[12:10:38] Learning ledger:    19 entries
-[12:10:38] 
+[14:14:31]   PHASE 10: LEDGER AUDIT & LEARNING TRACE
+[14:14:31] ============================================================
+[14:14:31] 
+Consumption ledger: 18 entries
+[14:14:31] Learning ledger:    18 entries
+[14:14:31] 
 Actual mixture (consumed):
-[12:10:38]   indic          :    768 tokens (36.3%)
-[12:10:38]   code           :    735 tokens (34.7%)
-[12:10:38]   agentic        :    480 tokens (22.7%)
-[12:10:38]   web            :    134 tokens (6.3%)
-[12:10:38] 
+[14:14:31]   code           :    735 tokens (40.7%)
+[14:14:31]   web            :    622 tokens (34.5%)
+[14:14:31]   indic          :    256 tokens (14.2%)
+[14:14:31]   agentic        :    192 tokens (10.6%)
+[14:14:31] 
 Protected floor compliance:
-[12:10:38]   indic: floor=12% actual=59.0% [OK]
-[12:10:38]   agentic: floor=2% actual=17.7% [OK]
-[12:10:38] 
-OPUS decisions: accept=5 reject=3 defer=4 floor_overrides=2
-[12:10:38] [PASS] opus_audit_trail: 12 decisions logged, 2 floor overrides
-[12:10:38] [PASS] opus_decisions_recorded
-[12:10:38] [PASS] mixture_compliance: Curriculum stages executed, floors enforced
-[12:10:38] [PASS] mixture_compiled
-[12:10:38] [PASS] learning_trace: Loss linked to 18 source documents
-[12:10:38] [PASS] learning_trace: per-document loss recorded
-[12:10:38] 
+[14:14:31]   indic: floor=12% actual=17.3% [OK]
+[14:14:31]   agentic: floor=2% actual=12.8% [OK]
+[14:14:31] 
+OPUS decisions (25 total, pre-crash + post-resume): accept=18 reject=3 defer=4 floor_overrides=4
+[14:14:31] [PASS] opus_audit_trail: 25 decisions logged (pre-crash + post-resume), 4 floor overrides
+[14:14:31] [PASS] opus_decisions_recorded
+[14:14:31] [PASS] mixture_compliance: Curriculum stages executed, floors enforced
+[14:14:31] [PASS] mixture_compiled
+[14:14:31] [PASS] learning_trace: Loss linked to 18 source documents
+[14:14:31] [PASS] learning_trace: per-document loss recorded
+[14:14:31] 
 ============================================================
-[12:10:38]   PHASE 11: PERFORMANCE REPORT
-[12:10:38] ============================================================
-[12:10:38] 
+[14:14:31]   PHASE 11: PERFORMANCE REPORT
+[14:14:31] ============================================================
+[14:14:31] 
 Performance:
-[12:10:38]   avg loss:           11.5169
-[12:10:38]   avg tokens/sec:     623.8
-[12:10:38]   packing utilization: 82.7%
-[12:10:38]   useful tokens:       2436
-[12:10:38] [PASS] throughput: packing=82.7%, avg_tps=624
-[12:10:38] [PASS] performance_measured
-[12:10:38] 
+[14:14:31]   avg loss:           11.5157
+[14:14:31]   avg tokens/sec:     627.5
+[14:14:31]   packing utilization: 82.7%
+[14:14:31]   useful tokens:       2436
+[14:14:31] [PASS] throughput: packing=82.7%, avg_tps=628
+[14:14:31] [PASS] performance_measured
+[14:14:31] 
 ============================================================
-[12:10:38]   PHASE 12: AUDIT COMPLETE — WRITING EVIDENCE BUNDLE
-[12:10:38] ============================================================
-[12:10:38] 
+[14:14:31]   PHASE 12: AUDIT COMPLETE — WRITING EVIDENCE BUNDLE
+[14:14:31] ============================================================
+[14:14:31] 
 audit completed
-[12:10:38] 
+[14:14:31] 
 ============================================================
-[12:10:38] FINAL RESULTS:
-[12:10:38] ============================================================
-[12:10:38]   [PASS] tokenizer_integrity
-[12:10:38]   [PASS] eval_firewall
-[12:10:38]   [PASS] packing_correctness
-[12:10:38]   [PASS] crash_recovery
-[12:10:38]   [PASS] replay
-[12:10:38]   [PASS] opus_audit_trail
-[12:10:38]   [PASS] mixture_compliance
-[12:10:38]   [PASS] learning_trace
-[12:10:38]   [PASS] throughput
-[12:10:38] 
+[14:14:31] FINAL RESULTS:
+[14:14:31] ============================================================
+[14:14:31]   [PASS] tokenizer_integrity
+[14:14:31]   [PASS] eval_firewall
+[14:14:31]   [PASS] packing_correctness
+[14:14:31]   [PASS] crash_recovery
+[14:14:31]   [PASS] replay
+[14:14:31]   [PASS] opus_audit_trail
+[14:14:31]   [PASS] mixture_compliance
+[14:14:31]   [PASS] learning_trace
+[14:14:31]   [PASS] throughput
+[14:14:31] 
 ALL REQUIREMENTS PASSED
-[12:10:38] 
+[14:14:31] 
 Artifacts written to: D:\ERA\v5\session6\train_data_exec_system\submission_artifacts
-[12:10:38]   run.log:          D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/run.log
-[12:10:38]   evidence.json:    D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/evidence.json
-[12:10:38]   evidence.md:      D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/evidence.md
-[12:10:38]   manifests/:       28 files
-[12:10:38]   ledgers/:         11 files
-[12:10:38]   checkpoints/:     5 checkpoints
-[12:10:38]   performance.json: D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/performance.json
-[12:10:38] 
+[14:14:31]   run.log:          D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/run.log
+[14:14:31]   evidence.json:    D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/evidence.json
+[14:14:31]   evidence.md:      D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/evidence.md
+[14:14:31]   manifests/:       28 files
+[14:14:31]   ledgers/:         11 files
+[14:14:31]   checkpoints/:     5 checkpoints
+[14:14:31]   performance.json: D:\ERA\v5\session6\train_data_exec_system\submission_artifacts/performance.json
+[14:14:31] 
 ============================================================
-[12:10:38]   PHASE 13: EXPORT WEBAPP DATA
-[12:10:38] ============================================================
-[12:10:38]   webapp data:      D:\ERA\v5\session6\webapp\data.js
-[12:10:38] [PASS] webapp_data_exported
+[14:14:31]   PHASE 13: EXPORT WEBAPP DATA
+[14:14:31] ============================================================
+[14:14:31]   webapp data:      D:\ERA\v5\session6\webapp\data.js
+[14:14:31] [PASS] webapp_data_exported

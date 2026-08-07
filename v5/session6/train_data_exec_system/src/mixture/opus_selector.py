@@ -31,12 +31,19 @@ class OPUSSelector:
         self._lane_tokens_accepted: Dict[str, int] = {}
         self._total_tokens_accepted = 0
 
-    def _proxy_score(self, batch_info: dict) -> float:
+    def _proxy_score(self, batch_info: dict, stage_weights: Optional[Dict[str, float]] = None) -> float:
         """
         Simulate OPUS utility score. Higher = more useful for the proxy direction.
         Balanced proxy: all lanes equally weighted.
         English-heavy proxy: penalizes indic/agentic.
+
+        When `stage_weights` (the current curriculum stage's lane weights, from
+        MixtureScheduler.get_lane_weights) is supplied, the score is nudged by
+        how that lane is weighted *this stage* relative to an even split —
+        this is what makes the curriculum schedule actually influence which
+        batches get selected, instead of only being logged for display.
         """
+        lane = batch_info.get("lane", "web")
         lane_scores = {
             "web": 0.55,
             "code": 0.75,
@@ -45,11 +52,21 @@ class OPUSSelector:
             "reasoning": 0.80,
             "stem": 0.72,
         }
-        base = lane_scores.get(batch_info.get("lane", "web"), 0.5)
+        base = lane_scores.get(lane, 0.5)
         # Add noise for realism
         rng = np.random.default_rng(hash(batch_info.get("batch_id", "x")) % 2**32)
         noise = rng.uniform(-0.05, 0.05)
-        return float(np.clip(base + noise, 0.0, 1.0))
+        score = base + noise
+
+        if stage_weights:
+            avg_weight = 1.0 / max(1, len(stage_weights))
+            lane_weight = stage_weights.get(lane, 0.0)
+            # Above-average weight this stage -> multiplier > 1 (boosts score);
+            # near-zero weight this stage -> multiplier towards 0.5 (suppresses it).
+            multiplier = float(np.clip(lane_weight / avg_weight, 0.5, 1.5)) if avg_weight else 1.0
+            score *= multiplier
+
+        return float(np.clip(score, 0.0, 1.0))
 
     def _floor_override_needed(self, lane: str) -> bool:
         """Check if a lane is below protected floor and needs override."""
@@ -59,12 +76,23 @@ class OPUSSelector:
         actual = self._lane_tokens_accepted.get(lane, 0) / self._total_tokens_accepted
         return actual < floor
 
-    def select_batch(self, batch_info: dict, all_scores: List[float]) -> Tuple[str, float, str]:
+    def select_batch(self, batch_info: dict, all_scores: List[float],
+                      step: Optional[int] = None,
+                      stage_id: Optional[str] = None,
+                      stage_weights: Optional[Dict[str, float]] = None) -> Tuple[str, float, str]:
         """
         Decide: accept / reject / defer for one candidate batch.
         Returns (decision, score, reason).
+
+        `step` should be the trainer's absolute training step (not an internal
+        counter) so the persisted decision log stays correctly numbered across
+        a crash/resume boundary, where a fresh OPUSSelector instance is used.
+        `stage_id`/`stage_weights` come from MixtureScheduler and are recorded
+        on the decision for audit, and `stage_weights` also feeds the score
+        (see `_proxy_score`) so the curriculum stage has a real, observable
+        effect on what gets accepted.
         """
-        score = self._proxy_score(batch_info)
+        score = self._proxy_score(batch_info, stage_weights)
         lane = batch_info.get("lane", "web")
         token_count = batch_info.get("token_count", 0)
 
@@ -94,14 +122,16 @@ class OPUSSelector:
             self._lane_tokens_accepted[lane] = self._lane_tokens_accepted.get(lane, 0) + token_count
             self._total_tokens_accepted += token_count
 
+        effective_step = step if step is not None else self._step
         record = {
-            "step": self._step,
-            "batch_id": batch_info.get("batch_id", f"batch_{self._step:04d}"),
+            "step": effective_step,
+            "batch_id": batch_info.get("batch_id", f"batch_{effective_step:04d}"),
             "lane": lane,
             "decision": decision,
             "score": round(score, 4),
             "reason": reason,
             "token_count": token_count,
+            "stage_id": stage_id,
             "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         }
         self._decisions.append(record)
@@ -112,20 +142,31 @@ class OPUSSelector:
         return self._decisions
 
     def get_summary(self) -> dict:
-        total = len(self._decisions)
-        if total == 0:
-            return {"total": 0}
-        accepted = sum(1 for d in self._decisions if d["decision"] == "accept")
-        rejected = sum(1 for d in self._decisions if d["decision"] == "reject")
-        deferred = sum(1 for d in self._decisions if d["decision"] == "defer")
-        overrides = sum(1 for d in self._decisions if "floor_override" in d["reason"])
-        return {
-            "total_candidates": total,
-            "accepted": accepted,
-            "rejected": rejected,
-            "deferred": deferred,
-            "floor_overrides": overrides,
-            "keep_fraction_target": self.keep_fraction,
-            "keep_fraction_actual": round(accepted / total, 3) if total else 0,
-            "effective_token_multiplier": round(1 / max(0.01, accepted / total), 2) if accepted else 0,
-        }
+        return summarize_decisions(self._decisions, self.keep_fraction)
+
+
+def summarize_decisions(decisions: List[dict], keep_fraction_target: float) -> dict:
+    """
+    Summarize a list of OPUS decision records (as produced by `select_batch`).
+    Shared by `OPUSSelector.get_summary()` and by callers that need to merge
+    decisions from multiple selector instances — e.g. run_demo.py combines
+    the pre-crash and post-resume selectors' decisions into one audit trail,
+    since a fresh OPUSSelector is created for the resumed run.
+    """
+    total = len(decisions)
+    if total == 0:
+        return {"total": 0}
+    accepted = sum(1 for d in decisions if d["decision"] == "accept")
+    rejected = sum(1 for d in decisions if d["decision"] == "reject")
+    deferred = sum(1 for d in decisions if d["decision"] == "defer")
+    overrides = sum(1 for d in decisions if "floor_override" in d["reason"])
+    return {
+        "total_candidates": total,
+        "accepted": accepted,
+        "rejected": rejected,
+        "deferred": deferred,
+        "floor_overrides": overrides,
+        "keep_fraction_target": keep_fraction_target,
+        "keep_fraction_actual": round(accepted / total, 3) if total else 0,
+        "effective_token_multiplier": round(1 / max(0.01, accepted / total), 2) if accepted else 0,
+    }

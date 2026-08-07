@@ -1,12 +1,12 @@
 {
-  "total_steps": 19,
-  "average_loss": 11.516897,
-  "final_loss": 11.513904,
-  "average_tokens_per_sec": 623.8,
+  "total_steps": 18,
+  "average_loss": 11.515662,
+  "final_loss": 11.513892,
+  "average_tokens_per_sec": 627.5,
   "packing_policy": "structure_preserving",
   "packing_utilization_pct": 82.74,
   "useful_tokens_total": 2436,
   "num_packed_sequences": 23,
   "context_len": 128,
-  "generated_at": "2026-08-07T06:40:38Z"
+  "generated_at": "2026-08-07T08:44:31Z"
 }

@@ -5,8 +5,8 @@
   "run_id": "run_A",
   "branch_id": "main",
   "optimizer_lr": 0.001,
-  "weights_hash": "weights_d2a2f8d02a21",
+  "weights_hash": "weights_4712548130f9",
   "rng_state": {},
   "next_expected_batch_offset": 10,
-  "saved_at": "2026-08-07T06:40:24Z"
+  "saved_at": "2026-08-07T08:44:20Z"
 }
