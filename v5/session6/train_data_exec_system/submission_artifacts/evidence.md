@@ -1,6 +1,5 @@
 # Training Data Execution System — Evidence Bundle
 
-Generated: 2026-08-07T08:44:31Z
 
 ## Requirement Results
 
