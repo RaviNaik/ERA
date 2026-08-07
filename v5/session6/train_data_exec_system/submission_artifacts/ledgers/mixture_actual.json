@@ -8,9 +8,10 @@
     "stem": 0.09
   },
   "actual": {
-    "indic": 0.3873,
-    "code": 0.3707,
-    "agentic": 0.2421
+    "indic": 0.3628,
+    "code": 0.3472,
+    "agentic": 0.2267,
+    "web": 0.0633
   },
   "floor_compliance": {
     "indic": {

@@ -36,12 +36,12 @@
   },
   "learning_trace": {
     "result": "PASS",
-    "description": "Loss linked to 16 source documents",
+    "description": "Loss linked to 18 source documents",
     "evidence": "submission_artifacts/ledgers/doc_loss_summary.json"
   },
   "throughput": {
     "result": "PASS",
-    "description": "packing=82.7%, avg_tps=696",
+    "description": "packing=82.7%, avg_tps=624",
     "evidence": "submission_artifacts/performance.json"
   }
 }

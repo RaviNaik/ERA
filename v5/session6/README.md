@@ -9,6 +9,8 @@ documents → tokenized shards → manifests → mixture schedule → packing �
   → resume → replay → audit
 ```
 
+**🌐 Live dashboard: [ravinaik.github.io/ERA/v5/session6/webapp/](https://ravinaik.github.io/ERA/v5/session6/webapp/)**
+
 ## Two parts
 
 | Folder | What it is |

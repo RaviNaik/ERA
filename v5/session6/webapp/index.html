@@ -1,137 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Training Data Execution System — V5 Dashboard</title>
-  <meta name="description" content="Interactive dashboard for the V5 Training Data Execution System — visualizing the complete pipeline from raw documents to auditable training checkpoints." />
+  <title>Training Data Execution System | ERA Session 6</title>
+  <meta name="description" content="Interactive dashboard for the V5 Training Data Execution System — shards, manifests, packing, mixture, OPUS, ledgers, checkpoints, crash/resume/replay proofs and the evidence board. Session 6 assignment." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
-<header class="site-header">
-  <div class="header-inner">
-    <div class="header-brand">
-      <div class="brand-icon">⚡</div>
-      <div>
-        <h1 class="brand-title">TDES — V5</h1>
-        <p class="brand-sub">Training Data Execution System</p>
-      </div>
+<!-- ── Theme Toggle ───────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S6</div>
+      <div class="sidebar-brand-title">Training Data<br/><span class="sidebar-gradient-text">Execution System</span></div>
+      <div class="sidebar-brand-sub">8 Sections · August 2026</div>
     </div>
-    <nav class="header-nav" id="header-nav">
-      <a href="#pipeline" class="nav-link active">Pipeline</a>
-      <a href="#shards" class="nav-link">Shards</a>
-      <a href="#packing" class="nav-link">Packing</a>
-      <a href="#mixture" class="nav-link">Mixture</a>
-      <a href="#opus" class="nav-link">OPUS</a>
-      <a href="#training" class="nav-link">Training</a>
-      <a href="#ledgers" class="nav-link">Ledgers</a>
-      <a href="#checkpoint" class="nav-link">Checkpoint</a>
-      <a href="#evidence" class="nav-link">Evidence</a>
+    <nav>
+      <a class="nav-item active" href="#shards" data-target="shards">
+        <span class="nav-icon">🗂️</span> Shards &amp; Manifests
+      </a>
+      <a class="nav-item" href="#packing" data-target="packing">
+        <span class="nav-icon">📦</span> Packing Policies
+      </a>
+      <a class="nav-item" href="#mixture" data-target="mixture">
+        <span class="nav-icon">⚖️</span> Mixture &amp; Floors
+      </a>
+      <a class="nav-item" href="#opus" data-target="opus">
+        <span class="nav-icon">🧠</span> OPUS Selection
+      </a>
+      <a class="nav-item" href="#training" data-target="training">
+        <span class="nav-icon">📉</span> Training Run
+      </a>
+      <a class="nav-item" href="#ledgers" data-target="ledgers">
+        <span class="nav-icon">📒</span> Ledgers
+      </a>
+      <a class="nav-item" href="#checkpoint" data-target="checkpoint">
+        <span class="nav-icon">💾</span> Checkpoint &amp; Replay
+      </a>
+      <a class="nav-item" href="#evidence" data-target="evidence">
+        <span class="nav-icon">✅</span> Evidence Board
+      </a>
     </nav>
-    <div class="all-pass-badge" id="all-pass-badge">
-      <span class="badge-dot"></span> ALL PASS
-    </div>
-  </div>
-</header>
+  </aside>
 
-<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
-<section class="hero" id="pipeline">
-  <div class="container">
-    <div class="hero-text">
-      <div class="hero-tag">ERA V5 — Session 6 Assignment</div>
-      <h2 class="hero-title">Full Training Data Pipeline<br/><span class="gradient-text">Controlled. Inspectable. Replayable.</span></h2>
-      <p class="hero-desc">A complete, auditable system proving correctness of the V5 training data stream — from tokenized shards through crash recovery to replay verification.</p>
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 6 Assignment</div>
+      <h1>Training Data<br>Execution System</h1>
+      <p>
+        A complete, auditable system proving the V5 training data stream is correct,
+        reproducible and replayable — from tokenized shards through crash recovery
+        to replay verification. Every number below is generated by the implementation,
+        not hand-typed.
+      </p>
       <div class="hero-stats" id="hero-stats">
-        <div class="stat-chip"><span class="stat-num" id="stat-shards">27</span><span class="stat-label">Shards</span></div>
-        <div class="stat-chip"><span class="stat-num" id="stat-admitted">24</span><span class="stat-label">Admitted</span></div>
-        <div class="stat-chip"><span class="stat-num" id="stat-steps">20</span><span class="stat-label">Steps</span></div>
-        <div class="stat-chip"><span class="stat-num" id="stat-util">82.7%</span><span class="stat-label">Pack Util</span></div>
-        <div class="stat-chip"><span class="stat-num" id="stat-tests">—</span><span class="stat-label">Invariant Tests</span></div>
+        <div class="hero-stat"><span class="val indigo" id="stat-shards">—</span><span class="lbl">Shards</span></div>
+        <div class="hero-stat"><span class="val" id="stat-admitted">—</span><span class="lbl">Admitted</span></div>
+        <div class="hero-stat"><span class="val" id="stat-steps">—</span><span class="lbl">Steps</span></div>
+        <div class="hero-stat"><span class="val amber" id="stat-util">—</span><span class="lbl">Pack Util</span></div>
+        <div class="hero-stat"><span class="val green" id="stat-tests">—</span><span class="lbl">Invariant Tests</span></div>
       </div>
-    </div>
-    <!-- Pipeline Flow Diagram -->
-    <div class="pipeline-flow" id="pipeline-flow">
-      <div class="pipe-node active" data-section="shards">
-        <div class="pipe-icon">🗂️</div>
-        <div class="pipe-label">Documents</div>
-        <div class="pipe-sub" id="pipe-doc-count">— docs · 4 lanes</div>
-      </div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-node" data-section="shards">
-        <div class="pipe-icon">🔐</div>
-        <div class="pipe-label">Shards</div>
-        <div class="pipe-sub">SHA-256 immutable</div>
-      </div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-node" data-section="packing">
-        <div class="pipe-icon">📦</div>
-        <div class="pipe-label">Packing</div>
-        <div class="pipe-sub">5 policies · 3 masks</div>
-      </div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-node" data-section="training">
-        <div class="pipe-icon">🧠</div>
-        <div class="pipe-label">Training</div>
-        <div class="pipe-sub">Loss masked batches</div>
-      </div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-node" data-section="checkpoint">
-        <div class="pipe-icon">💾</div>
-        <div class="pipe-label">Checkpoint</div>
-        <div class="pipe-sub">Ledger-bound</div>
-      </div>
-      <div class="pipe-arrow">→</div>
-      <div class="pipe-node" data-section="evidence">
-        <div class="pipe-icon">✅</div>
-        <div class="pipe-label">Audit</div>
-        <div class="pipe-sub" id="pipe-audit-count">—/9 PASS</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </header>
 
-<!-- ── SECTION: SHARDS & MANIFESTS ────────────────────────────────────────── -->
-<section class="content-section" id="shards">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 2</div>
-      <h2 class="section-title">Tokenized Shards &amp; Manifests</h2>
-      <p class="section-desc">Each document is tokenized into an immutable, SHA-256-addressed shard. The manifest records provenance, tokenizer SHA, license tier, and admission status.</p>
-    </div>
-    <div class="tokenizer-box" id="tokenizer-box">
-      <div class="tok-field"><span class="tok-key">Tokenizer</span><span class="tok-val" id="tok-model">cl100k_base</span></div>
-      <div class="tok-field"><span class="tok-key">SHA</span><span class="tok-val mono" id="tok-sha">tok_27b6a09dd8613291</span></div>
-      <div class="tok-field"><span class="tok-key">Vocab Size</span><span class="tok-val" id="tok-vocab">100,277</span></div>
-      <div class="tok-field"><span class="tok-key">Status</span><span class="tok-val pass-chip">FROZEN ✓</span></div>
-    </div>
-    <div class="cards-grid" id="shard-grid"></div>
-    <div class="firewall-banner" id="firewall-banner">
-      <div class="fw-icon">🛡️</div>
-      <div class="fw-text">
-        <strong>Evaluation Firewall:</strong> <span id="fw-count">—</span> held-out eval shards intercepted — zero training violations.
-        <span class="pass-chip ml-8">[PASS] eval_shard_blocked</span>
+    <!-- ── Section 1: Shards & Manifests ───────────────────── -->
+    <section class="section" id="shards">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 08 · TOKENIZED SHARDS</span>
+          <h2 class="section-title">Shards &amp; Manifests</h2>
+          <p class="section-desc">
+            Each document is tokenized under a frozen tokenizer and stored as an immutable,
+            SHA-256-addressed shard. The manifest carries tokenizer SHA, license tier,
+            capability lane and admission status.
+          </p>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ── SECTION: PACKING ────────────────────────────────────────────────────── -->
-<section class="content-section alt" id="packing">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 4</div>
-      <h2 class="section-title">Packing Policies — All 5 Strategies</h2>
-      <p class="section-desc">Each policy is evaluated on packing utilization, boundary risk, and correctness of loss/attention/position masks. Structure-preserving is used in production.</p>
-    </div>
-    <div class="packing-grid" id="packing-grid"></div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Frozen Tokenizer</span>
+          <span class="badge badge-green" id="tok-status-badge">FROZEN ✓</span>
+        </div>
+        <div class="card-body">
+          <div class="kv-grid">
+            <div class="kv-item"><span class="kv-key">Model</span><span class="kv-val" id="tok-model">—</span></div>
+            <div class="kv-item"><span class="kv-key">SHA</span><span class="kv-val mono" id="tok-sha">—</span></div>
+            <div class="kv-item"><span class="kv-key">Vocab Size</span><span class="kv-val" id="tok-vocab">—</span></div>
+          </div>
+        </div>
+      </div>
 
-    <div class="masks-explainer">
-      <h3 class="masks-title">Three Masks Per Batch</h3>
-      <div class="mask-cards">
+      <div class="shard-grid" id="shard-grid"></div>
+
+      <div class="info-banner" id="firewall-banner">
+        <span class="ib-icon">🛡️</span>
+        <div>
+          <strong>Evaluation Firewall:</strong> <span id="fw-count">—</span> held-out eval shards intercepted — zero training violations.
+          <span class="badge badge-green" style="margin-left:8px;">[PASS] eval_shard_blocked</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 2: Packing Policies ──────────────────────── -->
+    <section class="section" id="packing">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 08 · CONTEXT-WINDOW BUDGET</span>
+          <h2 class="section-title">Packing Policies — All 5 Strategies</h2>
+          <p class="section-desc">
+            Every policy is evaluated on utilization, boundary risk, and correctness of
+            loss/attention/position masks. Structure-preserving is used in production.
+          </p>
+        </div>
+      </div>
+
+      <div class="policy-grid" id="packing-grid"></div>
+
+      <div class="mask-grid" id="mask-grid">
         <div class="mask-card">
           <div class="mask-icon" style="--c:#6366f1">LM</div>
           <strong>Loss Mask</strong>
@@ -148,173 +148,230 @@
           <p>Reset per document in structure-preserving mode for correct RoPE embeddings.</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── SECTION: MIXTURE ────────────────────────────────────────────────────── -->
-<section class="content-section" id="mixture">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 5</div>
-      <h2 class="section-title">Curriculum Stages &amp; Protected Floors</h2>
-      <p class="section-desc">Three curriculum stages shift the mixture from broad general language (70% of budget) to concentrated high-quality specialized data (anneal). Protected floors guarantee Indic ≥12% and Agentic ≥2% at all times.</p>
-    </div>
-    <div class="curriculum-stages" id="curriculum-stages"></div>
-    <div class="floor-display" id="floor-display">
-      <div class="floor-item">
-        <div class="floor-label">Indic Floor</div>
-        <div class="floor-bar-wrap">
-          <div class="floor-bar" style="width: 100%">
-            <div class="floor-fill" id="indic-bar" style="width:0%"></div>
-            <div class="floor-line" style="left:12%"></div>
+    <!-- ── Section 3: Mixture & Protected Floors ────────────── -->
+    <section class="section" id="mixture">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 08 · CURRICULUM &amp; OPUS FLOORS</span>
+          <h2 class="section-title">Curriculum Stages &amp; Protected Floors</h2>
+          <p class="section-desc">
+            Three curriculum stages shift the mixture from broad general language toward
+            concentrated high-quality specialized data. Protected floors guarantee
+            Indic ≥12% and Agentic ≥2% of actual consumption at all times.
+          </p>
+        </div>
+      </div>
+
+      <div class="curriculum-grid" id="curriculum-grid"></div>
+
+      <div class="floors-grid" id="floors-grid" style="margin-top:24px;">
+        <div class="floor-card indic-floor">
+          <div class="floor-name">Indic Floor</div>
+          <div class="floor-value" id="indic-pct">—</div>
+          <div class="floor-bar-track"><div class="floor-bar-fill" id="indic-bar" style="width:0%;background:var(--amber);"></div><div class="floor-bar-threshold" style="left:12%;"></div></div>
+          <div class="floor-reason">Hard floor: 12% of actual consumed tokens.</div>
+          <div class="floor-mechanism" id="indic-compliant">—</div>
+        </div>
+        <div class="floor-card agentic-floor">
+          <div class="floor-name">Agentic Floor</div>
+          <div class="floor-value" id="agentic-pct">—</div>
+          <div class="floor-bar-track"><div class="floor-bar-fill" id="agentic-bar" style="width:0%;background:var(--rose);"></div><div class="floor-bar-threshold" style="left:2%;"></div></div>
+          <div class="floor-reason">Hard floor: 2% of actual consumed tokens.</div>
+          <div class="floor-mechanism" id="agentic-compliant">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 4: OPUS Selection ─────────────────────────── -->
+    <section class="section" id="opus">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 08 · DYNAMIC SELECTION</span>
+          <h2 class="section-title">OPUS Accept / Reject / Defer</h2>
+          <p class="section-desc">
+            OPUS scores each candidate batch and keeps the top fraction. Protected-floor
+            override force-accepts Indic/Agentic batches that would otherwise fall below floor.
+          </p>
+        </div>
+      </div>
+
+      <div class="stat-row" id="opus-summary">
+        <div class="stat-box"><div class="sv" id="opus-accepted">—</div><div class="sl">Accepted</div></div>
+        <div class="stat-box"><div class="sv rose" id="opus-rejected">—</div><div class="sl">Rejected</div></div>
+        <div class="stat-box"><div class="sv amber" id="opus-deferred">—</div><div class="sl">Deferred</div></div>
+        <div class="stat-box"><div class="sv purple" id="opus-overrides">—</div><div class="sl">Floor Overrides</div></div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table" id="opus-table">
+          <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Score</th><th>Decision</th><th>Reason</th></tr></thead>
+          <tbody id="opus-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Section 5: Training Run ───────────────────────────── -->
+    <section class="section" id="training">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 08 · LOSS &amp; THROUGHPUT</span>
+          <h2 class="section-title">Training Run — Crash, Resume, Replay</h2>
+          <p class="section-desc">
+            <span id="training-steps-desc">—</span> training steps with a deliberate crash at
+            step <span id="crash-step-desc">—</span>. Checkpoint at step
+            <span id="resume-step-desc">—</span> enables exact resume. Loss is computed only on
+            loss-bearing tokens per the loss mask.
+          </p>
+        </div>
+      </div>
+
+      <div class="stat-row" id="training-metrics">
+        <div class="stat-box"><div class="sv" id="tm-avg-loss">—</div><div class="sl">Avg Loss</div></div>
+        <div class="stat-box"><div class="sv" id="tm-tps">—</div><div class="sl">Avg Tokens/sec</div></div>
+        <div class="stat-box"><div class="sv" id="tm-steps">—</div><div class="sl">Total Steps</div></div>
+        <div class="stat-box"><div class="sv amber" id="tm-util">—</div><div class="sl">Pack Utilization</div></div>
+      </div>
+
+      <div class="card chart-card">
+        <canvas id="loss-chart" width="900" height="280"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Crash → Resume → Replay Timeline</span></div>
+        <div class="card-body">
+          <div class="timeline-track" id="timeline-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Section 6: Ledgers ────────────────────────────────── -->
+    <section class="section" id="ledgers">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 08 · AUDIT TRAIL</span>
+          <h2 class="section-title">Consumption &amp; Learning Ledgers</h2>
+          <p class="section-desc">
+            Every training step is recorded in two ledgers: what data was consumed
+            (shard IDs, lanes, token counts) and what was learned (loss per step,
+            per-document loss attribution).
+          </p>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tab-consume">Consumption</button>
+          <button class="tab-btn" id="tab-learn">Learning</button>
+        </div>
+      </div>
+
+      <div class="data-table-wrap" id="panel-consume">
+        <table class="data-table" id="consumption-table">
+          <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Useful Tokens</th><th>Loss Bearing</th><th>Utilization</th></tr></thead>
+          <tbody id="consumption-tbody"></tbody>
+        </table>
+      </div>
+      <div class="data-table-wrap hidden" id="panel-learn">
+        <table class="data-table" id="learning-table">
+          <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Loss</th><th>Perplexity</th><th>Tokens/sec</th><th>Docs Linked</th></tr></thead>
+          <tbody id="learning-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Section 7: Checkpoint & Replay ─────────────────────── -->
+    <section class="section" id="checkpoint">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 08 · RECONSTRUCTION PROOF</span>
+          <h2 class="section-title">Checkpoints, Fork &amp; Replay</h2>
+          <p class="section-desc">
+            Each checkpoint binds model weights + optimizer state + RNG state + ledger offset.
+            After the crash, resume loads that checkpoint and verifies the next batch ID and
+            hash match exactly. Forking clones a checkpoint into a new branch.
+          </p>
+        </div>
+      </div>
+
+      <div class="ckpt-grid" id="checkpoint-grid"></div>
+
+      <div class="card" style="margin-top:24px;">
+        <div class="card-header"><span class="card-title">Replay Verification — Steps <span id="replay-range-desc">—</span></span></div>
+        <div class="card-body">
+          <div class="data-table-wrap">
+            <table class="data-table" id="replay-table">
+              <thead><tr><th>Step</th><th>Original Batch ID</th><th>Original Hash</th><th>Replay Hash</th><th>Match</th></tr></thead>
+              <tbody id="replay-tbody"></tbody>
+            </table>
           </div>
-          <span class="floor-pct" id="indic-pct">—</span>
-          <span class="floor-floor">(floor: 12%)</span>
-        </div>
-        <span class="pass-chip" id="indic-compliant">—</span>
-      </div>
-      <div class="floor-item">
-        <div class="floor-label">Agentic Floor</div>
-        <div class="floor-bar-wrap">
-          <div class="floor-bar" style="width: 100%">
-            <div class="floor-fill" id="agentic-bar" style="width:0%; background: var(--accent-purple);"></div>
-            <div class="floor-line" style="left:2%"></div>
-          </div>
-          <span class="floor-pct" id="agentic-pct">—</span>
-          <span class="floor-floor">(floor: 2%)</span>
-        </div>
-        <span class="pass-chip" id="agentic-compliant">—</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── SECTION: OPUS ───────────────────────────────────────────────────────── -->
-<section class="content-section alt" id="opus">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">OPUS</div>
-      <h2 class="section-title">Dynamic Per-Iteration Selection</h2>
-      <p class="section-desc">OPUS (Optimizer-induced Projected Utility Selection) scores each candidate batch and accepts the top 40%. Protected-floor override force-accepts Indic/Agentic batches below floor.</p>
-    </div>
-    <div class="opus-summary" id="opus-summary">
-      <div class="opus-stat"><div class="opus-num" id="opus-accepted">—</div><div class="opus-label">Accepted</div></div>
-      <div class="opus-stat"><div class="opus-num rejected" id="opus-rejected">—</div><div class="opus-label">Rejected</div></div>
-      <div class="opus-stat"><div class="opus-num deferred" id="opus-deferred">—</div><div class="opus-label">Deferred</div></div>
-      <div class="opus-stat"><div class="opus-num override" id="opus-overrides">—</div><div class="opus-label">Floor Overrides</div></div>
-    </div>
-    <div class="decision-table-wrap">
-      <table class="decision-table" id="opus-table">
-        <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Score</th><th>Decision</th><th>Reason</th></tr></thead>
-        <tbody id="opus-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ── SECTION: TRAINING DASHBOARD ────────────────────────────────────────── -->
-<section class="content-section" id="training">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 6</div>
-      <h2 class="section-title">Training Run — Loss &amp; Throughput</h2>
-      <p class="section-desc"><span id="training-steps-desc">—</span> training steps with a deliberate crash at step <span id="crash-step-desc">—</span>. Checkpoint at step <span id="resume-step-desc">—</span> enables exact resume. Loss is computed only on loss-bearing tokens per the loss mask.</p>
-    </div>
-    <div class="training-metrics" id="training-metrics">
-      <div class="tm-card"><div class="tm-val" id="tm-avg-loss">11.52</div><div class="tm-label">Avg Loss</div></div>
-      <div class="tm-card"><div class="tm-val" id="tm-tps">413</div><div class="tm-label">Avg Tokens/sec</div></div>
-      <div class="tm-card"><div class="tm-val" id="tm-steps">20</div><div class="tm-label">Total Steps</div></div>
-      <div class="tm-card"><div class="tm-val" id="tm-util">82.7%</div><div class="tm-label">Pack Utilization</div></div>
-    </div>
-    <div class="chart-container">
-      <canvas id="loss-chart" width="900" height="300"></canvas>
-    </div>
-
-    <!-- Crash / Resume Timeline -->
-    <div class="crash-timeline" id="crash-timeline">
-      <h3 class="timeline-title">Crash → Resume → Replay Timeline</h3>
-      <div class="timeline-track" id="timeline-track"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── SECTION: LEDGERS ────────────────────────────────────────────────────── -->
-<section class="content-section alt" id="ledgers">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 10</div>
-      <h2 class="section-title">Consumption &amp; Learning Ledgers</h2>
-      <p class="section-desc">Every training step is recorded in two ledgers: what data was consumed (shard IDs, lanes, token counts) and what was learned (loss per step, per-document loss attribution).</p>
-    </div>
-    <div class="ledger-tabs">
-      <button class="tab-btn active" id="tab-consume" onclick="showTab('consume')">Consumption Ledger</button>
-      <button class="tab-btn" id="tab-learn" onclick="showTab('learn')">Learning Ledger</button>
-    </div>
-    <div class="ledger-panel" id="panel-consume">
-      <table class="ledger-table" id="consumption-table">
-        <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Useful Tokens</th><th>Loss Bearing</th><th>Utilization</th></tr></thead>
-        <tbody id="consumption-tbody"></tbody>
-      </table>
-    </div>
-    <div class="ledger-panel hidden" id="panel-learn">
-      <table class="ledger-table" id="learning-table">
-        <thead><tr><th>Step</th><th>Batch ID</th><th>Lane</th><th>Loss</th><th>Perplexity</th><th>Tokens/sec</th><th>Docs Linked</th></tr></thead>
-        <tbody id="learning-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ── SECTION: CHECKPOINT & REPLAY ───────────────────────────────────────── -->
-<section class="content-section" id="checkpoint">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Phase 7–9</div>
-      <h2 class="section-title">Checkpoint · Crash · Resume · Replay · Fork</h2>
-      <p class="section-desc">Each checkpoint binds model weights + optimizer state + RNG state + ledger_offset. After crash at step <span id="crash-step-desc-2">—</span>, resume loads the step-<span id="resume-step-desc-2">—</span> checkpoint and verifies the next batch ID and hash match exactly.</p>
-    </div>
-    <div class="checkpoint-grid" id="checkpoint-grid"></div>
-    <div class="replay-proof" id="replay-proof">
-      <h3 class="replay-title">Replay Verification — Steps <span id="replay-range-desc">—</span></h3>
-      <table class="replay-table" id="replay-table">
-        <thead><tr><th>Step</th><th>Original Batch ID</th><th>Original Hash</th><th>Replay Hash</th><th>Match</th></tr></thead>
-        <tbody id="replay-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ── SECTION: EVIDENCE BOARD ────────────────────────────────────────────── -->
-<section class="content-section alt" id="evidence">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Final Audit</div>
-      <h2 class="section-title">Evidence Board — 9 Requirements</h2>
-      <p class="section-desc">Machine-generated evidence for every major requirement. Every PASS is backed by a cross-referenced artifact — no hardcoded results.</p>
-    </div>
-    <div class="evidence-grid" id="evidence-grid"></div>
-    <div class="score-display">
-      <div class="score-circle">
-        <div class="score-inner">
-          <div class="score-num">1,000</div>
-          <div class="score-label">/ 1,000 pts</div>
         </div>
       </div>
-      <div class="score-breakdown" id="score-breakdown"></div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
-<footer class="site-footer">
-  <div class="container">
-    <p>Training Data Execution System — ERA V5 Session 6 Assignment · Built with Session 6 engineering principles</p>
-    <p class="footer-sub">All evidence generated by implementation · No hardcoded results · Reproducible with <code>uv run python run_demo.py</code></p>
-  </div>
-</footer>
+    <!-- ── Section 8: Evidence Board ─────────────────────────── -->
+    <section class="section" id="evidence">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 08 · FINAL AUDIT</span>
+          <h2 class="section-title">Evidence Board</h2>
+          <p class="section-desc">
+            Machine-generated evidence for every major requirement. Every result is
+            backed by a cross-referenced artifact — no hardcoded results.
+          </p>
+        </div>
+      </div>
+
+      <div class="evidence-grid" id="evidence-grid"></div>
+
+      <div class="score-summary">
+        <div class="score-circle-wrap">
+          <div class="score-big" id="score-big">—</div>
+          <div class="score-sub" id="score-sub">of rubric</div>
+        </div>
+        <div class="score-breakdown" id="score-breakdown"></div>
+      </div>
+    </section>
+
+    <!-- ── Footer ────────────────────────────────────────── -->
+    <footer class="footer">
+      Training Data Execution System · ERA V5 Session 6 ·
+      <a href="../train_data_exec_system/README.md">Full Written Notes (README.md)</a>
+    </footer>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<script>
+/* ── Inline Theme Toggle (no extra file needed) ─────────── */
+(function () {
+  const btn    = document.getElementById('themeToggle');
+  const icon   = document.getElementById('themeIcon');
+  const label  = document.getElementById('themeLabel');
+  const root   = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-theme', theme);
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    }
+  }
+
+  // Restore saved preference
+  const saved = localStorage.getItem('era-theme') || 'dark';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+})();
+</script>
 </body>
 </html>

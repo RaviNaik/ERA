@@ -1,12 +1,12 @@
-{"step": 0, "batch_id": "run_A_batch_0000", "lane": "indic", "decision": "defer", "score": 0.6493, "reason": "score=0.649 in defer zone [0.594,0.699)", "token_count": 128, "timestamp": "2026-08-07T05:55:40Z"}
-{"step": 1, "batch_id": "run_A_batch_0001", "lane": "indic", "decision": "defer", "score": 0.6596, "reason": "score=0.660 in defer zone [0.594,0.699)", "token_count": 128, "timestamp": "2026-08-07T05:55:40Z"}
-{"step": 2, "batch_id": "run_A_batch_0002", "lane": "indic", "decision": "defer", "score": 0.6474, "reason": "score=0.647 in defer zone [0.594,0.699)", "token_count": 128, "timestamp": "2026-08-07T05:55:40Z"}
-{"step": 3, "batch_id": "run_A_batch_0003", "lane": "indic", "decision": "defer", "score": 0.6459, "reason": "score=0.646 in defer zone [0.594,0.699)", "token_count": 128, "timestamp": "2026-08-07T05:55:41Z"}
-{"step": 4, "batch_id": "run_A_batch_0004", "lane": "code", "decision": "accept", "score": 0.7045, "reason": "score=0.704 >= threshold=0.699", "token_count": 124, "timestamp": "2026-08-07T05:55:41Z"}
-{"step": 5, "batch_id": "run_A_batch_0005", "lane": "web", "decision": "reject", "score": 0.5108, "reason": "score=0.511 < defer_threshold=0.594", "token_count": 121, "timestamp": "2026-08-07T05:55:43Z"}
-{"step": 6, "batch_id": "run_A_batch_0006", "lane": "indic", "decision": "accept", "score": 0.6489, "reason": "protected_floor_override: indic below 12%", "token_count": 128, "timestamp": "2026-08-07T05:55:43Z"}
-{"step": 7, "batch_id": "run_A_batch_0007", "lane": "agentic", "decision": "accept", "score": 0.7265, "reason": "protected_floor_override: agentic below 2%", "token_count": 95, "timestamp": "2026-08-07T05:55:44Z"}
-{"step": 8, "batch_id": "run_A_batch_0008", "lane": "web", "decision": "reject", "score": 0.5369, "reason": "score=0.537 < defer_threshold=0.594", "token_count": 72, "timestamp": "2026-08-07T05:55:44Z"}
-{"step": 9, "batch_id": "run_A_batch_0009", "lane": "code", "decision": "accept", "score": 0.7746, "reason": "score=0.775 >= threshold=0.699", "token_count": 128, "timestamp": "2026-08-07T05:55:44Z"}
-{"step": 10, "batch_id": "run_A_batch_0010", "lane": "web", "decision": "reject", "score": 0.523, "reason": "score=0.523 < defer_threshold=0.594", "token_count": 72, "timestamp": "2026-08-07T05:55:46Z"}
-{"step": 11, "batch_id": "run_A_batch_0011", "lane": "agentic", "decision": "accept", "score": 0.7009, "reason": "score=0.701 >= threshold=0.699", "token_count": 97, "timestamp": "2026-08-07T05:55:46Z"}
+{"step": 0, "batch_id": "run_A_batch_0000", "lane": "indic", "decision": "defer", "score": 0.6636, "reason": "score=0.664 in defer zone [0.573,0.674)", "token_count": 128, "timestamp": "2026-08-07T06:40:17Z"}
+{"step": 1, "batch_id": "run_A_batch_0001", "lane": "indic", "decision": "defer", "score": 0.6614, "reason": "score=0.661 in defer zone [0.573,0.674)", "token_count": 128, "timestamp": "2026-08-07T06:40:18Z"}
+{"step": 2, "batch_id": "run_A_batch_0002", "lane": "indic", "decision": "defer", "score": 0.6675, "reason": "score=0.668 in defer zone [0.573,0.674)", "token_count": 128, "timestamp": "2026-08-07T06:40:18Z"}
+{"step": 3, "batch_id": "run_A_batch_0003", "lane": "indic", "decision": "defer", "score": 0.6441, "reason": "score=0.644 in defer zone [0.573,0.674)", "token_count": 128, "timestamp": "2026-08-07T06:40:18Z"}
+{"step": 4, "batch_id": "run_A_batch_0004", "lane": "code", "decision": "accept", "score": 0.7585, "reason": "score=0.758 >= threshold=0.674", "token_count": 124, "timestamp": "2026-08-07T06:40:19Z"}
+{"step": 5, "batch_id": "run_A_batch_0005", "lane": "web", "decision": "reject", "score": 0.5281, "reason": "score=0.528 < defer_threshold=0.573", "token_count": 121, "timestamp": "2026-08-07T06:40:21Z"}
+{"step": 6, "batch_id": "run_A_batch_0006", "lane": "indic", "decision": "accept", "score": 0.6604, "reason": "protected_floor_override: indic below 12%", "token_count": 128, "timestamp": "2026-08-07T06:40:21Z"}
+{"step": 7, "batch_id": "run_A_batch_0007", "lane": "agentic", "decision": "accept", "score": 0.6739, "reason": "protected_floor_override: agentic below 2%", "token_count": 95, "timestamp": "2026-08-07T06:40:22Z"}
+{"step": 8, "batch_id": "run_A_batch_0008", "lane": "web", "decision": "reject", "score": 0.5523, "reason": "score=0.552 < defer_threshold=0.573", "token_count": 72, "timestamp": "2026-08-07T06:40:22Z"}
+{"step": 9, "batch_id": "run_A_batch_0009", "lane": "code", "decision": "accept", "score": 0.7014, "reason": "score=0.701 >= threshold=0.674", "token_count": 128, "timestamp": "2026-08-07T06:40:22Z"}
+{"step": 10, "batch_id": "run_A_batch_0010", "lane": "web", "decision": "reject", "score": 0.5325, "reason": "score=0.532 < defer_threshold=0.573", "token_count": 72, "timestamp": "2026-08-07T06:40:24Z"}
+{"step": 11, "batch_id": "run_A_batch_0011", "lane": "agentic", "decision": "accept", "score": 0.69, "reason": "score=0.690 >= threshold=0.674", "token_count": 97, "timestamp": "2026-08-07T06:40:24Z"}

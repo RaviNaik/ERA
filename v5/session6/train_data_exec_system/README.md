@@ -130,18 +130,17 @@ blocks local `<script src>` loads.
 
 ## Evaluation Coverage
 
-| Area | Points | Status |
-|------|--------|--------|
-| End-to-end execution | 150 | ✅ `run_demo.py` completes full pipeline |
-| Shards, manifests, tokenizer integrity | 100 | ✅ SHA-256 addressed, 7-gate admission |
-| Packing, masks, batch correctness | 150 | ✅ 5 policies, 3 mask types, agentic masking |
-| Mixture schedule, protected floors, OPUS | 150 | ✅ 3 curriculum stages, floor enforcement, 40% keep |
-| Consumption and learning ledgers | 150 | ✅ JSONL with per-doc loss attribution |
-| Checkpoint, crash, resume, replay, fork | 150 | ✅ All demonstrated and hash-verified |
-| Evaluation and validation firewall | 50 | ✅ 3 eval shards blocked, 0 violations |
-| Throughput and packing efficiency | 50 | ✅ 82.7% utilization, tps measured |
-| Tests, evidence quality, documentation | 50 | ✅ 16 tests, evidence.json, evidence.md |
-| **Total** | **1,000** | **All PASS** |
+| Area | Status |
+|------|--------|
+| End-to-end execution | ✅ `run_demo.py` completes full pipeline |
+| Shards, manifests, tokenizer integrity | ✅ SHA-256 addressed, 7-gate admission |
+| Packing, masks, batch correctness | ✅ 5 policies, 3 mask types, agentic masking |
+| Mixture schedule, protected floors, OPUS | ✅ 3 curriculum stages, floor enforcement, 40% keep |
+| Consumption and learning ledgers | ✅ JSONL with per-doc loss attribution |
+| Checkpoint, crash, resume, replay, fork | ✅ All demonstrated and hash-verified |
+| Evaluation and validation firewall | ✅ 3 eval shards blocked, 0 violations |
+| Throughput and packing efficiency | ✅ 82.7% utilization, tps measured |
+| Tests, evidence quality, documentation | ✅ 16 tests, evidence.json, evidence.md |
 
 ---
 

@@ -17,7 +17,7 @@ window.TDES_DATA = {
     "admitted_docs": 24,
     "blocked_docs": 3,
     "test_count": 16,
-    "generated_at": "2026-08-07T05:55:57Z"
+    "generated_at": "2026-08-07T06:40:38Z"
   },
   "evidence": {
     "tokenizer_integrity": {
@@ -57,26 +57,26 @@ window.TDES_DATA = {
     },
     "learning_trace": {
       "result": "PASS",
-      "description": "Loss linked to 16 source documents",
+      "description": "Loss linked to 18 source documents",
       "evidence": "submission_artifacts/ledgers/doc_loss_summary.json"
     },
     "throughput": {
       "result": "PASS",
-      "description": "packing=82.7%, avg_tps=696",
+      "description": "packing=82.7%, avg_tps=624",
       "evidence": "submission_artifacts/performance.json"
     }
   },
   "performance": {
-    "total_steps": 17,
-    "average_loss": 11.516923,
-    "final_loss": 11.513885,
-    "average_tokens_per_sec": 696.4,
+    "total_steps": 19,
+    "average_loss": 11.516897,
+    "final_loss": 11.513904,
+    "average_tokens_per_sec": 623.8,
     "packing_policy": "structure_preserving",
     "packing_utilization_pct": 82.74,
     "useful_tokens_total": 2436,
     "num_packed_sequences": 23,
     "context_len": 128,
-    "generated_at": "2026-08-07T05:55:57Z"
+    "generated_at": "2026-08-07T06:40:38Z"
   },
   "packingReport": {
     "pad_each_doc": {
@@ -376,120 +376,120 @@ window.TDES_DATA = {
       "batch_id": "run_A_batch_0000",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6493,
-      "reason": "score=0.649 in defer zone [0.594,0.699)",
+      "score": 0.6636,
+      "reason": "score=0.664 in defer zone [0.573,0.674)",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:17Z"
     },
     {
       "step": 1,
       "batch_id": "run_A_batch_0001",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6596,
-      "reason": "score=0.660 in defer zone [0.594,0.699)",
+      "score": 0.6614,
+      "reason": "score=0.661 in defer zone [0.573,0.674)",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 2,
       "batch_id": "run_A_batch_0002",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6474,
-      "reason": "score=0.647 in defer zone [0.594,0.699)",
+      "score": 0.6675,
+      "reason": "score=0.668 in defer zone [0.573,0.674)",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 3,
       "batch_id": "run_A_batch_0003",
       "lane": "indic",
       "decision": "defer",
-      "score": 0.6459,
-      "reason": "score=0.646 in defer zone [0.594,0.699)",
+      "score": 0.6441,
+      "reason": "score=0.644 in defer zone [0.573,0.674)",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 4,
       "batch_id": "run_A_batch_0004",
       "lane": "code",
       "decision": "accept",
-      "score": 0.7045,
-      "reason": "score=0.704 >= threshold=0.699",
+      "score": 0.7585,
+      "reason": "score=0.758 >= threshold=0.674",
       "token_count": 124,
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:19Z"
     },
     {
       "step": 5,
       "batch_id": "run_A_batch_0005",
       "lane": "web",
       "decision": "reject",
-      "score": 0.5108,
-      "reason": "score=0.511 < defer_threshold=0.594",
+      "score": 0.5281,
+      "reason": "score=0.528 < defer_threshold=0.573",
       "token_count": 121,
-      "timestamp": "2026-08-07T05:55:43Z"
+      "timestamp": "2026-08-07T06:40:21Z"
     },
     {
       "step": 6,
       "batch_id": "run_A_batch_0006",
       "lane": "indic",
       "decision": "accept",
-      "score": 0.6489,
+      "score": 0.6604,
       "reason": "protected_floor_override: indic below 12%",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:43Z"
+      "timestamp": "2026-08-07T06:40:21Z"
     },
     {
       "step": 7,
       "batch_id": "run_A_batch_0007",
       "lane": "agentic",
       "decision": "accept",
-      "score": 0.7265,
+      "score": 0.6739,
       "reason": "protected_floor_override: agentic below 2%",
       "token_count": 95,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 8,
       "batch_id": "run_A_batch_0008",
       "lane": "web",
       "decision": "reject",
-      "score": 0.5369,
-      "reason": "score=0.537 < defer_threshold=0.594",
+      "score": 0.5523,
+      "reason": "score=0.552 < defer_threshold=0.573",
       "token_count": 72,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 9,
       "batch_id": "run_A_batch_0009",
       "lane": "code",
       "decision": "accept",
-      "score": 0.7746,
-      "reason": "score=0.775 >= threshold=0.699",
+      "score": 0.7014,
+      "reason": "score=0.701 >= threshold=0.674",
       "token_count": 128,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 10,
       "batch_id": "run_A_batch_0010",
       "lane": "web",
       "decision": "reject",
-      "score": 0.523,
-      "reason": "score=0.523 < defer_threshold=0.594",
+      "score": 0.5325,
+      "reason": "score=0.532 < defer_threshold=0.573",
       "token_count": 72,
-      "timestamp": "2026-08-07T05:55:46Z"
+      "timestamp": "2026-08-07T06:40:24Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "lane": "agentic",
       "decision": "accept",
-      "score": 0.7009,
-      "reason": "score=0.701 >= threshold=0.699",
+      "score": 0.69,
+      "reason": "score=0.690 >= threshold=0.674",
       "token_count": 97,
-      "timestamp": "2026-08-07T05:55:46Z"
+      "timestamp": "2026-08-07T06:40:24Z"
     }
   ],
   "consumption": [
@@ -511,7 +511,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 1,
@@ -531,7 +531,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 2,
@@ -551,7 +551,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 3,
@@ -571,7 +571,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:19Z"
     },
     {
       "step": 4,
@@ -591,7 +591,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.9688,
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:19Z"
     },
     {
       "step": 6,
@@ -611,7 +611,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 7,
@@ -631,7 +631,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7422,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 9,
@@ -651,7 +651,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 11,
@@ -671,7 +671,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7578,
-      "timestamp": "2026-08-07T05:55:47Z"
+      "timestamp": "2026-08-07T06:40:25Z"
     },
     {
       "step": 11,
@@ -691,7 +691,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7578,
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:26Z"
     },
     {
       "step": 12,
@@ -711,7 +711,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:26Z"
     },
     {
       "step": 14,
@@ -731,7 +731,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7734,
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:27Z"
     },
     {
       "step": 15,
@@ -751,7 +751,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:29Z"
     },
     {
       "step": 16,
@@ -771,7 +771,27 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7344,
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:30Z"
+    },
+    {
+      "step": 18,
+      "batch_id": "run_A_batch_0018",
+      "shard_ids": [
+        "shard_d13ef297215a"
+      ],
+      "doc_ids": [
+        "doc_0004"
+      ],
+      "token_count": 128,
+      "useful_tokens": 63,
+      "loss_bearing_tokens": 63,
+      "lane": "web",
+      "lane_breakdown": {
+        "web": 63
+      },
+      "policy": "structure_preserving",
+      "utilization": 0.4922,
+      "timestamp": "2026-08-07T06:40:30Z"
     },
     {
       "step": 19,
@@ -791,7 +811,27 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 0.7578,
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:30Z"
+    },
+    {
+      "step": 20,
+      "batch_id": "run_A_batch_0020",
+      "shard_ids": [
+        "shard_19af3f3c5e81"
+      ],
+      "doc_ids": [
+        "doc_0001"
+      ],
+      "token_count": 128,
+      "useful_tokens": 71,
+      "loss_bearing_tokens": 71,
+      "lane": "web",
+      "lane_breakdown": {
+        "web": 71
+      },
+      "policy": "structure_preserving",
+      "utilization": 0.5547,
+      "timestamp": "2026-08-07T06:40:33Z"
     },
     {
       "step": 21,
@@ -811,7 +851,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:54Z"
+      "timestamp": "2026-08-07T06:40:34Z"
     },
     {
       "step": 22,
@@ -831,7 +871,7 @@ window.TDES_DATA = {
       },
       "policy": "structure_preserving",
       "utilization": 1.0,
-      "timestamp": "2026-08-07T05:55:54Z"
+      "timestamp": "2026-08-07T06:40:34Z"
     }
   ],
   "learning": [
@@ -840,221 +880,247 @@ window.TDES_DATA = {
       "batch_id": "run_A_batch_0000",
       "loss": 11.518407,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 731.9,
+      "tokens_per_sec": 859.3,
       "perplexity": 100549.6844,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0016": 11.518407
       },
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 1,
       "batch_id": "run_A_batch_0001",
       "loss": 11.517769,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 665.1,
+      "tokens_per_sec": 715.0,
       "perplexity": 100485.5541,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0015": 11.517769
       },
-      "timestamp": "2026-08-07T05:55:40Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 2,
       "batch_id": "run_A_batch_0002",
       "loss": 11.519267,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 785.6,
+      "tokens_per_sec": 740.5,
       "perplexity": 100636.1868,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0018": 11.519267
       },
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:18Z"
     },
     {
       "step": 3,
       "batch_id": "run_A_batch_0003",
       "loss": 11.516045,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 887.1,
+      "tokens_per_sec": 880.9,
       "perplexity": 100312.3914,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0019": 11.516045
       },
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:19Z"
     },
     {
       "step": 4,
       "batch_id": "run_A_batch_0004",
       "loss": 11.515422,
       "loss_bearing_tokens": 124,
-      "tokens_per_sec": 650.9,
+      "tokens_per_sec": 652.4,
       "perplexity": 100249.9318,
       "lane": "code",
       "doc_loss_map": {
         "doc_0009": 11.515422
       },
-      "timestamp": "2026-08-07T05:55:41Z"
+      "timestamp": "2026-08-07T06:40:19Z"
     },
     {
       "step": 6,
       "batch_id": "run_A_batch_0006",
       "loss": 11.514818,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 767.3,
+      "tokens_per_sec": 632.7,
       "perplexity": 100189.4541,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0017": 11.514818
       },
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 7,
       "batch_id": "run_A_batch_0007",
       "loss": 11.516086,
       "loss_bearing_tokens": 95,
-      "tokens_per_sec": 572.2,
+      "tokens_per_sec": 534.8,
       "perplexity": 100316.5945,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0023": 11.516086
       },
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 9,
       "batch_id": "run_A_batch_0009",
       "loss": 11.513727,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 842.6,
+      "tokens_per_sec": 824.5,
       "perplexity": 100080.2066,
       "lane": "code",
       "doc_loss_map": {
         "doc_0010": 11.513727
       },
-      "timestamp": "2026-08-07T05:55:44Z"
+      "timestamp": "2026-08-07T06:40:22Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "loss": 11.520522,
       "loss_bearing_tokens": 97,
-      "tokens_per_sec": 574.1,
+      "tokens_per_sec": 606.9,
       "perplexity": 100762.515,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0020": 11.520522
       },
-      "timestamp": "2026-08-07T05:55:47Z"
+      "timestamp": "2026-08-07T06:40:25Z"
     },
     {
       "step": 11,
       "batch_id": "run_A_batch_0011",
       "loss": 11.520522,
       "loss_bearing_tokens": 97,
-      "tokens_per_sec": 554.0,
+      "tokens_per_sec": 530.3,
       "perplexity": 100762.515,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0020": 11.520522
       },
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:26Z"
     },
     {
       "step": 12,
       "batch_id": "run_A_batch_0012",
       "loss": 11.514878,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 703.0,
+      "tokens_per_sec": 446.8,
       "perplexity": 100195.4221,
       "lane": "code",
       "doc_loss_map": {
         "doc_0012": 11.514878
       },
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:26Z"
     },
     {
       "step": 14,
       "batch_id": "run_A_batch_0014",
       "loss": 11.51759,
       "loss_bearing_tokens": 99,
-      "tokens_per_sec": 554.3,
+      "tokens_per_sec": 446.9,
       "perplexity": 100467.5023,
       "lane": "code",
       "doc_loss_map": {
         "doc_0011": 11.51759
       },
-      "timestamp": "2026-08-07T05:55:48Z"
+      "timestamp": "2026-08-07T06:40:27Z"
     },
     {
       "step": 15,
       "batch_id": "run_A_batch_0015",
       "loss": 11.517296,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 678.0,
+      "tokens_per_sec": 683.1,
       "perplexity": 100437.9764,
       "lane": "indic",
       "doc_loss_map": {
         "doc_0014": 11.517296
       },
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:29Z"
     },
     {
       "step": 16,
       "batch_id": "run_A_batch_0016",
       "loss": 11.5174,
       "loss_bearing_tokens": 94,
-      "tokens_per_sec": 600.4,
+      "tokens_per_sec": 437.5,
       "perplexity": 100448.4691,
       "lane": "agentic",
       "doc_loss_map": {
         "doc_0022": 11.5174
       },
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:30Z"
+    },
+    {
+      "step": 18,
+      "batch_id": "run_A_batch_0018",
+      "loss": 11.51544,
+      "loss_bearing_tokens": 63,
+      "tokens_per_sec": 377.6,
+      "perplexity": 100251.7495,
+      "lane": "web",
+      "doc_loss_map": {
+        "doc_0004": 11.51544
+      },
+      "timestamp": "2026-08-07T06:40:30Z"
     },
     {
       "step": 19,
       "batch_id": "run_A_batch_0019",
-      "loss": 11.51948,
+      "loss": 11.519478,
       "loss_bearing_tokens": 97,
-      "tokens_per_sec": 630.3,
-      "perplexity": 100657.6379,
+      "tokens_per_sec": 569.9,
+      "perplexity": 100657.389,
       "lane": "agentic",
       "doc_loss_map": {
-        "doc_0021": 11.51948
+        "doc_0021": 11.519478
       },
-      "timestamp": "2026-08-07T05:55:51Z"
+      "timestamp": "2026-08-07T06:40:30Z"
+    },
+    {
+      "step": 20,
+      "batch_id": "run_A_batch_0020",
+      "loss": 11.51788,
+      "loss_bearing_tokens": 71,
+      "tokens_per_sec": 348.3,
+      "perplexity": 100496.6946,
+      "lane": "web",
+      "doc_loss_map": {
+        "doc_0001": 11.51788
+      },
+      "timestamp": "2026-08-07T06:40:33Z"
     },
     {
       "step": 21,
       "batch_id": "run_A_batch_0021",
-      "loss": 11.514579,
+      "loss": 11.514589,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 830.5,
-      "perplexity": 100165.483,
+      "tokens_per_sec": 762.2,
+      "perplexity": 100166.4938,
       "lane": "code",
       "doc_loss_map": {
-        "doc_0013": 11.514579
+        "doc_0013": 11.514589
       },
-      "timestamp": "2026-08-07T05:55:54Z"
+      "timestamp": "2026-08-07T06:40:34Z"
     },
     {
       "step": 22,
       "batch_id": "run_A_batch_0022",
-      "loss": 11.513885,
+      "loss": 11.513904,
       "loss_bearing_tokens": 128,
-      "tokens_per_sec": 810.7,
-      "perplexity": 100096.0408,
+      "tokens_per_sec": 801.7,
+      "perplexity": 100097.8765,
       "lane": "code",
       "doc_loss_map": {
-        "doc_0008": 11.513885
+        "doc_0008": 11.513904
       },
-      "timestamp": "2026-08-07T05:55:54Z"
+      "timestamp": "2026-08-07T06:40:34Z"
     }
   ],
   "checkpoints": [
@@ -1068,7 +1134,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_0d767a6724f2",
       "rng_state": {},
       "next_expected_batch_offset": 5,
-      "saved_at": "2026-08-07T05:55:43Z"
+      "saved_at": "2026-08-07T06:40:21Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00010",
@@ -1080,7 +1146,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_d2a2f8d02a21",
       "rng_state": {},
       "next_expected_batch_offset": 10,
-      "saved_at": "2026-08-07T05:55:46Z"
+      "saved_at": "2026-08-07T06:40:24Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00015",
@@ -1092,7 +1158,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_fcc1d27ed228",
       "rng_state": {},
       "next_expected_batch_offset": 15,
-      "saved_at": "2026-08-07T05:55:50Z"
+      "saved_at": "2026-08-07T06:40:29Z"
     },
     {
       "checkpoint_id": "ckpt_run_A_main_step00020",
@@ -1101,10 +1167,10 @@ window.TDES_DATA = {
       "run_id": "run_A",
       "branch_id": "main",
       "optimizer_lr": 0.001,
-      "weights_hash": "weights_dbb55a5b355e",
+      "weights_hash": "weights_ad181a418305",
       "rng_state": {},
       "next_expected_batch_offset": 20,
-      "saved_at": "2026-08-07T05:55:53Z"
+      "saved_at": "2026-08-07T06:40:33Z"
     },
     {
       "checkpoint_id": "ckpt_run_FORK_experiment_v2_step00010",
@@ -1116,7 +1182,7 @@ window.TDES_DATA = {
       "weights_hash": "weights_d2a2f8d02a21",
       "rng_state": {},
       "next_expected_batch_offset": 10,
-      "saved_at": "2026-08-07T05:55:57Z",
+      "saved_at": "2026-08-07T06:40:38Z",
       "forked_from": "ckpt_run_A_main_step00010"
     }
   ],
@@ -1172,9 +1238,10 @@ window.TDES_DATA = {
       "stem": 0.09
     },
     "actual": {
-      "indic": 0.3873,
-      "code": 0.3707,
-      "agentic": 0.2421
+      "indic": 0.3628,
+      "code": 0.3472,
+      "agentic": 0.2267,
+      "web": 0.0633
     },
     "floor_compliance": {
       "indic": {
@@ -1213,9 +1280,11 @@ window.TDES_DATA = {
     "doc_0011": 11.51759,
     "doc_0014": 11.517296,
     "doc_0022": 11.5174,
-    "doc_0021": 11.51948,
-    "doc_0013": 11.514579,
-    "doc_0008": 11.513885
+    "doc_0004": 11.51544,
+    "doc_0021": 11.519478,
+    "doc_0001": 11.51788,
+    "doc_0013": 11.514589,
+    "doc_0008": 11.513904
   },
   "tokenizer": {
     "model_name": "cl100k_base",
