@@ -18,6 +18,7 @@ import json
 import logging
 import math
 import os
+import random
 import signal
 import time
 from pathlib import Path
@@ -261,17 +262,38 @@ def main():
                             f"nothing to do (raise --max-steps to train further)")
 
     # --- Aim ---
+    # Under --gpu-ids, several arm subprocesses can call AimRun(...) against
+    # the same shared --aim-repo within the same second; Aim's on-disk index
+    # (rocksdb-backed) can raise a lock-contention error on that near-
+    # simultaneous first access, especially the very first time the repo is
+    # initialized. This is transient, not a real failure, so retry with
+    # jittered backoff before giving up and disabling tracking for this run
+    # (training itself is unaffected either way -- Aim is observability, not
+    # part of the training loop).
     aim_run = None
     if not args.no_aim and AimRun is not None:
-        try:
-            aim_run = AimRun(run_hash=aim_run_hash, repo=args.aim_repo, experiment="fourier_embeddings")
-            aim_run.name = args.run_name
-            aim_run["model_config"] = model_cfg.to_dict()
-            aim_run["train_config"] = train_cfg.to_dict()
-            aim_run["param_breakdown"] = param_breakdown
-        except Exception as e:  # pragma: no cover
-            logger.warning(f"could not initialize Aim run: {e}")
-            aim_run = None
+        aim_retries = 5
+        for attempt in range(aim_retries):
+            try:
+                aim_run = AimRun(run_hash=aim_run_hash, repo=args.aim_repo, experiment="fourier_embeddings")
+                aim_run.name = args.run_name
+                aim_run["model_config"] = model_cfg.to_dict()
+                aim_run["train_config"] = train_cfg.to_dict()
+                aim_run["param_breakdown"] = param_breakdown
+                break
+            except Exception as e:  # pragma: no cover
+                if attempt < aim_retries - 1:
+                    wait = (2 ** attempt) + random.uniform(0, 1)
+                    logger.warning(f"could not initialize Aim run (attempt {attempt + 1}/"
+                                    f"{aim_retries}, likely lock contention from a concurrently "
+                                    f"starting arm sharing this --aim-repo): {type(e).__name__}: "
+                                    f"{e!r}. Retrying in {wait:.1f}s")
+                    time.sleep(wait)
+                else:
+                    logger.warning(f"could not initialize Aim run after {aim_retries} attempts "
+                                    f"-- proceeding WITHOUT Aim tracking for this run (training "
+                                    f"itself is unaffected). Last error: {type(e).__name__}: {e!r}")
+                    aim_run = None
     elif AimRun is None:
         logger.warning("aim not installed; proceeding without experiment tracking")
 
