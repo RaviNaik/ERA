@@ -10,6 +10,10 @@
 # text, a ~50M-param model) but still modest enough to finish in well under
 # a day on one A6000.
 #
+# Multiple GPUs: set GPU_IDS (e.g. `GPU_IDS="0 1" bash scripts/run_full_experiment.sh`)
+# to run that many arms concurrently, one per physical GPU, instead of one at
+# a time -- see README's "Multi-GPU" section.
+#
 # Safe to re-run after any interruption (crash, OOM, SIGTERM/preemption,
 # Ctrl-C, or you just stopping it): every step below skips work that already
 # finished. Concretely -- download/tokenizer/pack-dataset skip a language,
@@ -38,6 +42,11 @@ BATCH_SIZE="${BATCH_SIZE:-32}"
 GRAD_ACCUM="${GRAD_ACCUM:-2}"
 EXPERIMENT_NAME="${EXPERIMENT_NAME:-full_run}"
 ARMS="${ARMS:-dense kronecker fourier fourier_narrow}"
+# Set GPU_IDS to run arms concurrently, one per physical GPU, e.g.
+# `GPU_IDS="0 1" bash scripts/run_full_experiment.sh` on a 2-GPU box --
+# roughly halves total wall-clock for a 4-arm comparison. Leave unset for
+# the original one-arm-at-a-time-on-one-GPU behavior.
+GPU_IDS="${GPU_IDS:-}"
 
 echo "=== [1/4] download multilingual corpus (~${TARGET_MB_PER_LANG}MB/lang) ==="
 uv run fe-download-data --out-dir data_raw --target-mb-per-lang "$TARGET_MB_PER_LANG" \
@@ -51,11 +60,12 @@ echo "=== [3/4] pack dataset ==="
 uv run fe-pack-dataset --input-dir data_raw --tokenizer-path tokenizer_out/tokenizer.json \
     --out-dir data_bin --val-fraction 0.02 --log-file logs/pack_dataset.log
 
-echo "=== [4/4] run experiment: ${ARMS} ==="
+echo "=== [4/4] run experiment: ${ARMS} ${GPU_IDS:+(GPUs: $GPU_IDS)} ==="
 # shellcheck disable=SC2086
 uv run fe-run-experiment --experiment-name "$EXPERIMENT_NAME" \
     --data-dir data_bin --tokenizer-path tokenizer_out/tokenizer.json \
     --arms $ARMS \
+    ${GPU_IDS:+--gpu-ids $GPU_IDS} \
     --block-size "$BLOCK_SIZE" --n-layer "$N_LAYER" --n-head "$N_HEAD" --n-embd "$N_EMBD" \
     --pos-dim "$POS_DIM" --fourier-dim "$FOURIER_DIM" --hrr-dim "$HRR_DIM" \
     --max-steps "$MAX_STEPS" --batch-size "$BATCH_SIZE" --grad-accum-steps "$GRAD_ACCUM" \

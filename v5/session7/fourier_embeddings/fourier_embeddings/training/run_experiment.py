@@ -5,6 +5,15 @@ hyperparameters -- the only thing that differs between runs is
 `--embedding`. Each arm is run as a subprocess (a clean CUDA/Aim context per
 run), and this script aggregates their `metrics.json` files into one
 `results/<experiment-name>/comparison.json` + a Markdown summary table.
+
+Multi-GPU: pass `--gpu-ids 0 1` (etc.) to run up to `len(gpu-ids)` arms
+*concurrently*, one per physical GPU (via `CUDA_VISIBLE_DEVICES`), instead of
+one arm at a time on a single card -- e.g. on a 2-GPU box, 4 arms finish in
+roughly the time of 2 sequential arms instead of 4. This is arm-level
+parallelism (each arm still trains on exactly one GPU), not single-model
+multi-GPU (DDP) training -- it fits this project's actual bottleneck (many
+independent runs to compare) with far less complexity/risk than distributed
+training would add for one model.
 """
 
 from __future__ import annotations
@@ -12,9 +21,12 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
+import queue
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from fourier_embeddings.utils.logging_setup import setup_logging
@@ -55,6 +67,13 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--log-interval", type=int, default=20)
     ap.add_argument("--save-interval", type=int, default=500)
     ap.add_argument("--device", default=None)
+    ap.add_argument("--gpu-ids", type=int, nargs="+", default=None,
+                     help="physical GPU ids to run arms on concurrently, one arm per id "
+                          "(e.g. --gpu-ids 0 1 on a 2-GPU box). Each arm subprocess gets "
+                          "CUDA_VISIBLE_DEVICES pinned to exactly one id, so inside that "
+                          "process it always sees a single GPU as 'cuda:0' -- no --device "
+                          "override needed. Default: sequential, one arm at a time, no "
+                          "CUDA_VISIBLE_DEVICES override (unchanged single-GPU behavior).")
     ap.add_argument("--require-cuda", action="store_true",
                      help="forwarded to fe-train: abort an arm immediately if CUDA isn't "
                           "available instead of silently training it on CPU.")
@@ -71,11 +90,81 @@ def build_argparser() -> argparse.ArgumentParser:
     return ap
 
 
+def plan_arm(arm: str, args: argparse.Namespace, forwarded: list[str]) -> dict:
+    """Decide what to do with one arm: skip (already completed), resume (has a
+    checkpoint but didn't finish), or start fresh. Pure filesystem checks, no
+    subprocess launched here -- safe to call for every arm up front before
+    any scheduling decision (sequential or parallel) is made.
+    """
+    run_name = f"{args.experiment_name}_{arm}"
+    run_dir = Path(args.out_dir) / run_name
+    metrics_path = run_dir / "metrics.json"
+    checkpoint_path = run_dir / "last.pt"
+
+    if not args.force and metrics_path.exists():
+        metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+        return {"arm": arm, "action": "skip", "metrics": metrics}
+
+    cmd = [sys.executable, "-m", "fourier_embeddings.training.train",
+           "--run-name", run_name, "--embedding", arm] + forwarded
+    resuming = not args.force and checkpoint_path.exists()
+    if resuming:
+        cmd = cmd + ["--resume"]
+    return {"arm": arm, "action": "resume" if resuming else "fresh", "cmd": cmd,
+            "run_name": run_name, "metrics_path": metrics_path,
+            "checkpoint_path": checkpoint_path}
+
+
+def run_arm(spec: dict, gpu_id: int | None, dry_run: bool) -> tuple[str, dict]:
+    arm = spec["arm"]
+    tag = f"gpu {gpu_id}" if gpu_id is not None else "sequential"
+    if spec["action"] == "resume":
+        logger.info(f"=== arm '{arm}' [{tag}] (resuming from {spec['checkpoint_path']}) ===\n"
+                    f"{' '.join(spec['cmd'])}")
+    else:
+        logger.info(f"=== arm '{arm}' [{tag}] ===\n{' '.join(spec['cmd'])}")
+    if dry_run:
+        return arm, {"status": "dry_run"}
+
+    env = None
+    if gpu_id is not None:
+        env = os.environ.copy()
+        env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+
+    t_arm = time.time()
+    try:
+        result = subprocess.run(spec["cmd"], env=env)
+    except Exception as e:  # noqa: BLE001 -- one arm's unexpected crash must not kill the others
+        logger.error(f"arm '{arm}' [{tag}] raised launching/running the subprocess: {e}")
+        return arm, {"status": "exception", "error": str(e)}
+    elapsed = time.time() - t_arm
+
+    if result.returncode != 0:
+        logger.error(f"arm '{arm}' [{tag}] failed with exit code {result.returncode}")
+        return arm, {"status": "failed", "returncode": result.returncode}
+
+    metrics_path = spec["metrics_path"]
+    if metrics_path.exists():
+        try:
+            metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError) as e:
+            logger.error(f"arm '{arm}' [{tag}] finished but {metrics_path} is unreadable: {e}")
+            return arm, {"status": "unreadable_metrics", "error": str(e)}
+        metrics["wall_clock_sec"] = elapsed
+        logger.info(f"arm '{arm}' [{tag}] done in {elapsed:.1f}s: "
+                    f"final_val_loss={metrics.get('final_val_loss'):.4f} "
+                    f"params={metrics.get('total_params'):,}")
+        return arm, metrics
+    logger.warning(f"arm '{arm}' [{tag}] finished but no metrics.json found at {metrics_path}")
+    return arm, {"status": "missing_metrics"}
+
+
 def main():
     args = build_argparser().parse_args()
 
+    global logger
     log_file = str(Path(args.log_dir) / f"experiment_{args.experiment_name}.log")
-    logger_local = setup_logging(log_file, name="fourier_embeddings.training.run_experiment")
+    logger = setup_logging(log_file, name="fourier_embeddings.training.run_experiment")
 
     exp_dir = Path(args.out_dir) / args.experiment_name
     exp_dir.mkdir(parents=True, exist_ok=True)
@@ -103,48 +192,47 @@ def main():
     if args.no_aim:
         forwarded += ["--no-aim"]
 
-    run_results = {}
+    specs = [plan_arm(arm, args, forwarded) for arm in args.arms]
+
+    run_results: dict[str, dict] = {}
+    for spec in specs:
+        if spec["action"] == "skip":
+            metrics = spec["metrics"]
+            run_results[spec["arm"]] = metrics
+            logger.info(f"arm '{spec['arm']}' already completed (found {spec['arm']}'s "
+                        f"metrics.json); skipping (--force to retrain): "
+                        f"final_val_loss={metrics.get('final_val_loss'):.4f}")
+
+    pending = [s for s in specs if s["action"] != "skip"]
+
     t0 = time.time()
-    for arm in args.arms:
-        run_name = f"{args.experiment_name}_{arm}"
-        run_dir = Path(args.out_dir) / run_name
-        metrics_path = run_dir / "metrics.json"
-        checkpoint_path = run_dir / "last.pt"
+    if args.gpu_ids:
+        # A queue of physical GPU ids acts as the mutual-exclusion mechanism:
+        # a worker blocks on gpu_pool.get() until a GPU is actually free (not
+        # just "a thread is free"), so two arms can never collide on the same
+        # GPU regardless of how unevenly long individual arms take.
+        gpu_pool: queue.Queue[int] = queue.Queue()
+        for gid in args.gpu_ids:
+            gpu_pool.put(gid)
 
-        if not args.force and metrics_path.exists():
-            metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
-            run_results[arm] = metrics
-            logger_local.info(f"arm '{arm}' already completed (found {metrics_path}); skipping "
-                               f"(--force to retrain): final_val_loss={metrics.get('final_val_loss'):.4f}")
-            continue
+        def _worker(spec):
+            gid = gpu_pool.get()
+            try:
+                return run_arm(spec, gpu_id=gid, dry_run=args.dry_run)
+            finally:
+                gpu_pool.put(gid)
 
-        cmd = [sys.executable, "-m", "fourier_embeddings.training.train",
-               "--run-name", run_name, "--embedding", arm] + forwarded
-        resuming = not args.force and checkpoint_path.exists()
-        if resuming:
-            cmd = cmd + ["--resume"]
-            logger_local.info(f"=== arm '{arm}' (resuming from {checkpoint_path}) ===\n{' '.join(cmd)}")
-        else:
-            logger_local.info(f"=== arm '{arm}' ===\n{' '.join(cmd)}")
-        if args.dry_run:
-            continue
-        t_arm = time.time()
-        result = subprocess.run(cmd)
-        elapsed = time.time() - t_arm
-        if result.returncode != 0:
-            logger_local.error(f"arm '{arm}' failed with exit code {result.returncode}")
-            run_results[arm] = {"status": "failed", "returncode": result.returncode}
-            continue
-        if metrics_path.exists():
-            metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
-            metrics["wall_clock_sec"] = elapsed
-            run_results[arm] = metrics
-            logger_local.info(f"arm '{arm}' done in {elapsed:.1f}s: "
-                               f"final_val_loss={metrics.get('final_val_loss'):.4f} "
-                               f"params={metrics.get('total_params'):,}")
-        else:
-            logger_local.warning(f"arm '{arm}' finished but no metrics.json found at {metrics_path}")
-            run_results[arm] = {"status": "missing_metrics"}
+        logger.info(f"running {len(pending)} pending arm(s) across GPUs {args.gpu_ids} "
+                    f"(up to {len(args.gpu_ids)} concurrently)")
+        with ThreadPoolExecutor(max_workers=len(args.gpu_ids)) as ex:
+            futures = [ex.submit(_worker, spec) for spec in pending]
+            for fut in as_completed(futures):
+                arm, result = fut.result()
+                run_results[arm] = result
+    else:
+        for spec in pending:
+            arm, result = run_arm(spec, gpu_id=None, dry_run=args.dry_run)
+            run_results[arm] = result
 
     if args.dry_run:
         return
@@ -152,15 +240,16 @@ def main():
     comparison = {
         "experiment_name": args.experiment_name,
         "arms": args.arms,
+        "gpu_ids": args.gpu_ids,
         "total_wall_clock_sec": time.time() - t0,
         "results": run_results,
     }
     comparison_path = exp_dir / "comparison.json"
     comparison_path.write_text(json.dumps(comparison, indent=2), encoding="utf-8")
-    logger_local.info(f"wrote {comparison_path}")
+    logger.info(f"wrote {comparison_path}")
 
     write_markdown_summary(comparison, exp_dir / "comparison.md")
-    logger_local.info(f"wrote {exp_dir / 'comparison.md'}")
+    logger.info(f"wrote {exp_dir / 'comparison.md'}")
 
 
 def write_markdown_summary(comparison: dict, out_path: Path):
@@ -168,7 +257,8 @@ def write_markdown_summary(comparison: dict, out_path: Path):
              f"Total wall clock: {comparison['total_wall_clock_sec']:.1f}s", "",
              "| Arm | Params (total) | Params (codec) | Final val loss | Best val loss | Final val ppl | Tokens trained |",
              "|---|---|---|---|---|---|---|"]
-    for arm, m in comparison["results"].items():
+    for arm in comparison["arms"]:
+        m = comparison["results"].get(arm, {})
         if "final_val_loss" not in m:
             lines.append(f"| {arm} | - | - | FAILED | - | - | - |")
             continue

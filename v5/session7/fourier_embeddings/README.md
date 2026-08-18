@@ -140,7 +140,7 @@ bash scripts/run_full_experiment.sh
 
 Environment variables override the defaults (see the script header):
 `TARGET_MB_PER_LANG`, `VOCAB_SIZE`, `N_LAYER`, `N_HEAD`, `N_EMBD`,
-`BLOCK_SIZE`, `MAX_STEPS`, `BATCH_SIZE`, `GRAD_ACCUM`, `ARMS`,
+`BLOCK_SIZE`, `MAX_STEPS`, `BATCH_SIZE`, `GRAD_ACCUM`, `ARMS`, `GPU_IDS`,
 `EXPERIMENT_NAME`. Defaults land at roughly a ~50M-parameter GPT-2-small-ish
 model trained on ~150MB of multilingual text (en/hi/te/ta/bn Wikipedia) for
 20k steps — comfortably within an A6000's 48GB, and closer (though still far
@@ -154,6 +154,53 @@ Track a run live with:
 ```bash
 uv run aim up --repo aim_repo
 ```
+
+### Multi-GPU
+
+`fe-run-experiment` (and therefore `run_full_experiment.sh`) can run
+multiple arms **concurrently, one per physical GPU**, instead of one arm at
+a time on a single card:
+
+```bash
+GPU_IDS="0 1" bash scripts/run_full_experiment.sh
+# or directly:
+uv run fe-run-experiment --gpu-ids 0 1 ...
+```
+
+This is arm-level parallelism, not single-model multi-GPU (DDP) training —
+each arm still trains on exactly one GPU (via `CUDA_VISIBLE_DEVICES`), but
+up to `len(gpu-ids)` arms run at once, so a 4-arm comparison on 2 GPUs
+finishes in roughly the time of 2 sequential arms instead of 4. This fits
+this project's actual bottleneck (many independent short-ish runs to
+compare) with far less complexity/risk than distributed training would add
+for a single ~50M-parameter model, which isn't large enough to need DDP on
+its own merits. A GPU-id queue gates scheduling (a worker only starts once
+an actual GPU is free, regardless of how unevenly long individual arms
+run), so this is safe with `--resume`/skip-completed-arms and with an
+uneven number of arms vs. GPU ids. Leave `GPU_IDS`/`--gpu-ids` unset for the
+original one-arm-at-a-time behavior (e.g. on a single-GPU box).
+
+If you'd rather use a second idle GPU to make one arm itself faster instead
+of running two arms at once, that's `--batch-size`/`--grad-accum-steps`
+tuning on a single GPU (see below), not multi-GPU — this project doesn't
+implement DDP for a single model.
+
+**Batch size vs. free GPU memory:** if `nvidia-smi` shows a GPU well under
+its memory ceiling during a run (e.g. 30GB/49GB used), you can often raise
+`BATCH_SIZE` to use the headroom and get more tokens trained per step in
+the same wall-clock — but note this changes the effective batch size
+(tokens/step = batch_size × block_size × grad_accum_steps), which is a real
+change to the training regimen, not a free win. Increase it *before*
+starting a run (ideally before any arm in a comparison has trained a single
+step), not partway through one — `fe-run-experiment` forwards the same
+hyperparameters to every arm, so as long as it's set once for the whole
+comparison, every arm still gets an identical regimen, which is what the
+controlled-comparison protocol (research note §10) requires. The
+Fourier/Kronecker "dynamic" codec mode builds an explicit per-token grid
+tensor (roughly `batch_size × block_size × char_dim × pos_factor_dim × 4`
+bytes) that dense embeddings don't have, so those arms use somewhat more
+memory than dense at the same batch size — leave some extra margin (a few
+GB) rather than sizing the batch right up to what dense alone can fit.
 
 ## Resuming an interrupted run
 

@@ -44,6 +44,23 @@ packages = ["fourier_embeddings"]
 # raising it (e.g. to cu124/cu126) gets a more current torch release.
 # After changing this, run `uv sync` again and verify with:
 #   uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
+#
+# This pin uses the named/explicit-index syntax ([[tool.uv.index]] +
+# explicit = true), added in uv 0.4.23 (Oct 2024). A `uv` older than that
+# doesn't error on this block -- it silently ignores the whole thing and
+# resolves plain `torch` from PyPI instead, which is a much worse failure
+# mode than an error: `uv sync` reports success and `torch` installs, just
+# the wrong CUDA build, so nothing looks wrong until `torch.cuda.is_available()`
+# quietly returns False at training time. `required-version` below at least
+# turns that into a loud failure on any `uv` new enough to understand
+# `required-version` itself (added earlier than 0.4.23); on something as old
+# as 0.4.11 even `required-version` is silently ignored -- if `uv --version`
+# is that old, upgrade it first (`uv self update`, or the installer at
+# https://astral.sh/uv/install.sh) before anything else in this file can be
+# trusted to take effect.
+[tool.uv]
+required-version = ">=0.4.23"
+
 [tool.uv.sources]
 torch = { index = "pytorch-cu121" }
 
