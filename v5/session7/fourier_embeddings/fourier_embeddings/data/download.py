@@ -11,6 +11,14 @@ dependency needed, and no need to download full multi-hundred-MB parquet
 shards) and write one flat UTF-8 text file per language.
 
 This is a small, auditable HTTP client — stdlib `urllib` only.
+
+Languages download concurrently by default (one thread per language, each
+writing its own file, so there's no shared mutable state to coordinate).
+This does raise the aggregate request rate against the API, which is what
+originally triggered HTTP 429s on a sequential run too (fetch_rows' own
+retry/backoff, including respecting a server-sent Retry-After header,
+already absorbs that) -- if 429 warnings show up repeatedly in the log,
+pass --max-parallel 1 to fall back to the old one-at-a-time behavior.
 """
 
 from __future__ import annotations
@@ -21,6 +29,7 @@ import logging
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 logger = logging.getLogger("fourier_embeddings.download")
@@ -108,6 +117,28 @@ def download_language(lang: str, out_path: Path, target_chars: int) -> dict:
             "complete": total_chars >= target_chars, "error": error}
 
 
+def _fetch_one(lang: str, args, target_chars: int) -> dict:
+    out_dir = Path(args.out_dir)
+    out_path = out_dir / f"{lang}.txt"
+
+    if not args.overwrite and out_path.exists():
+        existing_chars = out_path.stat().st_size  # byte count is a cheap lower bound on char count
+        if existing_chars >= target_chars:
+            text = out_path.read_text(encoding="utf-8")
+            logger.info(f"[{lang}] {out_path} already has {len(text):,} chars "
+                        f"(target {target_chars:,}); skipping (--overwrite to redo)")
+            return {"lang": lang, "chars": len(text), "articles": None,
+                    "path": str(out_path), "complete": True, "error": None, "skipped": True}
+
+    logger.info(f"downloading {lang} -> {out_path} (target ~{args.target_mb_per_lang}MB)")
+    try:
+        return download_language(lang, out_path, target_chars)
+    except Exception as e:  # noqa: BLE001 -- one language's outage must not kill the others
+        logger.error(f"[{lang}] unrecoverable failure, skipping: {e}")
+        return {"lang": lang, "chars": 0, "articles": 0, "path": str(out_path),
+                "complete": False, "error": str(e)}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out-dir", default="data_raw")
@@ -118,6 +149,12 @@ def main():
                      help="re-download a language even if its .txt file already reached the "
                           "target size (default: skip it, so re-running after an interruption "
                           "or a rate-limit failure doesn't redo already-finished languages).")
+    ap.add_argument("--max-parallel", type=int, default=None,
+                     help="download this many languages concurrently (default: all of --langs "
+                          "at once, since each writes to its own file and the per-request retry/"
+                          "backoff below already absorbs any extra HTTP 429s the higher aggregate "
+                          "request rate causes). Pass --max-parallel 1 to restore the old fully "
+                          "sequential behavior if you see repeated 429 warnings in the log.")
     ap.add_argument("--log-file", default="logs/download.log")
     args = ap.parse_args()
 
@@ -132,30 +169,24 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     target_chars = int(args.target_mb_per_lang * 1_000_000)
 
-    manifest = []
-    for lang in args.langs:
-        out_path = out_dir / f"{lang}.txt"
+    max_parallel = args.max_parallel or len(args.langs)
+    logger.info(f"downloading {len(args.langs)} language(s) with up to {max_parallel} concurrent")
+    manifest_by_lang: dict[str, dict] = {}
+    with ThreadPoolExecutor(max_workers=max_parallel) as ex:
+        futures = {ex.submit(_fetch_one, lang, args, target_chars): lang for lang in args.langs}
+        for fut in as_completed(futures):
+            lang = futures[fut]
+            try:
+                stats = fut.result()
+            except Exception as e:  # pragma: no cover -- _fetch_one already catches its own errors
+                logger.error(f"[{lang}] worker raised unexpectedly: {e}")
+                stats = {"lang": lang, "chars": 0, "articles": 0, "path": None,
+                          "complete": False, "error": str(e)}
+            manifest_by_lang[lang] = stats
+            logger.info(f"[{lang}] done: {stats}")
 
-        if not args.overwrite and out_path.exists():
-            existing_chars = out_path.stat().st_size  # byte count is a cheap lower bound on char count
-            if existing_chars >= target_chars:
-                text = out_path.read_text(encoding="utf-8")
-                logger.info(f"[{lang}] {out_path} already has {len(text):,} chars "
-                            f"(target {target_chars:,}); skipping (--overwrite to redo)")
-                manifest.append({"lang": lang, "chars": len(text), "articles": None,
-                                  "path": str(out_path), "complete": True, "error": None,
-                                  "skipped": True})
-                continue
-
-        logger.info(f"downloading {lang} -> {out_path} (target ~{args.target_mb_per_lang}MB)")
-        try:
-            stats = download_language(lang, out_path, target_chars)
-        except Exception as e:  # noqa: BLE001 -- one language's outage must not kill the whole run
-            logger.error(f"[{lang}] unrecoverable failure, skipping: {e}")
-            stats = {"lang": lang, "chars": 0, "articles": 0, "path": str(out_path),
-                      "complete": False, "error": str(e)}
-        manifest.append(stats)
-        logger.info(f"[{lang}] done: {stats}")
+    # Preserve --langs order in the manifest regardless of completion order.
+    manifest = [manifest_by_lang[lang] for lang in args.langs]
 
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
