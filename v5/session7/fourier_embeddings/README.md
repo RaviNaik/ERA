@@ -86,13 +86,28 @@ uv sync
 ```
 
 **GPU driver note (read before syncing on a new machine):** `pyproject.toml`
-pins `torch` to the `cu124` wheel index because this WSL box's driver
-reports CUDA 12.8 support and PyPI's default `torch` wheels now ship a
-CUDA-13 build that a CUDA-12.8 driver can't initialize. On the A6000 box,
-check `nvidia-smi`'s "CUDA Version" line — if it's 12.8+ the pinned index is
-still correct; if the driver is newer you can drop the `[tool.uv.sources]` /
-`[[tool.uv.index]]` block in `pyproject.toml` and just `uv sync` against the
-default index.
+pins `torch` to the `cu121` wheel index. PyPI's default `torch` wheels now
+ship a CUDA-13 build, which needs a newer driver than either dev machine
+this project has been run on has (a WSL box at driver-reported CUDA 12.8, an
+A6000 box at driver-reported CUDA 12.2) — a driver only runs wheels built
+against its *own or older* CUDA version, so the pin has to satisfy the
+lowest CUDA Version across every machine you `uv sync` this on. cu121 clears
+both with room to spare. **Before syncing on a new machine, run
+`nvidia-smi` and check its "CUDA Version" field** (top-right of the header
+line): if it's below 12.1, lower the pin further; if every machine reads
+comfortably above 12.1, you can raise it for a newer torch release. After
+changing the pin, `uv sync` again and verify with:
+```bash
+uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
+```
+This should print `True`. If it silently prints `False` instead of erroring
+(this is normal torch behavior for a version mismatch — it degrades instead
+of crashing), training falls back to CPU with no other symptom until you
+notice it's using nothing but CPU time. `fe-train` now checks this itself
+and logs a loud `*** CUDA IS NOT AVAILABLE ***` warning if it happens; pass
+`--require-cuda` (set by default in `run_full_experiment.sh`) to make it a
+hard error instead of a warning, so a misconfigured GPU box fails in the
+first second rather than after hours of CPU training.
 
 **WSL note:** if your project directory lives on a Windows-drive mount
 (`/mnt/c`, `/mnt/d`, ...), point the virtualenv at a native Linux path

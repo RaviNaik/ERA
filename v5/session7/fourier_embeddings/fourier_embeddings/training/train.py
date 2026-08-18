@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import math
+import os
 import signal
 import time
 from pathlib import Path
@@ -86,7 +87,14 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--save-interval", type=int, default=500)
 
     # --- infra ---
-    ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu",
+                     help="defaults to 'cuda' if torch.cuda.is_available() at the moment this "
+                          "process starts, else silently 'cpu' -- pass --require-cuda if you'd "
+                          "rather that silent fallback be a hard error.")
+    ap.add_argument("--require-cuda", action="store_true",
+                     help="abort immediately (before touching data/model) if the resolved "
+                          "--device does not start with 'cuda', instead of quietly training on "
+                          "CPU for a model/batch size that assumed a GPU.")
     ap.add_argument("--dtype", default="bfloat16", choices=["float32", "bfloat16", "float16"])
     ap.add_argument("--compile", action="store_true")
     ap.add_argument("--seed", type=int, default=1337)
@@ -134,6 +142,29 @@ def main():
     # attempts' output lands in the same file with no visual separator.
     logger.info(f"{'='*20} run start (resume={args.resume}) {'='*20}")
     logger.info(f"args: {vars(args)}")
+
+    cuda_available = torch.cuda.is_available()
+    if args.device.startswith("cuda") and not cuda_available:
+        # args.device only starts with "cuda" here if the user explicitly
+        # passed --device cuda* -- the argparse default already fell back to
+        # "cpu" silently, so this branch means "you asked for cuda and can't
+        # have it," which should fail loudly rather than train on CPU anyway.
+        raise SystemExit(f"--device={args.device} requested but torch.cuda.is_available() is "
+                          f"False on this machine (torch {torch.__version__}, "
+                          f"torch.version.cuda={torch.version.cuda}). Check `nvidia-smi` and "
+                          f"that the installed torch build matches the driver's CUDA version.")
+    if not cuda_available:
+        logger.warning(
+            f"*** CUDA IS NOT AVAILABLE -- training on CPU. *** torch={torch.__version__}, "
+            f"torch.version.cuda={torch.version.cuda}, CUDA_VISIBLE_DEVICES="
+            f"{os.environ.get('CUDA_VISIBLE_DEVICES', '<unset>')}. "
+            f"If a GPU is expected here, stop this run, fix the torch/driver install, and "
+            f"restart (pass --require-cuda next time to make this a hard error instead of a "
+            f"warning buried in the log)."
+        )
+    if args.require_cuda and not cuda_available:
+        raise SystemExit("--require-cuda passed but torch.cuda.is_available() is False; aborting "
+                          "before wasting time training on CPU. See the warning above for details.")
 
     torch.manual_seed(args.seed)
     if torch.cuda.is_available():

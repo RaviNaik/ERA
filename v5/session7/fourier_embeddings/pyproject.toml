@@ -31,17 +31,23 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["fourier_embeddings"]
 
-# Pin torch to a CUDA 12.4 build: this WSL box's NVIDIA driver reports CUDA
-# 12.8 (too old for the CUDA-13 wheels PyPI serves by default as of torch
-# 2.13); cu124 wheels run under any driver >= the one that ships CUDA 12.4
-# support, which this driver satisfies. On the A6000 box, re-run `uv sync`
-# after checking `nvidia-smi`'s CUDA Version line against
-# https://pytorch.org/get-started/locally/ -- a newer driver there can use a
-# newer/default index instead.
+# Pin torch to a CUDA 12.1 build. PyPI's default `torch` wheel as of torch
+# 2.13 needs a CUDA-13-capable driver, which neither dev machine this project
+# has been run on has: the WSL box's driver reports CUDA Version 12.8, and
+# the A6000 box's driver reports CUDA Version 12.2 (`nvidia-smi`'s top-right
+# field on each). A driver only runs wheels built against its own CUDA
+# version *or older* (backward-compatible, not forward), so the pin has to
+# satisfy the *lowest* CUDA Version seen across every machine that will
+# `uv sync` this project -- cu121 clears both of the above with room to
+# spare. If `nvidia-smi` on a new machine reports a CUDA Version below 12.1,
+# lower this further; if every machine you use reports something newer,
+# raising it (e.g. to cu124/cu126) gets a more current torch release.
+# After changing this, run `uv sync` again and verify with:
+#   uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 [tool.uv.sources]
-torch = { index = "pytorch-cu124" }
+torch = { index = "pytorch-cu121" }
 
 [[tool.uv.index]]
-name = "pytorch-cu124"
-url = "https://download.pytorch.org/whl/cu124"
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
 explicit = true

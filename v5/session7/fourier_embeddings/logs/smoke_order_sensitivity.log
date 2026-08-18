@@ -18,3 +18,13 @@
 2026-08-18 13:44:07,583 [INFO] fourier_embeddings.analysis.order_sensitivity:   'listen' vs 'silent' (anagram-with-a-fixed-point): kronecker=0.1657 fourier=0.8456
 2026-08-18 13:44:07,583 [INFO] fourier_embeddings.analysis.order_sensitivity:   'read' vs 'dear' (anagram-with-fixed-points): kronecker=0.4996 fourier=0.8152
 2026-08-18 13:44:07,595 [INFO] fourier_embeddings.analysis.order_sensitivity: wrote results/smoke_order_sensitivity.json
+2026-08-18 15:19:44,490 [INFO] fourier_embeddings.analysis.order_sensitivity: summary: {'n_pairs': 55, 'kronecker': {'mean': 0.46546700596809387, 'std': 0.2999359369277954, 'min': -0.001760918297804892, 'max': 0.8996157646179199, 'frac_exactly_zero': 0.0}, 'fourier': {'mean': 0.9146295189857483, 'std': 0.0744512602686882, 'min': 0.728687047958374, 'max': 0.9962149262428284, 'frac_exactly_zero': 0.0}}
+2026-08-18 15:19:44,491 [INFO] fourier_embeddings.analysis.order_sensitivity: named pairs (research-note worked examples):
+2026-08-18 15:19:44,493 [INFO] fourier_embeddings.analysis.order_sensitivity:   'cat' vs 'tac' (anagram-with-a-fixed-point (research note's example; see NOTE above)): kronecker=0.3329 fourier=0.8309
+2026-08-18 15:19:44,493 [INFO] fourier_embeddings.analysis.order_sensitivity:   'abcde' vs 'bcdea' (derangement (true zero-fixed-point rearrangement)): kronecker=-0.0010 fourier=0.8670
+2026-08-18 15:19:44,494 [INFO] fourier_embeddings.analysis.order_sensitivity:   'mistake' vs 'mistkae' (transposition): kronecker=0.7139 fourier=0.9767
+2026-08-18 15:19:44,495 [INFO] fourier_embeddings.analysis.order_sensitivity:   'compute' vs 'commute' (one-byte-substitution): kronecker=0.8570 fourier=0.8785
+2026-08-18 15:19:44,495 [INFO] fourier_embeddings.analysis.order_sensitivity:   'train' vs 'trian' (transposition): kronecker=0.5996 fourier=0.9675
+2026-08-18 15:19:44,496 [INFO] fourier_embeddings.analysis.order_sensitivity:   'listen' vs 'silent' (anagram-with-a-fixed-point): kronecker=0.1657 fourier=0.8456
+2026-08-18 15:19:44,497 [INFO] fourier_embeddings.analysis.order_sensitivity:   'read' vs 'dear' (anagram-with-fixed-points): kronecker=0.4996 fourier=0.8152
+2026-08-18 15:19:44,508 [INFO] fourier_embeddings.analysis.order_sensitivity: wrote results/smoke_order_sensitivity.json

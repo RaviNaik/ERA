@@ -61,7 +61,7 @@ uv run fe-run-experiment --experiment-name "$EXPERIMENT_NAME" \
     --max-steps "$MAX_STEPS" --batch-size "$BATCH_SIZE" --grad-accum-steps "$GRAD_ACCUM" \
     --learning-rate 3e-4 --warmup-steps 500 \
     --eval-interval 500 --eval-iters 100 --log-interval 50 --save-interval 1000 \
-    --dtype bfloat16
+    --dtype bfloat16 --require-cuda
 
 echo
 echo "=== analysis scripts (full vocabulary) ==="

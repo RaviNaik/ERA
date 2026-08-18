@@ -12,3 +12,10 @@
 2026-08-18 13:44:09,290 [INFO] fourier_embeddings.analysis.crosstalk: D=  128 n_bound=  4 -> top1_acc=1.000 measured_noise=1.751 predicted_noise=0.153
 2026-08-18 13:44:09,323 [INFO] fourier_embeddings.analysis.crosstalk: D=  128 n_bound=  8 -> top1_acc=0.904 measured_noise=2.774 predicted_noise=0.234
 2026-08-18 13:44:09,332 [INFO] fourier_embeddings.analysis.crosstalk: wrote results/smoke_crosstalk.json
+2026-08-18 15:19:46,101 [INFO] fourier_embeddings.analysis.crosstalk: D=   64 n_bound=  1 -> top1_acc=1.000 measured_noise=0.000 predicted_noise=0.000
+2026-08-18 15:19:46,116 [INFO] fourier_embeddings.analysis.crosstalk: D=   64 n_bound=  4 -> top1_acc=0.917 measured_noise=1.760 predicted_noise=0.217
+2026-08-18 15:19:46,141 [INFO] fourier_embeddings.analysis.crosstalk: D=   64 n_bound=  8 -> top1_acc=0.458 measured_noise=2.814 predicted_noise=0.331
+2026-08-18 15:19:46,151 [INFO] fourier_embeddings.analysis.crosstalk: D=  128 n_bound=  1 -> top1_acc=1.000 measured_noise=0.000 predicted_noise=0.000
+2026-08-18 15:19:46,166 [INFO] fourier_embeddings.analysis.crosstalk: D=  128 n_bound=  4 -> top1_acc=1.000 measured_noise=1.751 predicted_noise=0.153
+2026-08-18 15:19:46,198 [INFO] fourier_embeddings.analysis.crosstalk: D=  128 n_bound=  8 -> top1_acc=0.904 measured_noise=2.774 predicted_noise=0.234
+2026-08-18 15:19:46,207 [INFO] fourier_embeddings.analysis.crosstalk: wrote results/smoke_crosstalk.json

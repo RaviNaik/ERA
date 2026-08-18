@@ -52,7 +52,7 @@
     ]
   },
   "fourier_functional_collisions": {
-    "threshold": 0.8510144352912903,
+    "threshold": 0.8597415685653687,
     "per_script_total": {
       "other": 371,
       "ascii": 2264,
@@ -62,20 +62,20 @@
       "telugu": 281
     },
     "per_script_colliding": {
-      "other": 231,
-      "ascii": 1722,
-      "bengali": 470,
-      "devanagari": 380,
-      "tamil": 221,
-      "telugu": 249
+      "other": 222,
+      "ascii": 1486,
+      "bengali": 479,
+      "devanagari": 381,
+      "tamil": 207,
+      "telugu": 214
     },
     "per_script_collision_rate": {
-      "other": 0.6226415094339622,
-      "ascii": 0.7606007067137809,
-      "bengali": 0.9418837675350702,
-      "devanagari": 0.8577878103837472,
-      "tamil": 0.9285714285714286,
-      "telugu": 0.8861209964412812
+      "other": 0.5983827493261455,
+      "ascii": 0.6563604240282686,
+      "bengali": 0.9599198396793587,
+      "devanagari": 0.8600451467268623,
+      "tamil": 0.8697478991596639,
+      "telugu": 0.7615658362989324
     }
   },
   "kronecker_functional_collisions_cross_check": {

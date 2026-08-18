@@ -55,6 +55,9 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--log-interval", type=int, default=20)
     ap.add_argument("--save-interval", type=int, default=500)
     ap.add_argument("--device", default=None)
+    ap.add_argument("--require-cuda", action="store_true",
+                     help="forwarded to fe-train: abort an arm immediately if CUDA isn't "
+                          "available instead of silently training it on CPU.")
     ap.add_argument("--dtype", default="bfloat16")
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--no-aim", action="store_true")
@@ -95,6 +98,8 @@ def main():
         forwarded += ["--max-epochs", str(args.max_epochs)]
     if args.device:
         forwarded += ["--device", args.device]
+    if args.require_cuda:
+        forwarded += ["--require-cuda"]
     if args.no_aim:
         forwarded += ["--no-aim"]
 
