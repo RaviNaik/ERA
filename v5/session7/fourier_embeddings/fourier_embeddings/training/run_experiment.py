@@ -23,6 +23,7 @@ import json
 import logging
 import os
 import queue
+import random
 import subprocess
 import sys
 import time
@@ -216,6 +217,12 @@ def main():
             gpu_pool.put(gid)
 
         def _worker(spec):
+            # Jitter the launch: several arms starting within the same
+            # instant (worst case at t=0, when all GPU slots are free at
+            # once) can collide on Aim's shared repo lock during Run
+            # creation. fe-train itself retries that with backoff, but
+            # spreading launches out here means it usually never has to.
+            time.sleep(random.uniform(0, 2.5))
             gid = gpu_pool.get()
             try:
                 return run_arm(spec, gpu_id=gid, dry_run=args.dry_run)
