@@ -25,8 +25,49 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+CLEAN=false
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --clean)
+            CLEAN=true
+            shift
+            ;;
+        -h|--help)
+            cat <<'USAGE'
+Usage: run_full_experiment.sh [--clean]
+
+  --clean   Remove logs/, aim_repo/, and results/ before running -- a full
+            reset of everything a previous run (e.g. a broken/misconfigured
+            one) could have left behind, so this run starts genuinely clean
+            instead of the skip-completed-arm / auto-resume-from-checkpoint
+            logic picking up stale state. Data (data_raw/, data_bin/,
+            tokenizer_out/) is left alone -- expensive to rebuild and
+            already covered by its own skip-if-exists logic; pass
+            --overwrite to the individual fe-* commands if the corpus or
+            tokenizer itself needs to change.
+
+Configuration is via environment variables (see the top of this script for
+defaults): TARGET_MB_PER_LANG, VOCAB_SIZE, N_LAYER, N_HEAD, N_EMBD,
+BLOCK_SIZE, POS_DIM, FOURIER_DIM, HRR_DIM, MAX_STEPS, BATCH_SIZE,
+GRAD_ACCUM, EXPERIMENT_NAME, ARMS, GPU_IDS.
+USAGE
+            exit 0
+            ;;
+        *)
+            echo "Unknown argument: $1 (see --help)" >&2
+            exit 1
+            ;;
+    esac
+done
+
 # See README.md's WSL note; no-op if you already `uv sync`'d in place.
 export UV_PROJECT_ENVIRONMENT="${UV_PROJECT_ENVIRONMENT:-$HOME/.venvs/fourier_embeddings}"
+
+if [ "$CLEAN" = true ]; then
+    echo "=== --clean: removing logs/, aim_repo/, results/ ==="
+    rm -rf logs aim_repo results
+    mkdir -p logs
+fi
 
 TARGET_MB_PER_LANG="${TARGET_MB_PER_LANG:-30}"
 VOCAB_SIZE="${VOCAB_SIZE:-16384}"
