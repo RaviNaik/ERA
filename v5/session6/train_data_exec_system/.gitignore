@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# submission_artifacts/ is intentionally NOT ignored — the assignment
+# requires the generated evidence bundle to be part of the submission.

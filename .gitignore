@@ -1,0 +1,8 @@
+.venv
+__pycache__
+# .gitignore
+problem_tobe_solved.md
+sample_session2
+supporting_docs
+write_pipeline_scripts.py
+write_webapp.py

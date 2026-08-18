@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+aim_repo/
+aim_repo_smoke/
+data_bin/
+data_bin_smoke/
+data_raw/
+data_raw_smoke/
+tokenizer_out/
+tokenizer_out_smoke/
+*.pt
+.python-version.local
