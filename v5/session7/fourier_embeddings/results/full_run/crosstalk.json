@@ -1,0 +1,242 @@
+[
+  {
+    "D": 256,
+    "n_bound": 1,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 3.350885435793316e-07,
+    "mean_signal_norm": 1.0,
+    "measured_relative_noise": 3.350885435793316e-07,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0
+  },
+  {
+    "D": 256,
+    "n_bound": 2,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.7071065306663513,
+    "mean_signal_norm": 0.7071067094802856,
+    "measured_relative_noise": 0.9999997615814209,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0625
+  },
+  {
+    "D": 256,
+    "n_bound": 4,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.8719394207000732,
+    "mean_signal_norm": 0.5,
+    "measured_relative_noise": 1.7438788414001465,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.10825317547305482
+  },
+  {
+    "D": 256,
+    "n_bound": 8,
+    "n_trials": 500,
+    "top1_accuracy": 0.99675,
+    "mean_residual_norm": 0.9563877582550049,
+    "mean_signal_norm": 0.3535533547401428,
+    "measured_relative_noise": 2.705073356628418,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.16535945694153692
+  },
+  {
+    "D": 256,
+    "n_bound": 16,
+    "n_trials": 500,
+    "top1_accuracy": 0.8775,
+    "mean_residual_norm": 1.0175431966781616,
+    "mean_signal_norm": 0.25,
+    "measured_relative_noise": 4.0701727867126465,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.24206145913796356
+  },
+  {
+    "D": 256,
+    "n_bound": 32,
+    "n_trials": 500,
+    "top1_accuracy": 0.5104375,
+    "mean_residual_norm": 1.0943896770477295,
+    "mean_signal_norm": 0.1767766773700714,
+    "measured_relative_noise": 6.190803527832031,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.34798527267687634
+  },
+  {
+    "D": 512,
+    "n_bound": 1,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 3.3830616530394764e-07,
+    "mean_signal_norm": 1.0,
+    "measured_relative_noise": 3.3830616530394764e-07,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0
+  },
+  {
+    "D": 512,
+    "n_bound": 2,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.7071065902709961,
+    "mean_signal_norm": 0.7071067094802856,
+    "measured_relative_noise": 0.9999998211860657,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.04419417382415922
+  },
+  {
+    "D": 512,
+    "n_bound": 4,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.8692550659179688,
+    "mean_signal_norm": 0.5,
+    "measured_relative_noise": 1.7385101318359375,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.07654655446197431
+  },
+  {
+    "D": 512,
+    "n_bound": 8,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9463402032852173,
+    "mean_signal_norm": 0.3535533547401428,
+    "measured_relative_noise": 2.676654577255249,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.11692679333668567
+  },
+  {
+    "D": 512,
+    "n_bound": 16,
+    "n_trials": 500,
+    "top1_accuracy": 0.997,
+    "mean_residual_norm": 0.9944285154342651,
+    "mean_signal_norm": 0.25,
+    "measured_relative_noise": 3.9777140617370605,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.1711632992203644
+  },
+  {
+    "D": 512,
+    "n_bound": 32,
+    "n_trials": 500,
+    "top1_accuracy": 0.8716875,
+    "mean_residual_norm": 1.040529489517212,
+    "mean_signal_norm": 0.1767766773700714,
+    "measured_relative_noise": 5.886124134063721,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.2460627460628691
+  },
+  {
+    "D": 1024,
+    "n_bound": 1,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 3.730501703103073e-07,
+    "mean_signal_norm": 1.0,
+    "measured_relative_noise": 3.730501703103073e-07,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0
+  },
+  {
+    "D": 1024,
+    "n_bound": 2,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.7071065306663513,
+    "mean_signal_norm": 0.7071067094802856,
+    "measured_relative_noise": 0.9999997615814209,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.03125
+  },
+  {
+    "D": 1024,
+    "n_bound": 4,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.8679092526435852,
+    "mean_signal_norm": 0.5,
+    "measured_relative_noise": 1.7358185052871704,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.05412658773652741
+  },
+  {
+    "D": 1024,
+    "n_bound": 8,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9407415986061096,
+    "mean_signal_norm": 0.3535533547401428,
+    "measured_relative_noise": 2.6608192920684814,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.08267972847076846
+  },
+  {
+    "D": 1024,
+    "n_bound": 16,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9817678332328796,
+    "mean_signal_norm": 0.25,
+    "measured_relative_noise": 3.9270713329315186,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.12103072956898178
+  },
+  {
+    "D": 1024,
+    "n_bound": 32,
+    "n_trials": 500,
+    "top1_accuracy": 0.996,
+    "mean_residual_norm": 1.0110926628112793,
+    "mean_signal_norm": 0.1767766773700714,
+    "measured_relative_noise": 5.7196044921875,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.17399263633843817
+  },
+  {
+    "D": 2048,
+    "n_bound": 1,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 3.8637580246358993e-07,
+    "mean_signal_norm": 1.0,
+    "measured_relative_noise": 3.8637580246358993e-07,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0
+  },
+  {
+    "D": 2048,
+    "n_bound": 2,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.7071065306663513,
+    "mean_signal_norm": 0.7071067094802856,
+    "measured_relative_noise": 0.9999997615814209,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.02209708691207961
+  },
+  {
+    "D": 2048,
+    "n_bound": 4,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.8669213652610779,
+    "mean_signal_norm": 0.5,
+    "measured_relative_noise": 1.7338427305221558,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.038273277230987154
+  },
+  {
+    "D": 2048,
+    "n_bound": 8,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9374864101409912,
+    "mean_signal_norm": 0.3535533547401428,
+    "measured_relative_noise": 2.6516122817993164,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.05846339666834283
+  },
+  {
+    "D": 2048,
+    "n_bound": 16,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9745211601257324,
+    "mean_signal_norm": 0.25,
+    "measured_relative_noise": 3.8980846405029297,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.0855816496101822
+  },
+  {
+    "D": 2048,
+    "n_bound": 32,
+    "n_trials": 500,
+    "top1_accuracy": 1.0,
+    "mean_residual_norm": 0.9985066056251526,
+    "mean_signal_norm": 0.1767766773700714,
+    "measured_relative_noise": 5.648406982421875,
+    "predicted_relative_noise_O(sqrt((n-1)/D))": 0.12303137303143455
+  }
+]

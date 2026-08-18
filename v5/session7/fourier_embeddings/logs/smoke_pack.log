@@ -1,9 +1,0 @@
-2026-08-18 10:01:10,838 [INFO] fourier_embeddings.dataset: encoded data_raw_smoke/bn.txt: running total 1,127,702 tokens
-2026-08-18 10:01:12,839 [INFO] fourier_embeddings.dataset: encoded data_raw_smoke/en.txt: running total 2,164,942 tokens
-2026-08-18 10:01:14,789 [INFO] fourier_embeddings.dataset: encoded data_raw_smoke/hi.txt: running total 3,130,357 tokens
-2026-08-18 10:01:15,849 [INFO] fourier_embeddings.dataset: encoded data_raw_smoke/ta.txt: running total 3,572,489 tokens
-2026-08-18 10:01:16,984 [INFO] fourier_embeddings.dataset: encoded data_raw_smoke/te.txt: running total 4,086,912 tokens
-2026-08-18 10:01:17,143 [INFO] fourier_embeddings.dataset: wrote data_bin_smoke/train.bin (3,882,567 tokens), data_bin_smoke/val.bin (204,345 tokens)
-2026-08-18 10:01:17,224 [INFO] fourier_embeddings.dataset: done: {'vocab_size': 4096, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 3882567, 'val_tokens': 204345, 'tokenizer_path': 'tokenizer_out_smoke/tokenizer.json', 'input_files': ['data_raw_smoke/bn.txt', 'data_raw_smoke/en.txt', 'data_raw_smoke/hi.txt', 'data_raw_smoke/ta.txt', 'data_raw_smoke/te.txt']}
-2026-08-18 13:43:18,757 [INFO] fourier_embeddings.dataset: data_bin_smoke/meta.json already exists; skipping packing (--overwrite to redo). NOTE: if the tokenizer or input corpus changed, you must pass --overwrite or the old (now-mismatched) binary dataset will be reused silently.
-2026-08-18 15:19:11,286 [INFO] fourier_embeddings.dataset: data_bin_smoke/meta.json already exists; skipping packing (--overwrite to redo). NOTE: if the tokenizer or input corpus changed, you must pass --overwrite or the old (now-mismatched) binary dataset will be reused silently.

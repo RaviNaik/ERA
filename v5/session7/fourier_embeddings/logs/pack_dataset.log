@@ -1,0 +1,7 @@
+2026-08-18 23:49:19,824 [INFO] fourier_embeddings.dataset: encoded data_raw/bn.txt: running total 21,158,436 tokens
+2026-08-18 23:49:52,829 [INFO] fourier_embeddings.dataset: encoded data_raw/en.txt: running total 29,588,169 tokens
+2026-08-18 23:51:24,529 [INFO] fourier_embeddings.dataset: encoded data_raw/hi.txt: running total 49,607,949 tokens
+2026-08-18 23:53:00,636 [INFO] fourier_embeddings.dataset: encoded data_raw/ta.txt: running total 71,455,970 tokens
+2026-08-18 23:54:38,779 [INFO] fourier_embeddings.dataset: encoded data_raw/te.txt: running total 93,962,612 tokens
+2026-08-18 23:54:43,097 [INFO] fourier_embeddings.dataset: wrote data_bin/train.bin (92,083,360 tokens), data_bin/val.bin (1,879,252 tokens)
+2026-08-18 23:54:44,806 [INFO] fourier_embeddings.dataset: done: {'vocab_size': 16384, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 92083360, 'val_tokens': 1879252, 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'input_files': ['data_raw/bn.txt', 'data_raw/en.txt', 'data_raw/hi.txt', 'data_raw/ta.txt', 'data_raw/te.txt']}

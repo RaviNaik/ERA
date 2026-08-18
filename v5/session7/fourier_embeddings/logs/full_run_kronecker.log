@@ -1,0 +1,122 @@
+2026-08-18 23:54:48,534 [INFO] fourier_embeddings.train.full_run_kronecker: ==================== run start (resume=False) ====================
+2026-08-18 23:54:48,534 [INFO] fourier_embeddings.train.full_run_kronecker: args: {'run_name': 'full_run_kronecker', 'out_dir': 'results', 'aim_repo': 'aim_repo', 'log_dir': 'logs', 'no_aim': False, 'data_dir': 'data_bin', 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'embedding': 'kronecker', 'char_dim': 256, 'pos_dim': 32, 'fourier_dim': 32, 'hrr_dim': 1024, 'codec_mode': 'dynamic', 'tie_weights': False, 'block_size': 1024, 'n_layer': 12, 'n_head': 12, 'n_embd': 768, 'dropout': 0.0, 'bias': False, 'max_steps': 5000, 'max_epochs': None, 'batch_size': 32, 'grad_accum_steps': 2, 'learning_rate': 0.0003, 'min_lr': 3e-05, 'warmup_steps': 500, 'weight_decay': 0.1, 'grad_clip': 1.0, 'eval_interval': 500, 'eval_iters': 100, 'log_interval': 50, 'save_interval': 1000, 'device': 'cuda', 'require_cuda': True, 'dtype': 'bfloat16', 'compile': False, 'seed': 1337, 'resume': False}
+2026-08-18 23:54:48,537 [INFO] fourier_embeddings.train.full_run_kronecker: data meta: {'vocab_size': 16384, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 92083360, 'val_tokens': 1879252, 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'input_files': ['data_raw/bn.txt', 'data_raw/en.txt', 'data_raw/hi.txt', 'data_raw/ta.txt', 'data_raw/te.txt']}
+2026-08-18 23:54:51,611 [INFO] fourier_embeddings.train.full_run_kronecker: model param breakdown: {'token_codec': 6291456, 'position_embedding': 786432, 'transformer_blocks': 84953088, 'ln_f': 768, 'lm_head': 12582912, 'total': 104614656}
+2026-08-18 23:54:52,743 [WARNING] fourier_embeddings.train.full_run_kronecker: could not initialize Aim run: 
+2026-08-18 23:54:52,743 [INFO] fourier_embeddings.train.full_run_kronecker: starting training: 5000 steps, 65536 tokens/step, embedding=kronecker
+2026-08-18 23:54:54,368 [INFO] fourier_embeddings.train.full_run_kronecker: step      0/5000 | loss 9.8896 | lr 6.00e-07 | tok/s 0
+2026-08-18 23:55:06,839 [INFO] fourier_embeddings.train.full_run_kronecker: step      0 | val_loss 9.7927 | val_ppl 17902.49
+2026-08-18 23:55:42,204 [INFO] fourier_embeddings.train.full_run_kronecker: step     50/5000 | loss 6.9508 | lr 3.06e-05 | tok/s 68,500
+2026-08-18 23:56:17,727 [INFO] fourier_embeddings.train.full_run_kronecker: step    100/5000 | loss 5.0308 | lr 6.06e-05 | tok/s 92,246
+2026-08-18 23:56:53,583 [INFO] fourier_embeddings.train.full_run_kronecker: step    150/5000 | loss 4.3176 | lr 9.06e-05 | tok/s 91,388
+2026-08-18 23:57:29,596 [INFO] fourier_embeddings.train.full_run_kronecker: step    200/5000 | loss 4.1085 | lr 1.21e-04 | tok/s 90,987
+2026-08-18 23:58:05,703 [INFO] fourier_embeddings.train.full_run_kronecker: step    250/5000 | loss 3.8903 | lr 1.51e-04 | tok/s 90,752
+2026-08-18 23:58:41,818 [INFO] fourier_embeddings.train.full_run_kronecker: step    300/5000 | loss 3.4666 | lr 1.81e-04 | tok/s 90,733
+2026-08-18 23:59:17,987 [INFO] fourier_embeddings.train.full_run_kronecker: step    350/5000 | loss 3.7826 | lr 2.11e-04 | tok/s 90,597
+2026-08-18 23:59:53,926 [INFO] fourier_embeddings.train.full_run_kronecker: step    400/5000 | loss 3.6434 | lr 2.41e-04 | tok/s 91,178
+2026-08-19 00:00:29,746 [INFO] fourier_embeddings.train.full_run_kronecker: step    450/5000 | loss 3.5736 | lr 2.71e-04 | tok/s 91,480
+2026-08-19 00:01:05,534 [INFO] fourier_embeddings.train.full_run_kronecker: step    500/5000 | loss 3.2778 | lr 3.00e-04 | tok/s 91,562
+2026-08-19 00:01:18,505 [INFO] fourier_embeddings.train.full_run_kronecker: step    500 | val_loss 2.0330 | val_ppl 7.64
+2026-08-19 00:01:57,203 [INFO] fourier_embeddings.train.full_run_kronecker: step    550/5000 | loss 3.3648 | lr 3.00e-04 | tok/s 63,419
+2026-08-19 00:02:33,004 [INFO] fourier_embeddings.train.full_run_kronecker: step    600/5000 | loss 3.0476 | lr 3.00e-04 | tok/s 91,528
+2026-08-19 00:03:08,831 [INFO] fourier_embeddings.train.full_run_kronecker: step    650/5000 | loss 3.4727 | lr 2.99e-04 | tok/s 91,462
+2026-08-19 00:03:44,667 [INFO] fourier_embeddings.train.full_run_kronecker: step    700/5000 | loss 3.3230 | lr 2.99e-04 | tok/s 91,439
+2026-08-19 00:04:20,486 [INFO] fourier_embeddings.train.full_run_kronecker: step    750/5000 | loss 3.1426 | lr 2.98e-04 | tok/s 91,482
+2026-08-19 00:04:56,267 [INFO] fourier_embeddings.train.full_run_kronecker: step    800/5000 | loss 2.7835 | lr 2.97e-04 | tok/s 91,579
+2026-08-19 00:05:32,031 [INFO] fourier_embeddings.train.full_run_kronecker: step    850/5000 | loss 3.0742 | lr 2.96e-04 | tok/s 91,623
+2026-08-19 00:06:07,780 [INFO] fourier_embeddings.train.full_run_kronecker: step    900/5000 | loss 2.8361 | lr 2.95e-04 | tok/s 91,660
+2026-08-19 00:06:43,502 [INFO] fourier_embeddings.train.full_run_kronecker: step    950/5000 | loss 2.3822 | lr 2.93e-04 | tok/s 91,733
+2026-08-19 00:07:19,208 [INFO] fourier_embeddings.train.full_run_kronecker: step   1000/5000 | loss 2.5205 | lr 2.92e-04 | tok/s 91,771
+2026-08-19 00:07:32,155 [INFO] fourier_embeddings.train.full_run_kronecker: step   1000 | val_loss 0.5006 | val_ppl 1.65
+2026-08-19 00:07:36,854 [INFO] fourier_embeddings.train.full_run_kronecker: checkpoint saved at step 1000 -> results/full_run_kronecker/last.pt
+2026-08-19 00:08:12,481 [INFO] fourier_embeddings.train.full_run_kronecker: step   1050/5000 | loss 2.3199 | lr 2.90e-04 | tok/s 61,509
+2026-08-19 00:08:48,287 [INFO] fourier_embeddings.train.full_run_kronecker: step   1100/5000 | loss 2.4891 | lr 2.88e-04 | tok/s 91,515
+2026-08-19 00:09:24,188 [INFO] fourier_embeddings.train.full_run_kronecker: step   1150/5000 | loss 2.1940 | lr 2.86e-04 | tok/s 91,274
+2026-08-19 00:10:00,078 [INFO] fourier_embeddings.train.full_run_kronecker: step   1200/5000 | loss 2.1608 | lr 2.84e-04 | tok/s 91,301
+2026-08-19 00:10:35,841 [INFO] fourier_embeddings.train.full_run_kronecker: step   1250/5000 | loss 2.4098 | lr 2.82e-04 | tok/s 91,625
+2026-08-19 00:11:11,523 [INFO] fourier_embeddings.train.full_run_kronecker: step   1300/5000 | loss 2.0542 | lr 2.79e-04 | tok/s 91,833
+2026-08-19 00:11:47,179 [INFO] fourier_embeddings.train.full_run_kronecker: step   1350/5000 | loss 2.0658 | lr 2.77e-04 | tok/s 91,902
+2026-08-19 00:12:22,885 [INFO] fourier_embeddings.train.full_run_kronecker: step   1400/5000 | loss 1.9955 | lr 2.74e-04 | tok/s 91,772
+2026-08-19 00:12:58,655 [INFO] fourier_embeddings.train.full_run_kronecker: step   1450/5000 | loss 2.1569 | lr 2.71e-04 | tok/s 91,607
+2026-08-19 00:13:34,474 [INFO] fourier_embeddings.train.full_run_kronecker: step   1500/5000 | loss 2.2453 | lr 2.68e-04 | tok/s 91,481
+2026-08-19 00:13:47,455 [INFO] fourier_embeddings.train.full_run_kronecker: step   1500 | val_loss 0.3173 | val_ppl 1.37
+2026-08-19 00:14:26,385 [INFO] fourier_embeddings.train.full_run_kronecker: step   1550/5000 | loss 2.0968 | lr 2.65e-04 | tok/s 63,124
+2026-08-19 00:15:02,223 [INFO] fourier_embeddings.train.full_run_kronecker: step   1600/5000 | loss 2.1256 | lr 2.62e-04 | tok/s 91,433
+2026-08-19 00:15:38,066 [INFO] fourier_embeddings.train.full_run_kronecker: step   1650/5000 | loss 1.9756 | lr 2.59e-04 | tok/s 91,421
+2026-08-19 00:16:13,906 [INFO] fourier_embeddings.train.full_run_kronecker: step   1700/5000 | loss 1.8949 | lr 2.55e-04 | tok/s 91,427
+2026-08-19 00:16:49,730 [INFO] fourier_embeddings.train.full_run_kronecker: step   1750/5000 | loss 1.9577 | lr 2.52e-04 | tok/s 91,469
+2026-08-19 00:17:25,533 [INFO] fourier_embeddings.train.full_run_kronecker: step   1800/5000 | loss 2.1134 | lr 2.48e-04 | tok/s 91,525
+2026-08-19 00:18:01,305 [INFO] fourier_embeddings.train.full_run_kronecker: step   1850/5000 | loss 1.7627 | lr 2.44e-04 | tok/s 91,603
+2026-08-19 00:18:37,064 [INFO] fourier_embeddings.train.full_run_kronecker: step   1900/5000 | loss 2.0164 | lr 2.40e-04 | tok/s 91,634
+2026-08-19 00:19:12,820 [INFO] fourier_embeddings.train.full_run_kronecker: step   1950/5000 | loss 2.0456 | lr 2.37e-04 | tok/s 91,645
+2026-08-19 00:19:48,570 [INFO] fourier_embeddings.train.full_run_kronecker: step   2000/5000 | loss 1.9694 | lr 2.32e-04 | tok/s 91,657
+2026-08-19 00:20:01,524 [INFO] fourier_embeddings.train.full_run_kronecker: step   2000 | val_loss 0.2856 | val_ppl 1.33
+2026-08-19 00:20:13,350 [INFO] fourier_embeddings.train.full_run_kronecker: checkpoint saved at step 2000 -> results/full_run_kronecker/last.pt
+2026-08-19 00:20:48,952 [INFO] fourier_embeddings.train.full_run_kronecker: step   2050/5000 | loss 2.0168 | lr 2.28e-04 | tok/s 54,268
+2026-08-19 00:21:25,064 [INFO] fourier_embeddings.train.full_run_kronecker: step   2100/5000 | loss 1.7558 | lr 2.24e-04 | tok/s 90,741
+2026-08-19 00:22:01,112 [INFO] fourier_embeddings.train.full_run_kronecker: step   2150/5000 | loss 1.7495 | lr 2.20e-04 | tok/s 90,900
+2026-08-19 00:22:36,973 [INFO] fourier_embeddings.train.full_run_kronecker: step   2200/5000 | loss 1.8907 | lr 2.16e-04 | tok/s 91,374
+2026-08-19 00:23:12,716 [INFO] fourier_embeddings.train.full_run_kronecker: step   2250/5000 | loss 1.7765 | lr 2.11e-04 | tok/s 91,678
+2026-08-19 00:23:48,397 [INFO] fourier_embeddings.train.full_run_kronecker: step   2300/5000 | loss 1.8288 | lr 2.07e-04 | tok/s 91,834
+2026-08-19 00:24:24,086 [INFO] fourier_embeddings.train.full_run_kronecker: step   2350/5000 | loss 1.7349 | lr 2.02e-04 | tok/s 91,815
+2026-08-19 00:24:59,829 [INFO] fourier_embeddings.train.full_run_kronecker: step   2400/5000 | loss 1.7322 | lr 1.98e-04 | tok/s 91,676
+2026-08-19 00:25:35,625 [INFO] fourier_embeddings.train.full_run_kronecker: step   2450/5000 | loss 1.8695 | lr 1.93e-04 | tok/s 91,542
+2026-08-19 00:26:11,464 [INFO] fourier_embeddings.train.full_run_kronecker: step   2500/5000 | loss 1.8796 | lr 1.88e-04 | tok/s 91,432
+2026-08-19 00:26:24,450 [INFO] fourier_embeddings.train.full_run_kronecker: step   2500 | val_loss 0.2576 | val_ppl 1.29
+2026-08-19 00:27:03,254 [INFO] fourier_embeddings.train.full_run_kronecker: step   2550/5000 | loss 1.6285 | lr 1.84e-04 | tok/s 63,271
+2026-08-19 00:27:39,086 [INFO] fourier_embeddings.train.full_run_kronecker: step   2600/5000 | loss 1.7391 | lr 1.79e-04 | tok/s 91,448
+2026-08-19 00:28:14,914 [INFO] fourier_embeddings.train.full_run_kronecker: step   2650/5000 | loss 1.8044 | lr 1.74e-04 | tok/s 91,460
+2026-08-19 00:28:50,734 [INFO] fourier_embeddings.train.full_run_kronecker: step   2700/5000 | loss 1.6461 | lr 1.70e-04 | tok/s 91,478
+2026-08-19 00:29:26,548 [INFO] fourier_embeddings.train.full_run_kronecker: step   2750/5000 | loss 1.5744 | lr 1.65e-04 | tok/s 91,495
+2026-08-19 00:30:02,336 [INFO] fourier_embeddings.train.full_run_kronecker: step   2800/5000 | loss 1.8535 | lr 1.60e-04 | tok/s 91,562
+2026-08-19 00:30:38,102 [INFO] fourier_embeddings.train.full_run_kronecker: step   2850/5000 | loss 1.6218 | lr 1.56e-04 | tok/s 91,617
+2026-08-19 00:31:13,863 [INFO] fourier_embeddings.train.full_run_kronecker: step   2900/5000 | loss 1.5431 | lr 1.51e-04 | tok/s 91,631
+2026-08-19 00:31:49,610 [INFO] fourier_embeddings.train.full_run_kronecker: step   2950/5000 | loss 1.6187 | lr 1.46e-04 | tok/s 91,667
+2026-08-19 00:32:25,347 [INFO] fourier_embeddings.train.full_run_kronecker: step   3000/5000 | loss 1.6113 | lr 1.42e-04 | tok/s 91,694
+2026-08-19 00:32:38,294 [INFO] fourier_embeddings.train.full_run_kronecker: step   3000 | val_loss 0.2454 | val_ppl 1.28
+2026-08-19 00:32:50,321 [INFO] fourier_embeddings.train.full_run_kronecker: checkpoint saved at step 3000 -> results/full_run_kronecker/last.pt
+2026-08-19 00:33:25,918 [INFO] fourier_embeddings.train.full_run_kronecker: step   3050/5000 | loss 1.6206 | lr 1.37e-04 | tok/s 54,098
+2026-08-19 00:34:02,054 [INFO] fourier_embeddings.train.full_run_kronecker: step   3100/5000 | loss 1.6292 | lr 1.32e-04 | tok/s 90,680
+2026-08-19 00:34:38,106 [INFO] fourier_embeddings.train.full_run_kronecker: step   3150/5000 | loss 1.7125 | lr 1.28e-04 | tok/s 90,890
+2026-08-19 00:35:13,973 [INFO] fourier_embeddings.train.full_run_kronecker: step   3200/5000 | loss 1.7342 | lr 1.23e-04 | tok/s 91,361
+2026-08-19 00:35:49,705 [INFO] fourier_embeddings.train.full_run_kronecker: step   3250/5000 | loss 1.8737 | lr 1.19e-04 | tok/s 91,704
+2026-08-19 00:36:25,368 [INFO] fourier_embeddings.train.full_run_kronecker: step   3300/5000 | loss 1.6791 | lr 1.14e-04 | tok/s 91,883
+2026-08-19 00:37:01,035 [INFO] fourier_embeddings.train.full_run_kronecker: step   3350/5000 | loss 1.6709 | lr 1.10e-04 | tok/s 91,870
+2026-08-19 00:37:36,754 [INFO] fourier_embeddings.train.full_run_kronecker: step   3400/5000 | loss 1.7560 | lr 1.06e-04 | tok/s 91,739
+2026-08-19 00:38:12,542 [INFO] fourier_embeddings.train.full_run_kronecker: step   3450/5000 | loss 1.7194 | lr 1.02e-04 | tok/s 91,563
+2026-08-19 00:38:48,390 [INFO] fourier_embeddings.train.full_run_kronecker: step   3500/5000 | loss 1.6387 | lr 9.75e-05 | tok/s 91,407
+2026-08-19 00:39:01,376 [INFO] fourier_embeddings.train.full_run_kronecker: step   3500 | val_loss 0.2272 | val_ppl 1.26
+2026-08-19 00:39:40,173 [INFO] fourier_embeddings.train.full_run_kronecker: step   3550/5000 | loss 1.7176 | lr 9.35e-05 | tok/s 63,280
+2026-08-19 00:40:16,009 [INFO] fourier_embeddings.train.full_run_kronecker: step   3600/5000 | loss 2.0427 | lr 8.95e-05 | tok/s 91,438
+2026-08-19 00:40:51,854 [INFO] fourier_embeddings.train.full_run_kronecker: step   3650/5000 | loss 1.5327 | lr 8.56e-05 | tok/s 91,416
+2026-08-19 00:41:27,679 [INFO] fourier_embeddings.train.full_run_kronecker: step   3700/5000 | loss 1.5479 | lr 8.19e-05 | tok/s 91,466
+2026-08-19 00:42:03,494 [INFO] fourier_embeddings.train.full_run_kronecker: step   3750/5000 | loss 1.4684 | lr 7.82e-05 | tok/s 91,493
+2026-08-19 00:42:39,293 [INFO] fourier_embeddings.train.full_run_kronecker: step   3800/5000 | loss 1.7716 | lr 7.47e-05 | tok/s 91,534
+2026-08-19 00:43:15,077 [INFO] fourier_embeddings.train.full_run_kronecker: step   3850/5000 | loss 1.5100 | lr 7.12e-05 | tok/s 91,571
+2026-08-19 00:43:50,857 [INFO] fourier_embeddings.train.full_run_kronecker: step   3900/5000 | loss 1.5277 | lr 6.79e-05 | tok/s 91,582
+2026-08-19 00:44:26,605 [INFO] fourier_embeddings.train.full_run_kronecker: step   3950/5000 | loss 1.5948 | lr 6.47e-05 | tok/s 91,665
+2026-08-19 00:45:02,350 [INFO] fourier_embeddings.train.full_run_kronecker: step   4000/5000 | loss 1.5202 | lr 6.16e-05 | tok/s 91,672
+2026-08-19 00:45:15,299 [INFO] fourier_embeddings.train.full_run_kronecker: step   4000 | val_loss 0.2224 | val_ppl 1.25
+2026-08-19 00:45:26,647 [INFO] fourier_embeddings.train.full_run_kronecker: checkpoint saved at step 4000 -> results/full_run_kronecker/last.pt
+2026-08-19 00:46:02,244 [INFO] fourier_embeddings.train.full_run_kronecker: step   4050/5000 | loss 1.7372 | lr 5.86e-05 | tok/s 54,710
+2026-08-19 00:46:38,347 [INFO] fourier_embeddings.train.full_run_kronecker: step   4100/5000 | loss 1.5661 | lr 5.58e-05 | tok/s 90,762
+2026-08-19 00:47:14,409 [INFO] fourier_embeddings.train.full_run_kronecker: step   4150/5000 | loss 1.6103 | lr 5.31e-05 | tok/s 90,868
+2026-08-19 00:47:50,232 [INFO] fourier_embeddings.train.full_run_kronecker: step   4200/5000 | loss 1.4782 | lr 5.05e-05 | tok/s 91,471
+2026-08-19 00:48:25,938 [INFO] fourier_embeddings.train.full_run_kronecker: step   4250/5000 | loss 1.7748 | lr 4.81e-05 | tok/s 91,772
+2026-08-19 00:49:01,601 [INFO] fourier_embeddings.train.full_run_kronecker: step   4300/5000 | loss 1.5540 | lr 4.58e-05 | tok/s 91,881
+2026-08-19 00:49:37,286 [INFO] fourier_embeddings.train.full_run_kronecker: step   4350/5000 | loss 1.6512 | lr 4.37e-05 | tok/s 91,826
+2026-08-19 00:50:13,015 [INFO] fourier_embeddings.train.full_run_kronecker: step   4400/5000 | loss 1.6152 | lr 4.17e-05 | tok/s 91,714
+2026-08-19 00:50:48,833 [INFO] fourier_embeddings.train.full_run_kronecker: step   4450/5000 | loss 1.9105 | lr 3.98e-05 | tok/s 91,485
+2026-08-19 00:51:24,679 [INFO] fourier_embeddings.train.full_run_kronecker: step   4500/5000 | loss 1.7979 | lr 3.81e-05 | tok/s 91,413
+2026-08-19 00:51:37,664 [INFO] fourier_embeddings.train.full_run_kronecker: step   4500 | val_loss 0.2166 | val_ppl 1.24
+2026-08-19 00:52:16,212 [INFO] fourier_embeddings.train.full_run_kronecker: step   4550/5000 | loss 1.5651 | lr 3.66e-05 | tok/s 63,586
+2026-08-19 00:52:52,037 [INFO] fourier_embeddings.train.full_run_kronecker: step   4600/5000 | loss 1.3871 | lr 3.52e-05 | tok/s 91,467
+2026-08-19 00:53:27,866 [INFO] fourier_embeddings.train.full_run_kronecker: step   4650/5000 | loss 1.6042 | lr 3.40e-05 | tok/s 91,458
+2026-08-19 00:54:03,686 [INFO] fourier_embeddings.train.full_run_kronecker: step   4700/5000 | loss 1.5254 | lr 3.30e-05 | tok/s 91,478
+2026-08-19 00:54:39,495 [INFO] fourier_embeddings.train.full_run_kronecker: step   4750/5000 | loss 1.3874 | lr 3.21e-05 | tok/s 91,508
+2026-08-19 00:55:15,285 [INFO] fourier_embeddings.train.full_run_kronecker: step   4800/5000 | loss 1.5854 | lr 3.13e-05 | tok/s 91,556
+2026-08-19 00:55:51,073 [INFO] fourier_embeddings.train.full_run_kronecker: step   4850/5000 | loss 1.9184 | lr 3.07e-05 | tok/s 91,562
+2026-08-19 00:56:26,850 [INFO] fourier_embeddings.train.full_run_kronecker: step   4900/5000 | loss 1.5270 | lr 3.03e-05 | tok/s 91,590
+2026-08-19 00:57:02,609 [INFO] fourier_embeddings.train.full_run_kronecker: step   4950/5000 | loss 1.7141 | lr 3.01e-05 | tok/s 91,634
+2026-08-19 00:57:50,592 [INFO] fourier_embeddings.train.full_run_kronecker: step   4999 | val_loss 0.2136 | val_ppl 1.24
+2026-08-19 00:58:07,460 [INFO] fourier_embeddings.train.full_run_kronecker: training complete in 3781.3s. final_val_loss=0.2197 best_val_loss=0.2136. wrote results/full_run_kronecker/metrics.json

@@ -1,5 +1,0 @@
-2026-08-18 11:25:49,022 [INFO] fourier_embeddings.download: downloading hi -> /tmp/dl_retest/hi.txt (target ~0.3MB)
-2026-08-18 11:25:51,527 [INFO] fourier_embeddings.download: [hi] 1394782/300000 chars, 100 articles (offset=100)
-2026-08-18 11:25:52,028 [INFO] fourier_embeddings.download: [hi] done: {'lang': 'hi', 'chars': 1394782, 'articles': 100, 'path': '/tmp/dl_retest/hi.txt', 'complete': True, 'error': None}
-2026-08-18 11:25:52,029 [INFO] fourier_embeddings.download: wrote manifest -> /tmp/dl_retest/manifest.json
-2026-08-18 11:25:52,030 [INFO] fourier_embeddings.download: total corpus: 1,394,782 chars across 1 languages
