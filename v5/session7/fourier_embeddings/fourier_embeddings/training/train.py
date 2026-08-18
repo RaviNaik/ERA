@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import math
+import signal
 import time
 from pathlib import Path
 
@@ -89,6 +90,10 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--dtype", default="bfloat16", choices=["float32", "bfloat16", "float16"])
     ap.add_argument("--compile", action="store_true")
     ap.add_argument("--seed", type=int, default=1337)
+    ap.add_argument("--resume", action="store_true",
+                     help="continue from results/<run-name>/last.pt (model, optimizer, step, "
+                          "history, best-val-loss, and the same Aim run). Errors out if no "
+                          "checkpoint is found -- use a fresh --run-name for a real fresh start.")
 
     return ap
 
@@ -124,6 +129,10 @@ def main():
     run_dir.mkdir(parents=True, exist_ok=True)
     log_file = str(Path(args.log_dir) / f"{args.run_name}.log")
     logger = setup_logging(log_file, name=f"fourier_embeddings.train.{args.run_name}")
+    # FileHandler appends by default (nothing is lost across invocations), so
+    # stamp a clear boundary every time a run (re)starts -- otherwise two
+    # attempts' output lands in the same file with no visual separator.
+    logger.info(f"{'='*20} run start (resume={args.resume}) {'='*20}")
     logger.info(f"args: {vars(args)}")
 
     torch.manual_seed(args.seed)
@@ -181,11 +190,50 @@ def main():
     raw_model = model._orig_mod if args.compile else model
     optimizer = raw_model.configure_optimizer(args.weight_decay, args.learning_rate, (0.9, 0.95))
 
+    # --- resume, if requested ---
+    step = 0
+    history = {"step": [], "train_loss": [], "val_loss": [], "lr": [], "tokens_per_sec": []}
+    best_val_loss = float("inf")
+    cumulative_time_sec = 0.0
+    aim_run_hash = None
+    ckpt_path = run_dir / "last.pt"
+    if args.resume:
+        if not ckpt_path.exists():
+            raise SystemExit(f"--resume passed but no checkpoint found at {ckpt_path}. "
+                              f"Use a fresh --run-name to start over instead of --resume.")
+        logger.info(f"resuming from {ckpt_path}")
+        ckpt = torch.load(ckpt_path, map_location=args.device)
+        if ckpt.get("model_cfg") != model_cfg.to_dict():
+            raise SystemExit(
+                "refusing to resume: the checkpoint's model_cfg does not match the model "
+                "config built from this invocation's args (embedding/model-size/pos-dim/... "
+                "flags must be identical to the original run).\n"
+                f"checkpoint: {ckpt.get('model_cfg')}\ncurrent:    {model_cfg.to_dict()}"
+            )
+        raw_model.load_state_dict(ckpt["model"])
+        optimizer.load_state_dict(ckpt["optimizer"])
+        if scaler.is_enabled() and ckpt.get("scaler") is not None:
+            scaler.load_state_dict(ckpt["scaler"])
+        step = ckpt["step"]
+        best_val_loss = ckpt.get("best_val_loss", float("inf"))
+        history = ckpt.get("history", history)
+        cumulative_time_sec = ckpt.get("cumulative_time_sec", 0.0)
+        aim_run_hash = ckpt.get("aim_run_hash")
+        if ckpt.get("rng_state") is not None:
+            torch.set_rng_state(ckpt["rng_state"].cpu())
+        if torch.cuda.is_available() and ckpt.get("cuda_rng_state") is not None:
+            torch.cuda.set_rng_state(ckpt["cuda_rng_state"].cpu())
+        logger.info(f"resumed at step {step}/{args.max_steps}, best_val_loss={best_val_loss:.4f}, "
+                    f"{cumulative_time_sec:.1f}s already spent on this run")
+        if step >= args.max_steps:
+            logger.warning(f"checkpoint step {step} already >= --max-steps {args.max_steps}; "
+                            f"nothing to do (raise --max-steps to train further)")
+
     # --- Aim ---
     aim_run = None
     if not args.no_aim and AimRun is not None:
         try:
-            aim_run = AimRun(repo=args.aim_repo, experiment="fourier_embeddings")
+            aim_run = AimRun(run_hash=aim_run_hash, repo=args.aim_repo, experiment="fourier_embeddings")
             aim_run.name = args.run_name
             aim_run["model_config"] = model_cfg.to_dict()
             aim_run["train_config"] = train_cfg.to_dict()
@@ -196,82 +244,112 @@ def main():
     elif AimRun is None:
         logger.warning("aim not installed; proceeding without experiment tracking")
 
-    history = {"step": [], "train_loss": [], "val_loss": [], "lr": [], "tokens_per_sec": []}
-    best_val_loss = float("inf")
+    def save_checkpoint(path: Path, step_to_resume_at: int, elapsed_this_segment: float):
+        torch.save({
+            "model": raw_model.state_dict(),
+            "optimizer": optimizer.state_dict(),
+            "scaler": scaler.state_dict() if scaler.is_enabled() else None,
+            "step": step_to_resume_at,
+            "best_val_loss": best_val_loss,
+            "history": history,
+            "cumulative_time_sec": cumulative_time_sec + elapsed_this_segment,
+            "aim_run_hash": aim_run.hash if aim_run is not None else None,
+            "model_cfg": model_cfg.to_dict(),
+        }, path)
+
+    # Cloud/cluster preemption typically arrives as SIGTERM; treat it like
+    # Ctrl-C so the except-block below gets a chance to save an emergency
+    # checkpoint before the process is killed for real.
+    def _handle_sigterm(signum, frame):
+        raise KeyboardInterrupt("received SIGTERM")
+    signal.signal(signal.SIGTERM, _handle_sigterm)
+
     t_start = time.time()
     tokens_per_step = args.batch_size * args.block_size * args.grad_accum_steps
 
     logger.info(f"starting training: {args.max_steps} steps, {tokens_per_step} tokens/step, "
                 f"embedding={args.embedding}")
 
-    step = 0
     t_last = time.time()
-    while step < args.max_steps:
-        lr = get_lr(step, args.warmup_steps, args.max_steps, args.learning_rate, args.min_lr)
-        for pg in optimizer.param_groups:
-            pg["lr"] = lr
+    try:
+        while step < args.max_steps:
+            lr = get_lr(step, args.warmup_steps, args.max_steps, args.learning_rate, args.min_lr)
+            for pg in optimizer.param_groups:
+                pg["lr"] = lr
 
-        optimizer.zero_grad(set_to_none=True)
-        accum_loss = 0.0
-        for micro in range(args.grad_accum_steps):
-            x, y = train_ds.get_batch(args.block_size, args.batch_size, args.device)
-            with amp_ctx:
-                _, loss = model(x, y)
-                loss = loss / args.grad_accum_steps
+            optimizer.zero_grad(set_to_none=True)
+            accum_loss = 0.0
+            for micro in range(args.grad_accum_steps):
+                x, y = train_ds.get_batch(args.block_size, args.batch_size, args.device)
+                with amp_ctx:
+                    _, loss = model(x, y)
+                    loss = loss / args.grad_accum_steps
+                if scaler.is_enabled():
+                    scaler.scale(loss).backward()
+                else:
+                    loss.backward()
+                accum_loss += loss.item()
+
+            if args.grad_clip > 0:
+                if scaler.is_enabled():
+                    scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
+
             if scaler.is_enabled():
-                scaler.scale(loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
             else:
-                loss.backward()
-            accum_loss += loss.item()
+                optimizer.step()
 
-        if args.grad_clip > 0:
-            if scaler.is_enabled():
-                scaler.unscale_(optimizer)
-            torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
+            if step % args.log_interval == 0:
+                t_now = time.time()
+                dt = t_now - t_last
+                t_last = t_now
+                toks_per_sec = (tokens_per_step * args.log_interval) / max(dt, 1e-6) if step > 0 else 0.0
+                logger.info(f"step {step:6d}/{args.max_steps} | loss {accum_loss:.4f} | lr {lr:.2e} | "
+                            f"tok/s {toks_per_sec:,.0f}")
+                history["step"].append(step)
+                history["train_loss"].append(accum_loss)
+                history["lr"].append(lr)
+                history["tokens_per_sec"].append(toks_per_sec)
+                if aim_run is not None:
+                    aim_run.track(accum_loss, name="loss", step=step, context={"subset": "train"})
+                    aim_run.track(lr, name="lr", step=step)
+                    aim_run.track(toks_per_sec, name="tokens_per_sec", step=step)
 
-        if scaler.is_enabled():
-            scaler.step(optimizer)
-            scaler.update()
-        else:
-            optimizer.step()
+            if step % args.eval_interval == 0 or step == args.max_steps - 1:
+                val_loss = estimate_loss(raw_model, val_ds, args.block_size, args.batch_size,
+                                          args.device, args.eval_iters, amp_ctx)
+                val_ppl = math.exp(min(val_loss, 20))
+                logger.info(f"step {step:6d} | val_loss {val_loss:.4f} | val_ppl {val_ppl:.2f}")
+                history["val_loss"].append({"step": step, "val_loss": val_loss})
+                if aim_run is not None:
+                    aim_run.track(val_loss, name="loss", step=step, context={"subset": "val"})
+                    aim_run.track(val_ppl, name="perplexity", step=step, context={"subset": "val"})
+                if val_loss < best_val_loss:
+                    best_val_loss = val_loss
+                    torch.save({"model": raw_model.state_dict(), "step": step,
+                                "model_cfg": model_cfg.to_dict()}, run_dir / "best.pt")
 
-        if step % args.log_interval == 0:
-            t_now = time.time()
-            dt = t_now - t_last
-            t_last = t_now
-            toks_per_sec = (tokens_per_step * args.log_interval) / max(dt, 1e-6) if step > 0 else 0.0
-            logger.info(f"step {step:6d}/{args.max_steps} | loss {accum_loss:.4f} | lr {lr:.2e} | "
-                        f"tok/s {toks_per_sec:,.0f}")
-            history["step"].append(step)
-            history["train_loss"].append(accum_loss)
-            history["lr"].append(lr)
-            history["tokens_per_sec"].append(toks_per_sec)
-            if aim_run is not None:
-                aim_run.track(accum_loss, name="loss", step=step, context={"subset": "train"})
-                aim_run.track(lr, name="lr", step=step)
-                aim_run.track(toks_per_sec, name="tokens_per_sec", step=step)
+            if step > 0 and step % args.save_interval == 0:
+                save_checkpoint(run_dir / "last.pt", step + 1, time.time() - t_start)
+                logger.info(f"checkpoint saved at step {step} -> {run_dir / 'last.pt'}")
 
-        if step % args.eval_interval == 0 or step == args.max_steps - 1:
-            val_loss = estimate_loss(raw_model, val_ds, args.block_size, args.batch_size,
-                                      args.device, args.eval_iters, amp_ctx)
-            val_ppl = math.exp(min(val_loss, 20))
-            logger.info(f"step {step:6d} | val_loss {val_loss:.4f} | val_ppl {val_ppl:.2f}")
-            history["val_loss"].append({"step": step, "val_loss": val_loss})
-            if aim_run is not None:
-                aim_run.track(val_loss, name="loss", step=step, context={"subset": "val"})
-                aim_run.track(val_ppl, name="perplexity", step=step, context={"subset": "val"})
-            if val_loss < best_val_loss:
-                best_val_loss = val_loss
-                torch.save({"model": raw_model.state_dict(), "step": step,
-                            "model_cfg": model_cfg.to_dict()}, run_dir / "best.pt")
+            step += 1
+    except KeyboardInterrupt:
+        # Covers both a real Ctrl-C and SIGTERM (redirected above) -- e.g. a
+        # preemptible/spot A6000 instance being reclaimed mid-run. Save an
+        # emergency checkpoint at the last *completed* step so `--resume`
+        # picks up cleanly, then exit non-zero so a wrapper script (e.g.
+        # run_experiment.py) can tell this run did not finish normally.
+        save_checkpoint(run_dir / "last.pt", step, time.time() - t_start)
+        logger.warning(f"interrupted at step {step}/{args.max_steps}; emergency checkpoint saved "
+                        f"to {run_dir / 'last.pt'}. Re-run with --resume to continue.")
+        if aim_run is not None:
+            aim_run.close()
+        raise SystemExit(130)
 
-        if step > 0 and step % args.save_interval == 0:
-            torch.save({"model": raw_model.state_dict(), "optimizer": optimizer.state_dict(),
-                        "step": step, "model_cfg": model_cfg.to_dict()}, run_dir / "last.pt")
-
-        step += 1
-
-    total_time = time.time() - t_start
+    total_time = cumulative_time_sec + (time.time() - t_start)
     final_val_loss = estimate_loss(raw_model, val_ds, args.block_size, args.batch_size,
                                     args.device, args.eval_iters, amp_ctx)
     torch.save({"model": raw_model.state_dict(), "step": step, "model_cfg": model_cfg.to_dict()},

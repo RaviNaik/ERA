@@ -59,6 +59,12 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--no-aim", action="store_true")
     ap.add_argument("--dry-run", action="store_true", help="print commands without running them")
+    ap.add_argument("--force", action="store_true",
+                     help="retrain an arm even if results/<experiment-name>_<arm>/metrics.json "
+                          "already shows it completed (default: skip completed arms, so "
+                          "re-running this command after an interruption only trains what's "
+                          "left -- and continues a mid-run arm from its last checkpoint "
+                          "instead of restarting it).")
     return ap
 
 
@@ -96,9 +102,25 @@ def main():
     t0 = time.time()
     for arm in args.arms:
         run_name = f"{args.experiment_name}_{arm}"
+        run_dir = Path(args.out_dir) / run_name
+        metrics_path = run_dir / "metrics.json"
+        checkpoint_path = run_dir / "last.pt"
+
+        if not args.force and metrics_path.exists():
+            metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+            run_results[arm] = metrics
+            logger_local.info(f"arm '{arm}' already completed (found {metrics_path}); skipping "
+                               f"(--force to retrain): final_val_loss={metrics.get('final_val_loss'):.4f}")
+            continue
+
         cmd = [sys.executable, "-m", "fourier_embeddings.training.train",
                "--run-name", run_name, "--embedding", arm] + forwarded
-        logger_local.info(f"=== arm '{arm}' ===\n{' '.join(cmd)}")
+        resuming = not args.force and checkpoint_path.exists()
+        if resuming:
+            cmd = cmd + ["--resume"]
+            logger_local.info(f"=== arm '{arm}' (resuming from {checkpoint_path}) ===\n{' '.join(cmd)}")
+        else:
+            logger_local.info(f"=== arm '{arm}' ===\n{' '.join(cmd)}")
         if args.dry_run:
             continue
         t_arm = time.time()
@@ -108,7 +130,6 @@ def main():
             logger_local.error(f"arm '{arm}' failed with exit code {result.returncode}")
             run_results[arm] = {"status": "failed", "returncode": result.returncode}
             continue
-        metrics_path = Path(args.out_dir) / run_name / "metrics.json"
         if metrics_path.exists():
             metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
             metrics["wall_clock_sec"] = elapsed

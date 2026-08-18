@@ -9,6 +9,15 @@
 # defaults here are already well past "smoke test" (a few hundred MB of
 # text, a ~50M-param model) but still modest enough to finish in well under
 # a day on one A6000.
+#
+# Safe to re-run after any interruption (crash, OOM, SIGTERM/preemption,
+# Ctrl-C, or you just stopping it): every step below skips work that already
+# finished. Concretely -- download/tokenizer/pack-dataset skip a language,
+# tokenizer, or packed dataset that's already on disk (pass --overwrite to
+# force a redo if the corpus or tokenizer config actually changed); the
+# experiment runner skips any arm whose metrics.json shows it completed, and
+# automatically resumes (from the last --save-interval checkpoint) any arm
+# that has a checkpoint but no metrics.json. Just re-run this same command.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -51,7 +60,7 @@ uv run fe-run-experiment --experiment-name "$EXPERIMENT_NAME" \
     --pos-dim "$POS_DIM" --fourier-dim "$FOURIER_DIM" --hrr-dim "$HRR_DIM" \
     --max-steps "$MAX_STEPS" --batch-size "$BATCH_SIZE" --grad-accum-steps "$GRAD_ACCUM" \
     --learning-rate 3e-4 --warmup-steps 500 \
-    --eval-interval 500 --eval-iters 100 --log-interval 50 --save-interval 2000 \
+    --eval-interval 500 --eval-iters 100 --log-interval 50 --save-interval 1000 \
     --dtype bfloat16
 
 echo

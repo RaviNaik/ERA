@@ -115,6 +115,10 @@ def main():
     ap.add_argument("--tokenizer-path", default="tokenizer_out/tokenizer.json")
     ap.add_argument("--out-dir", default="data_bin")
     ap.add_argument("--val-fraction", type=float, default=0.02)
+    ap.add_argument("--overwrite", action="store_true",
+                     help="repack even if <out-dir>/meta.json already exists (default: skip, "
+                          "since re-running the full pipeline after an interruption shouldn't "
+                          "redo an already-finished pack).")
     ap.add_argument("--log-file", default="logs/pack_dataset.log")
     args = ap.parse_args()
 
@@ -124,6 +128,14 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         handlers=[logging.FileHandler(args.log_file), logging.StreamHandler()],
     )
+
+    existing = Path(args.out_dir) / "meta.json"
+    if not args.overwrite and existing.exists():
+        logger.info(f"{existing} already exists; skipping packing (--overwrite to redo). "
+                    f"NOTE: if the tokenizer or input corpus changed, you must pass --overwrite "
+                    f"or the old (now-mismatched) binary dataset will be reused silently.")
+        return
+
     meta = pack_dataset(args.input_dir, args.tokenizer_path, args.out_dir, args.val_fraction)
     logger.info(f"done: {meta}")
 

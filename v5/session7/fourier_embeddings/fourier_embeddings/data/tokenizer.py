@@ -73,6 +73,10 @@ def main():
     ap.add_argument("--out-dir", default="tokenizer_out")
     ap.add_argument("--vocab-size", type=int, default=16384)
     ap.add_argument("--min-frequency", type=int, default=2)
+    ap.add_argument("--overwrite", action="store_true",
+                     help="retrain even if <out-dir>/tokenizer.json already exists (default: "
+                          "skip training, since re-running the full pipeline after an "
+                          "interruption shouldn't redo an already-finished tokenizer).")
     ap.add_argument("--log-file", default="logs/tokenizer.log")
     args = ap.parse_args()
 
@@ -82,6 +86,13 @@ def main():
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         handlers=[logging.FileHandler(args.log_file), logging.StreamHandler()],
     )
+
+    existing = Path(args.out_dir) / "tokenizer.json"
+    if not args.overwrite and existing.exists():
+        logger.info(f"{existing} already exists; skipping training (--overwrite to retrain). "
+                    f"NOTE: if the vocab size or input corpus changed, you must pass --overwrite "
+                    f"or the old tokenizer (and its byte map) will be reused silently.")
+        return
 
     input_files = sorted(str(p) for p in Path(args.input_dir).glob("*.txt"))
     if not input_files:

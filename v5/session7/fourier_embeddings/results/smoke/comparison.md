@@ -1,6 +1,6 @@
 # Experiment: smoke
 
-Total wall clock: 33.8s
+Total wall clock: 45.1s
 
 | Arm | Params (total) | Params (codec) | Final val loss | Best val loss | Final val ppl | Tokens trained |
 |---|---|---|---|---|---|---|

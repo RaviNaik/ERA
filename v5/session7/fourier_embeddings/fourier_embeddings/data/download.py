@@ -114,6 +114,10 @@ def main():
     ap.add_argument("--langs", nargs="+", default=DEFAULT_LANGS)
     ap.add_argument("--target-mb-per-lang", type=float, default=3.0,
                      help="Approximate target size (MB) per language, in UTF-8 characters.")
+    ap.add_argument("--overwrite", action="store_true",
+                     help="re-download a language even if its .txt file already reached the "
+                          "target size (default: skip it, so re-running after an interruption "
+                          "or a rate-limit failure doesn't redo already-finished languages).")
     ap.add_argument("--log-file", default="logs/download.log")
     args = ap.parse_args()
 
@@ -131,6 +135,18 @@ def main():
     manifest = []
     for lang in args.langs:
         out_path = out_dir / f"{lang}.txt"
+
+        if not args.overwrite and out_path.exists():
+            existing_chars = out_path.stat().st_size  # byte count is a cheap lower bound on char count
+            if existing_chars >= target_chars:
+                text = out_path.read_text(encoding="utf-8")
+                logger.info(f"[{lang}] {out_path} already has {len(text):,} chars "
+                            f"(target {target_chars:,}); skipping (--overwrite to redo)")
+                manifest.append({"lang": lang, "chars": len(text), "articles": None,
+                                  "path": str(out_path), "complete": True, "error": None,
+                                  "skipped": True})
+                continue
+
         logger.info(f"downloading {lang} -> {out_path} (target ~{args.target_mb_per_lang}MB)")
         try:
             stats = download_language(lang, out_path, target_chars)

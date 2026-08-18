@@ -25,7 +25,11 @@ uv run fe-pack-dataset --input-dir data_raw_smoke --tokenizer-path tokenizer_out
     --out-dir data_bin_smoke --val-fraction 0.05 --log-file logs/smoke_pack.log
 
 echo "=== [4/6] run all embedding arms for a handful of steps ==="
-uv run fe-run-experiment --experiment-name smoke \
+# --force: this script is meant to genuinely re-exercise the pipeline every
+# time it's run (e.g. after a code change), not silently skip already-
+# completed arms from a previous smoke-test invocation. See README's
+# "Resuming an interrupted run" section for what --force turns off.
+uv run fe-run-experiment --experiment-name smoke --force \
     --data-dir data_bin_smoke --tokenizer-path tokenizer_out_smoke/tokenizer.json \
     --arms dense kronecker fourier fourier_narrow hrr \
     --block-size 64 --n-layer 2 --n-head 2 --n-embd 64 \

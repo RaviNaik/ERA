@@ -33,3 +33,10 @@
 2026-08-18 10:01:01,980 [INFO] fourier_embeddings.download: [bn] done: {'lang': 'bn', 'chars': 1554038, 'articles': 100, 'path': 'data_raw_smoke/bn.txt'}
 2026-08-18 10:01:01,988 [INFO] fourier_embeddings.download: wrote manifest -> data_raw_smoke/manifest.json
 2026-08-18 10:01:01,988 [INFO] fourier_embeddings.download: total corpus: 7,439,019 chars across 5 languages
+2026-08-18 13:43:17,104 [INFO] fourier_embeddings.download: [en] data_raw_smoke/en.txt already has 3,243,485 chars (target 300,000); skipping (--overwrite to redo)
+2026-08-18 13:43:17,143 [INFO] fourier_embeddings.download: [hi] data_raw_smoke/hi.txt already has 1,394,982 chars (target 300,000); skipping (--overwrite to redo)
+2026-08-18 13:43:17,164 [INFO] fourier_embeddings.download: [te] data_raw_smoke/te.txt already has 664,506 chars (target 300,000); skipping (--overwrite to redo)
+2026-08-18 13:43:17,181 [INFO] fourier_embeddings.download: [ta] data_raw_smoke/ta.txt already has 582,808 chars (target 300,000); skipping (--overwrite to redo)
+2026-08-18 13:43:17,272 [INFO] fourier_embeddings.download: [bn] data_raw_smoke/bn.txt already has 1,554,238 chars (target 300,000); skipping (--overwrite to redo)
+2026-08-18 13:43:17,280 [INFO] fourier_embeddings.download: wrote manifest -> data_raw_smoke/manifest.json
+2026-08-18 13:43:17,281 [INFO] fourier_embeddings.download: total corpus: 7,440,019 chars across 5 languages

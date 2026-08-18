@@ -140,6 +140,48 @@ Track a run live with:
 uv run aim up --repo aim_repo
 ```
 
+## Resuming an interrupted run
+
+Everything above is safe to just re-run after a crash, an OOM, a preemptible
+instance being reclaimed (SIGTERM), or you stopping it with Ctrl-C:
+
+- **`fe-download-data` / `fe-train-tokenizer` / `fe-pack-dataset`** each skip
+  their work by default if the output already exists (a language's `.txt`
+  file that already reached its target size, an existing `tokenizer.json`,
+  an existing packed `data_bin/`). Pass `--overwrite` to force a redo — you
+  need to if the corpus languages, target size, vocab size, or tokenizer
+  changed, since a stale skip would otherwise silently reuse the old one.
+- **`fe-train`** checkpoints to `results/<run-name>/last.pt` every
+  `--save-interval` steps (model, optimizer, step, history, best-val-loss,
+  and — if Aim is on — the Aim run's hash, so metrics continue into the same
+  run instead of starting a new one). A SIGTERM or Ctrl-C is caught and
+  triggers one extra "emergency" checkpoint at the last completed step
+  before the process exits, so a graceful stop never loses more than a
+  fraction of a `--save-interval`. Continue an interrupted run with:
+  ```bash
+  uv run fe-train --run-name <same-run-name> --resume <same other args>
+  ```
+  `--resume` refuses to proceed if `results/<run-name>/last.pt` doesn't
+  exist, or if its saved model config doesn't match the current args
+  (mismatched `--embedding`/model-size/`--pos-dim`/... flags) — it will not
+  silently load a checkpoint into the wrong-shaped model. A crash that
+  happens between periodic saves (a hard kill, an actual GPU fault) loses
+  only the steps since the last checkpoint, not the whole run.
+- **`fe-run-experiment`** (and therefore `run_full_experiment.sh`, which
+  calls it) checks each arm's `results/<experiment-name>_<arm>/` before
+  running it: an arm with a `metrics.json` is treated as done and skipped;
+  an arm with a checkpoint but no `metrics.json` is automatically re-invoked
+  with `--resume`; an arm with neither starts fresh. So re-running
+  `bash scripts/run_full_experiment.sh` after any interruption — mid-arm or
+  between arms — does the right thing with no extra flags. Pass `--force` to
+  `fe-run-experiment` to retrain every requested arm regardless (this is
+  what `scripts/smoke_test.sh` does, since its job is to re-exercise the
+  whole pipeline every time, not skip a previous smoke run's results).
+- **Log files** (`logs/*.log`) are appended to, never overwritten, so
+  nothing is lost across separate invocations — each (re)start writes a
+  `==== run start (resume=...) ====` line so you can tell separate attempts
+  apart when reading one back.
+
 ## Individual commands
 
 Every step above is also its own CLI (`uv run fe-<name> --help`):
