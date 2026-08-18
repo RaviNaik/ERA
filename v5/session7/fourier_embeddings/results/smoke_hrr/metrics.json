@@ -1,0 +1,119 @@
+{
+  "run_name": "smoke_hrr",
+  "embedding": "hrr",
+  "model_config": {
+    "vocab_size": 4096,
+    "block_size": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "n_embd": 64,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_weights": false,
+    "embedding": "hrr",
+    "char_dim": 256,
+    "pos_dim": 16,
+    "fourier_dim": 16,
+    "hrr_dim": 256,
+    "codec_mode": "dynamic"
+  },
+  "train_config": {
+    "data_dir": "data_bin_smoke",
+    "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+    "max_steps": 40,
+    "max_epochs": null,
+    "batch_size": 8,
+    "grad_accum_steps": 1,
+    "learning_rate": 0.0003,
+    "min_lr": 3e-05,
+    "warmup_steps": 100,
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "eval_interval": 20,
+    "eval_iters": 5,
+    "log_interval": 5,
+    "save_interval": 1000,
+    "device": "cuda",
+    "dtype": "float32",
+    "compile": false,
+    "seed": 1337,
+    "run_name": "smoke_hrr",
+    "out_dir": "results",
+    "aim_repo": "aim_repo",
+    "log_dir": "logs"
+  },
+  "param_breakdown": {
+    "token_codec": 16384,
+    "position_embedding": 4096,
+    "transformer_blocks": 98560,
+    "ln_f": 64,
+    "lm_head": 262144,
+    "total": 381248
+  },
+  "total_params": 381248,
+  "final_train_loss": 8.164764404296875,
+  "final_val_loss": 8.195775985717773,
+  "best_val_loss": 8.196817398071289,
+  "final_val_perplexity": 3625.6033170052606,
+  "total_time_sec": 1.3372340202331543,
+  "max_steps": 40,
+  "tokens_trained": 20480,
+  "history": {
+    "step": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35
+    ],
+    "train_loss": [
+      8.327764511108398,
+      8.312089920043945,
+      8.31868839263916,
+      8.290590286254883,
+      8.277510643005371,
+      8.273724555969238,
+      8.253060340881348,
+      8.164764404296875
+    ],
+    "val_loss": [
+      {
+        "step": 0,
+        "val_loss": 8.330141067504883
+      },
+      {
+        "step": 20,
+        "val_loss": 8.290224075317383
+      },
+      {
+        "step": 39,
+        "val_loss": 8.196817398071289
+      }
+    ],
+    "lr": [
+      2.9999999999999997e-06,
+      1.8e-05,
+      3.2999999999999996e-05,
+      4.7999999999999994e-05,
+      6.299999999999999e-05,
+      7.8e-05,
+      9.3e-05,
+      0.00010799999999999998
+    ],
+    "tokens_per_sec": [
+      0.0,
+      17050.016260162603,
+      45756.173625493255,
+      38571.49922586996,
+      40589.78297767781,
+      12428.401721411854,
+      42757.605794769894,
+      45074.862580967456
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+2026-08-18 10:01:52,979 [INFO] fourier_embeddings.analysis.collisions: vocab_size=4096; script distribution: {'devanagari': 443, 'ascii': 2264, 'telugu': 281, 'other': 371, 'tamil': 238, 'bengali': 499}
+2026-08-18 10:01:52,981 [INFO] fourier_embeddings.analysis.collisions: exact Kronecker collisions: {'other': 0.40700808625336926, 'ascii': 0.0, 'bengali': 0.0, 'devanagari': 0.0, 'tamil': 0.0, 'telugu': 0.0}
+2026-08-18 10:01:53,153 [INFO] fourier_embeddings.analysis.collisions: calibrated Fourier functional-collision threshold: 0.8375
+2026-08-18 10:01:53,210 [INFO] fourier_embeddings.analysis.collisions: Fourier functional collisions @ threshold=0.8375: {'other': 0.6199460916442049, 'ascii': 0.8197879858657244, 'bengali': 0.9438877755511023, 'devanagari': 0.8803611738148984, 'tamil': 0.8865546218487395, 'telugu': 0.8754448398576512}
+2026-08-18 10:01:53,255 [INFO] fourier_embeddings.analysis.collisions: wrote results/smoke_collisions.json

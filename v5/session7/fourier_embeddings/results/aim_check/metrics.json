@@ -1,0 +1,103 @@
+{
+  "run_name": "aim_check",
+  "embedding": "fourier",
+  "model_config": {
+    "vocab_size": 4096,
+    "block_size": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "n_embd": 64,
+    "dropout": 0.0,
+    "bias": false,
+    "tie_weights": false,
+    "embedding": "fourier",
+    "char_dim": 256,
+    "pos_dim": 16,
+    "fourier_dim": 16,
+    "hrr_dim": 1024,
+    "codec_mode": "dynamic"
+  },
+  "train_config": {
+    "data_dir": "data_bin_smoke",
+    "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+    "max_steps": 20,
+    "max_epochs": null,
+    "batch_size": 8,
+    "grad_accum_steps": 1,
+    "learning_rate": 0.0003,
+    "min_lr": 3e-05,
+    "warmup_steps": 100,
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "eval_interval": 10,
+    "eval_iters": 3,
+    "log_interval": 5,
+    "save_interval": 1000,
+    "device": "cuda",
+    "dtype": "float32",
+    "compile": false,
+    "seed": 1337,
+    "run_name": "aim_check",
+    "out_dir": "results",
+    "aim_repo": "aim_repo",
+    "log_dir": "logs"
+  },
+  "param_breakdown": {
+    "token_codec": 262144,
+    "position_embedding": 4096,
+    "transformer_blocks": 98560,
+    "ln_f": 64,
+    "lm_head": 262144,
+    "total": 627008
+  },
+  "total_params": 627008,
+  "final_train_loss": 8.3162841796875,
+  "final_val_loss": 8.291872024536133,
+  "best_val_loss": 8.289632797241211,
+  "final_val_perplexity": 3991.2990148750896,
+  "total_time_sec": 0.8169190883636475,
+  "max_steps": 20,
+  "tokens_trained": 10240,
+  "history": {
+    "step": [
+      0,
+      5,
+      10,
+      15
+    ],
+    "train_loss": [
+      8.329649925231934,
+      8.315712928771973,
+      8.33096981048584,
+      8.3162841796875
+    ],
+    "val_loss": [
+      {
+        "step": 0,
+        "val_loss": 8.310872077941895
+      },
+      {
+        "step": 10,
+        "val_loss": 8.303016662597656
+      },
+      {
+        "step": 19,
+        "val_loss": 8.289632797241211
+      }
+    ],
+    "lr": [
+      2.9999999999999997e-06,
+      1.8e-05,
+      3.2999999999999996e-05,
+      4.7999999999999994e-05
+    ],
+    "tokens_per_sec": [
+      0.0,
+      17553.950899243235,
+      35483.16371783771,
+      19840.642148774074
+    ]
+  }
+}

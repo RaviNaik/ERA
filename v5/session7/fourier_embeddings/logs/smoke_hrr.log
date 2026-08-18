@@ -1,0 +1,16 @@
+2026-08-18 10:01:48,004 [INFO] fourier_embeddings.train.smoke_hrr: args: {'run_name': 'smoke_hrr', 'out_dir': 'results', 'aim_repo': 'aim_repo', 'log_dir': 'logs', 'no_aim': True, 'data_dir': 'data_bin_smoke', 'tokenizer_path': 'tokenizer_out_smoke/tokenizer.json', 'embedding': 'hrr', 'char_dim': 256, 'pos_dim': 16, 'fourier_dim': 16, 'hrr_dim': 256, 'codec_mode': 'dynamic', 'tie_weights': False, 'block_size': 64, 'n_layer': 2, 'n_head': 2, 'n_embd': 64, 'dropout': 0.0, 'bias': False, 'max_steps': 40, 'max_epochs': None, 'batch_size': 8, 'grad_accum_steps': 1, 'learning_rate': 0.0003, 'min_lr': 3e-05, 'warmup_steps': 100, 'weight_decay': 0.1, 'grad_clip': 1.0, 'eval_interval': 20, 'eval_iters': 5, 'log_interval': 5, 'save_interval': 1000, 'device': 'cuda', 'dtype': 'float32', 'compile': False, 'seed': 1337}
+2026-08-18 10:01:48,021 [INFO] fourier_embeddings.train.smoke_hrr: data meta: {'vocab_size': 4096, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 3882567, 'val_tokens': 204345, 'tokenizer_path': 'tokenizer_out_smoke/tokenizer.json', 'input_files': ['data_raw_smoke/bn.txt', 'data_raw_smoke/en.txt', 'data_raw_smoke/hi.txt', 'data_raw_smoke/ta.txt', 'data_raw_smoke/te.txt']}
+2026-08-18 10:01:48,706 [INFO] fourier_embeddings.train.smoke_hrr: model param breakdown: {'token_codec': 16384, 'position_embedding': 4096, 'transformer_blocks': 98560, 'ln_f': 64, 'lm_head': 262144, 'total': 381248}
+2026-08-18 10:01:49,539 [INFO] fourier_embeddings.train.smoke_hrr: starting training: 40 steps, 512 tokens/step, embedding=hrr
+2026-08-18 10:01:50,128 [INFO] fourier_embeddings.train.smoke_hrr: step      0/40 | loss 8.3278 | lr 3.00e-06 | tok/s 0
+2026-08-18 10:01:50,190 [INFO] fourier_embeddings.train.smoke_hrr: step      0 | val_loss 8.3301 | val_ppl 4147.00
+2026-08-18 10:01:50,278 [INFO] fourier_embeddings.train.smoke_hrr: step      5/40 | loss 8.3121 | lr 1.80e-05 | tok/s 17,050
+2026-08-18 10:01:50,334 [INFO] fourier_embeddings.train.smoke_hrr: step     10/40 | loss 8.3187 | lr 3.30e-05 | tok/s 45,756
+2026-08-18 10:01:50,400 [INFO] fourier_embeddings.train.smoke_hrr: step     15/40 | loss 8.2906 | lr 4.80e-05 | tok/s 38,571
+2026-08-18 10:01:50,463 [INFO] fourier_embeddings.train.smoke_hrr: step     20/40 | loss 8.2775 | lr 6.30e-05 | tok/s 40,590
+2026-08-18 10:01:50,521 [INFO] fourier_embeddings.train.smoke_hrr: step     20 | val_loss 8.2902 | val_ppl 3984.73
+2026-08-18 10:01:50,669 [INFO] fourier_embeddings.train.smoke_hrr: step     25/40 | loss 8.2737 | lr 7.80e-05 | tok/s 12,428
+2026-08-18 10:01:50,729 [INFO] fourier_embeddings.train.smoke_hrr: step     30/40 | loss 8.2531 | lr 9.30e-05 | tok/s 42,758
+2026-08-18 10:01:50,786 [INFO] fourier_embeddings.train.smoke_hrr: step     35/40 | loss 8.1648 | lr 1.08e-04 | tok/s 45,075
+2026-08-18 10:01:50,858 [INFO] fourier_embeddings.train.smoke_hrr: step     39 | val_loss 8.1968 | val_ppl 3629.38
+2026-08-18 10:01:50,932 [INFO] fourier_embeddings.train.smoke_hrr: training complete in 1.3s. final_val_loss=8.1958 best_val_loss=8.1968. wrote results/smoke_hrr/metrics.json

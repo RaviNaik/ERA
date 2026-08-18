@@ -1,0 +1,613 @@
+{
+  "experiment_name": "smoke",
+  "arms": [
+    "dense",
+    "kronecker",
+    "fourier",
+    "fourier_narrow",
+    "hrr"
+  ],
+  "total_wall_clock_sec": 33.77794694900513,
+  "results": {
+    "dense": {
+      "run_name": "smoke_dense",
+      "embedding": "dense",
+      "model_config": {
+        "vocab_size": 4096,
+        "block_size": 64,
+        "n_layer": 2,
+        "n_head": 2,
+        "n_embd": 64,
+        "dropout": 0.0,
+        "bias": false,
+        "tie_weights": false,
+        "embedding": "dense",
+        "char_dim": 256,
+        "pos_dim": 16,
+        "fourier_dim": 16,
+        "hrr_dim": 256,
+        "codec_mode": "dynamic"
+      },
+      "train_config": {
+        "data_dir": "data_bin_smoke",
+        "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+        "max_steps": 40,
+        "max_epochs": null,
+        "batch_size": 8,
+        "grad_accum_steps": 1,
+        "learning_rate": 0.0003,
+        "min_lr": 3e-05,
+        "warmup_steps": 100,
+        "weight_decay": 0.1,
+        "grad_clip": 1.0,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eval_interval": 20,
+        "eval_iters": 5,
+        "log_interval": 5,
+        "save_interval": 1000,
+        "device": "cuda",
+        "dtype": "float32",
+        "compile": false,
+        "seed": 1337,
+        "run_name": "smoke_dense",
+        "out_dir": "results",
+        "aim_repo": "aim_repo",
+        "log_dir": "logs"
+      },
+      "param_breakdown": {
+        "token_codec": 262144,
+        "position_embedding": 4096,
+        "transformer_blocks": 98560,
+        "ln_f": 64,
+        "lm_head": 262144,
+        "total": 627008
+      },
+      "total_params": 627008,
+      "final_train_loss": 8.234611511230469,
+      "final_val_loss": 8.233644485473633,
+      "best_val_loss": 8.236879348754883,
+      "final_val_perplexity": 3765.532202438495,
+      "total_time_sec": 1.2364883422851562,
+      "max_steps": 40,
+      "tokens_trained": 20480,
+      "history": {
+        "step": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "train_loss": [
+          8.336103439331055,
+          8.328868865966797,
+          8.324874877929688,
+          8.306652069091797,
+          8.30974006652832,
+          8.29154109954834,
+          8.27364444732666,
+          8.234611511230469
+        ],
+        "val_loss": [
+          {
+            "step": 0,
+            "val_loss": 8.341086387634277
+          },
+          {
+            "step": 20,
+            "val_loss": 8.31782054901123
+          },
+          {
+            "step": 39,
+            "val_loss": 8.236879348754883
+          }
+        ],
+        "lr": [
+          2.9999999999999997e-06,
+          1.8e-05,
+          3.2999999999999996e-05,
+          4.7999999999999994e-05,
+          6.299999999999999e-05,
+          7.8e-05,
+          9.3e-05,
+          0.00010799999999999998
+        ],
+        "tokens_per_sec": [
+          0.0,
+          15185.642072928407,
+          32778.7034950988,
+          35362.447643418665,
+          37231.50889748817,
+          16774.149475798957,
+          34466.169900653214,
+          36790.249404670125
+        ]
+      },
+      "wall_clock_sec": 9.645476579666138
+    },
+    "kronecker": {
+      "run_name": "smoke_kronecker",
+      "embedding": "kronecker",
+      "model_config": {
+        "vocab_size": 4096,
+        "block_size": 64,
+        "n_layer": 2,
+        "n_head": 2,
+        "n_embd": 64,
+        "dropout": 0.0,
+        "bias": false,
+        "tie_weights": false,
+        "embedding": "kronecker",
+        "char_dim": 256,
+        "pos_dim": 16,
+        "fourier_dim": 16,
+        "hrr_dim": 256,
+        "codec_mode": "dynamic"
+      },
+      "train_config": {
+        "data_dir": "data_bin_smoke",
+        "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+        "max_steps": 40,
+        "max_epochs": null,
+        "batch_size": 8,
+        "grad_accum_steps": 1,
+        "learning_rate": 0.0003,
+        "min_lr": 3e-05,
+        "warmup_steps": 100,
+        "weight_decay": 0.1,
+        "grad_clip": 1.0,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eval_interval": 20,
+        "eval_iters": 5,
+        "log_interval": 5,
+        "save_interval": 1000,
+        "device": "cuda",
+        "dtype": "float32",
+        "compile": false,
+        "seed": 1337,
+        "run_name": "smoke_kronecker",
+        "out_dir": "results",
+        "aim_repo": "aim_repo",
+        "log_dir": "logs"
+      },
+      "param_breakdown": {
+        "token_codec": 262144,
+        "position_embedding": 4096,
+        "transformer_blocks": 98560,
+        "ln_f": 64,
+        "lm_head": 262144,
+        "total": 627008
+      },
+      "total_params": 627008,
+      "final_train_loss": 8.215031623840332,
+      "final_val_loss": 8.226375579833984,
+      "best_val_loss": 8.229044914245605,
+      "final_val_perplexity": 3738.260143269281,
+      "total_time_sec": 1.1386477947235107,
+      "max_steps": 40,
+      "tokens_trained": 20480,
+      "history": {
+        "step": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "train_loss": [
+          8.302115440368652,
+          8.312426567077637,
+          8.307453155517578,
+          8.300119400024414,
+          8.272669792175293,
+          8.297269821166992,
+          8.276266098022461,
+          8.215031623840332
+        ],
+        "val_loss": [
+          {
+            "step": 0,
+            "val_loss": 8.321828842163086
+          },
+          {
+            "step": 20,
+            "val_loss": 8.29653549194336
+          },
+          {
+            "step": 39,
+            "val_loss": 8.229044914245605
+          }
+        ],
+        "lr": [
+          2.9999999999999997e-06,
+          1.8e-05,
+          3.2999999999999996e-05,
+          4.7999999999999994e-05,
+          6.299999999999999e-05,
+          7.8e-05,
+          9.3e-05,
+          0.00010799999999999998
+        ],
+        "tokens_per_sec": [
+          0.0,
+          16540.939024127234,
+          40401.319341232425,
+          43520.31128152333,
+          42334.468464277124,
+          17409.818060949015,
+          35845.999539298195,
+          39142.80073200785
+        ]
+      },
+      "wall_clock_sec": 5.959633111953735
+    },
+    "fourier": {
+      "run_name": "smoke_fourier",
+      "embedding": "fourier",
+      "model_config": {
+        "vocab_size": 4096,
+        "block_size": 64,
+        "n_layer": 2,
+        "n_head": 2,
+        "n_embd": 64,
+        "dropout": 0.0,
+        "bias": false,
+        "tie_weights": false,
+        "embedding": "fourier",
+        "char_dim": 256,
+        "pos_dim": 16,
+        "fourier_dim": 16,
+        "hrr_dim": 256,
+        "codec_mode": "dynamic"
+      },
+      "train_config": {
+        "data_dir": "data_bin_smoke",
+        "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+        "max_steps": 40,
+        "max_epochs": null,
+        "batch_size": 8,
+        "grad_accum_steps": 1,
+        "learning_rate": 0.0003,
+        "min_lr": 3e-05,
+        "warmup_steps": 100,
+        "weight_decay": 0.1,
+        "grad_clip": 1.0,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eval_interval": 20,
+        "eval_iters": 5,
+        "log_interval": 5,
+        "save_interval": 1000,
+        "device": "cuda",
+        "dtype": "float32",
+        "compile": false,
+        "seed": 1337,
+        "run_name": "smoke_fourier",
+        "out_dir": "results",
+        "aim_repo": "aim_repo",
+        "log_dir": "logs"
+      },
+      "param_breakdown": {
+        "token_codec": 262144,
+        "position_embedding": 4096,
+        "transformer_blocks": 98560,
+        "ln_f": 64,
+        "lm_head": 262144,
+        "total": 627008
+      },
+      "total_params": 627008,
+      "final_train_loss": 8.189586639404297,
+      "final_val_loss": 8.184358596801758,
+      "best_val_loss": 8.192514419555664,
+      "final_val_perplexity": 3584.4438080578516,
+      "total_time_sec": 1.2475476264953613,
+      "max_steps": 40,
+      "tokens_trained": 20480,
+      "history": {
+        "step": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "train_loss": [
+          8.329649925231934,
+          8.32357120513916,
+          8.325845718383789,
+          8.29298210144043,
+          8.271872520446777,
+          8.262213706970215,
+          8.247814178466797,
+          8.189586639404297
+        ],
+        "val_loss": [
+          {
+            "step": 0,
+            "val_loss": 8.313738822937012
+          },
+          {
+            "step": 20,
+            "val_loss": 8.28791618347168
+          },
+          {
+            "step": 39,
+            "val_loss": 8.192514419555664
+          }
+        ],
+        "lr": [
+          2.9999999999999997e-06,
+          1.8e-05,
+          3.2999999999999996e-05,
+          4.7999999999999994e-05,
+          6.299999999999999e-05,
+          7.8e-05,
+          9.3e-05,
+          0.00010799999999999998
+        ],
+        "tokens_per_sec": [
+          0.0,
+          15595.627874955155,
+          32762.40095686772,
+          35200.264360505906,
+          37949.45302891072,
+          16193.393557883433,
+          33980.24696984082,
+          34234.74048354648
+        ]
+      },
+      "wall_clock_sec": 6.030055284500122
+    },
+    "fourier_narrow": {
+      "run_name": "smoke_fourier_narrow",
+      "embedding": "fourier_narrow",
+      "model_config": {
+        "vocab_size": 4096,
+        "block_size": 64,
+        "n_layer": 2,
+        "n_head": 2,
+        "n_embd": 64,
+        "dropout": 0.0,
+        "bias": false,
+        "tie_weights": false,
+        "embedding": "fourier_narrow",
+        "char_dim": 256,
+        "pos_dim": 16,
+        "fourier_dim": 16,
+        "hrr_dim": 256,
+        "codec_mode": "dynamic"
+      },
+      "train_config": {
+        "data_dir": "data_bin_smoke",
+        "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+        "max_steps": 40,
+        "max_epochs": null,
+        "batch_size": 8,
+        "grad_accum_steps": 1,
+        "learning_rate": 0.0003,
+        "min_lr": 3e-05,
+        "warmup_steps": 100,
+        "weight_decay": 0.1,
+        "grad_clip": 1.0,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eval_interval": 20,
+        "eval_iters": 5,
+        "log_interval": 5,
+        "save_interval": 1000,
+        "device": "cuda",
+        "dtype": "float32",
+        "compile": false,
+        "seed": 1337,
+        "run_name": "smoke_fourier_narrow",
+        "out_dir": "results",
+        "aim_repo": "aim_repo",
+        "log_dir": "logs"
+      },
+      "param_breakdown": {
+        "token_codec": 262144,
+        "position_embedding": 4096,
+        "transformer_blocks": 98560,
+        "ln_f": 64,
+        "lm_head": 262144,
+        "total": 627008
+      },
+      "total_params": 627008,
+      "final_train_loss": 8.192445755004883,
+      "final_val_loss": 8.183614730834961,
+      "best_val_loss": 8.188863754272461,
+      "final_val_perplexity": 3581.7784537552225,
+      "total_time_sec": 1.1377508640289307,
+      "max_steps": 40,
+      "tokens_trained": 20480,
+      "history": {
+        "step": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "train_loss": [
+          8.325735092163086,
+          8.324498176574707,
+          8.331928253173828,
+          8.291996955871582,
+          8.269071578979492,
+          8.263710975646973,
+          8.249357223510742,
+          8.192445755004883
+        ],
+        "val_loss": [
+          {
+            "step": 0,
+            "val_loss": 8.309039115905762
+          },
+          {
+            "step": 20,
+            "val_loss": 8.285961151123047
+          },
+          {
+            "step": 39,
+            "val_loss": 8.188863754272461
+          }
+        ],
+        "lr": [
+          2.9999999999999997e-06,
+          1.8e-05,
+          3.2999999999999996e-05,
+          4.7999999999999994e-05,
+          6.299999999999999e-05,
+          7.8e-05,
+          9.3e-05,
+          0.00010799999999999998
+        ],
+        "tokens_per_sec": [
+          0.0,
+          16622.522648601454,
+          42649.75984874363,
+          42477.661188869286,
+          29923.079306866126,
+          17092.655617974844,
+          45834.10484617978,
+          41894.108989890716
+        ]
+      },
+      "wall_clock_sec": 6.021738290786743
+    },
+    "hrr": {
+      "run_name": "smoke_hrr",
+      "embedding": "hrr",
+      "model_config": {
+        "vocab_size": 4096,
+        "block_size": 64,
+        "n_layer": 2,
+        "n_head": 2,
+        "n_embd": 64,
+        "dropout": 0.0,
+        "bias": false,
+        "tie_weights": false,
+        "embedding": "hrr",
+        "char_dim": 256,
+        "pos_dim": 16,
+        "fourier_dim": 16,
+        "hrr_dim": 256,
+        "codec_mode": "dynamic"
+      },
+      "train_config": {
+        "data_dir": "data_bin_smoke",
+        "tokenizer_path": "tokenizer_out_smoke/tokenizer.json",
+        "max_steps": 40,
+        "max_epochs": null,
+        "batch_size": 8,
+        "grad_accum_steps": 1,
+        "learning_rate": 0.0003,
+        "min_lr": 3e-05,
+        "warmup_steps": 100,
+        "weight_decay": 0.1,
+        "grad_clip": 1.0,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eval_interval": 20,
+        "eval_iters": 5,
+        "log_interval": 5,
+        "save_interval": 1000,
+        "device": "cuda",
+        "dtype": "float32",
+        "compile": false,
+        "seed": 1337,
+        "run_name": "smoke_hrr",
+        "out_dir": "results",
+        "aim_repo": "aim_repo",
+        "log_dir": "logs"
+      },
+      "param_breakdown": {
+        "token_codec": 16384,
+        "position_embedding": 4096,
+        "transformer_blocks": 98560,
+        "ln_f": 64,
+        "lm_head": 262144,
+        "total": 381248
+      },
+      "total_params": 381248,
+      "final_train_loss": 8.164764404296875,
+      "final_val_loss": 8.195775985717773,
+      "best_val_loss": 8.196817398071289,
+      "final_val_perplexity": 3625.6033170052606,
+      "total_time_sec": 1.3372340202331543,
+      "max_steps": 40,
+      "tokens_trained": 20480,
+      "history": {
+        "step": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "train_loss": [
+          8.327764511108398,
+          8.312089920043945,
+          8.31868839263916,
+          8.290590286254883,
+          8.277510643005371,
+          8.273724555969238,
+          8.253060340881348,
+          8.164764404296875
+        ],
+        "val_loss": [
+          {
+            "step": 0,
+            "val_loss": 8.330141067504883
+          },
+          {
+            "step": 20,
+            "val_loss": 8.290224075317383
+          },
+          {
+            "step": 39,
+            "val_loss": 8.196817398071289
+          }
+        ],
+        "lr": [
+          2.9999999999999997e-06,
+          1.8e-05,
+          3.2999999999999996e-05,
+          4.7999999999999994e-05,
+          6.299999999999999e-05,
+          7.8e-05,
+          9.3e-05,
+          0.00010799999999999998
+        ],
+        "tokens_per_sec": [
+          0.0,
+          17050.016260162603,
+          45756.173625493255,
+          38571.49922586996,
+          40589.78297767781,
+          12428.401721411854,
+          42757.605794769894,
+          45074.862580967456
+        ]
+      },
+      "wall_clock_sec": 6.0681517124176025
+    }
+  }
+}

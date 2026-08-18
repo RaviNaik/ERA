@@ -1,0 +1,4 @@
+2026-08-18 10:01:02,186 [INFO] fourier_embeddings.tokenizer: training on 5 files: ['data_raw_smoke/bn.txt', 'data_raw_smoke/en.txt', 'data_raw_smoke/hi.txt', 'data_raw_smoke/ta.txt', 'data_raw_smoke/te.txt']
+2026-08-18 10:01:07,146 [INFO] fourier_embeddings.tokenizer: trained tokenizer: vocab_size=4096 -> tokenizer_out_smoke/tokenizer.json
+2026-08-18 10:01:07,157 [INFO] fourier_embeddings.tokenizer: token byte-length stats: {'vocab_size': 4096, 'min_bytes': 1, 'max_bytes': 16, 'mean_bytes': 4.880615234375}
+2026-08-18 10:01:07,162 [INFO] fourier_embeddings.tokenizer: wrote tokenizer_out_smoke/byte_stats.json

@@ -1,0 +1,414 @@
+{
+  "config": {
+    "pos_dim": 12,
+    "fourier_dim": 12,
+    "n_random_pairs": 40,
+    "seed": 0,
+    "out": "results/smoke_order_sensitivity.json",
+    "log_file": "logs/smoke_order_sensitivity.log"
+  },
+  "summary": {
+    "n_pairs": 55,
+    "kronecker": {
+      "mean": 0.46546700596809387,
+      "std": 0.2999359369277954,
+      "min": -0.001760918297804892,
+      "max": 0.8996157646179199,
+      "frac_exactly_zero": 0.0
+    },
+    "fourier": {
+      "mean": 0.9146295189857483,
+      "std": 0.0744512602686882,
+      "min": 0.728687047958374,
+      "max": 0.9962149262428284,
+      "frac_exactly_zero": 0.0
+    }
+  },
+  "pairs": [
+    {
+      "word_a": "cat",
+      "word_b": "tac",
+      "pair_kind": "anagram-with-a-fixed-point (research note's example; see NOTE above)",
+      "kronecker_cosine": 0.3329406976699829,
+      "fourier_cosine": 0.8309358358383179
+    },
+    {
+      "word_a": "abcde",
+      "word_b": "bcdea",
+      "pair_kind": "derangement (true zero-fixed-point rearrangement)",
+      "kronecker_cosine": -0.00097751768771559,
+      "fourier_cosine": 0.867023229598999
+    },
+    {
+      "word_a": "mistake",
+      "word_b": "mistkae",
+      "pair_kind": "transposition",
+      "kronecker_cosine": 0.7139037847518921,
+      "fourier_cosine": 0.9766873121261597
+    },
+    {
+      "word_a": "compute",
+      "word_b": "commute",
+      "pair_kind": "one-byte-substitution",
+      "kronecker_cosine": 0.8569568991661072,
+      "fourier_cosine": 0.8784825801849365
+    },
+    {
+      "word_a": "train",
+      "word_b": "trian",
+      "pair_kind": "transposition",
+      "kronecker_cosine": 0.5996093153953552,
+      "fourier_cosine": 0.9674630165100098
+    },
+    {
+      "word_a": "listen",
+      "word_b": "silent",
+      "pair_kind": "anagram-with-a-fixed-point",
+      "kronecker_cosine": 0.16568808257579803,
+      "fourier_cosine": 0.8456451296806335
+    },
+    {
+      "word_a": "read",
+      "word_b": "dear",
+      "pair_kind": "anagram-with-fixed-points",
+      "kronecker_cosine": 0.49961644411087036,
+      "fourier_cosine": 0.8151590824127197
+    },
+    {
+      "word_a": "training",
+      "word_b": "trainign",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496013045310974,
+      "fourier_cosine": 0.9850695133209229
+    },
+    {
+      "word_a": "training",
+      "word_b": "nriatign",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.2488238364458084,
+      "fourier_cosine": 0.9039090275764465
+    },
+    {
+      "word_a": "trainer",
+      "word_b": "tranier",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7139008045196533,
+      "fourier_cosine": 0.98101806640625
+    },
+    {
+      "word_a": "trainer",
+      "word_b": "rtneiar",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.14168500900268555,
+      "fourier_cosine": 0.8702106475830078
+    },
+    {
+      "word_a": "transformer",
+      "word_b": "transforemr",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.8177889585494995,
+      "fourier_cosine": 0.9890123605728149
+    },
+    {
+      "word_a": "transformer",
+      "word_b": "ftnromerrsa",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.0889514684677124,
+      "fourier_cosine": 0.8607451915740967
+    },
+    {
+      "word_a": "embedding",
+      "word_b": "ebmedding",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.77739417552948,
+      "fourier_cosine": 0.9865067601203918
+    },
+    {
+      "word_a": "embedding",
+      "word_b": "igmebednd",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.22085531055927277,
+      "fourier_cosine": 0.8665390610694885
+    },
+    {
+      "word_a": "tokenizer",
+      "word_b": "tokenizre",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773911952972412,
+      "fourier_cosine": 0.9844199419021606
+    },
+    {
+      "word_a": "tokenizer",
+      "word_b": "eokizrtne",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.22085462510585785,
+      "fourier_cosine": 0.8512182235717773
+    },
+    {
+      "word_a": "attention",
+      "word_b": "tatention",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773911952972412,
+      "fourier_cosine": 0.988926887512207
+    },
+    {
+      "word_a": "attention",
+      "word_b": "ineatntto",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": -0.001760918297804892,
+      "fourier_cosine": 0.901161789894104
+    },
+    {
+      "word_a": "gradient",
+      "word_b": "gardient",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496001720428467,
+      "fourier_cosine": 0.9795519113540649
+    },
+    {
+      "word_a": "gradient",
+      "word_b": "tregdina",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.24882382154464722,
+      "fourier_cosine": 0.8334866762161255
+    },
+    {
+      "word_a": "optimizer",
+      "word_b": "optimizre",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773913145065308,
+      "fourier_cosine": 0.9844214916229248
+    },
+    {
+      "word_a": "optimizer",
+      "word_b": "rziiotemp",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.10954605042934418,
+      "fourier_cosine": 0.7785566449165344
+    },
+    {
+      "word_a": "language",
+      "word_b": "languaeg",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496010065078735,
+      "fourier_cosine": 0.9846481084823608
+    },
+    {
+      "word_a": "language",
+      "word_b": "naagelgu",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.374018132686615,
+      "fourier_cosine": 0.8545027375221252
+    },
+    {
+      "word_a": "sequence",
+      "word_b": "seuqence",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496001124382019,
+      "fourier_cosine": 0.9867307543754578
+    },
+    {
+      "word_a": "sequence",
+      "word_b": "uenesceq",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.12362926453351974,
+      "fourier_cosine": 0.8868492841720581
+    },
+    {
+      "word_a": "position",
+      "word_b": "opsition",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496015429496765,
+      "fourier_cosine": 0.9854040145874023
+    },
+    {
+      "word_a": "position",
+      "word_b": "toniipos",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.3740183115005493,
+      "fourier_cosine": 0.9055294990539551
+    },
+    {
+      "word_a": "collision",
+      "word_b": "colilsion",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773915529251099,
+      "fourier_cosine": 0.9883862137794495
+    },
+    {
+      "word_a": "collision",
+      "word_b": "cosonliil",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.3321615159511566,
+      "fourier_cosine": 0.8595054149627686
+    },
+    {
+      "word_a": "vocabulary",
+      "word_b": "vcoabulary",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7996099591255188,
+      "fourier_cosine": 0.9855470657348633
+    },
+    {
+      "word_a": "vocabulary",
+      "word_b": "alvrcybaou",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.09823891520500183,
+      "fourier_cosine": 0.7850598692893982
+    },
+    {
+      "word_a": "projection",
+      "word_b": "projcetion",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7996094226837158,
+      "fourier_cosine": 0.9860420823097229
+    },
+    {
+      "word_a": "projection",
+      "word_b": "iepoontcjr",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.09823888540267944,
+      "fourier_cosine": 0.7686554789543152
+    },
+    {
+      "word_a": "kronecker",
+      "word_b": "krnoecker",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773931622505188,
+      "fourier_cosine": 0.9879958033561707
+    },
+    {
+      "word_a": "kronecker",
+      "word_b": "rorecekkn",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.10954658687114716,
+      "fourier_cosine": 0.9305354952812195
+    },
+    {
+      "word_a": "fourier",
+      "word_b": "fourire",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7139012813568115,
+      "fourier_cosine": 0.980660080909729
+    },
+    {
+      "word_a": "fourier",
+      "word_b": "urrfeio",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": -0.0013690728228539228,
+      "fourier_cosine": 0.8321821689605713
+    },
+    {
+      "word_a": "spectral",
+      "word_b": "spcetral",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7496014833450317,
+      "fourier_cosine": 0.9795519113540649
+    },
+    {
+      "word_a": "spectral",
+      "word_b": "cerlatsp",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": -0.0015649303095415235,
+      "fourier_cosine": 0.7778093218803406
+    },
+    {
+      "word_a": "codec",
+      "word_b": "codce",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.5996092557907104,
+      "fourier_cosine": 0.97422194480896
+    },
+    {
+      "word_a": "codec",
+      "word_b": "cedco",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.3994136452674866,
+      "fourier_cosine": 0.8881608247756958
+    },
+    {
+      "word_a": "internationalisation",
+      "word_b": "internationalisatoin",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.8996157646179199,
+      "fourier_cosine": 0.9962149262428284
+    },
+    {
+      "word_a": "internationalisation",
+      "word_b": "osaonliaitanrnnttiei",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.1466679871082306,
+      "fourier_cosine": 0.8949745297431946
+    },
+    {
+      "word_a": "byte",
+      "word_b": "btye",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.49961620569229126,
+      "fourier_cosine": 0.9593772292137146
+    },
+    {
+      "word_a": "byte",
+      "word_b": "ybte",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.49961620569229126,
+      "fourier_cosine": 0.9593777060508728
+    },
+    {
+      "word_a": "network",
+      "word_b": "netwokr",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7139012217521667,
+      "fourier_cosine": 0.9766868948936462
+    },
+    {
+      "word_a": "network",
+      "word_b": "twokner",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": -0.0013690721243619919,
+      "fourier_cosine": 0.728687047958374
+    },
+    {
+      "word_a": "wavelet",
+      "word_b": "waveelt",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7139025926589966,
+      "fourier_cosine": 0.9814050197601318
+    },
+    {
+      "word_a": "wavelet",
+      "word_b": "aetelwv",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.28473958373069763,
+      "fourier_cosine": 0.8451856374740601
+    },
+    {
+      "word_a": "frequency",
+      "word_b": "rfequency",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.7773934602737427,
+      "fourier_cosine": 0.984054446220398
+    },
+    {
+      "word_a": "frequency",
+      "word_b": "fqreeyunc",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.10954686254262924,
+      "fourier_cosine": 0.8724769353866577
+    },
+    {
+      "word_a": "kernel",
+      "word_b": "krenel",
+      "pair_kind": "generated-transposition",
+      "kronecker_cosine": 0.6662773489952087,
+      "fourier_cosine": 0.9780908823013306
+    },
+    {
+      "word_a": "kernel",
+      "word_b": "elrnke",
+      "pair_kind": "generated-anagram",
+      "kronecker_cosine": 0.33255112171173096,
+      "fourier_cosine": 0.8739607930183411
+    }
+  ]
+}
