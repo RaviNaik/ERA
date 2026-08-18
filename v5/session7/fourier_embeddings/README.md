@@ -143,11 +143,16 @@ Environment variables override the defaults (see the script header):
 `BLOCK_SIZE`, `MAX_STEPS`, `BATCH_SIZE`, `GRAD_ACCUM`, `ARMS`, `GPU_IDS`,
 `EXPERIMENT_NAME`. Defaults land at roughly a ~50M-parameter GPT-2-small-ish
 model trained on ~150MB of multilingual text (en/hi/te/ta/bn Wikipedia) for
-20k steps — comfortably within an A6000's 48GB, and closer (though still far
+5k steps — comfortably within an A6000's 48GB, and closer (though still far
 short of) the reference paper's nanoGPT/GPT-2-124M/FineWeb-Edu scale that
-the research note's §10 protocol describes. Raise `VOCAB_SIZE`,
-`TARGET_MB_PER_LANG`, model width/depth, and `MAX_STEPS` from there as your
-time/compute budget allows.
+the research note's §10 protocol describes. `max_steps` also sets the
+horizon of the cosine LR-decay schedule (`min_lr` is reached *at*
+`max_steps`, not at whatever step training happens to stop), so raising or
+lowering `MAX_STEPS` changes the shape of the whole training run, not just
+where it's cut off — set it once before a comparison starts, not mid-run.
+Raise `VOCAB_SIZE`, `TARGET_MB_PER_LANG`, model width/depth, and `MAX_STEPS`
+from there as your time/compute budget (and observed loss-curve plateau)
+allows.
 
 Track a run live with:
 
