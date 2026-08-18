@@ -6,3 +6,15 @@ sample_session2
 supporting_docs
 write_pipeline_scripts.py
 write_webapp.py
+*.pyc
+.pytest_cache/
+aim_repo/
+aim_repo_smoke/
+data_bin/
+data_bin_smoke/
+data_raw/
+data_raw_smoke/
+tokenizer_out/
+tokenizer_out_smoke/
+*.pt
+.python-version.local
