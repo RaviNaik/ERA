@@ -23,6 +23,7 @@ fe-run-experiment = "fourier_embeddings.training.run_experiment:main"
 fe-collisions = "fourier_embeddings.analysis.collisions:main"
 fe-order-sensitivity = "fourier_embeddings.analysis.order_sensitivity:main"
 fe-crosstalk = "fourier_embeddings.analysis.crosstalk:main"
+fe-report-figures = "fourier_embeddings.analysis.report_figures:main"
 
 [build-system]
 requires = ["hatchling"]
