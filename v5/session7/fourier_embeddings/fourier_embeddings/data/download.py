@@ -31,9 +31,14 @@ CONFIG_TEMPLATE = "20231101.{lang}"
 
 DEFAULT_LANGS = ["en", "hi", "te", "ta", "bn"]
 PAGE_SIZE = 100
+# Pause between successful page requests -- the datasets-server API rate-
+# limits (HTTP 429) once a run has made a few hundred requests in a row
+# (observed fetching a full --target-mb-per-lang=30 corpus), so this trades a
+# little wall-clock time for not tripping the limit in the first place.
+REQUEST_DELAY_SEC = 0.5
 
 
-def fetch_rows(config: str, offset: int, length: int, retries: int = 4) -> list[dict]:
+def fetch_rows(config: str, offset: int, length: int, retries: int = 8) -> list[dict]:
     params = f"dataset={DATASET.replace('/', '%2F')}&config={config}&split=train&offset={offset}&length={length}"
     url = f"{ROWS_URL}?{params}"
     last_err = None
@@ -42,22 +47,47 @@ def fetch_rows(config: str, offset: int, length: int, retries: int = 4) -> list[
             with urllib.request.urlopen(url, timeout=30) as r:
                 data = json.loads(r.read())
             return data.get("rows", [])
-        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as e:
+        except urllib.error.HTTPError as e:
             last_err = e
-            wait = 2 ** attempt
-            logger.warning(f"fetch failed ({e}); retrying in {wait}s")
+            if e.code == 429:
+                # Respect Retry-After if the server sends one; otherwise back
+                # off much more aggressively than a transient network error
+                # deserves, since 429 means "you're already being throttled."
+                retry_after = e.headers.get("Retry-After") if e.headers else None
+                wait = float(retry_after) if retry_after else min(60, 5 * (2 ** attempt))
+            else:
+                wait = min(30, 2 ** attempt)
+            logger.warning(f"fetch failed ({e}); retrying in {wait:.0f}s "
+                            f"(attempt {attempt + 1}/{retries})")
+            time.sleep(wait)
+        except (urllib.error.URLError, TimeoutError) as e:
+            last_err = e
+            wait = min(30, 2 ** attempt)
+            logger.warning(f"fetch failed ({e}); retrying in {wait:.0f}s "
+                            f"(attempt {attempt + 1}/{retries})")
             time.sleep(wait)
     raise RuntimeError(f"failed to fetch {url} after {retries} retries: {last_err}")
 
 
 def download_language(lang: str, out_path: Path, target_chars: int) -> dict:
+    """Best-effort: on a persistent failure (retries exhausted), logs the
+    error and returns whatever was collected so far instead of raising, so
+    one language's outage doesn't lose progress on the others (`main` still
+    keeps going and writes a manifest that records the partial/failed status).
+    """
     config = CONFIG_TEMPLATE.format(lang=lang)
     total_chars = 0
     n_articles = 0
     offset = 0
+    error = None
     with open(out_path, "w", encoding="utf-8") as f:
         while total_chars < target_chars:
-            rows = fetch_rows(config, offset, PAGE_SIZE)
+            try:
+                rows = fetch_rows(config, offset, PAGE_SIZE)
+            except RuntimeError as e:
+                logger.error(f"[{lang}] giving up at offset={offset} after repeated failures: {e}")
+                error = str(e)
+                break
             if not rows:
                 logger.warning(f"[{lang}] ran out of rows at offset={offset} "
                                 f"({total_chars}/{target_chars} chars collected)")
@@ -73,7 +103,9 @@ def download_language(lang: str, out_path: Path, target_chars: int) -> dict:
             offset += PAGE_SIZE
             logger.info(f"[{lang}] {total_chars}/{target_chars} chars, {n_articles} articles "
                         f"(offset={offset})")
-    return {"lang": lang, "chars": total_chars, "articles": n_articles, "path": str(out_path)}
+            time.sleep(REQUEST_DELAY_SEC)
+    return {"lang": lang, "chars": total_chars, "articles": n_articles, "path": str(out_path),
+            "complete": total_chars >= target_chars, "error": error}
 
 
 def main():
@@ -100,7 +132,12 @@ def main():
     for lang in args.langs:
         out_path = out_dir / f"{lang}.txt"
         logger.info(f"downloading {lang} -> {out_path} (target ~{args.target_mb_per_lang}MB)")
-        stats = download_language(lang, out_path, target_chars)
+        try:
+            stats = download_language(lang, out_path, target_chars)
+        except Exception as e:  # noqa: BLE001 -- one language's outage must not kill the whole run
+            logger.error(f"[{lang}] unrecoverable failure, skipping: {e}")
+            stats = {"lang": lang, "chars": 0, "articles": 0, "path": str(out_path),
+                      "complete": False, "error": str(e)}
         manifest.append(stats)
         logger.info(f"[{lang}] done: {stats}")
 
@@ -109,6 +146,12 @@ def main():
     logger.info(f"wrote manifest -> {manifest_path}")
     total = sum(m["chars"] for m in manifest)
     logger.info(f"total corpus: {total:,} chars across {len(manifest)} languages")
+
+    incomplete = [m["lang"] for m in manifest if not m.get("complete", True)]
+    if incomplete:
+        logger.warning(f"languages that did not reach their target size: {incomplete} -- "
+                        f"re-run with --langs {' '.join(incomplete)} to retry just those "
+                        f"(existing files for other languages are untouched)")
 
 
 if __name__ == "__main__":
