@@ -3,7 +3,7 @@
    All figures below are taken verbatim from:
      - fourier_embeddings_research.md   (Part I: theory)
      - empirical_validation_report.md   (Part II: empirical run)
-     - fourier_embeddings_complete_paper.md (combined, canonical)
+     - README.md (combined, canonical)
    Nothing here is invented for display purposes.
    ============================================================ */
 

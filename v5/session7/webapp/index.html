@@ -101,7 +101,7 @@
       </div>
 
       <div class="paper-links">
-        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener">
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/README.md" target="_blank" rel="noopener">
           <span class="plc-icon">📘</span>
           <span class="plc-title">Complete Paper (Theory + Empirical)</span>
           <span class="plc-desc">The canonical document — Part I (theory, §1–§10) unchanged, Part II (empirical validation, §11–§22) new. Every cross-reference on this page resolves against it.</span>
@@ -238,18 +238,23 @@
         how much byte content is shared.
       </p>
       <div class="callout correction">
-        <div class="callout-label">⚠ Part II correction — left visible, not silently fixed</div>
+        <div class="callout-label">⚠ Correction — flagged in the note itself, not silently fixed</div>
         <div class="callout-body">
-          The original note's worked example for this corollary — <code>"cat"</code> vs.
-          <code>"tac"</code> — is wrong on its own terms. Reversing an odd-length string
-          fixes the middle character in place (<code>'a'</code> stays at position 1 in
-          both), so the pair is <em>not</em> a derangement. Theorem 1 directly gives
+          An earlier draft of this corollary illustrated it with <code>"cat"</code> vs.
+          <code>"tac"</code> — which is wrong on its own terms. Reversing an odd-length
+          string fixes the middle character in place (<code>'a'</code> stays at position 1
+          in both), so the pair is <em>not</em> a derangement. Theorem 1 directly gives
           <code>cos = (3−1)/3 = 1/3</code>, not 0 — confirmed by direct measurement in
-          §7 below (Kronecker cosine = 0.333). The corollary itself is correct; a true
-          derangement is needed to instantiate it — <code>"abcde"</code> vs.
-          <code>"bcdea"</code> is one, and measures to <strong>cos ≈ −0.001</strong>
-          (zero within floating-point noise), exactly as predicted. This is exactly the
-          kind of claim empirical validation exists to catch.
+          §7 below (Kronecker cosine = 0.333). The corollary itself was always correct; it
+          just needed a true derangement to instantiate it. Rather than quietly swapping the
+          example, the theory note (<code>fourier_embeddings_research.md</code> §2) keeps the
+          original example in place and appends this correction as a visible inline note,
+          deliberately, precisely because <strong>this is exactly the kind of claim
+          empirical validation exists to catch</strong> — and now uses
+          <code>"abcde"</code> vs. <code>"bcdea"</code> — a true fixed-point-free
+          derangement — as the corollary's worked example, which measures to
+          <strong>cos ≈ −0.001</strong> (zero within floating-point noise), exactly as
+          predicted.
         </div>
       </div>
 
@@ -800,7 +805,7 @@
 
       <h3 class="subhead">Downloads &amp; source</h3>
       <div class="download-links">
-        <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener"><span class="dl-icon">📘</span> Complete Paper (.md)</a>
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/README.md" target="_blank" rel="noopener"><span class="dl-icon">📘</span> Complete Paper (.md)</a>
         <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_research.md" target="_blank" rel="noopener"><span class="dl-icon">📐</span> Theory Note (.md)</a>
         <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/empirical_validation_report.md" target="_blank" rel="noopener"><span class="dl-icon">🧪</span> Empirical Report (.md)</a>
         <a class="dl-link" href="https://github.com/RaviNaik/ERA/tree/main/v5/session7/fourier_embeddings" target="_blank" rel="noopener"><span class="dl-icon">💻</span> Project Source</a>
@@ -814,7 +819,7 @@
     <!-- ── Footer ────────────────────────────────────────── -->
     <footer class="footer">
       Fourier Embeddings · ERA V5 Session 7 ·
-      <a href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener">Full Written Notes (complete paper)</a>
+      <a href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/README.md" target="_blank" rel="noopener">Full Written Notes (complete paper)</a>
     </footer>
 
   </main><!-- /main-content -->

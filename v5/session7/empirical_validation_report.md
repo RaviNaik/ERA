@@ -2,8 +2,6 @@
 
 **A controlled transformer training report: Dense vs. Kronecker vs. Fourier vs. Fourier (narrow-band)**
 
-**Companion documents:** [`fourier_embeddings_research.md`](fourier_embeddings_research.md) (the theoretical note this report validates) · [`fourier_embeddings/`](fourier_embeddings/) (the project this run was produced from) · [`fourier_embeddings/README.md`](fourier_embeddings/README.md) (how to reproduce this run)
-
 ---
 
 ## Abstract

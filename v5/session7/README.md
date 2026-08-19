@@ -2,9 +2,6 @@
 
 **A complete technical paper: spectral reformulations of the byte-position embedding codec, derived and then trained**
 
-**Companion sources:** [`s7_class_notes.md`](../supporting_docs/s7/s7_class_notes.md) · [`s7_assignment_deep_research.md`](../supporting_docs/s7/s7_assignment_deep_research.md) · [`fourier_embeddings/`](fourier_embeddings/) (the project this paper's experiments were run from)
-**Provenance:** Part I (§1–§10) is the original theoretical note, `fourier_embeddings_research.md`, reformatted into LaTeX for GitHub rendering — its content, section numbers, and cross-references (`§6.1`, `§8.4`, etc.) are otherwise unchanged, so every citation in Part II resolves correctly. Part II (§11 onward) is new: the empirical validation the original note's §8.5 and §10 called for, run end-to-end on a real transformer, a real multilingual corpus, and the real trained vocabulary.
-
 ---
 
 ## Abstract
@@ -583,3 +580,5 @@ Fourier techniques do not replace the Kronecker embedding mechanism — they gen
 ---
 
 *Part I's facts (shipped `pos_dim=32`, `D=8,192` at V5 scale, parameter counts, the byte-truncation wall) are drawn from `s7_class_notes.md` and [Shravan 2026]. Part I's derivations (Theorems 1–2, the worked numeric examples, the crosstalk-scaling and spectral-bias discussions) are original, built from the cited techniques' published foundations. Part II's numbers (§11–§19) are measured directly from a real training run and the analysis scripts in `fourier_embeddings/`, reproducible via `fourier_embeddings/README.md`; every figure is generated from the run's own `results/*.json` and `metrics.json` files by `fe-report-figures`, not hand-drawn or illustrative.*
+
+*This document merges two standalone companions in full: [`fourier_embeddings_research.md`](fourier_embeddings_research.md) (Part I's theory alone) and [`empirical_validation_report.md`](empirical_validation_report.md) (Part II's empirical results alone) — read either on its own for a shorter, single-focus version of this paper.*
