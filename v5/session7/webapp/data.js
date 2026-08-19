@@ -119,7 +119,7 @@ window.SESSION_DATA = {
 
   /* ── Updated verdict — theory meets practice (§19) ───────────── */
   updatedVerdict: [
-    { claim: "Fourier removes the hard truncation wall", ref: "§6.1", status: "not-exercised", note: "Tokens never approached pos_dim=32 — BPE subwords are short by construction (§16)." },
+    { claim: "Fourier removes the hard truncation wall", ref: "§6.1", status: "not-exercised", note: "Tokens never approached pos_dim=32 — BPE subwords are short by construction (§16). The codec now genuinely carries the fix (byte_capacity auto-sizes past pos_dim for Fourier/HRR); this run's own tokenizer choice is still the reason it isn't visible here — a small-pos_dim follow-up (§20) would show it." },
     { claim: "Fourier trains successfully at transformer scale", ref: "§8.5", status: "confirmed", note: "All three byte-grid arms trained stably; Fourier reached lower val loss than Kronecker." },
     { claim: "Fourier's smooth kernel measurably helps the downstream model", ref: "§5 / §15", status: "confirmed", note: "Fourier < Kronecker on final and best val loss, consistently from step 1,500 on." },
     { claim: "A too-narrow frequency schedule underperforms a proper log-linear one", ref: "§8.1", status: "confirmed", note: "fourier_narrow worst of the three byte-grid arms on every final metric." },

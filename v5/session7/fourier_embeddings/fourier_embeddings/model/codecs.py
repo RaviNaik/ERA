@@ -147,7 +147,32 @@ class ByteGridCodec(nn.Module):
         pos_factor: Literal["onehot", "fourier"] = "onehot",
         fourier_schedule: Literal["standard", "narrow"] = "standard",
         mode: Literal["dynamic", "cached"] = "dynamic",
+        byte_capacity: int | None = None,
     ):
+        """`byte_capacity` is the actual buffer width used for `build_byte_tables`
+        and, for `pos_factor="fourier"`, the length phi(p) is tabulated out to.
+        This is the fix for research-note Sec. 6.1's "no truncation wall"
+        claim: `pos_dim` alone used to double as *both* the Fourier position
+        factor's bandwidth *and* the byte-buffer crop width, so the Fourier
+        codec silently cropped tokens at `pos_dim` exactly like Kronecker
+        does, contradicting Theorem 2 (phi(p) is defined for every p) even
+        though the math was never wrong -- only this module's buffer layout
+        was. The two are now decoupled:
+          - `pos_factor="onehot"` (Kronecker): `byte_capacity` MUST equal
+            `pos_dim` -- one-hot's position table has exactly `pos_dim` rows
+            by construction, so `pos_dim` genuinely *is* the coverage budget
+            here, unlike for Fourier. This preserves Kronecker's hard cliff
+            exactly as before; passing anything else raises.
+          - `pos_factor="fourier"`: `byte_capacity` defaults to the longest
+            token actually present in `id_to_bytes` (computed once, here),
+            so no real vocabulary token is ever cropped, full stop -- not
+            "less likely to be cropped." `pos_dim` continues to shape only
+            the frequency schedule via `pos_factor_dim` (`fourier_dim`),
+            exactly as documented; it no longer bounds the byte buffer.
+            Pass an explicit `byte_capacity` to cap this at a fixed value
+            instead (e.g. if one pathological token would otherwise force a
+            very wide buffer for the whole vocabulary).
+        """
         super().__init__()
         self.vocab_size = vocab_size
         self.d_model = d_model
@@ -156,21 +181,35 @@ class ByteGridCodec(nn.Module):
         self.pos_factor_kind = pos_factor
         self.mode = mode
 
-        byte_ids, valid_mask, length = build_byte_tables(id_to_bytes, pos_dim)
-        self.register_buffer("byte_ids", byte_ids, persistent=False)
-        self.register_buffer("valid_mask", valid_mask, persistent=False)
-        self.register_buffer("length", length, persistent=False)
-
         if pos_factor == "onehot":
+            if byte_capacity is not None and byte_capacity != pos_dim:
+                raise ValueError(
+                    f"onehot (Kronecker) position factor has exactly pos_dim={pos_dim} rows "
+                    f"by construction -- byte_capacity={byte_capacity} would index out of "
+                    f"bounds. pos_dim IS Kronecker's coverage budget (research note Sec. 2); "
+                    f"only the fourier position factor can decouple byte_capacity from pos_dim."
+                )
+            cap = pos_dim
             pos_factor_dim = pos_dim
             table = torch.eye(pos_dim)
         elif pos_factor == "fourier":
             assert pos_factor_dim is not None, "pos_factor_dim required for fourier"
-            table = sinusoidal_position_table(pos_dim, pos_factor_dim, schedule=fourier_schedule)
+            if byte_capacity is not None:
+                cap = byte_capacity
+            else:
+                longest = max((len(b) for b in id_to_bytes), default=0)
+                cap = max(longest, pos_dim, 1)  # never shrink below pos_dim or 1
+            table = sinusoidal_position_table(cap, pos_factor_dim, schedule=fourier_schedule)
         else:
             raise ValueError(pos_factor)
+        self.byte_capacity = cap
         self.pos_factor_dim = pos_factor_dim
-        self.register_buffer("pos_factor_table", table, persistent=False)  # [pos_dim, pos_factor_dim]
+        self.register_buffer("pos_factor_table", table, persistent=False)  # [byte_capacity, pos_factor_dim]
+
+        byte_ids, valid_mask, length = build_byte_tables(id_to_bytes, cap)
+        self.register_buffer("byte_ids", byte_ids, persistent=False)
+        self.register_buffer("valid_mask", valid_mask, persistent=False)
+        self.register_buffer("length", length, persistent=False)
 
         self.D = char_dim * pos_factor_dim
         self.projection = nn.Linear(self.D, d_model, bias=False)
@@ -233,8 +272,9 @@ class ByteGridCodec(nn.Module):
 
     def extra_repr(self) -> str:
         return (f"vocab_size={self.vocab_size}, char_dim={self.char_dim}, pos_dim={self.pos_dim}, "
-                f"pos_factor={self.pos_factor_kind}, pos_factor_dim={self.pos_factor_dim}, "
-                f"D={self.D}, d_model={self.d_model}, mode={self.mode}")
+                f"byte_capacity={self.byte_capacity}, pos_factor={self.pos_factor_kind}, "
+                f"pos_factor_dim={self.pos_factor_dim}, D={self.D}, d_model={self.d_model}, "
+                f"mode={self.mode}")
 
 
 def KroneckerEmbedding(
@@ -261,20 +301,24 @@ def FourierKroneckerEmbedding(
     fourier_dim: int = 32,
     schedule: Literal["standard", "narrow"] = "standard",
     mode: Literal["dynamic", "cached"] = "dynamic",
+    byte_capacity: int | None = None,
 ) -> ByteGridCodec:
     """Design A: Fourier-position Kronecker codec (research note Sec. 4.2).
 
     `pos_dim` here is the *bandwidth budget* used to build phi's frequency
     schedule (kept for parity with Kronecker's naming) — unlike one-hot
     Kronecker, phi(p) is defined for every p, so there is no truncation wall;
-    `pos_dim` only shapes the schedule, it does not crop tokens. Tokens longer
-    than `pos_dim` bytes still get every byte represented (see
-    `id_to_bytes_uncropped` handling in the tokenizer module).
+    `pos_dim` only shapes the schedule, it does not crop tokens. This is now
+    actually true of the byte buffer too, not just of phi(p) in isolation:
+    `byte_capacity` (see `ByteGridCodec.__init__`) defaults to the longest
+    token in `id_to_bytes`, so no real vocabulary token is cropped. Pass an
+    explicit `byte_capacity` to cap this at a fixed width instead.
     """
     return ByteGridCodec(
         vocab_size=vocab_size, d_model=d_model, id_to_bytes=id_to_bytes,
         char_dim=char_dim, pos_dim=pos_dim, pos_factor="fourier",
         pos_factor_dim=fourier_dim, fourier_schedule=schedule, mode=mode,
+        byte_capacity=byte_capacity,
     )
 
 
@@ -301,10 +345,17 @@ def _unit_phase_spectrum(n: int, D: int, generator: torch.Generator) -> torch.Te
 class HRRBindingEmbedding(nn.Module):
     """Design B (research note Sec. 4.4): kappa(b) = sum_p c_wave[byte_p] (*) pos_wave[p].
 
-    `c_wave` (256 byte-value vectors) and `pos_wave` (pos_dim position
+    `c_wave` (256 byte-value vectors) and `pos_wave` (byte_capacity position
     vectors) are fixed, seeded, phase-only-spectrum random vectors in R^D.
     `D` is a free width, fully decoupled from char_dim/pos_dim/vocab (no grid
     to flatten at all). Only the downstream projection is learned.
+
+    `pos_dim`/`byte_capacity` split the same way as `ByteGridCodec` (see its
+    docstring): HRR's per-position vectors are independent random draws with
+    no mathematical constraint tying their *count* to `pos_dim` (unlike
+    Kronecker's one-hot position factor), so extending `pos_wave` to cover
+    every real token's length costs nothing but a few more random rows and
+    fixes the same "no truncation wall" gap Sec. 6.1 claims for Design B too.
     """
 
     def __init__(
@@ -316,6 +367,7 @@ class HRRBindingEmbedding(nn.Module):
         pos_dim: int = 32,
         char_dim: int = 256,
         seed: int = 0,
+        byte_capacity: int | None = None,
     ):
         super().__init__()
         self.vocab_size = vocab_size
@@ -324,16 +376,23 @@ class HRRBindingEmbedding(nn.Module):
         self.pos_dim = pos_dim
         self.char_dim = char_dim
 
-        byte_ids, valid_mask, length = build_byte_tables(id_to_bytes, pos_dim)
+        if byte_capacity is not None:
+            cap = byte_capacity
+        else:
+            longest = max((len(b) for b in id_to_bytes), default=0)
+            cap = max(longest, pos_dim, 1)
+        self.byte_capacity = cap
+
+        byte_ids, valid_mask, length = build_byte_tables(id_to_bytes, cap)
         self.register_buffer("byte_ids", byte_ids, persistent=False)
         self.register_buffer("valid_mask", valid_mask, persistent=False)
         self.register_buffer("length", length, persistent=False)
 
         gen = torch.Generator().manual_seed(seed)
         c_wave = _unit_phase_spectrum(char_dim, D, gen)
-        pos_wave = _unit_phase_spectrum(pos_dim, D, gen)
+        pos_wave = _unit_phase_spectrum(cap, D, gen)
         self.register_buffer("c_wave", c_wave, persistent=False)  # [256, D]
-        self.register_buffer("pos_wave", pos_wave, persistent=False)  # [pos_dim, D]
+        self.register_buffer("pos_wave", pos_wave, persistent=False)  # [byte_capacity, D]
 
         self.projection = nn.Linear(D, d_model, bias=False)
         nn.init.normal_(self.projection.weight, mean=0.0, std=0.02)
@@ -379,7 +438,8 @@ class HRRBindingEmbedding(nn.Module):
         return self.projection(code)
 
     def extra_repr(self) -> str:
-        return f"vocab_size={self.vocab_size}, D={self.D}, pos_dim={self.pos_dim}, d_model={self.d_model}"
+        return (f"vocab_size={self.vocab_size}, D={self.D}, pos_dim={self.pos_dim}, "
+                f"byte_capacity={self.byte_capacity}, d_model={self.d_model}")
 
 
 # --------------------------------------------------------------------------
@@ -410,6 +470,7 @@ class CodecSpec:
     hrr_dim: int = 1024
     mode: Literal["dynamic", "cached"] = "dynamic"
     seed: int = 0
+    byte_capacity: int | None = None  # fourier/hrr only; None = auto (longest real token)
 
 
 def build_codec(spec: CodecSpec, vocab_size: int, d_model: int,
@@ -422,15 +483,17 @@ def build_codec(spec: CodecSpec, vocab_size: int, d_model: int,
     if spec.kind == "fourier":
         return FourierKroneckerEmbedding(vocab_size, d_model, id_to_bytes,
                                           char_dim=spec.char_dim, pos_dim=spec.pos_dim,
-                                          fourier_dim=spec.fourier_dim, schedule="standard", mode=spec.mode)
+                                          fourier_dim=spec.fourier_dim, schedule="standard", mode=spec.mode,
+                                          byte_capacity=spec.byte_capacity)
     if spec.kind == "fourier_narrow":
         return FourierKroneckerEmbedding(vocab_size, d_model, id_to_bytes,
                                           char_dim=spec.char_dim, pos_dim=spec.pos_dim,
-                                          fourier_dim=spec.fourier_dim, schedule="narrow", mode=spec.mode)
+                                          fourier_dim=spec.fourier_dim, schedule="narrow", mode=spec.mode,
+                                          byte_capacity=spec.byte_capacity)
     if spec.kind == "hrr":
         return HRRBindingEmbedding(vocab_size, d_model, id_to_bytes,
                                     D=spec.hrr_dim, pos_dim=spec.pos_dim, char_dim=spec.char_dim,
-                                    seed=spec.seed)
+                                    seed=spec.seed, byte_capacity=spec.byte_capacity)
     raise ValueError(f"unknown codec kind: {spec.kind}")
 
 

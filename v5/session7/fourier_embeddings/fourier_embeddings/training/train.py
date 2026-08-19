@@ -58,6 +58,11 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--pos-dim", type=int, default=32)
     ap.add_argument("--fourier-dim", type=int, default=32)
     ap.add_argument("--hrr-dim", type=int, default=1024)
+    ap.add_argument("--byte-capacity", type=int, default=None,
+                     help="fourier/hrr only: fixed byte-buffer width, overriding the default "
+                          "auto-detect (longest token actually in the vocabulary, so no real "
+                          "token is ever cropped -- research note Sec. 6.1). Kronecker always "
+                          "uses --pos-dim itself; this has no effect on it.")
     ap.add_argument("--codec-mode", default="dynamic", choices=["dynamic", "cached"])
     ap.add_argument("--tie-weights", action="store_true")
 
@@ -194,7 +199,7 @@ def main():
         n_head=args.n_head, n_embd=args.n_embd, dropout=args.dropout, bias=args.bias,
         tie_weights=args.tie_weights, embedding=args.embedding, char_dim=args.char_dim,
         pos_dim=args.pos_dim, fourier_dim=args.fourier_dim, hrr_dim=args.hrr_dim,
-        codec_mode=args.codec_mode,
+        codec_mode=args.codec_mode, byte_capacity=args.byte_capacity,
     )
     train_cfg = TrainConfig(
         data_dir=args.data_dir, tokenizer_path=args.tokenizer_path, max_steps=args.max_steps,

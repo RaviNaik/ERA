@@ -19,7 +19,12 @@ from fourier_embeddings.model.codecs import (
 
 def _pre_projection_codes(codec: ByteGridCodec, words: list[str]) -> torch.Tensor:
     byte_lists = [w.encode("utf-8") for w in words]
-    byte_ids, valid_mask, length = build_byte_tables(byte_lists, codec.pos_dim)
+    # byte_capacity, not pos_dim -- the two differ for pos_factor="fourier"
+    # since the fix for the truncation-wall gap (research note Sec. 6.1):
+    # Kronecker's byte_capacity always equals pos_dim, but Fourier's
+    # defaults to the longest real token, so using pos_dim here would build
+    # a differently-shaped table than the codec's own buffers for Fourier.
+    byte_ids, valid_mask, length = build_byte_tables(byte_lists, codec.byte_capacity)
     return codec._grid_codes(byte_ids, valid_mask, length)
 
 
@@ -115,26 +120,68 @@ def test_truncation_wall_removed_for_fourier():
     pos_dim (two tokens agreeing on the first pos_dim bytes collide exactly);
     the Fourier codec must not -- phi(p) is defined for every p, so extending
     a shared prefix with *different* tails must change the code.
+
+    This is a real end-to-end check, not just a check that phi(p) *can* be
+    evaluated past pos_dim in isolation. Earlier, ByteGridCodec built its
+    byte buffers at a fixed width of pos_dim for *both* codecs regardless of
+    pos_factor, so the Fourier arm silently cropped exactly like Kronecker
+    does, contradicting this exact claim (caught in strict review, see the
+    project README's revision history). The fix: byte_capacity (the actual
+    buffer width) now defaults to the longest real token for pos_factor=
+    "fourier" specifically, decoupled from pos_dim (which continues to only
+    shape the frequency schedule). Kronecker's byte_capacity always equals
+    pos_dim -- its hard cliff is unchanged and re-verified below too.
     """
     pos_dim = 8
     prefix = "abcdefgh"  # exactly pos_dim bytes
-    words = [prefix + "X", prefix + "Y"]
+    words = [prefix + "X", prefix + "Y"]  # 9 bytes each, differ only past pos_dim
 
     kron = ByteGridCodec(len(words), 8, [w.encode() for w in words], pos_dim=pos_dim, pos_factor="onehot")
+    assert kron.byte_capacity == pos_dim, "Kronecker's byte_capacity must stay tied to pos_dim"
     kron_codes = _pre_projection_codes(kron, words)
     assert torch.allclose(kron_codes[0], kron_codes[1], atol=1e-5), \
-        "Kronecker codec should collide exactly on a shared pos_dim-byte prefix"
+        "Kronecker codec should still collide exactly on a shared pos_dim-byte prefix"
 
     fourier = ByteGridCodec(len(words), 8, [w.encode() for w in words], pos_dim=pos_dim,
                              pos_factor="fourier", pos_factor_dim=8)
-    # NOTE: ByteGridCodec still *builds its buffers* at width pos_dim (an
-    # implementation choice mirroring Kronecker's buffer layout), so bytes
-    # past pos_dim are cropped by `build_byte_tables` in both cases here.
-    # The research note's "no truncation wall" claim (Sec. 6.1) is about
-    # phi(p) being defined for arbitrary p, not about this test harness's
-    # fixed-width byte buffer -- verified directly below instead.
+    assert fourier.byte_capacity >= 9, \
+        f"Fourier byte_capacity should auto-size to the longest token (9 bytes), got {fourier.byte_capacity}"
+    fourier_codes = _pre_projection_codes(fourier, words)
+    assert not torch.allclose(fourier_codes[0], fourier_codes[1], atol=1e-4), \
+        "Fourier codec must NOT collide on a prefix shared only up to pos_dim -- it should see the " \
+        "differing 9th byte and produce different codes, which is the actual claim Sec. 6.1 makes"
+
+    # phi(p) itself remains constructible for arbitrarily large p, independent
+    # of any particular vocabulary's longest token.
     phi = sinusoidal_position_table(max_len=10_000, d_p=8, schedule="standard")
     assert phi.shape[0] == 10_000, "phi(p) must be constructible for arbitrarily large p"
+
+
+def test_fourier_byte_capacity_explicit_override():
+    """--byte-capacity lets a caller pin the Fourier buffer width instead of
+    auto-detecting it (e.g. to force a *smaller* width than the vocabulary's
+    longest token, deliberately reproducing the cropping this fix removes by
+    default -- useful for an ablation, not just an escape hatch).
+    """
+    words = ["abcdefghij"]  # 10 bytes
+    fourier = ByteGridCodec(len(words), 8, [w.encode() for w in words], pos_dim=4,
+                             pos_factor="fourier", pos_factor_dim=4, byte_capacity=6)
+    assert fourier.byte_capacity == 6
+    assert fourier.byte_ids.shape[1] == 6
+
+
+def test_onehot_rejects_mismatched_byte_capacity():
+    """Kronecker's one-hot position factor has exactly pos_dim rows by
+    construction -- passing a byte_capacity that disagrees with pos_dim must
+    raise, not silently index out of bounds or silently ignore the argument.
+    """
+    words = ["hello"]
+    try:
+        ByteGridCodec(len(words), 8, [w.encode() for w in words], pos_dim=8,
+                      pos_factor="onehot", byte_capacity=16)
+        assert False, "expected a ValueError for onehot byte_capacity != pos_dim"
+    except ValueError:
+        pass
 
 
 def test_cached_and_dynamic_modes_agree():

@@ -24,6 +24,13 @@ class ModelConfig:
     fourier_dim: int = 32
     hrr_dim: int = 1024
     codec_mode: Literal["dynamic", "cached"] = "dynamic"
+    # fourier/hrr only: the actual byte-buffer width (see codecs.ByteGridCodec's
+    # docstring). None = auto-detect from the longest real token in the
+    # tokenizer's vocabulary, so no real token is ever cropped -- this is what
+    # makes "no truncation wall" (research note Sec. 6.1) actually true of the
+    # trained model, not just of phi(p) in isolation. Kronecker/onehot always
+    # uses pos_dim itself; this knob doesn't apply to it (by design).
+    byte_capacity: int | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)

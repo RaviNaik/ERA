@@ -56,6 +56,9 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--pos-dim", type=int, default=32)
     ap.add_argument("--fourier-dim", type=int, default=32)
     ap.add_argument("--hrr-dim", type=int, default=1024)
+    ap.add_argument("--byte-capacity", type=int, default=None,
+                     help="forwarded to fe-train: fourier/hrr byte-buffer width override "
+                          "(default: auto-detect from the longest real token).")
     ap.add_argument("--codec-mode", default="dynamic", choices=["dynamic", "cached"])
     ap.add_argument("--max-steps", type=int, default=2000)
     ap.add_argument("--max-epochs", type=float, default=None)
@@ -186,6 +189,8 @@ def main():
     ]
     if args.max_epochs is not None:
         forwarded += ["--max-epochs", str(args.max_epochs)]
+    if args.byte_capacity is not None:
+        forwarded += ["--byte-capacity", str(args.byte_capacity)]
     if args.device:
         forwarded += ["--device", args.device]
     if args.require_cuda:

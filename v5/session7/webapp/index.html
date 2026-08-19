@@ -139,6 +139,14 @@
         </a>
       </div>
 
+      <p class="prose">
+        <strong>This work addresses Assignment Problem 4</strong> ("a real Fourier alternative
+        to Kronecker"). Design B (HRR/circular-convolution binding) is discussed only as
+        spectral-domain background for Design A and as a secondary exploratory arm; its
+        invertibility property is real and measured below, but its Problem-5 consequence —
+        eliminating the output head to reach 1M+ vocab — is deliberately out of scope here.
+      </p>
+
       <h3 class="subhead">Abstract, condensed</h3>
       <p class="prose">
         The Kronecker codec inherits two structural costs from using <em>one-hot, discrete</em>
@@ -436,6 +444,21 @@
           of length 60 and a token of length 20 both produce a well-defined, fixed-size code.
         </div>
       </div>
+      <div class="info-banner rose" style="margin-top:10px;">
+        <span class="ib-icon">🛠️</span>
+        <div>
+          <strong>Implementation note.</strong> This is a claim about φ(p) itself, which
+          always held. The companion codebase's first cut of this codec didn't carry it all
+          the way through — its byte buffer was accidentally built at a single shared width,
+          <code>pos_dim</code>, for both codecs, so the Fourier arm silently cropped tokens
+          exactly like Kronecker in the model that was actually trained. Fixed since: the
+          buffer width (<code>byte_capacity</code>) now defaults to the longest token actually
+          in the vocabulary for the Fourier/HRR position factors, decoupled from
+          <code>pos_dim</code>; Kronecker's stays hard-tied to <code>pos_dim</code>, unchanged.
+          See §7 below for why this run's own tokenizer/<code>pos_dim</code> choice still
+          doesn't put visible pressure on the fix even with the code corrected.
+        </div>
+      </div>
 
       <h4 class="microhead">Worked example — "cat" vs. "tac" under Design A</h4>
       <p class="prose">
@@ -456,6 +479,20 @@
         <code>p</code>: <code>c_wave[b_p] ≈ κ_hrr(b) ⊛ pos_wave[p]⁻¹</code>, subject to a
         crosstalk bound measured directly in §8.
       </p>
+      <div class="info-banner rose">
+        <span class="ib-icon">🧭</span>
+        <div>
+          <strong>Scope note.</strong> Circular-convolution binding is exactly invertible
+          (<code>a ⊛ b ⊛ b⁻¹ = a</code>), and that invertibility is real, load-bearing
+          machinery for a <em>different</em> assignment problem — Problem 5 asks for an
+          invertible Kronecker specifically so the output head can be eliminated at 1M+ vocab,
+          and HRR's unbinding property is exactly the mechanism such a construction would
+          need. This page does not draw that consequence: Design B is scoped here strictly as
+          spectral-domain background and a secondary exploratory arm for <strong>Problem
+          4</strong>, measured only for its own trade (crosstalk vs. D/n, §8), not extended
+          toward eliminating the output head or evaluated at 1M+ vocab scale.
+        </div>
+      </div>
 
       <h3 class="subhead">Parameter accounting — theory, at V5 reference scale</h3>
       <p class="prose">Using <code>vocab=131,072</code>, <code>d_model=8,096</code>, shipped <code>pos_dim=32</code> ⇒ <code>D=8,192</code>:</p>
@@ -694,7 +731,11 @@
           BPE tokenizer produces short subword pieces by construction — nowhere close to 32
           bytes for the overwhelming majority of tokens. Kronecker's exact-collision rate is
           0.0% on every real script not because the fix was unnecessary, but because this
-          configuration never exercises the truncation-wall failure mode at all.
+          configuration never exercises the truncation-wall failure mode at all. (This is now
+          purely a data/tokenizer fact, not a code gap — see the implementation note in §4;
+          an earlier version of this page attributed the non-result to this cause alone while
+          the Fourier codec was <em>also</em> silently cropping at <code>pos_dim</code>
+          regardless of tokenizer choice, which is fixed now.)
           <strong>Reason 2 — the threshold was calibrated on the wrong population.</strong>
           The 0.8396 threshold is the 99.5th percentile of <em>globally random</em> (mostly
           cross-script, naturally dissimilar) pairs, but collision rate is measured
@@ -778,7 +819,7 @@
       <h3 class="subhead">Limitations and recommended follow-up</h3>
       <ul class="prose" style="padding-left:18px;">
         <li><strong>Single seed, single run per arm</strong> — margins are directionally consistent through the whole second half of training, but a 3-seed replication is needed before treating the exact margin as reliable.</li>
-        <li><strong>pos_dim=32 with a BPE tokenizer does not test the truncation-wall claim</strong> — the central limitation of this run. The most valuable follow-up is a repeat at small pos_dim (e.g. 8–16) and/or longer average tokens.</li>
+        <li><strong>pos_dim=32 with a BPE tokenizer does not test the truncation-wall claim</strong> — the central limitation of this run. The most valuable follow-up is a repeat at small pos_dim (e.g. 8–16) and/or longer average tokens. With the buffer-width fix (§4) in place, this follow-up now genuinely exercises the claim: at a small pos_dim, Kronecker's exact-collision rate should rise sharply once real tokens exceed pos_dim bytes, while Fourier's should stay low, since its buffer auto-sizes to the longest real token independent of pos_dim.</li>
         <li><strong>Collision-threshold calibration needs to be per-script, not global</strong> — before the collision-rate comparison can be trusted in either direction.</li>
         <li><strong>The validation split needs to be a genuine random sample</strong>, not a tail slice — a data-pipeline fix, not a codec property.</li>
         <li><strong>Scale is far below the reference paper's</strong> — 5,000 steps / ~105–111M params / ~150MB text vs. nanoGPT/GPT-2-124M/FineWeb-Edu scale. A genuine existence proof at this scale, not yet evidence the same margins hold at production scale.</li>

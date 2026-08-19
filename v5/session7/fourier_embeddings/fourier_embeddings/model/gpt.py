@@ -91,6 +91,7 @@ class GPT(nn.Module):
         spec = CodecSpec(
             kind=cfg.embedding, char_dim=cfg.char_dim, pos_dim=cfg.pos_dim,
             fourier_dim=cfg.fourier_dim, hrr_dim=cfg.hrr_dim, mode=cfg.codec_mode,
+            byte_capacity=cfg.byte_capacity,
         )
         self.token_codec = build_codec(spec, cfg.vocab_size, cfg.n_embd, id_to_bytes)
         self.position_embedding = nn.Embedding(cfg.block_size, cfg.n_embd)
