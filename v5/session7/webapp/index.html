@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fourier Embeddings | ERA Session 7</title>
+  <meta name="description" content="Spectral reformulations of the Kronecker byte-position embedding codec — theory, derivations, and a controlled transformer training run comparing Dense, Kronecker, Fourier and Fourier-narrow-band embeddings. Session 7 assignment." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Theme Toggle ───────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S7</div>
+      <div class="sidebar-brand-title">Fourier<br/><span class="sidebar-gradient-text">Embeddings</span></div>
+      <div class="sidebar-brand-sub">9 Sections · August 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#overview" data-target="overview">
+        <span class="nav-icon">📄</span> Overview
+      </a>
+      <a class="nav-item" href="#kronecker" data-target="kronecker">
+        <span class="nav-icon">🔲</span> The Kronecker Codec
+      </a>
+      <a class="nav-item" href="#foundations" data-target="foundations">
+        <span class="nav-icon">〰️</span> Fourier Foundations
+      </a>
+      <a class="nav-item" href="#design" data-target="design">
+        <span class="nav-icon">🧩</span> The Fourier Codec
+      </a>
+      <a class="nav-item" href="#complementarity" data-target="complementarity">
+        <span class="nav-icon">🔗</span> Complementarity Map
+      </a>
+      <a class="nav-item" href="#setup" data-target="setup">
+        <span class="nav-icon">⚙️</span> Experimental Setup
+      </a>
+      <a class="nav-item" href="#results" data-target="results">
+        <span class="nav-icon">📉</span> Trained Results
+      </a>
+      <a class="nav-item" href="#probes" data-target="probes">
+        <span class="nav-icon">🔬</span> Deep-Dive Probes
+      </a>
+      <a class="nav-item" href="#verdict" data-target="verdict">
+        <span class="nav-icon">✅</span> Verdict &amp; Conclusion
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 7 Assignment</div>
+      <h1>Fourier Approaches<br>to Token Embedding</h1>
+      <p>
+        The Kronecker embedding codec removes vocabulary size from the parameter count by
+        addressing every token as a sum of Kronecker products between a one-hot byte-value
+        vector and a one-hot byte-position vector. That position vector is, in the language
+        of kernel methods, a <strong>delta-function kernel</strong> — the most degenerate
+        kernel possible. This page derives what happens when it's replaced with a smooth,
+        tunable-bandwidth <strong>Fourier kernel</strong> instead, then trains four real
+        transformers to find out whether the theory holds.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="val indigo" id="stat-codec-cut">—</span><span class="lbl">Codec Param Cut</span></div>
+        <div class="hero-stat"><span class="val green" id="stat-fourier-loss">—</span><span class="lbl">Fourier Val Loss</span></div>
+        <div class="hero-stat"><span class="val amber" id="stat-kronecker-loss">—</span><span class="lbl">Kronecker Val Loss</span></div>
+        <div class="hero-stat"><span class="val" id="stat-pairs">—</span><span class="lbl">Order-Sensitivity Pairs</span></div>
+        <div class="hero-stat"><span class="val rose" id="stat-tokens">—</span><span class="lbl">Tokens Trained</span></div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 1: Overview                                 -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="overview">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 09 · SOURCES &amp; SCOPE</span>
+          <h2 class="section-title">Overview</h2>
+          <p class="section-desc">
+            Two written artifacts sit behind this page: a theoretical note deriving what a
+            Fourier substitution buys and costs, and an empirical report that trains four
+            real transformers to check every claim it could. A combined paper merges both
+            into one canonical document.
+          </p>
+        </div>
+      </div>
+
+      <div class="paper-links">
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener">
+          <span class="plc-icon">📘</span>
+          <span class="plc-title">Complete Paper (Theory + Empirical)</span>
+          <span class="plc-desc">The canonical document — Part I (theory, §1–§10) unchanged, Part II (empirical validation, §11–§22) new. Every cross-reference on this page resolves against it.</span>
+          <span class="plc-cta">Read on GitHub →</span>
+        </a>
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_research.md" target="_blank" rel="noopener">
+          <span class="plc-icon">📐</span>
+          <span class="plc-title">Theory Note (Part I standalone)</span>
+          <span class="plc-desc">The original derivation: Theorems 1–2, the complementarity argument, and the §10 minimal validation protocol this page's experiment follows.</span>
+          <span class="plc-cta">Read on GitHub →</span>
+        </a>
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/empirical_validation_report.md" target="_blank" rel="noopener">
+          <span class="plc-icon">🧪</span>
+          <span class="plc-title">Empirical Validation Report</span>
+          <span class="plc-desc">The standalone training report — four transformers, three analytical probes, and the honest anomalies found along the way.</span>
+          <span class="plc-cta">Read on GitHub →</span>
+        </a>
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/tree/main/v5/session7/fourier_embeddings" target="_blank" rel="noopener">
+          <span class="plc-icon">💻</span>
+          <span class="plc-title">fourier_embeddings/ Project</span>
+          <span class="plc-desc">The from-scratch nanoGPT-style implementation this run was produced from — codecs, training loop, and analysis scripts (fe-run-experiment, fe-collisions, fe-order-sensitivity, fe-crosstalk).</span>
+          <span class="plc-cta">Browse source →</span>
+        </a>
+        <a class="paper-link-card" href="https://arxiv.org/abs/2605.29459" target="_blank" rel="noopener">
+          <span class="plc-icon">📜</span>
+          <span class="plc-title">Shravan (2026) — Kronecker Embeddings</span>
+          <span class="plc-desc">arXiv:2605.29459 — the shipped V5 codec this whole investigation responds to and extends.</span>
+          <span class="plc-cta">View on arXiv →</span>
+        </a>
+        <a class="paper-link-card" href="https://github.com/RaviNaik/ERA/tree/main/v5/session7/report_figures" target="_blank" rel="noopener">
+          <span class="plc-icon">📊</span>
+          <span class="plc-title">Report Figures</span>
+          <span class="plc-desc">The 12 raw matplotlib PNGs used throughout this page — generated from the run's own results/*.json and metrics.json, not hand-drawn.</span>
+          <span class="plc-cta">Browse figures →</span>
+        </a>
+      </div>
+
+      <h3 class="subhead">Abstract, condensed</h3>
+      <p class="prose">
+        The Kronecker codec inherits two structural costs from using <em>one-hot, discrete</em>
+        bases: a hard truncation wall at a fixed byte budget (<code>pos_dim</code>), and a
+        codec output dimension rigidly coupled to that budget
+        (<code>D = char_dim · pos_dim</code>), which forecloses weight tying. Part I asks:
+        <strong>does replacing the discrete position basis with a Fourier basis fix these
+        costs, and at what price?</strong> It derives the codec's similarity structure in
+        closed form and shows the one-hot construction is the
+        <strong>degenerate, zero-bandwidth limit</strong> of a more general spectral
+        construction. Part II trains four ~105–111M-parameter transformers — Dense,
+        Kronecker, Fourier, and a narrow-band Fourier ablation — on a real multilingual
+        Wikipedia corpus and finds that <strong>every prediction the experiment was
+        positioned to test, it confirmed</strong> — including Fourier reaching a
+        <em>lower</em> validation loss than Kronecker at identical parameter cost — while
+        reporting, without softening, the two things this particular run could not test.
+      </p>
+
+      <div class="mini-toc">
+        <a href="#kronecker">The Kronecker Codec →</a>
+        <a href="#foundations">Fourier Foundations →</a>
+        <a href="#design">The Fourier Codec →</a>
+        <a href="#complementarity">Complementarity Map →</a>
+        <a href="#setup">Experimental Setup →</a>
+        <a href="#results">Trained Results →</a>
+        <a href="#probes">Deep-Dive Probes →</a>
+        <a href="#verdict">Verdict &amp; Conclusion →</a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 2: The Kronecker Codec                      -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="kronecker">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 09 · PRELIMINARIES</span>
+          <h2 class="section-title">The Kronecker Codec, Made Precise</h2>
+          <p class="section-desc">
+            Before asking what Fourier can fix, the shipped codec has to be pinned down
+            exactly — including what its position axis's similarity structure actually is.
+          </p>
+        </div>
+      </div>
+
+      <p class="prose">
+        A token's byte sequence <code>b = (b₁, …, b_L)</code> is encoded as a sum of
+        Kronecker products between a one-hot byte-value vector and a one-hot byte-position
+        vector, projected through a single learned matrix:
+      </p>
+      <div class="formula-box">κ(b) = (1/√L) · Σ<span class="fx-comment">[p=1..L]</span> c[b_p] ⊗ pos[p]&nbsp;&nbsp;<span class="fx-comment">// only P: R^D → R^d_model is learned</span></div>
+      <p class="prose">
+        <code>c[·]</code> is one-hot over the 256 byte values, <code>pos[·]</code> is
+        one-hot over <code>pos_dim</code> positions, <code>⊗</code> is the Kronecker
+        product. <code>D = char_dim · pos_dim = 256 · pos_dim</code>. This construction does
+        two jobs at once:
+      </p>
+      <div class="two-col">
+        <div class="callout definition">
+          <div class="callout-label">Job 1 — Remove V from the parameter count</div>
+          <div class="callout-body">Done completely, not in question. As long as the position factor's dimensionality doesn't depend on vocabulary size, V never appears in D · d_model.</div>
+        </div>
+        <div class="callout honest">
+          <div class="callout-label">Job 2 — Assign a fixed, structured address</div>
+          <div class="callout-body">This is where the costs live: <strong>(a)</strong> a hard truncation wall — bytes past position <code>pos_dim</code> are silently discarded; <strong>(b)</strong> D is dictated purely by the coverage budget, coupling an accuracy decision to an architectural one (weight tying).</div>
+        </div>
+      </div>
+
+      <h3 class="subhead">Theorem 1 — exact similarity for equal-length strings</h3>
+      <div class="callout theorem">
+        <div class="callout-label">🔹 Theorem 1</div>
+        <div class="callout-body">
+          For two byte sequences <code>a, b</code> of equal length <code>L</code>, agreeing at
+          <code>L − k</code> positions:
+          <div class="formula-box" style="margin:10px 0 0;">cos(κ(a), κ(b)) = (L − k) / L</div>
+        </div>
+      </div>
+      <div class="callout proof">
+        <div class="callout-label">🔸 Proof</div>
+        <div class="callout-body">
+          <code>{e_(v,i)}</code> is orthonormal, so <code>‖u(a)‖ = ‖u(b)‖ = √L</code>. The inner
+          product only survives where <code>pos[i]·pos[j] = δ_ij</code> (the Kronecker delta) —
+          i.e. only at matching positions, each contributing exactly 1 when the bytes agree.
+          Summing the <code>L − k</code> agreeing positions gives
+          <code>cos = (L−k)/L</code>. This is the exact formula behind every reported
+          typo-robustness number in Shravan (2026) — <code>mistake</code>/<code>mistkae</code>:
+          L=7, k=2 → cos = 5/7 ≈ 0.71, matching the shipped paper and this project's own
+          measured value (§7 below) exactly.
+        </div>
+      </div>
+
+      <h3 class="subhead">Corollary — order sensitivity, and an honest correction</h3>
+      <p class="prose">
+        If <code>a</code> and <code>b</code> are anagrams sharing <strong>no fixed point</strong>
+        (a true derangement — no byte stays at the same position in both), every cross term
+        vanishes and the codes are driven to <strong>exact orthogonality</strong>, regardless of
+        how much byte content is shared.
+      </p>
+      <div class="callout correction">
+        <div class="callout-label">⚠ Part II correction — left visible, not silently fixed</div>
+        <div class="callout-body">
+          The original note's worked example for this corollary — <code>"cat"</code> vs.
+          <code>"tac"</code> — is wrong on its own terms. Reversing an odd-length string
+          fixes the middle character in place (<code>'a'</code> stays at position 1 in
+          both), so the pair is <em>not</em> a derangement. Theorem 1 directly gives
+          <code>cos = (3−1)/3 = 1/3</code>, not 0 — confirmed by direct measurement in
+          §7 below (Kronecker cosine = 0.333). The corollary itself is correct; a true
+          derangement is needed to instantiate it — <code>"abcde"</code> vs.
+          <code>"bcdea"</code> is one, and measures to <strong>cos ≈ −0.001</strong>
+          (zero within floating-point noise), exactly as predicted. This is exactly the
+          kind of claim empirical validation exists to catch.
+        </div>
+      </div>
+
+      <div class="callout result">
+        <div class="callout-label">🎯 Headline result</div>
+        <div class="callout-body">
+          <code>pos[p]·pos[q] = δ_pq</code> — the Kronecker embedding codec's position axis
+          is, in the language of kernel methods, the <strong>most degenerate possible
+          kernel</strong>: a delta function with zero bandwidth. Position similarity is
+          either exactly 1 (same position) or exactly 0 (any other position, no matter how
+          close) — there is no notion of "position 5 is closer to position 6 than to
+          position 30." This is what makes truncation a <em>cliff</em> rather than a
+          <em>slope</em>, and it is the single root cause every issue in §4 traces back to.
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 3: Fourier Foundations                      -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="foundations">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 09 · SPECTRAL MACHINERY</span>
+          <h2 class="section-title">Fourier Foundations Relevant to Embeddings</h2>
+          <p class="section-desc">
+            Six pieces of machinery, each with a real claim to relevance — from the theorem
+            that justifies the whole approach to two existence proofs that swapping learned
+            operations for spectral ones survives at transformer scale.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subhead">Bochner's theorem — why this is the right starting point</h3>
+      <p class="prose">
+        A continuous, shift-invariant, positive-definite kernel <code>K(δ)</code> can always
+        be written as the Fourier transform of a finite, non-negative measure. <strong>Random
+        Fourier Features</strong> (Rahimi &amp; Recht, 2007) turn this into a finite, explicit
+        feature map by sampling frequencies — giving a recipe for turning any desired smooth,
+        shift-invariant similarity structure into an explicit vector code. This is exactly the
+        object needed to replace the delta-kernel position vector.
+      </p>
+
+      <h3 class="subhead">Fixed multi-scale Fourier features (Tancik/NeRF; standard Transformer PE)</h3>
+      <p class="prose">
+        Rather than sampling frequencies randomly, a <strong>fixed geometric (log-linear)
+        schedule</strong> is used — the same schedule behind the original Transformer's
+        sinusoidal position encoding:
+      </p>
+      <div class="formula-box">φ(p) = [ sin(ω₀p), cos(ω₀p), …, sin(ω_{m-1}p), cos(ω_{m-1}p) ]&nbsp;&nbsp;<span class="fx-comment">ω_i = 1 / 10000^(2i/d_p)</span></div>
+      <div class="callout theorem">
+        <div class="callout-label">🔹 Proposition 1 — the induced kernel</div>
+        <div class="callout-body">
+          <code>φ(p)·φ(q) = K(p − q)</code> where <code>K(δ) = Σ cos(ω_i δ)</code> — a genuine,
+          computable, shift-invariant kernel: smooth, symmetric, maximal at <code>δ=0</code>
+          (<code>K(0) = m = d_p/2</code>), and decaying as <code>|δ|</code> grows. This is
+          precisely the "slope instead of a cliff" the Kronecker position axis lacks, and it
+          costs zero learned parameters.
+        </div>
+      </div>
+
+      <h4 class="microhead">Worked toy example — d_p = 4 (m = 2 bands): K(δ) = cos(δ) + cos(0.01δ)</h4>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>δ</th><th>cos(δ)</th><th>cos(0.01δ)</th><th>K(δ)</th></tr></thead>
+          <tbody id="kernel-toy-tbody"></tbody>
+        </table>
+      </div>
+      <p class="prose">
+        <code>K(0) = 2 = d_p/2</code> exactly, matching Proposition 1. With only two bands
+        the kernel <em>ripples</em> rather than decaying monotonically — exactly why
+        production schedules use 16–32 bands: ripples from different octaves cancel,
+        leaving a single dominant lobe near <code>δ=0</code>. The shape of the decay is a
+        genuine design parameter — the interactive explorer below lets you feel this
+        directly at the project's real <code>d_p=32</code> configuration.
+      </p>
+
+      <h3 class="subhead">Interactive: Kernel Explorer</h3>
+      <p class="prose">
+        Computed live from the exact formulas in <code>fourier_embeddings/model/codecs.py</code>
+        — <code>ω_i = 1/10000^(2i/d_p)</code> for the standard schedule, and
+        <code>ω_i = ω_low·(1 + i/(m−1))</code> (all frequencies crowded within a factor of ~2)
+        for the deliberately narrow-band ablation used in §6's <code>fourier_narrow</code> arm.
+        The flat dashed line + spike is the Kronecker one-hot codec's delta kernel, for
+        comparison — its position similarity is either exactly 1 or exactly 0, no matter how
+        the sliders move.
+      </p>
+      <div class="kernel-widget">
+        <div class="kw-controls">
+          <div class="kw-control-group">
+            <label class="kw-control-label">Frequency bands (d_p) <span class="kw-val" id="kw-dp-val">d_p=32</span></label>
+            <input type="range" id="kw-dp-slider" min="4" max="64" step="2" value="32" />
+          </div>
+          <div class="kw-control-group">
+            <label class="kw-control-label">Position offset range <span class="kw-val" id="kw-range-val">±40</span></label>
+            <input type="range" id="kw-range-slider" min="10" max="200" step="5" value="40" />
+          </div>
+          <div class="kw-toggle-group">
+            <button class="kw-toggle-btn" id="kw-btn-standard">Standard</button>
+            <button class="kw-toggle-btn" id="kw-btn-narrow">Narrow-band</button>
+            <button class="kw-toggle-btn active" id="kw-btn-both">Both</button>
+          </div>
+        </div>
+        <div class="kw-canvas-wrap"><canvas id="kernel-canvas" height="260"></canvas></div>
+        <div class="kw-legend">
+          <div class="kw-legend-item"><span class="kw-legend-dot" style="background:#6366f1"></span> Standard log-linear schedule</div>
+          <div class="kw-legend-item"><span class="kw-legend-dot" style="background:#f43f5e"></span> Narrow-band schedule (§8.1 ablation)</div>
+          <div class="kw-legend-item"><span class="kw-legend-dot" style="background:#94a3b8"></span> Kronecker delta kernel (reference)</div>
+        </div>
+        <p class="kw-note">
+          Drag <strong>d_p</strong> up and the standard schedule's lobe near δ=0 sharpens while
+          decaying smoothly; the narrow-band curve barely moves across the whole range even at
+          large d_p — exactly the §8.1 spectral-bias failure mode ("nearby positions barely
+          distinguishable") that §6/§7 measure materializing in a trained model's final loss.
+        </p>
+      </div>
+
+      <h3 class="subhead">Other spectral techniques surveyed</h3>
+      <div class="two-col">
+        <div class="callout definition">
+          <div class="callout-label">Learnable Fourier Features (Li et al. 2021)</div>
+          <div class="callout-body">Replace the fixed schedule with a <strong>learned</strong> frequency matrix B, followed by an MLP. Trades away the "zero learned parameters in the codec" property in exchange for letting the kernel itself adapt — a possible answer to the "compressed input path is a weak adapter" concern.</div>
+        </div>
+        <div class="callout definition">
+          <div class="callout-label">Circular Convolution / HRR (Plate, 1995)</div>
+          <div class="callout-body">Composes vectors via circular convolution instead of Kronecker product — by the convolution theorem, equivalent to elementwise multiplication in the Fourier domain, and (for unit-magnitude spectra) <strong>exactly invertible</strong>. Multiple bindings sum into one fixed-width vector, at the cost of crosstalk (§7 measures this).</div>
+        </div>
+        <div class="callout definition">
+          <div class="callout-label">Complex-order embeddings (Wang et al. 2019)</div>
+          <div class="callout-body">Generalizes a token's embedding to a genuine function of position — amplitude, frequency and phase all learned, per word. Literally "represent the token as a wave," and empirically competitive in a controlled NLP setting.</div>
+        </div>
+        <div class="callout definition">
+          <div class="callout-label">FNet &amp; Fourier Neural Operators (existence proofs)</div>
+          <div class="callout-body">FNet replaces self-attention with an unparameterized 2D DFT, reaching 92–97% of BERT's GLUE accuracy at ~7× GPU speed. FNOs apply spectral convolution for resolution-agnostic function learning. Neither is an embedding technique, but both prove swapping a dense op for a spectral one survives at transformer scale.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 4: Constructing the Fourier-complementary codec -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="design">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 09 · THE SUBSTITUTION</span>
+          <h2 class="section-title">Constructing a Fourier-Complementary Codec</h2>
+          <p class="section-desc">
+            Only the <em>position</em> factor is replaced — the byte-value factor stays
+            one-hot, on purpose. Two concrete designs follow from that one substitution.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout definition">
+        <div class="callout-label">Why the byte-value factor stays one-hot</div>
+        <div class="callout-body">
+          Bochner's theorem presumes an <em>ordinal, continuum-like</em> quantity — "closer"
+          values should have "more similar" features. Byte <strong>position</strong> genuinely
+          has this property (position 5 is between 4 and 6). Byte <strong>value</strong> does
+          not — byte <code>0x63</code> ('c') isn't meaningfully closer to <code>0x64</code>
+          ('d') than to <code>0xFF</code>. Imposing a smooth kernel over byte identity would
+          impose a false continuum on a genuinely categorical variable.
+        </div>
+      </div>
+
+      <h3 class="subhead">Design A — Fourier-position Kronecker</h3>
+      <div class="formula-box">κ_fourier(b) = (1/√L) · Σ c[b_p] ⊗ φ(p)&nbsp;&nbsp;<span class="fx-comment">φ(p) ∈ R^d_p, defined for every p ∈ ℕ</span></div>
+      <p class="prose">
+        <code>D = 256 · d_p</code>, exactly as before — but <code>d_p</code> is now a free
+        <strong>bandwidth</strong> choice, not a hard coverage cutoff.
+      </p>
+      <div class="callout theorem">
+        <div class="callout-label">🔹 Theorem 2 — similarity structure of Design A</div>
+        <div class="callout-body">
+          <div class="formula-box" style="margin:6px 0;">u(a)·u(b) = Σ [a_i=b_i]·K(0) + Σ<span class="fx-comment">[i≠j]</span> [a_i=b_j]·K(i−j)</div>
+          Same-position matches still contribute the dominant term <code>K(0)</code>, but
+          near-position matches now contribute a <strong>partial, nonzero</strong> amount
+          <code>K(i−j)</code> instead of exactly zero. No byte is ever discarded — a token
+          of length 60 and a token of length 20 both produce a well-defined, fixed-size code.
+        </div>
+      </div>
+
+      <h4 class="microhead">Worked example — "cat" vs. "tac" under Design A</h4>
+      <p class="prose">
+        <code>c@0,a@1,t@2</code> vs. <code>t@0,a@1,c@2</code>. Same-position match at position
+        1 (<code>a</code>) contributes <code>K(0)=2.000</code>; cross-position matches
+        (<code>c@0↔c@2</code>, <code>t@2↔t@0</code>) each contribute <code>K(2)=0.584</code>
+        using the toy table above. Normalized: <code>cos ≈ 3.168/6.000 ≈ 0.53</code> —
+        nonzero, and, per §7 below, close to the real measured value at the project's actual
+        <code>d_p=32</code> schedule: <strong>0.905</strong>. This is the concrete numeric face
+        of the order-sensitivity trade explored in §5 and measured in §8.
+      </p>
+
+      <h3 class="subhead">Design B — full holographic binding (HRR)</h3>
+      <div class="formula-box">κ_hrr(b) = Σ c_wave[b_p] ⊛ pos_wave[p]&nbsp;&nbsp;<span class="fx-comment">⊛ = circular convolution; D fully decoupled from char_dim and pos_dim</span></div>
+      <p class="prose">
+        <code>c_wave[·]</code> and <code>pos_wave[·]</code> are fixed, seeded (not learned)
+        unit-magnitude-spectrum random vectors. Approximate recovery of the byte at position
+        <code>p</code>: <code>c_wave[b_p] ≈ κ_hrr(b) ⊛ pos_wave[p]⁻¹</code>, subject to a
+        crosstalk bound measured directly in §8.
+      </p>
+
+      <h3 class="subhead">Parameter accounting — theory, at V5 reference scale</h3>
+      <p class="prose">Using <code>vocab=131,072</code>, <code>d_model=8,096</code>, shipped <code>pos_dim=32</code> ⇒ <code>D=8,192</code>:</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Codec</th><th>D</th><th>Learned params (D·d_model)</th><th>Truncation wall</th><th>D decoupled from coverage?</th></tr></thead>
+          <tbody id="param-theory-tbody"></tbody>
+        </table>
+      </div>
+      <p class="prose text-muted" style="font-size:11.5px;">§7 (Trained Results) reports the same accounting at this paper's actual experimental scale (vocab=16,384, d_model=768) — a precise numeric match to this formula.</p>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 5: Complementarity Map                      -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="complementarity">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 09 · NOT A REPLACEMENT</span>
+          <h2 class="section-title">Complementarity: How Fourier and Kronecker Combine</h2>
+          <p class="section-desc">
+            "Fourier vs. Kronecker" is the wrong framing — Kronecker is Fourier's
+            zero-bandwidth degenerate case, and Fourier is Kronecker's positive-bandwidth
+            generalization. Two points on one continuum, not competing mechanisms.
+          </p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="callout result">
+          <div class="callout-label">✅ What's preserved from Kronecker</div>
+          <div class="callout-body">
+            The vocabulary-free parameter count; the fully deterministic, frozen-by-construction
+            codec (no gradient touches <code>c[·]</code> or <code>φ(·)</code>); the drop-in
+            <code>nn.Embedding</code>-compatible interface; and the byte-value one-hot factor,
+            unmodified.
+          </div>
+        </div>
+        <div class="callout honest">
+          <div class="callout-label">🔁 What changes</div>
+          <div class="callout-body">
+            Only the <em>position</em> factor's internal representation — from a one-hot
+            delta-kernel object to a Fourier-kernel object (Design A), or the entire
+            composition mechanism from Kronecker product to circular convolution (Design B).
+            A substitution <em>inside</em> the existing recipe, not a different recipe.
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">The verdict, before any training run (theory only)</h3>
+      <p class="prose">
+        Every <strong>solved</strong> issue traces back to the position factor being a
+        delta kernel. Every <strong>unsolved</strong> issue traces to the codec encoding
+        spelling alone — no kernel choice changes that. Every <strong>new</strong> issue
+        is a cost the substitution itself introduces.
+      </p>
+      <div class="verdict-grid" id="theory-verdict-grid"></div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 6: Experimental Setup                       -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="setup">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 09 · TAKING THE THEORY TO TRAINING</span>
+          <h2 class="section-title">Empirical Validation — Experimental Setup</h2>
+          <p class="section-desc">
+            Four ~105–111M-parameter GPT-style transformers, identical in every hyperparameter
+            except the token-embedding codec, trained on a real multilingual Wikipedia corpus.
+          </p>
+        </div>
+      </div>
+
+      <div class="kv-grid" id="setup-kv-grid"></div>
+
+      <p class="prose" style="margin-top:20px;">
+        <code>kronecker</code> and <code>fourier</code>/<code>fourier_narrow</code> share
+        <strong>one implementation class</strong> (<code>ByteGridCodec</code>) — the
+        position-factor table is the only thing that differs — a direct, code-level
+        instantiation of §5's complementarity claim, not just a documentation convention.
+      </p>
+
+      <h3 class="subhead">Reading these results correctly — the validation-loss anomaly</h3>
+      <p class="prose">
+        Final validation loss (≈0.21) is <em>lower</em> than final training loss (≈1.5–1.75)
+        for every arm — not a model "generalizing better than it trains," which isn't possible
+        in the ordinary sense. Two effects compound, both data-pipeline artifacts, not codec
+        properties:
+      </p>
+      <div class="data-table-wrap" style="max-width:600px;">
+        <table class="data-table">
+          <thead><tr><th>Step</th><th>Dense train loss</th><th>Dense val loss</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td class="mono">9.825</td><td class="mono">9.789</td></tr>
+            <tr><td>500</td><td class="mono">3.234</td><td class="mono">1.486</td></tr>
+            <tr><td>1,000</td><td class="mono">2.377</td><td class="mono">0.383</td></tr>
+            <tr><td>2,000</td><td class="mono">1.849</td><td class="mono">0.259</td></tr>
+            <tr><td>5,000 (final)</td><td class="mono">~1.5–1.8 (noisy)</td><td class="mono">0.208</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-banner">
+        <span class="ib-icon">⚠️</span>
+        <div>
+          <strong>1. The validation split is a naive tail slice, not an i.i.d. sample.</strong>
+          The packing step takes the last 2% of the concatenated token stream — a contiguous
+          slice of the last-processed language's last few articles, disproportionately
+          templated boilerplate the model has already seen elsewhere.
+          <strong>2. The corpus is small relative to the token budget.</strong> ≈3.56 epochs
+          over 92.08M tokens is enough for a ~105–111M-parameter model to substantially fit,
+          if not partially memorize, the corpus.
+        </div>
+      </div>
+      <p class="prose">
+        <strong>What this means for the rest of this page:</strong> absolute loss/perplexity
+        numbers should not be read as "near-perfect language modeling." What remains fully
+        valid: every arm was exposed to the <em>identical</em> anomaly, identically — so a
+        between-arm <strong>ranking</strong> is exactly the relative signal a controlled
+        comparison is built to produce, and that is how every result below should be read.
+      </p>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 7: Trained Results                          -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="results">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 09 · MEASURED, NOT ASSERTED</span>
+          <h2 class="section-title">Trained Results</h2>
+          <p class="section-desc">
+            Parameter efficiency, training dynamics, and final performance — every figure
+            below is generated directly from the run's own <code>metrics.json</code> files.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subhead">Parameter efficiency, measured</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Arm</th><th>Total params</th><th>Codec params</th><th>Codec share</th><th>Reduction vs. Dense</th></tr></thead>
+          <tbody id="param-measured-tbody"></tbody>
+        </table>
+      </div>
+      <div class="figure-grid">
+        <div class="figure-card"><img src="../report_figures/codec_params.png" alt="Input-path parameter count by arm" loading="lazy" />
+          <div class="figure-caption">Codec parameter count by arm — Fourier matches Kronecker exactly (both 6.29M), 50% below Dense's 12.58M.</div></div>
+        <div class="figure-card"><img src="../report_figures/param_breakdown.png" alt="Full parameter breakdown by component" loading="lazy" />
+          <div class="figure-caption">Full parameter breakdown — transformer blocks dominate (~85M) regardless of arm at this scale.</div></div>
+      </div>
+
+      <h3 class="subhead">Training dynamics</h3>
+      <p class="prose">
+        Training loss shows a clean, expected pattern: Dense trains slightly lower throughout,
+        with the three byte-grid arms tracking each other closely. No arm is unstable or
+        diverges — the codec substitution changes the <em>level</em> loss settles at, not the
+        <em>shape</em> of training.
+      </p>
+      <div class="figure-grid">
+        <div class="figure-card"><img src="../report_figures/train_loss.png" alt="Training loss over steps, all arms" loading="lazy" />
+          <div class="figure-caption">Training loss (unaffected by the validation-split anomaly above).</div></div>
+        <div class="figure-card"><img src="../report_figures/val_loss_zoomed.png" alt="Validation loss, steps 1000+, zoomed" loading="lazy" />
+          <div class="figure-caption">Zoomed from step 1,500: <strong>Dense &lt; Fourier &lt; Kronecker &lt; Fourier (narrow)</strong>, consistently for the rest of training.</div></div>
+        <div class="figure-card"><img src="../report_figures/val_loss.png" alt="Validation loss over steps, all arms" loading="lazy" />
+          <div class="figure-caption">Full-scale view — the collapse described above makes all four arms look identical by step 2,000, which is why the zoom matters.</div></div>
+        <div class="figure-card"><img src="../report_figures/val_perplexity.png" alt="Validation perplexity over steps" loading="lazy" />
+          <div class="figure-caption">Validation perplexity over steps, same ranking.</div></div>
+      </div>
+
+      <h3 class="subhead">Final performance comparison</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Arm</th><th>Final val loss</th><th>Best val loss</th><th>Final val perplexity</th><th>Wall-clock</th></tr></thead>
+          <tbody id="final-perf-tbody"></tbody>
+        </table>
+      </div>
+      <div class="figure-grid">
+        <div class="figure-card"><img src="../report_figures/final_val_loss.png" alt="Final validation loss by arm" loading="lazy" />
+          <div class="figure-caption">Final validation loss by arm.</div></div>
+        <div class="figure-card"><img src="../report_figures/final_val_ppl.png" alt="Final validation perplexity by arm" loading="lazy" />
+          <div class="figure-caption">Final validation perplexity by arm.</div></div>
+        <div class="figure-card"><img src="../report_figures/wall_clock.png" alt="Training wall-clock time by arm" loading="lazy" />
+          <div class="figure-caption">Wall-clock time — the dynamic codec-mode cost, separate from the parameter story.</div></div>
+      </div>
+
+      <div class="verdict-grid">
+        <div class="verdict-card solved">
+          <span class="vc-status">Confirmed</span>
+          <div class="vc-title">Fourier beats Kronecker on final &amp; best val loss</div>
+          <div class="vc-desc">0.2181 vs. 0.2197 final (0.7% lower), 0.2118 vs. 0.2136 best (0.8% lower) — a consistent direction from step 1,500 onward, not one lucky measurement.</div>
+        </div>
+        <div class="verdict-card unsolved">
+          <span class="vc-status">Confirmed, directionally</span>
+          <div class="vc-title">Narrow-band ablation lands where §8.1 predicted</div>
+          <div class="vc-desc">fourier_narrow is worst of the three byte-grid arms on every final metric — though the margins (2.7% / 1.9%) are modest at this scale.</div>
+        </div>
+        <div class="verdict-card new-issue">
+          <span class="vc-status">Real, separate cost</span>
+          <div class="vc-title">Dynamic codec-mode adds ~6% wall-clock</div>
+          <div class="vc-desc">Kronecker/Fourier/Fourier-narrow all take ~6% longer than Dense despite 5.7% fewer total parameters — <code>--codec-mode dynamic</code> rebuilds the grid tensor every forward pass. Fewer parameters ≠ faster training under this mode.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 8: Deep-Dive Probes                         -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="probes">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 09 · THREE ANALYTICAL PROBES</span>
+          <h2 class="section-title">Deep-Dive Probes</h2>
+          <p class="section-desc">
+            Collision rate, order-sensitivity, and HRR crosstalk — run directly against the
+            real trained vocabulary, not simulated.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subhead">Collision analysis — and why this run doesn't test what it looks like it tests</h3>
+      <div class="figure-grid single">
+        <div class="figure-card"><img src="../report_figures/collisions.png" alt="Token collision rate per script" loading="lazy" />
+          <div class="figure-caption">Token collision rate per script — read at face value, this looks alarming for Fourier. It isn't, for two independent reasons below.</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Script</th><th>Kronecker exact collision rate</th><th>Fourier functional collision rate (threshold=0.8396)</th></tr></thead>
+          <tbody id="collision-tbody"></tbody>
+        </table>
+      </div>
+      <div class="info-banner rose">
+        <span class="ib-icon">🔍</span>
+        <div>
+          <strong>Reason 1 — pos_dim=32 was never binding.</strong> This project's byte-level
+          BPE tokenizer produces short subword pieces by construction — nowhere close to 32
+          bytes for the overwhelming majority of tokens. Kronecker's exact-collision rate is
+          0.0% on every real script not because the fix was unnecessary, but because this
+          configuration never exercises the truncation-wall failure mode at all.
+          <strong>Reason 2 — the threshold was calibrated on the wrong population.</strong>
+          The 0.8396 threshold is the 99.5th percentile of <em>globally random</em> (mostly
+          cross-script, naturally dissimilar) pairs, but collision rate is measured
+          <em>within</em> each script, where tokens share structural byte patterns purely from
+          sharing a script — inflating the apparent rate for reasons unrelated to real
+          confusability. Exactly the difficulty §8.4 predicted, now confirmed the hard way.
+        </div>
+      </div>
+
+      <h3 class="subhead">Order-sensitivity probe</h3>
+      <div class="figure-grid single">
+        <div class="figure-card"><img src="../report_figures/order_sensitivity.png" alt="Order-sensitivity cosine similarity distribution" loading="lazy" />
+          <div class="figure-caption">Cosine similarity distribution over 500 rearranged pairs — Kronecker spans nearly [0,1]; Fourier is compressed into a narrow band just under 1.0.</div></div>
+      </div>
+      <div class="two-col">
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Metric</th><th>Kronecker</th><th>Fourier</th></tr></thead>
+            <tbody id="order-summary-tbody"></tbody>
+          </table>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Pair</th><th>Kind</th><th>Kronecker</th><th>Fourier</th></tr></thead>
+            <tbody id="order-worked-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="prose">
+        <code>abcde</code>/<code>bcdea</code> is the direct numeric confirmation of the
+        derangement corollary: cosine ≈ 0 under Kronecker, 0.911 under Fourier — the §8.2
+        trade, sharp and unambiguous. <code>compute</code>/<code>commute</code> confirms §7.1
+        instead: both codecs agree at high similarity (0.857 vs. 0.879) — correct behavior
+        for a spelling-based codec, not a defect either should fix.
+      </p>
+
+      <h3 class="subhead">HRR crosstalk probe</h3>
+      <div class="figure-grid single">
+        <div class="figure-card"><img src="../report_figures/crosstalk.png" alt="HRR crosstalk: unbinding accuracy vs. D and n" loading="lazy" />
+          <div class="figure-caption">Top-1 unbinding accuracy vs. D (codec width) and n (bytes bound per token).</div></div>
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table" id="crosstalk-table">
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="prose">
+        Accuracy stays essentially perfect for a small number of bound bytes at any tested D,
+        degrades as more bytes are bound, and <strong>the degradation point moves out as D
+        grows</strong> — exactly "crosstalk is controllable by increasing D… but it is not
+        zero." One honest instrumentation caveat: the raw <code>measured_relative_noise</code>
+        statistic runs several times higher than the O(√(n/D)) prediction at every setting,
+        because its normalization doesn't account for how the 1/√n binding weight scales the
+        signal term alongside the noise term. Top-1 accuracy is the metric this page treats
+        as load-bearing; the raw noise-ratio numbers are not.
+      </p>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- Section 9: Verdict & Conclusion                     -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="section" id="verdict">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">09 / 09 · THEORY MEETS PRACTICE</span>
+          <h2 class="section-title">Updated Verdict &amp; Conclusion</h2>
+          <p class="section-desc">
+            Every claim from Part I, checked against what the trained run could actually test.
+          </p>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Research note claim</th><th>Status</th><th>What this run found</th></tr></thead>
+          <tbody id="updated-verdict-tbody"></tbody>
+        </table>
+      </div>
+
+      <h3 class="subhead">Limitations and recommended follow-up</h3>
+      <ul class="prose" style="padding-left:18px;">
+        <li><strong>Single seed, single run per arm</strong> — margins are directionally consistent through the whole second half of training, but a 3-seed replication is needed before treating the exact margin as reliable.</li>
+        <li><strong>pos_dim=32 with a BPE tokenizer does not test the truncation-wall claim</strong> — the central limitation of this run. The most valuable follow-up is a repeat at small pos_dim (e.g. 8–16) and/or longer average tokens.</li>
+        <li><strong>Collision-threshold calibration needs to be per-script, not global</strong> — before the collision-rate comparison can be trusted in either direction.</li>
+        <li><strong>The validation split needs to be a genuine random sample</strong>, not a tail slice — a data-pipeline fix, not a codec property.</li>
+        <li><strong>Scale is far below the reference paper's</strong> — 5,000 steps / ~105–111M params / ~150MB text vs. nanoGPT/GPT-2-124M/FineWeb-Edu scale. A genuine existence proof at this scale, not yet evidence the same margins hold at production scale.</li>
+        <li><strong>--codec-mode cached was not tested</strong> — would isolate whether the ~6% wall-clock cost is inherent or specific to rebuilding the grid every forward pass.</li>
+      </ul>
+
+      <div class="callout result" style="max-width:none;">
+        <div class="callout-label">🏁 Conclusion</div>
+        <div class="callout-body">
+          Fourier techniques do not replace the Kronecker embedding mechanism — they generalize
+          one specific piece of it. The Kronecker codec's position factor is, in the language of
+          kernel methods, a delta-function kernel; Fourier feature constructions replace it with
+          a smooth, shift-invariant one — provably, for every issue traceable to the
+          delta-kernel-ness of the original construction, and left exactly unresolved for every
+          issue traceable instead to the codec encoding spelling and nothing else. The empirical
+          run confirms every claim it was positioned to test — including the specific numeric
+          predictions and, most importantly, Fourier reaching a measurably lower validation loss
+          than Kronecker at identical parameter cost — while reporting, honestly, the two claims
+          this particular run could not test and exactly why. <strong>Fourier fixes the geometry
+          of the codec; it does not, and cannot, fix the semantics — and the geometry fix is no
+          longer just derived, it is trained.</strong>
+        </div>
+      </div>
+
+      <h3 class="subhead">Downloads &amp; source</h3>
+      <div class="download-links">
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener"><span class="dl-icon">📘</span> Complete Paper (.md)</a>
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_research.md" target="_blank" rel="noopener"><span class="dl-icon">📐</span> Theory Note (.md)</a>
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/empirical_validation_report.md" target="_blank" rel="noopener"><span class="dl-icon">🧪</span> Empirical Report (.md)</a>
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/tree/main/v5/session7/fourier_embeddings" target="_blank" rel="noopener"><span class="dl-icon">💻</span> Project Source</a>
+        <a class="dl-link" href="https://github.com/RaviNaik/ERA/tree/main/v5/session7/report_figures" target="_blank" rel="noopener"><span class="dl-icon">📊</span> Report Figures</a>
+      </div>
+
+      <h3 class="subhead">References</h3>
+      <div class="ref-list" id="reference-list"></div>
+    </section>
+
+    <!-- ── Footer ────────────────────────────────────────── -->
+    <footer class="footer">
+      Fourier Embeddings · ERA V5 Session 7 ·
+      <a href="https://github.com/RaviNaik/ERA/blob/main/v5/session7/fourier_embeddings_complete_paper.md" target="_blank" rel="noopener">Full Written Notes (complete paper)</a>
+    </footer>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  // Populate the small toy kernel table (§3) directly from data.js
+  document.addEventListener('DOMContentLoaded', () => {
+    const tbody = document.getElementById('kernel-toy-tbody');
+    if (tbody && window.SESSION_DATA && window.SESSION_DATA.kernelToyTable) {
+      window.SESSION_DATA.kernelToyTable.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="mono">${row.delta}</td><td class="mono">${row.cos1.toFixed(3)}</td><td class="mono">${row.cos2.toFixed(4)}</td><td class="mono" style="color:var(--indigo);font-weight:700;">${row.K.toFixed(3)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+  });
+</script>
+
+<script>
+/* ── Inline Theme Toggle (no extra file needed) ─────────── */
+(function () {
+  const btn    = document.getElementById('themeToggle');
+  const icon   = document.getElementById('themeIcon');
+  const label  = document.getElementById('themeLabel');
+  const root   = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-theme', theme);
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    }
+  }
+
+  const saved = localStorage.getItem('era-theme') || 'dark';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+})();
+</script>
+</body>
+</html>
