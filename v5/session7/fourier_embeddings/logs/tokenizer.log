@@ -1,4 +1,1 @@
-2026-08-18 23:47:25,903 [INFO] fourier_embeddings.tokenizer: training on 5 files: ['data_raw/bn.txt', 'data_raw/en.txt', 'data_raw/hi.txt', 'data_raw/ta.txt', 'data_raw/te.txt']
-2026-08-18 23:47:50,531 [INFO] fourier_embeddings.tokenizer: trained tokenizer: vocab_size=16384 -> tokenizer_out/tokenizer.json
-2026-08-18 23:47:50,598 [INFO] fourier_embeddings.tokenizer: token byte-length stats: {'vocab_size': 16384, 'min_bytes': 1, 'max_bytes': 1024, 'mean_bytes': 6.3092041015625}
-2026-08-18 23:47:50,598 [INFO] fourier_embeddings.tokenizer: wrote tokenizer_out/byte_stats.json
+2026-08-20 09:21:53,736 [INFO] fourier_embeddings.tokenizer: tokenizer_out/tokenizer.json already exists; skipping training (--overwrite to retrain). NOTE: if the vocab size or input corpus changed, you must pass --overwrite or the old tokenizer (and its byte map) will be reused silently.

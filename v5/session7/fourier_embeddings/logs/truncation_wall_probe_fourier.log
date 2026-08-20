@@ -1,0 +1,121 @@
+2026-08-20 10:21:45,117 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: ==================== run start (resume=False) ====================
+2026-08-20 10:21:45,117 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: args: {'run_name': 'truncation_wall_probe_fourier', 'out_dir': 'results', 'aim_repo': 'aim_repo', 'log_dir': 'logs', 'no_aim': False, 'data_dir': 'data_bin', 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'embedding': 'fourier', 'char_dim': 256, 'pos_dim': 16, 'fourier_dim': 32, 'hrr_dim': 1024, 'byte_capacity': None, 'codec_mode': 'dynamic', 'tie_weights': False, 'block_size': 1024, 'n_layer': 12, 'n_head': 12, 'n_embd': 768, 'dropout': 0.0, 'bias': False, 'max_steps': 5000, 'max_epochs': None, 'batch_size': 32, 'grad_accum_steps': 2, 'learning_rate': 0.0003, 'min_lr': 3e-05, 'warmup_steps': 500, 'weight_decay': 0.1, 'grad_clip': 1.0, 'eval_interval': 500, 'eval_iters': 100, 'log_interval': 50, 'save_interval': 1000, 'device': 'cuda', 'require_cuda': True, 'dtype': 'bfloat16', 'compile': False, 'seed': 1337, 'resume': False}
+2026-08-20 10:21:45,119 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: data meta: {'vocab_size': 16384, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 92083360, 'val_tokens': 1879252, 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'input_files': ['data_raw/bn.txt', 'data_raw/en.txt', 'data_raw/hi.txt', 'data_raw/ta.txt', 'data_raw/te.txt']}
+2026-08-20 10:21:48,207 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: model param breakdown: {'token_codec': 6291456, 'position_embedding': 786432, 'transformer_blocks': 84953088, 'ln_f': 768, 'lm_head': 12582912, 'total': 104614656}
+2026-08-20 10:21:49,652 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: starting training: 5000 steps, 65536 tokens/step, embedding=fourier
+2026-08-20 10:21:51,361 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step      0/5000 | loss 9.9129 | lr 6.00e-07 | tok/s 0
+2026-08-20 10:22:05,834 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step      0 | val_loss 9.9686 | val_ppl 21344.77
+2026-08-20 10:22:43,984 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step     50/5000 | loss 6.7838 | lr 3.06e-05 | tok/s 62,270
+2026-08-20 10:23:21,691 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    100/5000 | loss 4.9813 | lr 6.06e-05 | tok/s 86,902
+2026-08-20 10:23:59,271 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    150/5000 | loss 4.3006 | lr 9.06e-05 | tok/s 87,193
+2026-08-20 10:24:36,700 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    200/5000 | loss 4.1006 | lr 1.21e-04 | tok/s 87,548
+2026-08-20 10:25:14,016 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    250/5000 | loss 3.8916 | lr 1.51e-04 | tok/s 87,811
+2026-08-20 10:25:51,284 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    300/5000 | loss 3.4643 | lr 1.81e-04 | tok/s 87,927
+2026-08-20 10:26:28,585 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    350/5000 | loss 3.7787 | lr 2.11e-04 | tok/s 87,846
+2026-08-20 10:27:05,947 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    400/5000 | loss 3.6457 | lr 2.41e-04 | tok/s 87,704
+2026-08-20 10:27:43,391 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    450/5000 | loss 3.5850 | lr 2.71e-04 | tok/s 87,513
+2026-08-20 10:28:20,875 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    500/5000 | loss 3.2822 | lr 3.00e-04 | tok/s 87,419
+2026-08-20 10:28:35,527 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    500 | val_loss 2.0157 | val_ppl 7.51
+2026-08-20 10:29:15,724 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    550/5000 | loss 3.3701 | lr 3.00e-04 | tok/s 59,742
+2026-08-20 10:29:53,166 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    600/5000 | loss 3.0547 | lr 3.00e-04 | tok/s 87,519
+2026-08-20 10:30:30,606 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    650/5000 | loss 3.4937 | lr 2.99e-04 | tok/s 87,521
+2026-08-20 10:31:08,032 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    700/5000 | loss 3.3412 | lr 2.99e-04 | tok/s 87,553
+2026-08-20 10:31:45,443 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    750/5000 | loss 3.1690 | lr 2.98e-04 | tok/s 87,590
+2026-08-20 10:32:22,805 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    800/5000 | loss 2.8179 | lr 2.97e-04 | tok/s 87,703
+2026-08-20 10:33:00,160 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    850/5000 | loss 3.0865 | lr 2.96e-04 | tok/s 87,720
+2026-08-20 10:33:37,516 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    900/5000 | loss 2.8522 | lr 2.95e-04 | tok/s 87,719
+2026-08-20 10:34:14,868 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step    950/5000 | loss 2.3826 | lr 2.93e-04 | tok/s 87,728
+2026-08-20 10:34:52,255 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1000/5000 | loss 2.5233 | lr 2.92e-04 | tok/s 87,646
+2026-08-20 10:35:06,851 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1000 | val_loss 0.4881 | val_ppl 1.63
+2026-08-20 10:35:11,866 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: checkpoint saved at step 1000 -> results/truncation_wall_probe_fourier/last.pt
+2026-08-20 10:35:49,159 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1050/5000 | loss 2.3075 | lr 2.90e-04 | tok/s 57,585
+2026-08-20 10:36:26,628 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1100/5000 | loss 2.4848 | lr 2.88e-04 | tok/s 87,453
+2026-08-20 10:37:04,190 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1150/5000 | loss 2.1854 | lr 2.86e-04 | tok/s 87,238
+2026-08-20 10:37:41,742 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1200/5000 | loss 2.1636 | lr 2.84e-04 | tok/s 87,261
+2026-08-20 10:38:19,169 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1250/5000 | loss 2.4145 | lr 2.82e-04 | tok/s 87,552
+2026-08-20 10:38:56,535 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1300/5000 | loss 2.0553 | lr 2.79e-04 | tok/s 87,695
+2026-08-20 10:39:33,880 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1350/5000 | loss 2.0665 | lr 2.77e-04 | tok/s 87,744
+2026-08-20 10:40:11,229 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1400/5000 | loss 2.0010 | lr 2.74e-04 | tok/s 87,734
+2026-08-20 10:40:48,623 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1450/5000 | loss 2.1609 | lr 2.71e-04 | tok/s 87,630
+2026-08-20 10:41:26,069 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1500/5000 | loss 2.2448 | lr 2.68e-04 | tok/s 87,506
+2026-08-20 10:41:40,698 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1500 | val_loss 0.3187 | val_ppl 1.38
+2026-08-20 10:42:21,427 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1550/5000 | loss 2.0979 | lr 2.65e-04 | tok/s 59,194
+2026-08-20 10:42:58,875 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1600/5000 | loss 2.1285 | lr 2.62e-04 | tok/s 87,502
+2026-08-20 10:43:36,353 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1650/5000 | loss 1.9811 | lr 2.59e-04 | tok/s 87,433
+2026-08-20 10:44:13,872 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1700/5000 | loss 1.9005 | lr 2.55e-04 | tok/s 87,336
+2026-08-20 10:44:51,326 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1750/5000 | loss 1.9590 | lr 2.52e-04 | tok/s 87,489
+2026-08-20 10:45:28,775 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1800/5000 | loss 2.1240 | lr 2.48e-04 | tok/s 87,500
+2026-08-20 10:46:06,180 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1850/5000 | loss 1.7623 | lr 2.44e-04 | tok/s 87,603
+2026-08-20 10:46:43,573 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1900/5000 | loss 2.0255 | lr 2.40e-04 | tok/s 87,632
+2026-08-20 10:47:20,939 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   1950/5000 | loss 2.0442 | lr 2.37e-04 | tok/s 87,694
+2026-08-20 10:47:58,283 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2000/5000 | loss 1.9807 | lr 2.32e-04 | tok/s 87,747
+2026-08-20 10:48:12,871 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2000 | val_loss 0.2856 | val_ppl 1.33
+2026-08-20 10:48:26,256 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: checkpoint saved at step 2000 -> results/truncation_wall_probe_fourier/last.pt
+2026-08-20 10:49:03,483 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2050/5000 | loss 2.0261 | lr 2.28e-04 | tok/s 50,258
+2026-08-20 10:49:41,282 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2100/5000 | loss 1.7633 | lr 2.24e-04 | tok/s 86,691
+2026-08-20 10:50:18,966 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2150/5000 | loss 1.7601 | lr 2.20e-04 | tok/s 86,956
+2026-08-20 10:50:56,454 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2200/5000 | loss 1.9050 | lr 2.16e-04 | tok/s 87,408
+2026-08-20 10:51:33,815 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2250/5000 | loss 1.7855 | lr 2.11e-04 | tok/s 87,706
+2026-08-20 10:52:11,117 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2300/5000 | loss 1.8340 | lr 2.07e-04 | tok/s 87,846
+2026-08-20 10:52:48,432 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2350/5000 | loss 1.7372 | lr 2.02e-04 | tok/s 87,814
+2026-08-20 10:53:25,796 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2400/5000 | loss 1.7322 | lr 1.98e-04 | tok/s 87,699
+2026-08-20 10:54:03,239 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2450/5000 | loss 1.8766 | lr 1.93e-04 | tok/s 87,515
+2026-08-20 10:54:40,726 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2500/5000 | loss 1.8850 | lr 1.88e-04 | tok/s 87,411
+2026-08-20 10:54:55,372 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2500 | val_loss 0.2564 | val_ppl 1.29
+2026-08-20 10:55:36,165 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2550/5000 | loss 1.6313 | lr 1.84e-04 | tok/s 59,107
+2026-08-20 10:56:13,628 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2600/5000 | loss 1.7428 | lr 1.79e-04 | tok/s 87,468
+2026-08-20 10:56:51,099 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2650/5000 | loss 1.8142 | lr 1.74e-04 | tok/s 87,448
+2026-08-20 10:57:28,553 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2700/5000 | loss 1.6505 | lr 1.70e-04 | tok/s 87,489
+2026-08-20 10:58:06,002 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2750/5000 | loss 1.5740 | lr 1.65e-04 | tok/s 87,500
+2026-08-20 10:58:43,424 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2800/5000 | loss 1.8603 | lr 1.60e-04 | tok/s 87,564
+2026-08-20 10:59:20,819 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2850/5000 | loss 1.6257 | lr 1.56e-04 | tok/s 87,626
+2026-08-20 10:59:58,196 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2900/5000 | loss 1.5454 | lr 1.51e-04 | tok/s 87,668
+2026-08-20 11:00:35,553 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   2950/5000 | loss 1.6254 | lr 1.46e-04 | tok/s 87,718
+2026-08-20 11:01:12,899 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3000/5000 | loss 1.6245 | lr 1.42e-04 | tok/s 87,741
+2026-08-20 11:01:27,483 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3000 | val_loss 0.2464 | val_ppl 1.28
+2026-08-20 11:01:40,800 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: checkpoint saved at step 3000 -> results/truncation_wall_probe_fourier/last.pt
+2026-08-20 11:02:18,024 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3050/5000 | loss 1.6233 | lr 1.37e-04 | tok/s 50,316
+2026-08-20 11:02:55,821 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3100/5000 | loss 1.6324 | lr 1.32e-04 | tok/s 86,693
+2026-08-20 11:03:33,547 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3150/5000 | loss 1.7201 | lr 1.28e-04 | tok/s 86,860
+2026-08-20 11:04:11,065 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3200/5000 | loss 1.7454 | lr 1.23e-04 | tok/s 87,338
+2026-08-20 11:04:48,443 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3250/5000 | loss 1.8785 | lr 1.19e-04 | tok/s 87,666
+2026-08-20 11:05:25,753 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3300/5000 | loss 1.6891 | lr 1.14e-04 | tok/s 87,826
+2026-08-20 11:06:03,053 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3350/5000 | loss 1.6766 | lr 1.10e-04 | tok/s 87,850
+2026-08-20 11:06:40,403 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3400/5000 | loss 1.7595 | lr 1.06e-04 | tok/s 87,733
+2026-08-20 11:07:17,832 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3450/5000 | loss 1.7250 | lr 1.02e-04 | tok/s 87,545
+2026-08-20 11:07:55,314 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3500/5000 | loss 1.6420 | lr 9.75e-05 | tok/s 87,424
+2026-08-20 11:08:09,957 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3500 | val_loss 0.2256 | val_ppl 1.25
+2026-08-20 11:08:50,585 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3550/5000 | loss 1.7219 | lr 9.35e-05 | tok/s 59,286
+2026-08-20 11:09:28,041 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3600/5000 | loss 2.0565 | lr 8.95e-05 | tok/s 87,485
+2026-08-20 11:10:05,500 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3650/5000 | loss 1.5376 | lr 8.56e-05 | tok/s 87,477
+2026-08-20 11:10:42,958 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3700/5000 | loss 1.5525 | lr 8.19e-05 | tok/s 87,478
+2026-08-20 11:11:20,391 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3750/5000 | loss 1.4752 | lr 7.82e-05 | tok/s 87,540
+2026-08-20 11:11:57,813 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3800/5000 | loss 1.7753 | lr 7.47e-05 | tok/s 87,562
+2026-08-20 11:12:35,213 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3850/5000 | loss 1.5140 | lr 7.12e-05 | tok/s 87,616
+2026-08-20 11:13:12,596 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3900/5000 | loss 1.5352 | lr 6.79e-05 | tok/s 87,655
+2026-08-20 11:13:49,957 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   3950/5000 | loss 1.5984 | lr 6.47e-05 | tok/s 87,705
+2026-08-20 11:14:27,312 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4000/5000 | loss 1.5230 | lr 6.16e-05 | tok/s 87,722
+2026-08-20 11:14:41,904 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4000 | val_loss 0.2220 | val_ppl 1.25
+2026-08-20 11:14:55,178 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: checkpoint saved at step 4000 -> results/truncation_wall_probe_fourier/last.pt
+2026-08-20 11:15:32,403 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4050/5000 | loss 1.7417 | lr 5.86e-05 | tok/s 50,341
+2026-08-20 11:16:10,205 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4100/5000 | loss 1.5726 | lr 5.58e-05 | tok/s 86,685
+2026-08-20 11:16:47,885 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4150/5000 | loss 1.6128 | lr 5.31e-05 | tok/s 86,963
+2026-08-20 11:17:25,329 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4200/5000 | loss 1.4800 | lr 5.05e-05 | tok/s 87,513
+2026-08-20 11:18:02,684 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4250/5000 | loss 1.7813 | lr 4.81e-05 | tok/s 87,720
+2026-08-20 11:18:39,981 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4300/5000 | loss 1.5540 | lr 4.58e-05 | tok/s 87,857
+2026-08-20 11:19:17,294 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4350/5000 | loss 1.6585 | lr 4.37e-05 | tok/s 87,818
+2026-08-20 11:19:54,682 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4400/5000 | loss 1.6220 | lr 4.17e-05 | tok/s 87,645
+2026-08-20 11:20:32,130 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4450/5000 | loss 1.9133 | lr 3.98e-05 | tok/s 87,501
+2026-08-20 11:21:09,597 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4500/5000 | loss 1.8015 | lr 3.81e-05 | tok/s 87,458
+2026-08-20 11:21:24,233 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4500 | val_loss 0.2153 | val_ppl 1.24
+2026-08-20 11:22:05,213 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4550/5000 | loss 1.5700 | lr 3.66e-05 | tok/s 58,919
+2026-08-20 11:22:42,671 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4600/5000 | loss 1.3962 | lr 3.52e-05 | tok/s 87,480
+2026-08-20 11:23:20,145 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4650/5000 | loss 1.6085 | lr 3.40e-05 | tok/s 87,441
+2026-08-20 11:23:57,603 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4700/5000 | loss 1.5292 | lr 3.30e-05 | tok/s 87,478
+2026-08-20 11:24:35,045 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4750/5000 | loss 1.3876 | lr 3.21e-05 | tok/s 87,519
+2026-08-20 11:25:12,461 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4800/5000 | loss 1.5893 | lr 3.13e-05 | tok/s 87,578
+2026-08-20 11:25:49,866 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4850/5000 | loss 1.9223 | lr 3.07e-05 | tok/s 87,603
+2026-08-20 11:26:27,253 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4900/5000 | loss 1.5291 | lr 3.03e-05 | tok/s 87,646
+2026-08-20 11:27:04,631 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4950/5000 | loss 1.7158 | lr 3.01e-05 | tok/s 87,666
+2026-08-20 11:27:55,833 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: step   4999 | val_loss 0.2123 | val_ppl 1.24
+2026-08-20 11:28:14,320 [INFO] fourier_embeddings.train.truncation_wall_probe_fourier: training complete in 3969.6s. final_val_loss=0.2185 best_val_loss=0.2123. wrote results/truncation_wall_probe_fourier/metrics.json

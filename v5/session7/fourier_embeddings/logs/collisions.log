@@ -1,5 +1,5 @@
-2026-08-19 02:01:33,283 [INFO] fourier_embeddings.analysis.collisions: vocab_size=16384; script distribution: {'tamil': 1279, 'devanagari': 1679, 'ascii': 9072, 'bengali': 2065, 'other': 1150, 'telugu': 1139}
-2026-08-19 02:01:33,297 [INFO] fourier_embeddings.analysis.collisions: exact Kronecker collisions: {'other': 0.1582608695652174, 'ascii': 0.0, 'tamil': 0.0, 'bengali': 0.0, 'telugu': 0.0, 'devanagari': 0.0}
-2026-08-19 02:01:35,633 [INFO] fourier_embeddings.analysis.collisions: calibrated Fourier functional-collision threshold: 0.8396
-2026-08-19 02:01:35,677 [INFO] fourier_embeddings.analysis.collisions: Fourier functional collisions @ threshold=0.8396: {'other': 0.802608695652174, 'ascii': 0.8603395061728395, 'tamil': 0.9976544175136826, 'bengali': 0.9917675544794189, 'telugu': 0.9833187006145742, 'devanagari': 0.9851101846337106}
-2026-08-19 02:01:35,717 [INFO] fourier_embeddings.analysis.collisions: wrote results/full_run/collisions.json
+2026-08-20 11:29:36,832 [INFO] fourier_embeddings.analysis.collisions: vocab_size=16384; script distribution: {'tamil': 1279, 'ascii': 9072, 'bengali': 2065, 'devanagari': 1679, 'other': 1150, 'telugu': 1139}
+2026-08-20 11:29:36,847 [INFO] fourier_embeddings.analysis.collisions: exact Kronecker collisions: {'other': 0.1591304347826087, 'ascii': 0.0, 'tamil': 0.001563721657544957, 'bengali': 0.0, 'telugu': 0.0, 'devanagari': 0.0}
+2026-08-20 11:29:39,195 [INFO] fourier_embeddings.analysis.collisions: calibrated Fourier functional-collision threshold: 0.8404
+2026-08-20 11:29:39,246 [INFO] fourier_embeddings.analysis.collisions: Fourier functional collisions @ threshold=0.8404: {'other': 0.8034782608695652, 'ascii': 0.8583553791887125, 'tamil': 0.9960906958561376, 'bengali': 0.9907990314769975, 'telugu': 0.9806848112379281, 'devanagari': 0.984514592019059}
+2026-08-20 11:29:39,279 [INFO] fourier_embeddings.analysis.collisions: wrote results/truncation_wall_probe/collisions.json

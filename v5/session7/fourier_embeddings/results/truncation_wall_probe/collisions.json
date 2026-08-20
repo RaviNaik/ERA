@@ -1,0 +1,120 @@
+{
+  "vocab_size": 16384,
+  "pos_dim": 16,
+  "fourier_dim": 32,
+  "exact_kronecker_collisions": {
+    "per_script_total": {
+      "other": 1150,
+      "ascii": 9072,
+      "tamil": 1279,
+      "bengali": 2065,
+      "telugu": 1139,
+      "devanagari": 1679
+    },
+    "per_script_colliding": {
+      "other": 183,
+      "tamil": 2,
+      "ascii": 0,
+      "bengali": 0,
+      "telugu": 0,
+      "devanagari": 0
+    },
+    "per_script_collision_rate": {
+      "other": 0.1591304347826087,
+      "ascii": 0.0,
+      "tamil": 0.001563721657544957,
+      "bengali": 0.0,
+      "telugu": 0.0,
+      "devanagari": 0.0
+    },
+    "n_collision_groups": 5,
+    "example_collisions": [
+      [
+        94,
+        95,
+        96,
+        97,
+        98
+      ],
+      [
+        264,
+        266,
+        267,
+        268,
+        587
+      ],
+      [
+        605,
+        830,
+        915,
+        1230,
+        4701
+      ],
+      [
+        942,
+        1425,
+        2166,
+        3418,
+        5417
+      ],
+      [
+        12885,
+        15110
+      ]
+    ]
+  },
+  "fourier_functional_collisions": {
+    "threshold": 0.8404074907302856,
+    "per_script_total": {
+      "other": 1150,
+      "ascii": 9072,
+      "tamil": 1279,
+      "bengali": 2065,
+      "telugu": 1139,
+      "devanagari": 1679
+    },
+    "per_script_colliding": {
+      "other": 924,
+      "ascii": 7787,
+      "tamil": 1274,
+      "bengali": 2046,
+      "telugu": 1117,
+      "devanagari": 1653
+    },
+    "per_script_collision_rate": {
+      "other": 0.8034782608695652,
+      "ascii": 0.8583553791887125,
+      "tamil": 0.9960906958561376,
+      "bengali": 0.9907990314769975,
+      "telugu": 0.9806848112379281,
+      "devanagari": 0.984514592019059
+    }
+  },
+  "kronecker_functional_collisions_cross_check": {
+    "threshold": 0.999,
+    "per_script_total": {
+      "other": 1150,
+      "ascii": 9072,
+      "tamil": 1279,
+      "bengali": 2065,
+      "telugu": 1139,
+      "devanagari": 1679
+    },
+    "per_script_colliding": {
+      "other": 183,
+      "ascii": 0,
+      "tamil": 2,
+      "bengali": 0,
+      "telugu": 0,
+      "devanagari": 0
+    },
+    "per_script_collision_rate": {
+      "other": 0.1591304347826087,
+      "ascii": 0.0,
+      "tamil": 0.001563721657544957,
+      "bengali": 0.0,
+      "telugu": 0.0,
+      "devanagari": 0.0
+    }
+  }
+}

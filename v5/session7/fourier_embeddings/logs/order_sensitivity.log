@@ -1,10 +1,10 @@
-2026-08-19 02:01:38,484 [INFO] fourier_embeddings.analysis.order_sensitivity: summary: {'n_pairs': 500, 'kronecker': {'mean': 0.7188774943351746, 'std': 0.15378975868225098, 'min': -0.0010998421348631382, 'max': 1.0000004768371582, 'frac_exactly_zero': 0.0}, 'fourier': {'mean': 0.9852607250213623, 'std': 0.02620519883930683, 'min': 0.8125062584877014, 'max': 1.000011682510376, 'frac_exactly_zero': 0.0}}
-2026-08-19 02:01:38,484 [INFO] fourier_embeddings.analysis.order_sensitivity: named pairs (research-note worked examples):
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'cat' vs 'tac' (anagram-with-a-fixed-point (research note's example; see NOTE above)): kronecker=0.3331 fourier=0.9048
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'abcde' vs 'bcdea' (derangement (true zero-fixed-point rearrangement)): kronecker=-0.0006 fourier=0.9106
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'mistake' vs 'mistkae' (transposition): kronecker=0.7140 fourier=0.9876
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'compute' vs 'commute' (one-byte-substitution): kronecker=0.8570 fourier=0.8794
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'train' vs 'trian' (transposition): kronecker=0.5998 fourier=0.9827
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'listen' vs 'silent' (anagram-with-a-fixed-point): kronecker=0.1661 fourier=0.9138
-2026-08-19 02:01:38,485 [INFO] fourier_embeddings.analysis.order_sensitivity:   'read' vs 'dear' (anagram-with-fixed-points): kronecker=0.4998 fourier=0.8825
-2026-08-19 02:01:38,492 [INFO] fourier_embeddings.analysis.order_sensitivity: wrote results/full_run/order_sensitivity.json
+2026-08-20 11:29:42,063 [INFO] fourier_embeddings.analysis.order_sensitivity: summary: {'n_pairs': 500, 'kronecker': {'mean': 0.718716025352478, 'std': 0.15386538207530975, 'min': -0.001760918297804892, 'max': 1.0000152587890625, 'frac_exactly_zero': 0.0}, 'fourier': {'mean': 0.9852607250213623, 'std': 0.02620519883930683, 'min': 0.8125062584877014, 'max': 1.000011682510376, 'frac_exactly_zero': 0.0}}
+2026-08-20 11:29:42,063 [INFO] fourier_embeddings.analysis.order_sensitivity: named pairs (research-note worked examples):
+2026-08-20 11:29:42,063 [INFO] fourier_embeddings.analysis.order_sensitivity:   'cat' vs 'tac' (anagram-with-a-fixed-point (research note's example; see NOTE above)): kronecker=0.3329 fourier=0.9048
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'abcde' vs 'bcdea' (derangement (true zero-fixed-point rearrangement)): kronecker=-0.0010 fourier=0.9106
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'mistake' vs 'mistkae' (transposition): kronecker=0.7139 fourier=0.9876
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'compute' vs 'commute' (one-byte-substitution): kronecker=0.8570 fourier=0.8794
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'train' vs 'trian' (transposition): kronecker=0.5996 fourier=0.9827
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'listen' vs 'silent' (anagram-with-a-fixed-point): kronecker=0.1657 fourier=0.9138
+2026-08-20 11:29:42,064 [INFO] fourier_embeddings.analysis.order_sensitivity:   'read' vs 'dear' (anagram-with-fixed-points): kronecker=0.4996 fourier=0.8825
+2026-08-20 11:29:42,071 [INFO] fourier_embeddings.analysis.order_sensitivity: wrote results/truncation_wall_probe/order_sensitivity.json

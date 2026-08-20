@@ -1,0 +1,122 @@
+2026-08-20 09:22:01,641 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: ==================== run start (resume=False) ====================
+2026-08-20 09:22:01,641 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: args: {'run_name': 'truncation_wall_probe_dense', 'out_dir': 'results', 'aim_repo': 'aim_repo', 'log_dir': 'logs', 'no_aim': False, 'data_dir': 'data_bin', 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'embedding': 'dense', 'char_dim': 256, 'pos_dim': 16, 'fourier_dim': 32, 'hrr_dim': 1024, 'byte_capacity': None, 'codec_mode': 'dynamic', 'tie_weights': False, 'block_size': 1024, 'n_layer': 12, 'n_head': 12, 'n_embd': 768, 'dropout': 0.0, 'bias': False, 'max_steps': 5000, 'max_epochs': None, 'batch_size': 32, 'grad_accum_steps': 2, 'learning_rate': 0.0003, 'min_lr': 3e-05, 'warmup_steps': 500, 'weight_decay': 0.1, 'grad_clip': 1.0, 'eval_interval': 500, 'eval_iters': 100, 'log_interval': 50, 'save_interval': 1000, 'device': 'cuda', 'require_cuda': True, 'dtype': 'bfloat16', 'compile': False, 'seed': 1337, 'resume': False}
+2026-08-20 09:22:01,643 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: data meta: {'vocab_size': 16384, 'dtype': "<class 'numpy.uint16'>", 'train_tokens': 92083360, 'val_tokens': 1879252, 'tokenizer_path': 'tokenizer_out/tokenizer.json', 'input_files': ['data_raw/bn.txt', 'data_raw/en.txt', 'data_raw/hi.txt', 'data_raw/ta.txt', 'data_raw/te.txt']}
+2026-08-20 09:22:04,351 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: model param breakdown: {'token_codec': 12582912, 'position_embedding': 786432, 'transformer_blocks': 84953088, 'ln_f': 768, 'lm_head': 12582912, 'total': 110906112}
+2026-08-20 09:22:05,461 [WARNING] fourier_embeddings.train.truncation_wall_probe_dense: could not initialize Aim run (attempt 1/5, likely lock contention from a concurrently starting arm sharing this --aim-repo): RuntimeError: RuntimeError(). Retrying in 1.6s
+2026-08-20 09:22:07,476 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: starting training: 5000 steps, 65536 tokens/step, embedding=dense
+2026-08-20 09:22:09,009 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step      0/5000 | loss 9.8248 | lr 6.00e-07 | tok/s 0
+2026-08-20 09:22:19,851 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step      0 | val_loss 9.7894 | val_ppl 17842.82
+2026-08-20 09:22:53,309 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step     50/5000 | loss 6.0185 | lr 3.06e-05 | tok/s 73,969
+2026-08-20 09:23:26,843 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    100/5000 | loss 4.9341 | lr 6.06e-05 | tok/s 97,716
+2026-08-20 09:24:00,685 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    150/5000 | loss 4.0828 | lr 9.06e-05 | tok/s 96,827
+2026-08-20 09:24:34,649 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    200/5000 | loss 3.6215 | lr 1.21e-04 | tok/s 96,479
+2026-08-20 09:25:08,697 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    250/5000 | loss 3.7213 | lr 1.51e-04 | tok/s 96,240
+2026-08-20 09:25:42,721 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    300/5000 | loss 3.5159 | lr 1.81e-04 | tok/s 96,307
+2026-08-20 09:26:16,801 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    350/5000 | loss 3.3842 | lr 2.11e-04 | tok/s 96,151
+2026-08-20 09:26:50,783 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    400/5000 | loss 3.3698 | lr 2.41e-04 | tok/s 96,426
+2026-08-20 09:27:24,640 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    450/5000 | loss 3.3492 | lr 2.71e-04 | tok/s 96,784
+2026-08-20 09:27:58,453 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    500/5000 | loss 3.2363 | lr 3.00e-04 | tok/s 96,909
+2026-08-20 09:28:09,746 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    500 | val_loss 1.4971 | val_ppl 4.47
+2026-08-20 09:28:47,409 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    550/5000 | loss 3.2485 | lr 3.00e-04 | tok/s 66,935
+2026-08-20 09:29:21,232 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    600/5000 | loss 3.0243 | lr 3.00e-04 | tok/s 96,879
+2026-08-20 09:29:55,139 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    650/5000 | loss 2.9394 | lr 2.99e-04 | tok/s 96,641
+2026-08-20 09:30:29,085 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    700/5000 | loss 2.5866 | lr 2.99e-04 | tok/s 96,530
+2026-08-20 09:31:02,969 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    750/5000 | loss 2.5206 | lr 2.98e-04 | tok/s 96,706
+2026-08-20 09:31:36,750 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    800/5000 | loss 2.6795 | lr 2.97e-04 | tok/s 97,002
+2026-08-20 09:32:10,489 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    850/5000 | loss 2.2119 | lr 2.96e-04 | tok/s 97,124
+2026-08-20 09:32:44,199 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    900/5000 | loss 2.5634 | lr 2.95e-04 | tok/s 97,205
+2026-08-20 09:33:17,916 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step    950/5000 | loss 2.4197 | lr 2.93e-04 | tok/s 97,185
+2026-08-20 09:33:51,688 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1000/5000 | loss 2.3733 | lr 2.92e-04 | tok/s 97,027
+2026-08-20 09:34:02,984 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1000 | val_loss 0.3850 | val_ppl 1.47
+2026-08-20 09:34:08,781 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: checkpoint saved at step 1000 -> results/truncation_wall_probe_dense/last.pt
+2026-08-20 09:34:42,513 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1050/5000 | loss 1.9344 | lr 2.90e-04 | tok/s 64,472
+2026-08-20 09:35:16,418 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1100/5000 | loss 2.1494 | lr 2.88e-04 | tok/s 96,647
+2026-08-20 09:35:50,413 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1150/5000 | loss 1.6397 | lr 2.86e-04 | tok/s 96,391
+2026-08-20 09:36:24,254 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1200/5000 | loss 2.0742 | lr 2.84e-04 | tok/s 96,828
+2026-08-20 09:36:57,975 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1250/5000 | loss 1.9836 | lr 2.82e-04 | tok/s 97,174
+2026-08-20 09:37:31,646 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1300/5000 | loss 1.8448 | lr 2.79e-04 | tok/s 97,320
+2026-08-20 09:38:05,320 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1350/5000 | loss 2.1054 | lr 2.77e-04 | tok/s 97,307
+2026-08-20 09:38:39,038 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1400/5000 | loss 2.0170 | lr 2.74e-04 | tok/s 97,183
+2026-08-20 09:39:12,830 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1450/5000 | loss 1.7481 | lr 2.71e-04 | tok/s 96,971
+2026-08-20 09:39:46,682 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1500/5000 | loss 2.1612 | lr 2.68e-04 | tok/s 96,798
+2026-08-20 09:39:57,995 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1500 | val_loss 0.2965 | val_ppl 1.35
+2026-08-20 09:40:34,748 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1550/5000 | loss 2.0780 | lr 2.65e-04 | tok/s 68,173
+2026-08-20 09:41:08,597 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1600/5000 | loss 1.9318 | lr 2.62e-04 | tok/s 96,806
+2026-08-20 09:41:42,460 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1650/5000 | loss 2.1406 | lr 2.59e-04 | tok/s 96,767
+2026-08-20 09:42:16,301 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1700/5000 | loss 1.9993 | lr 2.55e-04 | tok/s 96,828
+2026-08-20 09:42:50,127 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1750/5000 | loss 1.9835 | lr 2.52e-04 | tok/s 96,874
+2026-08-20 09:43:23,940 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1800/5000 | loss 2.1848 | lr 2.48e-04 | tok/s 96,907
+2026-08-20 09:43:57,764 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1850/5000 | loss 1.9027 | lr 2.44e-04 | tok/s 96,879
+2026-08-20 09:44:31,541 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1900/5000 | loss 1.8966 | lr 2.40e-04 | tok/s 97,012
+2026-08-20 09:45:05,302 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   1950/5000 | loss 1.7234 | lr 2.37e-04 | tok/s 97,061
+2026-08-20 09:45:39,049 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2000/5000 | loss 1.8530 | lr 2.32e-04 | tok/s 97,097
+2026-08-20 09:45:50,324 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2000 | val_loss 0.2591 | val_ppl 1.30
+2026-08-20 09:46:02,188 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: checkpoint saved at step 2000 -> results/truncation_wall_probe_dense/last.pt
+2026-08-20 09:46:35,791 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2050/5000 | loss 1.8913 | lr 2.28e-04 | tok/s 57,749
+2026-08-20 09:47:09,919 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2100/5000 | loss 1.7919 | lr 2.24e-04 | tok/s 96,014
+2026-08-20 09:47:44,038 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2150/5000 | loss 1.6913 | lr 2.20e-04 | tok/s 96,043
+2026-08-20 09:48:17,920 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2200/5000 | loss 1.7511 | lr 2.16e-04 | tok/s 96,711
+2026-08-20 09:48:51,678 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2250/5000 | loss 1.6198 | lr 2.11e-04 | tok/s 97,068
+2026-08-20 09:49:25,375 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2300/5000 | loss 1.7006 | lr 2.07e-04 | tok/s 97,243
+2026-08-20 09:49:59,060 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2350/5000 | loss 1.7687 | lr 2.02e-04 | tok/s 97,277
+2026-08-20 09:50:32,769 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2400/5000 | loss 1.8714 | lr 1.98e-04 | tok/s 97,209
+2026-08-20 09:51:06,533 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2450/5000 | loss 1.8471 | lr 1.93e-04 | tok/s 97,048
+2026-08-20 09:51:40,362 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2500/5000 | loss 1.6577 | lr 1.88e-04 | tok/s 96,864
+2026-08-20 09:51:51,673 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2500 | val_loss 0.2453 | val_ppl 1.28
+2026-08-20 09:52:28,598 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2550/5000 | loss 1.7848 | lr 1.84e-04 | tok/s 67,933
+2026-08-20 09:53:02,448 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2600/5000 | loss 1.7917 | lr 1.79e-04 | tok/s 96,803
+2026-08-20 09:53:36,312 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2650/5000 | loss 1.8165 | lr 1.74e-04 | tok/s 96,764
+2026-08-20 09:54:10,173 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2700/5000 | loss 1.6646 | lr 1.70e-04 | tok/s 96,771
+2026-08-20 09:54:44,018 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2750/5000 | loss 1.7383 | lr 1.65e-04 | tok/s 96,819
+2026-08-20 09:55:17,842 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2800/5000 | loss 1.6216 | lr 1.60e-04 | tok/s 96,879
+2026-08-20 09:55:51,641 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2850/5000 | loss 1.8282 | lr 1.56e-04 | tok/s 96,947
+2026-08-20 09:56:25,422 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2900/5000 | loss 1.4661 | lr 1.51e-04 | tok/s 97,003
+2026-08-20 09:56:59,179 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   2950/5000 | loss 1.7940 | lr 1.46e-04 | tok/s 97,071
+2026-08-20 09:57:32,929 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3000/5000 | loss 1.8008 | lr 1.42e-04 | tok/s 97,088
+2026-08-20 09:57:44,202 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3000 | val_loss 0.2383 | val_ppl 1.27
+2026-08-20 09:57:54,600 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: checkpoint saved at step 3000 -> results/truncation_wall_probe_dense/last.pt
+2026-08-20 09:58:28,216 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3050/5000 | loss 1.5480 | lr 1.37e-04 | tok/s 59,270
+2026-08-20 09:59:02,279 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3100/5000 | loss 1.5720 | lr 1.32e-04 | tok/s 96,196
+2026-08-20 09:59:36,391 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3150/5000 | loss 1.6228 | lr 1.28e-04 | tok/s 96,061
+2026-08-20 10:00:10,258 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3200/5000 | loss 1.5231 | lr 1.23e-04 | tok/s 96,754
+2026-08-20 10:00:44,013 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3250/5000 | loss 1.4717 | lr 1.19e-04 | tok/s 97,077
+2026-08-20 10:01:17,711 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3300/5000 | loss 1.3664 | lr 1.14e-04 | tok/s 97,239
+2026-08-20 10:01:51,390 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3350/5000 | loss 1.5715 | lr 1.10e-04 | tok/s 97,296
+2026-08-20 10:02:25,108 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3400/5000 | loss 1.4831 | lr 1.06e-04 | tok/s 97,182
+2026-08-20 10:02:58,875 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3450/5000 | loss 1.5780 | lr 1.02e-04 | tok/s 97,040
+2026-08-20 10:03:32,704 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3500/5000 | loss 1.5918 | lr 9.75e-05 | tok/s 96,864
+2026-08-20 10:03:44,023 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3500 | val_loss 0.2199 | val_ppl 1.25
+2026-08-20 10:04:20,423 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3550/5000 | loss 1.4546 | lr 9.35e-05 | tok/s 68,669
+2026-08-20 10:04:54,269 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3600/5000 | loss 1.6235 | lr 8.95e-05 | tok/s 96,816
+2026-08-20 10:05:28,123 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3650/5000 | loss 1.3075 | lr 8.56e-05 | tok/s 96,792
+2026-08-20 10:06:01,969 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3700/5000 | loss 1.8237 | lr 8.19e-05 | tok/s 96,813
+2026-08-20 10:06:35,797 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3750/5000 | loss 1.6959 | lr 7.82e-05 | tok/s 96,867
+2026-08-20 10:07:09,605 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3800/5000 | loss 1.4569 | lr 7.47e-05 | tok/s 96,924
+2026-08-20 10:07:43,405 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3850/5000 | loss 1.4123 | lr 7.12e-05 | tok/s 96,948
+2026-08-20 10:08:17,177 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3900/5000 | loss 1.4164 | lr 6.79e-05 | tok/s 97,026
+2026-08-20 10:08:50,929 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   3950/5000 | loss 1.6512 | lr 6.47e-05 | tok/s 97,084
+2026-08-20 10:09:24,672 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4000/5000 | loss 1.3874 | lr 6.16e-05 | tok/s 97,113
+2026-08-20 10:09:35,947 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4000 | val_loss 0.2114 | val_ppl 1.24
+2026-08-20 10:09:46,375 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: checkpoint saved at step 4000 -> results/truncation_wall_probe_dense/last.pt
+2026-08-20 10:10:19,988 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4050/5000 | loss 1.4933 | lr 5.86e-05 | tok/s 59,237
+2026-08-20 10:10:54,080 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4100/5000 | loss 1.6783 | lr 5.58e-05 | tok/s 96,116
+2026-08-20 10:11:28,160 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4150/5000 | loss 1.6282 | lr 5.31e-05 | tok/s 96,151
+2026-08-20 10:12:02,020 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4200/5000 | loss 1.5173 | lr 5.05e-05 | tok/s 96,773
+2026-08-20 10:12:35,760 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4250/5000 | loss 1.7623 | lr 4.81e-05 | tok/s 97,121
+2026-08-20 10:13:09,453 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4300/5000 | loss 1.4887 | lr 4.58e-05 | tok/s 97,254
+2026-08-20 10:13:43,141 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4350/5000 | loss 1.4802 | lr 4.37e-05 | tok/s 97,268
+2026-08-20 10:14:16,863 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4400/5000 | loss 1.4232 | lr 4.17e-05 | tok/s 97,170
+2026-08-20 10:14:50,658 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4450/5000 | loss 1.6039 | lr 3.98e-05 | tok/s 96,961
+2026-08-20 10:15:24,497 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4500/5000 | loss 1.5067 | lr 3.81e-05 | tok/s 96,835
+2026-08-20 10:15:35,809 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4500 | val_loss 0.2122 | val_ppl 1.24
+2026-08-20 10:16:09,658 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4550/5000 | loss 1.3965 | lr 3.66e-05 | tok/s 72,559
+2026-08-20 10:16:43,517 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4600/5000 | loss 1.4766 | lr 3.52e-05 | tok/s 96,777
+2026-08-20 10:17:17,353 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4650/5000 | loss 1.3650 | lr 3.40e-05 | tok/s 96,844
+2026-08-20 10:17:51,176 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4700/5000 | loss 1.4926 | lr 3.30e-05 | tok/s 96,880
+2026-08-20 10:18:24,967 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4750/5000 | loss 1.5597 | lr 3.21e-05 | tok/s 96,972
+2026-08-20 10:18:58,746 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4800/5000 | loss 1.6880 | lr 3.13e-05 | tok/s 97,008
+2026-08-20 10:19:32,517 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4850/5000 | loss 1.6123 | lr 3.07e-05 | tok/s 97,031
+2026-08-20 10:20:06,281 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4900/5000 | loss 1.2387 | lr 3.03e-05 | tok/s 97,050
+2026-08-20 10:20:40,036 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4950/5000 | loss 1.5415 | lr 3.01e-05 | tok/s 97,074
+2026-08-20 10:21:24,403 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: step   4999 | val_loss 0.2083 | val_ppl 1.23
+2026-08-20 10:21:38,717 [INFO] fourier_embeddings.train.truncation_wall_probe_dense: training complete in 3559.4s. final_val_loss=0.2077 best_val_loss=0.2083. wrote results/truncation_wall_probe_dense/metrics.json
