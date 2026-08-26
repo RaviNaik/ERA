@@ -130,24 +130,153 @@
           <span class="section-number">CHAPTER ONE</span>
           <h2 class="section-title">The Mechanism Itself</h2>
           <p class="section-desc">
-            Before any of the story makes sense, the plain mechanism has to. Four tokens,
-            computed live, six steps: Q/K/V → scores → scale → mask → softmax → weighted
-            sum. Step through it, then switch the mask off and watch the exact failure it
-            exists to prevent happen in front of you.
+            Six small ideas, taken one at a time, computed live on the same four tokens
+            throughout. Nothing here is named before it's needed.
           </p>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">🎯 Attention, one step at a time</span>
-          <span class="badge badge-blue">Live · 6 steps</span>
-        </div>
-        <div class="card-body" id="core-mechanism-widget"><!-- rendered by app.js --></div>
-      </div>
-      <p class="prose" style="margin-top:20px;">
-        Everything from here on is a reply to one of two costs this exact mechanism creates
-        the moment a sequence gets long. Those two costs, next.
+
+      <p class="lede">
+        Picture four tokens sitting in a row — <em>The</em>, <em>cat</em>, <em>sat</em>,
+        <em>down</em>. Right now, each one is nothing more than a list of numbers, its
+        embedding. If two completely unrelated tokens happened to produce identical
+        embeddings, the network would have no way to tell them apart — a plain embedding
+        says nothing about what a token is looking for, what it actually holds, or who's
+        allowed to see it. Closing that gap, one small role at a time, is the entire rest
+        of this chapter.
       </p>
+
+      <!-- Concept 1: Query / Key / Value -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          So before anything gets compared, every token's embedding is pushed through
+          three separate, independently learned projections. Nothing exotic — three
+          ordinary matrix multiplications — but keeping them separate matters: it lets what
+          a token is <em>asking about</em> look completely different from what it's
+          <em>actually carrying</em>, instead of forcing a token to be compared only against
+          a copy of itself.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">The same four tokens, split three ways</div>
+          <div id="concept-qkv"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          Those three rows have names: a <strong class="term">query</strong> (what this
+          token is looking for), a <strong class="term">key</strong> (what it advertises
+          about itself), and a <strong class="term">value</strong> (what it actually hands
+          over if chosen). Every one of them does a different job in the four steps below.
+        </p>
+      </div>
+
+      <!-- Concept 2: Attention scores -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          With a question and an advertisement for every token, the network needs exactly
+          one number per pair, saying how well they match. The tool for that is almost
+          embarrassingly ordinary: multiply matching positions together and add them up — a
+          dot product. Line up every query against every key, and a grid falls out.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">Every query, compared against every key</div>
+          <div id="concept-scores"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          That grid is the <strong class="term">attention score</strong> matrix, and it's
+          already readable: whichever key produces the largest number for a given query is
+          the token that query is, in effect, most interested in.
+        </p>
+      </div>
+
+      <!-- Concept 3: Scaling -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          There's a subtle problem hiding in that grid already, though. As the width of
+          each query and key grows, a plain dot product tends to grow right along with it —
+          not because the tokens are more related, purely because there are more terms
+          being multiplied and added. Left alone, that pushes the largest scores out to
+          where the next step stops being able to tell a strong match from an overwhelming
+          one apart.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">The same grid, divided by √d_k</div>
+          <div id="concept-scale"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          That one division is called <strong class="term">scaling</strong>. It's the
+          entire second step, and it exists purely so the step after it can still do its
+          job.
+        </p>
+      </div>
+
+      <!-- Concept 4: Masking -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          One more wrinkle — specific to text generated left to right. Right now, every one
+          of these four tokens can see every other one, including tokens that, during real
+          generation, haven't been produced yet. Train on the whole sentence at once with
+          no safeguard, and the third token would be allowed to peek at the answer while
+          it's still supposed to be learning to predict it.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">Flip the switch yourself</div>
+          <div id="concept-mask"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          The fix: before the next step runs, force every score that looks into the future
+          to negative infinity. That's the <strong class="term">causal mask</strong> — and
+          above, you can turn it off and watch exactly what breaks without it.
+        </p>
+      </div>
+
+      <!-- Concept 5: Softmax -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          Even scaled and masked, these are still just raw numbers — some negative, none of
+          them obligated to add up to anything in particular. What's needed is a way to
+          turn one row of scores into something that behaves like a set of odds: every
+          value positive, the whole row summing to one, so that handing more attention to
+          one token necessarily costs some other token attention.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">One row of scores, turned into a row of odds</div>
+          <div id="concept-softmax"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          That normalizing step is <strong class="term">softmax</strong>, and the bars above
+          are its literal output for this exact example.
+        </p>
+      </div>
+
+      <!-- Concept 6: Weighted sum of V -->
+      <div class="concept-step reveal">
+        <p class="prose">
+          One ingredient has been sitting on the sidelines this whole time: value. Every
+          percentage from the last step is still just a percentage until it's actually used
+          to combine information. Multiply each token's value vector by the weight its
+          query assigned it, add all four together, and the result is a brand-new vector —
+          one that, for the first time, genuinely reflects the rest of the sentence instead
+          of just itself.
+        </p>
+        <div class="concept-visual">
+          <div class="concept-visual-label">Four weights, four values, one new vector per token</div>
+          <div id="concept-output"><!-- rendered by app.js --></div>
+        </div>
+        <p class="prose">
+          That blend is the <strong class="term">weighted sum of V</strong> — and it's the
+          entire output of the layer. Six small ideas, and nothing about a token's meaning
+          is private anymore.
+        </p>
+      </div>
+
+      <div class="concept-recap reveal">
+        <div class="formula-box" style="text-align:center;">Q × K  →  scores  →  scale  →  mask  →  softmax  →  weighted sum of V</div>
+        <p class="prose" style="margin-top:14px;">
+          That's the whole mechanism, precisely. Nowhere in it is there any notion of "this
+          sequence is too long" — and yet, run it on a long sequence, and two very real
+          costs appear that no single step above created by itself, but that the
+          combination guarantees. Those two costs, next.
+        </p>
+      </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->

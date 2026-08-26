@@ -128,7 +128,6 @@
 
   function cardHTML(node, index) {
     const badges = [];
-    if (node.isBaseline) badges.push(`<span class="badge badge-blue">Where it all starts</span>`);
     if (node.isBonus) badges.push(`<span class="badge badge-purple">Not on the required list — included anyway</span>`);
     if (node.isCommunitySource) badges.push(`<span class="badge badge-yellow">Community post, not peer-reviewed</span>`);
 
@@ -136,36 +135,42 @@
     if (node.isBaseline) nodeClasses.push("is-baseline");
 
     const dotColor = threadById[node.threads[0]] ? threadById[node.threads[0]].color : "var(--indigo)";
+    const kicker = node.isBaseline ? "Where the story begins" : "The idea that answered it";
 
     return `${eraInterludeHTML(node)}
       <div class="${nodeClasses.join(" ")}" id="tl-${node.id}" data-threads="${node.threads.join(",")}">
         <div class="tl-dot" style="border-color:${dotColor}"></div>
         <div class="tl-card">
-          <div class="tl-head">
-            <div class="tl-headrow">
-              <span class="tl-date">${esc(node.dateDisplay)}</span>
-              <div class="tl-threads">${threadTagsHTML(node.threads)}</div>
-              ${badges.join(" ")}
-            </div>
-            <div class="tl-title">${index}. ${esc(node.title)}</div>
-            <div class="tl-tagline">${esc(node.tagline)}</div>
+          <div class="tl-kicker-row">
+            <span class="tl-date">${esc(node.dateDisplay)}</span>
+            <div class="tl-threads">${threadTagsHTML(node.threads)}</div>
+            <span class="tl-index">${index} / ${TIMELINE.length}</span>
           </div>
           <div class="tl-body">
             <div class="tl-block is-lede">
               <span class="tl-block-label">The situation</span>
               <span class="tl-block-text">${esc(node.problem)}</span>
             </div>
+
+            <div class="tl-reveal">
+              <div class="tl-reveal-kicker">${kicker} —</div>
+              <h3 class="tl-reveal-title">${esc(node.title)}</h3>
+              <div class="tl-tagline">${esc(node.tagline)}</div>
+              ${badges.length ? `<div class="tl-badges">${badges.join(" ")}</div>` : ""}
+            </div>
+
             <div class="tl-block">
-              <span class="tl-block-label">The idea</span>
+              <span class="tl-block-label">How it works</span>
               <span class="tl-block-text">${esc(node.mechanism)}</span>
             </div>
+            <div id="mini-widget-${node.id}"></div>
             <div class="tl-triad">
-              <div class="tl-triad-item buy"><div class="tl-triad-label">✅ Buys</div><div class="tl-triad-text">${esc(node.buys)}</div></div>
-              <div class="tl-triad-item cost"><div class="tl-triad-label">⚠️ Gives up</div><div class="tl-triad-text">${esc(node.costs)}</div></div>
-              <div class="tl-triad-item choose"><div class="tl-triad-label">🎯 Choose when</div><div class="tl-triad-text">${esc(node.chooseWhen)}</div></div>
+              <div class="tl-triad-item buy"><div class="tl-triad-label">✅ What it bought</div><div class="tl-triad-text">${esc(node.buys)}</div></div>
+              <div class="tl-triad-item cost"><div class="tl-triad-label">⚠️ What it cost — the shortcoming</div><div class="tl-triad-text">${esc(node.costs)}</div></div>
+              <div class="tl-triad-item choose"><div class="tl-triad-label">🎯 Reach for it when</div><div class="tl-triad-text">${esc(node.chooseWhen)}</div></div>
             </div>
             ${node.footnote ? `<div class="tl-footnote"><strong>Note —</strong> ${esc(node.footnote)}</div>` : ""}
-            <div id="mini-widget-${node.id}"></div>
+            ${node.bridge ? `<div class="tl-bridge">${node.isEpilogue ? "" : "→ "}${esc(node.bridge)}</div>` : ""}
             <div class="tl-foot">
               ${sourceLineHTML(node)}
               ${fixedByHTML(node)}
@@ -239,24 +244,26 @@
      WIDGET A — Core Mechanism (flagship)
      ============================================================ */
   function initCoreMechanismWidget() {
-    const root = el("core-mechanism-widget");
-    if (!root) return;
+    // Six separate mount points, one per concept, populated gradually as
+    // the surrounding prose in index.html introduces each idea in turn —
+    // rather than one combined widget the reader has to click through.
+    const mounts = {
+      qkv: el("concept-qkv"),
+      scores: el("concept-scores"),
+      scale: el("concept-scale"),
+      mask: el("concept-mask"),
+      softmax: el("concept-softmax"),
+      output: el("concept-output"),
+    };
+    if (!mounts.qkv && !mounts.scores) return; // section not present on this page
 
     const TOKENS = ["The", "cat", "sat", "down"];
     const Q = [[1, 0, 1, 0], [0, 2, 0, 1], [1, 1, 0, 2], [0, 0, 2, 1]];
     const K = [[1, 0, 1, 0], [1, 1, 0, 0], [0, 1, 1, 1], [0, 0, 1, 2]];
     const V = [[2, 0, 1, 0], [0, 2, 0, 1], [1, 0, 2, 0], [0, 1, 0, 2]];
     const dk = 4, scaleDenom = Math.sqrt(dk);
-    const STEPS = [
-      { n: 1, label: "Project" },
-      { n: 2, label: "Q · K" },
-      { n: 3, label: "Scale" },
-      { n: 4, label: "Mask" },
-      { n: 5, label: "Softmax" },
-      { n: 6, label: "Weighted Sum" },
-    ];
 
-    const state = { step: 1, maskOn: true };
+    const state = { maskOn: true };
 
     function computeAll() {
       const raw = Q.map(q => K.map(k => dot(q, k)));
@@ -278,15 +285,14 @@
     function tokensPanelHTML() {
       return `<div class="cm-tokens">${TOKENS.map((tok, i) => `
         <div>
-          <div class="cm-token-row"><span class="cm-token-label">${tok}</span>${vecHTML(Q[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">Q</span></div>
-          <div class="cm-token-row"><span class="cm-token-label"></span>${vecHTML(K[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">K</span></div>
-          <div class="cm-token-row"><span class="cm-token-label"></span>${vecHTML(V[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">V</span></div>
+          <div class="cm-token-row"><span class="cm-token-label">${tok}</span>${vecHTML(Q[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">query</span></div>
+          <div class="cm-token-row"><span class="cm-token-label"></span>${vecHTML(K[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">key</span></div>
+          <div class="cm-token-row"><span class="cm-token-label"></span>${vecHTML(V[i])}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">value</span></div>
         </div>`).join("<div style=\"height:6px;\"></div>")}</div>`;
     }
 
     function matrixHTML(matrix, opts) {
       opts = opts || {};
-      const axis = `<div class="cm-axis"><span></span>${TOKENS.map(t => `<span>${t}</span>`).join("")}</div>`;
       const rows = matrix.map((row, i) => {
         const cells = row.map((v, j) => {
           const isFuture = j > i;
@@ -301,42 +307,53 @@
           return `<div class="cm-cell ${masked ? "masked" : ""} ${leak ? "leak" : ""}" style="${bg}">${txt}</div>`;
         }).join("");
         return `<div style="display:flex; align-items:center; gap:6px;">
-                  <span class="cm-axis" style="margin:0;"><span style="min-width:40px;font-weight:700;color:var(--text-primary);">${TOKENS[i]}</span></span>
+                  <span style="min-width:40px;font-weight:700;font-size:11px;color:var(--text-primary);">${TOKENS[i]}</span>
                   <div class="cm-matrix-row" style="grid-template-columns:repeat(${row.length},1fr);flex:1;">${cells}</div>
                 </div>`;
       }).join("<div style='height:4px;'></div>");
       return `<div class="cm-matrix"><div class="cm-axis" style="padding-left:46px;">${TOKENS.map(t => `<span>${t}</span>`).join("")}</div>${rows}</div>`;
     }
 
-    function render() {
-      const { raw, scaled, masked, weights, output } = computeAll();
+    /* ── Concept 1: Query / Key / Value — static, no interaction needed ── */
+    function renderQKV() {
+      if (!mounts.qkv) return;
+      mounts.qkv.innerHTML = tokensPanelHTML();
+    }
 
-      const stepsHTML = STEPS.map(s => `
-        <button class="cm-step-btn ${state.step === s.n ? "active" : ""} ${state.step > s.n ? "done" : ""}" data-step="${s.n}">
-          <span class="n">${s.n}</span>${s.label}
-        </button>`).join("");
+    /* ── Concept 2: raw attention scores ── */
+    function renderScores(raw) {
+      if (!mounts.scores) return;
+      mounts.scores.innerHTML = matrixHTML(raw, { heat: { min: Math.min(...raw.flat()), max: Math.max(...raw.flat()) } });
+    }
 
-      let rightHTML = "";
-      let explainHTML = "";
+    /* ── Concept 3: scaling — show the shrinkage concretely ── */
+    function renderScale(raw, scaled) {
+      if (!mounts.scale) return;
+      const rawMax = Math.max(...raw.flat());
+      const scaledMax = Math.max(...scaled.flat());
+      mounts.scale.innerHTML = matrixHTML(scaled, { heat: { min: Math.min(...scaled.flat()), max: scaledMax } }) +
+        `<p class="mw-readout" style="margin-top:12px;">Largest raw score: <b>${rawMax.toFixed(2)}</b> → largest scaled score: <b>${scaledMax.toFixed(2)}</b> (divided by √${dk} = ${scaleDenom.toFixed(0)}). Nothing about which token matters most has changed — only the range the numbers live in.</p>`;
+    }
 
-      if (state.step === 1) {
-        rightHTML = `<div class="formula-box">x ──┬── Wq ──▶ query
-    ├── Wk ──▶ key
-    └── Wv ──▶ value<span class="fx-comment">  (three learned projections of the same vector)</span></div>`;
-        explainHTML = `Every token becomes <strong>three</strong> different vectors — a query (“what am I looking for?”), a key (“what do I contain?”) and a value (“what do I hand over if chosen?”). The left panel shows the actual Q/K/V vectors this widget uses for four tokens, computed for a tiny 4-dimensional head.`;
-      } else if (state.step === 2) {
-        rightHTML = matrixHTML(raw, { heat: { min: Math.min(...raw.flat()), max: Math.max(...raw.flat()) } });
-        explainHTML = `<strong>Score = Q · Kᵀ.</strong> Every query is compared against every key with a dot product — one number per pair. Rows are queries (the token asking), columns are keys (the token being asked about). Brighter cells = higher raw score.`;
-      } else if (state.step === 3) {
-        rightHTML = matrixHTML(scaled, { heat: { min: Math.min(...scaled.flat()), max: Math.max(...scaled.flat()) } });
-        explainHTML = `<strong>Divide every score by √d_k = ${scaleDenom.toFixed(0)}.</strong> As the query/key width grows, raw dot products tend to grow with it — scaling keeps the numbers in a range softmax handles well instead of saturating.`;
-      } else if (state.step === 4) {
-        rightHTML = matrixHTML(scaled, { showMask: true });
-        explainHTML = state.maskOn
-          ? `<strong>Causal mask on.</strong> Every cell where the key's position is <em>after</em> the query's position is forced to −∞ before softmax (hatched cells). softmax(−∞) = 0, so the future receives exactly zero weight.`
-          : `<strong>Causal mask off — watch the rose-outlined cells.</strong> Those are scores for <em>future</em> tokens the query should never see. With no mask, softmax will hand them real, non-zero weight in the next step. That leak is exactly the bug the mask exists to prevent.`;
-      } else if (state.step === 5) {
-        rightHTML = `<div class="cm-out">${weights.map((w, i) => `
+    /* ── Concept 4: masking — the one interactive control in this chapter ── */
+    function renderMask(scaled) {
+      if (!mounts.mask) return;
+      mounts.mask.innerHTML = matrixHTML(scaled, { showMask: true }) +
+        `<div class="cm-toggle-row">
+          <div class="cm-switch ${state.maskOn ? "on" : ""}" id="cm-mask-switch"></div>
+          <span class="cm-toggle-label">Causal mask ${state.maskOn ? "ON — future tokens blocked" : "OFF — watch the rose-outlined cells below"}</span>
+        </div>
+        <p class="mw-readout">${state.maskOn
+          ? "Every hatched cell is a future position, forced to −∞ before softmax ever sees it."
+          : "Those aren't hatched anymore — they're real numbers, about to receive real, non-zero attention in the next step. That's the leak."}</p>`;
+      const sw = el("cm-mask-switch");
+      if (sw) sw.addEventListener("click", () => { state.maskOn = !state.maskOn; renderMaskDependent(); });
+    }
+
+    /* ── Concept 5: softmax ── */
+    function renderSoftmax(weights) {
+      if (!mounts.softmax) return;
+      mounts.softmax.innerHTML = `<div class="cm-out">${weights.map((w, i) => `
           <div>
             <div style="font-size:10.5px;color:var(--text-muted);margin-bottom:3px;">query = <strong style="color:var(--text-primary);">${TOKENS[i]}</strong></div>
             ${w.map((wt, j) => `
@@ -345,39 +362,31 @@
                 <div class="cm-bar-track"><div class="cm-bar-fill" style="width:${(wt * 100).toFixed(1)}%;"></div></div>
                 <span class="mono" style="width:42px;font-size:10px;text-align:right;">${(wt * 100).toFixed(1)}%</span>
               </div>`).join("")}
-          </div>`).join("<div style='height:10px;'></div>")}</div>`;
-        explainHTML = `<strong>Softmax turns each row of scores into weights that are positive and sum to 100%.</strong> ${state.maskOn ? "Masked (future) positions always land at exactly 0%." : "Notice future positions now hold real, non-zero weight — this is the leak from Step 4, made concrete."}`;
-      } else if (state.step === 6) {
-        rightHTML = `<div class="cm-tokens">${output.map((o, i) => `
-          <div class="cm-token-row"><span class="cm-token-label">${TOKENS[i]}</span>${vecHTML(o, 2)}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">out</span></div>
-        `).join("")}</div>`;
-        explainHTML = `<strong>Weighted sum of V.</strong> Each output vector is the softmax weights from Step 5 applied to the value vectors from Step 1 and added together — one new, context-aware vector per token. This is the layer's entire output.`;
-      }
-
-      root.innerHTML = `
-        <div class="cm-steps">${stepsHTML}</div>
-        <div class="cm-layout">
-          <div>
-            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Q / K / V vectors (constant reference)</div>
-            ${tokensPanelHTML()}
-          </div>
-          <div>
-            ${rightHTML}
-            <div class="cm-explain">${explainHTML}</div>
-            <div class="cm-toggle-row">
-              <div class="cm-switch ${state.maskOn ? "on" : ""}" id="cm-mask-switch"></div>
-              <span class="cm-toggle-label">Causal mask ${state.maskOn ? "ON — future tokens blocked" : "OFF — try Step 4/5 now"}</span>
-            </div>
-          </div>
-        </div>`;
-
-      root.querySelectorAll(".cm-step-btn").forEach(b => {
-        b.addEventListener("click", () => { state.step = parseInt(b.dataset.step, 10); render(); });
-      });
-      root.querySelector("#cm-mask-switch").addEventListener("click", () => { state.maskOn = !state.maskOn; render(); });
+          </div>`).join("<div style='height:10px;'></div>")}</div>
+        <p class="mw-readout">${state.maskOn ? "Masked positions land at exactly 0% — softmax literally cannot give weight to −∞." : "Future positions now hold real weight — the same leak from the masking step, made concrete in percentages."}</p>`;
     }
 
-    render();
+    /* ── Concept 6: weighted sum of V ── */
+    function renderOutput(output) {
+      if (!mounts.output) return;
+      mounts.output.innerHTML = `<div class="cm-tokens">${output.map((o, i) => `
+          <div class="cm-token-row"><span class="cm-token-label">${TOKENS[i]}</span>${vecHTML(o, 2)}<span class="mono" style="font-size:9px;color:var(--text-muted);align-self:center;">out</span></div>
+        `).join("")}</div>`;
+    }
+
+    function renderMaskDependent() {
+      const { scaled, weights, output } = computeAll();
+      renderMask(scaled);
+      renderSoftmax(weights);
+      renderOutput(output);
+    }
+
+    // First pass: everything.
+    const { raw, scaled } = computeAll();
+    renderQKV();
+    renderScores(raw);
+    renderScale(raw, scaled);
+    renderMaskDependent();
   }
 
   /* ============================================================

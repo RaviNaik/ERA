@@ -231,6 +231,8 @@ window.SESSION_DATA = (function () {
         "Comparing everything with everything means the score matrix is T×T — compute and memory both grow quadratically with sequence length. And once a model starts generating text one token at a time, it has to keep every previous token's key and value on hand to avoid recomputing them, which is its own, separately growing cost. Also: nothing here encodes order. Swap two tokens' positions and their queries, keys and values don't change at all.",
       chooseWhen:
         "Sequences are short enough that quadratic cost isn't yet painful, and training speed and unrestricted token-to-token access matter more than anything else.",
+      bridge:
+        "That last sentence in the costs above is not a footnote — it's an open wound. This exact mechanism has no idea what order its own tokens came in, and the very same paper closes that gap immediately.",
       widget: "core-mechanism",
     },
 
@@ -254,6 +256,8 @@ window.SESSION_DATA = (function () {
         "You want a zero-parameter position scheme and don't need the attention score itself to explicitly reflect relative distance. Largely a historical footnote today.",
       footnote:
         "That side-by-side comparison — sinusoidal vs. a trainable table — was run in this very paper. The trainable version just wasn't what shipped as the headline design; it became the default a year later (next).",
+      bridge:
+        "It would take barely a year for that footnote to become the headline.",
     },
 
     {
@@ -275,6 +279,8 @@ window.SESSION_DATA = (function () {
         "The table has a last row. Ask the model about position N+1 and there's nothing there — a hard wall, not a graceful decline. And there's still no built-in sense of distance: position 5 and position 300 are two unrelated rows that happen to sit near each other in memory, nothing more.",
       chooseWhen:
         "The maximum sequence length is fixed and known in advance and you'll never need to go past it — short, bounded-length inputs are the comfortable case.",
+      bridge:
+        "Position was, for the moment, settled. Underneath it, a much bigger problem had been quietly building the whole time: comparing every token to every other token was starting to become unaffordable at real scale.",
       fixedBy: ["rope", "alibi"],
     },
 
@@ -300,6 +306,8 @@ window.SESSION_DATA = (function () {
         "The pattern of who-looks-at-whom is fixed by the architecture, not learned or adapted to content. And a naive version of \"only look at the top few keys\" still has to score every candidate before it can throw most of them away — if scoring everything was the expensive part to begin with, that cost hasn't actually gone anywhere.",
       chooseWhen:
         "Context is long and has enough regular structure — a grid, a raster, a predictable stride — that a fixed sparse pattern still reaches what matters. Less useful when the tokens that matter could be anywhere.",
+      bridge:
+        "That was one wall. Seven months later, a different team, chasing a completely different bottleneck, hit the other one.",
       fixedBy: ["deepseek-nsa"],
     },
 
@@ -321,6 +329,8 @@ window.SESSION_DATA = (function () {
         "Every head is now searching the same shared keys and values, so whatever benefit came from heads specializing on different things is largely gone — and that shows up as a measurable quality gap against keeping separate heads.",
       chooseWhen:
         "Serving many requests cheaply and quickly matters more than squeezing out the last bit of quality, and retraining (or briefly adapting an existing model) to this scheme is an option.",
+      bridge:
+        "Sharing keys and values fixed how much had to be remembered. It said nothing about which tokens got compared to which in the first place — that question kept evolving on its own, into something more deliberately shaped.",
       fixedBy: ["gqa"],
     },
 
@@ -348,6 +358,8 @@ window.SESSION_DATA = (function () {
         "The task's useful context is mostly local, with a few known anchor points — documents, source code, audio. Weaker fit when relevant information could be anywhere in the sequence with equal likelihood.",
       footnote:
         "This exact idea resurfaced in production years later, paired with the head-sharing trick two cards up — see the note on the attention-sinks card below for what that combination ran into.",
+      bridge:
+        "A narrower window was one way to stop looking at everything. Two months later, someone asked a more radical version of the same question: what if the past didn't need to be kept as a list at all?",
       fixedBy: ["attention-sinks"],
     },
 
@@ -369,6 +381,8 @@ window.SESSION_DATA = (function () {
         "Softmax's built-in competition between keys — one gaining weight necessarily costs another — is gone; what's left is a lossy running summary rather than an exact per-key memory. And a plain running total can only add new information in, never revise something it already committed to.",
       chooseWhen:
         "Streaming or generation needs to run for an effectively unbounded length at fixed memory, and an approximate, compressed memory of everything earlier is an acceptable trade.",
+      bridge:
+        "Trading exactness for a constant-size memory solved one kind of problem. It did nothing for the oldest unsolved one on this page — attention still had no real sense of where anything was.",
       fixedBy: ["delta-rule"],
     },
 
@@ -394,6 +408,8 @@ window.SESSION_DATA = (function () {
         "Being computable at a distant position isn't the same as the network having actually learned to behave well there — a rotation angle far outside anything seen in training is still new territory, whatever the formula says. This exact gap is what every extension method further down this page exists to address. There's also a small, constant rotation cost added to every layer.",
       chooseWhen:
         "You want the score to explicitly reflect relative distance with no hard length ceiling built into the mechanism, tuned around your intended training length — the default starting point for most current models.",
+      bridge:
+        "Rotation gave the score a genuine sense of relative distance. Four months later, a very different team asked whether you needed a rotation — or any position vector at all — to get there.",
       fixedBy: ["alibi", "ntk-aware", "yarn", "drope"],
     },
 
@@ -415,6 +431,8 @@ window.SESSION_DATA = (function () {
         "That distance penalty is a fixed opinion, not something the network can override — a task that genuinely needs to weight something far away above something nearby is fighting the mechanism itself. In practice, most current large models chose the rotation-based approach plus a separate extension method instead.",
       chooseWhen:
         "Reliable behavior far past the training length matters more than architectural flexibility, or you want the smallest possible number of moving parts.",
+      bridge:
+        "Position, in one form or another, was mostly settled for the next couple of years. What hadn't been settled at all was whether the exact version of attention could ever be made to run fast.",
     },
 
     {
@@ -440,6 +458,8 @@ window.SESSION_DATA = (function () {
         "The number of arithmetic operations doesn't change — this is a large constant-factor win, not a new complexity class. And the specific implementation is tied closely to how a given accelerator's memory hierarchy works, which means porting it isn't free.",
       chooseWhen:
         "Essentially always, whenever exact attention is being run at all — by now this sits underneath most of the other mechanisms on this page rather than competing with them.",
+      bridge:
+        "Making the exact math fast didn't touch either of the two structural costs from Chapter Two. A year later, almost the whole field turned back to the memory one at once.",
     },
 
     {
@@ -464,6 +484,8 @@ window.SESSION_DATA = (function () {
         "The cache still grows with sequence length; grouping only changes the slope of that line, not the fact that it keeps climbing. At sufficiently long context, it still eventually dominates memory.",
       chooseWhen:
         "Almost always, for any model balancing serving cost against quality — the live question by this point is how many groups, not whether to group.",
+      bridge:
+        "Head-sharing put a dial on cache size. It said nothing about a completely different kind of length problem — what happens when a trained model is asked to read further than it ever practiced.",
       fixedBy: ["mla"],
     },
 
@@ -488,6 +510,8 @@ window.SESSION_DATA = (function () {
         "A fast, no-retraining context stretch is worth a partial quality hit. Mostly displaced a few months later by the more careful version below.",
       footnote:
         "There is no peer-reviewed paper behind this one — the original source is a public forum post. It earns a place here anyway because the more formal method that followed explicitly builds on and credits it, and leaving out ideas that started outside a journal would misrepresent how this particular thread of the story actually moved.",
+      bridge:
+        "One forum post's uneven stretch was a real improvement. It took about two months for someone to formalize exactly why it worked, and do it more carefully.",
       fixedBy: ["yarn"],
     },
 
@@ -509,6 +533,8 @@ window.SESSION_DATA = (function () {
         "More moving parts than either earlier method — three bands and a temperature correction to get right. And it's still an extension of a shorter training run, not the genuine article: the model was never actually trained at the longer length, so how well it performs there is evidence, not a guarantee.",
       chooseWhen:
         "A model already trained at a shorter context needs to responsibly reach further, and a small fine-tuning budget is available rather than the cost of training long from the start.",
+      bridge:
+        "Stretching a trained model's reach was one axis of the long-context problem. A completely different failure mode showed up the moment a model had to run forever, not just further.",
     },
 
     {
@@ -531,6 +557,8 @@ window.SESSION_DATA = (function () {
         "The deployment is a long-running or effectively endless session under a hard memory budget, where staying stable matters more than recalling everything that was ever said.",
       footnote:
         "Two weeks after this shipped, a widely-used open model shipped its own local-window attention paired with the head-grouping trick from earlier — without adopting this fix. A good reminder that a solved problem and a widely-deployed solution aren't the same event.",
+      bridge:
+        "Pinning a few tokens fixed one specific failure mode of a bounded cache. It said nothing about the cache that wasn't bounded at all — the one every ordinary transformer still carried, growing in a straight line with no ceiling.",
     },
 
     {
@@ -555,6 +583,8 @@ window.SESSION_DATA = (function () {
         "Real added complexity — the compress-then-reconstruct machinery, plus a separate way of handling position, don't exist in a simpler design. And it's still linear in sequence length, just with a much smaller constant multiplying it.",
       chooseWhen:
         "Serving cost per token is the dominant expense at the scale you're operating at, and the extra architectural machinery to shrink it is worth the engineering cost.",
+      bridge:
+        "Compressing the cache attacked how much had to be stored. A different idea, one month later, went back to a much older question this story had left half-answered since 2020: could a fixed-size memory ever learn to change its mind?",
     },
 
     {
@@ -575,6 +605,8 @@ window.SESSION_DATA = (function () {
         "More arithmetic per step than a plain accumulation, since every write now requires a read-and-compare first. And it's still a compressed summary of everything that happened — nowhere near as exact as keeping the real keys and values around.",
       chooseWhen:
         "Constant-memory, RNN-style decoding is the goal, but the state genuinely needs to be revisable rather than purely additive — often as one layer type mixed into a design that also keeps some exact-attention layers.",
+      bridge:
+        "Teaching a running state to correct itself was one skill. It said nothing about when a piece of that state should simply stop mattering.",
       fixedBy: ["gated-delta-net"],
     },
 
@@ -596,6 +628,8 @@ window.SESSION_DATA = (function () {
         "One more learned mechanism to get right per layer or head. And no amount of gating brings back information the state has already actually discarded — forgetting is still forgetting.",
       chooseWhen:
         "Choosing among constant-memory layer designs for a mixed architecture — currently one of the strongest options in that family.",
+      bridge:
+        "Recurrent state had just relearned how to correct itself and forget. Meanwhile, the oldest idea in this entire story — just look at fewer tokens — had never actually gone away; it had been waiting for hardware-aware engineering to catch up to it.",
     },
 
     {
@@ -620,6 +654,8 @@ window.SESSION_DATA = (function () {
         "Summarizing blocks of tokens loses token-level detail by construction. The candidate selection is still approximate — a genuinely useful key sitting in a block that didn't make the shortlist can be missed entirely. And three parallel read paths are a meaningfully bigger system to implement and train correctly than one dense or one sparse call.",
       chooseWhen:
         "Training a large model natively for very long context, where both training compute and serving memory need to be cheap at the same time, and the added system complexity is worth the throughput it buys.",
+      bridge:
+        "Sparsity came back sharper, and compression came back more aggressive. But one thread from 2021 had only ever been patched, four separate times, never actually resolved — and nobody had yet asked the most direct question of all.",
     },
 
     {
@@ -646,6 +682,9 @@ window.SESSION_DATA = (function () {
         "A model already trained with rotation-based position needs to reliably serve far beyond its original context, and a small recalibration bill is preferable to either a rescaling method's quality loss or the cost of training long from the very beginning.",
       footnote:
         "Worth flagging by name, since the resemblance is easy to trip over: there is a separate, unrelated paper with an almost identical name for rotary embeddings in autonomous-agent trajectory modeling — different authors, different field, no connection to context extension at all. Getting the two confused would be exactly the kind of mistake that's easy to make with quiet confidence and never notice.",
+      bridge:
+        "Which is roughly where this story stands right now — not finished, just current. The two costs from Chapter Two never went away; every idea on this page bought against one of them and spent on something else. That trade is the whole field, not a phase it's passing through.",
+      isEpilogue: true,
     },
   ];
 

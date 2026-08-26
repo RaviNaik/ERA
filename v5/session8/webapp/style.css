@@ -300,6 +300,26 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 }
 .lede em { font-style: italic; color: var(--purple); }
 
+/* ── Concept steps — the gradual, one-idea-at-a-time build-up
+   used in Chapter One before anything is named as a heading ──── */
+.concept-step { max-width: 800px; margin: 30px 0; padding-left: 18px; border-left: 2px solid var(--border); }
+.concept-step .prose { margin-bottom: 14px; }
+.concept-step .prose:last-child { margin-bottom: 0; margin-top: 14px; }
+.term {
+  color: var(--indigo); font-weight: 700; border-bottom: 2px solid rgba(99,102,241,0.35);
+  padding-bottom: 1px;
+}
+.concept-visual {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card); padding: 18px 20px; margin: 4px 0;
+}
+.concept-visual-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 12px;
+}
+.concept-recap { max-width: 800px; margin: 38px 0 8px; text-align: left; }
+.concept-recap .formula-box { max-width: none; font-size: 14px; }
+
 /* ── Scroll reveal ───────────────────────────────────────────── */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s cubic-bezier(0.2,0.7,0.3,1), transform 0.7s cubic-bezier(0.2,0.7,0.3,1); }
 .reveal.in-view { opacity: 1; transform: translateY(0); }
@@ -352,26 +372,47 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 }
 .tl-node.is-baseline .tl-card { border-color: var(--border-glow); box-shadow: var(--shadow-glow); }
 
-.tl-head { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
-.tl-headrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* ── Kicker row: date/threads only — small, unobtrusive, no title here ── */
+.tl-kicker-row {
+  padding: 14px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--bg-card-alt);
+}
 .tl-date {
   font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--indigo);
   background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25); border-radius: 6px; padding: 3px 9px;
 }
 .tl-threads { display: flex; gap: 6px; flex-wrap: wrap; }
 .tl-thread-tag { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 2px 8px; border-radius: 100px; }
-.tl-title { font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
-.tl-tagline { font-size: 13px; font-style: italic; color: var(--text-secondary); line-height: 1.55; max-width: 760px; }
+.tl-index { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-muted); }
 
-.tl-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 18px; }
+.tl-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 20px; }
 .tl-block { display: flex; flex-direction: column; gap: 6px; }
 .tl-block-label { font-size: 10px; font-weight: 800; letter-spacing: 0.7px; text-transform: uppercase; color: var(--text-muted); }
 .tl-block-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
 .tl-block-text strong { color: var(--text-primary); }
 .tl-block.is-lede .tl-block-text {
-  font-family: 'Fraunces', Georgia, serif; font-size: 15.5px; line-height: 1.6;
+  font-family: 'Fraunces', Georgia, serif; font-size: 16px; line-height: 1.65;
   color: var(--text-primary); font-weight: 400;
 }
+
+/* ── The reveal: the idea's name, arriving only after the problem has
+   already been felt — deliberately not the first thing on the card ── */
+.tl-reveal {
+  position: relative; padding: 16px 20px; margin: 2px 0;
+  background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(244,63,94,0.05));
+  border: 1px solid var(--border-glow); border-radius: var(--radius-md);
+}
+.tl-reveal-kicker {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+  color: var(--purple); margin-bottom: 6px;
+}
+.tl-reveal-title {
+  font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 600;
+  color: var(--text-primary); letter-spacing: -0.4px; margin-bottom: 6px; line-height: 1.2;
+}
+.tl-tagline { font-size: 13px; font-style: italic; color: var(--text-secondary); line-height: 1.55; max-width: 760px; }
+.tl-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 
 .tl-triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .tl-triad-item { background: var(--bg-card-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; border-top: 3px solid var(--border); }
@@ -386,6 +427,12 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 
 .tl-footnote { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; background: var(--bg-surface); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 10px 14px; }
 .tl-footnote strong { color: var(--text-secondary); }
+
+/* ── Bridge: the sentence that hands off to the next idea ─────── */
+.tl-bridge {
+  font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 14.5px;
+  color: var(--text-primary); line-height: 1.6; padding-top: 14px; border-top: 1px solid var(--border);
+}
 
 .tl-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--border); margin-top: 2px; }
 .tl-source { font-size: 11px; color: var(--text-muted); }
@@ -411,14 +458,7 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 .mw-readout .good { color: var(--green); font-weight: 700; }
 .mw-readout .bad { color: var(--rose); font-weight: 700; }
 
-/* ── Core mechanism widget (flagship) ───────────────────────── */
-.cm-steps { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
-.cm-step-btn { flex: 1; min-width: 90px; padding: 9px 6px; text-align: center; border: 1px solid var(--border); background: var(--bg-card-alt); color: var(--text-muted); font-size: 10.5px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all var(--transition); }
-.cm-step-btn .n { display: block; font-size: 14px; font-weight: 800; color: var(--text-secondary); }
-.cm-step-btn.active { background: rgba(99,102,241,0.14); border-color: var(--indigo); color: var(--indigo); }
-.cm-step-btn.active .n { color: var(--indigo); }
-.cm-step-btn.done { border-color: rgba(16,185,129,0.4); }
-.cm-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; align-items: start; }
+/* ── Core mechanism concept visuals ──────────────────────────── */
 .cm-tokens { display: flex; flex-direction: column; gap: 8px; }
 .cm-token-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
 .cm-token-label { width: 62px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary); font-weight: 700; flex-shrink: 0; }
@@ -439,8 +479,6 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 .cm-out-row { display: flex; align-items: center; gap: 8px; }
 .cm-bar-track { flex: 1; height: 8px; border-radius: 4px; background: var(--bg-card-alt); overflow: hidden; }
 .cm-bar-fill { height: 100%; background: linear-gradient(90deg, var(--indigo), var(--cyan)); border-radius: 4px; transition: width 0.3s ease; }
-.cm-explain { font-size: 12px; color: var(--text-secondary); line-height: 1.7; background: var(--bg-card-alt); border-radius: var(--radius-sm); padding: 14px 16px; border: 1px solid var(--border); min-height: 96px; }
-.cm-explain strong { color: var(--text-primary); }
 .cm-toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
 .cm-switch { position: relative; width: 40px; height: 22px; border-radius: 100px; background: var(--bg-card-alt); border: 1px solid var(--border); cursor: pointer; flex-shrink: 0; transition: all var(--transition); }
 .cm-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--text-muted); transition: all var(--transition); }
@@ -495,7 +533,6 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 @media (max-width: 1100px) {
   .app-shell { grid-template-columns: 1fr; }
   .sidebar   { display: none; }
-  .cm-layout { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .section { padding: 24px 16px; }
