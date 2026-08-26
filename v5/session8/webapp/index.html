@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How Does Attention Work Now? | ERA V5 Session 8</title>
-  <meta name="description" content="A chronological, visual walkthrough of every major attention mechanism from scaled dot-product attention (2017) to DeepSeek's Native Sparse Attention (2025) — arranged by when each technique actually appeared, not by taxonomy. Every date checked against its primary source." />
+  <title>How Does Attention Work Now?</title>
+  <meta name="description" content="A chronological account of how attention actually evolved — from scaled dot-product attention in 2017 to Sakana AI's DroPE in 2025 — told in the order each idea was actually published, each one a reply to a limitation the last one created." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<!-- ── Reading progress ─────────────────────────────────── -->
+<div class="reading-progress" id="reading-progress"></div>
 
 <!-- ── Theme Toggle ───────────────────────────────────────── -->
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -22,29 +25,27 @@
   <!-- ── Sidebar ─────────────────────────────────────────── -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <a href="../../../" class="back-link">&#8592; ERA Home</a>
-      <div class="sidebar-badge">🇮🇳 ERA V5 · S8</div>
       <div class="sidebar-brand-title">How Does<br/><span class="sidebar-gradient-text">Attention Work Now?</span></div>
-      <div class="sidebar-brand-sub">6 Sections · August 2026</div>
+      <div class="sidebar-brand-sub">A chronological field guide, 2017 → 2025</div>
     </div>
     <nav>
       <a class="nav-item active" href="#overview" data-target="overview">
-        <span class="nav-icon">📄</span> Overview
+        <span class="nav-icon">📖</span> Before We Begin
       </a>
       <a class="nav-item" href="#core-mechanism" data-target="core-mechanism">
-        <span class="nav-icon">🎯</span> The Core Mechanism
+        <span class="nav-icon">🎯</span> The Mechanism Itself
       </a>
       <a class="nav-item" href="#two-bills" data-target="two-bills">
-        <span class="nav-icon">🧾</span> The Two Bills
+        <span class="nav-icon">🧾</span> What It Costs
       </a>
       <a class="nav-item" href="#timeline" data-target="timeline">
-        <span class="nav-icon">📈</span> The Timeline
+        <span class="nav-icon">📈</span> The Story
       </a>
       <a class="nav-item" href="#cheat-sheet" data-target="cheat-sheet">
-        <span class="nav-icon">🗂️</span> Cheat Sheet
+        <span class="nav-icon">🗂️</span> Quick Reference
       </a>
       <a class="nav-item" href="#sources" data-target="sources">
-        <span class="nav-icon">📚</span> Sources &amp; Chronology
+        <span class="nav-icon">📚</span> Sources
       </a>
     </nav>
   </aside>
@@ -54,153 +55,141 @@
 
     <!-- ── Hero ─────────────────────────────────────────── -->
     <header class="hero" id="hero">
-      <div class="hero-badge">🇮🇳 ERA V5 · Session 8 Assignment</div>
+      <canvas class="hero-canvas" id="hero-canvas"></canvas>
+      <div class="hero-badge">A field guide, told in order</div>
       <h1>How Does Attention<br>Work Now?</h1>
       <p>
-        Standard scaled dot-product attention was never "bad." It solved exact, parallel,
-        all-to-all token comparison — and in doing so, it sent two separate bills: a
-        quadratic compute bill and a linear-but-growing memory bill. Everything on this
-        page exists because someone hit one of those bills, or a downstream consequence of
-        fixing one, and proposed something new. This page arranges every mechanism from
-        Session 8 <strong>in the order it actually launched</strong> — not by taxonomy, not
-        by teaching order — so the field's actual priorities over eight years are visible:
-        exact global attention → cheaper decoding memory → better position handling →
-        longer contexts → recurrent state returning → sparsity returning → compression
-        becoming more aggressive.
+        In 2017, a token could sit next to another token and know absolutely nothing
+        about it. Attention fixed that in one stroke — and immediately handed back two new
+        problems of its own. Everything that follows in this story is somebody's answer to
+        one of those two problems, or to a problem the last answer created. Read in order,
+        the sequence isn't a list of unrelated tricks. It's one long argument, each idea
+        replying to the one before it — <em>exact and unbounded</em>, then <em>cheaper to
+        remember</em>, then <em>aware of distance</em>, then <em>longer-reaching</em>, then
+        <em>recurrent again</em>, then <em>sparse again</em>, and finally — in the story's
+        newest chapter — willing to throw its own position scheme away entirely.
       </p>
       <div class="hero-stats">
-        <div class="hero-stat"><span class="val indigo" id="stat-count">—</span><span class="lbl">Mechanisms Covered</span></div>
-        <div class="hero-stat"><span class="val" id="stat-range">—</span><span class="lbl">Timeline Span</span></div>
-        <div class="hero-stat"><span class="val green" id="stat-sourced">—</span><span class="lbl">Independently Verified Dates</span></div>
-        <div class="hero-stat"><span class="val amber" id="stat-flagged">—</span><span class="lbl">Flagged as Unverifiable</span></div>
-        <div class="hero-stat"><span class="val purple" id="stat-threads">—</span><span class="lbl">Problem Threads Tracked</span></div>
+        <div class="hero-stat"><span class="val indigo" id="stat-count">—</span><span class="lbl">Ideas, in Sequence</span></div>
+        <div class="hero-stat"><span class="val" id="stat-range">—</span><span class="lbl">Span of the Story</span></div>
+        <div class="hero-stat"><span class="val green" id="stat-sourced">—</span><span class="lbl">Dates Checked at the Source</span></div>
+        <div class="hero-stat"><span class="val amber" id="stat-flagged">—</span><span class="lbl">From a Forum Post, Not a Paper</span></div>
+        <div class="hero-stat"><span class="val purple" id="stat-threads">—</span><span class="lbl">Threads Running Through It</span></div>
       </div>
     </header>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 1: Overview                                 -->
+    <!-- Before We Begin                                     -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="overview">
+    <section class="section reveal" id="overview">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">01 / 06 · HOW TO READ THIS PAGE</span>
-          <h2 class="section-title">Overview</h2>
+          <span class="section-number">PROLOGUE</span>
+          <h2 class="section-title">Before We Begin</h2>
           <p class="section-desc">
-            One question, one honest answer: if a friend asked "how does attention work
-            now?", this is what would actually help them.
+            A friend asks how attention actually works today. Not the 2017 version — the
+            current one. Here's the honest, in-order answer.
           </p>
         </div>
       </div>
 
-      <p class="prose">
-        This page makes three deliberate choices, each directly in response to how the
-        assignment is graded:
+      <p class="lede">
+        Nobody sat down and designed today's attention mechanisms as a finished system.
+        Each one is a patch on a real, specific wound the previous one left open — and each
+        patch tore open a new one somewhere else. That's not a flaw in the story. It's the
+        entire shape of it.
       </p>
 
-      <div class="verdict-grid" style="margin-top:16px;">
-        <div class="verdict-card solved" style="border-left-color:var(--indigo);">
-          <span class="vc-status" style="color:var(--indigo);">Choice 1</span>
-          <div class="vc-title">Start from the mechanism, not a technique list</div>
-          <div class="vc-desc">The Core Mechanism section below builds Q×K → scores → scale → mask → softmax → weighted sum of V from a live, editable 4-token example — nothing else on this page is explained before that lands.</div>
-        </div>
-        <div class="verdict-card solved" style="border-left-color:var(--rose);">
-          <span class="vc-status" style="color:var(--rose);">Choice 2</span>
-          <div class="vc-title">One strict chronological timeline, not a taxonomy</div>
-          <div class="vc-desc">Every card in the Timeline section is sorted purely by primary-source date. Related ideas are tagged with color-coded "problem threads" so you can see them interleave — but the vertical order never bends to group them.</div>
-        </div>
-        <div class="verdict-card solved" style="border-left-color:var(--green);">
-          <span class="vc-status" style="color:var(--green);">Choice 3</span>
-          <div class="vc-title">Every date independently checked, gaps disclosed</div>
-          <div class="vc-desc">Every date was verified against the source's own arXiv submission history (see Sources). One card — DroPE — has no external primary source at all, and says so instead of inventing one.</div>
-        </div>
-      </div>
-
-      <h3 class="subhead">What "buys / gives up / choose when" means on every card</h3>
-      <p class="prose">
-        The assignment is explicit: a mechanism with five advantages and no real downside
-        hasn't been investigated honestly. Every timeline card therefore answers the same
-        three questions, in the same order, for every mechanism — including the ones that
-        are the current default. GQA, RoPE and MLA all have a genuine cost column, not a
-        token one.
+      <p class="prose" style="margin-top:18px;">
+        So this page is arranged the one way that actually shows that: strictly by
+        <strong>when each idea was first published</strong>, not by what family it belongs
+        to and not by which one is "best." A handful of these ideas are still the default
+        almost everywhere; others were quietly replaced within a year or two. Both kinds get
+        the same treatment — <strong>what it bought, what it gave up, and when it's actually
+        the right call</strong> — because a mechanism with five upsides and no honest
+        downside just hasn't been looked at closely enough yet.
       </p>
 
       <div class="thread-legend" id="overview-thread-legend"></div>
       <p class="prose">
-        Those are the eight <strong>problem threads</strong> this timeline tracks. A
-        mechanism can belong to more than one — that overlap is deliberate. Use the same
-        legend at the top of the Timeline section to filter the whole story down to just
-        one thread and watch it resurface across a decade.
+        Those eight tags are the threads running underneath the story — compute cost, cache
+        memory, position, extension, recurrence, sparsity, compression, systems. Any one
+        idea can pull on more than one thread at once, and the same thread resurfaces again
+        and again, years apart, under a completely different name. The legend at the top of
+        the timeline below filters by thread, if you want to follow just one of them start to
+        finish.
       </p>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 2: The Core Mechanism                        -->
+    <!-- The Mechanism Itself                                -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="core-mechanism">
+    <section class="section reveal" id="core-mechanism">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">02 / 06 · BEFORE ANYTHING ELSE</span>
-          <h2 class="section-title">The Core Mechanism</h2>
+          <span class="section-number">CHAPTER ONE</span>
+          <h2 class="section-title">The Mechanism Itself</h2>
           <p class="section-desc">
-            Standard scaled dot-product attention, computed live on four tokens. Step
-            through Q/K/V → scores → scale → mask → softmax → weighted sum, then switch the
-            causal mask off and watch attention weight leak onto tokens that haven't
-            happened yet — the exact failure the mask exists to prevent.
+            Before any of the story makes sense, the plain mechanism has to. Four tokens,
+            computed live, six steps: Q/K/V → scores → scale → mask → softmax → weighted
+            sum. Step through it, then switch the mask off and watch the exact failure it
+            exists to prevent happen in front of you.
           </p>
         </div>
       </div>
       <div class="card">
         <div class="card-header">
-          <span class="card-title">🎯 Widget — Attention, Step by Step</span>
-          <span class="badge badge-blue">Interactive · 6 steps</span>
+          <span class="card-title">🎯 Attention, one step at a time</span>
+          <span class="badge badge-blue">Live · 6 steps</span>
         </div>
         <div class="card-body" id="core-mechanism-widget"><!-- rendered by app.js --></div>
       </div>
       <p class="prose" style="margin-top:20px;">
-        Everything from here on is a response to one of two costs this exact mechanism
-        creates. See <a href="#two-bills" style="color:var(--indigo);">The Two Bills</a>,
-        next.
+        Everything from here on is a reply to one of two costs this exact mechanism creates
+        the moment a sequence gets long. Those two costs, next.
       </p>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 3: The Two Bills                             -->
+    <!-- What It Costs                                       -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="two-bills">
+    <section class="section reveal" id="two-bills">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">03 / 06 · THE TWO COSTS EVERYTHING RESPONDS TO</span>
-          <h2 class="section-title">The Two Bills</h2>
+          <span class="section-number">CHAPTER TWO</span>
+          <h2 class="section-title">What It Costs</h2>
           <p class="section-desc">
-            Attention sends two separate invoices as context grows: a <strong>compute</strong>
-            bill for the T×T score matrix (quadratic), and a <strong>KV-cache memory</strong>
-            bill for the keys/values kept during autoregressive generation (linear, but
-            per-conversation and never shared). Drag the context-length slider — every
-            mechanism in the timeline below is legible as an attack on one of these two lines.
+            Comparing every token to every other token is a <strong>compute</strong> problem
+            that grows with the square of the sequence length. Remembering every token
+            during generation is a separate <strong>memory</strong> problem that grows in a
+            straight line — but per conversation, never shared. Drag the slider; nearly
+            every idea further down this page is legible as an answer to one of these two
+            curves.
           </p>
         </div>
       </div>
       <div class="card">
         <div class="card-header">
-          <span class="card-title">🧾 Widget — Compute vs. KV-Cache Growth</span>
-          <span class="badge badge-purple">Reference config: 48 layers · 8 KV heads · head_dim 128 · bf16</span>
+          <span class="card-title">🧾 Two curves, one slider</span>
+          <span class="badge badge-purple">A fairly ordinary model: 48 layers · 8 KV heads · head_dim 128 · bf16</span>
         </div>
         <div class="card-body" id="two-bills-widget"><!-- rendered by app.js --></div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 4: The Timeline                              -->
+    <!-- The Story                                           -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="timeline">
+    <section class="section reveal" id="timeline">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">04 / 06 · THE PART THAT MATTERS MOST</span>
-          <h2 class="section-title">The Timeline — In the Order They Actually Launched</h2>
+          <span class="section-number">CHAPTER THREE — THE MAIN EVENT</span>
+          <h2 class="section-title">The Story, In the Order It Happened</h2>
           <p class="section-desc">
-            Not the order taught in class. Not grouped by category. Sorted strictly by each
-            technique's primary-source publication date — problem it hit, mechanism it
-            proposed, what it fixed, and the new trade-off it introduced, in sequence.
+            Not grouped by family. Not ranked by importance. Sorted by the date each idea
+            first appeared in public, so the field's actual priorities — what it worried
+            about first, second, and only much later — stay visible instead of getting
+            reorganized into hindsight.
           </p>
         </div>
       </div>
@@ -210,68 +199,63 @@
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 5: Cheat Sheet                               -->
+    <!-- Quick Reference                                     -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="cheat-sheet">
+    <section class="section reveal" id="cheat-sheet">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">05 / 06 · QUICK REFERENCE</span>
-          <h2 class="section-title">Cheat Sheet</h2>
+          <span class="section-number">FIELD NOTES</span>
+          <h2 class="section-title">Quick Reference</h2>
           <p class="section-desc">
-            The same 19 mechanisms, compressed to one row each — for when you already read
-            the timeline once and just need to remember which one to reach for.
+            The same story, compressed to one line each — for the second pass, once you
+            already know how it unfolds and just need to remember which idea to reach for.
           </p>
         </div>
       </div>
       <div class="data-table-wrap">
         <table class="data-table cheat-table">
-          <thead><tr><th>Mechanism</th><th>Date</th><th>Buys</th><th>Costs</th><th>Choose when…</th></tr></thead>
+          <thead><tr><th>Idea</th><th>Date</th><th>Buys</th><th>Costs</th><th>Reach for it when…</th></tr></thead>
           <tbody id="cheat-sheet-tbody"></tbody>
         </table>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- Section 6: Sources & Chronology                      -->
+    <!-- Sources                                             -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="section" id="sources">
+    <section class="section reveal" id="sources">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-number">06 / 06 · WHY THIS SECTION EXISTS</span>
-          <h2 class="section-title">Sources &amp; Chronology</h2>
+          <span class="section-number">APPENDIX</span>
+          <h2 class="section-title">Sources</h2>
           <p class="section-desc">
-            "Dates are exactly where an AI agent can sound completely confident while being
-            wrong." Every date below is the source's own arXiv v1 submission date (or, where
-            marked, the best available primary date for a non-arXiv source) — checked
-            directly against the source on 26 Aug 2026, not accepted from model memory.
+            Dates are exactly where confident storytelling can quietly go wrong. Every date
+            below was checked directly against the source's own submission record — a
+            paper's arXiv history, or the closest available primary record where no paper
+            exists — rather than taken on trust.
           </p>
         </div>
       </div>
 
       <div class="callout honest">
-        <div class="callout-label">⚠️ One correction made during this build</div>
+        <div class="callout-label">On the last card in the story</div>
         <div class="callout-body">
-          The class notes name a technique called <strong>"DroPE"</strong> as part of this
-          course's own "LightningLM V4" project record. No external, independently
-          checkable primary source exists for it — it is not the same technique as the
-          real, published <strong>DRoPE</strong> (arXiv:2503.15029, "Directional Rotary
-          Position Embedding," March 2025), which solves an unrelated problem in agent
-          trajectory modeling. The Timeline keeps a card for it — the assignment's minimum
-          list names it — but the card says plainly that it is unverified rather than
-          inventing a date or a mechanism to fill the gap. This is exactly the kind of
-          mistake the assignment brief warns about.
+          The final idea in this timeline, DroPE, is easy to mix up with an unrelated,
+          similarly-named paper on rotary embeddings for autonomous-agent trajectories —
+          different authors, different field, no connection at all. The two are cited
+          separately below specifically so that confusion can't happen quietly.
         </div>
       </div>
 
-      <h3 class="subhead">Full bibliography, in timeline order</h3>
+      <h3 class="subhead">Full bibliography, in story order</h3>
       <div class="ref-list" id="reference-list"></div>
     </section>
 
     <!-- ── Footer ────────────────────────────────────────── -->
     <footer class="footer">
-      How Does Attention Work Now? · ERA V5 Session 8 ·
-      <a href="../README.md" target="_blank" rel="noopener">Full README &amp; Source List</a> ·
-      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">GitHub Repository</a>
+      How Does Attention Work Now? ·
+      <a href="../README.md" target="_blank" rel="noopener">Full write-up &amp; source list</a> ·
+      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">Repository</a>
     </footer>
 
   </main><!-- /main-content -->
@@ -293,7 +277,7 @@
 
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
-    safeSet('era-theme', theme);
+    safeSet('attention-story-theme', theme);
     if (theme === 'dark') {
       icon.textContent  = '☀️';
       label.textContent = 'Light';
@@ -303,7 +287,7 @@
     }
   }
 
-  const saved = safeGet('era-theme') || 'dark';
+  const saved = safeGet('attention-story-theme') || 'dark';
   applyTheme(saved);
 
   btn.addEventListener('click', function () {

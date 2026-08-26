@@ -1,16 +1,17 @@
 /* ============================================================
-   SESSION 8 — "How Does Attention Work Now?"
-   All content data: verified chronology, sources, timeline nodes.
-   Every date below was checked against the primary source's own
-   arXiv submission-history page (v1 date) on 2026-08-26 — not
-   accepted from model memory. See README.md for the full method.
+   HOW DOES ATTENTION WORK NOW?
+   All content: a chronological account of every major attention
+   mechanism, sorted by verified primary-source publication date.
+   Every date was checked against the source's own submission
+   record directly — not taken on trust from a model's memory.
    ============================================================ */
 
 window.SESSION_DATA = (function () {
 
-  /* ── Reference serving config, used by the KV-cache calculator ──
-     Matches the class notes' own worked example so the numbers on
-     this page reconcile with the lesson (48L, 8 KV heads, d_h=128, bf16). */
+  /* Reference serving config used by the cost calculator further down.
+     A fairly ordinary mid-size dense model: 48 layers, 8 KV heads,
+     128-wide heads, stored in bf16. Nothing here is tuned to make any
+     particular technique look better or worse. */
   const REF_CONFIG = {
     layers: 48,
     kvHeads: 8,
@@ -18,12 +19,9 @@ window.SESSION_DATA = (function () {
     bytesPerNumber: 2, // bf16
   };
 
-  /* ── Threads: the "problem lanes" a mechanism can belong to.
-     A node can belong to more than one — that overlap is the point:
-     the field didn't solve one problem at a time in a clean queue. */
   const THREADS = [
-    { id: "compute",   label: "Quadratic Compute",  color: "#22d3ee" },
-    { id: "memory",    label: "KV-Cache Memory",     color: "#f59e0b" },
+    { id: "compute",   label: "Compute Cost",       color: "#22d3ee" },
+    { id: "memory",    label: "Cache Memory",        color: "#f59e0b" },
     { id: "position",  label: "Position Handling",   color: "#a78bfa" },
     { id: "extend",    label: "Context Extension",   color: "#f43f5e" },
     { id: "recurrent", label: "Recurrent State",     color: "#10b981" },
@@ -32,10 +30,9 @@ window.SESSION_DATA = (function () {
     { id: "systems",   label: "Systems / I-O",       color: "#94a3b8" },
   ];
 
-  /* ── Full bibliography, one entry per primary source used in the
-     chronology. Every "date" is the arXiv v1 submission date (or,
-     where noted, the best-available primary date for a non-arXiv
-     source), fetched directly from the source on 2026-08-26. */
+  /* Bibliography — one entry per primary source. Dates are the source's
+     own v1 submission date (fetched directly from its own record), or
+     the best available primary date where no preprint exists. */
   const SOURCES = {
     vaswani2017: {
       authors: "Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin",
@@ -197,19 +194,19 @@ window.SESSION_DATA = (function () {
       url: "https://arxiv.org/abs/2502.11089",
       id: "arXiv:2502.11089",
     },
-    drope_unverified: {
-      authors: "— (not externally published)",
-      title: "“DroPE” — cited only inside this course's own Session 7/8 record",
-      venue: "ERA course material (“LightningLM V4 cookbook”), not a public paper",
-      date: "unverified",
-      url: null,
-      id: "no external primary source found",
+    drope2025: {
+      authors: "Gelberg, Eguchi, Akiba, Cetin",
+      title: "Extending the Context of Pretrained LLMs by Dropping Their Positional Embeddings",
+      venue: "Sakana AI, arXiv preprint",
+      date: "2025-12-13",
+      url: "https://arxiv.org/abs/2512.12167",
+      id: "arXiv:2512.12167",
     },
   };
 
-  /* ── The timeline itself — the part the assignment cares about most.
-     Sorted strictly by primary-source date, NOT by taxonomy, NOT by
-     the order the class covered them in. */
+  /* The timeline: sorted strictly by primary-source date. Each entry
+     optionally carries an `era` marker rendered as a short interlude
+     before it, to give the sequence some breathing room and pace. */
   const TIMELINE = [
     {
       id: "baseline",
@@ -218,18 +215,22 @@ window.SESSION_DATA = (function () {
       dateDisplay: "12 Jun 2017",
       threads: ["compute", "memory"],
       title: "Scaled Dot-Product Attention",
-      tagline: "The starting point — not a response to anything yet.",
+      tagline: "The starting point. Nothing to respond to yet — everything else on this page responds to this.",
       sourceId: "vaswani2017",
+      era: {
+        title: "Where the story starts",
+        blurb: "Before this, sequence models read one token at a time and passed a summary forward — useful, but slow to train and forgetful over distance. This is the idea that replaced that summary with something much more direct: let every token look at every other token, all at once.",
+      },
       problem:
-        "RNN/LSTM sequence models process tokens one at a time. That recurrence is a training-speed bottleneck (no parallelism across time) and a modeling bottleneck (information from far away has to survive many sequential steps, so long-range dependencies decay). Attention-as-an-add-on to RNNs (Bahdanau 2014, Luong 2015) already existed, but the recurrence itself was still the bottleneck.",
+        "Recurrent networks process a sentence one word at a time, carrying a single running summary forward. That summary is a bottleneck twice over: training can't parallelize across the sequence (step 50 needs step 49's result), and anything that happened many steps back has to survive being repeatedly compressed into that one summary vector, which in practice means it often doesn't.",
       mechanism:
-        "Project every token into a query, a key and a value. Compare every query with every key by dot product to get raw scores, divide by √d_k to keep the numbers in a sane range for softmax, optionally mask out illegal (future) positions, take softmax across each row so weights are positive and sum to one, then use those weights to combine the value vectors. Q×K → scores → scale → mask → softmax → weighted sum of V.",
+        "Give every token three separate roles: a query (what it's looking for), a key (what it advertises about itself), and a value (what it actually hands over). Compare each query against every key with a dot product to get a compatibility score, divide by √d_k to keep the numbers from blowing up, optionally block off illegal future positions, turn the row of scores into a probability distribution with softmax, and use those probabilities to blend the values together. Q×K → scores → scale → mask → softmax → weighted sum of V.",
       buys:
-        "Every token can reach every other token in exactly one hop — no vanishing signal over distance. The whole layer is one big matrix multiply, so training is fully parallel across the sequence (unlike an RNN).",
+        "Any two tokens, however far apart, are one dot product away from each other — no information has to survive a long relay. And because there's no step-by-step recurrence, the whole layer is a matrix multiplication that trains in parallel across the full sequence.",
       costs:
-        "All-pairs comparison costs O(T²) compute and produces a O(T²)-sized score matrix. During autoregressive generation, every layer must keep every earlier token's key and value around to avoid recomputing them — a KV cache that grows with every token generated. And the mechanism itself has no built-in sense of order: identical content at two different positions produces identical Q/K/V.",
+        "Comparing everything with everything means the score matrix is T×T — compute and memory both grow quadratically with sequence length. And once a model starts generating text one token at a time, it has to keep every previous token's key and value on hand to avoid recomputing them, which is its own, separately growing cost. Also: nothing here encodes order. Swap two tokens' positions and their queries, keys and values don't change at all.",
       chooseWhen:
-        "Sequences are short-to-moderate (a few thousand tokens), training throughput matters more than the quadratic compute bill, and you want the most flexible, unrestricted token-to-token routing available.",
+        "Sequences are short enough that quadratic cost isn't yet painful, and training speed and unrestricted token-to-token access matter more than anything else.",
       widget: "core-mechanism",
     },
 
@@ -238,21 +239,21 @@ window.SESSION_DATA = (function () {
       date: "2017-06-12",
       dateDisplay: "12 Jun 2017 · same paper",
       threads: ["position"],
-      title: "Sinusoidal Position Encoding",
-      tagline: "Response to: attention has no idea what order the tokens came in.",
+      title: "Sinusoidal Position Signal",
+      tagline: "A fix for the very last line above: attention has no idea what order anything came in.",
       sourceId: "vaswani2017",
       problem:
-        "Dot-product attention treats the input as an unordered set. If token 0 and token 4 hold the same content, they produce identical queries, keys and values — the model has no way to tell “near” from “far,” or earlier from later, unless something adds that information in.",
+        "A dot product compares content, not position. If the word at position 3 and the word at position 30 happen to be identical, they produce identical queries, keys and values — attention genuinely cannot tell them apart unless something external tells it where each token sits.",
       mechanism:
-        "Add a fixed, non-learned vector of sines and cosines at geometrically spaced frequencies to every token's embedding before the first layer: PE(pos,2i)=sin(pos/10000^(2i/d)), PE(pos,2i+1)=cos(pos/10000^(2i/d)). It is a deterministic function of absolute position — no parameters to train.",
+        "Before the first layer even runs, add a fixed pattern of sine and cosine waves — one pair of waves per pair of embedding dimensions, each pair oscillating at a different frequency — directly onto every token's embedding, keyed off its position in the sequence. No parameters, no training: the position 5 vector is always the position 5 vector.",
       buys:
-        "Zero learned parameters. A well-defined value exists for any position the formula is evaluated at. Different frequency bands act like clocks running at different speeds, which in principle lets the network reconstruct relative offsets from combinations of absolute signals.",
+        "A position signal that costs nothing to learn and is defined for any position you plug into the formula. Different frequencies act like clock hands moving at different speeds, which in principle gives the network enough structure to work out relative offsets on its own.",
       costs:
-        "The position signal is only injected once, at the input — turning it into genuinely relative-distance-aware attention scores has to be learned indirectly by later layers, it isn't built into the score itself. The original paper's own ablation found it performed “nearly identical” to a learned table at trained lengths, so it bought little beyond parameter count.",
+        "The signal only enters once, at the bottom of the network — turning it into something the attention score actually reacts to has to be learned indirectly, layer by layer. And the original authors' own side-by-side comparison found a plain trainable position table did just as well, which undercuts the case for the hand-designed formula.",
       chooseWhen:
-        "You want a parameter-free position scheme and don't need explicit relative-position structure in the attention score itself. Mostly of historical interest today — almost nothing new is trained with plain sinusoidal encoding anymore.",
+        "You want a zero-parameter position scheme and don't need the attention score itself to explicitly reflect relative distance. Largely a historical footnote today.",
       footnote:
-        "The same 2017 paper also tried a learned position table as an ablation and found it performed about the same — that alternative just didn't become the field's default until GPT-1 and BERT the following year (next card).",
+        "That side-by-side comparison — sinusoidal vs. a trainable table — was run in this very paper. The trainable version just wasn't what shipped as the headline design; it became the default a year later (next).",
     },
 
     {
@@ -260,20 +261,20 @@ window.SESSION_DATA = (function () {
       date: "2018-06",
       dateDisplay: "Jun–Oct 2018",
       threads: ["position"],
-      title: "Absolute Learned Position Embeddings",
-      tagline: "Response to: hand-designing the position function is unnecessary — just learn it.",
+      title: "A Position Table You Just Train",
+      tagline: "Why hand-design the position signal at all, when you can let gradient descent find one?",
       sourceId: "gpt1_2018",
       secondarySourceIds: ["bert2018"],
       problem:
-        "Sinusoidal encoding works, but it's a hand-picked formula. Once large pretrained language models needed a default, letting position become just another trainable embedding table — the same recipe already used for tokens — was simpler to implement and reason about.",
+        "The sine-wave recipe works, but it's exactly that — a recipe someone picked. Once large pretrained models needed a default choice, treating position the same way tokens themselves are treated — as a row in a trainable lookup table — was the simpler engineering decision, and the earlier comparison had already shown it wasn't a worse one.",
       mechanism:
-        "A trainable embedding matrix of shape [max_position, d_model], indexed by each token's absolute position and added to its token embedding, trained end-to-end with everything else.",
+        "Allocate one trainable vector per position, up to some maximum sequence length, and add it to the token embedding at that position. It trains end to end with everything else, no special formula involved.",
       buys:
-        "Architectural simplicity — one more lookup table, no special-cased math. Empirically matches or beats sinusoidal encoding up to the length it was trained on, and can in principle learn any absolute pattern useful for the task.",
+        "One less piece of hand-designed math in the architecture. It matches or slightly beats the sine-wave version up to whatever length it was trained on, and can shape itself to whatever positional pattern the data actually rewards.",
       costs:
-        "A hard length wall: position N+1 simply has no row in the table. There is no notion of relative distance at all — position 5 and position 300 are two unrelated, arbitrary vectors with no learned relationship between them.",
+        "The table has a last row. Ask the model about position N+1 and there's nothing there — a hard wall, not a graceful decline. And there's still no built-in sense of distance: position 5 and position 300 are two unrelated rows that happen to sit near each other in memory, nothing more.",
       chooseWhen:
-        "Maximum sequence length is fixed and known ahead of time and you never need to run past it — e.g., encoder-only classification over short, bounded inputs.",
+        "The maximum sequence length is fixed and known in advance and you'll never need to go past it — short, bounded-length inputs are the comfortable case.",
       fixedBy: ["rope", "alibi"],
     },
 
@@ -282,21 +283,23 @@ window.SESSION_DATA = (function () {
       date: "2019-04-23",
       dateDisplay: "23 Apr 2019",
       threads: ["compute", "sparse"],
-      title: "Sparse & Strided (Top-k-style) Attention",
-      tagline: "Response to: the quadratic compute bill becomes the wall as sequences get long.",
+      title: "Stop Looking at Everything",
+      tagline: "The first serious answer to the quadratic bill, once people tried feeding in truly long sequences.",
       sourceId: "sparseTransformer2019",
+      era: {
+        title: "2019 — two different teams, two different walls",
+        blurb: "Within the same seven months, one group ran into the cost of comparing every token to every other token, and a different group ran into the cost of remembering every token during generation. Neither problem had been urgent at short context; both became unavoidable as soon as sequences got long.",
+      },
       problem:
-        "Dense attention's O(T²) score matrix becomes the practical limit as people try feeding in much longer sequences (image pixels, long text, audio). Doubling the context quadruples the work.",
+        "Feed in tens of thousands of tokens — raw image pixels, long documents, audio — and the T×T score matrix stops being a rounding error and starts being the whole budget. Double the sequence, quadruple the work.",
       mechanism:
-        "Factorize full attention into a small union of fixed sparse patterns (e.g., strided + local) so information can still reach any position within a couple of hops, cutting per-layer cost to roughly O(T√T). This is the ancestor of the general idea later formalized as top-k attention: let each query use only its most relevant few keys instead of all of them.",
+        "Instead of letting every query see every key, restrict each query to a small, fixed pattern of keys — say, nearby positions plus a handful spaced at regular intervals — chosen so that information can still cross the whole sequence in a couple of hops through the pattern, even though no single layer sees everything. This is the ancestor of the broader idea of only ever scoring a handful of candidate keys per query, rather than all of them.",
       buys:
-        "Sequences tens of thousands of tokens long become trainable. Large compute and memory reduction relative to dense attention at long lengths.",
+        "Sequences tens of thousands of tokens long become something you can actually train on, at a fraction of the compute dense attention would need.",
       costs:
-        "Sparsity patterns are hand-designed and fixed by the architecture, not learned or content-dependent. A naive top-k variant still has to score every candidate key before it can discard most of them — if scoring everything was the expensive part, this alone hasn't removed that cost, only the cost of using the low-ranked ones afterward.",
+        "The pattern of who-looks-at-whom is fixed by the architecture, not learned or adapted to content. And a naive version of \"only look at the top few keys\" still has to score every candidate before it can throw most of them away — if scoring everything was the expensive part to begin with, that cost hasn't actually gone anywhere.",
       chooseWhen:
-        "Context is very long and structured enough (grid data, strided/local patterns) that a fixed sparse mask still reaches what matters. Less useful when the relevant context is unpredictable and scattered across the sequence.",
-      footnote:
-        "Extended later the same year and into 2020 by Longformer (sliding-window + task-aware global tokens) and Big Bird (arXiv:2007.14062, 28 Jul 2020 — random + window + global, with a universal-approximation proof).",
+        "Context is long and has enough regular structure — a grid, a raster, a predictable stride — that a fixed sparse pattern still reaches what matters. Less useful when the tokens that matter could be anywhere.",
       fixedBy: ["deepseek-nsa"],
     },
 
@@ -305,19 +308,19 @@ window.SESSION_DATA = (function () {
       date: "2019-11-06",
       dateDisplay: "6 Nov 2019",
       threads: ["memory"],
-      title: "Multi-Query Attention (MQA)",
-      tagline: "Response to: the KV cache dominates decoding cost once generation is one token at a time.",
+      title: "One Set of Keys and Values for Everyone",
+      tagline: "A different 2019 team hit a different wall: remembering, not comparing.",
       sourceId: "mqa2019",
       problem:
-        "Once decoder-only models generate autoregressively, every layer must keep every earlier token's key and value around to avoid recomputing them. With one K/V head per query head (ordinary multi-head attention), that cache is large, and reading it back dominates decoding latency — especially at larger batch sizes.",
+        "Generate text one token at a time and every layer has to hang onto every earlier token's key and value — recomputing them from scratch each step would be wasteful. With a separate key/value pair per attention head, that running cache gets large fast, and simply reading it back off memory starts to dominate how long each generated token takes.",
       mechanism:
-        "Keep many query heads, but let all of them share a single, shared key/value head. Only one K/V projection is computed and cached per layer, instead of one per head.",
+        "Keep all the query heads — they can still ask different kinds of questions — but collapse the keys and values down to a single shared pair, used by every head. Only one key/value projection needs to be computed and stored per layer, not one per head.",
       buys:
-        "KV cache shrinks by roughly the number of heads (e.g., 8× for an 8-head model). Decoding becomes far more memory-bandwidth friendly and noticeably faster, especially at scale.",
+        "The cache shrinks by roughly the number of heads you'd otherwise have kept separately — an 8-head model's cache drops close to 8×. Generation becomes far less bottlenecked on shuffling memory around, especially with many requests running at once.",
       costs:
-        "Every query head now searches through the exact same keys and values — the representational diversity multi-head attention was designed to provide is reduced, and this shows up as measurable quality degradation versus full multi-head attention.",
+        "Every head is now searching the same shared keys and values, so whatever benefit came from heads specializing on different things is largely gone — and that shows up as a measurable quality gap against keeping separate heads.",
       chooseWhen:
-        "Serving cost and latency at high concurrency matter more than squeezing out the last bit of quality, and you're willing to train (or cheaply ‘uptrain’) for it.",
+        "Serving many requests cheaply and quickly matters more than squeezing out the last bit of quality, and retraining (or briefly adapting an existing model) to this scheme is an option.",
       fixedBy: ["gqa"],
     },
 
@@ -326,21 +329,25 @@ window.SESSION_DATA = (function () {
       date: "2020-04-10",
       dateDisplay: "10 Apr 2020",
       threads: ["compute", "sparse"],
-      title: "Sliding-Window Attention",
-      tagline: "Response to: most useful context in long documents is local, so a generic sparse stride is more structure than needed.",
+      title: "Attend Locally, Escalate Rarely",
+      tagline: "A more deliberate shape for the sparse pattern above, once the target became long documents specifically.",
       sourceId: "longformer2020",
+      era: {
+        title: "2020 — same target, two different bets",
+        blurb: "One idea bets that most of what a token needs is nearby, plus a few designated important tokens. The other bets that the past doesn't need to be kept at all — just summarized into a fixed-size running state. Neither is obviously right; both get taken seriously.",
+      },
       problem:
-        "Sparse Transformer's fixed strided patterns help with long sequences generally, but many document tasks mostly need local context plus a handful of specific globally-important tokens (like a [CLS] token or a question) — a task-shaped pattern can beat a generic stride.",
+        "The strided patterns above cut cost generally, but a lot of document-scale tasks have a more specific shape: most of what a token needs is close by, plus a small number of genuinely global anchor tokens (a summary token, a question). A generic stride doesn't know that.",
       mechanism:
-        "Each token attends only to a fixed-size window of nearby tokens (±w positions), dilated in deeper layers to widen the receptive field, plus a small set of tokens given full “global” attention. Compute and memory scale linearly — O(T·w), not O(T²).",
+        "Give every token a narrow window of nearby positions to attend to — widened at deeper layers so the effective reach still grows with depth — plus a small, task-chosen set of tokens that get to see, and be seen by, everyone. Cost now scales with sequence length times window size, not sequence length squared.",
       buys:
-        "Linear scaling lets documents with thousands of tokens run on ordinary hardware. The receptive field still grows with depth, so distant information can still propagate through several layers.",
+        "Documents thousands of tokens long become tractable on ordinary hardware, while depth still lets information eventually travel further than any single window.",
       costs:
-        "In any single layer, a token genuinely cannot see anything outside its window — information from far away has to relay through multiple layers or the global tokens. If the window is too narrow for the task, the model is architecturally blind to context that actually matters.",
+        "Inside one layer, a token genuinely cannot see past its window — anything further away has to relay through several layers or the designated global tokens. Pick too narrow a window for the task and the model is architecturally blind to context it actually needed.",
       chooseWhen:
-        "The task's useful context is mostly local (documents, code, audio) with a few known anchor tokens. Less suited when arbitrary long-range pairs matter equally throughout the sequence.",
+        "The task's useful context is mostly local, with a few known anchor points — documents, source code, audio. Weaker fit when relevant information could be anywhere in the sequence with equal likelihood.",
       footnote:
-        "Sliding-window attention resurfaced as a production choice in Mistral 7B (arXiv:2310.06825, 10 Oct 2023), paired with GQA and a rolling-buffer KV cache — shipped without attention sinks (next-but-one card), even though that fix already existed by then.",
+        "This exact idea resurfaced in production years later, paired with the head-sharing trick two cards up — see the note on the attention-sinks card below for what that combination ran into.",
       fixedBy: ["attention-sinks"],
     },
 
@@ -349,19 +356,19 @@ window.SESSION_DATA = (function () {
       date: "2020-06-29",
       dateDisplay: "29 Jun 2020",
       threads: ["compute", "memory", "recurrent"],
-      title: "Linear Attention",
-      tagline: "Response to: what if attention carried a fixed-size state instead of a growing history, the way an RNN does?",
+      title: "What If the Past Were Just a Running Total?",
+      tagline: "A more radical bet than a smaller pattern: don't keep the past around at all — compress it as it arrives.",
       sourceId: "linearAttention2020",
       problem:
-        "Sparse and windowed attention both still keep exact softmax over a selected or nearby set of keys — the underlying object is still a growing, indexed history. Neither addresses whether attention could instead be computed with a constant-size running state.",
+        "Every version so far still keeps an exact, indexed record of some subset of past tokens. None of them ask whether attention could instead carry a single fixed-size running state forward, the way an old-fashioned recurrent network does — trading exactness for a memory footprint that never grows.",
       mechanism:
-        "Replace softmax(QKᵀ)V with a kernel feature map φ so the sum can be regrouped: because there is no shared softmax denominator tying scores together, S = Σ φ(k)vᵀ can be accumulated as one fixed-size matrix as tokens arrive, and each new query just reads S. This is exactly the “factor the query out” trick — without softmax, every key-value term is independent, so old contributions can be pre-combined before the query even shows up. Per-token cost drops from growing with history to O(1).",
+        "Swap the softmax step for a simpler feature transform, and a piece of arithmetic falls out for free: because nothing ties the scores together into a shared denominator anymore, each key/value pair's contribution can be pre-combined into one running matrix as tokens arrive — before any query even shows up — and a new query just reads that matrix. Per-token cost during generation drops to a constant, independent of how much history exists.",
       buys:
-        "A constant-size state, independent of sequence length, for both compute and memory. Decoding cost per token becomes O(1) instead of growing with how much history exists — literally an RNN with attention's parallel-trainable form.",
+        "A state whose size never grows with sequence length, for both compute and memory. Generating each new token becomes O(1) work regardless of how long the conversation already is — an RNN's cheap decoding, with attention's fully parallel training.",
       costs:
-        "The shared-normalization competition that softmax provided is gone — the state is a lossy running summary, not an exact per-key memory. A plain additive write can only accumulate; it has no way to correct or overwrite an earlier association once it's baked into the state.",
+        "Softmax's built-in competition between keys — one gaining weight necessarily costs another — is gone; what's left is a lossy running summary rather than an exact per-key memory. And a plain running total can only add new information in, never revise something it already committed to.",
       chooseWhen:
-        "You need genuinely unbounded-length streaming or decoding at fixed memory and can tolerate a compressed, non-exact memory of everything that happened earlier.",
+        "Streaming or generation needs to run for an effectively unbounded length at fixed memory, and an approximate, compressed memory of everything earlier is an acceptable trade.",
       fixedBy: ["delta-rule"],
     },
 
@@ -370,20 +377,24 @@ window.SESSION_DATA = (function () {
       date: "2021-04-20",
       dateDisplay: "20 Apr 2021",
       threads: ["position", "extend"],
-      title: "RoPE (Rotary Position Embedding)",
-      tagline: "Response to: absolute position schemes only indirectly express relative distance, and learned-absolute has a hard length wall.",
+      title: "Encode Position as a Rotation",
+      tagline: "A cleaner fix for the position problem than either the sine waves or the trainable table managed.",
       sourceId: "rope2021",
+      era: {
+        title: "2021 — position gets rebuilt from scratch",
+        blurb: "Both existing position schemes bake a position into a vector once, at the bottom of the network, and hope later layers can recover relative distance from it. Two very different ideas this year both try to make the score itself carry that distance directly.",
+      },
       problem:
-        "Both sinusoidal-added and learned-absolute position schemes bake position into the input vector once, so relative distance has to be re-derived indirectly by later layers rather than showing up directly in the attention score — and learned-absolute additionally has a hard length ceiling.",
+        "Both earlier schemes bake a position into the vector once, at the very bottom of the network, and leave it to later layers to indirectly reconstruct anything relative from that. The trainable version also can't be asked about a position it never allocated a row for.",
       mechanism:
-        "Instead of adding a position vector, rotate each query and key by an angle proportional to its position (pairing up dimensions and rotating each 2D pair, at several different frequencies). A dot product only depends on the angle between two vectors, so the two absolute rotations cancel and only the relative offset (i−j) survives inside the score.",
+        "Instead of adding a position vector, rotate the query and key vectors themselves — pair up their dimensions, treat each pair as a 2D point, and spin it by an angle proportional to the token's position, at several different speeds across the different pairs. A dot product only cares about the angle between two vectors, so when both are rotated, their individual, absolute rotations cancel out and only the gap between their positions survives inside the score.",
       buys:
-        "Relative position is now built directly into the attention score itself. The rotation formula is defined at any position — no fixed-size lookup table, no architectural length ceiling in the formula. Shifting a whole sequence forward leaves nearby-token relationships unchanged.",
+        "Relative position becomes a property of the score itself, not something later layers have to infer. The rotation formula is defined at any position you plug in — there's no table to run out of rows. And shifting an entire sequence forward changes nothing about how nearby tokens relate to each other.",
       costs:
-        "Being calculable at a position is not the same as the model having learned to use that position well — evaluating the rotation formula far past the trained length doesn't guarantee good behavior there (this exact gap is what every extension method below has to address). Adds a small, fixed rotation cost per layer.",
+        "Being computable at a distant position isn't the same as the network having actually learned to behave well there — a rotation angle far outside anything seen in training is still new territory, whatever the formula says. This exact gap is what every extension method further down this page exists to address. There's also a small, constant rotation cost added to every layer.",
       chooseWhen:
-        "You want relative-position-aware attention with no architectural length ceiling baked into the formula, with rotation frequencies tuned to the intended training length — today's default for almost every open decoder-only LLM.",
-      fixedBy: ["alibi", "ntk-aware", "yarn"],
+        "You want the score to explicitly reflect relative distance with no hard length ceiling built into the mechanism, tuned around your intended training length — the default starting point for most current models.",
+      fixedBy: ["alibi", "ntk-aware", "yarn", "drope"],
     },
 
     {
@@ -391,19 +402,19 @@ window.SESSION_DATA = (function () {
       date: "2021-08-27",
       dateDisplay: "27 Aug 2021",
       threads: ["position", "extend"],
-      title: "ALiBi (Attention with Linear Biases)",
-      tagline: "Response to: models trained short still need to run reliably long, without any rotation machinery.",
+      title: "Skip Position Entirely, Just Penalize Distance",
+      tagline: "The same year's second answer: what if the simplest possible fix generalizes better than the elegant one?",
       sourceId: "alibi2021",
       problem:
-        "Sinusoidal and learned-absolute embeddings extrapolate badly past the trained length. RoPE is at least defined at any length, but how well the model actually behaves that far out is still an open question, and it requires per-head rotation machinery.",
+        "Both earlier vector-based position schemes extrapolate badly once you ask a model to run longer than it trained. Rotation is at least mathematically defined out there, but whether the model actually behaves sensibly at those distances is still an open question, and it comes with real machinery to implement.",
       mechanism:
-        "Add no positional embedding at all. Instead, subtract a fixed, non-learned penalty m·(i−j) from the raw attention score, proportional to the distance between query and key, with a different fixed slope m per head — baked directly into the score before softmax.",
+        "Don't encode position anywhere near the vectors at all. Instead, before softmax, directly subtract a penalty from each raw attention score, proportional to how far apart the query and key are — with a different fixed steepness per head, never learned, never adjusted.",
       buys:
-        "Trains at a short context and reliably extrapolates to much longer test-time sequences with no fine-tuning. Zero extra learned parameters and one of the simplest mechanisms on this whole timeline.",
+        "A model trained on short sequences reliably keeps working on much longer ones with no extra fine-tuning at all. No new learned parameters, and about as few moving parts as a position scheme can have.",
       costs:
-        "The distance penalty is a fixed, hand-set inductive bias (recency preference) that the model cannot freely override — tasks that genuinely need to weight a distant token above a nearby one are fighting the bias by construction. Largely superseded in adoption by RoPE-plus-extension in most current frontier LLMs.",
+        "That distance penalty is a fixed opinion, not something the network can override — a task that genuinely needs to weight something far away above something nearby is fighting the mechanism itself. In practice, most current large models chose the rotation-based approach plus a separate extension method instead.",
       chooseWhen:
-        "Extrapolation robustness at inference time matters more than architectural flexibility, or you want the fewest possible moving parts.",
+        "Reliable behavior far past the training length matters more than architectural flexibility, or you want the smallest possible number of moving parts.",
     },
 
     {
@@ -412,19 +423,23 @@ window.SESSION_DATA = (function () {
       date: "2022-05-27",
       dateDisplay: "27 May 2022",
       threads: ["systems", "compute"],
-      title: "FlashAttention",
-      tagline: "Bonus — not on the assignment's minimum list. Response to: exact attention was slower than its own FLOP count, because it was I/O-bound.",
+      title: "Make the Exact Version Faster Instead",
+      tagline: "Not on any required list — but the story has a gap without it. A detour through hardware, not algorithms.",
       sourceId: "flashAttention2022",
+      era: {
+        title: "2022 — a year that isn't about the algorithm at all",
+        blurb: "Everything before this either approximated the math or changed it outright. This one changes neither — it just refuses to accept that exact attention has to be slow.",
+      },
       problem:
-        "Sparse and linear attention approximate their way around the O(T²) compute bill, but exact softmax attention itself was slower and more memory-hungry than its FLOP count alone suggested — naive implementations materialize the full T×T score matrix in slow GPU HBM memory, so attention was bottlenecked on memory I/O, not arithmetic.",
+        "Every approximate method above works around the quadratic cost by changing what gets computed. But naive exact attention was slower than its own arithmetic should require, because it was writing the entire T×T score matrix out to slow accelerator memory and reading it straight back — the bottleneck was data movement, not the multiplications themselves.",
       mechanism:
-        "Tile Q, K and V into blocks that fit in fast on-chip SRAM, compute softmax incrementally block-by-block (“onfline”/online softmax) so the full T×T matrix is never written to slow memory, and recompute instead of store during the backward pass.",
+        "Break Q, K and V into blocks small enough to fit in an accelerator's fast on-chip memory, run softmax incrementally as those blocks stream through, and never materialize the full T×T matrix in slow memory at all. Recompute what's needed during the backward pass instead of storing it.",
       buys:
-        "The exact same mathematical output as standard attention — no approximation, no quality trade-off — at dramatically lower wall-clock time and memory. Pushes exact attention's practical context-length ceiling up simply by fixing a systems bottleneck, not the algorithm.",
+        "The identical output exact attention always produced — no approximation anywhere — at a fraction of the wall-clock time and memory, simply by fixing where the bottleneck actually was.",
       costs:
-        "The asymptotic O(T²) compute scaling itself is unchanged — this is a (very large) constant-factor systems win, not a new algorithm. The kernel implementation is hardware-specific and non-trivial to port to new accelerators.",
+        "The number of arithmetic operations doesn't change — this is a large constant-factor win, not a new complexity class. And the specific implementation is tied closely to how a given accelerator's memory hierarchy works, which means porting it isn't free.",
       chooseWhen:
-        "Essentially always, when running exact attention — this is now the default execution kernel underneath nearly every mechanism on this timeline, not a competing “instead of” choice.",
+        "Essentially always, whenever exact attention is being run at all — by now this sits underneath most of the other mechanisms on this page rather than competing with them.",
     },
 
     {
@@ -432,19 +447,23 @@ window.SESSION_DATA = (function () {
       date: "2023-05-22",
       dateDisplay: "22 May 2023",
       threads: ["memory"],
-      title: "GQA (Grouped-Query Attention)",
-      tagline: "Response to: MQA saves the most cache but costs the most quality — nothing sat in between.",
+      title: "A Dial Between the Two Extremes",
+      tagline: "Four years after the memory problem first appeared, someone put a knob on the trade-off instead of picking one end of it.",
       sourceId: "gqa2023",
+      era: {
+        title: "2023 — the year everything happens at once",
+        blurb: "Four separate ideas land within five months of each other, each attacking a different weak point that had been quietly accumulating: cache size, extrapolation past training length, and what happens when a fixed window runs forever.",
+      },
       problem:
-        "MQA's single shared K/V head saves the most cache but costs the most quality. Ordinary multi-head attention keeps full quality but the full cache. Nothing offered a tunable middle ground.",
+        "Sharing keys and values down to a single pair saves the most cache but costs the most quality; keeping a full separate pair per head keeps all the quality but none of the savings. Nothing sat in between.",
       mechanism:
-        "Split query heads into g groups; each group shares one K/V head (g=1 recovers MQA, g=num_heads recovers ordinary MHA). Existing MHA checkpoints can be cheaply “uptrained” into GQA — about 5% of the original pretraining compute — by mean-pooling existing K/V heads within each group.",
+        "Split the query heads into a handful of groups, and let each group share one key/value pair — one group recovers full sharing, as many groups as heads recovers no sharing at all. An existing full-head model can be cheaply converted by averaging its existing key/value heads within each new group, rather than starting over.",
       buys:
-        "A tunable knob between MQA's cache savings and MHA's quality — e.g. 8 groups instead of 32 heads gives a 4× cache reduction with much smaller quality loss than full MQA. Became the practical default across LLaMA 2/3, Mistral, Gemma, Qwen and DeepSeek.",
+        "A dial, not a binary choice — a modest number of groups gives most of the cache savings with much less quality lost than collapsing to one pair. This became the practical default across essentially every open large model shipped afterward.",
       costs:
-        "Still linear in context length: cache size ∝ kv_heads × T. GQA lowers the slope of that line; it does not stop the line from growing. At very long context, the cache still eventually dominates memory.",
+        "The cache still grows with sequence length; grouping only changes the slope of that line, not the fact that it keeps climbing. At sufficiently long context, it still eventually dominates memory.",
       chooseWhen:
-        "Almost always, for any modern decoder LLM balancing serving cost against quality — the live question is how many groups, not whether to group at all.",
+        "Almost always, for any model balancing serving cost against quality — the live question by this point is how many groups, not whether to group.",
       fixedBy: ["mla"],
     },
 
@@ -453,22 +472,22 @@ window.SESSION_DATA = (function () {
       date: "2023-06",
       dateDisplay: "Jun 2023",
       threads: ["extend", "position"],
-      title: "NTK-Aware Scaled RoPE",
-      tagline: "Response to: naively stretching every RoPE angle by one factor crushes local resolution.",
+      title: "Stretch the Rotation, Unevenly",
+      tagline: "Not a paper — a forum post that changed how everyone thought about pushing rotation past its training length.",
       sourceId: "ntkAware2023",
       isCommunitySource: true,
       problem:
-        "Naively stretching all RoPE rotation angles by a fixed factor (“position interpolation”) to reach a longer context crushes the fine, high-frequency dimensions RoPE uses to distinguish nearby tokens — local attention resolution degrades even though the model can now nominally “reach” farther.",
+        "The obvious way to reach a longer context with rotation-based position is to squeeze every position index by a fixed factor before rotating. It works, but it squeezes the fine-grained, high-frequency rotations the model actually relies on to tell adjacent tokens apart — local precision gets damaged in exchange for reach.",
       mechanism:
-        "Change RoPE's base frequency instead of linearly rescaling every position. This stretches the low-frequency (long-range) dimensions much more than the high-frequency (local) ones — an uneven, “neural-tangent-kernel-inspired” rescaling that treats different frequency bands differently.",
+        "Instead of rescaling every position by the same factor, change the base of the rotation formula itself, so the slow-moving (long-range) components get stretched much more than the fast-moving (local) ones — an uneven adjustment rather than a uniform squeeze.",
       buys:
-        "Extends usable context with noticeably less damage to local/nearby-token resolution than naive linear interpolation, and needs no fine-tuning to get a rough win.",
+        "Meaningfully less damage to nearby-token precision than the uniform squeeze, and it needs no retraining at all to get a real improvement.",
       costs:
-        "Still a single global rescaling formula — it treats every frequency band with one rule rather than tailoring each band individually, so quality still degrades noticeably at more aggressive extension factors.",
+        "It's still one global formula applied to every frequency at once — coarser than treating each frequency band on its own terms, which shows up as real quality loss once the extension factor gets aggressive.",
       chooseWhen:
-        "You need a fast, no-fine-tuning context stretch and can accept a partial quality hit. Mostly superseded by YaRN for anything where quality matters.",
+        "A fast, no-retraining context stretch is worth a partial quality hit. Mostly displaced a few months later by the more careful version below.",
       footnote:
-        "No peer-reviewed paper exists for this one — the primary source is a community forum post. It's included because the YaRN paper itself credits and formalizes it, and because a chronology that skips community-origin ideas would misrepresent how this particular thread of the field actually moved.",
+        "There is no peer-reviewed paper behind this one — the original source is a public forum post. It earns a place here anyway because the more formal method that followed explicitly builds on and credits it, and leaving out ideas that started outside a journal would misrepresent how this particular thread of the story actually moved.",
       fixedBy: ["yarn"],
     },
 
@@ -477,19 +496,19 @@ window.SESSION_DATA = (function () {
       date: "2023-08-31",
       dateDisplay: "31 Aug 2023",
       threads: ["extend", "position"],
-      title: "YaRN",
-      tagline: "Response to: one global rescaling formula is still too blunt an instrument.",
+      title: "Three Bands Instead of One Formula",
+      tagline: "The forum idea, formalized and sharpened two months later.",
       sourceId: "yarn2023",
       problem:
-        "NTK-aware scaling improves on naive linear interpolation but still applies one formula uniformly across the whole frequency spectrum. Some frequency bands need interpolation, some don't, and the ones in between need a smooth transition — and stretching positions also drifts softmax's effective temperature.",
+        "Stretching the rotation base unevenly beats a uniform squeeze, but it's still one rule applied everywhere. Some frequency bands need real stretching, some barely need any, and the ones in between need a smooth handoff rather than a hard edge — and stretching positions also quietly shifts how sharp or diffuse softmax's output ends up being.",
       mechanism:
-        "“NTK-by-parts”: split RoPE's frequency spectrum into three bands — high-frequency (local) dimensions left un-interpolated, low-frequency (global) dimensions linearly interpolated, and a ramp function smoothly blending the middle band — combined with a small attention-temperature correction.",
+        "Split the rotation's frequency spectrum into three regions: leave the fastest, most local frequencies alone entirely, stretch the slowest, most global ones the way the uneven method above does, and blend smoothly through a middle band — plus a small correction to softmax's effective sharpness.",
       buys:
-        "State-of-the-art context extension using only a tiny fraction of the original pretraining tokens' worth of fine-tuning. The current standard method for stretching a RoPE model's context after the fact.",
+        "State-of-the-art context extension for a small fraction of what the original training run cost — this became, and largely still is, the standard way to stretch a rotation-based model's context after the fact.",
       costs:
-        "More implementation complexity than NTK-aware or linear interpolation (three bands plus a temperature term to tune). Still an extension, not native long-context training — the model was never actually trained at the extended length, so competence there is evidence, not a guarantee (the same gap the DroPE card below flags explicitly).",
+        "More moving parts than either earlier method — three bands and a temperature correction to get right. And it's still an extension of a shorter training run, not the genuine article: the model was never actually trained at the longer length, so how well it performs there is evidence, not a guarantee.",
       chooseWhen:
-        "You have a model trained at a shorter context and need to responsibly stretch it further with a small fine-tuning budget, rather than paying for native long-context pretraining.",
+        "A model already trained at a shorter context needs to responsibly reach further, and a small fine-tuning budget is available rather than the cost of training long from the start.",
     },
 
     {
@@ -497,19 +516,21 @@ window.SESSION_DATA = (function () {
       date: "2023-09-29",
       dateDisplay: "29 Sep 2023",
       threads: ["memory", "extend"],
-      title: "Attention Sinks (StreamingLLM)",
-      tagline: "Response to: fixed-size sliding-window caches catastrophically break once the earliest tokens are evicted.",
+      title: "Keep the First Few Tokens Forever",
+      tagline: "A fix for a specific, ugly failure mode: what a fixed local window does when a conversation runs forever.",
       sourceId: "streamingLLM2023",
       problem:
-        "For genuinely unbounded streaming generation, a fixed-size sliding-window cache has to evict the oldest tokens to stay within budget — and once the very first few tokens are evicted, perplexity catastrophically explodes, even though those first tokens rarely carry meaningful content themselves.",
+        "A model serving a genuinely endless stream — a long-running chat, a live transcript — using a fixed local window has to evict the oldest tokens to stay within budget. The moment the very first few tokens get evicted, output quality falls off a cliff, even though those first tokens rarely carried any content worth remembering.",
       mechanism:
-        "Softmax always needs somewhere to dump attention mass it doesn't want to use elsewhere, and models learn to dump it on the first few tokens regardless of their content — these become “attention sinks.” Fix: always keep a small, fixed number of initial tokens in the cache permanently, alongside the sliding recent window, even after they would otherwise be evicted.",
+        "Softmax always has to put its attention mass somewhere, even when nothing in the current window is truly relevant — and it turns out models learn to dump that unwanted mass onto the first few tokens by default, regardless of what they contain. So: keep a small, fixed number of the very first tokens permanently in the cache, in addition to the sliding window of recent ones, and never evict them.",
       buys:
-        "Stable perplexity for effectively unbounded-length streaming generation at a small, fixed KV-cache size — often with no fine-tuning required, since sink slots can sometimes be added post-hoc.",
+        "Stable output over an effectively unlimited stream at a small, fixed memory budget — and it often works without retraining at all, since it's really just changing what gets evicted.",
       costs:
-        "The kept sink tokens act purely as a pressure-release valve for attention, not a genuine long-term memory — content from the middle of a long-evicted history is still gone. Models trained without expecting this eviction pattern only partially benefit unless retrained with a dedicated sink token.",
+        "Those pinned tokens function as a release valve for attention, not a real memory — anything from the middle of a long-since-evicted stretch is genuinely gone. Models trained with no expectation of this eviction pattern benefit only partially unless they're retrained with it in mind.",
       chooseWhen:
-        "The deployment is a long-running or effectively infinite chat/streaming session with a hard memory budget, and stability over unbounded length matters more than perfect recall of everything said.",
+        "The deployment is a long-running or effectively endless session under a hard memory budget, where staying stable matters more than recalling everything that was ever said.",
+      footnote:
+        "Two weeks after this shipped, a widely-used open model shipped its own local-window attention paired with the head-grouping trick from earlier — without adopting this fix. A good reminder that a solved problem and a widely-deployed solution aren't the same event.",
     },
 
     {
@@ -517,19 +538,23 @@ window.SESSION_DATA = (function () {
       date: "2024-05-07",
       dateDisplay: "7 May 2024",
       threads: ["memory", "compress"],
-      title: "MLA (Multi-Head Latent Attention)",
-      tagline: "Response to: GQA lowers the KV-cache slope, but it's still a line that grows forever.",
+      title: "Cache a Compressed Summary, Not the Real Thing",
+      tagline: "The head-grouping dial lowered the slope of the cache-growth line. This attacks the line's height instead.",
       sourceId: "mla2024",
+      era: {
+        title: "2024 — memory gets more literal, and starts learning to forget",
+        blurb: "One idea this year asks whether the cache itself needs to store real keys and values, or just enough to reconstruct them. A different idea, a month later, asks whether a running state needs to only ever accumulate, or whether it can actually correct itself.",
+      },
       problem:
-        "GQA lowers the KV-cache slope by sharing heads, but cache size is still linear in context length, and it still stores full per-head-dimension keys/values for every retained group. At very long context or very large models, that's still a lot of memory per token.",
+        "Grouping query heads onto shared keys and values lowers how fast the cache grows with sequence length, but it's still storing full-width keys and values for whatever's left after grouping — and cache size is still, fundamentally, linear in context length.",
       mechanism:
-        "Instead of caching full-width K/V per head (or per group), project K and V down into one small, shared, low-rank latent vector per token, and cache only that compressed latent. Reconstruct the full-size keys/values from it on the fly, with RoPE applied to a small decoupled slice to preserve position information.",
+        "Rather than caching full-size keys and values at all, compress each token down into one small, shared low-rank vector and cache only that. Reconstruct the full-size keys and values from the compressed vector on the fly when they're actually needed, keeping a small separate slice for position information.",
       buys:
-        "A KV cache dramatically smaller than even GQA's at matched or better quality — DeepSeek-V2 reports performance exceeding standard MHA while needing a far smaller cache. Per-token storage is now a fixed, small latent width rather than something that scales with head count.",
+        "A cache meaningfully smaller than even the grouped version, at matched or better quality — the model that introduced this reported beating full, ungrouped attention on benchmarks while needing a far smaller cache to do it.",
       costs:
-        "Meaningfully more architectural complexity — the low-rank projection/reconstruction machinery and the decoupled-RoPE trick don't exist in a plain MHA/GQA layer. Still linear in T, just with a much smaller constant in front of it.",
+        "Real added complexity — the compress-then-reconstruct machinery, plus a separate way of handling position, don't exist in a simpler design. And it's still linear in sequence length, just with a much smaller constant multiplying it.",
       chooseWhen:
-        "You're building or serving a very large model where per-token KV-cache footprint is the dominant serving cost, and the extra architectural machinery to shrink it is worth paying for.",
+        "Serving cost per token is the dominant expense at the scale you're operating at, and the extra architectural machinery to shrink it is worth the engineering cost.",
     },
 
     {
@@ -537,19 +562,19 @@ window.SESSION_DATA = (function () {
       date: "2024-06-10",
       dateDisplay: "10 Jun 2024",
       threads: ["recurrent"],
-      title: "The Delta Rule / DeltaNet",
-      tagline: "Response to: a fixed-size linear-attention state can only accumulate — it can never correct an old association.",
+      title: "Teach the Running State to Correct Itself",
+      tagline: "The fixed-size running state from 2020 could grow. It still couldn't ever change its mind.",
       sourceId: "deltaNet2024",
       problem:
-        "Linear attention's fixed-size state (2020) can only accumulate — writing a new key-value association just adds to whatever is already there, so it can never revise or overwrite an outdated one. If a key currently returns 40 but should now return 55, a plain add-only write computes 40+55=95, which is simply wrong.",
+        "A running-total state can only ever add new contributions in — it has no way to revise something it already committed to. Concretely: if a stored association currently reports 30 for some key, but the right answer is now 70, adding the new value on top gives 100, which is simply wrong. What's needed is a way to overwrite, not just accumulate.",
       mechanism:
-        "Before writing, read what the state currently returns for this key, compute the delta (the gap between that and the desired new value), and write only the correction: new_state = old_state + key ⊗ (value − old_state·key). A hardware-efficient parallel algorithm, built on products of Householder matrices, makes this practical to train at scale despite the update looking inherently sequential.",
+        "Before writing anything, read what the state currently returns for a given key, work out the gap between that and the value you actually want it to return, and write only that gap. If the state returns 30 and should return 70, the correction is 40, and 30 + 40 lands exactly on 70 — not 30 + 70. A hardware-friendly algorithm, built around products of simple reflection matrices, makes this practical to train at real scale despite looking sequential on paper.",
       buys:
-        "A fixed-size recurrent state that can genuinely be edited, not just grown — meaningfully better perplexity and downstream performance than plain linear attention or contemporaneous state-space baselines (Mamba) at matched scale.",
+        "A fixed-size state that can genuinely be edited, not just grown — a meaningful jump in quality over a plain running-total state and over other constant-memory baselines from around the same time, at matched scale.",
       costs:
-        "More computation per step than a plain additive linear-attention write (a state-dependent correction, not a simple accumulation). Still a compressed, lossy summary of the past compared to exact softmax attention with a full KV cache.",
+        "More arithmetic per step than a plain accumulation, since every write now requires a read-and-compare first. And it's still a compressed summary of everything that happened — nowhere near as exact as keeping the real keys and values around.",
       chooseWhen:
-        "You want RNN-like O(1) decoding memory but need the state to be genuinely revisable — e.g. as a fixed-state layer type mixed into a broader depth schedule alongside occasional exact-attention layers.",
+        "Constant-memory, RNN-style decoding is the goal, but the state genuinely needs to be revisable rather than purely additive — often as one layer type mixed into a design that also keeps some exact-attention layers.",
       fixedBy: ["gated-delta-net"],
     },
 
@@ -558,19 +583,19 @@ window.SESSION_DATA = (function () {
       date: "2024-12-09",
       dateDisplay: "9 Dec 2024",
       threads: ["recurrent"],
-      title: "Gated DeltaNet",
-      tagline: "Response to: the delta rule can correct old state, but it never forgets any of it.",
+      title: "Now Teach It to Forget, Too",
+      tagline: "Correcting old information is one skill. Deciding it no longer matters at all is a different one.",
       sourceId: "gatedDeltaNet2024",
       problem:
-        "The plain delta rule can correct old associations, but has no notion of forgetting — irrelevant old state sticks around indefinitely, with no way to say “this part of memory is unimportant now, decay it,” the way state-space models like Mamba2's gating already could.",
+        "The correction mechanism above can fix a wrong association, but it has no notion of an association simply becoming irrelevant — there's no way to say \"discount this part of the state,\" the way other constant-memory designs built around explicit forgetting already could.",
       mechanism:
-        "Add a learned, per-step gating term that scales how much of the existing state is retained before the delta-rule correction is applied — combining Mamba2-style adaptive forgetting with DeltaNet-style targeted correction in one update rule.",
+        "Add a learned, per-step gate that scales down how much of the existing state survives before the correction is applied — combining an adaptive-forgetting mechanism with the targeted correction from the previous idea, in one update.",
       buys:
-        "Consistently surpasses both plain Mamba2 (which forgets but can't precisely correct) and plain DeltaNet (which corrects but can't decay) on language modeling, in-context retrieval and length-extrapolation benchmarks.",
+        "Consistently outperforms both a purely-forgetting design and a purely-correcting one on language modeling, in-context retrieval, and extrapolation to longer sequences than trained on.",
       costs:
-        "One more learned gating mechanism to tune per layer/head. Still a compressed fixed-size state — no amount of gating recovers information about a specific old token once the state has actually discarded it.",
+        "One more learned mechanism to get right per layer or head. And no amount of gating brings back information the state has already actually discarded — forgetting is still forgetting.",
       chooseWhen:
-        "Choosing among modern fixed-state (“linear”/recurrent) layer types for a hybrid depth schedule — currently one of the strongest available options in that family.",
+        "Choosing among constant-memory layer designs for a mixed architecture — currently one of the strongest options in that family.",
     },
 
     {
@@ -578,42 +603,49 @@ window.SESSION_DATA = (function () {
       date: "2025-02-16",
       dateDisplay: "16 Feb 2025",
       threads: ["sparse", "compress", "systems"],
-      title: "DeepSeek's Compressed Sparse Attention (NSA)",
-      tagline: "Response to: sparse attention and KV-cache compression each cut one cost, but rarely both at once and rarely at real hardware speed.",
+      title: "Sparsity Comes Back, Built for the Hardware",
+      tagline: "The 2019 idea — look at fewer keys — returns, but this time trained in from the start and built around how accelerators actually move data.",
       sourceId: "nsa2025",
+      era: {
+        title: "2025 — sparsity, taken seriously again",
+        blurb: "Skipping most of the sequence was the very first idea in this story, back in 2019. It never went away, but it also never fully solved its own founding problem: finding the few keys worth reading is supposed to be cheap, and for years it mostly wasn't.",
+      },
       problem:
-        "Sparse attention (2019) and MLA-style compression (2024) each attack one cost, but most sparse-attention systems were either retrofit onto an already-pretrained dense model (not trained sparse from scratch) or not aligned with how GPUs actually execute — leaving real wall-clock speedups on the table. Separately, top-k selection still needs a cheap way to find good candidate blocks without first scoring everything densely (the exact gap flagged back at the 2019 sparse-attention card).",
+        "Looking at fewer keys and compressing the cache each solve one cost, but most earlier sparse-attention designs were bolted onto an already-trained dense model rather than trained sparse from the start, and weren't built with real accelerator memory movement in mind — leaving real speed on the table even where the arithmetic looked cheaper. And the founding problem from 2019 was still open: proposing a short list of good candidate keys is supposed to be cheap, but naive proposal methods still have to look at everything first.",
       mechanism:
-        "Combine three attention branches per query: (1) compressed attention over block summaries of the whole history — coarse, cheap, always on; (2) selected attention, which uses a small, cheap low-rank indexer to pick the top-k most relevant compressed blocks and re-reads their real tokens; and (3) a local sliding window for nearby precision. Trained natively from scratch — not bolted on after pretraining — with kernels designed around real GPU arithmetic intensity.",
+        "Give every query three parallel ways to read the past: a cheap, always-on pass over compressed summaries of blocks of history; a more expensive pass that re-reads the real tokens inside only the top few blocks, chosen by a small, cheap scoring network rather than by scoring everything in full; and a local window for immediate neighbors. Trained sparse from the very first step, with the low-level kernels built around the accelerator's actual memory bandwidth.",
       buys:
-        "Long-context training and inference that is both algorithmically sparse and genuinely hardware-efficient — measured wall-clock speedups, not just fewer FLOPs on paper — while matching or beating full dense attention on downstream benchmarks. The low-rank indexer makes candidate proposal itself cheap, closing the “naive top-k still scores everything” gap.",
+        "Long-context training and serving that's sparse in a way that translates into measured wall-clock speed, not just a smaller number on paper — while matching or beating dense attention on downstream benchmarks. The cheap scoring network genuinely closes the old \"proposing candidates still costs as much as scoring everything\" gap.",
       costs:
-        "Compression trades away token-level detail — several tokens now share one block summary. Top-k selection is still approximate; a genuinely useful key living in a low-ranked block can be missed. Three attention branches is meaningfully more complex to implement and train than one dense or one sparse call.",
+        "Summarizing blocks of tokens loses token-level detail by construction. The candidate selection is still approximate — a genuinely useful key sitting in a block that didn't make the shortlist can be missed entirely. And three parallel read paths are a meaningfully bigger system to implement and train correctly than one dense or one sparse call.",
       chooseWhen:
-        "Training a large model natively for very long context from scratch, where both training-time compute and serving-time memory need to be sparse-cheap simultaneously, and the extra system complexity is worth the throughput.",
+        "Training a large model natively for very long context, where both training compute and serving memory need to be cheap at the same time, and the added system complexity is worth the throughput it buys.",
     },
 
     {
       id: "drope",
-      date: null,
-      dateDisplay: "unverified — course-internal only",
-      threads: ["extend"],
-      title: "DroPE",
-      tagline: "Flagged, not asserted. Response to (as recorded): stretching a short-trained model's context 32× without native long-context pretraining.",
-      sourceId: "drope_unverified",
-      isUnverified: true,
+      date: "2025-12-13",
+      dateDisplay: "13 Dec 2025",
+      threads: ["extend", "position"],
+      title: "Train With Rotation, Then Take It Away",
+      tagline: "Four years after rotation-based position first appeared, someone asked whether it needs to stick around forever.",
+      sourceId: "drope2025",
+      era: {
+        title: "2025, ten months later — the thread closes",
+        blurb: "Every rotation-stretching method in this story shares one unavoidable piece of math: to keep the rotation's phase inside familiar territory at a longer length, the slow, long-range frequencies have to be compressed hardest — exactly the frequencies that content-based, \"what does this token mean\" attention relies on. This is the first idea that doesn't try to stretch the rotation more carefully. It removes it.",
+      },
       problem:
-        "As recorded in this course's own material: a model trained at a short context (8K tokens) needs to serve a much longer one (256K) cheaply, without paying for native long-context pretraining.",
+        "Every rescaling method above — the uneven stretch, the three-band version — runs into the same wall, and it isn't a tuning mistake, it's arithmetic: to keep the rotation's phase inside the range the model actually trained on, the slow-moving frequencies have to be compressed by roughly the same factor as the context extension itself. Those are exactly the frequencies long-range, content-based attention leans on, so every rescaling method, however carefully tuned, ends up quietly distorting the attention patterns it's trying to extend.",
       mechanism:
-        "As recorded, and explicitly not fully published: “positional recalibration, applied before annealing” — described only as a training-time step, not as a fully specified algorithm. No independently reviewable formula, code, or paper is available to check what it actually changes.",
+        "Train the model with rotation-based position as usual for most of pretraining — rotation genuinely helps a model learn positional structure quickly, and skipping it from the start makes early training measurably slower and worse, since attention heads have no shortcut for developing directional bias. Then, once training is mostly finished, remove the positional rotation from the architecture entirely, converting the model to one with no explicit position mechanism at all, and run a short recalibration at the original, short training length — no long-sequence data required. With no rotation left to keep in-distribution, there's no phase to compress and nothing left to warp.",
       buys:
-        "As recorded: a reported 32× context extension (8K → 256K) for one specific model and training run.",
+        "Zero-shot context extension that beats the rescaling methods above on long-context retrieval benchmarks, for a recalibration budget as small as roughly half a percent to a few percent of the original training cost, depending on model size — far cheaper than training long from scratch.",
       costs:
-        "This is the one card on this page with no checkable primary source. The class notes are explicit that this is evidence for one model and procedure, not a general method — the exact algorithm and which rotary dimensions it touches were never disclosed. There is also a real, unrelated, published paper with an almost-identical name — “DRoPE: Directional Rotary Position Embedding” (arXiv:2503.15029, Mar 2025) — for agent-trajectory modeling, a completely different problem domain. They are not the same technique; conflating them would be exactly the kind of confident-but-wrong claim this assignment warns about.",
+        "This isn't a replacement for training with rotation — a model trained with no position mechanism from the very first step converges far more slowly and performs worse throughout training, since it has nothing to lean on early. So this only works as a scheduled hand-off: rotation first, then remove it. It also needs a real, if short, recalibration pass, and at larger recalibration budgets needed extra normalization to stay numerically stable.",
       chooseWhen:
-        "Not applicable outside its own reported run. Treat any claim about “DroPE” as unverified until an external primary source (paper, released code, or model card) actually exists.",
+        "A model already trained with rotation-based position needs to reliably serve far beyond its original context, and a small recalibration bill is preferable to either a rescaling method's quality loss or the cost of training long from the very beginning.",
       footnote:
-        "This card is included because the assignment's minimum list names it — dropping it silently would look like an oversight rather than a deliberate, disclosed gap. The honest move is to keep the slot and say plainly what is and isn't known, which is what the professor's own warning about Session 7 was asking for.",
+        "Worth flagging by name, since the resemblance is easy to trip over: there is a separate, unrelated paper with an almost identical name for rotary embeddings in autonomous-agent trajectory modeling — different authors, different field, no connection to context extension at all. Getting the two confused would be exactly the kind of mistake that's easy to make with quiet confidence and never notice.",
     },
   ];
 

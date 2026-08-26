@@ -1,11 +1,9 @@
 /* ============================================================
-   SESSION 8 — Modern Attention Variants
-   Base tokens + shared components copied verbatim from the
-   Session 7 dark template so the ERA look-and-feel stays
-   consistent; new blocks for the timeline + widgets below.
+   HOW DOES ATTENTION WORK NOW?
+   A chronological, narrated field guide to attention mechanisms.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Reset & Base ───────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -161,20 +159,23 @@ body {
   display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.15);
   border: 1px solid rgba(99,102,241,0.3); border-radius: 100px; padding: 4px 12px;
   font-size: 11px; font-weight: 600; color: var(--indigo); letter-spacing: 0.5px;
-  text-transform: uppercase; margin-bottom: 20px;
+  text-transform: uppercase; margin-bottom: 20px; position: relative; z-index: 1;
 }
 .hero h1 {
-  font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.15;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(30px, 3.8vw, 48px); font-weight: 600; letter-spacing: -1px; line-height: 1.1;
   background: linear-gradient(135deg, #f1f5f9 0%, #c4b5fd 50%, #fb7185 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  max-width: 740px; margin-bottom: 16px;
+  max-width: 780px; margin-bottom: 16px; position: relative; z-index: 1;
 }
 [data-theme="light"] .hero h1 {
   background: linear-gradient(135deg, #1e293b 0%, #6366f1 50%, #e11d48 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.hero p { color: var(--text-secondary); font-size: 15px; max-width: 680px; line-height: 1.7; margin-bottom: 32px; }
-.hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+.hero p { font-family: 'Fraunces', Georgia, serif; font-weight: 400; color: var(--text-secondary); font-size: 16.5px; max-width: 680px; line-height: 1.75; margin-bottom: 32px; position: relative; z-index: 1; }
+.hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.6; pointer-events: none; }
+[data-theme="light"] .hero-canvas { opacity: 0.35; }
+.hero-stats { display: flex; gap: 32px; flex-wrap: wrap; position: relative; z-index: 1; }
 .hero-stat  { display: flex; flex-direction: column; gap: 2px; }
 .hero-stat .val { font-size: 26px; font-weight: 800; letter-spacing: -1px; color: var(--text-primary); }
 .hero-stat .lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -279,8 +280,42 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 .footer a:hover { text-decoration: underline; }
 
 /* ============================================================
-   SESSION 8 — new components: timeline + widgets
+   Narrative components: reading progress, era interludes,
+   scroll-reveal, timeline + widgets
    ============================================================ */
+
+/* ── Reading progress bar ───────────────────────────────────── */
+.reading-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--indigo), var(--purple), var(--rose));
+  z-index: 10000; transition: width 0.1s linear;
+}
+
+/* ── Serif editorial voice, used for narrative lead-ins ─────── */
+.editorial { font-family: 'Fraunces', Georgia, serif; }
+.lede {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px; line-height: 1.65; color: var(--text-primary);
+  font-weight: 400; max-width: 760px;
+}
+.lede em { font-style: italic; color: var(--purple); }
+
+/* ── Scroll reveal ───────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s cubic-bezier(0.2,0.7,0.3,1), transform 0.7s cubic-bezier(0.2,0.7,0.3,1); }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+/* ── Era interlude — a breathing space between chapters of the
+   timeline, deliberately not aligned to the dot spine so it reads
+   as a pause in the narration rather than another timeline entry ── */
+.era-interlude {
+  margin: 8px 0 26px 0; padding: 4px 0 4px 18px;
+  border-left: 2px solid var(--purple);
+}
+.era-title {
+  font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 500;
+  font-size: 21px; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.2px;
+}
+.era-blurb { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; max-width: 700px; }
 
 /* ── Thread legend / filter ─────────────────────────────────── */
 .thread-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
@@ -316,7 +351,6 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
   box-shadow: var(--shadow-card); overflow: hidden;
 }
 .tl-node.is-baseline .tl-card { border-color: var(--border-glow); box-shadow: var(--shadow-glow); }
-.tl-node.is-unverified .tl-card { border-style: dashed; border-color: rgba(244,63,94,0.4); }
 
 .tl-head { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
 .tl-headrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -326,14 +360,18 @@ h4.microhead { font-size: 12.5px; font-weight: 700; color: var(--text-primary); 
 }
 .tl-threads { display: flex; gap: 6px; flex-wrap: wrap; }
 .tl-thread-tag { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 2px 8px; border-radius: 100px; }
-.tl-title { font-size: 18px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px; }
-.tl-tagline { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; max-width: 760px; }
+.tl-title { font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.3px; }
+.tl-tagline { font-size: 13px; font-style: italic; color: var(--text-secondary); line-height: 1.55; max-width: 760px; }
 
-.tl-body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 16px; }
-.tl-block { display: flex; flex-direction: column; gap: 4px; }
+.tl-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 18px; }
+.tl-block { display: flex; flex-direction: column; gap: 6px; }
 .tl-block-label { font-size: 10px; font-weight: 800; letter-spacing: 0.7px; text-transform: uppercase; color: var(--text-muted); }
-.tl-block-text { font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; }
+.tl-block-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
 .tl-block-text strong { color: var(--text-primary); }
+.tl-block.is-lede .tl-block-text {
+  font-family: 'Fraunces', Georgia, serif; font-size: 15.5px; line-height: 1.6;
+  color: var(--text-primary); font-weight: 400;
+}
 
 .tl-triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .tl-triad-item { background: var(--bg-card-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; border-top: 3px solid var(--border); }

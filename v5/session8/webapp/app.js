@@ -1,8 +1,9 @@
 /* ============================================================
-   SESSION 8 — app.js
-   Renders the hero stats, thread legend, chronological timeline,
-   cheat sheet and reference list from data.js, and wires up every
-   interactive widget (flagship + embedded mini-widgets).
+   app.js — renders the hero stats, thread legend, chronological
+   timeline, cheat sheet and reference list from data.js, and
+   wires up every interactive widget (flagship + embedded
+   mini-widgets), plus the narrative scaffolding: era interludes,
+   scroll-reveal, reading progress, and the hero canvas.
    ============================================================ */
 
 (function () {
@@ -40,14 +41,11 @@
   /* ── Hero stats ──────────────────────────────────────────── */
   function renderHeroStats() {
     const total = TIMELINE.length;
-    const verified = TIMELINE.filter(n => !n.isUnverified).length;
-    const flagged = TIMELINE.filter(n => n.isUnverified).length;
-    const first = TIMELINE[0].dateDisplay.split(" ").slice(-1)[0] || "2017";
-    const last = TIMELINE[TIMELINE.length - 2]; // last dated (unverified is final card)
+    const communitySourced = TIMELINE.filter(n => n.isCommunitySource).length;
     el("stat-count").textContent = total;
     el("stat-range").textContent = "2017 → 2025";
-    el("stat-sourced").textContent = verified + " / " + total;
-    el("stat-flagged").textContent = flagged;
+    el("stat-sourced").textContent = total + " / " + total;
+    el("stat-flagged").textContent = communitySourced;
     el("stat-threads").textContent = THREADS.length;
   }
 
@@ -120,20 +118,26 @@
     return `<span class="tl-fixedby">Addressed later by: <span>${titles.join(", ")}</span></span>`;
   }
 
+  function eraInterludeHTML(node) {
+    if (!node.era) return "";
+    return `<div class="era-interlude reveal">
+      <div class="era-title">${esc(node.era.title)}</div>
+      <div class="era-blurb">${esc(node.era.blurb)}</div>
+    </div>`;
+  }
+
   function cardHTML(node, index) {
     const badges = [];
-    if (node.isBaseline) badges.push(`<span class="badge badge-blue">Baseline</span>`);
-    if (node.isBonus) badges.push(`<span class="badge badge-purple">Bonus — beyond minimum list</span>`);
-    if (node.isUnverified) badges.push(`<span class="badge badge-red">⚠ Unverified — no external source</span>`);
-    if (node.isCommunitySource) badges.push(`<span class="badge badge-yellow">Community source, not peer-reviewed</span>`);
+    if (node.isBaseline) badges.push(`<span class="badge badge-blue">Where it all starts</span>`);
+    if (node.isBonus) badges.push(`<span class="badge badge-purple">Not on the required list — included anyway</span>`);
+    if (node.isCommunitySource) badges.push(`<span class="badge badge-yellow">Community post, not peer-reviewed</span>`);
 
-    const nodeClasses = ["tl-node"];
+    const nodeClasses = ["tl-node", "reveal"];
     if (node.isBaseline) nodeClasses.push("is-baseline");
-    if (node.isUnverified) nodeClasses.push("is-unverified");
 
     const dotColor = threadById[node.threads[0]] ? threadById[node.threads[0]].color : "var(--indigo)";
 
-    return `
+    return `${eraInterludeHTML(node)}
       <div class="${nodeClasses.join(" ")}" id="tl-${node.id}" data-threads="${node.threads.join(",")}">
         <div class="tl-dot" style="border-color:${dotColor}"></div>
         <div class="tl-card">
@@ -147,12 +151,12 @@
             <div class="tl-tagline">${esc(node.tagline)}</div>
           </div>
           <div class="tl-body">
-            <div class="tl-block">
-              <span class="tl-block-label">Problem it hit</span>
+            <div class="tl-block is-lede">
+              <span class="tl-block-label">The situation</span>
               <span class="tl-block-text">${esc(node.problem)}</span>
             </div>
             <div class="tl-block">
-              <span class="tl-block-label">What it does</span>
+              <span class="tl-block-label">The idea</span>
               <span class="tl-block-text">${esc(node.mechanism)}</span>
             </div>
             <div class="tl-triad">
@@ -377,7 +381,7 @@
   }
 
   /* ============================================================
-     WIDGET B — The Two Bills (compute vs KV-cache growth)
+     WIDGET B — What It Costs (compute vs KV-cache growth)
      ============================================================ */
   function initTwoBillsWidget() {
     const root = el("two-bills-widget");
@@ -414,7 +418,7 @@
         <div class="bills-readout"><div class="br-label">KV cache · one conversation</div><div class="br-val amber" id="bills-cache-one"></div></div>
         <div class="bills-readout"><div class="br-label">KV cache · all concurrent</div><div class="br-val amber" id="bills-cache-all"></div></div>
       </div>
-      <p class="mw-readout" style="margin-top:12px;">Reference config matches the class notes' own worked example (48 layers · 8 KV heads · head_dim 128 · bf16) — at T=32,768 this formula gives <b>6.44 GB</b> for one user, reconciling exactly with the lesson.</p>
+      <p class="mw-readout" style="margin-top:12px;">Plug in a fairly ordinary mid-size model (48 layers · 8 KV heads · head_dim 128 · bf16) and the arithmetic is blunt: at T=32,768 tokens, one conversation's cache alone already costs <b>6.44 GB</b>.</p>
     `;
 
     const canvas = el("bills-canvas");
@@ -584,7 +588,7 @@
   function initDeltaWidget(nodeId) {
     const mount = el("mini-widget-" + nodeId);
     if (!mount) return;
-    const state = { oldVal: 40, newVal: 55 };
+    const state = { oldVal: 30, newVal: 70 };
 
     mount.innerHTML = `
       <div class="mini-widget">
@@ -825,6 +829,93 @@
     render();
   }
 
+  /* ── Reading progress bar ────────────────────────────────── */
+  function initReadingProgress() {
+    const bar = el("reading-progress");
+    if (!bar) return;
+    function update() {
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      const pct = scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0;
+      bar.style.width = pct + "%";
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  /* ── Scroll-reveal for narrative pacing ─────────────────── */
+  function initScrollReveal() {
+    const targets = document.querySelectorAll(".reveal");
+    if (!targets.length) return;
+    if (typeof IntersectionObserver === "undefined") {
+      targets.forEach(t => t.classList.add("in-view"));
+      return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    targets.forEach(t => obs.observe(t));
+  }
+
+  /* ── Hero canvas: a small live attention graph, purely decorative ── */
+  function initHeroCanvas() {
+    const canvas = el("hero-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const N = 14;
+    let nodes = [];
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width; canvas.height = rect.height;
+    }
+    function seed() {
+      nodes = Array.from({ length: N }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+      }));
+    }
+    function step(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+      });
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const a = nodes[i], b = nodes[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          const maxD = Math.min(canvas.width, canvas.height) * 0.32;
+          if (d < maxD) {
+            const w = (1 - d / maxD) * (0.55 + 0.45 * Math.sin(t / 900 + i + j));
+            if (w > 0.08) {
+              ctx.strokeStyle = `rgba(167,139,250,${(w * 0.5).toFixed(2)})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+        }
+      }
+      nodes.forEach(n => {
+        ctx.beginPath(); ctx.arc(n.x, n.y, 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(244,63,94,0.55)"; ctx.fill();
+      });
+      requestAnimationFrame(step);
+    }
+    resize(); seed();
+    window.addEventListener("resize", () => { resize(); seed(); });
+    requestAnimationFrame(step);
+  }
+
   /* ── Boot ────────────────────────────────────────────────── */
   document.addEventListener("DOMContentLoaded", function () {
     renderHeroStats();
@@ -835,5 +926,8 @@
     renderReferenceList();
     initCoreMechanismWidget();
     initTwoBillsWidget();
+    initHeroCanvas();
+    initReadingProgress();
+    initScrollReveal();
   });
 })();
