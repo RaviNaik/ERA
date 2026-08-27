@@ -1,0 +1,27 @@
+[project]
+name = "session9"
+version = "0.1.0"
+description = "Session 9 assignment: a correct, observable next-token loss harness, plus a t+2 multi-token-prediction head."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.4",
+    "tiktoken>=0.7",
+    "datasets>=2.20",
+    "aim>=3.19",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "tqdm>=4.66",
+    "ipykernel>=6.29",
+    "jupyter>=1.0",
+    "nbconvert>=7.16",
+]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu124" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/Scripts/python.exe -c ' *)",
+      "Bash(timeout 40 .venv/Scripts/python.exe -c ' *)",
+      "Bash(timeout 60 .venv/Scripts/python.exe -c ' *)",
+      "WebSearch",
+      "WebFetch(domain:arxiv.org)",
+      "Bash(powershell -Command \"Get-ChildItem 'd:\\\\ERA\\\\v5\\\\supporting_docs\\\\s7\\\\'\")",
+      "Bash(node \"C:\\\\Users\\\\ravi.naik\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--ERA\\\\dbf9c85d-9ddf-4664-a1b1-7d7a108fd940\\\\scratchpad\\\\smoke_test.js\")",
+      "PowerShell(Get-Process *)",
+      "Bash(uv --version)",
+      "Bash(nvidia-smi)",
+      "Bash(uv add *)",
+      "Bash(wsl --version)",
+      "Bash(wsl -l -v)",
+      "Bash(curl -s https://pypi.org/pypi/aim/json)",
+      "Bash(python -c ' *)",
+      "Bash(uv run python -c ' *)",
+      "Bash(cp /tmp/aim.json \"d:/ERA/v5/session9/aim_releases.json\")",
+      "Bash(rm \"d:/ERA/v5/session9/aim_releases.json\")",
+      "Bash(wsl *)"
+    ]
+  }
+}

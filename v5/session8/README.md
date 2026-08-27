@@ -5,7 +5,7 @@ attention to Sakana AI's DroPE — told strictly in the order each idea was
 actually published, so that each one reads as a reply to a limitation the
 previous one created, rather than as an alphabetized list of techniques.
 
-**🌐 Live app:** `[add your deployed Netlify/Vercel/Pages link here]`
+**🌐 Live app:** https://ravinaik.github.io/ERA/v5/session8/webapp/
 **📂 Source:** [`webapp/`](./webapp/) — `index.html`, `style.css`, `data.js`, `app.js`
 
 ---
@@ -20,8 +20,9 @@ not eighteen unrelated flash cards.
 Three things this write-up insists on:
 
 - **It starts from the bare mechanism, not a list of names.** `Q×K → scores
-  → scale → mask → softmax → weighted sum of V` is built live, from a small
-  worked example, before anything downstream is explained.
+  → scale → mask → softmax → weighted sum of V` is built live, one step at a
+  time, on a small worked sentence (*the bird fed its chicks* — deliberately
+  not the class-notes example), before anything downstream is explained.
 - **It is sorted by publication date, full stop.** Not by family, not by
   how it was taught, not by which idea "won." Related ideas are tagged with
   colour-coded threads (compute cost, cache memory, position, extension,
@@ -37,9 +38,9 @@ Three things this write-up insists on:
 
 | Section | What it does |
 |---|---|
-| **The Mechanism Itself** | A live, steppable walk through Q/K/V projection → raw scores → scaling → causal masking (turn it off and watch attention leak onto tokens that haven't happened yet) → softmax → weighted sum — computed in-browser from a real worked example, not a static diagram. |
-| **What It Costs** | An interactive compute-vs-cache growth chart. Slide the context length from 128 to 2,000,000 tokens and watch the quadratic compute curve and the linear cache curve pull apart; a live calculator shows what a fairly ordinary model's cache actually costs at any given length. |
-| **The Story** | 19 ideas, one card each, sorted strictly by date, broken into short era interludes so the pacing doesn't flatten into a spec sheet. Every card answers *what it buys, what it gives up, and when to actually reach for it*, links its primary source, and — where it earns one — carries a small interactive: a rotation-vs-distance demo, a state-correction calculator, a sliding-window eviction simulator, a head-sharing diagram, a cache-compression comparison, and a compress-then-select visual for the newest sparse-attention design. |
+| **The Mechanism Itself** | A live, step-by-step walk through Q/K/V projection → raw scores → scaling → causal masking (turn it off and watch attention leak onto words that haven't happened yet) → softmax → weighted sum — computed in-browser on the sentence *the bird fed its chicks*, with a plain-language "room full of people" analogy up front. Not a static diagram. |
+| **The Two Bills** | Both costs made concrete: a comparison grid that grows as T² next to a KV-cache stack that grows as T, a real GB calculator for a mid-size model, and an explicit callout framing the rest of the page as "which of these two meters does this idea push down." |
+| **The Story** | 19 ideas, one card each, sorted strictly by date, broken into short era interludes. Every card carries a **plain-words** one-liner, a **dedicated visual explainer of the mechanism itself** (sine-wave fingerprints, a position-table wall, a sparse/causal grid, head-sharing wiring, a widening sliding window, a growing-list-vs-fixed-state comparison, a RoPE rotation dial, an ALiBi distance ramp, a FlashAttention memory hierarchy, uneven frequency stretching, YaRN's three bands, sink eviction, MLA cache widths, the delta rule, a forget-gate decay chart, NSA compress-then-select, and the DroPE training schedule), the *buys / gives up / when to pick it* triad, a "moves the needle on" tag row, its primary source, and the hand-off to the next idea. |
 | **Quick Reference** | The whole story compressed to one row per idea, for a second pass. |
 | **Sources** | The full bibliography in story order, plus a note on the one entry that's easy to confuse with an unrelated paper of almost the same name. |
 

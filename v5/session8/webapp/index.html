@@ -36,7 +36,7 @@
         <span class="nav-icon">🎯</span> The Mechanism Itself
       </a>
       <a class="nav-item" href="#two-bills" data-target="two-bills">
-        <span class="nav-icon">🧾</span> What It Costs
+        <span class="nav-icon">🧾</span> The Two Bills
       </a>
       <a class="nav-item" href="#timeline" data-target="timeline">
         <span class="nav-icon">📈</span> The Story
@@ -130,151 +130,161 @@
           <span class="section-number">CHAPTER ONE</span>
           <h2 class="section-title">The Mechanism Itself</h2>
           <p class="section-desc">
-            Six small ideas, taken one at a time, computed live on the same four tokens
-            throughout. Nothing here is named before it's needed.
+            Six small ideas, one at a time, each one computed live on the same five words.
+            Nothing gets a name before you've felt why it's needed.
           </p>
         </div>
       </div>
 
       <p class="lede">
-        Picture four tokens sitting in a row — <em>The</em>, <em>cat</em>, <em>sat</em>,
-        <em>down</em>. Right now, each one is nothing more than a list of numbers, its
-        embedding. If two completely unrelated tokens happened to produce identical
-        embeddings, the network would have no way to tell them apart — a plain embedding
-        says nothing about what a token is looking for, what it actually holds, or who's
-        allowed to see it. Closing that gap, one small role at a time, is the entire rest
-        of this chapter.
+        Take a five-word sentence: <em>the bird fed its chicks</em>. Every word arrives as
+        nothing but a list of numbers. On its own, that list says nothing about what the
+        word is <em>looking for</em>, what it <em>advertises</em> about itself, or what it
+        would <em>hand over</em> if another word asked. The word <em>its</em>, in
+        particular, is stuck — it has no way to reach back and grab <em>bird</em>. Giving
+        every word those three abilities, one at a time, is the whole of this chapter.
       </p>
+
+      <div class="callout">
+        <div class="callout-label">💡 A picture to hold onto</div>
+        <div class="callout-body">
+          Think of a room full of people. Each person <strong>whispers a question</strong>
+          (the <em>query</em>), <strong>wears a name-tag</strong> describing what they know
+          (the <em>key</em>), and <strong>holds a parcel</strong> of information (the
+          <em>value</em>). Everyone reads every name-tag, works out whose tags best answer
+          their own question, and walks away holding a blended copy of those people's
+          parcels. That's one attention layer. The six steps below are just that idea,
+          done carefully with numbers.
+        </div>
+      </div>
 
       <!-- Concept 1: Query / Key / Value -->
       <div class="concept-step reveal">
         <p class="prose">
-          So before anything gets compared, every token's embedding is pushed through
-          three separate, independently learned projections. Nothing exotic — three
-          ordinary matrix multiplications — but keeping them separate matters: it lets what
-          a token is <em>asking about</em> look completely different from what it's
-          <em>actually carrying</em>, instead of forcing a token to be compared only against
-          a copy of itself.
+          Before any comparison happens, each word's number-list is passed through
+          <strong>three</strong> separate little transformations — three learned matrix
+          multiplies. Same input, three different outputs. Keeping them separate is the
+          point: what a word <em>asks about</em> can then look completely different from
+          what it <em>carries</em>, so a word isn't forced to only ever match a copy of
+          itself.
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">The same four tokens, split three ways</div>
+          <div class="concept-visual-label">The five words, each split into a query, a key and a value</div>
           <div id="concept-qkv"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          Those three rows have names: a <strong class="term">query</strong> (what this
-          token is looking for), a <strong class="term">key</strong> (what it advertises
-          about itself), and a <strong class="term">value</strong> (what it actually hands
-          over if chosen). Every one of them does a different job in the four steps below.
+          The three outputs have names: the <strong class="term">query</strong> (what this
+          word is looking for), the <strong class="term">key</strong> (what it advertises),
+          and the <strong class="term">value</strong> (what it hands over if picked). Each
+          one has a distinct job in the steps that follow.
         </p>
       </div>
 
       <!-- Concept 2: Attention scores -->
       <div class="concept-step reveal">
         <p class="prose">
-          With a question and an advertisement for every token, the network needs exactly
-          one number per pair, saying how well they match. The tool for that is almost
-          embarrassingly ordinary: multiply matching positions together and add them up — a
-          dot product. Line up every query against every key, and a grid falls out.
+          Now the network needs one number for every pair of words — how well does this
+          word's question match that word's name-tag? The tool is deliberately plain:
+          multiply the two lists position-by-position and add it all up. That's a
+          <strong>dot product</strong>. Do it for every query against every key and a grid
+          of numbers falls out.
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">Every query, compared against every key</div>
+          <div class="concept-visual-label">Every query (row) scored against every key (column)</div>
           <div id="concept-scores"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          That grid is the <strong class="term">attention score</strong> matrix, and it's
-          already readable: whichever key produces the largest number for a given query is
-          the token that query is, in effect, most interested in.
+          That grid is the <strong class="term">attention score</strong> matrix. It's
+          already readable: whichever column holds the biggest number in a row is the word
+          that row's word cares about most.
         </p>
       </div>
 
       <!-- Concept 3: Scaling -->
       <div class="concept-step reveal">
         <p class="prose">
-          There's a subtle problem hiding in that grid already, though. As the width of
-          each query and key grows, a plain dot product tends to grow right along with it —
-          not because the tokens are more related, purely because there are more terms
-          being multiplied and added. Left alone, that pushes the largest scores out to
-          where the next step stops being able to tell a strong match from an overwhelming
-          one apart.
+          There's a quiet problem in that grid. The wider the query and key lists get, the
+          bigger a plain dot product tends to be — not because the words are more related,
+          just because more numbers got added together. Left alone, that makes the biggest
+          scores so large that the next step can't tell "strong match" from "runaway
+          match."
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">The same grid, divided by √d_k</div>
+          <div class="concept-visual-label">The same grid, every number divided by √d<sub>k</sub></div>
           <div id="concept-scale"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          That one division is called <strong class="term">scaling</strong>. It's the
-          entire second step, and it exists purely so the step after it can still do its
-          job.
+          That single division is <strong class="term">scaling</strong>. It changes none
+          of the rankings — it just keeps the numbers in a range the next step can work
+          with.
         </p>
       </div>
 
       <!-- Concept 4: Masking -->
       <div class="concept-step reveal">
         <p class="prose">
-          One more wrinkle — specific to text generated left to right. Right now, every one
-          of these four tokens can see every other one, including tokens that, during real
-          generation, haven't been produced yet. Train on the whole sentence at once with
-          no safeguard, and the third token would be allowed to peek at the answer while
-          it's still supposed to be learning to predict it.
+          One rule applies only to text written left to right. Right now every word can see
+          every other word — including ones that, during real generation, haven't been
+          written yet. Train on the whole sentence at once with no guard and the word
+          <em>fed</em> gets to peek at <em>chicks</em> while it's still supposed to be
+          learning to predict it.
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">Flip the switch yourself</div>
+          <div class="concept-visual-label">Turn the mask off yourself and watch the leak</div>
           <div id="concept-mask"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          The fix: before the next step runs, force every score that looks into the future
-          to negative infinity. That's the <strong class="term">causal mask</strong> — and
-          above, you can turn it off and watch exactly what breaks without it.
+          The fix: force every score that looks forward in time to negative infinity before
+          the next step runs. That's the <strong class="term">causal mask</strong>. The
+          toggle above lets you switch it off and see exactly what breaks.
         </p>
       </div>
 
       <!-- Concept 5: Softmax -->
       <div class="concept-step reveal">
         <p class="prose">
-          Even scaled and masked, these are still just raw numbers — some negative, none of
-          them obligated to add up to anything in particular. What's needed is a way to
-          turn one row of scores into something that behaves like a set of odds: every
-          value positive, the whole row summing to one, so that handing more attention to
-          one token necessarily costs some other token attention.
+          Even scaled and masked, these are still raw numbers — some negative, not adding
+          up to anything in particular. What's needed is to turn one row into a set of
+          <strong>percentages</strong>: all positive, summing to 100%, so giving more
+          attention to one word necessarily takes it from another.
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">One row of scores, turned into a row of odds</div>
+          <div class="concept-visual-label">Each row of scores, turned into a row of percentages</div>
           <div id="concept-softmax"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          That normalizing step is <strong class="term">softmax</strong>, and the bars above
-          are its literal output for this exact example.
+          That step is <strong class="term">softmax</strong>. The bars above are its actual
+          output for this sentence — notice how <em>its</em> hands most of its attention to
+          <em>bird</em>.
         </p>
       </div>
 
       <!-- Concept 6: Weighted sum of V -->
       <div class="concept-step reveal">
         <p class="prose">
-          One ingredient has been sitting on the sidelines this whole time: value. Every
-          percentage from the last step is still just a percentage until it's actually used
-          to combine information. Multiply each token's value vector by the weight its
-          query assigned it, add all four together, and the result is a brand-new vector —
-          one that, for the first time, genuinely reflects the rest of the sentence instead
-          of just itself.
+          One ingredient has been waiting the whole time: the value parcels. Take each
+          word's value, multiply it by the percentage the query assigned it, and add them
+          all up. The result is a brand-new number-list for that word — the first one that
+          actually reflects the rest of the sentence and not just itself.
         </p>
         <div class="concept-visual">
-          <div class="concept-visual-label">Four weights, four values, one new vector per token</div>
+          <div class="concept-visual-label">Percentages × values, summed → one new vector per word</div>
           <div id="concept-output"><!-- rendered by app.js --></div>
         </div>
         <p class="prose">
-          That blend is the <strong class="term">weighted sum of V</strong> — and it's the
-          entire output of the layer. Six small ideas, and nothing about a token's meaning
-          is private anymore.
+          That blend is the <strong class="term">weighted sum of V</strong>, and it's the
+          whole output of the layer. Six small steps later, <em>its</em> is finally
+          carrying <em>bird</em> around inside it.
         </p>
       </div>
 
       <div class="concept-recap reveal">
         <div class="formula-box" style="text-align:center;">Q × K  →  scores  →  scale  →  mask  →  softmax  →  weighted sum of V</div>
         <p class="prose" style="margin-top:14px;">
-          That's the whole mechanism, precisely. Nowhere in it is there any notion of "this
-          sequence is too long" — and yet, run it on a long sequence, and two very real
-          costs appear that no single step above created by itself, but that the
-          combination guarantees. Those two costs, next.
+          That's the entire mechanism. Nowhere in it is there any notion of "this sequence
+          is too long" — yet run it on a long one and two very real costs appear that no
+          single step above caused alone, but that the combination guarantees. Those two
+          costs are next, and they're the frame for everything after.
         </p>
       </div>
     </section>
@@ -286,22 +296,23 @@
       <div class="section-header">
         <div class="section-title-wrap">
           <span class="section-number">CHAPTER TWO</span>
-          <h2 class="section-title">What It Costs</h2>
+          <h2 class="section-title">The Two Bills It Sends</h2>
           <p class="section-desc">
-            Comparing every token to every other token is a <strong>compute</strong> problem
-            that grows with the square of the sequence length. Remembering every token
-            during generation is a separate <strong>memory</strong> problem that grows in a
-            straight line — but per conversation, never shared. Drag the slider; nearly
-            every idea further down this page is legible as an answer to one of these two
-            curves.
+            Standard attention isn't something to fix — it bought exact, all-to-all access
+            in one move. But that move sends two bills whenever the sequence gets long. This
+            section makes both of them concrete, because they are the meters every idea in
+            the timeline is trying to push down.
           </p>
         </div>
       </div>
+      <p class="lede">
+        <strong>Bill 1 is compute:</strong> every word compares itself with every other
+        word, so the number of comparisons is T×T. <strong>Bill 2 is memory:</strong> to
+        generate text one word at a time, the model saves every earlier word's key and
+        value so it never recomputes them — and that saved history grows in a straight line
+        with T, once per conversation. Move the sliders and watch the two shapes pull apart.
+      </p>
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">🧾 Two curves, one slider</span>
-          <span class="badge badge-purple">A fairly ordinary model: 48 layers · 8 KV heads · head_dim 128 · bf16</span>
-        </div>
         <div class="card-body" id="two-bills-widget"><!-- rendered by app.js --></div>
       </div>
     </section>
