@@ -44,12 +44,19 @@ checked against the vocabulary size as a sanity anchor, tied vs. untied head
 parameter counts are compared, and peak memory is measured for an ordinary vs. a
 hand-written chunked cross-entropy.
 
-Part 2 adds a second output head that predicts `t+2` instead of `t+1`, trains it
-jointly with the original head, and compares how the two losses evolve.
+Part 2 adds a second output head that predicts `t+2`, trains it jointly with a
+`t+1` head on the same shared trunk, and compares how the two losses evolve.
 
-**Stack:** a `uv`-managed project, a small decoder-only transformer trained from
-scratch, WikiText-2 tokenized with the real GPT-2 BPE vocabulary (50,257 tokens),
-and [Aim](https://aimstack.io/) for tracking every run's params, metrics, and logs.
+**Stack:** a `uv`-managed project, a decoder-only transformer (~50M-parameter
+trunk: `d_model=512`, 8 layers, 8 heads) trained from scratch, **WikiText-103-raw**
+(~117M tokens) tokenized with the real GPT-2 BPE vocabulary (50,257 tokens), and
+[Aim](https://aimstack.io/) for tracking every run's params, metrics, and logs.
+
+> **Two run scales.** The defaults below are the *decent proxy scale* meant for a
+> GPU server. Setting the environment variable `S9_SMOKE=1` before launching
+> shrinks the model, dataset, and step count so the whole notebook runs
+> top-to-bottom on a CPU or a tiny GPU in a couple of minutes — that is what
+> `dry_run.py` uses to verify the notebook executes end-to-end before the real run.
 
 > The one rule this notebook takes seriously: **a target shift in the wrong
 > direction can produce a beautiful loss curve.** Every claim below is checked by
@@ -91,6 +98,34 @@ set_seed(1337)
 DEVICE = get_device()
 RESULTS = {}  # accumulates the headline numbers for the final summary
 
+# ---------------------------------------------------------------------------
+# Run configuration. Two scales, selected by the S9_SMOKE environment variable.
+#   S9_SMOKE unset / "0"  -> decent proxy scale, for a GPU server
+#   S9_SMOKE = "1"         -> tiny smoke scale, runs on CPU in ~2 min (dry_run.py)
+# Only the scale changes; every check, mask, and measurement below is identical.
+# ---------------------------------------------------------------------------
+SMOKE = os.environ.get("S9_SMOKE", "0") == "1"
+
+if SMOKE:
+    DATASET_CONFIG = "wikitext-2-raw-v1"
+    MAX_DOCS = 4000
+    D_MODEL, N_LAYERS, N_HEADS, MAX_SEQ_LEN = 128, 2, 2, 256
+    SEQ_LEN, BATCH_SIZE, N_STEPS = 64, 8, 20
+    MEM_N_TOKENS, MEM_CHUNK = 2048, 256
+else:
+    DATASET_CONFIG = "wikitext-103-raw-v1"
+    MAX_DOCS = None
+    D_MODEL, N_LAYERS, N_HEADS, MAX_SEQ_LEN = 512, 8, 8, 512
+    # batch 12 x seq 512 keeps the two full [B*T, V] logits tensors (one per head)
+    # within ~5 GB in fp32; raise BATCH_SIZE if the GPU server has room.
+    SEQ_LEN, BATCH_SIZE, N_STEPS = 512, 12, 4000
+    MEM_N_TOKENS, MEM_CHUNK = 16384, 1024
+
+print(f"run scale              : {'SMOKE' if SMOKE else 'FULL (decent proxy scale)'}")
+print(f"dataset config         : {DATASET_CONFIG}")
+print(f"model                  : d_model={D_MODEL} n_layers={N_LAYERS} n_heads={N_HEADS} max_seq_len={MAX_SEQ_LEN}")
+print(f"training               : seq_len={SEQ_LEN} batch_size={BATCH_SIZE} n_steps={N_STEPS}")
+
 # A small, fixed categorical palette used for every chart in this notebook:
 # blue for the t+1 head, amber for the t+2 head, gray for derived/sum series.
 # Chosen for light/dark legibility and blue/amber colorblind-safe separation.
@@ -121,10 +156,12 @@ print(f"numpy version          : {np.__version__}")
 md(r"""
 ## 1. Dataset & Tokenizer
 
-**Dataset:** [WikiText-2](https://huggingface.co/datasets/wikitext) (raw), loaded via
-`datasets`. Small enough to tokenize in seconds, real enough (genuine Wikipedia
-prose with real document/section boundaries) that the padding, packing, and shift
-checks below are checking something real rather than a synthetic toy.
+**Dataset:** [WikiText-103](https://huggingface.co/datasets/Salesforce/wikitext)
+(raw) at full scale (~117M GPT-2 tokens), or WikiText-2 (~2M tokens) under
+`S9_SMOKE=1`. Both are genuine Wikipedia prose with real document/section
+boundaries, so the padding, packing, and shift checks below are checking something
+real rather than a synthetic toy. Tokenized ids are cached under `.cache/` so
+re-running the notebook skips re-encoding.
 
 **Tokenizer:** GPT-2's BPE encoding via `tiktoken` — a real sub-word vocabulary of
 **50,257 tokens**. This matters for the "print the actual strings" check: with a
@@ -133,14 +170,14 @@ shifted by one position), which a toy char-level vocabulary would hide.
 """)
 
 code(r"""
-print("Loading WikiText-2-raw and tokenizing with GPT-2 BPE (tiktoken)...")
+print(f"Loading {DATASET_CONFIG} and tokenizing with GPT-2 BPE (tiktoken)...")
 enc = get_tokenizer()
 VOCAB_SIZE = enc.n_vocab
 print(f"tokenizer            : gpt2 (tiktoken)")
 print(f"vocab_size (V)        : {VOCAB_SIZE:,}")
 
 t0 = time.time()
-train_docs = load_and_tokenize(split="train")
+train_docs = load_and_tokenize(split="train", config=DATASET_CONFIG, max_docs=MAX_DOCS)
 print(f"\nloaded {len(train_docs):,} documents in {time.time()-t0:.1f}s")
 
 total_tokens = sum(len(d) for d in train_docs)
@@ -166,10 +203,10 @@ RESULTS["total_tokens"] = total_tokens
 md(r"""
 ## 2. Model
 
-A small decoder-only transformer: RMSNorm, pre-norm residual stream, a SwiGLU FFN,
-and ordinary causal multi-head self-attention. Deliberately small (fits comfortably
-on a laptop GPU) — the point of this assignment is the harness around the model,
-not the model's scale.
+A decoder-only transformer: RMSNorm, pre-norm residual stream, a SwiGLU FFN, and
+ordinary causal multi-head self-attention. At the full scale this is a ~50M-param
+trunk (`d_model=512`, 8 layers) — a real proxy-scale model, not a toy — while the
+assignment's focus stays on the harness around the model.
 
 Critically, **the trunk returns hidden states only.** `TinyGPT.forward` never
 touches the vocabulary. The output head is a separate module attached afterward,
@@ -179,7 +216,8 @@ second head in Part 2 without touching the trunk at all.
 """)
 
 code(r"""
-cfg = ModelConfig(vocab_size=VOCAB_SIZE, d_model=256, n_layers=4, n_heads=4, max_seq_len=256)
+cfg = ModelConfig(vocab_size=VOCAB_SIZE, d_model=D_MODEL, n_layers=N_LAYERS,
+                  n_heads=N_HEADS, max_seq_len=MAX_SEQ_LEN)
 
 model = TinyGPT(cfg).to(DEVICE)
 head = OutputHead(cfg.vocab_size, cfg.d_model, tied_weight=model.tok_emb.weight).to(DEVICE)
@@ -447,8 +485,9 @@ this point can be trusted.
 code(r"""
 print("Untrained-model perplexity sanity check\n")
 
-packed_check = pack_documents(train_docs, seq_len=128, n_sequences=8, seed=42)
-check_tokens, check_targets, _ = next(make_batches(packed_check, seq_len=128, batch_size=8))
+PPL_SEQ_LEN = min(128, MAX_SEQ_LEN)
+packed_check = pack_documents(train_docs, seq_len=PPL_SEQ_LEN, n_sequences=8, seed=42)
+check_tokens, check_targets, _ = next(make_batches(packed_check, seq_len=PPL_SEQ_LEN, batch_size=8))
 check_tokens = check_tokens.to(DEVICE)
 check_targets = check_targets.to(DEVICE)
 
@@ -529,7 +568,7 @@ the actual peak-memory measurement on a much larger one.
 """)
 
 code(r"""
-CHUNK = 256
+CHUNK = MEM_CHUNK
 
 print("Correctness check -- does chunking change the loss, or the gradients it produces?\n")
 check_hidden = torch.randn(4, 16, cfg.d_model, device=DEVICE, requires_grad=True)
@@ -562,7 +601,7 @@ print("PASS -- chunking changes memory, not the objective or its gradient." if m
       else "CHECK -- gradients disagree, something in the chunking is wrong.")
 
 print("\nPeak-memory measurement\n")
-N_TOKENS = 8192  # e.g. batch=16 x seq=512, flattened
+N_TOKENS = MEM_N_TOKENS  # flattened batch x seq the loss must score at once
 MEM_DTYPE = torch.bfloat16 if DEVICE.type == "cuda" else torch.float32
 
 hidden_mem = torch.randn(N_TOKENS, cfg.d_model, device=DEVICE, dtype=MEM_DTYPE, requires_grad=True)
@@ -657,7 +696,9 @@ aim_run = Run(repo=repo, experiment="session9-loss-harness")
 aim_run["hparams"] = {
     "d_model": cfg.d_model, "n_layers": cfg.n_layers, "n_heads": cfg.n_heads,
     "d_ff": cfg.d_ff, "vocab_size": cfg.vocab_size, "max_seq_len": cfg.max_seq_len,
-    "tokenizer": "gpt2 (tiktoken)", "dataset": "wikitext-2-raw-v1",
+    "tokenizer": "gpt2 (tiktoken)", "dataset": DATASET_CONFIG,
+    "seq_len": SEQ_LEN, "batch_size": BATCH_SIZE, "n_steps": N_STEPS,
+    "smoke": SMOKE,
 }
 print(f"Aim run hash   : {aim_run.hash}")
 print(f"Aim repo path   : {os.path.abspath('.')}")
@@ -671,17 +712,13 @@ print("hparams logged   :", json.dumps(aim_run["hparams"], indent=2))
 md(r"""
 ## 5. Baseline Training — Single Head, Predicts t+1
 
-A short training run of the ordinary single-head model on packed WikiText-2, logging
-loss and perplexity to Aim every step. This is the control run Part 2 is compared
-against: same architecture, same data, same step count, same seed — the only
-difference in Part 2 is a second head and a second loss term.
+A training run of the ordinary single-head model (one tied `t+1` head, the standard
+setup) on the packed corpus, logging loss and perplexity to Aim every step. This is
+the reference `t+1` curve; Part 2 then trains two untied heads (`t+1` and `t+2`)
+side by side on the same trunk, data, step count, and seed.
 """)
 
 code(r"""
-SEQ_LEN = 128
-BATCH_SIZE = 16
-N_STEPS = 300
-
 print(f"Training baseline (t+1 only): seq_len={SEQ_LEN} batch_size={BATCH_SIZE} steps={N_STEPS}\n")
 
 set_seed(1337)
@@ -689,7 +726,7 @@ baseline_model = TinyGPT(cfg).to(DEVICE)
 baseline_head = OutputHead(cfg.vocab_size, cfg.d_model, tied_weight=baseline_model.tok_emb.weight).to(DEVICE)
 opt = torch.optim.AdamW(collect_params(baseline_model, baseline_head), lr=3e-4)
 
-packed_train = pack_documents(train_docs, seq_len=SEQ_LEN, n_sequences=BATCH_SIZE * (N_STEPS + 2), seed=0)
+packed_train = pack_documents(train_docs, seq_len=SEQ_LEN, n_sequences=BATCH_SIZE * (N_STEPS + 8), seed=0)
 
 baseline_losses = []
 t0 = time.time()
@@ -740,11 +777,15 @@ plt.show()
 md(r"""
 ## 6. Part 2 — A Second Output Head Predicting t+2
 
-Same trunk, same data, same step count and seed as the baseline above. Two output
-heads sit on top of the shared hidden state: **Head 1** predicts `t+1` (tied to the
-embedding, same as baseline), **Head 2** predicts `t+2` (untied — there's no natural
-embedding row to tie a "two steps ahead" predictor to). The two losses are reported
-separately and summed; the sum is what gets optimized.
+Same trunk architecture, same packed corpus, same step count and seed as the
+baseline above (the only batching difference is a `seq_len+2` window so every input
+position has both a `t+1` and a `t+2` target). Two output heads sit on top of the
+shared hidden state: **Head 1** predicts `t+1`, **Head 2** predicts `t+2`. Both are
+**untied and architecturally identical** — the only difference is the target — so
+the loss gap between them measures exactly one thing: how much harder it is to
+predict two tokens ahead than one. The two losses are reported separately and
+summed; the sum is what gets optimized (added, not averaged, so each head pulls on
+the shared trunk with equal weight).
 """)
 
 code(r"""
@@ -769,17 +810,22 @@ print(f"Training MTP model (t+1 and t+2 jointly): seq_len={SEQ_LEN} batch_size={
 
 set_seed(1337)
 mtp_model = TinyGPT(cfg).to(DEVICE)
-head_t1 = OutputHead(cfg.vocab_size, cfg.d_model, tied_weight=mtp_model.tok_emb.weight).to(DEVICE)
+# Both heads UNTIED and architecturally identical -- the only thing that differs
+# is the target (t+1 vs t+2). Tying Head 1 to the embedding (as the baseline does)
+# would confound the comparison: any loss gap could be "t+2 is harder" OR "the
+# tied head is more constrained." Untying both isolates the prediction-distance
+# effect, which is what Part 2 is actually asking about.
+head_t1 = OutputHead(cfg.vocab_size, cfg.d_model, tied_weight=None).to(DEVICE)
 head_t2 = OutputHead(cfg.vocab_size, cfg.d_model, tied_weight=None).to(DEVICE)
 
-mtp_params = collect_params(mtp_model, head_t1, head_t2)  # dedups head_t1's tied weight against the trunk's
+mtp_params = collect_params(mtp_model, head_t1, head_t2)
 opt2 = torch.optim.AdamW(mtp_params, lr=3e-4)
 
-n_mtp_total = count_parameters(mtp_model) + count_parameters(head_t2)  # head_t1 tied, adds 0
-print(f"MTP model total parameters (trunk + tied head1 + untied head2): {n_mtp_total:,}")
-print(f"  (vs. baseline single-head model: {model_params:,}; extra cost is exactly head 2's {count_parameters(head_t2):,} params)\n")
+n_mtp_total = count_parameters(mtp_model) + count_parameters(head_t1) + count_parameters(head_t2)
+print(f"MTP model total parameters (trunk + untied head1 + untied head2): {n_mtp_total:,}")
+print(f"  each output head is a [{cfg.vocab_size:,} x {cfg.d_model}] matrix = {count_parameters(head_t2):,} params\n")
 
-packed_train2 = pack_documents(train_docs, seq_len=SEQ_LEN, n_sequences=BATCH_SIZE * (N_STEPS + 2), seed=0)
+packed_train2 = pack_documents(train_docs, seq_len=SEQ_LEN, n_sequences=BATCH_SIZE * (N_STEPS + 8), seed=0)
 
 loss1_hist, loss2_hist, sum_hist = [], [], []
 t0 = time.time()
@@ -836,14 +882,14 @@ md(r"""
 ### 6.1 What Happens to the Second Head's Loss
 
 Both heads share the same trunk, so anything that improves the shared hidden state
-helps both objectives at once — which is exactly why both curves fall together
-rather than independently. But predicting `t+2` is a strictly harder target than
-`t+1`: it has to survive one additional step of genuine uncertainty about what the
-text does next, so its irreducible entropy floor is higher than `t+1`'s even for a
-perfect model. The gap printed below is the direct evidence for that: Head 2's loss
-should sit above Head 1's for the entire run, and the *sum* is the actual quantity
-being optimized (both losses are added, not averaged, so Head 2 pulls just as hard
-on the shared trunk as Head 1 does).
+helps both objectives at once — which is why the two curves fall *together* rather
+than independently. But predicting `t+2` is a strictly harder target than `t+1`: it
+has to survive one additional step of genuine uncertainty about what the text does
+next, so its irreducible entropy floor is higher than `t+1`'s even for a perfect
+model. At step 0 both heads are random, so the gap is ~0 and pure noise; the
+expectation is that as training shapes the trunk, `L2` settles **above** `L1` and
+stays there. The cell below prints the actual gap over the whole run so you can
+read what happened rather than take the claim on trust.
 """)
 
 code(r"""
@@ -856,10 +902,17 @@ print(f"Head 2 (t+2): {loss2_hist[0]:.4f} -> {loss2_hist[-1]:.4f}   (drop of {lo
       f"ppl {perplexity(loss2_hist[0]):.0f} -> {perplexity(loss2_hist[-1]):.1f})")
 print(f"Sum          : {sum_hist[0]:.4f} -> {sum_hist[-1]:.4f}")
 
-print(f"\ngap (L2 - L1) at step 0     : {start_gap:+.4f} nats")
-print(f"gap (L2 - L1) at step {N_STEPS-1:<4}: {end_gap:+.4f} nats")
-direction = "narrowed" if abs(end_gap) < abs(start_gap) else "widened"
-print(f"the gap {direction} over training, but Head 2's loss stayed {'above' if end_gap > 0 else 'at or below'} Head 1's throughout.")
+gaps = np.array(loss2_hist) - np.array(loss1_hist)
+frac_above = float((gaps > 0).mean())
+# ignore the first ~10% of steps (random-init transient) when summarising
+tail = gaps[max(1, len(gaps) // 10):]
+print(f"\ngap (L2 - L1) at step 0        : {start_gap:+.4f} nats")
+print(f"gap (L2 - L1) at final step    : {end_gap:+.4f} nats")
+print(f"gap (L2 - L1) mean over run    : {gaps.mean():+.4f} nats")
+print(f"gap (L2 - L1) mean, after warmup: {tail.mean():+.4f} nats  (min {tail.min():+.4f}, max {tail.max():+.4f})")
+print(f"fraction of steps with L2 > L1 : {frac_above*100:.1f}%")
+verdict = "as expected: t+2 is the harder target" if tail.mean() > 0 else "NOT as expected -- inspect (too few steps? lr? scale?)"
+print(f"==> {verdict}")
 
 RESULTS["mtp"] = {
     "steps": N_STEPS,
@@ -867,6 +920,8 @@ RESULTS["mtp"] = {
     "head2_loss_start": loss2_hist[0], "head2_loss_end": loss2_hist[-1],
     "sum_start": sum_hist[0], "sum_end": sum_hist[-1],
     "gap_start": start_gap, "gap_end": end_gap,
+    "gap_mean": float(gaps.mean()), "gap_mean_after_warmup": float(tail.mean()),
+    "frac_steps_L2_above_L1": frac_above,
 }
 """)
 
@@ -946,9 +1001,17 @@ print(f"Head 2 (t+2) final loss : {RESULTS['mtp']['head2_loss_end']:.4f} nats")
 print(f"Sum (optimized)          : {RESULTS['mtp']['sum_end']:.4f} nats")
 print(f"gap (L2 - L1), start -> end : {RESULTS['mtp']['gap_start']:+.4f} -> {RESULTS['mtp']['gap_end']:+.4f}")
 
+RESULTS["smoke"] = SMOKE
+RESULTS["config"] = {
+    "dataset": DATASET_CONFIG, "d_model": cfg.d_model, "n_layers": cfg.n_layers,
+    "n_heads": cfg.n_heads, "seq_len": SEQ_LEN, "batch_size": BATCH_SIZE, "n_steps": N_STEPS,
+}
 with open("assets/results.json", "w") as f:
     json.dump(RESULTS, f, indent=2, default=str)
 print("\nWrote assets/results.json")
+if SMOKE:
+    print("\n*** SMOKE RUN — these numbers are from the tiny CPU config, not the real run. ***")
+    print("*** Re-run with S9_SMOKE unset on a GPU server for the numbers to report.   ***")
 """)
 
 md(r"""
@@ -960,11 +1023,12 @@ arithmetic, padding and document-boundary masking are shown to change the
 contributing-token count and the loss, perplexity lands near `ln(V)` as the sanity
 anchor it's meant to be, tied vs. untied head parameter counts are compared directly
 on this configuration, and peak memory is measured (not estimated) for both an
-ordinary and a hand-written chunked cross-entropy. Part 2's second head confirms the
-obvious-in-hindsight prediction: forecasting two tokens ahead is a harder,
-higher-entropy task than forecasting one, so its loss trails Head 1's for the whole
-run even though both fall together because they share one trunk. All of the above
-was tracked step-by-step in Aim, queryable independently of this notebook via
+ordinary and a hand-written chunked cross-entropy. Part 2 adds a second,
+architecturally identical untied head predicting `t+2`: once the random-init
+transient passes, its loss settles above the `t+1` head's — forecasting two tokens
+ahead is a harder, higher-entropy task — while both curves fall together because
+they share one trunk. All of the above was tracked step-by-step in Aim, queryable
+independently of this notebook via
 `aim up`.
 """)
 

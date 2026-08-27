@@ -14,6 +14,8 @@ you read them.
 
 from __future__ import annotations
 
+import hashlib
+import os
 from dataclasses import dataclass
 
 import tiktoken
@@ -38,34 +40,64 @@ class PackedCorpus:
     is_doc_start: torch.Tensor  # [N] bool
 
 
-def load_and_tokenize(split: str = "train", max_docs: int | None = None) -> list[list[int]]:
-    """Load WikiText-2-raw and tokenize each non-empty line as one document.
+def load_and_tokenize(
+    split: str = "train",
+    config: str = "wikitext-103-raw-v1",
+    max_docs: int | None = None,
+    cache_dir: str | None = ".cache",
+) -> list[list[int]]:
+    """Load a WikiText config and tokenize each non-empty line as one document.
 
     Returns a list of token-id lists (one per document), each ending
     implicitly at EOT when packed (EOT itself is inserted at pack time).
+
+    WikiText-103-raw (~117M GPT-2 tokens) is the default "decent size"
+    corpus; pass ``config="wikitext-2-raw-v1"`` for the ~2M-token smoke
+    corpus. Tokenized ids are cached under ``cache_dir`` keyed by
+    (config, split, max_docs) so repeat runs skip re-encoding.
     """
+    import pickle
+
+    key = f"{config}__{split}__{max_docs}"
+    cache_path = None
+    if cache_dir is not None:
+        os.makedirs(cache_dir, exist_ok=True)
+        digest = hashlib.md5(key.encode()).hexdigest()[:12]
+        cache_path = os.path.join(cache_dir, f"tok_{config}_{split}_{digest}.pkl")
+        if os.path.exists(cache_path):
+            with open(cache_path, "rb") as f:
+                return pickle.load(f)
+
     from datasets import load_dataset
 
     # "Salesforce/wikitext" is the current parquet-backed mirror of the classic
-    # WikiText-2 dataset; the original "wikitext" repo's loading script is no
+    # WikiText dataset; the original "wikitext" repo's loading script is no
     # longer compatible with recent huggingface_hub releases.
-    ds = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split=split)
+    ds = load_dataset("Salesforce/wikitext", config, split=split)
     enc = get_tokenizer()
 
+    # WikiText marks section headings like " = Title = " -- treat every
+    # non-empty line as its own "document" for packing purposes. This gives
+    # us plenty of genuine document boundaries to pack and mask. Encode in
+    # batches so a 117M-token corpus tokenizes in ~a minute, not many.
+    texts = [t.strip() for t in ds["text"]]
+    texts = [t for t in texts if t]
+
     docs: list[list[int]] = []
-    for row in ds:
-        text = row["text"].strip()
-        if not text:
-            continue
-        # WikiText marks section headings like " = Title = " -- treat every
-        # non-empty line as its own "document" for packing purposes. This
-        # gives us plenty of genuine document boundaries to pack and mask.
-        ids = enc.encode_ordinary(text)
-        if len(ids) < 4:
-            continue
-        docs.append(ids)
+    BATCH = 8192
+    for i in range(0, len(texts), BATCH):
+        for ids in enc.encode_ordinary_batch(texts[i : i + BATCH]):
+            if len(ids) < 4:
+                continue
+            docs.append(ids)
+            if max_docs is not None and len(docs) >= max_docs:
+                break
         if max_docs is not None and len(docs) >= max_docs:
             break
+
+    if cache_path is not None:
+        with open(cache_path, "wb") as f:
+            pickle.dump(docs, f, protocol=pickle.HIGHEST_PROTOCOL)
     return docs
 
 
@@ -82,7 +114,9 @@ def pack_documents(docs: list[list[int]], seq_len: int, n_sequences: int, seed: 
     stream: list[int] = []
     starts: list[bool] = []
     di = 0
-    target_len = seq_len * n_sequences + 1  # +1 so we have a target for the last position
+    # +2 so both a t+1 and a t+2 target exist for the last input position
+    # (make_batches only needs +1; make_mtp_batches needs +2).
+    target_len = seq_len * n_sequences + 2
     while len(stream) < target_len:
         doc = docs[order[di % len(order)]]
         di += 1

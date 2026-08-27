@@ -10,47 +10,253 @@ previous one created, rather than as an alphabetized list of techniques.
 
 ---
 
-## What this is
+# Question 1 — The web app
+
+## What it is
 
 A friend asks: *"how does attention actually work now?"* Not the 2017
 version — the current one, with everything that's happened to it since.
-This is the answer that would actually help them: one continuous story,
-not eighteen unrelated flash cards.
+This is the answer that would actually help them: **one continuous story,
+not eighteen unrelated flash cards.**
 
-Three things this write-up insists on:
+Three things the app insists on:
 
-- **It starts from the bare mechanism, not a list of names.** `Q×K → scores
-  → scale → mask → softmax → weighted sum of V` is built live, one step at a
-  time, on a small worked sentence (*the bird fed its chicks* — deliberately
-  not the class-notes example), before anything downstream is explained.
+- **It starts from the bare mechanism, not a list of names.** The pipeline
+  is built live, one step at a time, on a small worked sentence
+  (*the bird fed its chicks* — deliberately **not** the class-notes
+  example), before anything downstream is named.
 - **It is sorted by publication date, full stop.** Not by family, not by
-  how it was taught, not by which idea "won." Related ideas are tagged with
-  colour-coded threads (compute cost, cache memory, position, extension,
-  recurrence, sparsity, compression, systems) so you can watch the same
-  concern resurface years apart under a different name — but the order
-  itself never bends to group them.
-- **Every date was checked against its source, not assumed.** Dates are
-  exactly where confident-sounding storytelling can quietly be wrong — see
-  the correction below, which is a real example of that happening during
-  the making of this page.
+  how it was taught, not by which idea "won." Colour-coded threads let you
+  watch the same concern resurface years apart — but the order itself never
+  bends to group them.
+- **Every date was checked against its primary source, not assumed** — see
+  [the correction](#a-correction-made-honestly) further down, a real
+  example of that mattering.
 
-## What's inside
+## The mechanism, first
 
-| Section | What it does |
-|---|---|
-| **The Mechanism Itself** | A live, step-by-step walk through Q/K/V projection → raw scores → scaling → causal masking (turn it off and watch attention leak onto words that haven't happened yet) → softmax → weighted sum — computed in-browser on the sentence *the bird fed its chicks*, with a plain-language "room full of people" analogy up front. Not a static diagram. |
-| **The Two Bills** | Both costs made concrete: a comparison grid that grows as T² next to a KV-cache stack that grows as T, a real GB calculator for a mid-size model, and an explicit callout framing the rest of the page as "which of these two meters does this idea push down." |
-| **The Story** | 19 ideas, one card each, sorted strictly by date, broken into short era interludes. Every card carries a **plain-words** one-liner, a **dedicated visual explainer of the mechanism itself** (sine-wave fingerprints, a position-table wall, a sparse/causal grid, head-sharing wiring, a widening sliding window, a growing-list-vs-fixed-state comparison, a RoPE rotation dial, an ALiBi distance ramp, a FlashAttention memory hierarchy, uneven frequency stretching, YaRN's three bands, sink eviction, MLA cache widths, the delta rule, a forget-gate decay chart, NSA compress-then-select, and the DroPE training schedule), the *buys / gives up / when to pick it* triad, a "moves the needle on" tag row, its primary source, and the hand-off to the next idea. |
-| **Quick Reference** | The whole story compressed to one row per idea, for a second pass. |
-| **Sources** | The full bibliography in story order, plus a note on the one entry that's easy to confuse with an unrelated paper of almost the same name. |
+Chapter One computes all six steps live on the same five words:
+
+```mermaid
+flowchart LR
+    E["token<br/>embedding"] --> WQ["Wq"] & WK["Wk"] & WV["Wv"]
+    WQ --> Q["query<br/>what am I looking for?"]
+    WK --> K["key<br/>what do I advertise?"]
+    WV --> V["value<br/>what do I hand over?"]
+    Q --> DOT["Q · Kᵀ"]
+    K --> DOT
+    DOT --> SC["scores"] --> SL["÷ √dₖ<br/>(scale)"] --> M["+ causal mask<br/>(delete the future)"] --> SM["softmax<br/>(→ percentages)"] --> WS["Σ weight · V"]
+    V --> WS
+    WS --> O["a new vector per word,<br/>now carrying the rest<br/>of the sentence"]
+```
+
+Turn the causal mask **off** in the app and you watch attention weight
+land on words that haven't happened yet — the exact bug the mask exists to
+prevent.
+
+## The two bills
+
+Standard attention isn't something to fix. It bought exact, all-to-all
+access in one move — and that move sends **two bills** whenever the
+sequence gets long:
+
+```mermaid
+flowchart TD
+    A["Standard attention, 2017<br/>exact · all-to-all · no notion of order"]
+    A --> B["Bill 1 — Compute<br/>every word compares with every word<br/>T x T scores, grows as T squared"]
+    A --> C["Bill 2 — Memory<br/>keep K and V for every earlier word<br/>the KV cache, grows as T<br/>private to each conversation, never shared"]
+    A --> D["plus position<br/>swap two words and Q/K/V do not change —<br/>order has to come from somewhere else"]
+    B --> E["every idea in the timeline pushes down<br/>one of these three and pays for it elsewhere"]
+    C --> E
+    D --> E
+```
+
+The app makes both bills concrete — a comparison grid that grows as T²
+next to a KV-cache stack that grows as T, plus a real GB calculator for a
+mid-size model (48 layers · 8 KV heads · head\_dim 128 · bf16) — then
+frames the rest of the page as *"which meter does this idea move?"*
+
+## The story, sorted by date
+
+19 ideas, one card each. Every card carries: a **plain-words** one-liner, a
+**dedicated visual explainer of the mechanism itself**, the *buys / gives
+up / when to actually pick it* triad, a *"moves the needle on"* tag row,
+its primary source, and the hand-off sentence to the next idea.
+
+| # | Date | Mechanism | Built-in visualization |
+|---|---|---|---|
+| 1 | 2017-06-12 | Scaled dot-product attention | live 6-step pipeline on a real sentence |
+| 2 | 2017-06-12 | Sinusoidal positions | stacked sine waves → a per-position "fingerprint" |
+| 3 | 2018-06 | Learned position table | a grid of trained rows, then a hard wall at row N+1 |
+| 4 | 2019-04-23 | Sparse / strided attention | causal T×T grid, full vs. local+stride pattern toggle |
+| 5 | 2019-11-06 | Multi-Query Attention | 8 query heads wired to 1 shared K/V head |
+| 6 | 2020-04-10 | Sliding-window attention | band-diagonal grid widening with layer depth |
+| 7 | 2020-06-29 | Linear attention | growing (k,v) list vs. one fixed-size running state |
+| 8 | 2021-04-20 | RoPE | rotation dial — slide both words, the score doesn't move |
+| 9 | 2021-08-27 | ALiBi | raw score bars minus a linear distance penalty ramp |
+| 10 | 2022-05-27 | **FlashAttention** *(not on the list — added)* | HBM ↔ SRAM tiling, full T×T matrix never written |
+| 11 | 2023-05-22 | GQA | head-sharing dial: MHA · 8 → GQA · 2 → MQA · 1 |
+| 12 | 2023-06 | NTK-aware scaled RoPE | uniform squeeze vs. uneven per-frequency stretch |
+| 13 | 2023-08-31 | YaRN | frequency spectrum split into keep / blend / stretch bands |
+| 14 | 2023-09-29 | Attention sinks | sliding-window eviction sim, with and without pinned sinks |
+| 15 | 2024-05-07 | MLA | per-token cache width: MHA vs. GQA vs. compressed latent |
+| 16 | 2024-06-10 | Delta rule / DeltaNet | read → diff → write only the gap (30→70, not 100) |
+| 17 | 2024-12-09 | Gated DeltaNet | a per-step forget gate decaying a stale fact toward 0 |
+| 18 | 2025-02-16 | Native Sparse Attention | compress every block, re-read only the top-k in full |
+| 19 | 2025-12-13 | DroPE | train-with-rotation → remove → short recalibration schedule |
+
+### The shape of the story, once it's sorted by date
+
+```
+2017  exact, all-to-all attention, quadratic by construction
+2017  ↳ needs some notion of order                       → sine waves
+2018  ↳ order becomes just another trainable table        → learned positions
+2019  the compute bill bites  → look at fewer tokens       → sparse attention
+2019  the memory bill bites   → share keys/values          → multi-query attention
+2020  the sparse pattern gets shaped to the task           → sliding windows
+2020  what if the past were a running total, not a list?   → linear attention
+2021  position becomes a rotation, not an addition         → RoPE
+2021  ↳ or almost no position mechanism at all             → ALiBi
+2022  make the exact version fast instead of approximate   → FlashAttention
+2023  a dial between full sharing and none                 → GQA
+2023  stretch the rotation, unevenly                       → NTK-aware scaling
+2023  ↳ then more carefully, in three bands                → YaRN
+2023  fixed windows get a safety valve                     → attention sinks
+2024  compress the cache instead of just sharing it        → MLA
+2024  a running total learns to correct itself             → the delta rule
+2024  ↳ and then to forget, too                            → Gated DeltaNet
+2025  sparsity returns, built around real hardware         → Native Sparse Attention
+2025  and, at the very end: drop the rotation entirely     → DroPE
+```
 
 ## Design notes
 
 Fully static, dependency-free, no build step, no chart library — every
 number on the page is computed live from `data.js` by `app.js`, including
-the hand-drawn canvases (the score-matrix heatmaps, the cost-growth chart,
-the rotation demo). `data.js` is the single source of truth for the whole
-story; editing the chronology means editing one file.
+the hand-drawn SVG diagrams. `data.js` is the single source of truth for
+the whole story; editing the chronology means editing one file.
+
+---
+
+# Question 2 — What does the timeline actually show?
+
+*What I could see once the mechanisms were in date order that I could not
+see as a list.*
+
+```mermaid
+timeline
+    title The story in publication order
+    2017 : Scaled dot-product attention : Sinusoidal positions
+    2018 : Learned position tables
+    2019 : Sparse Transformers — the compute wall : Multi-Query Attention — the memory wall
+    2020 : Longformer / sliding window : Linear attention — recurrent state, first pass
+    2021 : RoPE : ALiBi
+    2022 : FlashAttention — no algorithm change at all
+    2023 : GQA : NTK-aware RoPE (a forum post) : YaRN : Attention sinks
+    2024 : MLA : Delta rule : Gated DeltaNet
+    2025 : Native Sparse Attention : DroPE
+```
+
+## Nine things visible in date order that a categorised list hides
+
+1. **The two bills were discovered twice, independently, seven months
+   apart, in 2019.** Sparse Transformers (Apr) attacked compute;
+   Multi-Query Attention (Nov) attacked KV-cache memory. Different teams,
+   different bottlenecks, neither urgent before long context. A list files
+   these under "sparsity" and "cache" and hides that they're twins.
+
+2. **Position was never solved — it was patched seven times.** Each patch
+   is a direct reply to the previous one's specific failure. A list says
+   "there are seven position schemes"; the timeline says "the field kept
+   failing at this and kept coming back."
+
+3. **Ideas return under new names, years later.** "Recurrence returns" and
+   "sparsity returns" are literally on the page as the same idea being
+   abandoned and revived:
+
+   ```mermaid
+   flowchart LR
+       subgraph SP["Sparsity: read fewer tokens per query"]
+           direction LR
+           S1["2019<br/>Sparse<br/>Transformers"] --> S2["2020<br/>Longformer"] --> S3["2025<br/>Native Sparse<br/>Attention"]
+       end
+       subgraph RC["Recurrent fixed-size state"]
+           direction LR
+           R1["2020<br/>Linear<br/>attention"] --> R2["2024<br/>Delta<br/>rule"] --> R3["2024<br/>Gated<br/>DeltaNet"]
+       end
+       subgraph PO["Position: never solved, only patched"]
+           direction LR
+           P1["2017<br/>sinusoidal"] --> P2["2018<br/>learned<br/>table"] --> P3["2021<br/>RoPE"] --> P4["2021<br/>ALiBi"] --> P5["2023<br/>NTK-aware"] --> P6["2023<br/>YaRN"] --> P7["2025<br/>DroPE"]
+       end
+   ```
+
+4. **The field's priorities visibly rotate** — along the exact arc the
+   brief predicted: exact global attention (2017) → cheaper decode memory
+   (2019) → position (2021) → longer context (2023) → recurrent state
+   returning (2024) → sparsity returning and compression getting more
+   aggressive (2025).
+
+5. **2022 is a gap year with no algorithm change.** FlashAttention only
+   makes the exact math fast by fixing memory traffic. In a taxonomy it
+   fits no family; in a timeline it's obviously "the year the field paused
+   to make exact attention cheap before continuing," and in retrospect it
+   sits underneath everything after it.
+
+6. **Community sources feed formal ones.** NTK-aware scaling (Jun 2023) is
+   a Reddit post with no paper; YaRN (Aug 2023) formalises and credits it
+   two months later. You watch the idea move from a forum to a method.
+
+7. **"Solved" ≠ "deployed."** Attention sinks shipped 29 Sep 2023; Mistral
+   7B shipped sliding-window attention *without* sinks two weeks later.
+
+8. **Staying power is uneven and only shows with dates.** RoPE (2021) and
+   GQA (2023) are still defaults; sinusoidal and learned tables were gone
+   within ~2 years; NTK was displaced by YaRN in two months. A list gives
+   every entry equal weight.
+
+9. **Nothing is strictly better.** Every entry buys against one of the two
+   2017 bills and spends on another, so the sequence cannot be read as
+   "attention improved over time" — only as "the field kept trading."
+
+**One correction the chronology forced:** the class notes place DroPE
+mid-story as an internal V4 training step. The actual public paper (Sakana
+AI, [arXiv:2512.12167](https://arxiv.org/abs/2512.12167), 13 Dec 2025)
+moves it to the very **end** of the timeline.
+
+## Mechanism not covered in class: **FlashAttention**
+
+| | |
+|---|---|
+| **Date** | **27 May 2022** (v1 arXiv submission) |
+| **Source** | Dao, Fu, Ermon, Rudra, Ré — *"FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness,"* [arXiv:2205.14135](https://arxiv.org/abs/2205.14135) (NeurIPS 2022). Date taken from the arXiv submission-history page (`[v1] Fri, 27 May 2022`). |
+| **Motivation** | Naive exact attention was slower than its own arithmetic — it wrote the full T×T score matrix out to slow HBM and read it back. The bottleneck was data movement, not FLOPs. |
+| **Mechanism** | Tile Q/K/V into blocks small enough to fit in on-chip SRAM, run softmax with a running statistic as blocks stream through, never materialise the full matrix; recompute what's needed in the backward pass instead of storing it. |
+| **Advantage** | Bit-identical output to standard attention, at a fraction of the wall-clock time and memory. |
+| **Cost** | Same FLOP count — a large constant-factor win, not a new complexity class; the kernel is tied to a specific accelerator's memory hierarchy. |
+| **Where it belongs** | 2022, between ALiBi and GQA — and, functionally, underneath every exact-attention system built since. |
+
+It is neither on the *"cover at minimum"* list nor taught anywhere in the
+session, and it's the most load-bearing omission: it's the reason exact
+attention is still competitive at all.
+
+### Two further out-of-list mechanisms, cited as context in the app
+
+- **Big Bird** — Zaheer et al., [arXiv:2007.14062](https://arxiv.org/abs/2007.14062),
+  **28 Jul 2020** (NeurIPS 2020): random + window + global sparse attention
+  with theoretical full-coverage guarantees. Noted alongside sparse attention.
+- **Mistral 7B** — Jiang et al., [arXiv:2310.06825](https://arxiv.org/abs/2310.06825),
+  **10 Oct 2023**: sliding-window attention + rolling-buffer KV cache in a
+  shipped production model — notably *without* attention sinks, two weeks
+  after the sinks paper. Noted alongside sliding window and sinks.
+
+### On the "cover at minimum" list, but not taught in the session
+
+The session notes jump from the causal mask straight to RoPE, and treat
+cache compression only as DeepSeek's sparse form. So **sinusoidal
+positions, learned absolute positions, ALiBi, sliding window, attention
+sinks, and MLA** appear in the assignment brief but are never actually
+explained in the lesson. The app builds all of them from their primary
+sources regardless.
 
 ---
 
@@ -92,87 +298,3 @@ NeurIPS 2020 — [arXiv:2007.14062](https://arxiv.org/abs/2007.14062), 28 Jul
 alongside sliding-window attention and attention sinks — including the
 detail that Mistral shipped sliding-window attention *without* attention
 sinks, two weeks after the sinks paper had already shipped).
-
-### A correction, made honestly
-
-Early research for this page turned up a name — *DroPE* — attached to a
-reported context-extension result, with no independently checkable source
-behind it: no paper, no code, nothing to verify the mechanism or the
-numbers against. The draft treated it that way — present in the story, but
-explicitly flagged as unconfirmed, rather than inventing a citation to
-paper over the gap.
-
-That flag turned out to be premature, not permanent. DroPE is real, public,
-and dated: **"Extending the Context of Pretrained LLMs by Dropping Their
-Positional Embeddings"** (Gelberg, Eguchi, Akiba, Cetin — Sakana AI,
-[arXiv:2512.12167](https://arxiv.org/abs/2512.12167), submitted 13 Dec
-2025), with a project page and released code. Once the actual source
-surfaced, the entry above was corrected to cite it properly — including its
-real date, which moves it to the very end of this timeline rather than
-wherever it had been provisionally placed.
-
-It is worth being precise about one more thing: DroPE is **not** the same
-technique as a different, unrelated paper with an almost identical name —
-*"DRoPE: Directional Rotary Position Embedding"*
-([arXiv:2503.15029](https://arxiv.org/abs/2503.15029), March 2025) — which
-addresses rotary embeddings for autonomous-agent trajectory modelling, a
-different field entirely. Both are cited separately above specifically so
-that resemblance can't cause a mix-up.
-
-The lesson generalizes past this one entry: a source not turning up on a
-first pass is evidence of a gap in the search, not proof the source doesn't
-exist. The honest response to "I can't verify this" is to say so plainly
-and keep looking — not to quietly assert a date anyway, and not to give up
-and drop the claim either.
-
-One more entry is worth a small caveat for the same reason: **NTK-aware
-scaled RoPE** has no peer-reviewed paper behind it at all — its primary
-source really is a forum post. It's kept in the story anyway because the
-formal method that followed a few months later explicitly credits and
-builds on it, and dropping community-origin ideas from the record would
-misrepresent how this particular thread actually moved.
-
----
-
-## The shape of the story, once it's sorted by date
-
-```
-2017  exact, all-to-all attention, quadratic by construction
-2017  ↳ needs some notion of order                      → sine waves
-2018  ↳ order becomes just another trainable table       → learned positions
-2019  the compute bill bites  → look at fewer tokens      → sparse attention
-2019  the memory bill bites   → share keys/values         → multi-query attention
-2020  the sparse pattern gets shaped to the task          → sliding windows
-2020  what if the past were a running total, not a list?  → linear attention
-2021  position becomes a rotation, not an addition        → RoPE
-2021  ↳ or no position mechanism at all                   → ALiBi
-2022  make the exact version fast instead of approximate  → FlashAttention
-2023  a dial between full sharing and none                → GQA
-2023  stretch the rotation, unevenly                      → NTK-aware scaling
-2023  ↳ then more carefully, in three bands                → YaRN
-2023  fixed windows get a safety valve                    → Attention Sinks
-2024  compress the cache instead of just sharing it       → MLA
-2024  a running total learns to correct itself            → the delta rule
-2024  ↳ and then to forget, too                            → Gated DeltaNet
-2025  sparsity returns, built around real hardware         → Native Sparse Attention
-2025  and, at the very end: drop the rotation entirely     → DroPE
-```
-
-Read in order, the sequence isn't a list — it's an argument that keeps
-replying to itself: exact and unbounded, then cheaper to remember, then
-aware of distance, then longer-reaching, then recurrent again, then sparse
-again, and finally, willing to question whether the position mechanism
-needed to be permanent at all.
-
----
-
-## Running it locally
-
-No build step, no dependencies. Open `webapp/index.html` directly in a
-browser, or serve the folder with anything static:
-
-```bash
-cd webapp
-python -m http.server 8000
-# then open http://localhost:8000
-```
