@@ -1235,12 +1235,28 @@
       targets.forEach(t => t.classList.add("in-view"));
       return;
     }
+    // threshold:0 — fire as soon as any pixel crosses the viewport. A
+    // percentage threshold silently fails for elements taller than the
+    // viewport (e.g. the timeline section), leaving them stuck hidden.
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) { entry.target.classList.add("in-view"); obs.unobserve(entry.target); }
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0 });
     targets.forEach(t => obs.observe(t));
+
+    // Failsafe mirroring the observer with a plain scroll check, so a
+    // hidden element can never get trapped at opacity:0 if the observer
+    // misbehaves for any reason.
+    function sweep() {
+      const hidden = document.querySelectorAll(".reveal:not(.in-view)");
+      if (!hidden.length) { window.removeEventListener("scroll", sweep); return; }
+      hidden.forEach(t => {
+        if (t.getBoundingClientRect().top < window.innerHeight * 0.92) t.classList.add("in-view");
+      });
+    }
+    sweep();
+    window.addEventListener("scroll", sweep, { passive: true });
   }
 
   /* ── Hero canvas: a small live attention graph, decorative ── */
