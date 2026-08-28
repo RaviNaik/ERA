@@ -233,11 +233,12 @@ loss   = cross_entropy(
       <div class="callout">
         <div class="callout-label">📊 Reading the gap</div>
         <div class="callout-body">
-          <code>L2 − L1</code> starts at <strong>+0.06</strong> (both heads random) and opens to
-          <strong>+1.27</strong> nats by step 3,999 — mean <strong>+1.13</strong> after warm-up,
-          never negative. In perplexity: the model chooses among <strong>~112</strong> options for
-          the next token but <strong>~400</strong> for the one after. Both curves still fall
-          <em>together</em> — they share one trunk.
+          <code>L2 − L1</code> starts at <strong>+0.06</strong> (both heads random) and settles at a
+          trailing-mean <strong>+1.26</strong> nats (final step <strong>+1.27</strong>) — never
+          negative across 4,000 steps, dozens of standard errors above zero. Settled perplexity:
+          the model chooses among <strong>~100</strong> options for the next token but
+          <strong>~360</strong> for the one after. Both curves still fall <em>together</em> — they
+          share one trunk.
         </div>
       </div>
     </section>

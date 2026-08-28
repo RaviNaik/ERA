@@ -72,9 +72,9 @@ window.SESSION_DATA = {
     },
     {
       n: 2, tag: "shift", title: "Verify the shift — print strings, not ids",
-      headline: "0 / 12 mismatches — target[i] == input[i+1]",
-      detail: "Read as decoded sub-word strings. This is the check that catches a target shifted the wrong way — the bug that produces a beautiful loss curve while the model just learns to copy its input.",
-      verdict: "correct",
+      headline: "read the table by eye · 0/12 target-slice mismatches",
+      detail: "The printed inputs/targets table is the deliverable — a human reads it and confirms each target is the next word. The 0/12 counter only proves targets_out is the right slice (true by construction); that logits[:, :-1] is aligned to it in the loss call is a functional fact, checked by the perplexity anchor (check 5).",
+      verdict: "slice ok",
     },
     {
       n: 3, tag: "padding", title: "Mask padding — watch the contributing count move",
@@ -84,14 +84,14 @@ window.SESSION_DATA = {
     },
     {
       n: 4, tag: "boundary", title: "Pack two documents, mask the join",
-      headline: "loss 10.7940 → 10.7902 over 47 → 46 positions",
-      detail: "The last token of doc A ( ' where' ) has no relationship to the first token of doc B ( 'As' ). Its own loss is 10.9666 — above the mean. On an untrained model the delta from masking is tiny; once trained, that unmasked pair is scored as a permanent failure and drags both the loss and the gradient toward a relationship that doesn't exist.",
+      headline: "untrained: 10.7940 → 10.7902 · trained re-check in §6.2",
+      detail: "The last token of doc A ( ' where' ) has no relationship to the first token of doc B ( 'As' ). Untrained, its loss (10.9666) is right at the mean and masking barely moves the number. Trained, the model is good at real continuations so that position is a genuine high-loss failure — a new cell after Part 2 re-scores the exact same two documents on the trained t+1 head to show it. Note: the packer used for training does insert an <|endoftext|> at joins, it just adds no loss mask there.",
       verdict: "join isolated",
     },
     {
-      n: 5, tag: "perplexity", title: "Perplexity sanity anchor",
-      headline: "untrained ppl 55,984 vs V 50,257 — gap 1.00%",
-      detail: "Untrained loss 10.9328 nats vs ln V = 10.8249. A freshly-initialised head scores the vocabulary near-uniformly. If this were far from ln V, the target alignment is broken and nothing downstream can be trusted.",
+      n: 5, tag: "perplexity", title: "Perplexity anchor — read it in nats",
+      headline: "untrained loss 10.9328 vs ln V 10.8249 — 1.0% (nats)",
+      detail: "A freshly-initialised head scores the vocabulary near-uniformly: the loss is ~1% from ln V in nats. That 1% becomes ~11% at the perplexity level (55,984 vs V = 50,257), which is why 'sits near the vocabulary size' is doing a little work — the nats gap is the honest number. If it were far off, the target alignment is broken and nothing downstream can be trusted.",
       verdict: "PASS",
     },
     {
@@ -102,8 +102,8 @@ window.SESSION_DATA = {
     },
     {
       n: 7, tag: "memory", title: "Peak memory — ordinary vs. hand-written chunked CE",
-      headline: "5.99 GiB vs 1.83 GiB — ratio 3.3×",
-      detail: "Same loss to 9.5e-7, same gradients to 2.6e-8. Ordinary materialises the full [16384, 50257] logits tensor and its gradient; chunked (size 1,024) never holds more than one slice and back-propagates each chunk before computing the next.",
+      headline: "5.99 GiB vs 1.83 GiB — ratio 3.3× (N = 16,384)",
+      detail: "Same loss to 9.5e-7, same gradients to 2.6e-8. The naive [N, V] figure (1.53 GiB bf16) is NOT the cost: ordinary holds logits + a float32 log-softmax up-cast + the gradient (~3×), and chunked can't reach its one-chunk ideal because the CUDA context and the N-independent hidden/weight tensors dominate. See the reconciliation below. The notebook now measures at N = 32,768 for a larger wall.",
       verdict: "3.3× less",
     },
   ],
@@ -113,6 +113,15 @@ window.SESSION_DATA = {
     theoreticalFull: "1.53 GiB", theoreticalChunk: "98 MiB",
     ordinaryGiB: 5.99, chunkedGiB: 1.83, ratio: 3.3,
     lossDiff: "9.5e-7", gradDiff: "2.6e-8",
+    breakdown: [
+      { path: "ordinary", item: "logits [N,V] bf16", gib: 1.53, note: "materialised by the matmul" },
+      { path: "ordinary", item: "log-softmax [N,V] float32", gib: 3.07, note: "F.cross_entropy up-casts for stability" },
+      { path: "ordinary", item: "grad of logits [N,V] bf16", gib: 1.53, note: "the backward pass" },
+      { path: "ordinary", item: "hidden + weight + grads", gib: 0.13, note: "small next to [N,V]" },
+      { path: "chunked", item: "one chunk (logits+logsoftmax+grad)", gib: 0.39, note: "transient, freed each pass" },
+      { path: "chunked", item: "hidden [N,D] + weight [V,D] + grads", gib: 0.13, note: "does NOT shrink with chunk" },
+      { path: "chunked", item: "CUDA context + cuBLAS workspace", gib: 1.3, note: "fixed cost of touching the GPU" },
+    ],
   },
 
   /* ---- Part 2: MTP two heads ---- */
@@ -123,6 +132,9 @@ window.SESSION_DATA = {
     baseline: { lossStart: 10.9386, lossEnd: 4.6513, pplEnd: 104.7 },
     gapStart: 0.0618, gapEnd: 1.2685, gapMean: 1.0645, gapWarmup: 1.1254, gapMin: 0.7736, gapMax: 1.3420,
     fracL2Above: 1.0,
+    // trailing means over the last 400 steps (single steps are +-0.2 nats of noise)
+    head1Settled: 4.62, head2Settled: 5.88, sumSettled: 10.51, baselineSettled: 4.55,
+    gapSettled: 1.26, head1MinusBaseSettled: 0.068, perStepNoise: 0.086,
   },
 
   /* downsampled training curves (every 25 steps) straight from the notebook logs */
@@ -138,25 +150,25 @@ window.SESSION_DATA = {
     { src: "../loss_harness/assets/mtp_loss_head1_aim.png", cap: "Aim · Head 1 (t+1) loss" },
     { src: "../loss_harness/assets/mtp_loss_head2_aim.png", cap: "Aim · Head 2 (t+2) loss" },
     { src: "../loss_harness/assets/mtp_loss_sum_aim.png", cap: "Aim · L1 + L2 (the optimised objective)" },
-    { src: "../loss_harness/assets/perplexity_baseline_aim.png", cap: "Aim · baseline perplexity — 56,307 → ~105" },
+    { src: "../loss_harness/assets/perplexity_baseline_aim.png", cap: "Aim · baseline perplexity — ~56,000 → ~100" },
   ],
 
   commentary: [
     {
       h: "The gap is the finding",
-      p: "At step 0 both heads are random, so L2 − L1 ≈ 0 — noise. As training shapes the shared trunk the gap opens to a stable ~1.13 nats and never closes. Predicting t+2 from the same hidden state carries one extra step of genuine, irreducible uncertainty about what the text does next. Its entropy floor is simply higher.",
+      p: "At step 0 both heads are random, so L2 − L1 ≈ 0 — noise. As training shapes the shared trunk the gap opens to a stable ~1.12–1.26 nats (trailing mean) and never closes — dozens of standard errors above zero. Predicting t+2 from the same hidden state carries one extra step of genuine, irreducible uncertainty about what the text does next. Its entropy floor is simply higher.",
     },
     {
       h: "In perplexity terms",
-      p: "By the end the model is effectively choosing among ~112 options for the very next token, but ~400 for the token after that. Same context, same representation — the further-out prediction is a measurably harder question.",
+      p: "The model settles at effectively ~100 options for the very next token, but ~360 for the token after that. Same context, same representation — the further-out prediction is a measurably harder question.",
     },
     {
       h: "Both curves fall together, not apart",
       p: "They share one trunk, so anything that improves the hidden state helps both objectives at once. The t+2 head is extra supervision on the same representation, not a competing task fighting for capacity.",
     },
     {
-      h: "The second head is nearly free on the primary objective",
-      p: "The standalone baseline (single tied t+1 head) ends at 4.6513; the t+1 head inside the two-head model ends at 4.7166 — within noise. Adding a t+2 head did not measurably hurt next-token quality at this scale and step budget.",
+      h: "The second head is cheap — but not literally free",
+      p: "Trailing means over the last 400 steps: standalone baseline 4.55, MTP t+1 head 4.62 — a +0.068-nat cost, inside a single step's ±0.2-nat swing but ~3 standard errors of the mean, so a small resolved cost rather than zero. And it understates the two-head model: the baseline head is tied (helps a little), the MTP head is untied and shares its trunk gradient with t+2.",
     },
     {
       h: "The sum is what's optimised",

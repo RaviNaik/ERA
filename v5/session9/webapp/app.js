@@ -145,10 +145,17 @@ function renderMemBars() {
       <div class="mem-track"><div class="mem-fill ${cls}" style="width:${(gib / max * 100).toFixed(1)}%"></div></div>
       <span class="mem-val mono">${gib.toFixed(2)} GiB</span>
     </div>`;
+  const brk = (path) => (m.breakdown || []).filter(b => b.path === path)
+    .map(b => `<tr><td class="mono">${esc(b.item)}</td><td class="mono">${b.gib.toFixed(2)}</td><td class="dim">${esc(b.note)}</td></tr>`).join('');
   wrap.innerHTML =
     bar('ordinary — full [16384, 50257] logits + grad', m.ordinaryGiB, 'rose') +
     bar(`chunked — one [${m.chunk}, 50257] slice at a time`, m.chunkedGiB, 'green') +
-    `<div class="mem-ratio">peak memory ratio <strong>${m.ratio}×</strong> · loss agrees to <span class="mono">${m.lossDiff}</span> · gradients to <span class="mono">${m.gradDiff}</span></div>`;
+    `<div class="mem-ratio">peak ratio <strong>${m.ratio}×</strong> at N = ${m.nTokens.toLocaleString()} · loss agrees to <span class="mono">${m.lossDiff}</span> · gradients to <span class="mono">${m.gradDiff}</span></div>` +
+    `<div class="mem-breakdown">
+       <div class="mem-bk-title">where the bytes actually go — the naive [N,V] figure is ${m.theoreticalFull}, not the cost</div>
+       <table class="mini-table"><thead><tr><th>ordinary path</th><th>GiB</th><th></th></tr></thead><tbody>${brk('ordinary')}</tbody></table>
+       <table class="mini-table"><thead><tr><th>chunked path</th><th>GiB</th><th></th></tr></thead><tbody>${brk('chunked')}</tbody></table>
+     </div>`;
 }
 
 /* ═══════════════════════ MTP head cards ═════════════════ */
@@ -156,19 +163,19 @@ function renderMtpHeads() {
   const wrap = $('#mtp-heads');
   if (!wrap) return;
   const m = D.mtp;
-  const card = (name, h, cls) => `
+  const card = (name, h, settled, cls) => `
     <div class="head-card ${cls}">
       <div class="head-name">${name} <span class="mono dim">predicts ${h.predicts}</span></div>
-      <div class="head-loss"><span class="mono">${h.lossStart.toFixed(2)}</span> → <strong class="mono">${h.lossEnd.toFixed(4)}</strong> <span class="dim">nats</span></div>
-      <div class="head-ppl">perplexity <span class="mono">${Math.round(h.pplStart).toLocaleString()}</span> → <strong class="mono">${h.pplEnd}</strong></div>
+      <div class="head-loss"><span class="mono">${h.lossStart.toFixed(2)}</span> → <span class="mono dim">${h.lossEnd.toFixed(2)}</span> → <strong class="mono">${settled.toFixed(2)}</strong> <span class="dim">settled</span></div>
+      <div class="head-ppl">perplexity ${Math.round(h.pplStart).toLocaleString()} → <strong class="mono">~${Math.round(Math.exp(settled))}</strong></div>
     </div>`;
   wrap.innerHTML =
-    card('Head 1', m.head1, 'h1') +
-    card('Head 2', m.head2, 'h2') +
+    card('Head 1', m.head1, m.head1Settled, 'h1') +
+    card('Head 2', m.head2, m.head2Settled, 'h2') +
     `<div class="head-card sum">
        <div class="head-name">Sum <span class="mono dim">L1 + L2 · optimised</span></div>
-       <div class="head-loss"><span class="mono">${m.sum.lossStart.toFixed(2)}</span> → <strong class="mono">${m.sum.lossEnd.toFixed(4)}</strong></div>
-       <div class="head-ppl">baseline single head → <strong class="mono">${m.baseline.lossEnd.toFixed(4)}</strong> (ppl ${m.baseline.pplEnd})</div>
+       <div class="head-loss"><span class="mono">${m.sum.lossStart.toFixed(2)}</span> → <span class="mono dim">${m.sum.lossEnd.toFixed(2)}</span> → <strong class="mono">${m.sumSettled.toFixed(2)}</strong></div>
+       <div class="head-ppl">standalone baseline (settled) → <strong class="mono">${m.baselineSettled.toFixed(2)}</strong> · gap to MTP head1 <strong class="mono">+${m.head1MinusBaseSettled.toFixed(3)}</strong></div>
      </div>`;
 }
 
@@ -234,8 +241,8 @@ function drawCurve() {
       ],
     });
     title.textContent = 'Head losses over 4,000 steps';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--indigo')}"></i>Head 1 · t+1 → 4.72</span>
-      <span class="lg"><i style="background:${cssVar('--amber')}"></i>Head 2 · t+2 → 5.99</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--indigo')}"></i>Head 1 · t+1 → settled 4.62</span>
+      <span class="lg"><i style="background:${cssVar('--amber')}"></i>Head 2 · t+2 → settled 5.88</span>`;
   } else if (curveMode === 'gap') {
     const gap = D.curveH2.map((v, i) => +(v - D.curveH1[i]).toFixed(3));
     lineChart(c, {
@@ -243,7 +250,7 @@ function drawCurve() {
       series: [{ y: gap, color: '--rose', width: 2.5 }, { y: D.steps.map(() => 0), color: '--text-muted', width: 1, dash: '4 4' }],
     });
     title.textContent = 'The gap: L2 − L1 over training';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--rose')}"></i>gap opens 0.06 → 1.27, mean +1.13 after warm-up, never negative</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--rose')}"></i>gap opens 0.06 → settled +1.26 (final +1.27); never negative across 4,000 steps</span>`;
   } else {
     lineChart(c, {
       x: D.steps, ylabel: 'loss (nats)',
@@ -254,9 +261,9 @@ function drawCurve() {
       ],
     });
     title.textContent = 'Optimised sum vs. the standalone baseline';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--purple')}"></i>Sum L1+L2 → 10.70</span>
-      <span class="lg"><i style="background:${cssVar('--indigo')}"></i>MTP head 1 → 4.72</span>
-      <span class="lg"><i style="background:${cssVar('--green')}"></i>baseline (tied, solo) → 4.65</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--purple')}"></i>Sum L1+L2 → settled 10.51</span>
+      <span class="lg"><i style="background:${cssVar('--indigo')}"></i>MTP head 1 (untied) → 4.62</span>
+      <span class="lg"><i style="background:${cssVar('--green')}"></i>baseline (tied, solo) → 4.55</span>`;
   }
 }
 
