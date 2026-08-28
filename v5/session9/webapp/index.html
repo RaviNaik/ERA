@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Loss Harness | ERA V5 · Session 9</title>
+  <meta name="description" content="Session 9 — making next-token cross-entropy correct and observable, then adding a second output head that predicts t+2. A 50M-param transformer trained on WikiText-103." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../README.md" class="back-link">&#8592; README</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S9</div>
+      <div class="sidebar-brand-title">The Loss Harness<br/><span class="sidebar-gradient-text">correct &amp; observable</span></div>
+      <div class="sidebar-brand-sub">8 sections · August 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#warning" data-target="warning"><span class="nav-icon">⚠️</span> The Silent Bug</a>
+      <a class="nav-item" href="#spine" data-target="spine"><span class="nav-icon">🧵</span> The Loss Spine</a>
+      <a class="nav-item" href="#model" data-target="model"><span class="nav-icon">🏗️</span> Model &amp; Data</a>
+      <a class="nav-item" href="#part1" data-target="part1"><span class="nav-icon">🔢</span> Part 1 — Seven Numbers</a>
+      <a class="nav-item" href="#part2" data-target="part2"><span class="nav-icon">➕</span> Part 2 — The t+2 Head</a>
+      <a class="nav-item" href="#commentary" data-target="commentary"><span class="nav-icon">💬</span> Commentary</a>
+      <a class="nav-item" href="#figures" data-target="figures"><span class="nav-icon">📈</span> All Charts</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 9 Assignment</div>
+      <h1>The Loss Harness</h1>
+      <p>
+        The assignment starts from four lines that <em>look</em> right — model, head,
+        cross-entropy, a shift by one. This dashboard is the record of turning them into
+        something you can <strong>trust</strong>: every shape named, the target shift
+        verified by reading decoded <em>strings</em>, padding and document boundaries
+        masked, perplexity checked against vocabulary size, and peak memory measured on a
+        real GPU. Then a second head that predicts two tokens ahead — and what its loss
+        does over 4,000 steps.
+      </p>
+      <div class="hero-stats" id="hero-stats"></div>
+      <pre class="hero-code mono">hidden = model(tokens)
+logits = output_head(hidden)
+loss   = cross_entropy(
+    logits[:, :-1].reshape(-1, vocab_size),   <span class="cmt"># drop last position</span>
+    tokens[:, 1:].reshape(-1),                <span class="cmt"># drop first token</span>
+)</pre>
+    </header>
+
+    <!-- ── The Silent Bug ───────────────────────────────── -->
+    <section class="section" id="warning">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 08 · THE WARNING</span>
+          <h2 class="section-title">A wrong shift makes a beautiful curve</h2>
+          <p class="section-desc">
+            A target shifted the wrong way — or not at all — hands the model the answer.
+            The loss falls smoothly. The model learns to copy its input. Nothing raises an
+            exception. The only real defense is to decode the tokens on both sides and read
+            them.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2 shift-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">✅ The shift, verified — inputs beside targets</span>
+            <span class="badge badge-green">0 / 12 mismatches</span>
+          </div>
+          <div class="card-body">
+            <table class="mini-table" id="shift-table"></table>
+            <p class="fine">Every <code>target[i]</code> is the token at <code>input[i+1]</code>. Sub-word
+              pieces (<code>'Sen' → 'j' → 'ō'</code> = “Senjō”) line up one step apart.</p>
+          </div>
+        </div>
+        <div class="card danger-card">
+          <div class="card-header">
+            <span class="card-title">❌ The bug this rules out — unshifted targets</span>
+            <span class="badge badge-red">target = input</span>
+          </div>
+          <div class="card-body">
+            <table class="mini-table" id="shift-bug-table"></table>
+            <p class="fine">With no shift, position 0 is asked to predict <code>'Sen'</code> from
+              <code>'Sen'</code>. Loss plummets. The model has learned nothing but the identity map.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── The Loss Spine ───────────────────────────────── -->
+    <section class="section" id="spine">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 08 · THE MECHANISM</span>
+          <h2 class="section-title">The loss spine, end to end</h2>
+          <p class="section-desc">
+            One hidden state per position becomes one score per vocabulary token, then a
+            probability distribution, then a single question: <em>what probability did you
+            give the token that actually came next?</em>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="spine" id="spine-diagram"></div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">💡 Perplexity</div>
+        <div class="callout-body">
+          <code>perplexity = exp(mean loss)</code> — “how many equally-likely options is the
+          model effectively choosing between.” An untrained model should sit near the
+          vocabulary size. Ours: loss <strong>10.93</strong> → perplexity <strong>55,984</strong>
+          against <strong>V = 50,257</strong>. A 1.0% gap. If it were far off, the target
+          alignment is broken and nothing downstream can be trusted.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Model & Data ─────────────────────────────────── -->
+    <section class="section" id="model">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 08 · SETUP</span>
+          <h2 class="section-title">A 50M-parameter transformer on WikiText-103</h2>
+          <p class="section-desc">
+            Decoder-only, written from scratch — RMSNorm, pre-norm residual stream, SwiGLU
+            FFN, causal multi-head attention. The trunk returns hidden states only; the
+            output head is a separate module, which is what makes tied-vs-untied and the
+            Part-2 second head drop-in changes.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">🏗️ The transformer block, ×8</span></div>
+          <div class="card-body"><div class="block-diagram" id="block-diagram"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">⚙️ Run configuration</span></div>
+          <div class="card-body"><table class="kv-table" id="setup-table"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Part 1 ───────────────────────────────────────── -->
+    <section class="section" id="part1">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 08 · PART 1</span>
+          <h2 class="section-title">The seven numbers</h2>
+          <p class="section-desc">
+            Each check prints the evidence for its own claim rather than asserting it.
+            Click a card to expand.
+          </p>
+        </div>
+      </div>
+      <div class="seven-grid" id="seven-grid"></div>
+
+      <div class="card mem-card">
+        <div class="card-header">
+          <span class="card-title">🧮 Check 7 in detail — ordinary vs. chunked cross-entropy</span>
+          <span class="badge badge-blue">same loss to 9.5e-7</span>
+        </div>
+        <div class="card-body">
+          <div class="mem-bars" id="mem-bars"></div>
+          <p class="fine">
+            Ordinary materialises the full <code>[16384, 50257]</code> logits tensor <em>and</em>
+            its gradient at once. Chunked processes 1,024 tokens at a time and back-propagates
+            each chunk before computing the next, so autograd frees each slice's graph. The
+            arithmetic is identical; only what must be resident changes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Part 2 ───────────────────────────────────────── -->
+    <section class="section" id="part2">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 08 · PART 2</span>
+          <h2 class="section-title">A second head that predicts <span class="mono">t+2</span></h2>
+          <p class="section-desc">
+            Two untied, architecturally identical heads on the shared trunk. The only
+            difference is the target. Keeping them identical isolates the one effect the
+            assignment asks about: how much harder is it to predict two tokens ahead?
+          </p>
+        </div>
+        <div class="tab-bar" id="curve-tabs">
+          <button class="tab-btn active" data-mode="both">t+1 vs t+2</button>
+          <button class="tab-btn" data-mode="gap">the gap</button>
+          <button class="tab-btn" data-mode="sum">sum vs baseline</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title" id="chart-title">Head losses over 4,000 steps</span>
+          <span class="badge badge-purple">L2 &gt; L1 at 100% of steps</span>
+        </div>
+        <div class="card-body">
+          <div id="curve-chart" class="chart-wrap"></div>
+          <div class="legend" id="curve-legend"></div>
+        </div>
+      </div>
+
+      <div class="mtp-heads" id="mtp-heads"></div>
+
+      <div class="callout">
+        <div class="callout-label">📊 Reading the gap</div>
+        <div class="callout-body">
+          <code>L2 − L1</code> starts at <strong>+0.06</strong> (both heads random) and opens to
+          <strong>+1.27</strong> nats by step 3,999 — mean <strong>+1.13</strong> after warm-up,
+          never negative. In perplexity: the model chooses among <strong>~112</strong> options for
+          the next token but <strong>~400</strong> for the one after. Both curves still fall
+          <em>together</em> — they share one trunk.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Commentary ───────────────────────────────────── -->
+    <section class="section" id="commentary">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 08 · WHAT IT MEANS</span>
+          <h2 class="section-title">Commentary on the result</h2>
+          <p class="section-desc">Six things the numbers actually say.</p>
+        </div>
+      </div>
+      <div class="commentary-grid" id="commentary-grid"></div>
+    </section>
+
+    <!-- ── Figures ──────────────────────────────────────── -->
+    <section class="section" id="figures">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 08 · EVIDENCE</span>
+          <h2 class="section-title">All charts</h2>
+          <p class="section-desc">
+            Matplotlib figures written by the notebook, plus the per-step curves as tracked
+            in Aim.
+          </p>
+        </div>
+      </div>
+      <div class="figure-grid" id="figure-grid"></div>
+    </section>
+
+    <!-- ── How to reproduce ─────────────────────────────── -->
+    <section class="section" id="repro">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 08 · REPRODUCE</span>
+          <h2 class="section-title">Run it yourself</h2>
+        </div>
+      </div>
+      <pre class="repro-block mono">cd loss_harness
+uv sync
+
+<span class="cmt"># fast correctness pass — tiny model, WikiText-2, 20 steps, CPU, ~2 min</span>
+S9_SMOKE=1 uv run python dry_run.py
+
+<span class="cmt"># the real run — ~30 min on an A6000</span>
+uv run jupyter nbconvert --to notebook --execute --inplace session9_loss_harness.ipynb
+uv run aim up   <span class="cmt"># browse tracked runs</span></pre>
+    </section>
+
+    <footer class="footer">
+      The Loss Harness · ERA V5 Session 9 ·
+      <a href="../README.md">Full write-up (README.md)</a> ·
+      <a href="../loss_harness/session9_loss_harness.ipynb">Notebook</a> ·
+      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">Repository</a>
+    </footer>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline theme toggle ─────────────────────────────────── */
+(function () {
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root = document.documentElement;
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    safeSet('era-theme', t);
+    icon.textContent = t === 'dark' ? '☀️' : '🌙';
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+    if (window.__redrawCharts) window.__redrawCharts();
+  }
+  applyTheme(safeGet('era-theme') || 'dark');
+  btn.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ── Sidebar active-link + reading progress ──────────────── */
+(function () {
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = navItems.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+  if (sections.length && typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navItems.forEach(a => a.classList.toggle('active', a.dataset.target === e.target.id));
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (p * 100) + '%';
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
