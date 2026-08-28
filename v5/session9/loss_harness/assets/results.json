@@ -30,7 +30,13 @@
     "loss_after": 10.790231704711914,
     "boundary_loss": 10.966581344604492,
     "n_before": 47,
-    "n_after": 46
+    "n_after": 46,
+    "trained": {
+      "loss_before": 5.6511993408203125,
+      "loss_after": 5.4732155592545215,
+      "boundary_loss": 13.838468551635742,
+      "delta": -0.17798378156579098
+    }
   },
   "perplexity": {
     "loss_untrained": 10.932828903198242,
@@ -46,26 +52,41 @@
     "ratio": 1.4977813434757632
   },
   "memory": {
-    "n_tokens": 16384,
-    "chunk_size": 1024,
+    "n_tokens": 32768,
+    "chunk_size": 2048,
     "dtype": "torch.bfloat16",
-    "peak_ordinary_bytes": 6428933632,
-    "peak_chunked_bytes": 1968415232,
-    "ratio": 3.2660454600668323
+    "d_model": 512,
+    "predicted_ordinary_gib": 12.43,
+    "predicted_chunked_gib": 0.93,
+    "peak_ordinary_bytes": 11389255168,
+    "peak_chunked_bytes": 2413806080,
+    "reserved_ordinary_bytes": 11463032832,
+    "reserved_chunked_bytes": 2617245696,
+    "ratio": 4.7183803464444
   },
   "mtp": {
     "steps": 4000,
+    "trailing_window": 400,
+    "per_step_noise_nats": 0.10939042003010631,
+    "trailing_mean_sem_nats": 0.005469521001505316,
     "head1_loss_start": 10.891735076904297,
-    "head1_loss_end": 4.716577053070068,
+    "head1_loss_end": 4.724987983703613,
+    "head1_loss_settled": 4.602028748989105,
     "head2_loss_start": 10.9535551071167,
-    "head2_loss_end": 5.985126972198486,
+    "head2_loss_end": 5.994237899780273,
+    "head2_loss_settled": 5.865419507026672,
     "sum_start": 21.845291137695312,
-    "sum_end": 10.701704025268555,
+    "sum_end": 10.719225883483887,
+    "sum_settled": 10.467448253631591,
+    "baseline_loss_end": 4.653321266174316,
+    "baseline_loss_settled": 4.555175337791443,
     "gap_start": 0.061820030212402344,
-    "gap_end": 1.268549919128418,
-    "gap_mean": 1.064539030790329,
-    "gap_mean_after_warmup": 1.1254124156634013,
-    "frac_steps_L2_above_L1": 1.0
+    "gap_end": 1.2692499160766602,
+    "gap_settled": 1.2633907580375672,
+    "gap_mean": 1.0644416284561158,
+    "gap_mean_after_warmup": 1.1253052617443933,
+    "frac_steps_L2_above_L1": 1.0,
+    "head1_minus_baseline_settled": 0.046853411197662176
   },
   "smoke": false,
   "config": {
