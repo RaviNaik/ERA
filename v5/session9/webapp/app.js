@@ -133,6 +133,21 @@ function renderSeven() {
   });
 }
 
+/* ═══════════════════════ Boundary: untrained vs trained ══ */
+function renderBoundaryDetail() {
+  const wrap = $('#boundary-detail');
+  if (!wrap || !D.boundaryTrained) return;
+  const b = D.boundaryTrained;
+  const row = (label, u, t, cls = '') => `<tr><td>${esc(label)}</td><td class="mono">${u}</td><td class="mono ${cls}">${t}</td></tr>`;
+  wrap.innerHTML = `<table class="mini-table"><thead><tr><th>on the same two documents</th><th>untrained (§3.4)</th><th>trained t+1 head (§6.2)</th></tr></thead><tbody>
+    ${row('mean loss, all positions', b.untrainedMean.toFixed(4), b.trainedMean.toFixed(4))}
+    ${row('mean loss, boundary position masked', b.untrainedMasked.toFixed(4), b.trainedMasked.toFixed(4))}
+    ${row('the boundary position itself', b.untrainedBoundary.toFixed(4), `<strong>${b.trainedBoundary.toFixed(4)}</strong>`, 'bad')}
+    ${row('Δ from masking one position', '−0.0038', `<strong>${b.trainedDelta.toFixed(4)}</strong>`)}
+    ${row('boundary loss ÷ mean-of-the-rest', b.untrainedRatio.toFixed(2) + '×', `<strong>${b.trainedRatio.toFixed(2)}×</strong>`)}
+  </tbody></table>`;
+}
+
 /* ═══════════════════════ Memory bars ════════════════════ */
 function renderMemBars() {
   const wrap = $('#mem-bars');
@@ -148,9 +163,9 @@ function renderMemBars() {
   const brk = (path) => (m.breakdown || []).filter(b => b.path === path)
     .map(b => `<tr><td class="mono">${esc(b.item)}</td><td class="mono">${b.gib.toFixed(2)}</td><td class="dim">${esc(b.note)}</td></tr>`).join('');
   wrap.innerHTML =
-    bar('ordinary — full [16384, 50257] logits + grad', m.ordinaryGiB, 'rose') +
-    bar(`chunked — one [${m.chunk}, 50257] slice at a time`, m.chunkedGiB, 'green') +
-    `<div class="mem-ratio">peak ratio <strong>${m.ratio}×</strong> at N = ${m.nTokens.toLocaleString()} · loss agrees to <span class="mono">${m.lossDiff}</span> · gradients to <span class="mono">${m.gradDiff}</span></div>` +
+    bar(`ordinary — full [${m.nTokens.toLocaleString()}, 50257] logits + fp32 log-softmax + grad`, m.ordinaryGiB, 'rose') +
+    bar(`chunked — one [${m.chunk.toLocaleString()}, 50257] slice, ${m.nPasses} passes`, m.chunkedGiB, 'green') +
+    `<div class="mem-ratio">measured ratio <strong>${m.ratio}×</strong> (predicted ${m.predictedOrdinaryGiB} / ${m.predictedChunkedGiB} GiB) · loss agrees to <span class="mono">${m.lossDiff}</span> · gradients to <span class="mono">${m.gradDiff}</span></div>` +
     `<div class="mem-breakdown">
        <div class="mem-bk-title">where the bytes actually go — the naive [N,V] figure is ${m.theoreticalFull}, not the cost</div>
        <table class="mini-table"><thead><tr><th>ordinary path</th><th>GiB</th><th></th></tr></thead><tbody>${brk('ordinary')}</tbody></table>
@@ -241,8 +256,8 @@ function drawCurve() {
       ],
     });
     title.textContent = 'Head losses over 4,000 steps';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--indigo')}"></i>Head 1 · t+1 → settled 4.62</span>
-      <span class="lg"><i style="background:${cssVar('--amber')}"></i>Head 2 · t+2 → settled 5.88</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--indigo')}"></i>Head 1 · t+1 → settled ${D.mtp.head1Settled}</span>
+      <span class="lg"><i style="background:${cssVar('--amber')}"></i>Head 2 · t+2 → settled ${D.mtp.head2Settled}</span>`;
   } else if (curveMode === 'gap') {
     const gap = D.curveH2.map((v, i) => +(v - D.curveH1[i]).toFixed(3));
     lineChart(c, {
@@ -250,7 +265,7 @@ function drawCurve() {
       series: [{ y: gap, color: '--rose', width: 2.5 }, { y: D.steps.map(() => 0), color: '--text-muted', width: 1, dash: '4 4' }],
     });
     title.textContent = 'The gap: L2 − L1 over training';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--rose')}"></i>gap opens 0.06 → settled +1.26 (final +1.27); never negative across 4,000 steps</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--rose')}"></i>gap opens 0.06 → settled +${D.mtp.gapSettled} (final +${D.mtp.gapEnd.toFixed(2)}); never negative across 4,000 steps</span>`;
   } else {
     lineChart(c, {
       x: D.steps, ylabel: 'loss (nats)',
@@ -261,9 +276,9 @@ function drawCurve() {
       ],
     });
     title.textContent = 'Optimised sum vs. the standalone baseline';
-    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--purple')}"></i>Sum L1+L2 → settled 10.51</span>
-      <span class="lg"><i style="background:${cssVar('--indigo')}"></i>MTP head 1 (untied) → 4.62</span>
-      <span class="lg"><i style="background:${cssVar('--green')}"></i>baseline (tied, solo) → 4.55</span>`;
+    legend.innerHTML = `<span class="lg"><i style="background:${cssVar('--purple')}"></i>Sum L1+L2 → settled ${D.mtp.sumSettled}</span>
+      <span class="lg"><i style="background:${cssVar('--indigo')}"></i>MTP head 1 (untied) → ${D.mtp.head1Settled}</span>
+      <span class="lg"><i style="background:${cssVar('--green')}"></i>baseline (tied, solo) → ${D.mtp.baselineSettled}</span>`;
   }
 }
 
@@ -306,6 +321,7 @@ function boot() {
   renderBlock();
   renderSetup();
   renderSeven();
+  renderBoundaryDetail();
   renderMemBars();
   renderMtpHeads();
   renderCommentary();

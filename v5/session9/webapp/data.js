@@ -35,15 +35,15 @@ window.SESSION_DATA = {
     tokensPerStep: 6144,
     steps: 4000,
     optimizer: "AdamW, lr 3e-4",
-    baselineWallSec: 683,
+    baselineWallSec: 684,
     mtpWallSec: 958,
   },
 
   heroStats: [
     { val: "7 / 7", lbl: "Part-1 checks passing", cls: "indigo" },
-    { val: "1.00%", lbl: "Untrained ppl gap from ln V", cls: "" },
-    { val: "3.3×", lbl: "Memory: ordinary ÷ chunked CE", cls: "amber" },
-    { val: "+1.27", lbl: "Final t+2 − t+1 loss gap (nats)", cls: "rose" },
+    { val: "1.0%", lbl: "Untrained loss gap from ln V (nats)", cls: "" },
+    { val: "4.7×", lbl: "Memory: ordinary ÷ chunked CE", cls: "amber" },
+    { val: "+1.26", lbl: "Settled t+2 − t+1 loss gap (nats)", cls: "rose" },
   ],
 
   /* ---- Part 1: the shift check (decoded strings, not ids) ---- */
@@ -84,9 +84,9 @@ window.SESSION_DATA = {
     },
     {
       n: 4, tag: "boundary", title: "Pack two documents, mask the join",
-      headline: "untrained: 10.7940 → 10.7902 · trained re-check in §6.2",
-      detail: "The last token of doc A ( ' where' ) has no relationship to the first token of doc B ( 'As' ). Untrained, its loss (10.9666) is right at the mean and masking barely moves the number. Trained, the model is good at real continuations so that position is a genuine high-loss failure — a new cell after Part 2 re-scores the exact same two documents on the trained t+1 head to show it. Note: the packer used for training does insert an <|endoftext|> at joins, it just adds no loss mask there.",
-      verdict: "join isolated",
+      headline: "trained head: masking one position drops mean loss 0.178 nats",
+      detail: "The last token of doc A ( ' where' ) has no relationship to the first token of doc B ( 'As' ). Untrained: its loss (10.9666) is right at the mean (10.7940 → 10.7902 masked, a noise-level delta). Trained (§6.2 cell, after Part 2): the model is good at real continuations (mean 5.65), so that position scores 13.84 — 2.53× the rest of the sequence — and masking it alone lowers the whole-sequence mean loss to 5.47. Note: the packer used for training does insert an <|endoftext|> at joins, it just adds no loss mask there.",
+      verdict: "2.53× the mean",
     },
     {
       n: 5, tag: "perplexity", title: "Perplexity anchor — read it in nats",
@@ -102,47 +102,57 @@ window.SESSION_DATA = {
     },
     {
       n: 7, tag: "memory", title: "Peak memory — ordinary vs. hand-written chunked CE",
-      headline: "5.99 GiB vs 1.83 GiB — ratio 3.3× (N = 16,384)",
-      detail: "Same loss to 9.5e-7, same gradients to 2.6e-8. The naive [N, V] figure (1.53 GiB bf16) is NOT the cost: ordinary holds logits + a float32 log-softmax up-cast + the gradient (~3×), and chunked can't reach its one-chunk ideal because the CUDA context and the N-independent hidden/weight tensors dominate. See the reconciliation below. The notebook now measures at N = 32,768 for a larger wall.",
-      verdict: "3.3× less",
+      headline: "10.6 GiB vs 2.25 GiB — ratio 4.7× (N = 32,768)",
+      detail: "Same loss to 9.5e-7, same gradients to 2.3e-9 / 2.6e-8. The naive [N, V] figure (3.07 GiB bf16) is NOT the cost: ordinary holds logits + a float32 log-softmax up-cast + the gradient (~3×, predicted 12.4 GiB / measured 10.6), and chunked can't reach its one-chunk ideal (predicted 0.9 GiB) because a ~1.3 GiB CUDA context and the N-independent hidden/weight tensors don't go away. The asymmetry: ordinary grows as 3·N·V, every chunked term is flat in N.",
+      verdict: "4.7× less",
     },
   ],
 
   memory: {
-    nTokens: 16384, chunk: 1024, dtype: "bfloat16",
-    theoreticalFull: "1.53 GiB", theoreticalChunk: "98 MiB",
-    ordinaryGiB: 5.99, chunkedGiB: 1.83, ratio: 3.3,
-    lossDiff: "9.5e-7", gradDiff: "2.6e-8",
+    nTokens: 32768, chunk: 2048, dtype: "bfloat16", nPasses: 16,
+    theoreticalFull: "3.07 GiB",
+    ordinaryGiB: 10.61, chunkedGiB: 2.25, ratio: 4.7,
+    predictedOrdinaryGiB: 12.43, predictedChunkedGiB: 0.93,
+    reservedOrdinaryGiB: 10.68, reservedChunkedGiB: 2.44,
+    lossDiff: "9.5e-7", gradDiff: "2.3e-9 / 2.6e-8",
     breakdown: [
-      { path: "ordinary", item: "logits [N,V] bf16", gib: 1.53, note: "materialised by the matmul" },
-      { path: "ordinary", item: "log-softmax [N,V] float32", gib: 3.07, note: "F.cross_entropy up-casts for stability" },
-      { path: "ordinary", item: "grad of logits [N,V] bf16", gib: 1.53, note: "the backward pass" },
-      { path: "ordinary", item: "hidden + weight + grads", gib: 0.13, note: "small next to [N,V]" },
-      { path: "chunked", item: "one chunk (logits+logsoftmax+grad)", gib: 0.39, note: "transient, freed each pass" },
-      { path: "chunked", item: "hidden [N,D] + weight [V,D] + grads", gib: 0.13, note: "does NOT shrink with chunk" },
+      { path: "ordinary", item: "logits [N,V] x2 (bf16)", gib: 3.07, note: "materialised by the matmul" },
+      { path: "ordinary", item: "log-softmax [N,V] x4 (float32)", gib: 6.13, note: "F.cross_entropy up-casts — the biggest hidden term" },
+      { path: "ordinary", item: "grad of logits [N,V] x2 (bf16)", gib: 3.07, note: "the backward pass" },
+      { path: "ordinary", item: "hidden + weight + grads", gib: 0.16, note: "small next to [N,V]" },
+      { path: "chunked", item: "one chunk: logits + fp32 log-softmax + grad", gib: 0.77, note: "transient, freed each of 16 passes" },
+      { path: "chunked", item: "hidden [N,D] + weight [V,D] + grads", gib: 0.16, note: "does NOT shrink with chunk" },
       { path: "chunked", item: "CUDA context + cuBLAS workspace", gib: 1.3, note: "fixed cost of touching the GPU" },
     ],
   },
 
-  /* ---- Part 2: MTP two heads ---- */
+  /* ---- Part 2: MTP two heads (RTX A6000, 4,000 steps) ---- */
   mtp: {
-    head1: { predicts: "t+1", lossStart: 10.8917, lossEnd: 4.7166, pplStart: 53730, pplEnd: 111.8 },
-    head2: { predicts: "t+2", lossStart: 10.9536, lossEnd: 5.9851, pplStart: 57157, pplEnd: 397.5 },
-    sum:   { lossStart: 21.8453, lossEnd: 10.7017 },
-    baseline: { lossStart: 10.9386, lossEnd: 4.6513, pplEnd: 104.7 },
-    gapStart: 0.0618, gapEnd: 1.2685, gapMean: 1.0645, gapWarmup: 1.1254, gapMin: 0.7736, gapMax: 1.3420,
+    head1: { predicts: "t+1", lossStart: 10.8917, lossEnd: 4.7250, pplStart: 53730 },
+    head2: { predicts: "t+2", lossStart: 10.9536, lossEnd: 5.9942, pplStart: 57157 },
+    sum:   { lossStart: 21.8453, lossEnd: 10.7192 },
+    baseline: { lossStart: 10.9386, lossEnd: 4.6533 },
+    gapStart: 0.0618, gapEnd: 1.2692, gapMean: 1.0644, gapWarmup: 1.1253,
     fracL2Above: 1.0,
-    // trailing means over the last 400 steps (single steps are +-0.2 nats of noise)
-    head1Settled: 4.62, head2Settled: 5.88, sumSettled: 10.51, baselineSettled: 4.55,
-    gapSettled: 1.26, head1MinusBaseSettled: 0.068, perStepNoise: 0.086,
+    // trailing means over the last 400 steps; per-step noise sd 0.109, SE of the mean 0.0055
+    head1Settled: 4.602, head2Settled: 5.865, sumSettled: 10.467, baselineSettled: 4.555,
+    gapSettled: 1.263, gapSettledSE: 231, head1MinusBaseSettled: 0.047, head1MinusBaseSE: 8.6,
+    perStepNoise: 0.109, semNats: 0.0055,
+  },
+
+  /* ---- Part 1 check 4: boundary re-checked on the TRAINED t+1 head (§6.2) ---- */
+  boundaryTrained: {
+    untrainedMean: 10.7940, untrainedMasked: 10.7902, untrainedBoundary: 10.9666, untrainedRatio: 1.02,
+    trainedMean: 5.6512, trainedMasked: 5.4732, trainedBoundary: 13.8385, trainedRatio: 2.53,
+    trainedDelta: -0.1780,
   },
 
   /* downsampled training curves (every 25 steps) straight from the notebook logs */
   steps: [0,25,50,75,100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950,975,1000,1025,1050,1075,1100,1125,1150,1175,1200,1225,1250,1275,1300,1325,1350,1375,1400,1425,1450,1475,1500,1525,1550,1575,1600,1625,1650,1675,1700,1725,1750,1775,1800,1825,1850,1875,1900,1925,1950,1975,2000,2025,2050,2075,2100,2125,2150,2175,2200,2225,2250,2275,2300,2325,2350,2375,2400,2425,2450,2475,2500,2525,2550,2575,2600,2625,2650,2675,2700,2725,2750,2775,2800,2825,2850,2875,2900,2925,2950,2975,3000,3025,3050,3075,3100,3125,3150,3175,3200,3225,3250,3275,3300,3325,3350,3375,3400,3425,3450,3475,3500,3525,3550,3575,3600,3625,3650,3675,3700,3725,3750,3775,3800,3825,3850,3875,3900,3925,3950,3975,3999],
-  curveH1: [10.892,7.826,7.607,7.239,7.058,6.923,6.825,6.576,6.625,6.604,6.473,6.445,6.34,6.38,6.333,6.168,6.25,6.231,6.276,6.242,6.021,6.167,6.161,6.024,6.09,6.112,5.87,5.83,5.768,5.811,5.802,5.83,5.885,5.995,5.732,5.661,5.647,5.717,5.647,5.709,5.558,5.521,5.646,5.487,5.476,5.464,5.405,5.643,5.607,5.456,5.503,5.46,5.433,5.332,5.206,5.326,5.286,5.234,5.348,5.367,5.22,5.337,5.199,5.302,5.149,5.084,5.249,5.036,5.197,4.989,5.202,5.301,5.188,4.987,4.925,5.065,5.125,5.053,5.093,4.916,5.156,5.013,5.032,4.942,5.127,5.025,4.955,4.976,5.107,4.998,4.778,4.836,4.912,4.621,4.856,5.028,4.775,4.8,4.926,4.919,4.928,4.941,4.917,4.981,4.84,4.944,4.761,4.912,4.619,4.819,4.935,4.782,4.886,4.742,4.715,4.662,4.746,4.706,4.712,4.709,4.565,4.727,4.854,4.698,4.803,4.631,4.756,4.641,4.688,4.675,4.582,4.706,4.657,4.721,4.731,4.731,4.497,4.788,4.456,4.585,4.649,4.756,4.556,4.576,4.615,4.732,4.609,4.595,4.733,4.526,4.614,4.585,4.74,4.575,4.51,4.634,4.681,4.61,4.423,4.668,4.717],
-  curveH2: [10.954,7.864,7.613,7.444,7.425,7.364,7.313,7.146,7.208,7.253,7.144,7.171,7.054,7.131,7.111,6.971,7.067,7.052,7.109,7.074,6.895,7.009,6.998,6.924,7.004,6.97,6.769,6.734,6.699,6.737,6.75,6.776,6.799,6.916,6.699,6.608,6.635,6.669,6.631,6.678,6.558,6.515,6.607,6.451,6.461,6.465,6.427,6.672,6.664,6.477,6.529,6.524,6.494,6.397,6.275,6.377,6.322,6.306,6.448,6.414,6.301,6.434,6.271,6.416,6.262,6.234,6.349,6.153,6.285,6.088,6.347,6.38,6.292,6.107,6.065,6.22,6.252,6.19,6.252,6.105,6.302,6.164,6.14,6.085,6.26,6.187,6.103,6.075,6.277,6.185,5.963,6.022,6.092,5.765,6.028,6.195,5.94,6.018,6.105,6.171,6.114,6.135,6.096,6.176,6.008,6.159,6.019,6.118,5.857,5.975,6.139,6.028,6.11,5.931,5.932,5.87,5.952,5.95,5.941,5.927,5.794,5.969,6.053,5.921,5.994,5.858,5.998,5.886,5.907,5.888,5.818,5.995,5.896,5.924,5.986,5.966,5.719,5.971,5.675,5.826,5.89,6.035,5.75,5.79,5.833,5.963,5.843,5.853,5.964,5.868,5.877,5.851,6.017,5.835,5.798,5.911,5.924,5.875,5.658,5.922,5.985],
-  curveSum: [21.845,15.689,15.221,14.684,14.483,14.287,14.138,13.722,13.833,13.857,13.617,13.617,13.395,13.511,13.444,13.139,13.316,13.283,13.384,13.317,12.916,13.176,13.159,12.948,13.093,13.082,12.639,12.563,12.467,12.548,12.551,12.606,12.684,12.911,12.431,12.269,12.282,12.386,12.278,12.386,12.117,12.035,12.253,11.938,11.937,11.929,11.832,12.315,12.271,11.933,12.032,11.984,11.928,11.729,11.482,11.703,11.607,11.54,11.796,11.781,11.521,11.772,11.47,11.718,11.411,11.318,11.598,11.189,11.482,11.076,11.549,11.681,11.48,11.095,10.99,11.285,11.377,11.243,11.345,11.022,11.458,11.177,11.172,11.027,11.386,11.212,11.058,11.05,11.383,11.183,10.741,10.858,11.005,10.386,10.885,11.223,10.714,10.819,11.031,11.09,11.042,11.076,11.013,11.157,10.848,11.102,10.78,11.03,10.476,10.795,11.075,10.809,10.995,10.673,10.647,10.532,10.697,10.656,10.653,10.636,10.359,10.696,10.907,10.619,10.797,10.489,10.754,10.527,10.595,10.563,10.4,10.701,10.553,10.645,10.717,10.697,10.216,10.759,10.131,10.412,10.539,10.791,10.306,10.367,10.449,10.694,10.452,10.448,10.697,10.394,10.491,10.436,10.756,10.409,10.308,10.545,10.605,10.484,10.081,10.59,10.702],
-  curveBase: [10.939,7.76,7.531,7.099,7.013,6.918,6.832,6.587,6.623,6.598,6.475,6.442,6.345,6.402,6.335,6.176,6.254,6.242,6.272,6.256,6.027,6.17,6.15,6.0,6.077,6.098,5.851,5.818,5.759,5.792,5.788,5.819,5.875,5.975,5.728,5.636,5.627,5.697,5.625,5.671,5.542,5.5,5.598,5.465,5.44,5.431,5.368,5.606,5.56,5.432,5.465,5.432,5.396,5.282,5.172,5.286,5.274,5.201,5.287,5.328,5.19,5.302,5.135,5.259,5.121,5.043,5.214,4.994,5.15,4.961,5.153,5.263,5.162,4.959,4.88,5.019,5.072,5.025,5.035,4.867,5.102,4.972,4.974,4.896,5.085,4.989,4.918,4.937,5.065,4.965,4.741,4.808,4.862,4.603,4.817,4.996,4.717,4.744,4.873,4.879,4.892,4.907,4.881,4.949,4.786,4.899,4.725,4.878,4.568,4.75,4.881,4.744,4.825,4.694,4.693,4.612,4.691,4.657,4.659,4.654,4.511,4.672,4.807,4.654,4.761,4.59,4.704,4.607,4.616,4.623,4.527,4.653,4.602,4.657,4.68,4.68,4.436,4.739,4.39,4.511,4.575,4.685,4.488,4.522,4.555,4.669,4.534,4.548,4.647,4.468,4.541,4.528,4.674,4.493,4.438,4.582,4.621,4.529,4.354,4.592,4.651],
+  curveH1: [10.892,7.826,7.607,7.239,7.058,6.923,6.825,6.576,6.625,6.604,6.473,6.445,6.34,6.38,6.333,6.168,6.248,6.231,6.279,6.244,6.023,6.169,6.162,6.023,6.09,6.11,5.873,5.829,5.776,5.811,5.808,5.834,5.884,6.002,5.743,5.665,5.653,5.712,5.645,5.714,5.565,5.511,5.631,5.495,5.484,5.474,5.399,5.651,5.601,5.467,5.515,5.465,5.446,5.325,5.199,5.332,5.296,5.242,5.349,5.366,5.221,5.343,5.2,5.304,5.154,5.089,5.25,5.039,5.192,4.996,5.202,5.299,5.193,4.988,4.932,5.064,5.12,5.05,5.091,4.92,5.157,5.01,5.029,4.945,5.125,5.027,4.957,4.965,5.101,5.002,4.776,4.841,4.908,4.616,4.847,5.022,4.772,4.793,4.922,4.936,4.931,4.939,4.908,4.983,4.834,4.939,4.755,4.92,4.612,4.823,4.942,4.777,4.879,4.737,4.717,4.657,4.742,4.718,4.713,4.697,4.549,4.711,4.858,4.698,4.804,4.642,4.757,4.644,4.688,4.673,4.585,4.714,4.659,4.715,4.735,4.721,4.502,4.792,4.458,4.575,4.643,4.756,4.556,4.573,4.623,4.731,4.6,4.595,4.725,4.516,4.625,4.588,4.742,4.579,4.51,4.638,4.669,4.609,4.419,4.672,4.725],
+  curveH2: [10.954,7.864,7.613,7.444,7.425,7.364,7.313,7.146,7.208,7.253,7.144,7.171,7.054,7.131,7.111,6.971,7.065,7.054,7.112,7.075,6.896,7.01,6.996,6.923,7.011,6.975,6.775,6.735,6.704,6.739,6.752,6.778,6.803,6.921,6.707,6.611,6.643,6.676,6.637,6.683,6.563,6.512,6.601,6.459,6.47,6.47,6.424,6.673,6.655,6.494,6.536,6.525,6.498,6.395,6.276,6.38,6.335,6.303,6.45,6.413,6.305,6.437,6.282,6.416,6.266,6.237,6.352,6.156,6.293,6.093,6.339,6.375,6.3,6.107,6.075,6.221,6.256,6.195,6.258,6.106,6.3,6.157,6.147,6.089,6.268,6.188,6.105,6.072,6.273,6.184,5.968,6.027,6.088,5.768,6.028,6.189,5.941,6.008,6.103,6.173,6.118,6.136,6.095,6.182,6.011,6.158,6.021,6.123,5.857,5.98,6.149,6.023,6.104,5.932,5.936,5.859,5.947,5.955,5.94,5.925,5.785,5.96,6.064,5.919,5.994,5.867,6.003,5.886,5.911,5.882,5.817,5.998,5.899,5.918,5.981,5.956,5.726,5.974,5.676,5.813,5.891,6.03,5.754,5.792,5.84,5.972,5.839,5.852,5.96,5.859,5.89,5.842,6.021,5.842,5.803,5.913,5.922,5.876,5.663,5.926,5.994],
+  curveSum: [21.845,15.689,15.221,14.684,14.483,14.287,14.138,13.722,13.833,13.857,13.617,13.617,13.395,13.511,13.444,13.139,13.313,13.285,13.39,13.319,12.919,13.179,13.158,12.946,13.101,13.085,12.648,12.564,12.48,12.55,12.56,12.612,12.687,12.923,12.45,12.276,12.296,12.388,12.283,12.397,12.128,12.023,12.233,11.954,11.954,11.943,11.824,12.324,12.256,11.962,12.051,11.99,11.944,11.72,11.475,11.712,11.632,11.545,11.799,11.779,11.527,11.78,11.482,11.72,11.42,11.326,11.602,11.195,11.485,11.09,11.541,11.674,11.493,11.095,11.007,11.285,11.377,11.245,11.349,11.026,11.457,11.167,11.177,11.034,11.393,11.214,11.062,11.037,11.374,11.186,10.744,10.867,10.995,10.384,10.875,11.211,10.713,10.8,11.025,11.108,11.05,11.074,11.004,11.165,10.845,11.098,10.776,11.043,10.469,10.803,11.091,10.8,10.983,10.669,10.654,10.516,10.689,10.672,10.653,10.622,10.334,10.671,10.922,10.617,10.798,10.509,10.759,10.53,10.599,10.555,10.402,10.712,10.558,10.633,10.716,10.677,10.227,10.766,10.134,10.388,10.533,10.786,10.31,10.365,10.463,10.703,10.439,10.447,10.684,10.375,10.515,10.43,10.763,10.421,10.313,10.551,10.591,10.485,10.082,10.599,10.719],
+  curveBase: [10.939,7.76,7.531,7.099,7.013,6.918,6.832,6.587,6.623,6.598,6.475,6.442,6.345,6.402,6.335,6.176,6.254,6.242,6.272,6.256,6.028,6.167,6.154,5.999,6.082,6.096,5.852,5.822,5.761,5.797,5.779,5.815,5.869,5.975,5.732,5.632,5.63,5.699,5.625,5.682,5.545,5.499,5.601,5.469,5.438,5.445,5.378,5.611,5.562,5.432,5.471,5.428,5.393,5.285,5.173,5.291,5.269,5.202,5.296,5.327,5.19,5.296,5.138,5.266,5.121,5.045,5.215,5.001,5.149,4.97,5.16,5.259,5.161,4.954,4.884,5.027,5.084,5.032,5.041,4.874,5.107,4.958,4.98,4.901,5.09,4.985,4.916,4.941,5.063,4.966,4.737,4.803,4.866,4.605,4.811,4.991,4.71,4.749,4.873,4.869,4.886,4.888,4.87,4.946,4.785,4.905,4.715,4.867,4.569,4.749,4.874,4.744,4.832,4.697,4.685,4.61,4.694,4.673,4.662,4.662,4.503,4.675,4.797,4.647,4.76,4.584,4.71,4.6,4.621,4.63,4.528,4.654,4.597,4.656,4.668,4.685,4.43,4.732,4.389,4.506,4.57,4.686,4.493,4.511,4.548,4.678,4.531,4.655,4.693,4.492,4.551,4.542,4.68,4.511,4.433,4.587,4.633,4.529,4.361,4.612,4.653],
 
   figures: [
     { src: "../loss_harness/assets/mtp_losses.png", cap: "t+1 vs t+2 head losses over 4,000 steps (matplotlib, full per-step)." },
@@ -150,17 +160,17 @@ window.SESSION_DATA = {
     { src: "../loss_harness/assets/mtp_loss_head1_aim.png", cap: "Aim · Head 1 (t+1) loss" },
     { src: "../loss_harness/assets/mtp_loss_head2_aim.png", cap: "Aim · Head 2 (t+2) loss" },
     { src: "../loss_harness/assets/mtp_loss_sum_aim.png", cap: "Aim · L1 + L2 (the optimised objective)" },
-    { src: "../loss_harness/assets/perplexity_baseline_aim.png", cap: "Aim · baseline perplexity — ~56,000 → ~100" },
+    { src: "../loss_harness/assets/perplexity_aim.png", cap: "Aim · baseline perplexity — ~56,000 → ~100" },
   ],
 
   commentary: [
     {
       h: "The gap is the finding",
-      p: "At step 0 both heads are random, so L2 − L1 ≈ 0 — noise. As training shapes the shared trunk the gap opens to a stable ~1.12–1.26 nats (trailing mean) and never closes — dozens of standard errors above zero. Predicting t+2 from the same hidden state carries one extra step of genuine, irreducible uncertainty about what the text does next. Its entropy floor is simply higher.",
+      p: "At step 0 both heads are random, so L2 − L1 ≈ 0 — noise. As training shapes the shared trunk the gap opens to a stable ~1.26 nats (trailing mean, 231 standard errors above zero) and never closes. Predicting t+2 from the same hidden state carries one extra step of genuine, irreducible uncertainty about what the text does next. Its entropy floor is simply higher.",
     },
     {
       h: "In perplexity terms",
-      p: "The model settles at effectively ~100 options for the very next token, but ~360 for the token after that. Same context, same representation — the further-out prediction is a measurably harder question.",
+      p: "The model settles at effectively ~100 options for the very next token, but ~350 for the token after that. Same context, same representation — the further-out prediction is a measurably harder question.",
     },
     {
       h: "Both curves fall together, not apart",
@@ -168,7 +178,7 @@ window.SESSION_DATA = {
     },
     {
       h: "The second head is cheap — but not literally free",
-      p: "Trailing means over the last 400 steps: standalone baseline 4.55, MTP t+1 head 4.62 — a +0.068-nat cost, inside a single step's ±0.2-nat swing but ~3 standard errors of the mean, so a small resolved cost rather than zero. And it understates the two-head model: the baseline head is tied (helps a little), the MTP head is untied and shares its trunk gradient with t+2.",
+      p: "Trailing means over the last 400 steps: standalone baseline 4.555, MTP t+1 head 4.602 — a +0.047-nat cost. Well inside a single step's noise (sd 0.109), but 8.6 standard errors of the trailing mean, so cleanly resolved rather than zero. And it understates the two-head model: the baseline head is tied (helps a little), the MTP head is untied and shares its trunk gradient with t+2.",
     },
     {
       h: "The sum is what's optimised",

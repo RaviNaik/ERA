@@ -183,16 +183,34 @@ loss   = cross_entropy(
 
       <div class="card mem-card">
         <div class="card-header">
+          <span class="card-title">🔗 Check 4 in detail — boundary masking, untrained vs. trained</span>
+          <span class="badge badge-purple">−0.178 nats trained</span>
+        </div>
+        <div class="card-body">
+          <div id="boundary-detail"></div>
+          <p class="fine">
+            Same two packed documents, scored on the untrained head (§3.4) and again on the
+            <code>t+1</code> head after its full 4,000-step run (§6.2). Untrained, the join is
+            indistinguishable from a real continuation. Trained, predicting an unrelated
+            document's first token is the sequence's worst position by 2.5×, and masking that
+            one position lowers the whole-sequence mean loss by 0.178 nats.
+          </p>
+        </div>
+      </div>
+
+      <div class="card mem-card">
+        <div class="card-header">
           <span class="card-title">🧮 Check 7 in detail — ordinary vs. chunked cross-entropy</span>
           <span class="badge badge-blue">same loss to 9.5e-7</span>
         </div>
         <div class="card-body">
           <div class="mem-bars" id="mem-bars"></div>
           <p class="fine">
-            Ordinary materialises the full <code>[16384, 50257]</code> logits tensor <em>and</em>
-            its gradient at once. Chunked processes 1,024 tokens at a time and back-propagates
-            each chunk before computing the next, so autograd frees each slice's graph. The
-            arithmetic is identical; only what must be resident changes.
+            Ordinary materialises the full <code>[32768, 50257]</code> logits tensor, its
+            <code>float32</code> log-softmax, <em>and</em> its gradient. Chunked processes 2,048
+            tokens at a time and back-propagates each of 16 chunks before computing the next, so
+            autograd frees each slice's graph. The arithmetic is identical; only what must be
+            resident changes — and the chunked cost is flat in <code>N</code>.
           </p>
         </div>
       </div>
@@ -235,9 +253,9 @@ loss   = cross_entropy(
         <div class="callout-body">
           <code>L2 − L1</code> starts at <strong>+0.06</strong> (both heads random) and settles at a
           trailing-mean <strong>+1.26</strong> nats (final step <strong>+1.27</strong>) — never
-          negative across 4,000 steps, dozens of standard errors above zero. Settled perplexity:
-          the model chooses among <strong>~100</strong> options for the next token but
-          <strong>~360</strong> for the one after. Both curves still fall <em>together</em> — they
+          negative across 4,000 steps, <strong>231 standard errors</strong> above zero. Settled
+          perplexity: the model chooses among <strong>~100</strong> options for the next token but
+          <strong>~350</strong> for the one after. Both curves still fall <em>together</em> — they
           share one trunk.
         </div>
       </div>
