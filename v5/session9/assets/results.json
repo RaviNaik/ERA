@@ -1,0 +1,80 @@
+{
+  "vocab_size": 50257,
+  "num_docs": 1153246,
+  "total_tokens": 115689651,
+  "shapes": {
+    "tokens": [
+      4,
+      32
+    ],
+    "hidden": [
+      4,
+      32,
+      512
+    ],
+    "logits": [
+      4,
+      32,
+      50257
+    ]
+  },
+  "shift_mismatches": 0,
+  "padding": {
+    "contributing_before": 234,
+    "contributing_after": 167,
+    "loss_before": 10.683435440063477,
+    "loss_after": 10.860288619995117
+  },
+  "boundary": {
+    "loss_before": 10.793985366821289,
+    "loss_after": 10.790231704711914,
+    "boundary_loss": 10.966581344604492,
+    "n_before": 47,
+    "n_after": 46
+  },
+  "perplexity": {
+    "loss_untrained": 10.932828903198242,
+    "ppl_untrained": 55984.4296875,
+    "ln_v": 10.82490511970208,
+    "vocab_size": 50257,
+    "relative_gap_pct": 0.9969951912071074
+  },
+  "tied_vs_untied": {
+    "trunk_params": 51692544,
+    "total_tied": 51692544,
+    "total_untied": 77424128,
+    "ratio": 1.4977813434757632
+  },
+  "memory": {
+    "n_tokens": 16384,
+    "chunk_size": 1024,
+    "dtype": "torch.bfloat16",
+    "peak_ordinary_bytes": 6428933632,
+    "peak_chunked_bytes": 1968415232,
+    "ratio": 3.2660454600668323
+  },
+  "mtp": {
+    "steps": 4000,
+    "head1_loss_start": 10.891735076904297,
+    "head1_loss_end": 4.716577053070068,
+    "head2_loss_start": 10.9535551071167,
+    "head2_loss_end": 5.985126972198486,
+    "sum_start": 21.845291137695312,
+    "sum_end": 10.701704025268555,
+    "gap_start": 0.061820030212402344,
+    "gap_end": 1.268549919128418,
+    "gap_mean": 1.064539030790329,
+    "gap_mean_after_warmup": 1.1254124156634013,
+    "frac_steps_L2_above_L1": 1.0
+  },
+  "smoke": false,
+  "config": {
+    "dataset": "wikitext-103-raw-v1",
+    "d_model": 512,
+    "n_layers": 8,
+    "n_heads": 8,
+    "seq_len": 512,
+    "batch_size": 12,
+    "n_steps": 4000
+  }
+}
