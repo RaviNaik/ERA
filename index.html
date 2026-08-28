@@ -342,6 +342,37 @@
           </div>
         </a>
 
+        <!-- Session 9 -->
+        <a href="v5/session9/webapp/" class="session-card" id="card-s9">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(99,102,241,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#6366f1,#f59e0b)">S9</div>
+              <div class="card-tags">
+                <span class="tag">Loss Functions</span>
+                <span class="tag">Cross-Entropy</span>
+                <span class="tag">MTP</span>
+              </div>
+            </div>
+            <h3 class="card-title">The Loss<br/>Harness</h3>
+            <p class="card-desc">
+              Making next-token cross-entropy correct and observable — shapes named, the
+              target shift read as decoded strings, padding and document boundaries masked,
+              perplexity anchored to vocab size — then a second head predicting <code>t+2</code>
+              trained on a 50M-parameter transformer over WikiText-103.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#6366f1"></span>S9&middot;1 Verify the Shift &#8212; Strings, Not IDs (0/12 mismatches)</li>
+              <li><span class="exp-dot" style="background:#06b6d4"></span>S9&middot;2 Padding &amp; Boundary Masks &#8212; Contributing-Token Count</li>
+              <li><span class="exp-dot" style="background:#10b981"></span>S9&middot;3 Chunked Cross-Entropy &#8212; 3.3&times; Peak-Memory Cut</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S9&middot;4 Second Head Predicts t+2 &#8212; Gap Opens to +1.27 nats</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>
