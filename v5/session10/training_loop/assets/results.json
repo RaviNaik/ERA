@@ -10,6 +10,7 @@
   },
   "params_total": 107904,
   "params_non_embedding": 103808,
+  "grad_shape_mismatches": 0,
   "gradcheck_analytic": 0.003251697236666836,
   "gradcheck_numeric": 0.003251697222594885,
   "gradcheck_matching_decimals": 10,
@@ -19,9 +20,9 @@
   "accum_final_val_correct": 2.9941744804382324,
   "accum_final_val_wrong": 3.10762619972229,
   "gradnorm_lead_steps": 1,
-  "mfu_pct": 10.306881276403569,
-  "mfu_tokens_per_sec": 71461.2264571378,
-  "mfu_achieved_tflops": 0.051534406382017846,
+  "mfu_flops_per_token": 721152,
+  "mfu_tokens_per_sec": 140804.16002624706,
+  "mfu_pct": 20.308240322249624,
   "float_0p1": {
     "fp32": {
       "bits": "0 01111011 10011001100110011001101",
@@ -33,7 +34,7 @@
       "value": 0.10009765625,
       "rel_err": 0.0009765624999999445
     },
-    "fp8_e4m3": {
+    "fp8 E4M3": {
       "bits": "0 0011 101",
       "value": 0.1015625,
       "rel_err": 0.015624999999999944
