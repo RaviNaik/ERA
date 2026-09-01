@@ -76,7 +76,7 @@ optimizer.zero_grad()                <span class="cmt"># wipe before the next ba
           <h2 class="section-title">Every serious training bug is silent</h2>
           <p class="section-desc">
             A wrong accumulation rule, a misreported gradient, a run sliding toward
-            divergence, a machine running at a tenth of its speed — none of them raise
+            divergence, a machine running at a fraction of its speed — none of them raise
             an exception. They all produce a plausible-looking loss curve. The six tasks
             below are each a way to make one of those bugs visible.
           </p>
@@ -310,6 +310,7 @@ optimizer.zero_grad()                <span class="cmt"># wipe before the next ba
             <div class="mfu-track" id="mfu-track"><div class="mfu-fill" id="mfu-fill"></div></div>
             <div class="mfu-scale" id="mfu-scale"></div>
           </div>
+          <p class="fine" id="mfu-noise" style="margin-top:0"></p>
           <div class="mfu-flops" id="mfu-flops"></div>
         </div>
       </div>

@@ -204,6 +204,8 @@ function renderMfu() {
   $('#mfu-scale').innerHTML =
     `<span>0</span><span></span><span>${m.peakTflops} peak · ${esc(m.peakSource)}</span>`;
 
+  if ($('#mfu-noise')) $('#mfu-noise').textContent = m.noise || '';
+
   const fl = [
     ['N (non-embedding)', fmt(m.N)],
     ['6N', fmt(m.sixN)],

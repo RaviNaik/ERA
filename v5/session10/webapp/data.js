@@ -36,7 +36,7 @@ window.SESSION_DATA = {
     { val: "~9 s.f.", lbl: "analytic vs numeric gradient match", cls: "green" },
     { val: "15.38%", lbl: "avg-of-averages accumulation error", cls: "rose" },
     { val: "1 step", lbl: "grad norm leads the loss", cls: "indigo" },
-    { val: "9.71%", lbl: "measured MFU on an A6000", cls: "amber" },
+    { val: "4.75%", lbl: "measured MFU on an A6000 (noisy)", cls: "amber" },
   ],
 
   /* ---- the six tasks ---- */
@@ -67,9 +67,9 @@ window.SESSION_DATA = {
     },
     {
       n: 5, tag: "mfu", title: "Compute your own MFU, honestly",
-      headline: "15.05 achieved ÷ 155 peak TFLOP/s = 9.71% MFU",
-      detail: "flops/token = 6N + attn = 64,035,072 + 7,077,888 = 71,112,960. Timed loop (bf16 autocast, batch 16 × seq 256, 30 steps): 19.36 ms/step, 211,590 tokens/sec. Distance to 40%: 30.29 points — paid for by a tiny model, small batch, no torch.compile, fp32 norms/optimizer, sync points, and a T² attention term outside 6N.",
-      verdict: "9.71%",
+      headline: "7.36 achieved ÷ 155 peak TFLOP/s = 4.75% MFU",
+      detail: "flops/token = 6N + attn = 64,035,072 + 7,077,888 = 71,112,960. Timed loop (bf16 autocast, batch 16 × seq 256, 30 steps): 39.60 ms/step, 103,425 tokens/sec. Distance to 40%: 35.25 points. One short window on a shared GPU is noisy (an earlier run measured ~9.7%) — paid for by a tiny model, small batch, no torch.compile, fp32 norms/optimizer, sync points, and a T² attention term outside 6N.",
+      verdict: "4.75%",
     },
     {
       n: 6, tag: "floats", title: "0.1 in fp32, bf16 and fp8 E4M3",
@@ -156,13 +156,15 @@ window.SESSION_DATA = {
     batch: 16,
     seq: 256,
     measureSteps: 30,
-    stepMs: 19.36,
-    tokensPerSec: 211590,
-    achievedTflops: 15.05,
+    stepMs: 39.60,
+    tokensPerSec: 103425,
+    achievedTflops: 7.36,
     peakTflops: 155,
     peakSource: "RTX A6000, bf16 tensor",
-    mfuPct: 9.71,
-    distanceToFortyPts: 30.29,
+    mfuPct: 4.75,
+    mfuEarlierPct: 9.71,
+    distanceToFortyPts: 35.25,
+    noise: "A single 30-step timed window on a shared GPU is noisy — an earlier run of the same cell measured ~9.7%. The structural reasons below are what actually cap this configuration, not the exact percentage.",
     costs: [
       { h: "Tiny model", p: "At 10.7M params 6N is small — each token is cheap in FLOPs but still pays full kernel-launch and Python-loop overhead. MFU climbs with model size; this proxy sits well below where an A6000 saturates." },
       { h: "Small batch / short sequences", p: "batch 16 × seq 256. The matmuls are memory-bandwidth bound, not compute bound — larger B and T amortise the weight reads." },
@@ -201,7 +203,7 @@ window.SESSION_DATA = {
     startLoss: 4.214,
     endLoss: 2.691,
     lnVocab: 4.174,
-    wallSec: 14.4,
+    wallSec: 14.7,
     sample: "Cotheferey cowi,fake le, bth\n\nHirere obe ale.\nS:BOSED:\nBdelatauss:\nWarthare wecrl t.\nWar dthasomee ar ce myathandanoum orour\nYowhe\nMUUf itir ble mil ndile,",
   },
 
@@ -214,7 +216,7 @@ window.SESSION_DATA = {
   commentary: [
     {
       h: "Every serious training bug is silent",
-      p: "Not one of the six checks would have raised an exception. A wrong accumulation rule (+7.7% worse and falling), a misreported gradient, a run sliding toward divergence, a machine at 9.7% — all produce a plausible-looking loss curve. The only defense is to print things and check things.",
+      p: "Not one of the six checks would have raised an exception. A wrong accumulation rule (+7.7% worse and falling), a misreported gradient, a run sliding toward divergence, a machine at <5% MFU — all produce a plausible-looking loss curve. The only defense is to print things and check things.",
     },
     {
       h: "The gradient check is a unit test for autograd",
@@ -230,7 +232,7 @@ window.SESSION_DATA = {
     },
     {
       h: "Low MFU is honest at this scale",
-      p: "9.71% on an A6000 is what a 10M-param model in eager mode with a 4k-token batch should get. The distance to 40% is a to-do list, not a bug: bigger model, bigger global batch, torch.compile, activation checkpointing, a lower-precision format on purpose.",
+      p: "A few percent on an A6000 is what a 10M-param model in eager mode with a 4k-token batch should get — and a single 30-step window swings (9.7% → 4.7% across two runs). The distance to 40% is a to-do list, not a bug: bigger model, bigger global batch, torch.compile, activation checkpointing, a lower-precision format on purpose.",
     },
     {
       h: "Pick the float format for its exponent, not its mantissa",

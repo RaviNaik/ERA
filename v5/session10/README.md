@@ -10,7 +10,7 @@ every experiment done **by hand in the notebook cells**, not behind a wrapper:
 2. one gradient checked by finite differences against `backward()` — analytic and numeric match to **every printed digit** (~9 significant figures),
 3. gradient accumulation deliberately broken — **15.38%** static error, a **+7.7%** held-out-loss gap in a real run,
 4. the global grad norm logged every step and caught spiking **1 step before** the loss,
-5. MFU measured honestly on an RTX A6000 — **9.71%**, and why,
+5. MFU measured honestly on an RTX A6000 — **4.75%** (a noisy single-window estimate), and why,
 6. the number `0.1` written out bit by bit in fp32, bf16 and fp8 E4M3.
 
 > 📓 **Notebook:** [`training_loop/session10_training_loop.ipynb`](./training_loop/session10_training_loop.ipynb)
@@ -241,12 +241,16 @@ real forward + backward + optimizer loop (bf16 autocast, 30 measured steps).
 | attention term | 7,077,888 |
 | **flops / token** | **71,112,960** |
 | dtype | bf16 autocast |
-| mean step time | 19.36 ms |
-| tokens / sec | 211,590 |
-| achieved | **15.05 TFLOP/s** |
+| mean step time | 39.60 ms |
+| tokens / sec | 103,425 |
+| achieved | **7.36 TFLOP/s** |
 | peak (RTX A6000, bf16 tensor) | 155 TFLOP/s |
-| **MFU** | **9.71 %** |
-| distance to 40% | **30.29 points** |
+| **MFU** | **4.75 %** |
+| distance to 40% | **35.25 points** |
+
+An earlier run of the same cell on the same box measured ~9.7%. A single
+30-step window on a shared GPU is a noisy estimate — the *structural* reasons
+below are what actually cap this configuration, not the exact percentage.
 
 ### What is costing us the distance to 40%
 
@@ -266,8 +270,8 @@ Roughly in order of impact for this run:
 5. **Optimizer + sync points.** AdamW is elementwise and bandwidth-bound; every
    `loss.item()` forces a device sync that stalls the pipeline.
 6. **The attention term grows as `T²`** and is not in `6N` — at `T = 256` it is
-   already ~10% of flops/token, and at long context it eats real time the `6N`
-   estimate ignores, depressing measured MFU further.
+   ~10% of flops/token, and at long context it eats real time the `6N` estimate
+   ignores, depressing measured MFU further.
 
 The fixes are the next sessions: bigger models, a bigger global batch via
 gradient accumulation, `torch.compile`, activation checkpointing, and a
@@ -342,7 +346,7 @@ clipping at 1.0 from step one — drives the loss from `≈ ln V` down:
 | --- | --- |
 | start loss | **4.214** (`ln V = 4.174`) |
 | end loss | **2.691** |
-| wall time | 14.4 s for 400 steps |
+| wall time | 14.7 s for 400 steps |
 
 ![train curve](./training_loop/assets/train_curve.png)
 
@@ -367,5 +371,5 @@ War dthasomee ar ce myathandanoum orour
 **Every serious training bug is silent.** Not one of the six checks here would
 have raised an exception — a wrong accumulation rule (`+7.7%` worse and falling),
 a misreported gradient, a run sliding toward divergence, a machine running at
-`9.7%` — all produce a plausible-looking loss curve. Print things and check
+`<5%` MFU — all produce a plausible-looking loss curve. Print things and check
 things.
