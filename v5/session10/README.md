@@ -14,8 +14,10 @@ every experiment done **by hand in the notebook cells**, not behind a wrapper:
 6. the number `0.1` written out bit by bit in fp32, bf16 and fp8 E4M3.
 
 > 📓 **Notebook:** [`training_loop/session10_training_loop.ipynb`](./training_loop/session10_training_loop.ipynb)
-> — executed top to bottom on an RTX A6000 (~1 min); `S10_SMOKE=1` gives a ~2-minute CPU pass.
-> 🌐 **Web app:** [`webapp/index.html`](./webapp/index.html) — visual walkthrough of the experiment and its numbers.
+> — executed top to bottom on an RTX A6000 (~1 min).
+> 
+> 🌐 **Web app:** [`webapp`](https://ravinaik.github.io/ERA/v5/session10/webapp/) — visual walkthrough of the experiment and its numbers.
+> 
 > 🧩 **Code:** [`training_loop/src/trainloop/`](./training_loop/src/trainloop/) —
 > plumbing only (model + data + utils); the six tasks live in the notebook.
 
