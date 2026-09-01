@@ -1,0 +1,26 @@
+[project]
+name = "session10"
+version = "0.1.0"
+description = "Session 10 assignment: a small model + a real training loop, instrumented to tell the truth about itself (shapes, a hand-checked gradient, a deliberately broken grad-accumulation, grad-norm traces, MFU, and 0.1 in fp32/bf16/fp8)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.4",
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+    "tqdm>=4.66",
+    "ipykernel>=6.29",
+    "jupyter>=1.0",
+    "nbconvert>=7.16",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu124" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true

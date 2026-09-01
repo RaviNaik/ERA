@@ -1,0 +1,44 @@
+{
+  "config": {
+    "vocab_size": 58,
+    "block_size": 64,
+    "n_layer": 2,
+    "n_head": 2,
+    "n_embd": 64,
+    "dropout": 0.0,
+    "bias": true
+  },
+  "params_total": 107904,
+  "params_non_embedding": 103808,
+  "gradcheck_analytic": 0.003251697236666836,
+  "gradcheck_numeric": 0.003251697222594885,
+  "gradcheck_matching_decimals": 10,
+  "accum_static_correct": 2.6,
+  "accum_static_wrong": 3.0,
+  "accum_static_rel_err_pct": 15.384615384615381,
+  "accum_final_val_correct": 2.9941744804382324,
+  "accum_final_val_wrong": 3.10762619972229,
+  "gradnorm_lead_steps": 1,
+  "mfu_pct": 10.306881276403569,
+  "mfu_tokens_per_sec": 71461.2264571378,
+  "mfu_achieved_tflops": 0.051534406382017846,
+  "float_0p1": {
+    "fp32": {
+      "bits": "0 01111011 10011001100110011001101",
+      "value": 0.10000000149011612,
+      "rel_err": 1.4901161138336505e-08
+    },
+    "bf16": {
+      "bits": "0 01111011 1001101",
+      "value": 0.10009765625,
+      "rel_err": 0.0009765624999999445
+    },
+    "fp8_e4m3": {
+      "bits": "0 0011 101",
+      "value": 0.1015625,
+      "rel_err": 0.015624999999999944
+    }
+  },
+  "train_start_loss": 4.0680365562438965,
+  "train_end_loss": 2.478660821914673
+}

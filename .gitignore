@@ -20,3 +20,5 @@ tokenizer_out_smoke/
 .python-version.local
 .aim
 v5/session9/.cache/tok_wikitext-103-raw-v1_train_1828c0a9c160.pkl
+v5/session10/training_loop/build_notebook.py
+v5/session10/training_loop/dry_run.py
