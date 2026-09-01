@@ -21,8 +21,8 @@
   "accum_final_val_wrong": 3.3714194297790527,
   "gradnorm_lead_steps": 1,
   "mfu_flops_per_token": 71112960,
-  "mfu_tokens_per_sec": 211589.92507043976,
-  "mfu_pct": 9.707603792217535,
+  "mfu_tokens_per_sec": 103425.18560118788,
+  "mfu_pct": 4.745078120419258,
   "float_0p1": {
     "fp32": {
       "bits": "0 01111011 10011001100110011001101",
