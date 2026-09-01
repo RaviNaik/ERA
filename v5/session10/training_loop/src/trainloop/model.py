@@ -13,8 +13,8 @@ import math
 from dataclasses import dataclass
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 
 @dataclass
@@ -49,7 +49,9 @@ class CausalSelfAttention(nn.Module):
         k = k.view(B, T, self.n_head, self.head_dim).transpose(1, 2)
         v = v.view(B, T, self.n_head, self.head_dim).transpose(1, 2)
         y = F.scaled_dot_product_attention(
-            q, k, v,
+            q,
+            k,
+            v,
             attn_mask=None,
             dropout_p=self.dropout if self.training else 0.0,
             is_causal=True,
@@ -88,13 +90,13 @@ class GPT(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.transformer = nn.ModuleDict(
-            dict(
-                wte=nn.Embedding(cfg.vocab_size, cfg.n_embd),
-                wpe=nn.Embedding(cfg.block_size, cfg.n_embd),
-                drop=nn.Dropout(cfg.dropout),
-                h=nn.ModuleList([Block(cfg) for _ in range(cfg.n_layer)]),
-                ln_f=nn.LayerNorm(cfg.n_embd, bias=cfg.bias),
-            )
+            {
+                "wte": nn.Embedding(cfg.vocab_size, cfg.n_embd),
+                "wpe": nn.Embedding(cfg.block_size, cfg.n_embd),
+                "drop": nn.Dropout(cfg.dropout),
+                "h": nn.ModuleList([Block(cfg) for _ in range(cfg.n_layer)]),
+                "ln_f": nn.LayerNorm(cfg.n_embd, bias=cfg.bias),
+            }
         )
         self.lm_head = nn.Linear(cfg.n_embd, cfg.vocab_size, bias=False)
         # weight tying
@@ -128,16 +130,18 @@ class GPT(nn.Module):
           "none" - per-token cross-entropy [B, T] (masked positions zeroed)
         """
         B, T = idx.shape
-        assert T <= self.cfg.block_size, f"sequence length {T} > block_size {self.cfg.block_size}"
+        assert T <= self.cfg.block_size, (
+            f"sequence length {T} > block_size {self.cfg.block_size}"
+        )
         pos = torch.arange(0, T, dtype=torch.long, device=idx.device)
 
-        tok_emb = self.transformer.wte(idx)          # [B, T, n_embd]
-        pos_emb = self.transformer.wpe(pos)          # [T, n_embd]
+        tok_emb = self.transformer.wte(idx)  # [B, T, n_embd]
+        pos_emb = self.transformer.wpe(pos)  # [T, n_embd]
         x = self.transformer.drop(tok_emb + pos_emb)  # [B, T, n_embd]
         for block in self.transformer.h:
             x = block(x)
-        x = self.transformer.ln_f(x)                  # [B, T, n_embd]
-        logits = self.lm_head(x)                      # [B, T, vocab_size]
+        x = self.transformer.ln_f(x)  # [B, T, n_embd]
+        logits = self.lm_head(x)  # [B, T, vocab_size]
 
         loss = None
         if targets is not None:
@@ -145,7 +149,7 @@ class GPT(nn.Module):
                 logits.view(-1, logits.size(-1)),
                 targets.view(-1),
                 reduction="none",
-            ).view(B, T)                              # [B, T]
+            ).view(B, T)  # [B, T]
             if loss_mask is not None:
                 per_tok = per_tok * loss_mask
                 denom = loss_mask.sum().clamp(min=1.0)
@@ -180,7 +184,9 @@ class GPT(nn.Module):
         return 6 * n + attn
 
     @torch.no_grad()
-    def generate(self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0):
+    def generate(
+        self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0
+    ):
         for _ in range(max_new_tokens):
             idx_cond = idx[:, -self.cfg.block_size :]
             logits, _ = self(idx_cond)

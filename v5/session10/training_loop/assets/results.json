@@ -1,28 +1,28 @@
 {
   "config": {
-    "vocab_size": 58,
-    "block_size": 64,
-    "n_layer": 2,
-    "n_head": 2,
-    "n_embd": 64,
+    "vocab_size": 65,
+    "block_size": 256,
+    "n_layer": 6,
+    "n_head": 6,
+    "n_embd": 384,
     "dropout": 0.0,
     "bias": true
   },
-  "params_total": 107904,
-  "params_non_embedding": 103808,
+  "params_total": 10770816,
+  "params_non_embedding": 10672512,
   "grad_shape_mismatches": 0,
-  "gradcheck_analytic": 0.003251697236666836,
-  "gradcheck_numeric": 0.003251697222594885,
+  "gradcheck_analytic": 0.008106809184605374,
+  "gradcheck_numeric": 0.008106809166186224,
   "gradcheck_matching_decimals": 10,
   "accum_static_correct": 2.6,
   "accum_static_wrong": 3.0,
   "accum_static_rel_err_pct": 15.384615384615381,
-  "accum_final_val_correct": 2.9941744804382324,
-  "accum_final_val_wrong": 3.10762619972229,
+  "accum_final_val_correct": 3.1302857398986816,
+  "accum_final_val_wrong": 3.3714194297790527,
   "gradnorm_lead_steps": 1,
-  "mfu_flops_per_token": 721152,
-  "mfu_tokens_per_sec": 140804.16002624706,
-  "mfu_pct": 20.308240322249624,
+  "mfu_flops_per_token": 71112960,
+  "mfu_tokens_per_sec": 211589.92507043976,
+  "mfu_pct": 9.707603792217535,
   "float_0p1": {
     "fp32": {
       "bits": "0 01111011 10011001100110011001101",
@@ -40,6 +40,6 @@
       "rel_err": 0.015624999999999944
     }
   },
-  "train_start_loss": 4.0680365562438965,
-  "train_end_loss": 2.478660821914673
+  "train_start_loss": 4.213569641113281,
+  "train_end_loss": 2.6910295486450195
 }
