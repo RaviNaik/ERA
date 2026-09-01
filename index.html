@@ -373,6 +373,38 @@
           </div>
         </a>
 
+        <!-- Session 10 -->
+        <a href="v5/session10/webapp/" class="session-card" id="card-s10">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(245,158,11,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#f59e0b,#f43f5e)">S10</div>
+              <div class="card-tags">
+                <span class="tag">Training Loop</span>
+                <span class="tag">Autograd</span>
+                <span class="tag">MFU</span>
+              </div>
+            </div>
+            <h3 class="card-title">The Training<br/>Loop</h3>
+            <p class="card-desc">
+              The five lines every training job runs &#8212; forward, backward, step, zero-grad
+              &#8212; checked by hand on a 10.8M-parameter nanoGPT: shapes named, a gradient
+              verified against a finite difference, accumulation broken on purpose, the grad
+              norm caught leading the loss, MFU measured honestly, and <code>0.1</code> written
+              out bit by bit.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#6366f1"></span>S10&middot;1 Every Tensor Shape &#8212; By-Hand Walk Matches SDPA to 7e-7</li>
+              <li><span class="exp-dot" style="background:#10b981"></span>S10&middot;2 One Gradient vs. a Finite Difference &#8212; Match to ~9 Sig Figs</li>
+              <li><span class="exp-dot" style="background:#f43f5e"></span>S10&middot;3 Average-of-Averages Accumulation &#8212; 15.4% Off, +7.7% Worse</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S10&middot;4 Grad Norm Leads the Loss &middot; MFU 9.71% &middot; 0.1 in fp32/bf16/fp8</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>

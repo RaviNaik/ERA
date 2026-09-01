@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Training Loop | ERA V5 · Session 10</title>
+  <meta name="description" content="Session 10 — take a small model and a real training loop, and make it tell you the truth about itself. Every tensor shape printed, one gradient checked by hand, gradient accumulation broken on purpose, the grad norm caught leading the loss, MFU measured honestly, and 0.1 written out bit by bit." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S10</div>
+      <div class="sidebar-brand-title">The Training Loop<br/><span class="sidebar-gradient-text">tell the truth</span></div>
+      <div class="sidebar-brand-sub">9 sections · September 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#thesis" data-target="thesis"><span class="nav-icon">🔇</span> The Silent Bug</a>
+      <a class="nav-item" href="#setup" data-target="setup"><span class="nav-icon">🏗️</span> Model &amp; Data</a>
+      <a class="nav-item" href="#shapes" data-target="shapes"><span class="nav-icon">📐</span> 1 · Tensor Shapes</a>
+      <a class="nav-item" href="#gradient" data-target="gradient"><span class="nav-icon">✋</span> 2 · Gradient by Hand</a>
+      <a class="nav-item" href="#accum" data-target="accum"><span class="nav-icon">➗</span> 3 · Breaking Accumulation</a>
+      <a class="nav-item" href="#gradnorm" data-target="gradnorm"><span class="nav-icon">📡</span> 4 · Grad Norm Leads</a>
+      <a class="nav-item" href="#mfu" data-target="mfu"><span class="nav-icon">⚡</span> 5 · MFU, Honestly</a>
+      <a class="nav-item" href="#floats" data-target="floats"><span class="nav-icon">🔬</span> 6 · 0.1 in Three Formats</a>
+      <a class="nav-item" href="#figures" data-target="figures"><span class="nav-icon">📈</span> Charts &amp; Sanity</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 10 Assignment</div>
+      <h1>The Training Loop</h1>
+      <p>
+        Five lines run every training job in the world — forward, backward, step,
+        zero-grad. This dashboard takes them apart and <strong>checks them by hand</strong>:
+        every tensor shape named, one gradient verified against a finite difference,
+        gradient accumulation deliberately broken, the grad norm caught spiking before
+        the loss, MFU measured on a real GPU, and the number <code>0.1</code> written
+        out bit by bit. Because every serious training bug is silent.
+      </p>
+      <div class="hero-stats" id="hero-stats"></div>
+      <pre class="hero-code loop-lines mono">logits, loss = model(x, targets=y)   <span class="cmt"># forward</span>
+loss.backward()                      <span class="cmt"># fill in every gradient</span>
+optimizer.step()                     <span class="cmt"># move every weight</span>
+optimizer.zero_grad()                <span class="cmt"># wipe before the next batch</span></pre>
+      <div class="hero-links">
+        <a class="hero-link" href="../README.md">📄 Full write-up — README.md</a>
+        <a class="hero-link" href="../training_loop/session10_training_loop.ipynb">📓 The notebook (executed)</a>
+        <a class="hero-link" href="../training_loop/assets/results.json">🔢 results.json</a>
+        <a class="hero-link" href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">↗ Repository</a>
+      </div>
+    </header>
+
+    <!-- ── The Silent Bug ───────────────────────────────── -->
+    <section class="section" id="thesis">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 09 · THE THESIS</span>
+          <h2 class="section-title">Every serious training bug is silent</h2>
+          <p class="section-desc">
+            A wrong accumulation rule, a misreported gradient, a run sliding toward
+            divergence, a machine running at a tenth of its speed — none of them raise
+            an exception. They all produce a plausible-looking loss curve. The six tasks
+            below are each a way to make one of those bugs visible.
+          </p>
+        </div>
+      </div>
+      <div class="seven-grid" id="task-grid"></div>
+    </section>
+
+    <!-- ── Model & Data ─────────────────────────────────── -->
+    <section class="section" id="setup">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 09 · SETUP</span>
+          <h2 class="section-title">A 10.8M-parameter nanoGPT on char-level Shakespeare</h2>
+          <p class="section-desc">
+            Deliberately ordinary — learned token + position embeddings, pre-norm
+            LayerNorm, causal multi-head attention via <code>scaled_dot_product_attention</code>,
+            a 4× GELU MLP, weight-tied head. The point of the session is the <em>loop</em>,
+            so the model stays close to nanoGPT and the 6N FLOP rule stays easy to reason about.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">🏗️ The transformer block, ×6</span></div>
+          <div class="card-body"><div class="block-diagram" id="block-diagram"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">⚙️ Run configuration</span></div>
+          <div class="card-body"><table class="kv-table" id="setup-table"></table></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Sanity anchor</div>
+        <div class="callout-body">
+          A char-level vocabulary of 65 means an untrained model's loss should sit near
+          <code>ln(65) = 4.174</code>. The sanity run below starts at <strong>4.214</strong> —
+          a freshly-initialised model is 1% from uniform, exactly as it should be. Every
+          other number in this experiment is checked against an anchor like this one.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 1 — Tensor Shapes ───────────────────────── -->
+    <section class="section" id="shapes">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 09 · TASK 1</span>
+          <h2 class="section-title">Print every tensor shape in the step</h2>
+          <p class="section-desc">
+            One batch, walked one sub-module at a time — attention un-rolled so the
+            <code>[B, H, T, T]</code> score tensor the fused kernel hides is visible. Then
+            every parameter, then after <code>backward()</code> every gradient.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">The forward pass, shape by shape</span>
+          <span class="badge badge-green" id="byhand-badge"></span>
+        </div>
+        <div class="card-body">
+          <div class="spine" id="shape-walk"></div>
+          <p class="spine-note" id="shape-legend"></p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">📐 Parameters — shape, count, what they map</span></div>
+          <div class="card-body"><table class="shape-table" id="param-table"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">✅ Gradients after backward()</span>
+            <span class="badge badge-green">0 wrong · 0 None</span>
+          </div>
+          <div class="card-body">
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+              Every <code>.grad</code> comes back with the <strong>identical shape</strong> to its
+              parameter — <code>dL/dW</code> is one number per weight. The tied
+              <code>wte</code>/<code>lm_head</code> tensor appears once; its gradient has
+              accumulated contributions from both the embedding lookup and the output
+              projection. Total trainable params: <strong id="param-total"></strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 2 — Gradient by Hand ────────────────────── -->
+    <section class="section" id="gradient">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 09 · TASK 2</span>
+          <h2 class="section-title">Verify one gradient by hand</h2>
+          <p class="section-desc">
+            Pick one scalar weight. <code>backward()</code> reports <code>dL/dw</code>.
+            Measure it the dumb way — nudge the weight up by <code>h</code>, nudge it down
+            by <code>h</code>, watch how the loss moved. In fp64, dropout off.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title mono" id="gc-param"></span>
+          <span class="badge badge-green" id="gc-badge"></span>
+        </div>
+        <div class="card-body">
+          <div class="gc-panel" id="gc-panel"></div>
+          <p class="fine" id="gc-formula"></p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">⚠️ If they disagree</div>
+        <div class="callout-body">
+          The usual causes: dropout still on (the forward pass isn't repeatable),
+          <code>h</code> too large (the quadratic Taylor term leaks in) or too small
+          (<code>L(w+h) ≈ L(w−h)</code> in fp64), fp32 instead of fp64, or an in-place
+          op corrupting the autograd graph. Ten-decimal agreement rules all of that out.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 3 — Breaking Accumulation ──────────────── -->
+    <section class="section" id="accum">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 09 · TASK 3</span>
+          <h2 class="section-title">Break gradient accumulation on purpose</h2>
+          <p class="section-desc">
+            <strong>Correct:</strong> sum every per-token loss, divide by the total token
+            count — every token gets one equal vote. <strong>Wrong:</strong> average each
+            micro-batch's mean loss, so a short micro-batch votes as loudly as a long one.
+            Identical only when micro-batches hold equal token counts.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">The static case — class-notes numbers</span>
+            <span class="badge badge-red" id="acc-static-badge"></span>
+          </div>
+          <div class="card-body">
+            <div class="acc-bars" id="acc-bars"></div>
+            <p class="fine" id="acc-static-note"></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">In a real 120-step run</span>
+            <span class="badge badge-red" id="acc-real-badge"></span>
+          </div>
+          <div class="card-body">
+            <table class="mini-table" id="acc-real-table"></table>
+            <p class="fine">
+              Two copies of the same initial model, fed the <strong>same</strong>
+              unequal-length micro-batches (token counts 48, 48, 12) every step, one trained
+              under each rule. The "wrong" rule systematically over-weights the 12-token
+              micro-batch's gradient — a subtly different objective than the one written down.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 4 — Grad Norm Leads ─────────────────────── -->
+    <section class="section" id="gradnorm">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 09 · TASK 4</span>
+          <h2 class="section-title">Log the grad norm, catch it moving first</h2>
+          <p class="section-desc">
+            The global grad norm <code>sqrt(Σ gᵢ²)</code>, logged every step, measured
+            after <code>backward()</code> and before <code>opt.step()</code>. One poisoned
+            batch (targets replaced with noise) is fed mid-run.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">The poisoned batch, step by step</span>
+          <span class="badge badge-purple" id="gn-badge"></span>
+        </div>
+        <div class="card-body">
+          <div class="lead-strip" id="lead-strip"></div>
+          <p class="fine" id="gn-note"></p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">📡 Why it matters</div>
+        <div class="callout-body">
+          One synthetic poisoned batch buys only a one-step lead. On a real run the lead
+          is far longer — a run heading for divergence shows it in the grad norm long
+          before the loss curve bends, which is why the grad norm is the most useful
+          trace on a training dashboard. Clipping (<code>clip_grad_norm_</code>) uses the
+          same number and belongs on from step one.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 5 — MFU ─────────────────────────────────── -->
+    <section class="section" id="mfu">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 09 · TASK 5</span>
+          <h2 class="section-title">Compute your own MFU, honestly</h2>
+          <p class="section-desc">
+            <code>MFU = (6N + attn) × tokens/sec ÷ peak FLOP/s</code>. Time a real forward
+            + backward + optimizer loop, count the tokens, divide by the card's dense peak.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Achieved vs. peak — RTX A6000, bf16</span>
+          <span class="badge badge-yellow" id="mfu-badge"></span>
+        </div>
+        <div class="card-body">
+          <div class="mfu-bar-wrap">
+            <div class="mfu-track" id="mfu-track"><div class="mfu-fill" id="mfu-fill"></div></div>
+            <div class="mfu-scale" id="mfu-scale"></div>
+          </div>
+          <div class="mfu-flops" id="mfu-flops"></div>
+        </div>
+      </div>
+
+      <div class="card mem-card" style="margin-top:16px">
+        <div class="card-header">
+          <span class="card-title">🧾 What is costing us the distance to 40%</span>
+          <span class="badge badge-blue" id="mfu-dist-badge"></span>
+        </div>
+        <div class="card-body">
+          <div class="commentary-grid" id="mfu-costs"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 6 — Floats ──────────────────────────────── -->
+    <section class="section" id="floats">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 09 · TASK 6</span>
+          <h2 class="section-title">The number <span class="mono">0.1</span> in fp32, bf16 and fp8 E4M3</h2>
+          <p class="section-desc">
+            <code>0.1</code> in binary is <code>0.0001100110011…</code> repeating — never
+            exact. <code>0.1 = 1.6 × 2⁻⁴</code>, so the unbiased exponent is <code>−4</code>
+            everywhere; each format rounds the mantissa at a different place. Scale the
+            fraction <code>0.6</code> by <code>2^(mantissa width)</code> and round to nearest.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">The same number, three bit layouts</span></div>
+        <div class="card-body">
+          <div class="floats-grid" id="floats-grid"></div>
+          <div class="bits-legend">
+            <span><i style="background:var(--text-muted)"></i>sign</span>
+            <span><i style="background:var(--indigo)"></i>exponent</span>
+            <span><i style="background:var(--purple)"></i>mantissa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">A few more values through the by-hand fp8 E4M3 encoder</span></div>
+          <div class="card-body">
+            <p class="fine" id="float-nan-note" style="margin-top:0"></p>
+            <table class="mini-table" id="float-extras"></table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">💬 Which would I train in, and why</span></div>
+          <div class="card-body"><p style="font-size:12.5px;color:var(--text-secondary);line-height:1.7" id="float-answer"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Figures / Sanity ─────────────────────────────── -->
+    <section class="section" id="figures">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">09 / 09 · EVIDENCE</span>
+          <h2 class="section-title">Charts &amp; the sanity run</h2>
+          <p class="section-desc">
+            The matplotlib figures written by the notebook, and a short real run to
+            confirm the five lines actually drive the loss down.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🧪 Sanity — 400 steps, grad-norm clipping from step one</span>
+          <span class="badge badge-green" id="sanity-badge"></span>
+        </div>
+        <div class="card-body">
+          <table class="mini-table" id="sanity-table"></table>
+          <p class="fine">Sampling the trained model (200 chars, temperature 0.8) — recognisably
+            Shakespeare-shaped noise, which is all 400 steps of a 10M char model can buy:</p>
+          <div class="sample-box" id="sanity-sample"></div>
+        </div>
+      </div>
+
+      <div class="figure-grid" id="figure-grid" style="margin-top:16px"></div>
+    </section>
+
+    <!-- ── Reproduce ────────────────────────────────────── -->
+    <section class="section" id="repro">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">RUN IT</span>
+          <h2 class="section-title">Reproduce this</h2>
+        </div>
+      </div>
+      <pre class="repro-block mono">cd training_loop
+uv sync
+
+<span class="cmt"># fast correctness pass — tiny model, CPU, ~2 min</span>
+uv run python dry_run.py
+
+<span class="cmt"># the real run — ~1 min on an A6000</span>
+uv run jupyter nbconvert --to notebook --execute --inplace session10_training_loop.ipynb
+<span class="cmt"># S10_PEAK_TFLOPS overrides the built-in peak lookup if the auto-guess is wrong</span></pre>
+    </section>
+
+    <footer class="footer">
+      The Training Loop · ERA V5 Session 10 ·
+      <a href="../README.md">Full write-up (README.md)</a> ·
+      <a href="../training_loop/session10_training_loop.ipynb">Notebook</a> ·
+      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">Repository</a>
+    </footer>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline theme toggle ─────────────────────────────────── */
+(function () {
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root = document.documentElement;
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    safeSet('era-theme', t);
+    icon.textContent = t === 'dark' ? '☀️' : '🌙';
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+  }
+  applyTheme(safeGet('era-theme') || 'dark');
+  btn.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ── Sidebar active-link + reading progress ──────────────── */
+(function () {
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = navItems.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+  if (sections.length && typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navItems.forEach(a => a.classList.toggle('active', a.dataset.target === e.target.id));
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (p * 100) + '%';
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

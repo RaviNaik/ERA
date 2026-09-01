@@ -22,6 +22,15 @@ import torch
 _URL = "https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
 _DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
+# The 65 distinct characters of Tiny Shakespeare. Prepended to the offline
+# fallback so `sorted(set(text))` still yields vocab_size == 65 and the
+# ln(65) = 4.174 sanity anchor holds even with no network.
+_VOCAB_PRIMER = (
+    "\n !$&',-.3:;?"
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz\n"
+)
+
 # A tiny offline fallback so the notebook still runs with no network. It is real
 # Shakespeare (Sonnet 18 + a Hamlet fragment), repeated to a usable length.
 _FALLBACK = (
@@ -50,7 +59,7 @@ def _load_text() -> str:
             urllib.request.urlretrieve(_URL, path)  # noqa: S310
         except Exception as exc:  # offline: use the bundled fallback
             print(f"download failed ({exc}); using bundled fallback corpus")
-            path.write_text(_FALLBACK * 400, encoding="utf-8")
+            path.write_text(_VOCAB_PRIMER + _FALLBACK * 400, encoding="utf-8")
     return path.read_text(encoding="utf-8")
 
 
