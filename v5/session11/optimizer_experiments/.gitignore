@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Aim's RocksDB repo is a large, machine-local artifact — regenerate with
+#   uv run python scripts/run_all.py
+# and browse with `uv run aim up`.
+.aim/
+
+# large raw dataset (auto-downloaded by data.py on first use)
+data/tinyshakespeare.txt

@@ -405,6 +405,39 @@
           </div>
         </a>
 
+        <!-- Session 11 -->
+        <a href="v5/session11/webapp/" class="session-card" id="card-s11">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(99,102,241,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#6366f1,#22d3ee)">S11</div>
+              <div class="card-tags">
+                <span class="tag">Optimizers</span>
+                <span class="tag">Adam</span>
+                <span class="tag">LR Schedules</span>
+              </div>
+            </div>
+            <h3 class="card-title">Optimizers<br/>by Hand</h3>
+            <p class="card-desc">
+              Adam reproduced number-for-number against <code>torch.optim</code> (&lt;6e-17 in
+              float64), bias correction pulled apart from AdamW's real contribution (decoupled
+              decay), the update-to-weight ratio traced through warmup on a 10.77M-parameter
+              nanoGPT, cosine vs. WSD judged mid-plan and at the finish line, and a
+              learning-rate sweep across width extrapolated &#8212; with an honest confidence
+              &#8212; to width 4,096. Every run tracked in Aim.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#6366f1"></span>S11&middot;1 Adam by Hand &#8212; Matches torch.optim to &lt;6e-17</li>
+              <li><span class="exp-dot" style="background:#8b5cf6"></span>S11&middot;2 Bias Correction &#8212; Non-Monotonic, Stops Mattering at 232 Steps</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S11&middot;3 Update/Weight Ratio &#8212; argmax(&rho;) = Warmup Length, to Within 1 Step</li>
+              <li><span class="exp-dot" style="background:#10b981"></span>S11&middot;4&ndash;5 WSD Beats Cosine by +0.08 &middot; LR&times;Width &#8594; &eta;*(4096)&asymp;2e-4, Low Confidence</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>

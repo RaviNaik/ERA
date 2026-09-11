@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimizers by Hand | ERA V5 · Session 11</title>
+  <meta name="description" content="Session 11 — Adam reproduced by hand to 6e-17 of torch.optim, bias correction isolated from AdamW's decoupled decay, the update-to-weight ratio traced through warmup, cosine vs WSD judged mid-plan, and a learning-rate sweep across width extrapolated to 4096 — on a 10.77M nanoGPT, char-level Tiny Shakespeare, tracked in Aim." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S11</div>
+      <div class="sidebar-brand-title">Optimizers<br/><span class="sidebar-gradient-text">by Hand</span></div>
+      <div class="sidebar-brand-sub">10 sections · September 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#thesis" data-target="thesis"><span class="nav-icon">🎯</span> Five Questions</a>
+      <a class="nav-item" href="#setup" data-target="setup"><span class="nav-icon">🏗️</span> Model &amp; Data</a>
+      <a class="nav-item" href="#adam" data-target="adam"><span class="nav-icon">✋</span> 1 · Adam by Hand</a>
+      <a class="nav-item" href="#bias" data-target="bias"><span class="nav-icon">⚖️</span> 2 · Bias Correction</a>
+      <a class="nav-item" href="#ratio" data-target="ratio"><span class="nav-icon">📡</span> 3 · Update/Weight Ratio</a>
+      <a class="nav-item" href="#schedules" data-target="schedules"><span class="nav-icon">📉</span> 4 · Cosine vs WSD</a>
+      <a class="nav-item" href="#lrsweep" data-target="lrsweep"><span class="nav-icon">📈</span> 5 · LR × Width</a>
+      <a class="nav-item" href="#figures" data-target="figures"><span class="nav-icon">🖼️</span> Charts &amp; Aim</a>
+      <a class="nav-item" href="#repro" data-target="repro"><span class="nav-icon">⚙️</span> Reproduce</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 11 Assignment</div>
+      <h1>Optimizers by Hand</h1>
+      <p>
+        Adam reproduced number-for-number against <code>torch.optim</code>, bias
+        correction pulled apart from AdamW's actual contribution (decoupled weight
+        decay), the update-to-weight ratio traced through warmup on every layer,
+        cosine vs WSD judged mid-plan and at the finish line, and a learning-rate
+        sweep across width extrapolated — with an honest confidence — to width
+        4,096. All on a <strong>10.77M-parameter nanoGPT</strong>, char-level Tiny
+        Shakespeare, every run tracked in <a href="https://aimstack.io" target="_blank" rel="noopener">Aim</a>.
+      </p>
+
+      <div class="prelim-banner" id="prelim-banner">
+        <span class="prelim-dot"></span>
+        <div>
+          <strong>Preliminary numbers.</strong> Everything below is from a
+          verification pass on a 4GB laptop GPU (RTX 500&nbsp;Ada) at short budgets
+          (220–300 steps) — run to confirm the code and the mechanisms, not to be
+          the final answer. This page updates once the full notebooks finish on
+          the GPU server.
+        </div>
+      </div>
+
+      <div class="hero-stats" id="hero-stats"></div>
+
+      <div class="hero-links">
+        <a class="hero-link" href="../optimizer_experiments/README.md">📄 Full write-up — README.md</a>
+        <a class="hero-link" href="../optimizer_experiments/notebooks/">📓 Notebooks (5)</a>
+        <a class="hero-link" href="../optimizer_experiments/scripts/smoke_test.py">✅ smoke_test.py</a>
+        <a class="hero-link" href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">↗ Repository</a>
+      </div>
+    </header>
+
+    <!-- ── Five Questions ────────────────────────────────── -->
+    <section class="section" id="thesis">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 10 · THE FIVE QUESTIONS</span>
+          <h2 class="section-title">One notebook per question, one shared model</h2>
+          <p class="section-desc">
+            Every task trains (or hand-computes against) the same 10.77M nanoGPT,
+            and every training run — 57 of them in this verification pass — is
+            logged to a shared Aim repo: loss, learning rate, grad norm, and the
+            per-layer update-to-weight ratio. Click a card for the detail.
+          </p>
+        </div>
+      </div>
+      <div class="seven-grid" id="task-grid"></div>
+    </section>
+
+    <!-- ── Model & Data ─────────────────────────────────── -->
+    <section class="section" id="setup">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 10 · SETUP</span>
+          <h2 class="section-title">A 10.77M-parameter nanoGPT, tracked end-to-end in Aim</h2>
+          <p class="section-desc">
+            The classic Karpathy <code>shakespeare-char</code> config
+            (<code>n_layer=6, n_head=6, n_embd=384</code>, LayerNorm bias on) lands
+            exactly on 10.77M parameters. A hand-rolled AdamW
+            (<code>src/s11/optim.py</code>) exposes every intermediate — m, v, m̂,
+            v̂ — and a bias-correction on/off switch that <code>torch.optim</code>
+            doesn't give you.
+          </p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">⚙️ Run configuration</span></div>
+          <div class="card-body"><table class="kv-table" id="setup-table"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">🧩 Parameter breakdown</span></div>
+          <div class="card-body"><div class="mem-bars" id="param-bars"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Task 1 — Adam by hand ────────────────────────── -->
+    <section class="section" id="adam">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 10 · TASK 1</span>
+          <h2 class="section-title">Reproduce Adam by hand</h2>
+          <p class="section-desc">
+            Take one weight and five gradients, compute m, v, m̂, v̂ and the
+            resulting step by hand, then check each against PyTorch — they should
+            agree to several decimal places.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title mono" id="adam-setup"></span>
+          <span class="badge badge-green">agrees to float64 precision</span>
+        </div>
+        <div class="card-body">
+          <div class="table-scroll"><table class="shape-table" id="adam-trace"></table></div>
+          <div class="formula">m̂ₜ = mₜ / (1 − β₁ᵗ) &nbsp;·&nbsp; v̂ₜ = vₜ / (1 − β₂ᵗ) &nbsp;·&nbsp; Δₜ = α·m̂ₜ / (√v̂ₜ + ε)</div>
+          <p class="fine">Step 1 is almost exactly a unit step — the correction factors cancel on the first update.</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Agreement with torch.optim (max |hand − torch|)</span></div>
+          <div class="card-body"><div class="gc-panel" id="adam-agree"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Adam vs Adam+L2 vs AdamW (λ=0.1) — the weight, per step</span></div>
+          <div class="card-body"><div class="table-scroll"><table class="mini-table" id="adam-decay"></table></div></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Findings</div>
+        <div class="callout-body"><ul class="find-list" id="adam-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── Task 2 — Bias correction ─────────────────────── -->
+    <section class="section" id="bias">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 10 · TASK 2</span>
+          <h2 class="section-title">Disable bias correction — when does it stop mattering?</h2>
+          <p class="section-desc">
+            <span class="mono">c(t) = √(1 − β₂ᵗ) / (1 − β₁ᵗ) → 1 as t → ∞</span> — the ratio of the
+            corrected step to the uncorrected one. <code>c(t)</code> is <strong>non-monotonic</strong>
+            for β₂ ≤ 0.99 — it overshoots, dips below 1, then climbs back — so "stops mattering"
+            means it enters the band <em>and stays</em>.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Steps until |c(t)−1| enters the band and stays</span></div>
+          <div class="card-body"><table class="mini-table" id="bias-horizons"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title mono" id="bias-real-title"></span></div>
+          <div class="card-body">
+            <table class="mini-table" id="bias-real"></table>
+            <p class="fine" id="bias-real-note"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><span class="card-title">Step-1 multiplier (1−β₁)/√(1−β₂) — sign depends on β₂</span></div>
+        <div class="card-body"><div class="acc-bars" id="bias-mult"></div></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Findings</div>
+        <div class="callout-body"><ul class="find-list" id="bias-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── Task 3 — update/weight ratio ─────────────────── -->
+    <section class="section" id="ratio">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 10 · TASK 3</span>
+          <h2 class="section-title">Update-to-weight ratio, per layer — when does warmup stop changing it?</h2>
+          <p class="section-desc">
+            <span class="mono">ρ(W, t) = ‖ΔW‖_RMS / ‖W‖_RMS</span> — logged every step, bucketed per
+            layer, across three 300-step runs at warmup ∈ {0, 50, 200}.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Per-layer ρ (warmup = 50)</span>
+          <span class="badge badge-blue">global ρ@299 = <span id="ratio-global"></span> — folklore target ~1e-3</span>
+        </div>
+        <div class="card-body"><div class="table-scroll"><table class="shape-table" id="ratio-table"></table></div></div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><span class="card-title">argmax(ρ) lands on the warmup length</span></div>
+        <div class="card-body"><table class="mini-table" id="warmup-table"></table></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Findings</div>
+        <div class="callout-body"><ul class="find-list" id="ratio-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── Task 4 — cosine vs WSD ────────────────────────── -->
+    <section class="section" id="schedules">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 10 · TASK 4</span>
+          <h2 class="section-title">Cosine vs WSD, 300 steps, judged at step 200</h2>
+          <p class="section-desc" id="sched-meta"></p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">LR schedule</span></div>
+          <div class="card-body">
+            <div class="chart-wrap" id="sched-chart"></div>
+            <div class="legend">
+              <span class="lg"><i style="background:var(--indigo)"></i>cosine</span>
+              <span class="lg"><i style="background:var(--amber)"></i>WSD (decay last 20%)</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Checkpoint losses</span></div>
+          <div class="card-body"><table class="mini-table" id="sched-table"></table></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">🏆 Which model would I keep?</div>
+        <div class="callout-body"><ul class="find-list" id="sched-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── Task 5 — LR sweep vs width ────────────────────── -->
+    <section class="section" id="lrsweep">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 10 · TASK 5</span>
+          <h2 class="section-title">LR sweep at width 256 / 512 / 1024 → predict width 4096</h2>
+          <p class="section-desc">
+            Coarse 7-point grid per width, then a 2-seed 5-point refinement around
+            each basin (57 runs). A local quadratic fit in log₁₀(lr) pins the
+            minimum; a power law extrapolates it to width 4096.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Loss vs LR, by width (coarse grid)</span></div>
+          <div class="card-body">
+            <div class="chart-wrap" id="lrsweep-chart"></div>
+            <div class="legend">
+              <span class="lg"><i style="background:var(--sky)"></i>width 256</span>
+              <span class="lg"><i style="background:var(--purple)"></i>width 512</span>
+              <span class="lg"><i style="background:var(--rose)"></i>width 1024</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">The three minima</span></div>
+          <div class="card-body"><table class="mini-table" id="lrsweep-table"></table></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Power-law fit → width 4096</span></div>
+          <div class="card-body"><div class="mfu-flops" id="lrsweep-power"></div></div>
+        </div>
+        <div class="card rec-card">
+          <div class="card-header"><span class="card-title">📌 Recommendation at width 4096</span></div>
+          <div class="card-body"><div class="rec-box" id="lrsweep-rec"></div></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Findings</div>
+        <div class="callout-body"><ul class="find-list" id="lrsweep-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── Figures / Aim ─────────────────────────────────── -->
+    <section class="section" id="figures">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 10 · EVIDENCE</span>
+          <h2 class="section-title">Charts &amp; the Aim dashboard</h2>
+          <p class="section-desc">
+            The matplotlib figures written by each notebook, plus two screenshots
+            of the live Aim UI from the verification pass's 57 runs.
+          </p>
+        </div>
+      </div>
+      <div class="figure-grid" id="figure-grid"></div>
+    </section>
+
+    <!-- ── Commentary ───────────────────────────────────── -->
+    <section class="section" id="commentary">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">09 / 10 · TAKEAWAYS</span>
+          <h2 class="section-title">What I would carry forward</h2>
+        </div>
+      </div>
+      <div class="commentary-grid" id="commentary-grid"></div>
+    </section>
+
+    <!-- ── Reproduce ────────────────────────────────────── -->
+    <section class="section" id="repro">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">10 / 10 · RUN IT</span>
+          <h2 class="section-title">Reproduce this</h2>
+        </div>
+      </div>
+      <pre class="repro-block mono">cd optimizer_experiments
+uv sync
+
+<span class="cmt"># ~seconds — proves every code path (tiny model, no real training)</span>
+uv run python scripts/smoke_test.py
+
+<span class="cmt"># the real thing: builds + executes all 5 notebooks into a fresh Aim repo</span>
+uv run python scripts/run_all.py
+
+<span class="cmt"># browse every run</span>
+uv run aim up</pre>
+    </section>
+
+    <footer class="footer">
+      Optimizers by Hand · ERA V5 Session 11 ·
+      <a href="../optimizer_experiments/README.md">Full write-up (README.md)</a> ·
+      <a href="../optimizer_experiments/notebooks/">Notebooks</a> ·
+      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">Repository</a>
+    </footer>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline theme toggle ─────────────────────────────────── */
+(function () {
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root = document.documentElement;
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    safeSet('era-theme', t);
+    icon.textContent = t === 'dark' ? '☀️' : '🌙';
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+  }
+  applyTheme(safeGet('era-theme') || 'dark');
+  btn.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ── Sidebar active-link + reading progress ──────────────── */
+(function () {
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = navItems.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+  if (sections.length && typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navItems.forEach(a => a.classList.toggle('active', a.dataset.target === e.target.id));
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (p * 100) + '%';
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
