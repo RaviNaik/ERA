@@ -10,3 +10,4 @@ __pycache__/
 
 # large raw dataset (auto-downloaded by data.py on first use)
 data/tinyshakespeare.txt
+v5/session11/optimizer_experiments/scripts

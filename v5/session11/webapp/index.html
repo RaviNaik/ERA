@@ -57,14 +57,15 @@
         Shakespeare, every run tracked in <a href="https://aimstack.io" target="_blank" rel="noopener">Aim</a>.
       </p>
 
-      <div class="prelim-banner" id="prelim-banner">
+      <div class="prelim-banner final" id="prelim-banner">
         <span class="prelim-dot"></span>
         <div>
-          <strong>Preliminary numbers.</strong> Everything below is from a
-          verification pass on a 4GB laptop GPU (RTX 500&nbsp;Ada) at short budgets
-          (220–300 steps) — run to confirm the code and the mechanisms, not to be
-          the final answer. This page updates once the full notebooks finish on
-          the GPU server.
+          <strong>Final results.</strong> All five notebooks are executed
+          end-to-end on an <strong>NVIDIA RTX A6000</strong> — every number,
+          chart and Aim screenshot below comes from that run (57 tracked runs,
+          checked into <code>.aim/</code> and <code>results/runs.jsonl</code>).
+          <code>scripts/smoke_test.py</code> additionally verifies every code
+          path in seconds for anyone re-running this from source.
         </div>
       </div>
 
@@ -86,7 +87,7 @@
           <h2 class="section-title">One notebook per question, one shared model</h2>
           <p class="section-desc">
             Every task trains (or hand-computes against) the same 10.77M nanoGPT,
-            and every training run — 57 of them in this verification pass — is
+            and every training run — 57 of them, on an NVIDIA RTX A6000 — is
             logged to a shared Aim repo: loss, learning rate, grad norm, and the
             per-layer update-to-weight ratio. Click a card for the detail.
           </p>
@@ -328,7 +329,7 @@
           <h2 class="section-title">Charts &amp; the Aim dashboard</h2>
           <p class="section-desc">
             The matplotlib figures written by each notebook, plus two screenshots
-            of the live Aim UI from the verification pass's 57 runs.
+            of the live Aim UI from the final run's 57 tracked runs.
           </p>
         </div>
       </div>

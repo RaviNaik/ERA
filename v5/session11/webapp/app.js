@@ -61,7 +61,7 @@ function renderSetup() {
       ['Model', `nanoGPT decoder — block ${s.blockSize} · ${s.nLayer} layers · ${s.nHead} heads · n_embd ${s.nEmbd}`],
       ['Parameters', `${fmt(s.paramsTotal)} total (10.77M — matches the assignment exactly)`],
       ['Optimizer', s.optimizer],
-      ['Tracking', `${s.tracking} (${s.aimRuns} runs in the verification pass)`],
+      ['Tracking', `${s.tracking} (${s.aimRuns} runs)`],
     ];
     t.innerHTML = rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${v}</td></tr>`).join('');
   }
