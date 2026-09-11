@@ -314,7 +314,7 @@ flowchart TD
 
 | checkpoint | val loss | LR there |
 |---|--:|--:|
-| cosine, stop at 200 | **2.073** | 6.0e-4 |
+| cosine, stop at 200 | **2.073** | 6.2e-4 |
 | WSD (300-plan), stop at 200 | 2.086 | 1.5e-3 (still on plateau) |
 | **WSD re-planned to a 200 budget** | **2.041** | decayed 160→200 |
 | cosine, full 300 | 1.920 | |

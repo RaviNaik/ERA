@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+scripts/
 
 # Aim's RocksDB repo is a large, machine-local artifact — regenerate with
 #   uv run python scripts/run_all.py
@@ -10,4 +11,3 @@ __pycache__/
 
 # large raw dataset (auto-downloaded by data.py on first use)
 data/tinyshakespeare.txt
-v5/session11/optimizer_experiments/scripts

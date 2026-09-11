@@ -171,7 +171,7 @@ window.SESSION_DATA = {
   schedules: {
     baseLr: 0.0015, warmup: 50, totalSteps: 300,
     checkpoints: [
-      { name: "cosine, stop at 200", loss: 2.073, lr: "6.0e-4", tag: "" },
+      { name: "cosine, stop at 200", loss: 2.073, lr: "6.2e-4", tag: "" },
       { name: "WSD (300-plan), stop at 200", loss: 2.086, lr: "1.5e-3 (plateau)", tag: "" },
       { name: "WSD re-planned to a 200 budget", loss: 2.041, lr: "decayed 160→200", tag: "best" },
       { name: "cosine, full 300", loss: 1.920, lr: "1.5e-4", tag: "" },
