@@ -438,6 +438,37 @@
           </div>
         </a>
 
+        <!-- Session 12 -->
+        <a href="v5/session12/webapp/" class="session-card" id="card-s12">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(14,165,233,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#0ea5e9,#a78bfa)">S12</div>
+              <div class="card-tags">
+                <span class="tag">ZeRO</span>
+                <span class="tag">Distributed</span>
+                <span class="tag">32 CPU Ranks</span>
+              </div>
+            </div>
+            <h3 class="card-title">32 Virtual GPUs<br/>&amp; ZeRO</h3>
+            <p class="card-desc">
+              Data parallelism and ZeRO-0/1/2/3 explained, then run for real: 32
+              genuine <code>torch.distributed</code> (Gloo) CPU processes, no GPU
+              anywhere, with measured &mdash; not simulated &mdash; memory and
+              communication at every stage.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#0ea5e9"></span>S12&middot;1 32-Rank Data Parallelism &mdash; Gradient Equivalence to 4.5e-8</li>
+              <li><span class="exp-dot" style="background:#a78bfa"></span>S12&middot;2 ZeRO-0&rarr;3 on 32 Real Processes, Not a Simulation Loop</li>
+              <li><span class="exp-dot" style="background:#10b981"></span>S12&middot;3 Measured 32&times; Memory Cut &mdash; 7168 &rarr; 224 Bytes/Rank</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S12&middot;4 Live Memory Calculator &amp; Stage Decision Guide</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>

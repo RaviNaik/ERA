@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>32 Virtual GPUs &amp; ZeRO | ERA V5 · Session 12</title>
+  <meta name="description" content="Session 12 — Data parallelism and ZeRO-0/1/2/3 explained and simulated on 32 real torch.distributed CPU processes: what gets sharded, what it costs to communicate, real measured memory (7168 → 224 bytes/rank), and a decision guide for choosing a stage." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S12</div>
+      <div class="sidebar-brand-title">32 Virtual GPUs<br/><span class="sidebar-gradient-text">&amp; ZeRO</span></div>
+      <div class="sidebar-brand-sub">9 sections · September 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#dp" data-target="dp"><span class="nav-icon">🔁</span> 1 · Data Parallelism</a>
+      <a class="nav-item" href="#landscape" data-target="landscape"><span class="nav-icon">🗺️</span> 2 · The Landscape</a>
+      <a class="nav-item" href="#zero" data-target="zero"><span class="nav-icon">🧩</span> 3 · ZeRO Stages 0–3</a>
+      <a class="nav-item" href="#calculator" data-target="calculator"><span class="nav-icon">🧮</span> 4 · Memory Calculator</a>
+      <a class="nav-item" href="#ownership" data-target="ownership"><span class="nav-icon">🎛️</span> 5 · Who Owns What</a>
+      <a class="nav-item" href="#experiment" data-target="experiment"><span class="nav-icon">⚙️</span> 6 · Real CPU Experiment</a>
+      <a class="nav-item" href="#guide" data-target="guide"><span class="nav-icon">🧭</span> 7 · Choosing a Stage</a>
+      <a class="nav-item" href="#repro" data-target="repro"><span class="nav-icon">▶️</span> Reproduce</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 12 Assignment</div>
+      <h1>32 Virtual GPUs, and what ZeRO actually shards</h1>
+      <p>
+        Data parallelism replicates the model and averages gradients — simple,
+        but memory never improves. ZeRO removes that redundancy one state
+        category at a time: optimizer state (stage 1), gradients (stage 2),
+        then parameters themselves (stage 3). Every number on this page is
+        either the closed-form formula or a measurement from
+        <strong>32 real <code>torch.distributed</code> CPU processes</strong> —
+        no GPU anywhere in this project.
+      </p>
+
+      <div class="prelim-banner final" id="prelim-banner">
+        <span class="prelim-dot"></span>
+        <div>
+          <strong>Real, not simulated.</strong> The 32 "ranks" below are genuine
+          operating-system processes joining a real process group (backend:
+          <code>gloo</code>) and exchanging real tensors over real collectives.
+          Every byte in the results table was read off those tensors after a
+          real distributed step, then cross-checked against the closed-form
+          formula. See <code>parallelization_experiments/</code> for the full
+          notebook and test suite.
+        </div>
+      </div>
+
+      <div class="hero-stats" id="hero-stats"></div>
+
+      <div class="hero-links">
+        <a class="hero-link" href="../parallelization_experiments/README.md">📄 Full write-up — README.md</a>
+        <a class="hero-link" href="../parallelization_experiments/notebooks/zero_parallelism_lab.ipynb">📓 Notebook</a>
+        <a class="hero-link" href="../parallelization_experiments/scripts/dry_run.py">✅ dry_run.py</a>
+        <a class="hero-link" href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">↗ Repository</a>
+      </div>
+    </header>
+
+    <!-- ── 1. Data Parallelism ───────────────────────────── -->
+    <section class="section" id="dp">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 07 · THE BASELINE</span>
+          <h2 class="section-title">Data parallelism: replicate everything, split only the data</h2>
+          <p class="section-desc">
+            Every ZeRO stage below is built on top of this. Understanding why
+            averaging gradients across independent workers is mathematically
+            exact is the entire justification for why any of this works.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">How one data-parallel step works</span></div>
+          <div class="card-body"><div class="flow-steps" id="dp-flow"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Measured: 32 workers vs. 1 global batch</span>
+            <span class="badge badge-green">PASS</span>
+          </div>
+          <div class="card-body">
+            <table class="kv-table" id="dp-equivalence"></table>
+            <div class="formula">mean(grad₀, grad₁, …, grad₃₁) ≡ grad(global batch) — to 4.5e-8</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">💡 Takeaway</div>
+        <div class="callout-body"><ul class="find-list" id="dp-findings"></ul></div>
+      </div>
+    </section>
+
+    <!-- ── 2. The Parallelism Landscape ─────────────────── -->
+    <section class="section" id="landscape">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 07 · CONTEXT</span>
+          <h2 class="section-title">Data parallel, tensor parallel, pipeline parallel, ZeRO — how they differ</h2>
+          <p class="section-desc" id="landscape-note"></p>
+        </div>
+      </div>
+      <div class="landscape-grid" id="landscape-grid"></div>
+    </section>
+
+    <!-- ── 3. ZeRO Stages 0-3 ────────────────────────────── -->
+    <section class="section" id="zero">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 07 · DEEP DIVE</span>
+          <h2 class="section-title">ZeRO-0 → ZeRO-3: what moves from "replicated" to "sharded"</h2>
+          <p class="section-desc">
+            Pick a stage. Everything below — state ownership, the collectives
+            used, the byte formula, a sample config, and the pros/cons — updates
+            to match. $P$ = parameter count, $N$ = world size (ranks).
+          </p>
+        </div>
+      </div>
+
+      <div class="stage-pills" id="stage-pills"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title" id="stage-title"></span></div>
+          <div class="card-body">
+            <div class="state-chips" id="stage-chips"></div>
+            <p class="section-desc" id="stage-explainer" style="margin:0 0 10px"></p>
+            <div class="formula" id="stage-formula"></div>
+            <ul class="collective-list" id="stage-collectives"></ul>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Sample DeepSpeed-style config</span>
+            <span class="badge badge-blue" id="stage-comm-badge"></span>
+          </div>
+          <div class="card-body">
+            <pre class="config-code" id="stage-config"></pre>
+            <p class="fine" id="stage-config-note"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><span class="card-title">Advantages &amp; shortcomings of this stage</span></div>
+        <div class="card-body"><div class="pros-cons" id="stage-proscons"></div></div>
+      </div>
+    </section>
+
+    <!-- ── 4. Memory & Communication Calculator ─────────── -->
+    <section class="section" id="calculator">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 07 · LIVE WIDGET</span>
+          <h2 class="section-title">Memory &amp; communication calculator — which stage actually fits?</h2>
+          <p class="section-desc">
+            Move the sliders: model size, GPU memory, world size, precision, and
+            activation budget. The lowest-numbered stage that fits under your
+            GPU memory (with headroom) is recommended — because lower stages
+            always communicate less or the same as the ones above them.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="calc-grid">
+            <div class="calc-controls" id="calc-controls"></div>
+            <div>
+              <div class="calc-results" id="calc-results"></div>
+              <div class="calc-recommend" id="calc-recommend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. Ownership visualizer ──────────────────────── -->
+    <section class="section" id="ownership">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 07 · LIVE WIDGET</span>
+          <h2 class="section-title">Who owns which parameter, at rest? (ZeRO-3)</h2>
+          <p class="section-desc">
+            Every flat parameter index colored by the rank that owns it — the
+            same computation (pad to a multiple of <code>N</code>, split into
+            equal contiguous shards) the real 32-process notebook run uses.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="calc-field" style="max-width:420px;margin-bottom:16px">
+            <label>Parameters (P) <span class="calc-val" id="own-p-val"></span></label>
+            <input type="range" id="own-p" min="16" max="2048" step="1" value="433" />
+          </div>
+          <div class="calc-field" style="max-width:420px;margin-bottom:16px">
+            <label>World size (N) <span class="calc-val" id="own-n-val"></span></label>
+            <input type="range" id="own-n" min="2" max="64" step="1" value="32" />
+          </div>
+          <div class="ownership-strip" id="ownership-strip"></div>
+          <div class="ownership-legend" id="ownership-legend"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. Real experiment ───────────────────────────── -->
+    <section class="section" id="experiment">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 07 · EVIDENCE</span>
+          <h2 class="section-title">The real 32-process CPU experiment</h2>
+          <p class="section-desc">
+            No GPU anywhere. 32 genuine OS processes join a real
+            <code>torch.distributed</code> process group (backend
+            <code>gloo</code>) and run every stage for real.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Setup</span></div>
+          <div class="card-body"><table class="kv-table" id="exp-setup"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Correctness: distributed vs. single-process reference</span></div>
+          <div class="card-body">
+            <table class="mini-table" id="exp-correctness"></table>
+            <p class="fine">Every stage's final parameters differ from a plain, non-distributed Adam step by float32 noise only.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header">
+          <span class="card-title">Measured bytes owned per rank (433-parameter demo model, N=32)</span>
+          <span class="badge badge-green" id="exp-reduction-badge"></span>
+        </div>
+        <div class="card-body">
+          <table class="mini-table" id="exp-memory-table"></table>
+          <div id="exp-memory-bars" style="margin-top:16px"></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Measured vs. formula-predicted bytes</span></div>
+          <div class="card-body"><table class="mini-table" id="exp-formula-check"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Communication volume, relative to ZeRO-0</span></div>
+          <div class="card-body"><div class="mem-bars" id="exp-comm-bars"></div></div>
+        </div>
+      </div>
+
+      <div class="figure-grid" id="exp-figures" style="margin-top:16px"></div>
+    </section>
+
+    <!-- ── 7. Choosing a stage ──────────────────────────── -->
+    <section class="section" id="guide">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 07 · DECISION GUIDE</span>
+          <h2 class="section-title">Which algorithm should I choose?</h2>
+          <p class="section-desc">
+            A short checklist, then six worked scenarios — from a 125M model on
+            one GPU to a 175B model on 512 GPUs — using the exact same formulas
+            as the calculator above.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Checklist</span></div>
+        <div class="card-body"><div class="checklist" id="guide-checklist"></div></div>
+      </div>
+
+      <div class="scenario-grid" id="scenario-grid" style="margin-top:16px"></div>
+    </section>
+
+    <!-- ── Reproduce ─────────────────────────────────────── -->
+    <section class="section" id="repro">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">RUN IT</span>
+          <h2 class="section-title">Reproduce this, entirely on CPU</h2>
+        </div>
+      </div>
+      <pre class="repro-block mono">cd parallelization_experiments
+uv sync
+
+<span class="cmt"># ~15s: 8 real CPU processes, all 4 stages</span>
+uv run python scripts/dry_run.py
+
+<span class="cmt"># unit tests + a 4-process real-distributed ZeRO suite</span>
+uv run pytest -q
+
+<span class="cmt"># the real thing: 32 real CPU processes per stage, ~45s total</span>
+uv run python scripts/build_notebook.py
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/zero_parallelism_lab.ipynb</pre>
+    </section>
+
+    <footer class="footer">
+      32 Virtual GPUs &amp; ZeRO · ERA V5 Session 12 ·
+      <a href="../parallelization_experiments/README.md">Full write-up (README.md)</a> ·
+      <a href="../parallelization_experiments/notebooks/">Notebook</a> ·
+      <a href="https://github.com/RaviNaik/ERA" target="_blank" rel="noopener">Repository</a>
+    </footer>
+
+  </main>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline theme toggle ─────────────────────────────────── */
+(function () {
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  const root = document.documentElement;
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    safeSet('era-theme', t);
+    icon.textContent = t === 'dark' ? '☀️' : '🌙';
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+  }
+  applyTheme(safeGet('era-theme') || 'dark');
+  btn.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ── Sidebar active-link + reading progress ──────────────── */
+(function () {
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = navItems.map(a => document.getElementById(a.dataset.target)).filter(Boolean);
+  if (sections.length && typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navItems.forEach(a => a.classList.toggle('active', a.dataset.target === e.target.id));
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    bar.style.width = (p * 100) + '%';
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
