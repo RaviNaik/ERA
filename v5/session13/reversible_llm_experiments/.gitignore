@@ -1,0 +1,11 @@
+.aim/
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+data/*.bin
+data/*.json
+results/*.jsonl
+assets/*.png
+assets/*.svg
