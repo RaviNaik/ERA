@@ -5,61 +5,60 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+REVERSIBLE = {"euler", "midpoint"}
+
 
 def load_runs(runs_jsonl: str | Path = "results/runs.jsonl") -> list[dict]:
+    """Reads runs.jsonl, keeping only the most recent record per label."""
     path = Path(runs_jsonl)
     if not path.exists():
         return []
-    rows = []
+    latest: dict[str, dict] = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.strip():
-            rows.append(json.loads(line))
-    return rows
+            record = json.loads(line)
+            latest[record["summary"]["label"]] = record
+    return list(latest.values())
 
 
-def build_session_data(records: list[dict]) -> dict:
-    runs = []
-    for record in records:
-        hparams = record.get("hparams", {})
-        summary = record.get("summary", {})
-        runs.append(
-            {
-                "label": summary.get("label", hparams.get("label", "run")),
-                "variant": summary.get("variant", hparams.get("variant", "unknown")),
-                "batch_size": hparams.get("batch_size", 0),
-                "final_val_loss": summary.get("final_val_loss", 0.0),
-                "final_val_accuracy": summary.get("final_val_accuracy", 0.0),
-                "mean_tokens_per_sec": summary.get("mean_tokens_per_sec", 0.0),
-                "peak_memory_mb": summary.get("peak_memory_mb", 0.0),
-                "tokens_seen": summary.get("tokens_seen", 0),
-            }
-        )
-    best_reversible = "pending"
-    reversible = [run for run in runs if run["variant"] in {"euler", "midpoint"}]
-    if reversible:
-        best_reversible = min(reversible, key=lambda run: run["final_val_loss"])[
-            "variant"
-        ]
-    max_batch = "pending"
-    if reversible:
-        max_batch = str(max(run["batch_size"] for run in reversible))
-    findings = [
-        "Run the notebook to populate measured loss, throughput, and memory results."
-    ]
-    if runs:
-        fastest = max(runs, key=lambda run: run["mean_tokens_per_sec"])
-        lightest = min(runs, key=lambda run: run["peak_memory_mb"])
+def _fmt(value, spec: str, suffix: str = "") -> str:
+    return "n/a" if value is None else f"{value:{spec}}{suffix}"
+
+
+def build_session_data(records: list[dict], winner: str | None = None) -> dict:
+    keys = (
+        "label", "variant", "status", "batch_size", "total_steps",
+        "final_val_loss", "final_val_accuracy", "final_val_perplexity",
+        "mean_tokens_per_sec", "mfu", "peak_step_memory_mb",
+        "activation_saved_mb_per_sample", "wall_clock_s", "tokens_seen",
+    )
+    runs = [{k: r["summary"].get(k) for k in keys} for r in records]
+    ok = [r for r in runs if r["status"] == "ok"]
+    reversible_ok = [r for r in ok if r["variant"] in REVERSIBLE]
+    if winner is None and reversible_ok:
+        winner = min(reversible_ok, key=lambda r: r["final_val_loss"])["variant"]
+    max_batch = max((r["batch_size"] for r in reversible_ok), default=None)
+
+    findings = ["Run the notebook to populate measured loss, throughput, and memory results."]
+    if ok:
+        best = min(ok, key=lambda r: r["final_val_loss"])
+        fastest = max(ok, key=lambda r: r["mean_tokens_per_sec"])
+        lightest = min(ok, key=lambda r: r["activation_saved_mb_per_sample"])
         findings = [
-            f"Best reversible loss variant: {best_reversible}.",
-            f"Fastest measured run: {fastest['label']} at {fastest['mean_tokens_per_sec']:.0f} tokens/s.",
-            f"Lowest peak memory run: {lightest['label']} at {lightest['peak_memory_mb']:.0f} MB.",
+            f"Selected reversible variant: {winner}.",
+            f"Lowest validation loss: {best['label']} ({_fmt(best['final_val_loss'], '.4f')}).",
+            f"Highest throughput: {fastest['label']} ({_fmt(fastest['mean_tokens_per_sec'], ',.0f')} tokens/s).",
+            f"Smallest activation memory: {lightest['label']} "
+            f"({_fmt(lightest['activation_saved_mb_per_sample'], '.2f')} MB per sequence).",
         ]
+        failed = [r for r in runs if r["status"] != "ok"]
+        findings += [f"{r['label']} ended with status '{r['status']}'." for r in failed]
     return {
         "heroStats": [
-            {"value": "20M", "label": "target parameters"},
-            {"value": "50M", "label": "tokens per full run"},
-            {"value": best_reversible, "label": "best reversible variant"},
-            {"value": max_batch, "label": "max stable batch"},
+            {"value": "20M", "label": "parameters"},
+            {"value": "50M", "label": "tokens per run"},
+            {"value": winner or "pending", "label": "selected reversible variant"},
+            {"value": str(max_batch) if max_batch else "pending", "label": "largest reversible batch trained"},
         ],
         "runs": runs,
         "findings": findings,
@@ -69,8 +68,9 @@ def build_session_data(records: list[dict]) -> dict:
 def export_webapp_data(
     runs_jsonl: str | Path = "results/runs.jsonl",
     out_path: str | Path = "../webapp/data.js",
+    winner: str | None = None,
 ) -> dict:
-    data = build_session_data(load_runs(runs_jsonl))
+    data = build_session_data(load_runs(runs_jsonl), winner)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(

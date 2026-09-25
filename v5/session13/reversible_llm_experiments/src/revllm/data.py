@@ -35,6 +35,30 @@ class TokenDataset:
             )
         return np.memmap(path, dtype=np.uint16, mode="r")
 
+    def num_tokens(self, split: str) -> int:
+        return len(self.split_data(split))
+
+    def windows(
+        self,
+        split: str,
+        starts: np.ndarray | torch.Tensor,
+        block_size: int,
+        device: str | torch.device,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Gathers (x, y) windows beginning at `starts` in one vectorized read."""
+        data = self.split_data(split)
+        starts = np.asarray(starts, dtype=np.int64)
+        offsets = starts[:, None] + np.arange(block_size + 1, dtype=np.int64)
+        chunk = torch.from_numpy(data[offsets].astype(np.int64))
+        x, y = chunk[:, :-1], chunk[:, 1:]
+        device = torch.device(device)
+        if device.type == "cuda":
+            return (
+                x.pin_memory().to(device, non_blocking=True),
+                y.pin_memory().to(device, non_blocking=True),
+            )
+        return x.contiguous().to(device), y.contiguous().to(device)
+
     def get_batch(
         self,
         split: str,
@@ -43,33 +67,30 @@ class TokenDataset:
         device: str | torch.device,
         generator: torch.Generator | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        data = self.split_data(split)
-        hi = len(data) - block_size - 1
+        """Uniformly random windows (sampling with replacement)."""
+        hi = self.num_tokens(split) - block_size - 1
         if hi <= 0:
             raise ValueError(
-                f"{split} split has only {len(data)} tokens for block_size={block_size}"
+                f"{split} split has only {hi + block_size + 1} tokens for block_size={block_size}"
             )
         ix = torch.randint(hi, (batch_size,), generator=generator)
-        x = torch.stack(
-            [
-                torch.from_numpy(data[int(i) : int(i) + block_size].astype(np.int64))
-                for i in ix
-            ]
-        )
-        y = torch.stack(
-            [
-                torch.from_numpy(
-                    data[int(i) + 1 : int(i) + 1 + block_size].astype(np.int64)
-                )
-                for i in ix
-            ]
-        )
-        device = torch.device(device)
-        if device.type == "cuda":
-            return x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(
-                device, non_blocking=True
-            )
-        return x.to(device), y.to(device)
+        return self.windows(split, ix.numpy(), block_size, device)
+
+    def eval_starts(
+        self, split: str, block_size: int, max_windows: int | None, seed: int = 0
+    ) -> np.ndarray:
+        """Fixed evaluation windows, identical for every run.
+
+        `max_windows=None` returns every non-overlapping window of the split
+        (a full pass). Otherwise a fixed-seed random subset of those windows
+        is returned, so all experiments are scored on exactly the same tokens.
+        """
+        n_windows = (self.num_tokens(split) - 1) // block_size
+        starts = np.arange(n_windows, dtype=np.int64) * block_size
+        if max_windows is not None and max_windows < n_windows:
+            rng = np.random.default_rng(seed)
+            starts = np.sort(rng.choice(starts, size=max_windows, replace=False))
+        return starts
 
 
 def prepare_wikitext(

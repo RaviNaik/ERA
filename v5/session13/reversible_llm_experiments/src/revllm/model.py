@@ -23,6 +23,14 @@ class GPTConfig:
     dropout: float = 0.0
     bias: bool = True
     variant: str = "baseline"
+    # Explicit-midpoint step size h (update is 2h * f). h = 0.5 makes each
+    # update the size of a standard residual block. Smaller h is more stable
+    # (paper Sec. 3). A local sweep (h = 1/9, 0.25, 0.5) gave the lowest loss
+    # at 0.25.
+    midpoint_h: float = 0.25
+    # Bit-exact reversal via float64 fixed-point residual streams (see
+    # reversible.py, note 5). False = plain fp32 streams (drifts under bf16).
+    reversible_exact: bool = True
     # Rows-per-chunk for the fused lm_head+cross-entropy (see loss.py). Keeps
     # the (chunk, vocab_size) logits tensor from dominating peak memory.
     loss_chunk_size: int = 8192
@@ -183,6 +191,33 @@ def param_count_report(cfg: GPTConfig) -> dict:
     buckets["config"] = asdict(cfg)
     del model
     return buckets
+
+
+def flops_per_token(cfg: GPTConfig) -> dict[str, float]:
+    """Analytic matmul FLOPs per trained token (PaLM / Chinchilla convention).
+
+    * forward = 2 * (matmul params) + attention score/value matmuls
+    * model FLOPs (used for MFU) = 3 * forward. This is identical across
+      variants because they all do the same useful maths.
+    * hardware FLOPs = what the GPU actually executes. Reversible variants
+      re-run every backbone sub-layer once more in backward (the lm_head is
+      never recomputed, see loss.py), just like activation checkpointing.
+    """
+    d, n_layer, steps = cfg.n_embd, cfg.n_layer, cfg.block_size
+    per_layer_matmul = 3 * d * d + d * d + 4 * d * d + 4 * d * d  # qkv, proj, fc, proj
+    backbone_fwd = 2 * n_layer * per_layer_matmul
+    # QK^T and AV: 2 * (2 * T * d) per token per layer (causal mask not discounted).
+    attention_fwd = n_layer * 4 * steps * d
+    lm_head_fwd = 2 * d * cfg.vocab_size
+    forward = backbone_fwd + attention_fwd + lm_head_fwd
+    model = 3.0 * forward
+    recompute = backbone_fwd + attention_fwd if cfg.variant in ("euler", "midpoint") else 0
+    return {
+        "forward": float(forward),
+        "model": model,
+        "hardware": model + recompute,
+        "lm_head_fraction": lm_head_fwd / forward,
+    }
 
 
 def build_model(
