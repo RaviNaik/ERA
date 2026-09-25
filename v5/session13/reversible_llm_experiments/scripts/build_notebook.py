@@ -74,7 +74,7 @@ uv run jupyter nbconvert --to notebook --execute --inplace reversible_llm.ipynb 
 uv run aim up                                      # browse all metrics (run from notebooks/)
 ```
 
-Environment knobs: `REVLLM_DEVICE` (default `cuda:0`), `REVLLM_BATCH_X` (default 128), `REVLLM_REUSE=1` (default; skips runs whose `results/<run>.json` already finished, so an interrupted notebook resumes where it stopped), and `REVLLM_SMOKE=1` (a tiny WikiText-2 end-to-end sanity pass that fits a 4 GB laptop GPU; its numbers are **not** results).
+All settings are hardcoded in the **configuration cell** of Section 1 (device, batch size `x`, token budget, LR, evaluation, output paths). Edit them there; nothing is read from environment variables. With `REUSE_RESULTS = True`, runs whose `results/<run>.json` already finished are loaded instead of retrained, so an interrupted notebook resumes where it stopped. Set it to `False` to force fresh runs.
 """)
 
 # =============================================================================
@@ -86,10 +86,7 @@ md(r"""
 
 code(r'''
 import inspect
-import json
 import math
-import os
-import time
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -110,43 +107,61 @@ pd.set_option("display.width", 220)
 plt.rcParams.update({"figure.dpi": 110, "axes.grid": True, "grid.alpha": 0.3})
 
 ROOT = Path.cwd()  # notebooks/
-SMOKE = os.environ.get("REVLLM_SMOKE", "0") == "1"
-REUSE = os.environ.get("REVLLM_REUSE", "1") == "1"
-IS_CUDA = torch.cuda.is_available()
-DEVICE = os.environ.get("REVLLM_DEVICE", "cuda:0" if IS_CUDA else "cpu")
-if IS_CUDA:
-    torch.cuda.set_device(DEVICE)
 
-# ---- experiment constants ---------------------------------------------------
+# =========================== EXPERIMENT CONFIGURATION ===========================
+# Every setting for the GPU-server runs lives here. Edit values in this cell only.
+
+# ---- hardware
+DEVICE = "cuda:0"              # GPU to train on
+# ---- data
+DATA_DIR = ROOT / "data"       # tokenized WikiText-103 cache (created on first run)
+DATA_CONFIG = "wikitext-103-raw-v1"
+# ---- model (~20.1M parameters)
 BLOCK_SIZE = 512
 MODEL = dict(n_layer=9, n_head=8, n_embd=256)
-if SMOKE:
-    DATA_DIR, DATA_CONFIG = ROOT / "data_smoke", "wikitext-2-raw-v1"
-    TOKEN_BUDGET, DEFAULT_X = 4 * 512 * 40, 4       # 40 steps at x
-    EVAL = dict(eval_interval_tokens=4 * 512 * 10, eval_windows=16, eval_batch_size=8, final_eval_train_windows=32)
-    LOSS_CHUNK = 2048
-    RESULTS_DIR, LOG_DIR = ROOT / "results_smoke", ROOT / "logs_smoke"
-else:
-    DATA_DIR, DATA_CONFIG = ROOT / "data", "wikitext-103-raw-v1"
-    TOKEN_BUDGET, DEFAULT_X = 50_000_000, 128
-    EVAL = dict(eval_interval_tokens=2_500_000, eval_windows=128, eval_batch_size=64, final_eval_train_windows=487)
-    LOSS_CHUNK = 8192
-    RESULTS_DIR, LOG_DIR = ROOT / "results", ROOT / "logs"
-BATCH_X = int(os.environ.get("REVLLM_BATCH_X", DEFAULT_X))
+MIDPOINT_H = 0.25              # midpoint step size h (update = 2h * f)
+REVERSIBLE_EXACT = True        # bit-exact reversal (float64 fixed-point streams)
+# ---- training
+TOKEN_BUDGET = 50_000_000      # tokens per run
+BATCH_X = 128                  # x; experiments use x, x, x, 2x, 4x, 8x
+BASE_LR = 1e-3                 # peak LR at batch x
+MAX_LR = 3e-3                  # cap for scaled LRs
+LR_SCALING_FOR_SCALE_UP = "sqrt"   # LR rule for 2x/4x/8x: "sqrt" | "linear" | "none"
+SEED = 1337
+LOSS_CHUNK = 8192              # rows per fused lm_head + cross-entropy chunk
+# ---- evaluation
+EVAL = dict(
+    eval_interval_tokens=2_500_000,   # periodic eval every 2.5M training tokens
+    eval_windows=128,                 # 128 x 512 tokens per split per periodic eval
+    eval_batch_size=64,
+    final_eval_train_windows=487,     # final: full val split + 487 train windows
+)
+# ---- max-batch search (section "Where is the maximum?")
+MAX_BATCH_SEARCH_LIMIT = 16384
+MAX_BATCH_GRANULARITY = 32
+# ---- outputs
+RESULTS_DIR = ROOT / "results"
+LOG_DIR = ROOT / "logs"
 AIM_REPO = str(ROOT)
-EXPERIMENT = "session13_reversible_llm_smoke" if SMOKE else "session13_reversible_llm"
+EXPERIMENT = "session13_reversible_llm"
+REUSE_RESULTS = True           # load finished runs from results/ instead of retraining
+# ================================================================================
+
+assert torch.cuda.is_available(), "this notebook is meant for the GPU server: CUDA is not available"
+IS_CUDA = True
+torch.cuda.set_device(DEVICE)
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 ENV = environment_info(DEVICE)
 GPU_TOTAL_MB = ENV.get("gpu_total_memory_mb")
 PEAK_TFLOPS = gpu_peak_tflops(DEVICE)
-display(pd.Series(ENV | {"smoke_mode": SMOKE, "reuse_results": REUSE, "batch_x": BATCH_X,
-                         "token_budget": TOKEN_BUDGET, "gpu_peak_bf16_tflops": PEAK_TFLOPS},
+display(pd.Series(ENV | {"reuse_results": REUSE_RESULTS, "batch_x": BATCH_X, "token_budget": TOKEN_BUDGET,
+                         "base_lr": BASE_LR, "midpoint_h": MIDPOINT_H, "reversible_exact": REVERSIBLE_EXACT,
+                         "gpu_peak_bf16_tflops": PEAK_TFLOPS},
                   name="value").to_frame())
-if SMOKE:
-    display(Markdown("> **SMOKE MODE**: tiny budget and batch sizes on WikiText-2. This checks that the pipeline "
-                     "works end to end. None of the numbers below are experimental results."))
+if PEAK_TFLOPS is None:
+    display(Markdown(f"> GPU `{ENV.get('gpu_name')}` is not in the peak-FLOPs table, so MFU will show as n/a."))
 ''')
 
 # =============================================================================
@@ -418,9 +433,9 @@ if IS_CUDA:
         f"baseline fits 8x={8 * BATCH_X} (expected False on 40 GB)": fits("baseline", 8 * BATCH_X),
     }
     display(pd.Series(checks, name="result").to_frame())
-    assert checks[f"baseline fits x={BATCH_X}"], "x too large for the baseline on this GPU: set REVLLM_BATCH_X lower"
+    assert checks[f"baseline fits x={BATCH_X}"], "x too large for the baseline on this GPU: lower BATCH_X in the configuration cell"
     assert checks[f"midpoint fits 8x={8 * BATCH_X}"] and checks[f"euler fits 8x={8 * BATCH_X}"], \
-        "8x does not fit a reversible variant: set REVLLM_BATCH_X lower"
+        "8x does not fit a reversible variant: lower BATCH_X in the configuration cell"
 
 schedule = pd.DataFrame([
     {"experiment": name, "batch": b, "tokens/step": b * BLOCK_SIZE,
@@ -470,15 +485,13 @@ Takeaways: lr 1e-3 is far better than 3e-4 at this step count. Among midpoint st
 """)
 
 code(r'''
-BASE_LR = 1e-3
-LR_SCALING_FOR_SCALE_UP = "sqrt"
-
 def make_config(variant, batch_size, label, lr_scaling="none"):
     return TrainConfig(
         variant=variant, batch_size=batch_size, block_size=BLOCK_SIZE, token_budget=TOKEN_BUDGET,
-        learning_rate=BASE_LR, lr_scaling=lr_scaling, lr_ref_batch=BATCH_X, max_lr=3e-3,
+        learning_rate=BASE_LR, lr_scaling=lr_scaling, lr_ref_batch=BATCH_X, max_lr=MAX_LR,
+        midpoint_h=MIDPOINT_H, reversible_exact=REVERSIBLE_EXACT, seed=SEED,
         loss_chunk_size=LOSS_CHUNK, device=DEVICE, aim_repo=AIM_REPO, experiment=EXPERIMENT,
-        label=label, tags=["smoke"] if SMOKE else [], **EVAL, **MODEL,
+        label=label, **EVAL, **MODEL,
     )
 
 preview = pd.DataFrame([
@@ -503,7 +516,7 @@ These are defined here rather than in `src/` because they are the notebook's rep
 * `plot_run`: an 8-panel dashboard (loss vs tokens, accuracy, LR, grad norm, throughput, step-time breakdown, memory timeline, per-step peak).
 * `findings`: data-driven observations, including deltas against a reference run.
 
-`run_or_load` skips training when a finished result already exists and `REVLLM_REUSE=1`, so an interrupted notebook can be re-executed without redoing completed runs.
+`run_or_load` skips training when a finished result already exists and `REUSE_RESULTS = True`, so an interrupted notebook can be re-executed without redoing completed runs.
 """)
 
 code(r'''
@@ -511,7 +524,7 @@ RECORDS: dict[str, dict] = {}
 
 def run_or_load(variant, batch_size, label, lr_scaling="none"):
     cfg = make_config(variant, batch_size, label, lr_scaling)
-    cached = load_record(label, RESULTS_DIR) if REUSE else None
+    cached = load_record(label, RESULTS_DIR) if REUSE_RESULTS else None
     if cached and cached["summary"]["status"] == "ok" and cached["config"]["token_budget"] == TOKEN_BUDGET:
         print(f"[reuse] {label}: loaded {RESULTS_DIR / (label + '.json')}")
         record = cached
@@ -904,10 +917,8 @@ if IS_CUDA:
     for variant in ["baseline", WINNER]:
         cfg = GPTConfig(vocab_size=data.vocab_size, block_size=BLOCK_SIZE, variant=variant,
                         loss_chunk_size=LOSS_CHUNK, **MODEL)
-        start = BATCH_X if not SMOKE else 2
-        limit = 16384 if not SMOKE else 256
-        max_batch[variant], rows = find_max_batch(cfg, DEVICE, start=start, limit=limit,
-                                                  granularity=32 if not SMOKE else 2)
+        max_batch[variant], rows = find_max_batch(cfg, DEVICE, start=BATCH_X, limit=MAX_BATCH_SEARCH_LIMIT,
+                                                  granularity=MAX_BATCH_GRANULARITY)
         max_rows += rows
     max_df = pd.DataFrame(max_rows)
     display(max_df[["variant", "batch_size", "fits", "peak_memory_mb", "activation_saved_mb_per_sample", "tokens_per_sec"]])
@@ -1017,8 +1028,7 @@ md(r"""
 """)
 
 code(r'''
-# Smoke runs must never overwrite the real webapp data.
-webapp_js = (RESULTS_DIR / "webapp_data.js") if SMOKE else (ROOT.parent.parent / "webapp" / "data.js")
+webapp_js = ROOT.parent.parent / "webapp" / "data.js"
 session_data = export_webapp_data(RESULTS_DIR / "runs.jsonl", webapp_js, winner=WINNER)
 print("webapp data written to", webapp_js)
 files = sorted(p.relative_to(ROOT) for d in [RESULTS_DIR, LOG_DIR] for p in d.glob("*") if p.is_file())

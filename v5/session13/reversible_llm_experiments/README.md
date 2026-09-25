@@ -31,9 +31,9 @@ uv run jupyter nbconvert --to notebook --execute --inplace reversible_llm.ipynb 
 uv run aim up          # from notebooks/
 ```
 
-Options (environment variables): `REVLLM_DEVICE` (default `cuda:0`), `REVLLM_BATCH_X` (default 128),
-`REVLLM_REUSE=1` (default: skip runs already finished in `results/`, so an interrupted notebook resumes),
-and `REVLLM_SMOKE=1` (a tiny WikiText-2 end-to-end check for small GPUs; writes to `*_smoke/` directories).
+All settings (device, batch size `x`, token budget, LR, evaluation, output paths) are hardcoded in the
+configuration cell of Section 1 of the notebook. Edit them there. With `REUSE_RESULTS = True`, runs already
+finished in `results/` are loaded instead of retrained, so an interrupted notebook resumes.
 
 ## Outputs (under `notebooks/`)
 

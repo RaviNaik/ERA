@@ -8,7 +8,4 @@ data/*.bin
 data/*.json
 results/*.jsonl
 assets/*.png
-assets/*.svg# REVLLM_SMOKE=1 sanity-run outputs
-data_smoke/
-results_smoke/
-logs_smoke/
+assets/*.svg
