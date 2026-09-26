@@ -7,5 +7,4 @@ __pycache__/
 data/*.bin
 data/*.json
 results/*.jsonl
-assets/*.png
-assets/*.svg
+scripts/*

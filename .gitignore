@@ -25,3 +25,4 @@ v5/session10/training_loop/dry_run.py
 v5/session12/parallelization_experiments/scripts/
 v5/session13/reversible_llm_experiments/notebooks/data/train.bin
 v5/session13/reversible_llm_experiments/notebooks/data/val.bin
+v5/session13/reversible_llm_experiments/scripts/build_notebook.py

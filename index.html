@@ -469,6 +469,37 @@
           </div>
         </a>
 
+        <!-- Session 13 -->
+        <a href="v5/session13/webapp/" class="session-card" id="card-s13">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(245,158,11,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#f59e0b,#6366f1)">S13</div>
+              <div class="card-tags">
+                <span class="tag">Reversible</span>
+                <span class="tag">Memory</span>
+                <span class="tag">RTX A6000</span>
+              </div>
+            </div>
+            <h3 class="card-title">Reversible<br/>LLMs</h3>
+            <p class="card-desc">
+              A 20.1M-parameter GPT trained on 50M tokens as a standard transformer and
+              as reversible midpoint and Euler networks, then scaled to 8&times; the batch.
+              Activations are rebuilt exactly (float64 fixed-point streams) instead of
+              stored: half the memory, and a better loss, at a real speed cost.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#10b981"></span>S13&middot;1 Peak Memory 9.45 &rarr; 4.61 GB &middot; 14&times; Fewer Stored Activations</li>
+              <li><span class="exp-dot" style="background:#f59e0b"></span>S13&middot;2 Euler Beats the Baseline: Val Loss 4.774 vs 4.828</li>
+              <li><span class="exp-dot" style="background:#6366f1"></span>S13&middot;3 Max Batch 896 &rarr; 2528 (2.8&times;) &middot; 18&ndash;26% Slower</li>
+              <li><span class="exp-dot" style="background:#f43f5e"></span>S13&middot;4 8&times; Batch at Fixed Tokens: Loss 4.77 &rarr; 6.75, Only +6.6% Throughput</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>

@@ -1,34 +1,459 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Session 13 Reversible LLM</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reversible LLMs | ERA V5 · Session 13</title>
+  <meta name="description" content="Session 13 — a 20M-parameter GPT trained on 50M tokens three ways (baseline, reversible midpoint, reversible Euler) on an RTX A6000, then the winning reversible model scaled to 8x batch. Measured: −51% peak memory, 14x fewer stored activations, Euler beats the baseline's loss, 2.8x larger maximum batch — and why larger batches still did not help." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <main>
-        <section class="hero">
-            <p class="eyebrow">ERA V5 Session 13</p>
-            <h1>Reversible LLM Batch-Size Study</h1>
-            <div id="heroStats" class="stats"></div>
-        </section>
-        <section class="panel">
-            <h2>Run Comparison</h2>
-            <div class="table-wrap">
-                <table id="runsTable"></table>
-            </div>
-            <canvas id="chart" height="280"></canvas>
-        </section>
-        <section class="panel">
-            <h2>Findings</h2>
-            <ul id="findings"></ul>
-        </section>
-    </main>
-    <script src="data.js"></script>
-    <script src="app.js"></script>
-</body>
 
+<div class="reading-progress" id="reading-progress"></div>
+
+<!-- ── Theme Toggle ───────────────────────────────────────── -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S13</div>
+      <div class="sidebar-brand-title">Reversible<br/><span class="sidebar-gradient-text">LLMs</span></div>
+      <div class="sidebar-brand-sub">10 Sections · September 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#theory" data-target="theory"><span class="nav-icon">🔁</span> 1 · Why Reversible</a>
+      <a class="nav-item" href="#correct" data-target="correct"><span class="nav-icon">🛠️</span> 2 · Getting It Right</a>
+      <a class="nav-item" href="#setup" data-target="setup"><span class="nav-icon">⚙️</span> 3 · Setup &amp; Batch x</a>
+      <a class="nav-item" href="#race" data-target="race"><span class="nav-icon">🏁</span> 4 · Architecture Race</a>
+      <a class="nav-item" href="#memory" data-target="memory"><span class="nav-icon">🧠</span> 5 · Memory</a>
+      <a class="nav-item" href="#speed" data-target="speed"><span class="nav-icon">⏱️</span> 6 · Speed</a>
+      <a class="nav-item" href="#choice" data-target="choice"><span class="nav-icon">🏆</span> 7 · Picking a Variant</a>
+      <a class="nav-item" href="#scaling" data-target="scaling"><span class="nav-icon">📈</span> 8 · Batch Scaling</a>
+      <a class="nav-item" href="#maxbatch" data-target="maxbatch"><span class="nav-icon">🧱</span> 9 · Maximum Batch</a>
+      <a class="nav-item" href="#conclusions" data-target="conclusions"><span class="nav-icon">🧭</span> 10 · Conclusions</a>
+      <a class="nav-item" href="#repro" data-target="repro"><span class="nav-icon">▶️</span> Reproduce</a>
+    </nav>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 13 Assignment</div>
+      <h1>Reversible LLMs<br>Memory, speed and batch size</h1>
+      <p>
+        A 20.1M-parameter GPT trained on 50M WikiText-103 tokens three ways: a standard
+        transformer, a reversible <strong>midpoint</strong> network and a reversible
+        <strong>Euler</strong> (symplectic) network. The winner was then trained at 2x, 4x
+        and 8x the batch size. Every number on this page was measured on one
+        <strong>NVIDIA RTX A6000 (48 GB)</strong> and is exported straight from the
+        experiment results.
+      </p>
+
+      <div class="banner">
+        <span class="banner-dot"></span>
+        <div>
+          <strong>Headline:</strong> reversibility halved peak memory (9.45 → 4.61 GB) and cut stored
+          activations 14x. The Euler variant then <strong>beat the baseline's loss</strong> (4.774 vs 4.828)
+          and allowed a <strong>2.8x larger batch</strong>. The price was 18-26% throughput, and the
+          larger batches it enabled <strong>made the loss worse</strong> at a fixed 50M-token budget.
+        </div>
+      </div>
+
+      <div class="hero-stats" id="hero-stats"></div>
+
+      <div class="hero-links">
+        <a class="hero-link" href="../reversible_llm_experiments/README.md">📄 Full write-up — README.md</a>
+        <a class="hero-link" href="../reversible_llm_experiments/notebooks/reversible_llm.ipynb">📓 Executed notebook</a>
+        <a class="hero-link" href="https://arxiv.org/html/2512.02056v2" target="_blank" rel="noopener">📜 Paper (arXiv 2512.02056)</a>
+        <a class="hero-link" href="https://github.com/RaviNaik/ERA/tree/main/v5/session13" target="_blank" rel="noopener">↗ Repository</a>
+      </div>
+    </header>
+
+    <!-- ── Results at a glance ───────────────────────────── -->
+    <section class="section" id="glance">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">RESULTS AT A GLANCE · 6 RUNS × 50M TOKENS</span>
+          <h2 class="section-title">The six experiments</h2>
+          <p class="section-desc">
+            Validation numbers use the full WikiText-103 validation split (249k tokens). Green marks
+            the best value in each column. Experiments 1-3 share the batch size, learning rate and data
+            order; experiments 4-6 scale the selected variant's batch.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body table-wrap"><table class="data-table" id="glance-table"></table></div>
+      </div>
+    </section>
+
+    <!-- ── 1. Theory ─────────────────────────────────────── -->
+    <section class="section" id="theory">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">01 / 10 · THEORY</span>
+          <h2 class="section-title">Why reversible layers save memory</h2>
+          <p class="section-desc">
+            Backprop needs every layer's input. A normal residual network therefore <em>stores</em> the
+            activations of all L layers, so memory grows with depth. If each layer can be <em>inverted</em>,
+            its inputs can be recomputed from its outputs during backward. Only the final state is stored,
+            at the cost of one extra forward pass through the backbone.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Midpoint (paper eq. 4-5)</span><span class="badge badge-purple">leapfrog over depth</span></div>
+          <div class="card-body">
+            <div class="formula">p<sup>ℓ+1</sup> = p<sup>ℓ−1</sup> + 2h · f<sub>ℓ</sub>(p<sup>ℓ</sup>)<br>
+              f<sub>ℓ</sub>(p) = Attn(LN₁ p) + MLP(LN₂(p + Attn(LN₁ p)))<br>
+              <span class="c">inverse:</span> p<sup>ℓ−1</sup> = p<sup>ℓ+1</sup> − 2h · f<sub>ℓ</sub>(p<sup>ℓ</sup>)</div>
+            <p class="body">f is exactly the residual branch of a standard pre-LN block, so no part of the network has to be inverted analytically. Used here with <code>h = 0.25</code>, the best of {1/9, 0.25, 0.5} in a local sweep. The paper warns that this scheme is only <strong>marginally stable</strong>.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Euler / Hamiltonian (paper eq. 8-9)</span><span class="badge badge-yellow">two streams</span></div>
+          <div class="card-body">
+            <div class="formula">q<sup>ℓ</sup> = q<sup>ℓ−1</sup> + Attn<sub>ℓ</sub>(LN₁ p<sup>ℓ−1</sup>)<br>
+              p<sup>ℓ</sup> = p<sup>ℓ−1</sup> + MLP<sub>ℓ</sub>(LN₂ q<sup>ℓ</sup>)<br>
+              <span class="c">inverse:</span> p<sup>ℓ−1</sup> = p<sup>ℓ</sup> − MLP(LN₂ q<sup>ℓ</sup>);  q<sup>ℓ−1</sup> = q<sup>ℓ</sup> − Attn(LN₁ p<sup>ℓ−1</sup>)</div>
+            <p class="body">Attention updates one stream and the MLP the other. The scheme is symplectic (volume-preserving), and it carries <strong>two</strong> 256-wide residual states at no parameter cost. Both variants have exactly the baseline's 20,105,216 parameters.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">One training step through a reversible stack</span></div>
+        <div class="card-body"><div class="flow-steps" id="theory-flow"></div></div>
+      </div>
+    </section>
+
+    <!-- ── 2. Getting it right ───────────────────────────── -->
+    <section class="section" id="correct">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">02 / 10 · IMPLEMENTATION</span>
+          <h2 class="section-title">Getting it right: four fixes before any training</h2>
+          <p class="section-desc">
+            A review of the first implementation found that it saved almost no memory and trained on
+            subtly wrong gradients. These are the changes that made the savings real and the gradients exact.
+          </p>
+        </div>
+      </div>
+      <div class="grid-2" id="fix-cards"></div>
+
+      <div class="card mt-16">
+        <div class="card-header">
+          <span class="card-title">Exact vs plain streams: gradient agreement with ordinary autograd</span>
+          <span class="badge badge-green">measured on the A6000</span>
+        </div>
+        <div class="card-body">
+          <div class="chart" id="chart-exact"></div>
+          <p class="fine">Each pair: at initialisation (w×1) and with 8x-sharpened weights (w×8), which mimics a trained network. With exact fixed-point streams, reconstruction error is exactly 0 in every case.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. Setup ──────────────────────────────────────── -->
+    <section class="section" id="setup">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">03 / 10 · SETUP</span>
+          <h2 class="section-title">Model, data, protocol, and how <code>x = 128</code> was chosen</h2>
+          <p class="section-desc">
+            <code>x</code> had to fit the baseline, let both reversible variants fit <code>8x</code>, and leave
+            enough optimizer steps at 8x. The probe below measures real training steps (forward, backward,
+            AdamW) at each candidate batch.
+          </p>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="card-header"><span class="card-title">Model</span></div><div class="card-body"><table class="kv-table" id="kv-model"></table></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Data</span></div><div class="card-body"><table class="kv-table" id="kv-data"></table></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Training protocol</span></div><div class="card-body"><table class="kv-table" id="kv-train"></table></div></div>
+      </div>
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">Probe: peak memory per training step (GB). OOM = does not fit in 48 GB.</span><span class="badge badge-blue">Section 5 of the notebook</span></div>
+        <div class="card-body table-wrap"><table class="data-table" id="probe-table"></table></div>
+      </div>
+    </section>
+
+    <!-- ── 4. Architecture race ──────────────────────────── -->
+    <section class="section" id="race">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">04 / 10 · EXPERIMENTS 1-3</span>
+          <h2 class="section-title">Baseline vs midpoint vs Euler, at the same batch (128)</h2>
+          <p class="section-desc">
+            Same data order, LR schedule and 50M tokens; only the depth recurrence differs. Switch the x-axis
+            to see the same race per unit of wall-clock time.
+          </p>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-btn active" id="race-tokens">vs tokens</button>
+          <button class="tab-btn" id="race-time">vs wall clock</button>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title" id="race-title">Validation loss vs training tokens</span></div>
+          <div class="card-body"><div class="chart" id="chart-race"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Validation loss minus baseline</span><span class="badge badge-green">below 0 = better</span></div>
+          <div class="card-body"><div class="chart" id="chart-delta"></div></div>
+        </div>
+      </div>
+      <div class="callout amber">
+        <div class="callout-label">💡 What happened</div>
+        <ul class="find-list">
+          <li><strong>Euler started behind</strong> (+0.17 at 2.5M tokens) but <strong>overtook the baseline at ~10M tokens</strong> and finished at 4.774, 0.053 lower. It reached the baseline's final loss with <strong>15% fewer tokens</strong> (42.5M).</li>
+          <li><strong>Midpoint tracked the baseline</strong> within ±0.02 all the way and finished 0.014 higher, in line with the paper's "within ~0.01" for midpoint.</li>
+          <li><strong>Per unit of wall-clock time the baseline still leads:</strong> when it finishes (5.9 min), Euler is at 4.882 and midpoint at 4.895. Euler needs 6.5 min to reach the baseline's final loss.</li>
+          <li><strong>A plausible reason for Euler's gain:</strong> two residual streams give a wider residual "memory" at no parameter cost. With a single seed this is suggestive, not proven.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 5. Memory ─────────────────────────────────────── -->
+    <section class="section" id="memory">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">05 / 10 · MEMORY</span>
+          <h2 class="section-title">Half the peak, 14x fewer stored activations, flat in depth</h2>
+          <p class="section-desc">
+            Stored activations are what autograd keeps between forward and backward. The peak also includes
+            the transient working set of backward, which reversibility shrinks much less.
+          </p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Memory at batch 128 (GB)</span></div>
+          <div class="card-body"><div class="chart" id="chart-mem"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Stored activations vs depth (batch 8, MB)</span><span class="badge badge-purple">O(L) vs O(1)</span></div>
+          <div class="card-body"><div class="chart" id="chart-depth"></div></div>
+        </div>
+      </div>
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">What fills the peak at batch 128</span></div>
+        <div class="card-body"><div class="donut-row" id="donuts-mem"></div></div>
+      </div>
+      <div class="callout green">
+        <div class="callout-label">💡 Takeaway</div>
+        <ul class="find-list">
+          <li>The baseline stores <strong>41.8 MB per 512-token sequence</strong> and adds <strong>37.7 MB per layer</strong> (batch 8). Both reversible stacks store <strong>3.0 MB per sequence</strong> and a constant 74 MB from 3 to 24 layers.</li>
+          <li>Peak memory falls <strong>51%</strong> (9.45 → 4.61 GB), less than the 14x cut in stored activations, because backward still materializes one layer's reconstruction and the float64 streams and their gradients.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 6. Speed ──────────────────────────────────────── -->
+    <section class="section" id="speed">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">06 / 10 · SPEED</span>
+          <h2 class="section-title">Where the time goes, and what exact reversal costs</h2>
+          <p class="section-desc">
+            Mean step time per 65,536 tokens, split into phases. "Forward" includes the fused 50,257-way
+            vocab projection and its gradient, which is 58% of the model's FLOPs and runs bandwidth-bound.
+          </p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Step time per 65,536 tokens (ms)</span></div>
+          <div class="card-body"><div class="chart" id="chart-phases"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Cost of exact reversal: one step at batch 128 (ms)</span></div>
+          <div class="card-body"><div class="chart" id="chart-exactcost"></div></div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">💡 Takeaway</div>
+        <ul class="find-list">
+          <li>Throughput: baseline <strong>154.8k</strong>, midpoint <strong>126.4k (−18%)</strong>, Euler <strong>115.0k tokens/s (−26%)</strong>, against the ~14% extra FLOPs predicted for the recompute. MFU was 13.4%, 10.9% and 9.9% (A6000 bf16 peak: 154.8 TFLOP/s).</li>
+          <li>About half the slowdown is <strong>exactness</strong>. The A6000 runs fp64 at 1/32 of its fp32 rate, so exact streams add 13% (midpoint) or 26% (Euler, two quantized updates per layer). With plain fp32 streams, reversal costs only 8-10%, but it drifts (Section 2).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 7. Choice ─────────────────────────────────────── -->
+    <section class="section" id="choice">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">07 / 10 · SELECTION</span>
+          <h2 class="section-title">Picking the variant to scale: Euler</h2>
+          <p class="section-desc">
+            The rule was fixed before the runs: drop any variant that failed or has wrong gradients, then pick
+            the lowest val loss; below a 1% gap, prefer throughput.
+          </p>
+        </div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">Criterion by criterion</span></div>
+        <div class="card-body table-wrap"><table class="data-table" id="choice-table"></table></div>
+      </div>
+    </section>
+
+    <!-- ── 8. Scaling ────────────────────────────────────── -->
+    <section class="section" id="scaling">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">08 / 10 · EXPERIMENTS 4-6</span>
+          <h2 class="section-title">Scaling Euler to 2x, 4x, 8x the batch</h2>
+          <p class="section-desc">
+            Each run still sees 50M tokens, so doubling the batch halves the optimizer steps
+            (763 → 382 → 191 → 96). The learning rate is sqrt-scaled (1e-3 → 2.83e-3).
+          </p>
+        </div>
+        <div class="tab-bar">
+          <button class="tab-btn active" id="scale-loss">val loss</button>
+          <button class="tab-btn" id="scale-gn">grad norm</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title" id="scale-title">Validation loss vs training tokens</span></div>
+        <div class="card-body"><div class="chart" id="chart-scale"></div></div>
+      </div>
+      <div class="grid-3 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">Final val loss</span></div><div class="card-body"><div class="chart" id="chart-scale-loss"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Throughput (k tokens/s)</span></div><div class="card-body"><div class="chart" id="chart-scale-tps"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Peak memory (GB)</span></div><div class="card-body"><div class="chart" id="chart-scale-mem"></div></div></div>
+      </div>
+      <div class="callout rose">
+        <div class="callout-label">💡 What the scaling shows</div>
+        <ul class="find-list">
+          <li><strong>Memory scaled as designed:</strong> ~16 MB per extra sequence against ~42 MB for the baseline. Batch 1024 fits in 16.4 GB, less than twice the baseline's 9.45 GB at batch 128.</li>
+          <li><strong>Speed barely moved:</strong> +6.6% from batch 128 to 1024, because the GPU is already saturated at 128. Wall clock fell only from 7.7 to 7.2 min.</li>
+          <li><strong>Loss got much worse:</strong> 4.77 → 5.22 → 6.17 → 6.75. This is the <em>critical batch size</em> effect: at 20M parameters and this early in training, 65k tokens per step is already enough, so fewer and larger steps waste tokens. sqrt LR scaling added gradient spikes (max norm 257 at 8x) rather than progress.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 9. Max batch ──────────────────────────────────── -->
+    <section class="section" id="maxbatch">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">09 / 10 · THE MAXIMUM</span>
+          <h2 class="section-title">Largest batch that fits: 896 vs 2528</h2>
+          <p class="section-desc">
+            Doubling until out-of-memory, then bisecting to 32 sequences, with real training steps on the
+            48 GB A6000. This is the equivalent of the paper's Table 3.
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Peak memory vs batch (✕ = out of memory)</span></div>
+        <div class="card-body"><div class="chart" id="chart-maxbatch"></div></div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">💡 Why 2.8x and not the paper's ~10x</div>
+        <ul class="find-list">
+          <li><strong>The peak slope sets the limit, not the stored activations.</strong> Stored activations are 14x smaller, but the reversible <em>peak</em> still grows ~16 MB per sequence (reconstruction working set plus float64 streams and gradients) against ~42 MB for the baseline. That 2.6x ratio matches the measured 2.8x.</li>
+          <li><strong>Only 9 layers.</strong> The savings grow with depth; the paper's largest gains are on much deeper models.</li>
+          <li><strong>64% of the parameters are the 50k-vocab embedding and head,</strong> whose loss buffers are identical in both architectures.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 10. Conclusions ───────────────────────────────── -->
+    <section class="section" id="conclusions">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">10 / 10 · CONCLUSIONS</span>
+          <h2 class="section-title">What to take away</h2>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Findings</span></div>
+          <div class="card-body"><ul class="find-list" id="conc-findings"></ul></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Recommendations &amp; next steps</span></div>
+          <div class="card-body"><ul class="find-list" id="conc-recs"></ul></div></div>
+      </div>
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">Trade-off map: throughput vs peak memory (dot size = better loss)</span></div>
+        <div class="card-body"><div class="chart" id="chart-tradeoff"></div></div>
+      </div>
+    </section>
+
+    <!-- ── Reproduce ─────────────────────────────────────── -->
+    <section class="section" id="repro">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-number">REPRODUCE</span>
+          <h2 class="section-title">Run it yourself</h2>
+          <p class="section-desc">Every setting lives in the notebook's configuration cell. Metrics are written to Aim, text logs, per-step JSONL and per-run JSON.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Commands</span></div>
+          <div class="card-body"><div class="formula">cd v5/session13/reversible_llm_experiments<br>uv sync &amp;&amp; uv run pytest -q<br>cd notebooks<br>uv run jupyter nbconvert --to notebook --execute \<br>&nbsp;&nbsp;--inplace reversible_llm.ipynb --ExecutePreprocessor.timeout=-1<br>uv run aim up</div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Artifacts</span></div>
+          <div class="card-body"><table class="kv-table" id="kv-artifacts"></table></div></div>
+      </div>
+    </section>
+
+    <!-- ── Footer ────────────────────────────────────────── -->
+    <footer class="footer">
+      Reversible LLMs · ERA V5 Session 13 ·
+      <a href="../reversible_llm_experiments/README.md">Full Written Notes (README.md)</a>
+    </footer>
+
+  </main><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<div class="chart-tip" id="chart-tip"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+/* ── Inline Theme Toggle (no extra file needed) ─────────── */
+(function () {
+  const btn    = document.getElementById('themeToggle');
+  const icon   = document.getElementById('themeIcon');
+  const label  = document.getElementById('themeLabel');
+  const root   = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('era-theme', theme);
+    if (theme === 'dark') {
+      icon.textContent  = '☀️';
+      label.textContent = 'Light';
+    } else {
+      icon.textContent  = '🌙';
+      label.textContent = 'Dark';
+    }
+  }
+
+  // Restore saved preference
+  const saved = localStorage.getItem('era-theme') || 'dark';
+  applyTheme(saved);
+
+  btn.addEventListener('click', function () {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+})();
+</script>
+</body>
 </html>

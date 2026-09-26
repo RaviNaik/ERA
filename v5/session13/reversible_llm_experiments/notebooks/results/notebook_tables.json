@@ -1,0 +1,392 @@
+{
+ "probe_peak_memory_mb": {
+  "64": {
+   "baseline": 6951.0,
+   "midpoint": 4474.0,
+   "euler": 4474.0
+  },
+  "128": {
+   "baseline": 9653.0,
+   "midpoint": 4698.0,
+   "euler": 4698.0
+  },
+  "256": {
+   "baseline": 15057.0,
+   "midpoint": 5147.0,
+   "euler": 5147.0
+  },
+  "512": {
+   "baseline": 25865.0,
+   "midpoint": 8908.0,
+   "euler": 8524.0
+  },
+  "1024": {
+   "baseline": null,
+   "midpoint": 17498.0,
+   "euler": 16728.0
+  }
+ },
+ "probe_activation_mb_per_seq": {
+  "64": {
+   "baseline": 41.93,
+   "midpoint": 3.0,
+   "euler": 3.0
+  },
+  "128": {
+   "baseline": 41.82,
+   "midpoint": 3.0,
+   "euler": 3.0
+  },
+  "256": {
+   "baseline": 41.77,
+   "midpoint": 3.0,
+   "euler": 3.0
+  },
+  "512": {
+   "baseline": 41.74,
+   "midpoint": 3.0,
+   "euler": 3.0
+  },
+  "1024": {
+   "baseline": null,
+   "midpoint": 3.0,
+   "euler": 3.0
+  }
+ },
+ "probe_tokens_per_sec": {
+  "64": {
+   "baseline": 157883.0,
+   "midpoint": 131600.0,
+   "euler": 119152.0
+  },
+  "128": {
+   "baseline": 168514.0,
+   "midpoint": 135027.0,
+   "euler": 122273.0
+  },
+  "256": {
+   "baseline": 170196.0,
+   "midpoint": 136450.0,
+   "euler": 123590.0
+  },
+  "512": {
+   "baseline": 170027.0,
+   "midpoint": 136262.0,
+   "euler": 123404.0
+  },
+  "1024": {
+   "baseline": null,
+   "midpoint": 136609.0,
+   "euler": 123856.0
+  }
+ },
+ "depth_saved_activation_mb": {
+  "3": {
+   "baseline": 171.1,
+   "midpoint": 74.0,
+   "euler": 74.0
+  },
+  "6": {
+   "baseline": 284.2,
+   "midpoint": 74.0,
+   "euler": 74.0
+  },
+  "9": {
+   "baseline": 397.2,
+   "midpoint": 74.0,
+   "euler": 74.0
+  },
+  "12": {
+   "baseline": 510.3,
+   "midpoint": 74.0,
+   "euler": 74.0
+  },
+  "18": {
+   "baseline": 736.4,
+   "midpoint": 74.0,
+   "euler": 74.0
+  },
+  "24": {
+   "baseline": 962.5,
+   "midpoint": 74.0,
+   "euler": 74.0
+  }
+ },
+ "reversibility_diagnostics": [
+  {
+   "variant": "midpoint",
+   "streams": "exact fp64 fixed-point",
+   "weight_scale": 1.0,
+   "max_rel_error": 0.0,
+   "input_rel_error": 0.0,
+   "grad_cosine": 1.0,
+   "grad_rel_error": 0.000877
+  },
+  {
+   "variant": "midpoint",
+   "streams": "exact fp64 fixed-point",
+   "weight_scale": 8.0,
+   "max_rel_error": 0.0,
+   "input_rel_error": 0.0,
+   "grad_cosine": 0.999951,
+   "grad_rel_error": 0.00993
+  },
+  {
+   "variant": "midpoint",
+   "streams": "plain fp32",
+   "weight_scale": 1.0,
+   "max_rel_error": 0.003742,
+   "input_rel_error": 0.003742,
+   "grad_cosine": 0.999999,
+   "grad_rel_error": 0.001469
+  },
+  {
+   "variant": "midpoint",
+   "streams": "plain fp32",
+   "weight_scale": 8.0,
+   "max_rel_error": 50.978344,
+   "input_rel_error": 50.978344,
+   "grad_cosine": 0.501706,
+   "grad_rel_error": 0.932638
+  },
+  {
+   "variant": "euler",
+   "streams": "exact fp64 fixed-point",
+   "weight_scale": 1.0,
+   "max_rel_error": 0.0,
+   "input_rel_error": 0.0,
+   "grad_cosine": 1.0,
+   "grad_rel_error": 3e-06
+  },
+  {
+   "variant": "euler",
+   "streams": "exact fp64 fixed-point",
+   "weight_scale": 8.0,
+   "max_rel_error": 0.0,
+   "input_rel_error": 0.0,
+   "grad_cosine": 0.999974,
+   "grad_rel_error": 0.007161
+  },
+  {
+   "variant": "euler",
+   "streams": "plain fp32",
+   "weight_scale": 1.0,
+   "max_rel_error": 0.012455,
+   "input_rel_error": 0.012455,
+   "grad_cosine": 0.999998,
+   "grad_rel_error": 0.001897
+  },
+  {
+   "variant": "euler",
+   "streams": "plain fp32",
+   "weight_scale": 8.0,
+   "max_rel_error": 77.72522,
+   "input_rel_error": 77.72522,
+   "grad_cosine": 0.629721,
+   "grad_rel_error": 0.798614
+  }
+ ],
+ "exactness_cost": [
+  {
+   "variant": "midpoint",
+   "streams": "exact fp64",
+   "step ms": 482.9,
+   "tokens/s": 135705.8,
+   "peak MB": 4698.3
+  },
+  {
+   "variant": "midpoint",
+   "streams": "plain fp32",
+   "step ms": 426.4,
+   "tokens/s": 153679.4,
+   "peak MB": 4506.3
+  },
+  {
+   "variant": "euler",
+   "streams": "exact fp64",
+   "step ms": 531.3,
+   "tokens/s": 123342.2,
+   "peak MB": 4698.3
+  },
+  {
+   "variant": "euler",
+   "streams": "plain fp32",
+   "step ms": 421.0,
+   "tokens/s": 155651.6,
+   "peak MB": 4570.3
+  },
+  {
+   "variant": "baseline",
+   "streams": "-",
+   "step ms": 388.2,
+   "tokens/s": 168840.9,
+   "peak MB": 9653.5
+  }
+ ],
+ "max_batch_search": [
+  {
+   "variant": "baseline",
+   "batch_size": 128.0,
+   "fits": true,
+   "peak_memory_mb": 9653.474121,
+   "activation_saved_mb_per_sample": 41.820347,
+   "tokens_per_sec": 166720.347717
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 256.0,
+   "fits": true,
+   "peak_memory_mb": 15057.474121,
+   "activation_saved_mb_per_sample": 41.767595,
+   "tokens_per_sec": 168542.153757
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 512.0,
+   "fits": true,
+   "peak_memory_mb": 25864.553223,
+   "activation_saved_mb_per_sample": 41.74122,
+   "tokens_per_sec": 168523.230958
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 1024.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 768.0,
+   "fits": true,
+   "peak_memory_mb": 36674.162598,
+   "activation_saved_mb_per_sample": 41.733567,
+   "tokens_per_sec": 169061.791118
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 896.0,
+   "fits": true,
+   "peak_memory_mb": 42078.491699,
+   "activation_saved_mb_per_sample": 41.731259,
+   "tokens_per_sec": 169030.976787
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 960.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "baseline",
+   "batch_size": 928.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "euler",
+   "batch_size": 128.0,
+   "fits": true,
+   "peak_memory_mb": 4698.287598,
+   "activation_saved_mb_per_sample": 3.003941,
+   "tokens_per_sec": 121917.335546
+  },
+  {
+   "variant": "euler",
+   "batch_size": 256.0,
+   "fits": true,
+   "peak_memory_mb": 5147.287598,
+   "activation_saved_mb_per_sample": 3.003923,
+   "tokens_per_sec": 123317.246693
+  },
+  {
+   "variant": "euler",
+   "batch_size": 512.0,
+   "fits": true,
+   "peak_memory_mb": 8523.795898,
+   "activation_saved_mb_per_sample": 3.003915,
+   "tokens_per_sec": 123338.106227
+  },
+  {
+   "variant": "euler",
+   "batch_size": 1024.0,
+   "fits": true,
+   "peak_memory_mb": 16727.795898,
+   "activation_saved_mb_per_sample": 3.003911,
+   "tokens_per_sec": 123780.120791
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2048.0,
+   "fits": true,
+   "peak_memory_mb": 33135.795898,
+   "activation_saved_mb_per_sample": 3.003908,
+   "tokens_per_sec": 123715.085918
+  },
+  {
+   "variant": "euler",
+   "batch_size": 4096.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "euler",
+   "batch_size": 3072.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2560.0,
+   "fits": false,
+   "peak_memory_mb": null,
+   "activation_saved_mb_per_sample": null,
+   "tokens_per_sec": null
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2304.0,
+   "fits": true,
+   "peak_memory_mb": 37237.795898,
+   "activation_saved_mb_per_sample": 3.003908,
+   "tokens_per_sec": 123017.442779
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2432.0,
+   "fits": true,
+   "peak_memory_mb": 39288.795898,
+   "activation_saved_mb_per_sample": 3.003908,
+   "tokens_per_sec": 122822.358683
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2496.0,
+   "fits": true,
+   "peak_memory_mb": 40314.295898,
+   "activation_saved_mb_per_sample": 3.003908,
+   "tokens_per_sec": 122776.258116
+  },
+  {
+   "variant": "euler",
+   "batch_size": 2528.0,
+   "fits": true,
+   "peak_memory_mb": 40827.045898,
+   "activation_saved_mb_per_sample": 3.003908,
+   "tokens_per_sec": 122904.066533
+  }
+ ],
+ "max_batch": {
+  "baseline": 896,
+  "euler": 2528
+ }
+}

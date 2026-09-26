@@ -3,11 +3,14 @@
 This script is the reviewable source of truth for the notebook's code and
 prose (`git diff` on it is readable, unlike diffs of .ipynb JSON). Run:
 
-    uv run python scripts/build_notebook.py
+    uv run python scripts/build_notebook.py                   # fresh, unexecuted notebook
+    uv run python scripts/build_notebook.py --sync-markdown   # update prose, keep executed outputs
 """
 
 from __future__ import annotations
 
+import ast
+import sys
 from pathlib import Path
 
 import nbformat as nbf
@@ -41,7 +44,7 @@ md(r"""
 
 1. Train a ~20M-parameter GPT-style LLM on **50M tokens** at a fixed batch size `x`.
 2. Train the *same* model, on the *same* data, at the *same* batch size with a **reversible** architecture, once with the **midpoint** scheme and once with the **Euler** scheme. Pick the variant that works best on loss, speed, peak memory and other findings.
-3. Train the selected variant at increasing batch sizes (`2x`, `4x`, `8x`) up to the maximum that fits on a ~40 GB GPU.
+3. Train the selected variant at increasing batch sizes (`2x`, `4x`, `8x`) up to the maximum that fits on a ~40 GB GPU. (The runs below used an **NVIDIA RTX A6000, 48 GB**.)
 
 | # | Experiment | Architecture | Batch size |
 |---|---|---|---|
@@ -51,6 +54,28 @@ md(r"""
 | 4 | Reversible, best of 2 and 3 | winner | `2x` |
 | 5 | Reversible, best of 2 and 3 | winner | `4x` |
 | 6 | Reversible, best of 2 and 3 | winner | `8x` |
+
+## Results at a glance
+
+All six runs: WikiText-103, GPT-2 BPE, 20.1M parameters, 50M training tokens each, one RTX A6000 (48 GB), bf16 autocast, seed 1337. The val numbers use the **full** validation split (249k tokens).
+
+| # | Run | Batch | Steps | Val loss ↓ | Val ppl | Val acc | Tokens/s | Peak memory | Saved activations / seq | Wall clock |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Baseline | 128 | 763 | 4.828 | 124.9 | 26.75% | **154.8k** | 9.45 GB | 41.8 MB | **5.9 min** |
+| 2 | Reversible midpoint | 128 | 763 | 4.842 | 126.7 | 26.46% | 126.4k | **4.61 GB** | **3.0 MB** | 7.1 min |
+| 3 | **Reversible Euler (selected)** | 128 | 763 | **4.774** | **118.4** | **27.22%** | 115.0k | **4.61 GB** | **3.0 MB** | 7.7 min |
+| 4 | Euler | 256 | 382 | 5.224 | 185.7 | 23.40% | 120.4k | 5.04 GB | 3.0 MB | 7.3 min |
+| 5 | Euler | 512 | 191 | 6.175 | 480.5 | 16.80% | 121.5k | 8.34 GB | 3.0 MB | 7.2 min |
+| 6 | Euler | 1024 | 96 | 6.746 | 850.8 | 12.22% | 122.6k | 16.36 GB | 3.0 MB | 7.2 min |
+
+**Key findings**
+
+1. **Reversibility halves peak memory and cuts stored activations 14x.** At batch 128, peak memory falls from 9.45 GB to 4.61 GB (−51%), and activations stored for backward fall from 41.8 to 3.0 MB per sequence. The stored activations are also flat in depth: the baseline adds 37.7 MB per layer (batch 8), the reversible stacks add nothing.
+2. **Euler has the best loss of all six runs.** It reached 4.774 against the baseline's 4.828 (−0.053) and midpoint's 4.842 (+0.014). It starts slower (+0.17 at 2.5M tokens), overtakes the baseline at ~10M tokens and stays ahead, reaching the baseline's final loss with 15% fewer tokens (42.5M).
+3. **The price is speed.** Throughput drops 18% for midpoint and 26% for Euler. About half of that is the exact fp64 reversal; the other half is recomputing the backbone in backward. Per unit of *wall-clock time* the baseline is still ahead: at the baseline's finishing time (5.9 min), Euler is at 4.882.
+4. **2.8x larger maximum batch.** On 48 GB the baseline tops out at batch 896 and Euler at 2528. Batch 1024 (8x), where the baseline runs out of memory, trains with Euler in 16.4 GB.
+5. **Bigger batches did not pay off at a fixed token budget.** From batch 128 to 1024 the optimizer steps fall from 763 to 96. Validation loss rises from 4.77 to 6.75, while throughput rises only 6.6% because the GPU is already saturated at batch 128. For this model and budget, 128 x 512 tokens is already above the useful (critical) batch size.
+6. **Exact reversal was essential.** Every reversible run reconstructed its activations with **zero** error and matched plain autograd gradients (cosine ≥ 0.999999). Plain fp32 streams on sharpened weights gave gradient cosines of only 0.50-0.63.
 
 **Reference:** Gal, Eliasof, Turek, Ascher, Haber (2025), *Reversing Large Language Models for Efficient Training and Fine-Tuning*, [arXiv:2512.02056v2](https://arxiv.org/html/2512.02056v2).
 
@@ -112,7 +137,7 @@ ROOT = Path.cwd()  # notebooks/
 # Every setting for the GPU-server runs lives here. Edit values in this cell only.
 
 # ---- hardware
-DEVICE = "cuda:0"              # GPU to train on
+DEVICE = "cuda:1"              # GPU to train on (the results below ran on cuda:1 of the server)
 # ---- data
 DATA_DIR = ROOT / "data"       # tokenized WikiText-103 cache (created on first run)
 DATA_CONFIG = "wikitext-103-raw-v1"
@@ -130,12 +155,12 @@ LR_SCALING_FOR_SCALE_UP = "sqrt"   # LR rule for 2x/4x/8x: "sqrt" | "linear" | "
 SEED = 1337
 LOSS_CHUNK = 8192              # rows per fused lm_head + cross-entropy chunk
 # ---- evaluation
-EVAL = dict(
-    eval_interval_tokens=2_500_000,   # periodic eval every 2.5M training tokens
-    eval_windows=128,                 # 128 x 512 tokens per split per periodic eval
-    eval_batch_size=64,
-    final_eval_train_windows=487,     # final: full val split + 487 train windows
-)
+EVAL = {
+    "eval_interval_tokens": 2_500_000,   # periodic eval every 2.5M training tokens
+    "eval_windows": 128,                 # 128 x 512 tokens per split per periodic eval
+    "eval_batch_size": 64,
+    "final_eval_train_windows": 487,     # final: full val split + 487 train windows
+}
 # ---- max-batch search (section "Where is the maximum?")
 MAX_BATCH_SEARCH_LIMIT = 16384
 MAX_BATCH_GRANULARITY = 32
@@ -350,6 +375,14 @@ else:
 ''')
 
 md(r"""
+**Observed (RTX A6000).**
+
+* **Exact fp64 fixed-point streams:** reconstruction error is exactly **0** for both schemes, at initialisation and with 8x-sharpened weights. The small remaining gradient difference (≤ 1% relative, cosine ≥ 0.99995) is ordinary bf16 backward noise from a different accumulation order, not a reversal error.
+* **Plain fp32 streams:** already drift 0.4-1.2% at initialisation. With sharpened weights they drift **51x and 78x** the size of the state, and the gradients point in a substantially different direction (**cosine 0.50 for midpoint, 0.63 for Euler**). Training on those gradients would be optimizing a different model from the one being evaluated.
+* **Cost of exactness:** one training step at batch 128 takes 483 ms (midpoint) and 531 ms (Euler) with exact streams, against 426 and 421 ms with fp32 streams: **+13% and +26%**. The RTX A6000 runs fp64 at 1/32 of its fp32 rate. Euler pays more because it quantizes two updates per layer instead of one. Without exactness, reversal would cost only **8-10%** over the baseline's 388 ms. A GPU with fast fp64 (A100/H100) would recover most of this.
+""")
+
+md(r"""
 ### 4.5 Activation memory vs. depth
 
 This measures the memory autograd keeps alive **between forward and backward** (the activations saved for backward) for 3 to 24 layers at a fixed batch of 8 x 512 tokens. The baseline should grow linearly with depth and the reversible stacks should stay flat. A small constant remains for all variants: the embeddings and the fused-loss gradient buffers.
@@ -382,6 +415,10 @@ if IS_CUDA:
     display(Markdown("**Marginal activation memory per extra layer** (batch 8): " +
                      ", ".join(f"{v}: **{g:.1f} MB/layer**" for v, g in growth.items())))
 ''')
+
+md(r"""
+**Observed.** This is the core claim of the paper, measured directly. The baseline stores **37.7 MB more per layer** at batch 8 (171 MB at 3 layers → 963 MB at 24), so it is exactly linear in depth. Both reversible stacks store a constant **74 MB from 3 to 24 layers**: the final pair of float64 streams, the embedding input, and the 49 MB batch-independent fused-loss buffer. At 24 layers that is already a 13x difference, and it keeps growing with depth.
+""")
 
 # =============================================================================
 # 5. Batch size
@@ -444,6 +481,15 @@ schedule = pd.DataFrame([
 ])
 display(schedule)
 ''')
+
+md(r"""
+**Observed.** The probe confirmed the choice of `x = 128` on the 48 GB RTX A6000:
+
+* **Stored activations are exactly as predicted:** 41.8 MB per sequence for the baseline and 3.0 MB for both reversible variants, constant across batch sizes.
+* **Peak memory at batch 128** is 9.43 GB for the baseline against 4.59 GB for either reversible variant (probe; the training runs measured 9.45 and 4.61 GB). At batch 512 it is 25.3 GB against 8.3-8.7 GB.
+* **At batch 1024 (8x) the baseline runs out of memory**, while midpoint and Euler fit in 17.1 and 16.3 GB. The assignment's scale-up is therefore only possible with the reversible model.
+* **Throughput is already flat from batch 128 upward** for every variant (baseline 168-170k tokens/s, midpoint ~136k, Euler ~123k). This predicts experiments 4-6: larger batches will not buy much speed on this GPU.
+""")
 
 # =============================================================================
 # 6. Training protocol
@@ -692,6 +738,15 @@ report(LBL_BASE)
 ''')
 
 md(r"""
+### Observed: experiment 1 (baseline)
+
+* **Quality:** val loss **4.828** (perplexity 124.9, next-token accuracy 26.75%). The loss was still falling at the end (−0.015 over the last 2.5M tokens), so the model is budget-limited, as expected for 50M tokens at 20M parameters (~2.5 tokens per parameter). Val loss is 0.044 *below* train loss: at 0.42 epochs nothing is memorized, and the validation split is slightly easier text.
+* **Speed:** **154.8k tokens/s** at 13.4% MFU (RTX A6000 bf16 peak: 154.8 TFLOP/s). The low MFU has a clear cause. 77% of the step is the "forward" phase, which includes the fused 50,257-way vocab projection and its gradient. That projection is 58% of the model's FLOPs and runs memory-bandwidth-bound on the (tokens x vocab) softmax. Data loading takes 29 ms (7%) per step.
+* **Memory:** peak **9.45 GB**, of which 5.28 GB are activations stored for backward (41.8 MB per sequence). The parameters and AdamW state are only 0.25 GB. At this scale, activations *are* the memory problem, which is exactly what reversibility targets.
+* **Stability:** mean gradient norm 0.55, clipped on 5.5% of steps (41 of those 42 steps fall in the first 80 steps, i.e. warmup), no loss spikes.
+""")
+
+md(r"""
 ---
 ## Experiment 2: Reversible midpoint, batch size `x`
 
@@ -707,6 +762,14 @@ report(LBL_MID, LBL_BASE)
 ''')
 
 md(r"""
+### Observed: experiment 2 (reversible midpoint)
+
+* **Memory, as predicted:** peak **4.61 GB (−51%)**, stored activations 0.42 GB (3.0 MB per sequence, **14x less**). Reconstruction error was exactly 0 on the trained weights, and gradient cosine vs autograd 0.9999996.
+* **Quality, as predicted:** val loss **4.842 (+0.014 vs baseline)**. The curve tracks the baseline within ±0.02 for the whole run: slightly ahead from 15-25M tokens, slightly behind at the end. This matches the paper's report that midpoint lands within ~0.01 of the baseline.
+* **Speed, worse than predicted:** **126.4k tokens/s (−18.4%)**, against the ~14% extra FLOPs the recompute adds. Backward takes 139 ms instead of 67 ms, and forward is 7% slower because of the float64 streams. The Section 4.4 probe accounts for the gap: exact reversal adds ~13% to midpoint's step time on this GPU; with plain fp32 streams, midpoint would be ~10% slower than the baseline.
+""")
+
+md(r"""
 ---
 ## Experiment 3: Reversible Euler, batch size `x`
 
@@ -720,6 +783,16 @@ LBL_EUL = "exp3_euler_x"
 run_or_load("euler", BATCH_X, LBL_EUL)
 report(LBL_EUL, LBL_BASE)
 ''')
+
+md(r"""
+### Observed: experiment 3 (reversible Euler)
+
+* **Quality, better than expected:** val loss **4.774, 0.053 below the baseline** and the best of all six runs (perplexity 118.4 vs 124.9, accuracy 27.22% vs 26.75%). The expectation was "slightly worse". The curve explains the change: Euler is **behind early** (+0.17 at 2.5M tokens, +0.11 at 5M), **crosses the baseline at ~10M tokens**, and then keeps widening its lead to −0.053. It reaches the baseline's final loss after **42.5M tokens, 15% fewer**.
+* **A plausible reason:** the two-stream update carries **two** 256-wide residual states (q and p) through the depth at no parameter cost. Attention reads one stream and the MLP the other, a wider residual "memory", similar in spirit to multi-stream residual designs. The slower start fits this: each stream receives only half of the sub-layer updates at first. This is a hypothesis; with one seed, a 0.053 gap is suggestive but not proven. (At the tiny local scale, Euler was 0.034 *worse* than the baseline, so the advantage appears with more training.)
+* **Memory:** identical to midpoint: **4.61 GB peak (−51%)**, 3.0 MB per sequence, reconstruction error 0, gradient cosine 0.99999994.
+* **Speed:** **115.0k tokens/s (−25.7%)**, the slowest of the three. Backward takes 170 ms because it reconstructs two sub-layer updates per layer, and exact quantization costs Euler +26% (vs +13% for midpoint), since it quantizes two updates per layer instead of one.
+* **Stability:** somewhat noisier gradients (mean norm 0.82 vs 0.55, clipped on 7.3% of steps vs 5.5%), with the largest spikes during warmup. There were no divergences.
+""")
 
 # =============================================================================
 # Selection
@@ -810,6 +883,23 @@ during backward. Those are constant or O(1) in depth, but they do not disappear.
 """))
 ''')
 
+md(r"""
+### Why Euler, and what the choice costs
+
+The pre-registered rule picks **Euler**: its val loss is 1.39% lower than midpoint's, above the 1% tie threshold. Both variants have identical memory (4.61 GB peak), both passed the gradient-correctness check, and both finished. What the rule trades away:
+
+| criterion | midpoint | Euler | better |
+|---|---:|---:|---|
+| final val loss | 4.842 | **4.774** | Euler (−0.068) |
+| throughput | **126.4k tok/s** | 115.0k tok/s | midpoint (+10%) |
+| peak memory | 4.61 GB | 4.61 GB | tie |
+| wall clock for 50M tokens | **7.1 min** | 7.7 min | midpoint |
+| val loss at equal time (5.9 min) | 4.895 | **4.882** | Euler, narrowly |
+| reconstruction error | 0 | 0 | tie |
+
+Euler wins on loss per token, and even per unit of time it stays slightly ahead of midpoint. **Neither reversible model beats the baseline per unit of wall-clock time** on this GPU: at 5.9 min the baseline has finished at 4.828. Reversibility here buys memory, not speed. The next experiments ask whether that memory can be turned into anything useful through larger batches.
+""")
+
 # =============================================================================
 # Scaling
 # =============================================================================
@@ -835,6 +925,10 @@ report(LBL_2X, winner_lbl)
 ''')
 
 md(r"""
+**Observed (batch 256, 382 steps, peak LR 1.41e-3):** val loss **5.224 (+0.45 vs batch 128)**, 120.4k tokens/s (+4.6%), peak 5.04 GB (+0.44 GB for 128 more sequences). Halving the steps cost far more loss than the small throughput gain returned; wall clock fell only from 7.7 to 7.3 min.
+""")
+
+md(r"""
 ### Experiment 5: selected reversible variant, batch size `4x`
 """)
 
@@ -845,6 +939,10 @@ report(LBL_4X, winner_lbl)
 ''')
 
 md(r"""
+**Observed (batch 512, 191 steps, peak LR 2.0e-3):** val loss **6.175**. The run never reached val loss 6.0, which batch 128 passed after 10M tokens. Throughput was 121.5k tokens/s (+5.6%) and peak memory 8.34 GB. Here the baseline would already need 25.3 GB (Section 5).
+""")
+
+md(r"""
 ### Experiment 6: selected reversible variant, batch size `8x`
 """)
 
@@ -853,6 +951,10 @@ LBL_8X = f"exp6_{WINNER}_8x"
 run_or_load(WINNER, 8 * BATCH_X, LBL_8X, LR_SCALING_FOR_SCALE_UP)
 report(LBL_8X, winner_lbl)
 ''')
+
+md(r"""
+**Observed (batch 1024, 96 steps, peak LR 2.83e-3):** val loss **6.746**, 122.6k tokens/s (+6.6%), peak **16.36 GB (34% of the GPU)**. The baseline cannot run this configuration at all. Optimization was visibly strained: mean gradient norm 3.18 (max 257), 12.5% of steps clipped, and with only 10 warmup steps the LR jumps to 2.83e-3 within the first 5M tokens.
+""")
 
 code(r'''
 scale_lbls = [winner_lbl, LBL_2X, LBL_4X, LBL_8X]
@@ -900,6 +1002,15 @@ if x8["status"] == "ok":
 display(Markdown("\n".join(text)))
 ''')
 
+md(r"""
+### What the scaling experiments show
+
+* **Memory scaled as designed.** Peak memory grows ~16 MB per extra sequence, against ~42 MB for the baseline. 8x the batch needs 16.4 GB, **less than twice the baseline's 9.45 GB at 1x**.
+* **Speed barely moved.** Throughput rose only 6.6% from batch 128 to 1024, because the GPU was already saturated at 128 (see the flat probe throughput in Section 5). Wall clock per 50M tokens fell from 7.7 to 7.2 min.
+* **Loss got much worse,** from 4.77 to 5.22, 6.17 and 6.75. At a fixed token budget, a larger batch means fewer optimizer steps, and each doubling here cost far more than it saved. This is the classic **critical batch size** effect: early in training the gradient noise is small compared with the signal, so larger batches waste tokens. For a 20M model at this stage, 128 x 512 = 65k tokens per step is already at or above the efficient batch. sqrt LR scaling did not compensate: the larger learning rates added gradient spikes (max norm 257 at 8x) rather than progress.
+* **Takeaway:** the reversible model gave the *option* of an 8x batch at half the baseline's memory per sequence. On this model and budget that option was not worth taking. Its value lies elsewhere: deeper models, longer contexts, or smaller GPUs, where the baseline would not fit at all.
+""")
+
 # =============================================================================
 # Max batch
 # =============================================================================
@@ -931,6 +1042,16 @@ if IS_CUDA:
         f"(For reference, the paper reports ~10x on A100 and H100 for GPT-2 sized models; our model's 50k-vocab head is "
         f"a larger share of total memory, which caps the ratio.)"))
 ''')
+
+md(r"""
+**Observed.** On the RTX A6000 (48 GB) the maximum batch is **896 for the baseline and 2528 for Euler: 2.8x larger**. Experiment 6 (batch 1024) used 41% of Euler's maximum and is 1.14x the baseline's maximum.
+
+Why 2.8x and not the paper's ~10x:
+
+* **The peak slope, not the stored activations, sets the limit.** Stored activations are 14x smaller (3.0 vs 41.8 MB per sequence), but during backward the reversible model also holds one layer's reconstruction working set, the float64 streams, and their gradients. Its *peak* grows ~16 MB per sequence, against ~42 MB for the baseline, a ratio of 2.6x. That matches the measured 2.8x.
+* **The model is shallow.** Reversible savings scale with depth, and at 9 layers the per-layer working set is a large share of the peak. The paper's largest gains come from GPT-2 variants and 96-layer models, where the baseline stores 10x more.
+* **Most of the parameters are the head.** 64% of parameters sit in the tied 50,257-token embedding and head, whose loss buffers are identical in both architectures.
+""")
 
 # =============================================================================
 # Final comparison
@@ -1013,11 +1134,28 @@ display(Markdown("\n".join(lines)))
 ''')
 
 md(r"""
+**Summary of the evidence**
+
+```text
+                      memory (peak, GB)   loss (val)   speed (k tok/s)   max batch (48 GB)
+baseline   @128            9.45             4.828          154.8               896
+midpoint   @128            4.61             4.842          126.4                 -
+euler      @128            4.61             4.774          115.0              2528
+euler      @1024          16.36             6.746          122.6                 -
+```
+
+**Recommendations**
+
+* **To train a model that does not fit, use reversible Euler with exact streams.** It halves peak memory, keeps activation memory flat in depth, and here even matched or beat the baseline's loss per token.
+* **For wall-clock speed, when memory is not the constraint, use the plain baseline.** On this GPU the reversible models are 18-26% slower, and the extra memory did not convert into a better batch size.
+* **Do not raise the batch just because it fits.** At a fixed token budget the extra optimizer steps matter more. Spend the saved memory on depth, context length or model size instead.
+* **Next experiments:** repeat with 2-3 seeds to confirm the Euler gain; try a deeper, narrower model (24-48 layers), where the depth savings dominate; use a GPU with fast fp64 or a cheaper exact scheme (e.g. int32 fixed-point streams); and give large-batch runs a longer warmup or a larger token budget.
+
 **How to read these results**
 
 * **Reversibility is a memory tool.** It trades ~14% extra compute (one extra backbone forward) for activation memory that is constant in depth. For a 9-layer, 20M-parameter model that already fits comfortably, that trade only pays off if the freed memory buys something, such as a larger batch (which can raise throughput by using the GPU better) or, at real scale, a deeper or longer-context model that otherwise would not fit at all. The paper's throughput *gains* come from exactly this: larger batches on memory-bound deep models (96 layers).
 * **At a fixed token budget, bigger batches mean fewer optimizer steps.** If loss worsens from `x` to `8x`, the runs have passed the critical batch size for this model and budget. That is an optimization effect, not a flaw in the reversible model. The memory headroom lets you choose the batch, but it does not make large batches token-efficient.
-* **Exact reversal matters.** With plain floating-point streams, reconstruction error grows as training sharpens the layers (Section 4.4), and the model is trained on subtly wrong gradients. Fixed-point streams remove the issue entirely for 2x the (small) stream memory. The paper does not discuss this; it is the implementation detail most worth keeping.
+* **Exact reversal matters.** With plain floating-point streams, reconstruction error grows as training sharpens the layers (Section 4.4: gradient cosine as low as 0.50), and the model is trained on subtly wrong gradients. Fixed-point streams remove the issue entirely: all four reversible training runs reconstructed with **zero** error, at the price of 2x the (small) stream memory and a 13-26% slowdown on a GPU with slow fp64. The paper does not discuss this; it is the implementation detail most worth keeping.
 """)
 
 # =============================================================================
@@ -1053,12 +1191,45 @@ md(r"""
 * `uv run pytest -q`: gradient-exactness tests for both reversible schemes, fused-loss exactness, a bf16 autocast gradient check, and the O(1)-memory-in-depth check.
 """)
 
-for cell_type, source in cells:
-    if cell_type == "markdown":
-        nb["cells"].append(nbf.v4.new_markdown_cell(source))
-    else:
-        nb["cells"].append(nbf.v4.new_code_cell(source))
 
-NOTEBOOK_PATH.parent.mkdir(parents=True, exist_ok=True)
-nbf.write(nb, str(NOTEBOOK_PATH))
-print(f"wrote {len(nb['cells'])} cells to {NOTEBOOK_PATH}")
+def build_fresh() -> None:
+    for cell_type, source in cells:
+        if cell_type == "markdown":
+            nb["cells"].append(nbf.v4.new_markdown_cell(source))
+        else:
+            nb["cells"].append(nbf.v4.new_code_cell(source))
+    NOTEBOOK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    nbf.write(nb, str(NOTEBOOK_PATH))
+    print(f"wrote {len(nb['cells'])} cells to {NOTEBOOK_PATH}")
+
+
+def sync_markdown() -> None:
+    """Rewrites only the prose of an already-executed notebook.
+
+    Markdown cells come from this script (they may be added, removed or
+    edited); code cells and their outputs are kept from the executed notebook,
+    after checking that their code is unchanged (compared by AST). This lets the write-up be
+    updated with the measured results without re-running the experiments.
+    """
+    executed = nbf.read(str(NOTEBOOK_PATH), as_version=4)
+    old_code = [c for c in executed.cells if c.cell_type == "code"]
+    new_code = [src for kind, src in cells if kind == "code"]
+    if len(old_code) != len(new_code):
+        raise SystemExit(f"code cell count differs ({len(old_code)} executed vs {len(new_code)} here): run without --sync-markdown")
+    # Compare by AST so formatter-only changes (black/ruff in an editor) still match.
+    for i, (old, src) in enumerate(zip(old_code, new_code)):
+        if ast.dump(ast.parse(old.source)) != ast.dump(ast.parse(src)):
+            raise SystemExit(f"code cell {i} differs from the executed notebook: run without --sync-markdown")
+    it = iter(old_code)
+    merged = []
+    for kind, src in cells:
+        merged.append(next(it) if kind == "code" else nbf.v4.new_markdown_cell(src))
+    executed.cells = merged
+    nbf.write(executed, str(NOTEBOOK_PATH))
+    print(f"synced markdown: {len(merged)} cells ({len(new_code)} executed code cells kept) in {NOTEBOOK_PATH}")
+
+
+if "--sync-markdown" in sys.argv:
+    sync_markdown()
+else:
+    build_fresh()
