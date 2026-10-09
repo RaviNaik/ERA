@@ -1,0 +1,39 @@
+[project]
+name = "moe-experiments"
+version = "0.1.0"
+description = "Session 14: train a dense nanoGPT, then convert (sparse-upcycle) it into a Mixture-of-Experts model and keep training."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.4",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+    "tqdm>=4.66",
+    "aim>=3.19",
+    "datasets>=2.19",
+    "tiktoken>=0.7",
+    "ipykernel>=6.29",
+    "jupyter>=1.0",
+    "nbconvert>=7.16",
+    "nbformat>=5.10",
+    "tabulate>=0.9",
+]
+
+[tool.uv]
+package = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu124" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/moe"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
