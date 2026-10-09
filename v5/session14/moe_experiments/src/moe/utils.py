@@ -50,7 +50,10 @@ def set_seed(seed: int = 1337):
 
 
 def get_device() -> str:
-    return "cuda:1" if torch.cuda.is_available() else "cpu"
+    """``MOE_DEVICE`` (e.g. ``cuda:1`` on a shared multi-GPU box) wins; otherwise the default CUDA device."""
+    if os.environ.get("MOE_DEVICE"):
+        return os.environ["MOE_DEVICE"]
+    return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def savefig(fig, name: str, dpi: int = 130):

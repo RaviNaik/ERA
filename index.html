@@ -500,6 +500,37 @@
           </div>
         </a>
 
+        <!-- Session 14 -->
+        <a href="v5/session14/webapp/" class="session-card" id="card-s14">
+          <div class="card-glow" style="background:radial-gradient(ellipse at top left, rgba(31,196,139,0.18) 0%, transparent 70%)"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-number" style="background:linear-gradient(135deg,#1fc48b,#f0763f)">S14</div>
+              <div class="card-tags">
+                <span class="tag">MoE</span>
+                <span class="tag">Upcycling</span>
+                <span class="tag">Aim</span>
+              </div>
+            </div>
+            <h3 class="card-title">Dense to<br/>Mixture-of-Experts</h3>
+            <p class="card-desc">
+              A 51M-parameter nanoGPT trained on 98M WikiText-103 tokens, then converted into an
+              8-expert top-2 MoE by sparse upcycling and trained further. The conversion is exactly
+              lossless, the MoE keeps learning and finishes ahead of the dense control, and every run,
+              router statistic and ablation is tracked in Aim.
+            </p>
+            <ul class="card-experiments">
+              <li><span class="exp-dot" style="background:#10b981"></span>S14&middot;1 Lossless Conversion: Loss 3.6269 &rarr; 3.6269, Then 3.502 After 3,000 Steps</li>
+              <li><span class="exp-dot" style="background:#f0763f"></span>S14&middot;2 MoE From Scratch Leads Dense by 0.096 Nats at the Same Budget</li>
+              <li><span class="exp-dot" style="background:#6366f1"></span>S14&middot;3 0.019 Ahead of the Dense Control &middot; LR Re-warm Bump in Both</li>
+              <li><span class="exp-dot" style="background:#f43f5e"></span>S14&middot;4 Top-1 Routing Starves the Router: 5 Dead Experts, Worse Than Dense</li>
+            </ul>
+            <div class="card-footer">
+              <span class="card-open-label">Open Session &#8594;</span>
+            </div>
+          </div>
+        </a>
+
       </div>
     </div>
   </main>

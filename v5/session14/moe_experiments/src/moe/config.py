@@ -15,7 +15,7 @@ from dataclasses import dataclass, asdict
 class ExpConfig:
     name: str = "base"
     # ---- model (dense) ----
-    vocab_size: int = 50304          # GPT-2 BPE (50257) padded to a multiple of 64
+    vocab_size: int = 50257          # GPT-2 BPE; models are built with the dataset's own vocab size (50257)
     block_size: int = 512
     n_layer: int = 8
     n_head: int = 8

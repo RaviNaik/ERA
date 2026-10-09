@@ -178,7 +178,7 @@ def train(model: GPT, data: TokenDataset, cfg: TrainConfig, experiment: str = "s
     base_seed = cfg.data_seed if cfg.data_seed is not None else cfg.seed + cfg.step_offset
     data_gen = torch.Generator().manual_seed(base_seed + start)   # a resumed run draws fresh batches
     if device.startswith("cuda"):
-        torch.cuda.reset_peak_memory_stats()
+        torch.cuda.reset_peak_memory_stats(device)
     ctx = {"phase": cfg.phase}
     tok_per_step = cfg.batch_size * cfg.block_size
     t_last, n_since = time.time(), 0
@@ -275,7 +275,7 @@ def train(model: GPT, data: TokenDataset, cfg: TrainConfig, experiment: str = "s
     hist["wall_clock_s"] = hist.get("wall_clock_s", 0.0) + time.time() - t0
     hist["final_val_loss"] = hist["val_loss"][-1]
     hist["final_train_loss"] = hist["train_loss"][-1]
-    hist["peak_mem_gb"] = torch.cuda.max_memory_allocated() / 1e9 if device.startswith("cuda") else None
+    hist["peak_mem_gb"] = torch.cuda.max_memory_allocated(device) / 1e9 if device.startswith("cuda") else None
     if run:
         run["summary"] = {k: hist[k] for k in ("final_val_loss", "final_train_loss", "wall_clock_s")}
         run.close()

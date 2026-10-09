@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dense to Mixture-of-Experts | ERA V5 · Session 14</title>
+  <meta name="description" content="Session 14 — a 51M-parameter nanoGPT trained on WikiText-103, then converted into an 8-expert top-2 Mixture-of-Experts model by sparse upcycling and trained further. Lossless at conversion, ahead of the dense control by 0.019 nats, with routing, expert, ablation and cost analysis, all tracked in Aim." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* S14 additions — appended below the shared token block */
+    .diagram { width: 100%; height: auto; display: block; }
+    .diagram text { font-family: 'Inter', sans-serif; font-size: 12px; fill: var(--text-secondary); }
+    .diagram text.t { fill: var(--text-primary); font-weight: 600; }
+    .diagram text.m { fill: var(--text-muted); font-size: 11px; }
+    .diagram .box { fill: var(--bg-surface); stroke: var(--border-glow); stroke-width: 1.3; }
+    .diagram .box.hot { fill: rgba(31,196,139,0.13); stroke: #1fc48b; }
+    .diagram .box.warm { fill: rgba(240,118,63,0.13); stroke: #f0763f; }
+    .diagram .box.cool { fill: rgba(99,102,241,0.14); stroke: #6366f1; }
+    .diagram .box.dim { fill: transparent; stroke: var(--border); stroke-dasharray: 4 4; }
+    .diagram .arrow { stroke: var(--text-muted); stroke-width: 1.5; fill: none; marker-end: url(#ah); }
+    .diagram .arrow.g { stroke: #1fc48b; marker-end: url(#ahg); }
+    .hm-wrap { overflow-x: auto; }
+    #chart-hm svg { max-width: 760px; margin: 0 auto; }
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .gallery figure { margin: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-card); }
+    .gallery figure img { width: 100%; display: block; cursor: zoom-in; }
+    .gallery figcaption { padding: 10px 14px; font-size: 12.5px; color: var(--text-secondary); }
+    .gallery figcaption strong { color: var(--text-primary); }
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.88); display: none; align-items: center; justify-content: center; z-index: 20000; cursor: zoom-out; }
+    .lightbox.show { display: flex; }
+    .lightbox img { max-width: 96vw; max-height: 94vh; border-radius: 8px; }
+    .fig-img { width: 100%; border-radius: 8px; border: 1px solid var(--border); background: #fff; display: block; }
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 4px; }
+    .stat-row .verdict-card .big { font-size: 24px; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: rgba(99,102,241,0.15); color: #a5b4fc; }
+    .tok { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; margin: 1px 2px; display: inline-block; color: var(--text-primary); }
+    ul.tight { margin: 6px 0 0 18px; color: var(--text-secondary); font-size: 13px; }
+    ul.tight li { margin-bottom: 5px; }
+    ul.tight strong { color: var(--text-primary); }
+    @media (max-width: 900px) { .gallery, .stat-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span class="theme-toggle-icon" id="themeIcon">☀️</span>
+  <span class="theme-toggle-label" id="themeLabel">Light</span>
+</button>
+
+<div class="lightbox" id="lightbox"><img id="lightbox-img" alt="" /></div>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="../../../" class="back-link">&#8592; ERA Home</a>
+      <div class="sidebar-badge">🇮🇳 ERA V5 · S14</div>
+      <div class="sidebar-brand-title">Dense to<br/><span class="sidebar-gradient-text">Mixture-of-Experts</span></div>
+      <div class="sidebar-brand-sub">13 Sections · October 2026</div>
+    </div>
+    <nav>
+      <a class="nav-item active" href="#hero" data-target="hero"><span class="nav-icon">📖</span> Overview</a>
+      <a class="nav-item" href="#theory" data-target="theory"><span class="nav-icon">🧩</span> 1 · The MoE Layer</a>
+      <a class="nav-item" href="#arch" data-target="arch"><span class="nav-icon">🏗️</span> 2 · Architecture &amp; Cost</a>
+      <a class="nav-item" href="#setup" data-target="setup"><span class="nav-icon">⚙️</span> 3 · Setup</a>
+      <a class="nav-item" href="#strategy" data-target="strategy"><span class="nav-icon">🧭</span> 4 · Training Strategy</a>
+      <a class="nav-item" href="#dense" data-target="dense"><span class="nav-icon">🧱</span> 5 · Dense Baseline</a>
+      <a class="nav-item" href="#scratch" data-target="scratch"><span class="nav-icon">🆚</span> 6 · MoE From Scratch</a>
+      <a class="nav-item" href="#upcycle" data-target="upcycle"><span class="nav-icon">♻️</span> 7 · Dense → MoE</a>
+      <a class="nav-item" href="#routing" data-target="routing"><span class="nav-icon">🔀</span> 8 · Routing Health</a>
+      <a class="nav-item" href="#experts" data-target="experts"><span class="nav-icon">🔬</span> 9 · What Experts Learn</a>
+      <a class="nav-item" href="#ablate" data-target="ablate"><span class="nav-icon">🧪</span> 10 · Ablations</a>
+      <a class="nav-item" href="#cost" data-target="cost"><span class="nav-icon">⏱️</span> 11 · Cost &amp; Speed</a>
+      <a class="nav-item" href="#aim" data-target="aim"><span class="nav-icon">📈</span> 12 · Aim Tracking</a>
+      <a class="nav-item" href="#conclusions" data-target="conclusions"><span class="nav-icon">🏁</span> 13 · Conclusions</a>
+      <a class="nav-item" href="#repro" data-target="repro"><span class="nav-icon">▶️</span> Reproduce</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- ── Hero ── -->
+    <header class="hero" id="hero">
+      <div class="hero-badge">🇮🇳 ERA V5 · Session 14 Assignment</div>
+      <h1>Dense → Mixture-of-Experts<br>Train it, convert it, keep training</h1>
+      <p>
+        A <strong>51.2M-parameter</strong> nanoGPT is trained on 98M WikiText-103 tokens, then every second MLP is turned into
+        <strong>8 experts (top-2)</strong> by <em>sparse upcycling</em> and training continues. The assignment's bar is that the converted model
+        <em>keeps training and keeps reducing loss</em>. We also trained an MoE from scratch with the identical budget, a dense-continue control on the
+        same batches, and four ablations. Every number on this page comes from the run's <code>results/*.json</code>, and every run is tracked in <strong>Aim</strong>.
+      </p>
+      <div class="banner">
+        <span class="banner-dot"></span>
+        <div>
+          <strong>Headline:</strong> the conversion is <strong>exactly lossless</strong> (loss 3.6269 before and after), the MoE then reduces validation loss to
+          <strong>3.502</strong> and finishes <strong>0.019 nats ahead</strong> of simply training the dense model longer (single seed). It gets there in
+          <strong>16% fewer steps</strong> but not in less wall-clock time on this implementation, and a LR re-warm makes <em>both</em> continuations bump +0.11 before they improve.
+        </div>
+      </div>
+      <div class="hero-stats" id="hero-stats"></div>
+      <div class="hero-links">
+        <a class="hero-link" href="../moe_experiments/README.md">📄 Full write-up — README.md</a>
+        <a class="hero-link" href="../moe_experiments/notebooks/03_dense_to_moe_upcycling.ipynb">📓 Notebook 03 — the conversion</a>
+        <a class="hero-link" href="../moe_experiments/notebooks/04_analysis_and_verdict.ipynb">📓 Notebook 04 — verdict</a>
+        <a class="hero-link" href="https://github.com/RaviNaik/ERA/tree/main/v5/session14" target="_blank" rel="noopener">↗ Repository</a>
+      </div>
+    </header>
+
+    <!-- ── Glance ── -->
+    <section class="section" id="glance">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">RESULTS AT A GLANCE · 8 RUNS</span>
+        <h2 class="section-title">Every run, one table</h2>
+        <p class="section-desc">Validation numbers use fixed evaluation batches (50 × 32 × 512 tokens drawn from the 249,750-token WikiText-103 validation split), identical for every run. Green marks the best value in each column <em>within its phase</em> (pre-training: first two rows; continuation: the rest). “Start” is the validation loss at the first step of that run.</p>
+      </div></div>
+      <div class="card"><div class="card-body table-wrap"><table class="data-table" id="glance-table"></table></div></div>
+      <p class="fine">Peak GPU memory is omitted: the trainer queried the wrong CUDA device (<code>cuda:1</code> run, default-device query), so the recorded value is 0.0 and was not re-measured. Throughput is the <em>median</em> tokens/s; the dense pre-training run was disturbed (median 60k vs mean 83k), so compare speeds only between the two continuation runs.</p>
+    </section>
+
+    <!-- ── 1 Theory ── -->
+    <section class="section" id="theory">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">01 / 13 · THEORY</span>
+        <h2 class="section-title">The MoE layer: store many MLPs, run only a few</h2>
+        <p class="section-desc">A transformer block's MLP holds two thirds of its parameters and every token passes through all of them. A Mixture-of-Experts layer stores
+          <em>E</em> MLP-shaped “experts” and a small router that picks the best <em>k</em> for each token. Parameters grow ×E in those layers; compute grows only ×k.</p>
+      </div></div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Dense block vs MoE block (this project: E = 8, k = 2, in blocks 1, 3, 5, 7)</span></div>
+        <div class="card-body">
+          <svg class="diagram" viewBox="0 0 900 372" role="img" aria-label="Dense MLP versus mixture-of-experts layer">
+            <defs>
+              <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8b93a7"/></marker>
+              <marker id="ahg" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1fc48b"/></marker>
+            </defs>
+            <!-- dense -->
+            <text class="t" x="110" y="24" text-anchor="middle">DENSE BLOCK</text>
+            <rect class="box" x="30" y="40" width="160" height="34" rx="8"/><text x="110" y="62" text-anchor="middle">token (d = 512)</text>
+            <path class="arrow" d="M110,74 L110,96"/>
+            <rect class="box cool" x="30" y="96" width="160" height="124" rx="8"/>
+            <text class="t" x="110" y="128" text-anchor="middle">one MLP</text>
+            <text x="110" y="150" text-anchor="middle">Linear(512→2048)</text><text x="110" y="168" text-anchor="middle">GELU</text><text x="110" y="186" text-anchor="middle">Linear(2048→512)</text>
+            <text class="m" x="110" y="208" text-anchor="middle">2.1M params · always used</text>
+            <path class="arrow" d="M110,220 L110,248"/>
+            <rect class="box" x="30" y="248" width="160" height="34" rx="8"/><text x="110" y="270" text-anchor="middle">+ residual</text>
+            <!-- moe -->
+            <text class="t" x="560" y="24" text-anchor="middle">MoE BLOCK — 8 experts, top-2</text>
+            <rect class="box" x="450" y="40" width="220" height="34" rx="8"/><text x="560" y="62" text-anchor="middle">token (d = 512)</text>
+            <path class="arrow" d="M560,74 L560,92"/>
+            <rect class="box warm" x="420" y="92" width="280" height="50" rx="8"/>
+            <text class="t" x="560" y="113" text-anchor="middle">router: Linear(512→8), fp32</text>
+            <text class="m" x="560" y="131" text-anchor="middle">scores + selection bias → top-2 · gates sum to 1</text>
+            <path class="arrow g" d="M520,142 L482,184"/><path class="arrow g" d="M610,142 L736,184"/>
+            <rect class="box dim" x="270" y="184" width="76" height="62" rx="8"/><text class="m" x="308" y="219" text-anchor="middle">E0</text>
+            <rect class="box dim" x="356" y="184" width="76" height="62" rx="8"/><text class="m" x="394" y="219" text-anchor="middle">E1</text>
+            <rect class="box hot" x="442" y="184" width="76" height="62" rx="8"/><text class="t" x="480" y="212" text-anchor="middle">E2</text><text class="m" x="480" y="230" text-anchor="middle">g = 0.58</text>
+            <rect class="box dim" x="528" y="184" width="76" height="62" rx="8"/><text class="m" x="566" y="219" text-anchor="middle">E3</text>
+            <rect class="box dim" x="614" y="184" width="76" height="62" rx="8"/><text class="m" x="652" y="219" text-anchor="middle">E4</text>
+            <rect class="box hot" x="700" y="184" width="76" height="62" rx="8"/><text class="t" x="738" y="212" text-anchor="middle">E5</text><text class="m" x="738" y="230" text-anchor="middle">g = 0.42</text>
+            <rect class="box dim" x="786" y="184" width="76" height="62" rx="8"/><text class="m" x="824" y="219" text-anchor="middle">E6, E7</text>
+            <path class="arrow g" d="M480,246 L526,284"/><path class="arrow g" d="M738,246 L604,284"/>
+            <rect class="box" x="440" y="284" width="250" height="40" rx="8"/><text class="t" x="565" y="309" text-anchor="middle">y = 0.58·E2(x) + 0.42·E5(x)</text>
+            <text class="m" x="560" y="352" text-anchor="middle">each expert is an MLP the size of the dense one (2.1M params); 6 of the 8 sit idle for this token. The output is added to the residual.</text>
+          </svg>
+          <p class="fine">Shapes are the ones used in the run: d = 512, MLP inner width 2048, 8 attention heads, 8 blocks. Gate values are illustrative.</p>
+        </div>
+      </div>
+
+      <div class="grid-3 mt-16">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Routing</span><span class="badge badge-blue">top-k, dropless</span></div>
+          <div class="card-body">
+            <div class="formula">p = softmax(W<sub>r</sub>x)<br>S = TopK(p + b, k)<br>g<sub>e</sub> = p<sub>e</sub> / Σ<sub>j∈S</sub> p<sub>j</sub><br>y = Σ<sub>e∈S</sub> g<sub>e</sub> · f<sub>e</sub>(x)</div>
+            <p class="body">The bias <em>b</em> only steers <strong>which</strong> experts are chosen; the weights <em>g</em> come from the unbiased scores and are renormalised over the chosen experts. No token is ever dropped (no capacity limit).</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Why gates are renormalised</span><span class="badge badge-green">makes upcycling lossless</span></div>
+          <div class="card-body">
+            <div class="formula">f<sub>e</sub> ≡ f for all e<br>⇒ y = Σ g<sub>e</sub>·f(x) = f(x)·Σ g<sub>e</sub> = f(x)</div>
+            <p class="body">If every expert is a copy of the dense MLP, the mixture equals the dense MLP <strong>whatever the router says</strong>. A side effect: with k = 1 the gate is always exactly 1, so the router gets <strong>no gradient</strong> from the language loss (see the top-1 ablation).</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Keeping experts busy</span><span class="badge badge-yellow">loss-free balancing</span></div>
+          <div class="card-body">
+            <div class="formula">after every step, per expert e:<br>b<sub>e</sub> += γ · sign(1/E − load<sub>e</sub>)<br><span class="c">γ = 1e-3 · aux loss 1e-4 · z-loss 1e-3</span></div>
+            <p class="body">A router left alone is self-reinforcing: favoured experts learn faster and get favoured more, until some are <strong>dead</strong>. The bias nudges choices toward idle experts without adding a gradient that fights the language loss. Imbalance is reported as <strong>MaxVio</strong> = (max load − mean) / mean; 0 is perfectly even.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2 Architecture ── -->
+    <section class="section" id="arch">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">02 / 13 · ARCHITECTURE</span>
+        <h2 class="section-title">What the MoE adds: 2.15× the parameters, 1.16× the active ones</h2>
+        <p class="section-desc">The base model is the session-11 nanoGPT (pre-LN, learned positions, tied head, GELU MLP) at 8 layers × 8 heads × width 512 with a 50,257-token GPT-2 BPE vocabulary. Half of the dense model is the (tied) embedding.</p>
+      </div></div>
+      <div class="donut-row" id="arch-donuts"></div>
+      <div class="card mt-16"><div class="card-header"><span class="card-title">Parameter accounting (from <code>param_report</code>)</span></div>
+        <div class="card-body table-wrap"><table class="data-table" id="arch-table"></table></div></div>
+      <p class="fine">Active parameters = everything except the experts a token does not visit (top-2 of 8 ⇒ 2/8 of expert weights). FLOPs per token ≈ 6 × active matmul parameters + attention-score terms: 330.9 MFLOPs dense vs 381.4 MFLOPs MoE (1.15×).</p>
+    </section>
+
+    <!-- ── 3 Setup ── -->
+    <section class="section" id="setup">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">03 / 13 · SETUP</span>
+        <h2 class="section-title">Model, data, protocol</h2>
+        <p class="section-desc">Same data stream, seed and evaluation tokens for every run. Continuation runs reset the optimiser (the MoE has new parameters, and the dense control is treated identically).</p>
+      </div></div>
+      <div class="grid-3">
+        <div class="card"><div class="card-header"><span class="card-title">Model</span></div><div class="card-body"><table class="kv-table" id="kv-model"></table></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Data</span></div><div class="card-body"><table class="kv-table" id="kv-data"></table></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Training protocol</span></div><div class="card-body"><table class="kv-table" id="kv-train"></table></div></div>
+      </div>
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">Learning-rate schedule across both phases</span><span class="badge badge-blue">logged every 10 steps</span></div>
+        <div class="card-body"><div class="chart" id="chart-lr"></div>
+          <p class="fine">Pre-training: 300-step warm-up to 6e-4, cosine to 6e-5. Continuation: the LR is <em>re-warmed</em> from 6e-5 to 3e-4 over 100 steps, then cosine to 3e-5. That jump is the root of the bump discussed in section 7.</p></div>
+      </div>
+    </section>
+
+    <!-- ── 4 Strategy ── -->
+    <section class="section" id="strategy">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">04 / 13 · TRAINING STRATEGY</span>
+        <h2 class="section-title">Four runs, one fork</h2>
+        <p class="section-desc">The assignment: <em>train a Linear model and convert it into an MoE; it must continue to train and reduce loss.</em> The design makes that claim measurable, and adds the controls needed to interpret it.</p>
+      </div></div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Experiment pipeline</span></div>
+        <div class="card-body">
+          <svg class="diagram" viewBox="0 0 900 300" role="img" aria-label="Experiment pipeline">
+            <rect class="box cool" x="20" y="110" width="170" height="70" rx="10"/>
+            <text class="t" x="105" y="138" text-anchor="middle">dense</text><text class="m" x="105" y="156" text-anchor="middle">6,000 steps · 98M tokens</text><text class="m" x="105" y="171" text-anchor="middle">val 3.627</text>
+            <path class="arrow" d="M190,145 L262,145"/>
+            <rect class="box" x="262" y="104" width="130" height="82" rx="10"/>
+            <text class="t" x="327" y="132" text-anchor="middle">checkpoint</text><text class="m" x="327" y="150" text-anchor="middle">step 6,000</text><text class="m" x="327" y="166" text-anchor="middle">fork two ways</text>
+            <path class="arrow" d="M392,125 L470,70"/><path class="arrow g" d="M392,165 L470,220"/>
+            <rect class="box" x="470" y="38" width="200" height="64" rx="10"/>
+            <text class="t" x="570" y="64" text-anchor="middle">dense_continue (control)</text><text class="m" x="570" y="82" text-anchor="middle">+3,000 steps · LR re-warm</text><text class="m" x="570" y="95" text-anchor="middle">same batches</text>
+            <rect class="box hot" x="470" y="188" width="200" height="64" rx="10"/>
+            <text class="t" x="570" y="212" text-anchor="middle">moe_upcycled</text><text class="m" x="570" y="230" text-anchor="middle">MLPs → 8 copies · new router</text><text class="m" x="570" y="243" text-anchor="middle">+3,000 steps · same batches</text>
+            <path class="arrow" d="M670,70 L740,70"/><path class="arrow g" d="M670,220 L740,220"/>
+            <rect class="box" x="740" y="48" width="140" height="44" rx="10"/><text class="t" x="810" y="75" text-anchor="middle">val 3.521</text>
+            <rect class="box hot" x="740" y="198" width="140" height="44" rx="10"/><text class="t" x="810" y="225" text-anchor="middle">val 3.502</text>
+            <rect class="box warm" x="20" y="238" width="260" height="46" rx="10"/><text class="t" x="150" y="258" text-anchor="middle">moe_scratch (reference)</text><text class="m" x="150" y="274" text-anchor="middle">random init · same 6,000-step budget as dense</text>
+            <text class="m" x="20" y="212" >matched-budget comparison with dense ↓</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">The upcycling recipe (sparse upcycling)</span></div>
+          <div class="card-body"><div class="flow-steps" id="recipe-flow"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Why each run exists</span></div>
+          <div class="card-body"><table class="data-table" id="why-table"></table></div></div>
+      </div>
+
+      <div class="callout green"><div class="callout-label">Verified, not assumed</div>
+        Before any training the notebook checks the conversion numerically: loss before = loss after = <strong>3.653676</strong> on a held-out batch (|Δ| = 0), maximum logit difference
+        <strong>5.5e-5</strong> (fp32), and adding expert noise of 0.01 / 0.05 / 0.10 × weight-std changes the loss by only −0.00004 / +0.0002 / +0.0012.</div>
+    </section>
+
+    <!-- ── 5 Dense ── -->
+    <section class="section" id="dense">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">05 / 13 · EXPERIMENT 1</span>
+        <h2 class="section-title">Dense baseline: perplexity 37.6 after 98M tokens</h2>
+        <p class="section-desc">6,000 steps of 32 × 512 tokens (0.83 epochs of WikiText-103). Validation loss fell at every one of the 25 evaluations, from 10.92 (ln 50,257 = 10.82) to 3.627.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Loss</span><span class="badge badge-blue">train EMA · val</span></div><div class="card-body"><div class="chart" id="chart-dense-loss"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Gradient norm (pre-clip, EMA)</span></div><div class="card-body"><div class="chart" id="chart-dense-gn"></div></div></div>
+      </div>
+      <div class="callout"><div class="callout-label">What we saw</div>
+        <ul class="tight">
+          <li><strong>No overfitting:</strong> validation loss sits <em>below</em> training loss throughout (3.627 vs 3.647), as each token is seen at most once.</li>
+          <li><strong>The schedule ends the run, not capacity:</strong> the last 250 steps gain only 0.005 nats because the LR has decayed to 6e-5 — and section 7 shows another ≈ 0.1 nats is available once the LR is re-warmed.</li>
+          <li><strong>Sample text</strong> is grammatical and encyclopedic but repetitive (“the county … county”), as expected of a 51M model.</li>
+          <li><strong>Sanity check caveat:</strong> the single-batch overfit check printed <code>False</code> — its 40-step / 50 % pass mark was too strict (loss 10.91 → 6.79, −38 %), not a training failure.</li>
+        </ul></div>
+    </section>
+
+    <!-- ── 6 Scratch ── -->
+    <section class="section" id="scratch">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">06 / 13 · EXPERIMENT 2</span>
+        <h2 class="section-title">MoE from scratch: ahead from the first evaluation, gap widening to −0.096</h2>
+        <p class="section-desc">Same seed, same batches, same schedule — only the architecture changes. 110.0M stored / 59.6M active parameters versus 51.2M.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Validation loss, same budget</span></div><div class="card-body"><div class="chart" id="chart-scratch-val"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Gap: MoE − dense (negative = MoE better)</span></div><div class="card-body"><div class="chart" id="chart-scratch-gap"></div></div></div>
+      </div>
+      <div class="card mt-16"><div class="card-header"><span class="card-title">Matched-step comparison</span></div>
+        <div class="card-body table-wrap"><table class="data-table" id="matched-table"></table></div></div>
+      <div class="callout amber"><div class="callout-label">Read it with care</div>
+        The MoE reaches the dense model's <em>final</em> loss at step ≈ <span id="cross-scratch">4,492</span> — about 25% fewer tokens. This is <strong>not</strong> a compute-matched comparison: the MoE uses 2.15× the stored and ≈ 1.15× the per-token FLOPs. Its gradient norm is slightly lower (0.71 vs 0.76), so it is no less stable.</div>
+    </section>
+
+    <!-- ── 7 Upcycle ── -->
+    <section class="section" id="upcycle">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">07 / 13 · EXPERIMENT 3 — THE TRAINER'S ASK</span>
+        <h2 class="section-title">Convert the trained dense model, then keep training</h2>
+        <p class="section-desc">At step 6,000 the dense checkpoint is forked: one branch is converted to an 8-expert MoE, the other keeps training as a control. Both see identical batches and the same re-warmed learning-rate schedule.</p>
+      </div></div>
+
+      <div class="stat-row" id="up-stats"></div>
+
+      <div class="card mt-16">
+        <div class="card-header"><span class="card-title">Validation loss</span>
+          <div class="tab-bar">
+            <button class="tab-btn active" id="up-full">Full history</button>
+            <button class="tab-btn" id="up-zoom">After conversion</button>
+            <button class="tab-btn" id="up-gap">Gap to control</button>
+          </div></div>
+        <div class="card-body"><div class="chart" id="chart-up"></div>
+          <p class="fine" id="up-note"></p></div>
+      </div>
+
+      <div class="grid-3 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">① LR jumps 5×</span></div><div class="card-body"><div class="chart" id="chart-rw-lr"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">② Both runs bump, then recover</span></div><div class="card-body"><div class="chart" id="chart-rw-val"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">③ Grad-norm steps up with it</span></div><div class="card-body"><div class="chart" id="chart-rw-gn"></div></div></div>
+      </div>
+
+      <div class="callout rose"><div class="callout-label">The bump is a re-warm effect, not a conversion effect</div>
+        Validation loss jumps by <strong id="bump-moe">+0.112</strong> (MoE) and <strong id="bump-dense">+0.106</strong> (dense control, never converted) at step 6,250 and returns to the pre-conversion
+        loss by step ≈ <span id="rec-moe">7,416</span> / <span id="rec-dense">7,499</span>. A smaller re-warm peak or a longer warm-up should remove it; that was not tried.
+        The MoE pulls ahead from step ≈ 7,000 and ends at <strong id="gap-final">−0.019</strong> nats; it crosses the control's final loss at step ≈ <span id="cross-up">8,507</span>, i.e. after
+        <strong>2,507 instead of 3,000</strong> steps (−16%). One seed: the gap has no error bar.</div>
+    </section>
+
+    <!-- ── 8 Routing ── -->
+    <section class="section" id="routing">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">08 / 13 · ROUTING HEALTH</span>
+        <h2 class="section-title">Balanced from scratch; a rough start after conversion</h2>
+        <p class="section-desc">Per-expert load is measured on the validation batches at each evaluation. A fair share is 1/8 = 0.125 of routed tokens per expert.</p>
+      </div></div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">Expert load per MoE layer</span>
+          <div class="tab-bar">
+            <button class="tab-btn active" id="hm-scratch">Scratch · end</button>
+            <button class="tab-btn" id="hm-up0">Upcycled · start</button>
+            <button class="tab-btn" id="hm-up1">Upcycled · end</button>
+          </div></div>
+        <div class="card-body"><div class="hm-wrap"><div class="chart" id="chart-hm"></div></div>
+          <p class="fine" id="hm-note"></p></div>
+      </div>
+
+      <div class="grid-3 mt-16">
+        <div class="card"><div class="card-header"><span class="card-title">MaxVio (mean over layers)</span></div><div class="card-body"><div class="chart" id="chart-maxvio"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Load entropy (1 = even)</span></div><div class="card-body"><div class="chart" id="chart-entropy"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Dead experts (4 layers summed)</span></div><div class="card-body"><div class="chart" id="chart-dead"></div></div></div>
+      </div>
+
+      <div class="callout"><div class="callout-label">What we saw</div>
+        <ul class="tight">
+          <li><strong>From scratch:</strong> flat within a few hundred steps — shares 0.10–0.14, entropy ≈ 1.000, final MaxVio 0.03 / 0.04 / 0.05 / 0.15, 0 dead experts at the end.</li>
+          <li><strong>After conversion:</strong> the untrained router is wildly uneven (layer-0 shares 0.02 → 0.29). MaxVio peaks at <strong>1.36</strong> at step 6,250, and <strong>dead experts appear briefly</strong> (0 → 1 → 2 → 1 → 0): identical clones are hard for a router to tell apart. All are revived by step 7,000.</li>
+          <li><strong>It never gets as even as from scratch</strong>: final MaxVio 0.45 / 0.16 / 0.12 / 0.07 (layer 0 stays the roughest) — yet it trains to a better loss, so near-perfect balance is not required for a good result here.</li>
+        </ul></div>
+    </section>
+
+    <!-- ── 9 Experts ── -->
+    <section class="section" id="experts">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">09 / 13 · EXPERTS</span>
+        <h2 class="section-title">The clones diverged — but specialisation is weak</h2>
+        <p class="section-desc">After 3,000 steps the experts are no longer copies of each other. What they specialise in is mostly token type and syntax, not subject matter.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Divergence from the shared starting point</span></div>
+          <div class="card-body"><table class="data-table" id="div-table"></table>
+            <p class="fine">Cosine similarity of experts' flattened (w1, w2) within a layer: 1.0 at conversion. Drift = ‖W<sub>expert</sub> − W<sub>dense</sub>‖ / ‖W<sub>dense</sub>‖.</p></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Tokens with the highest lift per expert (validation text)</span></div>
+          <div class="card-body table-wrap"><table class="data-table" id="expert-table"></table>
+            <p class="fine">Lift = P(token | expert) / P(token), top-1 routing, 655k validation tokens. Rare-token lifts are noisy at this sample size.</p></div></div>
+      </div>
+      <div class="callout"><div class="callout-label">Reading the table</div>
+        Small, sharply defined “tail” experts exist (layer-0 expert 7: 2% of tokens, rare sub-word fragments, lift ≈ 50×), and structural or connective-word experts (<span class="tok">=</span> <span class="tok">&lt;|endoftext|&gt;</span> <span class="tok">This</span> / <span class="tok">including</span> <span class="tok">while</span> <span class="tok">After</span>).
+        Most experts have broad, mixed token lists with lift of only 4–7×: they <em>share</em> the work rather than divide it by topic. That matches how MoE specialisation is usually described — by syntax and token class first.</div>
+      <figure class="mt-16" style="margin-top:16px"><img class="fig-img" src="../moe_experiments/assets/04_expert_token_types.png" alt="Token types routed to each expert" />
+        <figcaption class="fine">Token types per expert (word-start, word-piece, punctuation, digits, whitespace) for each MoE layer — notebook 04.</figcaption></figure>
+    </section>
+
+    <!-- ── 10 Ablations ── -->
+    <section class="section" id="ablate">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">10 / 13 · ABLATIONS</span>
+        <h2 class="section-title">Four variations of the upcycled run</h2>
+        <p class="section-desc">Each is a full 3,000-step continuation from the same checkpoint on the same batches. Single seed each: differences of ≈ 0.002 are below what one seed can resolve.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Final val loss vs dense-continue (negative = better)</span></div><div class="card-body"><div class="chart" id="chart-abl-bars"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Gap to dense-continue during training</span></div><div class="card-body"><div class="chart" id="chart-abl-gap"></div></div></div>
+      </div>
+      <div class="card mt-16"><div class="card-body table-wrap"><table class="data-table" id="abl-table"></table></div></div>
+      <div class="grid-2 mt-16">
+        <div class="verdict-card"><h4>top-1 routing <span class="badge badge-red">only variant worse than control</span></h4>
+          <p class="body" style="margin-top:8px">With one expert per token the renormalised gate is always exactly 1, so the router receives <strong>no gradient from the language loss</strong>; only the bias and the 1e-4 auxiliary loss steer it. Dead experts climb to 5 and MaxVio reaches 4.1 in the last layer. The second expert is what makes the router trainable.</p></div>
+        <div class="verdict-card win"><h4>16 experts <span class="badge badge-green">best loss, highest cost</span></h4>
+          <p class="body" style="margin-top:8px">0.008 nats below the 8-expert run (−0.027 vs the control) with the same 59.6M active parameters — but 177M stored and ≈ 0.76× the throughput. It starts rough (5 dead experts, MaxVio 2.3) and recovers by step 6,750.</p></div>
+        <div class="verdict-card"><h4>no auxiliary loss <span class="badge badge-blue">≈ no change</span></h4>
+          <p class="body" style="margin-top:8px">Setting the 1e-4 auxiliary loss to 0 (bias balancing still on) ends at 3.5017 vs 3.5019: <strong>the loss-free bias is carrying the balancing</strong>.</p></div>
+        <div class="verdict-card"><h4>expert noise 0.02 <span class="badge badge-blue">≈ no change</span></h4>
+          <p class="body" style="margin-top:8px">Noisy copies end at 3.5002 vs 3.5019 — inside single-seed noise. Symmetry breaking was not the bottleneck.</p></div>
+      </div>
+      <p class="fine">Not run: the exploration window, sigmoid router scores and drop-upcycling are implemented in <code>src/moe</code> and smoke-tested, but are not part of these results.</p>
+    </section>
+
+    <!-- ── 11 Cost ── -->
+    <section class="section" id="cost">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">11 / 13 · COST &amp; SPEED</span>
+        <h2 class="section-title">Better per token, not (yet) per second</h2>
+        <p class="section-desc">The MoE wins at equal <em>tokens</em>. At equal <em>time</em> the dense model is ahead on this implementation, which runs the experts in a Python loop rather than a grouped-GEMM kernel.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Median throughput, continuation phase (k tokens/s)</span></div><div class="card-body"><div class="chart" id="chart-tok"></div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Minutes to reach val loss 3.521</span></div><div class="card-body"><div class="chart" id="chart-min"></div>
+          <p class="fine">MoE (2,507 steps) = interpolated crossing step × measured seconds/step.</p></div></div>
+      </div>
+      <div class="callout amber"><div class="callout-label">Honest accounting</div>
+        <ul class="tight">
+          <li><strong>Per token:</strong> the MoE reaches the control's final loss in 16% fewer steps; from scratch it reaches dense's final loss in ≈ 25% fewer.</li>
+          <li><strong>Per second:</strong> the continuation took 11.5 min (MoE) vs 8.2 min (dense); even the 2,507 steps it needs cost ≈ 9.6 min. Median throughput is ≈ 0.71× the dense model's.</li>
+          <li><strong>Memory:</strong> 2.15× the stored parameters (110M vs 51M) and, with optimiser state, ≈ 2.15× the training state. Peak GPU memory was not captured (device-query bug), so no measured number is claimed.</li>
+          <li><strong>Where the speed would come from:</strong> grouped expert GEMMs and expert parallelism — not attempted here.</li>
+        </ul></div>
+    </section>
+
+    <!-- ── 12 Aim ── -->
+    <section class="section" id="aim">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">12 / 13 · EXPERIMENT TRACKING</span>
+        <h2 class="section-title">Everything is in Aim</h2>
+        <p class="section-desc">Per-step loss, LR, grad-norm and tokens/s; train/val loss and perplexity at every evaluation; and for MoE runs per-layer expert load, load entropy, MaxVio, dead-expert count and the balance losses. Phase-2 runs continue the global step axis of the dense run, so curves line up. Snapshots from the live Aim UI:</p>
+      </div></div>
+      <div class="gallery">
+        <figure><img src="../moe_experiments/assets/aim_val_loss.jpg" alt="Aim metrics explorer: validation loss for the four main runs" loading="lazy" /><figcaption><strong>Validation loss, 4 runs.</strong> <code>metric.name == "loss" and metric.context.subset == "val"</code>, coloured by run. The fork at step 6,000 is clear.</figcaption></figure>
+        <figure><img src="../moe_experiments/assets/aim_max_vio.jpg" alt="Aim metrics explorer: MaxVio" loading="lazy" /><figcaption><strong>Router MaxVio</strong> (<code>router/max_vio</code>), one line per MoE layer. From scratch: quickly below 0.2. Upcycled: the spike after step 6,000 (up to 2.7 in one layer), then settling.</figcaption></figure>
+        <figure><img src="../moe_experiments/assets/aim_ablations.jpg" alt="Aim metrics explorer: ablation validation loss" loading="lazy" /><figcaption><strong>Ablations</strong> (<code>session14_ablations</code>): top-1 sits clearly above the others; 16 experts ends lowest.</figcaption></figure>
+        <figure><img src="../moe_experiments/assets/aim_grad_norm.jpg" alt="Aim metrics explorer: gradient norm" loading="lazy" /><figcaption><strong>Gradient norm.</strong> The step at 6,000 in both continuations is the LR re-warm; the MoE sits a little below the dense control.</figcaption></figure>
+        <figure style="grid-column: 1 / -1"><img src="../moe_experiments/assets/aim_runs.jpg" alt="Aim runs explorer" loading="lazy" /><figcaption><strong>Runs explorer:</strong> 8 runs in two experiments (<code>session14</code>: dense, moe_scratch, moe_upcycled, dense_continue; <code>session14_ablations</code>: four variants). Browse locally with <code>uv run aim up</code> from <code>moe_experiments/</code>.</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- ── 13 Conclusions ── -->
+    <section class="section" id="conclusions">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">13 / 13 · CONCLUSIONS</span>
+        <h2 class="section-title">What we can and cannot claim</h2>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Findings</span><span class="badge badge-green">measured</span></div>
+          <div class="card-body"><ul class="tight" id="conc-findings"></ul></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Caveats &amp; next steps</span><span class="badge badge-yellow">honest</span></div>
+          <div class="card-body"><ul class="tight" id="conc-caveats"></ul></div></div>
+      </div>
+      <div class="card mt-16"><div class="card-header"><span class="card-title">Assignment checklist</span></div>
+        <div class="card-body table-wrap"><table class="data-table" id="check-table"></table></div></div>
+    </section>
+
+    <!-- ── Reproduce ── -->
+    <section class="section" id="repro">
+      <div class="section-header"><div class="section-title-wrap">
+        <span class="section-number">REPRODUCE</span>
+        <h2 class="section-title">Run it yourself</h2>
+        <p class="section-desc">A <code>uv</code>-managed project with notebooks, a shared <code>src/moe</code> package and a smoke test that exercises every code path on a tiny model in about a minute.</p>
+      </div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-header"><span class="card-title">Commands</span></div><div class="card-body">
+          <div class="formula">cd v5/session14/moe_experiments<br>uv sync<br>uv run python scripts/smoke_test.py --notebooks<br>MOE_DEVICE=cuda:1 uv run python scripts/run_all.py<br>uv run aim up<br>uv run python scripts/make_figures.py<br>uv run python scripts/export_webapp_data.py</div></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Artifacts</span></div><div class="card-body"><table class="kv-table" id="kv-artifacts"></table></div></div>
+      </div>
+      <footer class="footer">ERA V5 · Session 14 · <a href="../moe_experiments/README.md">README</a> · <a href="https://github.com/RaviNaik/ERA/tree/main/v5/session14" target="_blank" rel="noopener">GitHub</a></footer>
+    </section>
+
+  </main>
+</div>
+
+<div class="chart-tip" id="chart-tip"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  const btn = document.getElementById('themeToggle'), icon = document.getElementById('themeIcon'),
+        label = document.getElementById('themeLabel'), root = document.documentElement;
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    try { localStorage.setItem('era-theme', theme); } catch (e) {}
+    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    label.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+  let saved = 'dark'; try { saved = localStorage.getItem('era-theme') || 'dark'; } catch (e) {}
+  applyTheme(saved);
+  btn.addEventListener('click', function () { applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+})();
+</script>
+</body>
+</html>
