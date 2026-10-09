@@ -77,7 +77,6 @@
       <a class="nav-item" href="#cost" data-target="cost"><span class="nav-icon">⏱️</span> 11 · Cost &amp; Speed</a>
       <a class="nav-item" href="#aim" data-target="aim"><span class="nav-icon">📈</span> 12 · Aim Tracking</a>
       <a class="nav-item" href="#conclusions" data-target="conclusions"><span class="nav-icon">🏁</span> 13 · Conclusions</a>
-      <a class="nav-item" href="#repro" data-target="repro"><span class="nav-icon">▶️</span> Reproduce</a>
     </nav>
   </aside>
 
@@ -471,24 +470,9 @@
         <div class="card"><div class="card-header"><span class="card-title">Caveats &amp; next steps</span><span class="badge badge-yellow">honest</span></div>
           <div class="card-body"><ul class="tight" id="conc-caveats"></ul></div></div>
       </div>
-      <div class="card mt-16"><div class="card-header"><span class="card-title">Assignment checklist</span></div>
-        <div class="card-body table-wrap"><table class="data-table" id="check-table"></table></div></div>
     </section>
 
-    <!-- ── Reproduce ── -->
-    <section class="section" id="repro">
-      <div class="section-header"><div class="section-title-wrap">
-        <span class="section-number">REPRODUCE</span>
-        <h2 class="section-title">Run it yourself</h2>
-        <p class="section-desc">A <code>uv</code>-managed project with notebooks, a shared <code>src/moe</code> package and a smoke test that exercises every code path on a tiny model in about a minute.</p>
-      </div></div>
-      <div class="grid-2">
-        <div class="card"><div class="card-header"><span class="card-title">Commands</span></div><div class="card-body">
-          <div class="formula">cd v5/session14/moe_experiments<br>uv sync<br>uv run python scripts/smoke_test.py --notebooks<br>MOE_DEVICE=cuda:1 uv run python scripts/run_all.py<br>uv run aim up<br>uv run python scripts/make_figures.py<br>uv run python scripts/export_webapp_data.py</div></div></div>
-        <div class="card"><div class="card-header"><span class="card-title">Artifacts</span></div><div class="card-body"><table class="kv-table" id="kv-artifacts"></table></div></div>
-      </div>
-      <footer class="footer">ERA V5 · Session 14 · <a href="../moe_experiments/README.md">README</a> · <a href="https://github.com/RaviNaik/ERA/tree/main/v5/session14" target="_blank" rel="noopener">GitHub</a></footer>
-    </section>
+    <footer class="footer">ERA V5 · Session 14 · <a href="../moe_experiments/README.md">README</a> · <a href="https://github.com/RaviNaik/ERA/tree/main/v5/session14" target="_blank" rel="noopener">GitHub</a></footer>
 
   </main>
 </div>

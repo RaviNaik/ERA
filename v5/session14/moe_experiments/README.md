@@ -40,8 +40,6 @@ xychart-beta
 7. [Experiment 3 — convert and keep training](#7-experiment-3--convert-and-keep-training)
 8. [Routing, experts, ablations and cost](#8-routing-experts-ablations-and-cost)
 9. [Experiment tracking with Aim](#9-experiment-tracking-with-aim)
-10. [What was found wrong, and what is *not* claimed](#10-what-was-found-wrong-and-what-is-not-claimed)
-11. [Reproduce](#11-reproduce) · [Layout](#layout)
 
 ---
 
@@ -83,7 +81,7 @@ Eight runs, one seed (1337), the same data stream and the same fixed evaluation 
 | ablation: top-1 routing | 110.0 M / 51.2 M | +3,000 | 3.627 | **3.5402** | 34.5 | 10.3 | 91 k | 0.40 / 0.13 / **1.83 / 4.13** | **5** |
 | ablation: 16 experts | 177.2 M / 59.6 M | +3,000 | 3.627 | **3.4941** | 32.9 | 14.9 | 63 k | 0.84 / 0.14 / 0.15 / 0.28 | 0 |
 
-† The dense pre-training run was disturbed (median 60 k vs mean 83 k tokens/s, likely a shared GPU), so pre-training speeds are not comparable. The two continuation runs ran back to back and are. **Peak GPU memory is not reported:** the recorded value is 0.0 because of a device-query bug (see [section 10](#10-what-was-found-wrong-and-what-is-not-claimed)).
+† The dense pre-training run was disturbed (median 60 k vs mean 83 k tokens/s, likely a shared GPU), so pre-training speeds are not comparable. The two continuation runs ran back to back and are. **Peak GPU memory is not reported:** the recorded value is 0.0 because of a device-query bug.
 
 ![the whole story](assets/fig_story.png)
 
@@ -275,53 +273,3 @@ Everything is tracked in **Aim** (`.aim/`, git-ignored; `uv run aim up`): per-st
 | **Ablations** (`session14_ablations`): top-1 clearly above, 16 experts lowest | **Gradient norm:** the step at 6,000 is the LR re-warm; the MoE sits a little below the control |
 
 ![Aim runs explorer](assets/aim_runs.jpg)
-
-## 10. What was found wrong, and what is *not* claimed
-
-Checking the executed notebooks against the results turned up the following. None changes a conclusion; all are fixed in code or corrected in the notebook text.
-
-| finding | effect | status |
-|---|---|---|
-| **Peak GPU memory reads `0.0 GB`** in every run | the run used `cuda:1`; `torch.cuda.max_memory_allocated()` was queried on the default device | fixed in `trainer.py` (device is passed); memory was **not re-measured**, so no memory number is claimed |
-| **Single-batch overfit check printed `False`** | 40 steps / "halve the loss" was too strict for 16 k BPE tokens (−38 %) | notebook text explains it; builder now runs 150 steps and judges the trend (not re-run) |
-| **Notebook 02/03 text described a different balancing scheme** than the one that ran, and README/notebook claimed a padded 50,304 vocabulary | the runs used loss-free bias balancing with 10⁻⁴ aux loss, and the model's true 50,257 vocabulary | corrected by [`scripts/annotate_notebooks.py`](scripts/annotate_notebooks.py) (markdown only; code cells and outputs untouched) |
-| **Hard-coded `cuda:1`** in `get_device()` | broke single-GPU machines | now `MOE_DEVICE` (default `cuda`) |
-| **Pre-training throughput is noisy** | median 60 k vs mean 83 k tokens/s | only the back-to-back continuation runs are compared on speed |
-
-**Not claimed:** a compute-matched or wall-clock-matched win; any memory figure; a seed-averaged gap (one seed per run); a ranking among ablations within ≈ 0.002.
-
-**Implemented but not run on the GPU** (smoke-tested only): a probabilistic-routing "exploration window" after conversion, sigmoid router scores, drop-upcycling, and four more ablations (`no_explore`, `aux_loss_only`, `sigmoid_router`, `drop_upcycle0.5`). The executed notebooks used plain hard top-k from step 0 and four ablations; the notebook builder (`scripts/build_notebooks.py`) produces the *extended* version, so re-running `run_all.py` would regenerate notebooks that differ from the executed ones.
-
-**Next:** 2–3 seeds; an iso-time comparison with grouped-GEMM experts; a gentler LR re-warm; the unrun ablations above; a from-scratch MoE trained for the full 9,000 steps as the strictest control.
-
-## 11. Reproduce
-
-```bash
-cd v5/session14/moe_experiments
-uv sync                                          # torch (CUDA 12.4), aim, jupyter, tiktoken, ...
-uv run python scripts/smoke_test.py              # ~1 min: core checks on a tiny model
-uv run python scripts/smoke_test.py --notebooks  # + executes all notebooks in smoke mode, in a scratch dir
-
-MOE_DEVICE=cuda:1 uv run python scripts/run_all.py        # the real runs (MOE_PRESET=base)
-MOE_PRESET=small uv run python scripts/run_all.py         # laptop-sized
-uv run aim up                                             # browse the runs
-
-uv run python scripts/make_figures.py            # README figures from results/*.json
-uv run python scripts/export_webapp_data.py      # ../webapp/data.js from results/*.json
-uv run python scripts/annotate_notebooks.py      # correct/extend the executed notebooks' markdown
-```
-
-Runs are **resumable and idempotent**: a finished run reloads from `checkpoints/<label>.pt`; an interrupted one resumes from its last checkpoint. Delete the checkpoint to retrain.
-
-### Layout
-
-```
-src/moe/          config.py  data.py  model.py (GPT + MoEMLP)  upcycle.py  trainer.py  runs.py  analysis.py  viz.py  utils.py
-scripts/          build_notebooks.py  run_all.py  smoke_test.py  aim_summary.py
-                  make_figures.py  export_webapp_data.py  annotate_notebooks.py
-notebooks/        01_dense_baseline · 02_moe_from_scratch · 03_dense_to_moe_upcycling · 04_analysis_and_verdict   (executed)
-results/          one JSON history per run (8)
-assets/           notebook figures, generated fig_*.png, Aim snapshots (aim_*.jpg)
-../webapp/        interactive write-up (data.js is exported from results/)
-checkpoints/ data/ .aim/   (git-ignored)
-```

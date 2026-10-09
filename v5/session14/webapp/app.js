@@ -497,20 +497,6 @@ function renderConclusions() {
   ];
   $('#conc-findings').innerHTML = findings.map(f => `<li>${f}</li>`).join('');
   $('#conc-caveats').innerHTML = caveats.map(f => `<li>${f}</li>`).join('');
-  const ok = '<span class="badge badge-green">pass</span>', info = '<span class="badge badge-blue">info</span>';
-  $('#check-table').innerHTML = `<thead><tr><th class="l">Check</th><th class="l">Evidence</th><th>Status</th></tr></thead><tbody>
-    <tr><td class="name l">Conversion is lossless</td><td class="l">3.6269 → 3.6269, |Δ| 0.00000</td><td>${ok}</td></tr>
-    <tr><td class="name l">MoE keeps training after conversion</td><td class="l">3.627 → 3.502 over 3,000 steps (every eval below the last from step 6,250)</td><td>${ok}</td></tr>
-    <tr><td class="name l">MoE beats the dense-continue control</td><td class="l">3.502 vs 3.521 (−0.019), identical batches, single seed</td><td>${ok}</td></tr>
-    <tr><td class="name l">No dead experts at the end</td><td class="l">0 dead; transient 0 → 2 → 0 in steps 6,250–7,000</td><td>${ok}</td></tr>
-    <tr><td class="name l">Experts diverged from clones</td><td class="l">cosine sim 0.926–0.933, drift 28–29%</td><td>${ok}</td></tr>
-    <tr><td class="name l">MoE from scratch vs dense, same budget</td><td class="l">3.531 vs 3.627 (−0.096)</td><td>${info}</td></tr>
-    <tr><td class="name l">Compute- / wall-clock-matched win</td><td class="l">not shown: dense is faster per second here</td><td><span class="badge badge-yellow">not shown</span></td></tr></tbody>`;
-}
-
-function renderRepro() {
-  kv('#kv-artifacts', [['Per-run histories', 'results/*.json (8 runs)'], ['Figures', 'assets/*.png (scripts/make_figures.py)'], ['Aim repo', '.aim/ · experiments session14, session14_ablations'],
-    ['Notebooks', 'notebooks/01…04 (executed)'], ['Checkpoints', 'checkpoints/*.pt (not committed)'], ['This page\'s data', 'webapp/data.js (scripts/export_webapp_data.py)']]);
 }
 
 /* ═══════════════════════ Navigation / tabs ═══════════════════════ */
@@ -545,7 +531,7 @@ function initTabs() {
 
 const CHARTS = [renderSetup, renderDense, renderScratch, renderUpcycle, renderRouting, renderAblate, renderCost];
 document.addEventListener('DOMContentLoaded', () => {
-  renderHero(); renderGlance(); renderArch(); renderStrategy(); renderExperts(); renderConclusions(); renderRepro();
+  renderHero(); renderGlance(); renderArch(); renderStrategy(); renderExperts(); renderConclusions();
   CHARTS.forEach(f => f());
   initTabs(); initNav();
   let timer, lastW = window.innerWidth;
