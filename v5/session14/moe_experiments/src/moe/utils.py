@@ -1,4 +1,5 @@
 """Small shared helpers: seeding, device, plotting style, paths."""
+
 from __future__ import annotations
 
 import os
@@ -49,7 +50,7 @@ def set_seed(seed: int = 1337):
 
 
 def get_device() -> str:
-    return "cuda" if torch.cuda.is_available() else "cpu"
+    return "cuda:1" if torch.cuda.is_available() else "cpu"
 
 
 def savefig(fig, name: str, dpi: int = 130):
@@ -63,8 +64,16 @@ def savefig(fig, name: str, dpi: int = 130):
 
 def plot_style():
     import matplotlib.pyplot as plt
-    plt.rcParams.update({
-        "figure.facecolor": "white", "axes.facecolor": "white", "axes.grid": True,
-        "grid.alpha": 0.25, "axes.spines.top": False, "axes.spines.right": False,
-        "font.size": 11, "figure.dpi": 110,
-    })
+
+    plt.rcParams.update(
+        {
+            "figure.facecolor": "white",
+            "axes.facecolor": "white",
+            "axes.grid": True,
+            "grid.alpha": 0.25,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "font.size": 11,
+            "figure.dpi": 110,
+        }
+    )
