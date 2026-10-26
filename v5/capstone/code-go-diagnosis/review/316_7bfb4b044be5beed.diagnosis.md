@@ -7,6 +7,7 @@
 - verdict: **fix**
 - read: full
 - diseases: E4
+- hex: none
 - evidence:
   - "Licensed under the Apache License" at offset 63 (line 3, col 4)
 - note: 12-line Apache header

@@ -7,6 +7,7 @@
 - verdict: **clean**
 - read: full
 - diseases: none
+- hex: none
 - evidence: none
 - note: token comes from env var; debug print of it is a code smell, not a leak
 

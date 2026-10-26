@@ -172,7 +172,7 @@ def strip_licence_header(text: str, min_lines: int = 7):
 
 ## Medicine 5: B4, redaction placeholders (`<EMAIL>`, `<NAME>`, `<KEY>`, `<PASSWORD>`)
 
-1. **Disease:** coded B4 (template or code junk). It is not in DISEASES.md, so I propose it as a new disease: the dataset's PII scrubber replaced real values with the tokens `<EMAIL>`, `<NAME>`, `<KEY>`, `<PASSWORD>`. 43 of 500 documents contain one. Examples: `0f4121b3b47fc3e0` (`<NAME>` in a copyright line, offset 316), `d09425b871a43e73` (`Password: <PASSWORD>,` in code position, so the file no longer compiles), `e095932243abe03b` (`<KEY>` where a valid bech32 address is required, so the test cannot pass).
+1. **Disease:** coded B4, as ruled by TSAI on 25 Oct (placeholders from earlier PII cleaning: B4, verdict fix, note PII placeholder). The dataset's PII scrubber replaced real values with the tokens `<EMAIL>`, `<NAME>`, `<KEY>`, `<PASSWORD>`. 43 of 500 documents contain one. Examples: `0f4121b3b47fc3e0` (`<NAME>` in a copyright line, offset 316), `d09425b871a43e73` (`Password: <PASSWORD>,` in code position, so the file no longer compiles), `e095932243abe03b` (`<KEY>` where a valid bech32 address is required, so the test cannot pass).
 2. **Medicine:** in a comment, delete the token. In a string literal, replace `<EMAIL>` with `user@example.com` and `<NAME>` with `Jane Doe`. If the token is `<KEY>` or `<PASSWORD>`, or it sits in code position, the code is damaged: drop the document.
 ```python
 _PH = re.compile(r"<(?:EMAIL|NAME|KEY|PASSWORD|IP_ADDRESS|USERNAME)>")
