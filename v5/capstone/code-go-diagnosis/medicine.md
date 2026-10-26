@@ -254,3 +254,9 @@ def clean_document(text: str):
 ```
 
 Effect on the whole pack of 500 (rules only, not my manual verdicts): 249 fixed, 56 dropped, 195 unchanged. On the first 150 rows: 76 fixed, 18 dropped, 56 unchanged. My manual verdicts are 251 fix, 56 drop, 193 clean; rule and verdict agree on 491 of 500. The 9 disagreements are `83381a2f882bdce3`, `d6cda78358591124` (F3), `46f55367265bf0f0`, `98e4c493f32c8bfa` (E3), `71c23854dac98b68`, `8c13a363011078ca`, `a3f10c54d87ce1fd`, `634696dba0edcbb7` and `34133f5414afff81` (A2). The rules do not cover F3 (`d6cda78358591124`, ransomware source), E3 (`98e4c493f32c8bfa`, a hardcoded TOTP seed), A2 (`34133f5414afff81`, a whole file with CRLF line endings, so every line carries U+000D), A4 (`2a92a9a8489c5ea2`, two U+FFFD in a comment), B1 (one HTML entity) or F1 (`48b3b124a7aaa5fc`, an author email spelled with look-alike letters); those are single cases, below the five-case threshold, and were handled by hand in the label sheet.
+
+## Observations
+
+53 of the 500 documents have comments or strings in another human language (Chinese ideographs in 48, Japanese kana in 4, Hangul in 1, Cyrillic in 3; some documents have more than one). As ruled on 25 Oct, this is normal code, so I did not label or translate it. Doc 498 is an example: Korean comments, labelled A2 only for its CRLF line endings.
+
+The gold set and `harm_test.py` from Data A were not available when this sheet was written, so every harm test above is the proxy described at the top. I will re-run them on the real gold set when it is published and update this PR.
