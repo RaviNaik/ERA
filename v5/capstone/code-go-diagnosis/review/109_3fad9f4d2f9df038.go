@@ -1,0 +1,11 @@
+<gh_stars>10-100
+package jobpostings
+
+import (
+	"context"
+)
+
+// GetTTTStudiosJobPostings finds JobPostings found at https://tttstudios.bamboohr.com/jobs/
+func GetTTTStudiosJobPostings(ctx context.Context) (<-chan *JobPosting, error) {
+	return getBambooHRJobsFor(ctx, "tttstudios")
+}

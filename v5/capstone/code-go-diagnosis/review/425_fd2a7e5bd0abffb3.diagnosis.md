@@ -1,0 +1,29 @@
+# 425_fd2a7e5bd0abffb3.go
+
+886 chars, 45 lines. Open `425_fd2a7e5bd0abffb3.go` beside this file.
+
+## My diagnosis (labels.csv)
+
+- verdict: **fix**
+- read: full
+- diseases: B3
+- evidence:
+  - "<reponame>" at offset 0 (line 1, col 1)
+- note: <reponame> marker on line 1
+
+## Medicine pipeline (medicine.md, B3 > E1 > E2 > E4 > B4)
+
+- action: **fix**
+- diseases fired: B3
+- agrees with my verdict: **agree**
+
+### Change the medicine makes
+
+```diff
+--- before
++++ after
+@@ -1,3 +1,2 @@
+-<reponame>Fusion/golyze
+ package main
+ 
+```
