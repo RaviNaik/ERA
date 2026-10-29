@@ -2,7 +2,7 @@
 
 One folder per dataset that passed the licence screen (29 Oct 2026). Each folder has `dataset.md` (licence, stage, fields, splits, caveats, card excerpt) and `sample_20.jsonl` (20 rows to inspect).
 
-Decision key: **use** = permissive tag and nothing against it found; **use, check** = permissive tag but a caveat to settle first (generator-model terms, share-alike, mixed sub-licences); **check** = origin or licence still to verify. Non-commercial and untagged sets are not here.
+Decision key: **use** = permissive tag and nothing against it found; **use, check** = permissive tag but a caveat to settle first (generator-model terms, share-alike, mixed sub-licences); **eval only** = standard benchmark, kept out of training; **check** = origin or licence still to verify. Non-commercial and untagged sets are not here.
 
 A Hugging Face licence tag is not legal clearance. Samples are small excerpts kept for inspection under each dataset's own licence; see the source link in each `dataset.md`.
 
@@ -19,7 +19,7 @@ A Hugging Face licence tag is not legal clearance. Samples are small excerpts ke
 | coding | [microsoft__rStar-Coder](microsoft__rStar-Coder/dataset.md) | SFT + RL | cc-by-4.0 | use | 20 | 1392267 |
 | coding | [nebius__SWE-rebench-V2](nebius__SWE-rebench-V2/dataset.md) | RL (SWE tasks) | cc-by-4.0 | use | 20 | 32079 |
 | coding | [nebius__SWE-rebench-openhands-trajectories](nebius__SWE-rebench-openhands-trajectories/dataset.md) | SFT (agent trajectories) | cc-by-4.0 | use | 20 | 67074 |
-| coding | [nvidia__Nemotron-SFT-Competitive-Programming-v2](nvidia__Nemotron-SFT-Competitive-Programming-v2/dataset.md) | SFT | cc-by-4.0, odc-by, mit | use, check | 20 | 0 |
+| coding | [nvidia__Nemotron-SFT-Competitive-Programming-v2](nvidia__Nemotron-SFT-Competitive-Programming-v2/dataset.md) | SFT | cc-by-4.0, odc-by, mit | use, check | 20 | unknown |
 | coding | [nvidia__Nemotron-SFT-SWE-v3](nvidia__Nemotron-SFT-SWE-v3/dataset.md) | SFT (agent trajectories) | cc-by-4.0, apache-2.0, mit, bsd-3-clause, bsd-2-clause | use | 20 | 237970 |
 | coding | [nvidia__Nemotron-Terminal-Corpus](nvidia__Nemotron-Terminal-Corpus/dataset.md) | SFT (terminal) | cc-by-4.0 | use, check | 20 | 366154 |
 | coding | [nvidia__OpenCodeReasoning](nvidia__OpenCodeReasoning/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 337766 |
@@ -30,19 +30,19 @@ A Hugging Face licence tag is not legal clearance. Samples are small excerpts ke
 | indic | [CohereLabs__aya_dataset](CohereLabs__aya_dataset/dataset.md) | SFT | apache-2.0 | use | 13 | 205568 |
 | indic | [ai4bharat__indic-align](ai4bharat__indic-align/dataset.md) | SFT | cc-by-4.0 | check (high risk) | 20 | 97419884 |
 | indic | [sarvamai__samvaad-hi-v1](sarvamai__samvaad-hi-v1/dataset.md) | SFT | apache-2.0 | use, check | 20 | 101476 |
-| indic, coding | [oss-codes__Coding-Conversational-Dataset-Indic](oss-codes__Coding-Conversational-Dataset-Indic/dataset.md) | SFT | mit | check | 20 | 0 |
+| indic, coding | [oss-codes__Coding-Conversational-Dataset-Indic](oss-codes__Coding-Conversational-Dataset-Indic/dataset.md) | SFT | mit | check | 20 | unknown |
 | indic, coding | [oss-codes__Computer-Science-Conversational-Dataset-Indic](oss-codes__Computer-Science-Conversational-Dataset-Indic/dataset.md) | SFT | mit | check | 20 | 61736 |
 | indic, math | [BhabhaAI__orca-math-word-problems-200k-hindi-filtered](BhabhaAI__orca-math-word-problems-200k-hindi-filtered/dataset.md) | SFT | mit | use, check | 20 | 188943 |
 | indic, math | [GenVRadmin__Aryabhatta-Orca-Maths-Hindi](GenVRadmin__Aryabhatta-Orca-Maths-Hindi/dataset.md) | SFT | mit | use, check | 20 | 200000 |
 | math | [BytedTsinghua-SIA__DAPO-Math-17k](BytedTsinghua-SIA__DAPO-Math-17k/dataset.md) | RL | apache-2.0 | use | 20 | 1791700 |
-| math | [EleutherAI__hendrycks_math](EleutherAI__hendrycks_math/dataset.md) | SFT / RL | mit | use | 20 | 12500 |
+| math | [EleutherAI__hendrycks_math](EleutherAI__hendrycks_math/dataset.md) | eval only (benchmark) | mit | eval only | 20 | 12500 |
 | math | [SynthLabsAI__Big-Math-RL-Verified](SynthLabsAI__Big-Math-RL-Verified/dataset.md) | RL | apache-2.0 | use | 0 | unknown |
 | math | [nvidia__Nemotron-Math-Proofs-v1](nvidia__Nemotron-Math-Proofs-v1/dataset.md) | SFT | cc-by-sa-4.0 | use, check | 20 | 243314 |
 | math | [nvidia__Nemotron-Math-v2](nvidia__Nemotron-Math-v2/dataset.md) | SFT | cc-by-4.0, cc-by-sa-4.0 | use, check | 20 | 7085839 |
 | math | [nvidia__OpenMathInstruct-2](nvidia__OpenMathInstruct-2/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 21972791 |
 | math | [nvidia__OpenMathReasoning](nvidia__OpenMathReasoning/dataset.md) | SFT + RL prompts | cc-by-4.0 | use, check | 20 | 5678317 |
 | math | [open-r1__OpenR1-Math-220k](open-r1__OpenR1-Math-220k/dataset.md) | SFT | apache-2.0 | use, check | 20 | 450258 |
-| math | [openai__gsm8k](openai__gsm8k/dataset.md) | SFT / RL | mit | use | 20 | 17584 |
+| math | [openai__gsm8k](openai__gsm8k/dataset.md) | eval only (benchmark) | mit | eval only | 20 | 17584 |
 | math | [project-numina__NuminaMath-1.5](project-numina__NuminaMath-1.5/dataset.md) | SFT | apache-2.0 | use, check | 20 | 896215 |
 | math | [project-numina__NuminaMath-CoT](project-numina__NuminaMath-CoT/dataset.md) | SFT | apache-2.0 | use, check | 20 | 859594 |
 | math | [zwhe99__DeepMath-103K](zwhe99__DeepMath-103K/dataset.md) | RL (and SFT) | mit | use | 20 | 103022 |

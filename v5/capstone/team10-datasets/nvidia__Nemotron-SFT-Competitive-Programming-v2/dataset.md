@@ -16,7 +16,7 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-SFT-Competitive-Programm
 | Languages | en |
 | Task categories | text-generation |
 | Size category | not stated |
-| Total rows (all configs) | 0 |
+| Total rows (all configs) | unknown |
 
 ## Caveats and open checks
 

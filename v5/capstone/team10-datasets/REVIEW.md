@@ -30,4 +30,4 @@ Re-checked every dataset against its full card (not only the Hub licence tag).
 3. **Problem text from the web** (NuminaMath: exam PDFs and forums; Codeforces; AoPS): the dataset licence may not cover the underlying text.
 4. **Unknown generators:** `Nemotron-Terminal-Corpus`, `samvaad-hi-v1`, `oss-codes/*`, `R2E-Gym`, `aya_collection` (translation tools), and `rStar-Coder` (paper not read).
 5. Two sets are gated and their samples could not be fetched: `Nemotron-Post-Training-Dataset-v2`, `Big-Math-RL-Verified`.
-6. `gsm8k`, `hendrycks_math` and the DeepCoder test splits are common benchmarks: keep the test splits out of training.
+6. `gsm8k` and `hendrycks_math` are standard benchmarks: marked eval only, not for training. Decontaminate the other math sets against their test problems. The DeepCoder test splits and the coding/science sets still need the same check.

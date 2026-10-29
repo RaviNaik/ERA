@@ -7,9 +7,9 @@ Source: https://huggingface.co/datasets/EleutherAI/hendrycks_math
 | Field | Value |
 |---|---|
 | Category | math |
-| Training stage | SFT / RL |
+| Training stage | eval only (benchmark) |
 | Licence tag (Hub, read 29 Oct 2026) | mit |
-| Our decision | **use** |
+| Our decision | **eval only: do not train on it** |
 | Gated | False |
 | Last modified | 2025-01-12 |
 | Downloads (30 d) | 152356 |
@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/EleutherAI/hendrycks_math
 
 ## Caveats and open checks
 
-- Competition math. Also a standard benchmark: keep the test split out of training.
+- Competition math. Standard benchmark: used for evaluation, not for training. Other math sets may contain its problems, so decontaminate them against its test problems.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

@@ -7,9 +7,9 @@ Source: https://huggingface.co/datasets/openai/gsm8k
 | Field | Value |
 |---|---|
 | Category | math |
-| Training stage | SFT / RL |
+| Training stage | eval only (benchmark) |
 | Licence tag (Hub, read 29 Oct 2026) | mit |
-| Our decision | **use** |
+| Our decision | **eval only: do not train on it** |
 | Gated | False |
 | Last modified | 2026-03-23 |
 | Downloads (30 d) | 980999 |
@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/openai/gsm8k
 
 ## Caveats and open checks
 
-- Small, human-written grade-school problems. Also a standard benchmark, so keep a held-out split out of training.
+- Small, human-written grade-school problems. Standard benchmark: used for evaluation, not for training. Other math sets may contain its problems, so decontaminate them against its test problems.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits
