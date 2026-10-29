@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Terminal-Corpus
 
 ## Caveats and open checks
 
-- Teacher model not stated on the card.
+- Teacher model not stated on the card (Qwen3-Coder and Gemini appear only in comparison text).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

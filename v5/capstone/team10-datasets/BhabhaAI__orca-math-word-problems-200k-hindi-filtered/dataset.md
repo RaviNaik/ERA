@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/BhabhaAI/orca-math-word-problems-200k-hi
 
 ## Caveats and open checks
 
-- Same Orca-Math lineage as above.
+- Same Orca-Math lineage as above (GPT-4 generated source, not stated on this card).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

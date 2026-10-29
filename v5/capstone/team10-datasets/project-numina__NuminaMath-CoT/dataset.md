@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/project-numina/NuminaMath-CoT
 
 ## Caveats and open checks
 
-- Renamed from AI-MO/NuminaMath-CoT. Solutions generated with GPT-4o: check OpenAI terms.
+- Renamed from AI-MO/NuminaMath-CoT. The card says solutions were realigned into chain-of-thought format by an LLM but does not name it (my earlier note that it was GPT-4o is not on the card). Problems come from exam PDFs and forums (AoPS, Chinese K-12, olympiads, GSM8K, MATH): the Apache tag covers the dataset, not necessarily the underlying problem text.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

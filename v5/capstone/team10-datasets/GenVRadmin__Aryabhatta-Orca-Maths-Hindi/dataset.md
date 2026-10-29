@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/GenVRadmin/Aryabhatta-Orca-Maths-Hindi
 
 ## Caveats and open checks
 
-- Hindi translation of Orca-Math, which is GPT-4 generated: check OpenAI terms.
+- Hindi translation of Orca-Math, which is GPT-4 generated (from my knowledge of Orca-Math, not stated on this card): OpenAI terms may apply.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

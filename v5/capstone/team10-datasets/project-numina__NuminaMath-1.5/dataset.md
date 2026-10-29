@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/project-numina/NuminaMath-1.5
 
 ## Caveats and open checks
 
-- Renamed from AI-MO/NuminaMath-1.5. Source problems vary; check upstream. The Numina CoT variant used GPT-4o.
+- Renamed from AI-MO/NuminaMath-1.5. Problems were collected from exam PDFs and maths forums; the Apache tag covers the dataset, not necessarily the underlying problem text.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

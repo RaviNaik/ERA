@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/open-r1/codeforces
 
 ## Caveats and open checks
 
-- Verifiable Codeforces problems with tests; check overlap with other Codeforces-derived sets.
+- Verifiable Codeforces problems with tests. The card header says cc-by-4.0 while the card body says ODC-By 4.0 (both permissive). Problem statements are Codeforces content: confirm that redistribution for training is acceptable. Check overlap with other Codeforces-derived sets.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits

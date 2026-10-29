@@ -28,7 +28,7 @@ A Hugging Face licence tag is not legal clearance. Samples are small excerpts ke
 | coding | [open-r1__codeforces-cots](open-r1__codeforces-cots/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 253876 |
 | indic | [CohereLabs__aya_collection](CohereLabs__aya_collection/dataset.md) | SFT | apache-2.0 | use, check | 20 | 513755590 |
 | indic | [CohereLabs__aya_dataset](CohereLabs__aya_dataset/dataset.md) | SFT | apache-2.0 | use | 13 | 205568 |
-| indic | [ai4bharat__indic-align](ai4bharat__indic-align/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 97419884 |
+| indic | [ai4bharat__indic-align](ai4bharat__indic-align/dataset.md) | SFT | cc-by-4.0 | check (high risk) | 20 | 97419884 |
 | indic | [sarvamai__samvaad-hi-v1](sarvamai__samvaad-hi-v1/dataset.md) | SFT | apache-2.0 | use, check | 20 | 101476 |
 | indic, coding | [oss-codes__Coding-Conversational-Dataset-Indic](oss-codes__Coding-Conversational-Dataset-Indic/dataset.md) | SFT | mit | check | 20 | 0 |
 | indic, coding | [oss-codes__Computer-Science-Conversational-Dataset-Indic](oss-codes__Computer-Science-Conversational-Dataset-Indic/dataset.md) | SFT | mit | check | 20 | 61736 |
@@ -49,7 +49,6 @@ A Hugging Face licence tag is not legal clearance. Samples are small excerpts ke
 | math, science, coding | [nvidia__Nemotron-Post-Training-Dataset-v1](nvidia__Nemotron-Post-Training-Dataset-v1/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 25659642 |
 | math, science, coding | [nvidia__Nemotron-Post-Training-Dataset-v2](nvidia__Nemotron-Post-Training-Dataset-v2/dataset.md) | SFT | cc-by-4.0 | use, check | 0 | unknown |
 | math, science, coding | [open-thoughts__OpenThoughts3-1.2M](open-thoughts__OpenThoughts3-1.2M/dataset.md) | SFT | apache-2.0 | use, check | 20 | 1200000 |
-| science | [derek-thomas__ScienceQA](derek-thomas__ScienceQA/dataset.md) | SFT (multimodal MCQ) | cc-by-sa-4.0 | check | 20 | 21208 |
 | science | [nvidia__Nemotron-Science-v1](nvidia__Nemotron-Science-v1/dataset.md) | SFT | cc-by-4.0 | use, check | 20 | 226334 |
 
 No sample: `nvidia/Nemotron-Post-Training-Dataset-v2` and `SynthLabsAI/Big-Math-RL-Verified` are gated (the API returns 401 without a Hugging Face login). `aya_dataset` has no Hindi rows in its sample (the Hindi filter failed).

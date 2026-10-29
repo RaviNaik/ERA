@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/ai4bharat/indic-align
 | Category | indic |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0 |
-| Our decision | **use, check** |
+| Our decision | **check (high risk)** |
 | Gated | False |
 | Last modified | 2024-07-25 |
 | Downloads (30 d) | 2052 |
@@ -20,7 +20,7 @@ Source: https://huggingface.co/datasets/ai4bharat/indic-align
 
 ## Caveats and open checks
 
-- 14 Indic languages. Many parts have Llama-2-70B-Chat responses (Llama 2 licence) and translated Dolly, OpenAssistant, WikiHow and ShareGPT prompts.
+- HIGH RISK. 14 Indic languages. The card confirms Llama-2-70B-Chat wrote the responses for ShareLlama, Anudesh, Wiki-Conv, Wiki-Chat and the toxic parts, plus Mistral-7B Instruct for Toxic-Matrix, and prompts from ShareGPT, Dolly, OpenAssistant, WikiHow and Anthropic HH-RLHF. The Llama 2 licence forbids using Llama 2 outputs to improve other LLMs, so this conflicts with commercial-use-only unless the team accepts that risk (my reading of the licence, not legal advice).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
 ## Configs and splits
