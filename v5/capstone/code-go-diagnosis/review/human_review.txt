@@ -1,0 +1,51 @@
+498
+File looks fine. The carriage return looks like a normal comment
+
+497
+Apache 2 license should be permissible right?. 
+
+496
+Whats wrong in having <Email> as the placeholder
+
+493
+Go file not found
+
+492
+Whats wrong with <NAME> <<EMAIL>> placeholder
+
+475
+Apache 2 license should be permissible right?. 
+
+474
+Apache 2 license should be permissible right?. 
+
+472
+E2 looks like actual part of code, is it not fine?
+
+460
+Whats wrong in having <Email> as the placeholder
+
+455
+Its just a placeholder right?
+
+445
+Whats wrong with <PASSWORD> placeholder
+
+441
+Is this a problem? - <NAME>" at offset 148 (line 6, col 17) its just a placeholder
+
+436
+Is this a problem - <PASSWORD>" at offset 1225 (line 36, col 62)
+
+423
+Is this a problem? "<EMAIL>" at offset 546 (line 23, col 27)
+
+417
+MIT is a permissible license right?
+Is this a problem? "<NAME>" at offset 57 (line 3, col 23)
+
+
+404
+Is this a problem? "<NAME>" at offset 55 (line 2, col 19)
+
+
