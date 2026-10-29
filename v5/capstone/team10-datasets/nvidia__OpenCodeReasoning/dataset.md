@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/OpenCodeReasoning
 - Reasoning traces from a DeepSeek-R1 family teacher: check the teacher model's terms.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- The card says the test splits of CodeContests and open-r1/codeforces are not included.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `split_0` / `split_0`

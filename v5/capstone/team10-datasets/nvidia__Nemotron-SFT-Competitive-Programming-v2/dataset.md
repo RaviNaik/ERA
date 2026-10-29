@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-SFT-Competitive-Programm
 - Mixed per-subset licences (cc-by-4.0, odc-by, mit): read the card per subset.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- The Exercism subset is decontaminated against the Aider benchmark.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `exercism`

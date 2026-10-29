@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/SynthLabsAI/Big-Math-RL-Verified
 - Gated with auto-approval: sample may be unavailable without a Hugging Face token.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: gated, card not read)
+- Not checked because the card is gated. It re-uses problems from existing math sets, so assume overlap with MATH/GSM8K-style sources until the card is read.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 Not available through the datasets API.

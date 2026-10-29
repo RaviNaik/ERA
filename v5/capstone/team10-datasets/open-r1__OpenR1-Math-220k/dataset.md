@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/open-r1/OpenR1-Math-220k
 - DeepSeek-R1 traces on NuminaMath 1.5 problems. Also in Amit's merged licence table.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- Problems come from NuminaMath 1.5, so it inherits the NuminaMath overlap (amc_aime, olympiads, math, gsm8k-style sources). No decontamination statement found.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

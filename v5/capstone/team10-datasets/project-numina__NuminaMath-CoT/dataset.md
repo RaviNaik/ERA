@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/project-numina/NuminaMath-CoT
 - Renamed from AI-MO/NuminaMath-CoT. The card says solutions were realigned into chain-of-thought format by an LLM but does not name it (my earlier note that it was GPT-4o is not on the card). Problems come from exam PDFs and forums (AoPS, Chinese K-12, olympiads, GSM8K, MATH): the Apache tag covers the dataset, not necessarily the underlying problem text.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- Sources include gsm8k (7,345 rows), math, amc_aime (4,072) and olympiads. No decontamination is stated. Decontaminate before use; amc_aime items may match AIME eval sets.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

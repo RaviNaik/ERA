@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-SFT-SWE-v3
 - OpenHands / SWE-agent / mini-SWE-agent trajectories; per-source licences are on the card.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Trajectories for SWE-bench-style tasks; no overlap statement. Check task IDs against the SWE-bench variants we report.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

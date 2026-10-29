@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k
 - Verifiable integer-answer math prompts.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Competition-style math problems; the card has no data description or decontamination note. Check against AIME 2024/25 and MATH-500.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

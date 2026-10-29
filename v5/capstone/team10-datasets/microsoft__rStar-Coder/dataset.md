@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/microsoft/rStar-Coder
 - Has separate SFT and RL configs; the sample comes from the first config. The card names no generator in its licence section (GPT-4o and Claude appear only in benchmark tables); the paper may describe GPT-4o-based problem synthesis: verify in arXiv 2505.21297 before relying on it.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated; the paper may say more (recollection (unverified)))
+- Seeds come from competitive-programming sites. The card quotes LiveCodeBench, HumanEval and MBPP results but has no decontamination note. Check against LiveCodeBench and CodeElo.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `seed_sft` / `train`

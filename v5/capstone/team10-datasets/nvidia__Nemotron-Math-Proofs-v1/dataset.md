@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Math-Proofs-v1
 - cc-by-sa-4.0 (share-alike): needs a team decision.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- AoPS, Math StackExchange and MathOverflow problems; no decontamination statement found. Check against competition benchmarks.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `lean`

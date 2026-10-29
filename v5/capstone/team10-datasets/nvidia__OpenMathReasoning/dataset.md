@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/OpenMathReasoning
 - Long CoT and tool-integrated solutions; generator terms (DeepSeek-R1, QwQ). Splits are cot, tir, genselect and additional_problems.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- Benchmark decontamination removed questions. Still run our own check against the reported test sets.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `cot`

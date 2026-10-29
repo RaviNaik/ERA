@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/open-r1/codeforces-cots
 - R1-generated chains of thought; Codeforces problem text origin.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- `_decontaminated` configs use 8-gram overlap; the plain configs are not decontaminated. Use the `_decontaminated` configs.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `solutions` / `train`

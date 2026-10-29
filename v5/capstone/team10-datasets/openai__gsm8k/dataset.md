@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/openai/gsm8k
 - Small, human-written grade-school problems. Standard benchmark: used for evaluation, not for training. Other math sets may contain its problems, so decontaminate them against its test problems.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- This is the GSM8K benchmark itself. Eval only: do not train on any split.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `main` / `train`

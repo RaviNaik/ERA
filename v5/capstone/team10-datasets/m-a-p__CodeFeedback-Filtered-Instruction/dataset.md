@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/m-a-p/CodeFeedback-Filtered-Instruction
 - Built from several sources: check each.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Filtered from Magicoder-OSS-Instruct, a ShareGPT Python subset, Magicoder-Evol-Instruct and Evol-Instruct-Code. No decontamination statement. Evol-Instruct-style code sets have had HumanEval-contamination concerns (recollection (unverified)). Check against HumanEval and MBPP.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/BhabhaAI/orca-math-word-problems-200k-hi
 - Same Orca-Math lineage as above (GPT-4 generated source, not stated on this card).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Hindi translation of Orca-Math; the seed problems are not stated on this card. Check against GSM8K/MATH test via the English source.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

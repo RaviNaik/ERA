@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/OpenMathInstruct-2
 - Generated with Llama-3.1-405B: check the Llama licence. Also in Amit's merged licence table.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- Built from GSM8K and MATH train problems plus augmentations. The card links a contamination explorer against GSM8K, MATH, AMC 2023, AIME 2024 and Omni-MATH. Run decontamination against AMC/AIME/Omni-MATH and do not present GSM8K/MATH gains as generalisation.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

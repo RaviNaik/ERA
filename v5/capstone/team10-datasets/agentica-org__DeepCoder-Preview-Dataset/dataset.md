@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/agentica-org/DeepCoder-Preview-Dataset
 - About 24k problems with tests; configs are codeforces, lcbv5, primeintellect, taco.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- The training set includes 600 LiveCodeBench v5 problems submitted 1 May 2023 to 31 Jul 2024. The test data is LiveCodeBench v5 (1 Aug 2024 to 1 Feb 2025) and Codeforces problems from Qwen/CodeElo. Use `train` only; treat the `test` configs as eval; do not report LiveCodeBench results before 1 Aug 2024.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `codeforces` / `test`

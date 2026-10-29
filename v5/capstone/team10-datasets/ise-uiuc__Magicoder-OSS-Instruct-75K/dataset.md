@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/ise-uiuc/Magicoder-OSS-Instruct-75K
 - Instructions were generated with GPT-3.5: check OpenAI terms. Also in Amit's merged licence table.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: recollection (unverified))
+- The card is empty. The Magicoder paper reports decontamination against HumanEval-style evals; verify before relying on it.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

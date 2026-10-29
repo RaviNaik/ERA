@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/ai4bharat/indic-align
 - HIGH RISK. 14 Indic languages. The card confirms Llama-2-70B-Chat wrote the responses for ShareLlama, Anudesh, Wiki-Conv, Wiki-Chat and the toxic parts, plus Mistral-7B Instruct for Toxic-Matrix, and prompts from ShareGPT, Dolly, OpenAssistant, WikiHow and Anthropic HH-RLHF. The Llama 2 licence forbids using Llama 2 outputs to improve other LLMs, so this conflicts with commercial-use-only unless the team accepts that risk (my reading of the licence, not legal advice).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card / no source of overlap seen)
+- Human-written or translated chat data; no math or code benchmark source seen on the card.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `Anudesh` / `train`

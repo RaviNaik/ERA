@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nebius/SWE-rebench-openhands-trajectorie
 - OpenHands trajectories from Qwen3-Coder-480B on SWE-rebench tasks.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Trajectories on SWE-rebench tasks; no overlap statement. Apply the same task-ID check as SWE-rebench-V2.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

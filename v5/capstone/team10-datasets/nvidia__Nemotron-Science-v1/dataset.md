@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Science-v1
 - Generator models not read; check them.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: card)
+- Synthetic questions written to mimic GPQA-style topics (style, not copies). Run a near-duplicate check against GPQA.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `MCQ`

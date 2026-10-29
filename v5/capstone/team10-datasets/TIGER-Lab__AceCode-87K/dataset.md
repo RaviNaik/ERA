@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/TIGER-Lab/AceCode-87K
 - Problems with test cases. The card says each question was rewritten by GPT-4o-mini, so OpenAI's terms apply to the question text (verified on the card, 29 Oct).
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Questions come from several instruction sets (see the `source` field), rewritten by an LLM, with HumanEval/MBPP-style tests. Check against HumanEval and MBPP.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

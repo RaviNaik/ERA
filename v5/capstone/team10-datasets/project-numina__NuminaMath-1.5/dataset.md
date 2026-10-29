@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/project-numina/NuminaMath-1.5
 - Renamed from AI-MO/NuminaMath-1.5. Problems were collected from exam PDFs and maths forums; the Apache tag covers the dataset, not necessarily the underlying problem text.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- Sources include amc_aime (5,872 rows) and olympiads. No decontamination is stated. Decontaminate against AIME/AMC and MATH-500 before use.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

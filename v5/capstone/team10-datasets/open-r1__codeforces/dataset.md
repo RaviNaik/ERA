@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/open-r1/codeforces
 - Verifiable Codeforces problems with tests. The card header says cc-by-4.0 while the card body says ODC-By 4.0 (both permissive). Problem statements are Codeforces content: confirm that redistribution for training is acceptable. Check overlap with other Codeforces-derived sets.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- Has a `test` split, and Codeforces problems are also used by LiveCodeBench and CodeElo. Use `train` only.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Post-Training-Dataset-v1
 - Math, code, STEM and chat splits; the sample takes math and stem. Generator models carry their own licences.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Code prompts come from OpenCodeReasoning-2 and other sources; no decontamination statement found. Check before use.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `chat`

@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/bigcode/commitpackft
 - Commit data; repository licences were filtered upstream. Also in Amit's merged licence table.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: not stated)
+- GitHub commits. The same group released HumanEvalPack, so a quick check is sensible; overlap is unlikely but untested.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 Not available through the datasets API.

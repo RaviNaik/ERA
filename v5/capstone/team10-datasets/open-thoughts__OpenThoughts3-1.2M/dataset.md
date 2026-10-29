@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M
 - Reasoning traces on math, code and science; teacher model terms.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Math, code and science mix. The card describes deduplication only. Check against AIME, MATH-500, LiveCodeBench and GPQA.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

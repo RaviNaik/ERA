@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/SWE-Gym/SWE-Gym
 - Python repositories keep their own licences. Also in Amit's merged licence table.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- Covers 11 Python repos and follows the SWE-bench collection procedure. The card does not say the repos are disjoint from SWE-bench. Compare the `repo` field with the SWE-bench repos.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

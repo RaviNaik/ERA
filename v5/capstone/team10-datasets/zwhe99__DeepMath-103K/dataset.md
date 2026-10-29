@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/zwhe99/DeepMath-103K
 - 103k problems with verifiable answers.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- The card says it was decontaminated against common benchmarks using semantic matching.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

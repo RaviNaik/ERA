@@ -4,6 +4,8 @@ One folder per dataset that passed the licence screen (29 Oct 2026). Each folder
 
 Decision key: **use** = permissive tag and nothing against it found; **use, check** = permissive tag but a caveat to settle first (generator-model terms, share-alike, mixed sub-licences); **eval only** = standard benchmark, kept out of training; **check** = origin or licence still to verify. Non-commercial and untagged sets are not here.
 
+Benchmark overlap per dataset: see [BENCHMARK_OVERLAP.md](BENCHMARK_OVERLAP.md).
+
 A Hugging Face licence tag is not legal clearance. Samples are small excerpts kept for inspection under each dataset's own licence; see the source link in each `dataset.md`.
 
 | Category | Folder | Stage | Licence tag | Decision | Sample rows | Total rows |

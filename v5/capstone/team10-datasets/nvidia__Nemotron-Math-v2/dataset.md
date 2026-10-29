@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Math-v2
 - Mixed cc-by-4.0 and cc-by-sa-4.0: the share-alike part needs a team decision.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card)
+- The card says it is decontaminated to avoid overlap with public benchmarks.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `high_part00`

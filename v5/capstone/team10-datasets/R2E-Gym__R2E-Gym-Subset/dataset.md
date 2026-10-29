@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/R2E-Gym/R2E-Gym-Subset
 - Card is sparse; licence from the tag and the project repo.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Medium** (evidence: not stated)
+- The card does not state overlap with SWE-bench. Compare the `repo_name` field with the SWE-bench repos.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`

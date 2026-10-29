@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/oss-codes/Coding-Conversational-Dataset-
 - Small; origin and generator not verified.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **Low** (evidence: card / no source of overlap seen)
+- Human-written or translated chat data; no math or code benchmark source seen on the card.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `validation`

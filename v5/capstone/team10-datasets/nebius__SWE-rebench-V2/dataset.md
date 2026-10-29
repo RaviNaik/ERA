@@ -23,6 +23,12 @@ Source: https://huggingface.co/datasets/nebius/SWE-rebench-V2
 - 20 languages including Go; check overlap with any SWE-bench eval sets.
 - A Hub licence tag is not legal clearance. Before the licence-table decision, check the dataset card, the licences of the source data, and the terms of any model that generated the responses.
 
+## Benchmark overlap
+
+- Risk: **High** (evidence: card)
+- The card warns: original SWE-bench repositories were excluded, but other benchmarks (for example SWE-bench Multilingual) were not filtered. Exclude task IDs that overlap with our eval set using the overlap analysis linked on the card.
+- Card-level check only, no text-overlap test run. See `../BENCHMARK_OVERLAP.md`.
+
 ## Configs and splits
 
 - `default` / `train`
