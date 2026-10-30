@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/ise-uiuc/Magicoder-OSS-Instruct-75K
 | Category | coding |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | mit |
-| Our decision | **use, check** |
+| Our decision | **excluded (closed-model generator, TSAI rule 30 Oct): instructions generated with GPT-3.5 (OpenAI)** |
 | Gated | False |
 | Last modified | 2023-12-04 |
 | Downloads (30 d) | 43508 |

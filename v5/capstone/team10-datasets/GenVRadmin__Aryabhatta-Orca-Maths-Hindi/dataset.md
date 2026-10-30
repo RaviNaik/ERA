@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/GenVRadmin/Aryabhatta-Orca-Maths-Hindi
 | Category | indic, math |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | mit |
-| Our decision | **use, check** |
+| Our decision | **excluded (TSAI ruling, 30 Oct): translation of GPT-4-generated Orca-Math (OpenAI terms)** |
 | Gated | False |
 | Last modified | 2024-03-18 |
 | Downloads (30 d) | 27 |

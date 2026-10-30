@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/TIGER-Lab/AceCode-87K
 | Category | coding |
 | Training stage | RL |
 | Licence tag (Hub, read 29 Oct 2026) | mit |
-| Our decision | **use** |
+| Our decision | **excluded (TSAI ruling, 30 Oct): GPT-4o-mini rewrote the questions (OpenAI terms)** |
 | Gated | False |
 | Last modified | 2025-02-08 |
 | Downloads (30 d) | 16276 |

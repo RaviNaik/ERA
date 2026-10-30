@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Math-v2
 | Category | math |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0, cc-by-sa-4.0 |
-| Our decision | **use, check** |
+| Our decision | **allowed (CC-BY-SA, attribution needed)** (TSAI update, 30 Oct). Generator: gpt-oss-120b (open weights, Apache-2.0), confirmed allowed by TSAI on 30 Oct |
 | Gated | False |
 | Last modified | 2026-02-11 |
 | Downloads (30 d) | 8773 |

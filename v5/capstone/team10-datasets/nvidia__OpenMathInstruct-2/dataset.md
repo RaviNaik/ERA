@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/nvidia/OpenMathInstruct-2
 | Category | math |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0 |
-| Our decision | **use, check** |
+| Our decision | **excluded (TSAI ruling, 30 Oct): Llama-3.1-405B outputs (Llama licence limits)** |
 | Gated | False |
 | Last modified | 2024-11-25 |
 | Downloads (30 d) | 105403 |

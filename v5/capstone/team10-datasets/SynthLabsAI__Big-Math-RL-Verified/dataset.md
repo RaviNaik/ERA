@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/SynthLabsAI/Big-Math-RL-Verified
 | Category | math |
 | Training stage | RL |
 | Licence tag (Hub, read 29 Oct 2026) | apache-2.0 |
-| Our decision | **use** |
+| Our decision | **excluded (closed-model generator, TSAI rule 30 Oct): Llama-3.1-405B reformulated the multiple-choice questions (Llama terms)** |
 | Gated | auto |
 | Last modified | 2025-03-25 |
 | Downloads (30 d) | 5284 |

@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/ai4bharat/indic-align
 | Category | indic |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0 |
-| Our decision | **check (high risk)** |
+| Our decision | **excluded (closed-model generator, TSAI rule 30 Oct): many responses are Llama-2-70B-Chat outputs (Llama)** |
 | Gated | False |
 | Last modified | 2024-07-25 |
 | Downloads (30 d) | 2052 |

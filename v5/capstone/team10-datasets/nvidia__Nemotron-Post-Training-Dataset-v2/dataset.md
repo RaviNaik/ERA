@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Post-Training-Dataset-v2
 | Category | math, science, coding |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0 |
-| Our decision | **use, check** |
+| Our decision | **excluded (TSAI ruling, 30 Oct): Qwen/DeepSeek teacher outputs, provenance not cleared** |
 | Gated | auto |
 | Last modified | 2025-08-21 |
 | Downloads (30 d) | 24562 |

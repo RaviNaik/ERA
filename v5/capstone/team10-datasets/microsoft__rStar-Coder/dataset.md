@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/microsoft/rStar-Coder
 | Category | coding |
 | Training stage | SFT + RL |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-4.0 |
-| Our decision | **use** |
+| Our decision | **excluded (closed-model generator, TSAI rule 30 Oct): GPT-4o synthesized problems and wrote test-input generators (OpenAI terms)** |
 | Gated | False |
 | Last modified | 2025-07-20 |
 | Downloads (30 d) | 7902 |

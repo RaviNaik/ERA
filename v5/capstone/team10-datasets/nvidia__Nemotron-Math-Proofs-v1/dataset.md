@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/nvidia/Nemotron-Math-Proofs-v1
 | Category | math |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | cc-by-sa-4.0 |
-| Our decision | **use, check** |
+| Our decision | **allowed (CC-BY-SA, attribution needed)** (TSAI update, 30 Oct). Generator: gpt-oss-120b (open weights, Apache-2.0), confirmed allowed by TSAI on 30 Oct (Math-Proofs also uses Goedel-Prover-V2-32B for proofs) |
 | Gated | False |
 | Last modified | 2026-01-05 |
 | Downloads (30 d) | 1293 |

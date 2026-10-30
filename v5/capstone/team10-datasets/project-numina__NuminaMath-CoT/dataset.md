@@ -9,7 +9,7 @@ Source: https://huggingface.co/datasets/project-numina/NuminaMath-CoT
 | Category | math |
 | Training stage | SFT |
 | Licence tag (Hub, read 29 Oct 2026) | apache-2.0 |
-| Our decision | **use, check** |
+| Our decision | **excluded (closed-model generator, TSAI rule 30 Oct): solutions rewritten with GPT-4 / GPT-4o (OpenAI)** |
 | Gated | False |
 | Last modified | 2024-11-25 |
 | Downloads (30 d) | 172546 |
