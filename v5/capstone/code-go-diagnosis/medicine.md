@@ -5,7 +5,7 @@ Five diseases appear more than five times, so there are five medicines. The code
 Order of use: Medicine 1, 2, 3, 4, 5 (see "Pipeline" at the end).
 
 Documents carrying each disease in the 500 rows: B3 247, E4 53, B4 43, E1 42, E2 7. Diseases at five or fewer are not covered by a medicine here: A4 1, B1 1, E3 1, F1 1, F3 1.
-Verdicts in `labels.csv`: 250 fix, 56 drop, 194 clean.
+Verdicts in `labels.csv`: 254 fix, 52 drop, 194 clean.
 
 **Harm-test caveat (read first).** The gold set for Go is owned by Data A and is not in the repository, so I could not run the official harm test. As a stand-in I used the 193 documents that I read in full and labelled `clean` (one reader, not two). That proxy is circular for B3 and B4 (I called a document clean because it had no marker), and I also tuned the rules on these same 500 documents, so the 0% figures below are an optimistic floor, not a measurement. They show only that the rules do not over-match ordinary Go code in this pack. I will re-run the test on the real gold set when I have it.
 
@@ -212,7 +212,7 @@ def fix_placeholders(text: str):
 
 3. **Action:** fix for comments and strings; drop when the code is damaged or the token is `<KEY>`/`<PASSWORD>`.
 4. **Harm test:** 0 changed and 0 dropped on the 193-document proxy gold set (0.0%). On the 500 labelled rows it hits 34 of the 43 directly; the other 9 have the token inside a licence header, which Medicine 4 removes first, so the token is gone either way.
-5. **Side effects:** the line-local context test is a heuristic. A token inside a multi-line string or a block comment may be seen as code and the file dropped (safe but lossy). The synthetic values look like personal data but use the reserved `example.com` domain. The rule is cautious on purpose with `<KEY>` and `<PASSWORD>`: three documents where I judged the file fixable by hand (`71c23854dac98b68`, `a3f10c54d87ce1fd`, `634696dba0edcbb7`: the placeholder stands alone in a string constant) are dropped by the rule. The opposite case is `8c13a363011078ca`: `<EMAIL>` swallowed parts of test strings, which the rule "fixes" by inserting an address, although the test inputs stay garbled.
+5. **Side effects:** the line-local context test is a heuristic. A token inside a multi-line string or a block comment may be seen as code and the file dropped (safe but lossy). The synthetic values look like personal data but use the reserved `example.com` domain. The rule is cautious on purpose with `<KEY>` and `<PASSWORD>`: seven documents where I judged the file fixable by hand (`71c23854dac98b68`, `a3f10c54d87ce1fd`, `634696dba0edcbb7`, `9b1b42340cda0bab`, `b48e499f5d45a8e3`, `f23a5ad7968d75d2`, `70341df2c87e64c5`: the placeholder stands in a string constant and the code stays valid) are dropped by the rule. The opposite case is `8c13a363011078ca`: `<EMAIL>` swallowed parts of test strings, which the rule "fixes" by inserting an address, although the test inputs stay garbled.
 
 ## Pipeline
 
@@ -253,7 +253,7 @@ def clean_document(text: str):
     return ("fix" if reasons else "keep"), t, reasons
 ```
 
-Effect on the whole pack of 500 (rules only, not my manual verdicts): 249 fixed, 56 dropped, 195 unchanged. On the first 150 rows: 76 fixed, 18 dropped, 56 unchanged. My manual verdicts are 250 fix, 56 drop, 194 clean; rule and verdict agree on 492 of 500. The 9 disagreements are `83381a2f882bdce3`, `d6cda78358591124` (F3), `46f55367265bf0f0`, `98e4c493f32c8bfa` (E3), `71c23854dac98b68`, `8c13a363011078ca`, `a3f10c54d87ce1fd`, `634696dba0edcbb7` and `34133f5414afff81` (A2). The rules do not cover F3 (`d6cda78358591124`, ransomware source), E3 (`98e4c493f32c8bfa`, a hardcoded TOTP seed), A2 (`34133f5414afff81`, a whole file with CRLF line endings, so every line carries U+000D), A4 (`2a92a9a8489c5ea2`, two U+FFFD in a comment), B1 (one HTML entity) or F1 (`48b3b124a7aaa5fc`, an author email spelled with look-alike letters); those are single cases, below the five-case threshold, and were handled by hand in the label sheet.
+Effect on the whole pack of 500 (rules only, not my manual verdicts): 249 fixed, 56 dropped, 195 unchanged. On the first 150 rows: 76 fixed, 18 dropped, 56 unchanged. My manual verdicts are 254 fix, 52 drop, 194 clean; rule and verdict agree on 488 of 500. The 13 disagreements are `83381a2f882bdce3`, `d6cda78358591124` (F3), `46f55367265bf0f0`, `98e4c493f32c8bfa` (E3), `71c23854dac98b68`, `8c13a363011078ca`, `a3f10c54d87ce1fd`, `634696dba0edcbb7`, `9b1b42340cda0bab`, `b48e499f5d45a8e3`, `f23a5ad7968d75d2`, `70341df2c87e64c5` and `34133f5414afff81` (A2). The rules do not cover F3 (`d6cda78358591124`, ransomware source), E3 (`98e4c493f32c8bfa`, a hardcoded TOTP seed), A2 (`34133f5414afff81`, a whole file with CRLF line endings, so every line carries U+000D), A4 (`2a92a9a8489c5ea2`, two U+FFFD in a comment), B1 (one HTML entity) or F1 (`48b3b124a7aaa5fc`, an author email spelled with look-alike letters); those are single cases, below the five-case threshold, and were handled by hand in the label sheet.
 
 ## Observations
 

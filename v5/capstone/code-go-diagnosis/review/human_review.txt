@@ -67,3 +67,7 @@ Is this a problem? "<NAME>" at offset 57 (line 3, col 23)
 Is this a problem? "<NAME>" at offset 55 (line 2, col 19)
 
 
+376
+E2 may not be appropriate, the byte looks like required data or constants
+
+
