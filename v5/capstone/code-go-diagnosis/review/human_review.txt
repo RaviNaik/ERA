@@ -1,3 +1,21 @@
+151
+Whats wrong in having <NAME> as the placeholder? is it okay to replace with a name as done by Claude?
+
+160
+Whats wrong in having <Email> as the placeholder
+
+204,247,345
+Is it okay to have other language(may be Chinese) in the content(not a comment) ?
+
+216
+what's the issue?
+
+225
+is it okay to have uuid.UUID? line 59
+
+329
+Whats wrong with <PASSWORD> <<EMAIL>> placeholder
+
 498
 File looks fine. The carriage return looks like a normal comment
 
@@ -28,7 +46,7 @@ Whats wrong in having <Email> as the placeholder
 455
 Its just a placeholder right?
 
-445
+445, 165, 174, 242
 Whats wrong with <PASSWORD> placeholder
 
 441
