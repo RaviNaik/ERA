@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERA V5 Capstone Task Board</title>
+<style>
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --surface-2: #f0f2f5; --border: #dde1e7; --text: #1b2430; --muted: #5d6b7c;
+  --accent: #2457d6; --accent-soft: #e3ebfc; --danger: #c62828; --danger-soft: #fdeaea; --warn: #a15c00; --warn-soft: #fff1d6;
+  --ok: #1b7a3e; --ok-soft: #e0f4e8; --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151b; --surface: #1a2029; --surface-2: #212936; --border: #2d3746; --text: #e6ebf2; --muted: #93a1b4;
+    --accent: #7ba2ff; --accent-soft: #1f2f55; --danger: #ff8a80; --danger-soft: #3a1f21; --warn: #ffc266; --warn-soft: #3a2d12;
+    --ok: #6fd69a; --ok-soft: #163325; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151b; --surface: #1a2029; --surface-2: #212936; --border: #2d3746; --text: #e6ebf2; --muted: #93a1b4;
+  --accent: #7ba2ff; --accent-soft: #1f2f55; --danger: #ff8a80; --danger-soft: #3a1f21; --warn: #ffc266; --warn-soft: #3a2d12;
+  --ok: #6fd69a; --ok-soft: #163325; --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font: 14px/1.45 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 1480px; margin: 0 auto; padding: 0 16px 48px; }
+
+header.top { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--border); }
+header.top .wrap { padding-bottom: 0; }
+.top-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 0; }
+.brand { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin-right: 8px; }
+.brand small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.spacer { flex: 1; }
+.btn { border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 7px 12px; cursor: pointer; font-weight: 500; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+.btn.danger { color: var(--danger); }
+.btn.small { padding: 3px 8px; font-size: 12px; }
+.btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; padding: 14px 0 4px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; text-align: left; }
+.stat:hover { border-color: var(--accent); }
+.stat b { display: block; font-size: 22px; line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat.bad b { color: var(--danger); } .stat.warn b { color: var(--warn); } .stat.good b { color: var(--ok); }
+.progress { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin: 8px 0 0; }
+.progress i { display: block; height: 100%; background: var(--ok); }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; }
+.toolbar input[type=search] { min-width: 220px; flex: 1 1 220px; }
+.toolbar input, .toolbar select { padding: 7px 10px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; }
+.tabs { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.tabs button { border: 0; background: transparent; padding: 7px 14px; cursor: pointer; font-weight: 500; color: var(--muted); }
+.tabs button[aria-selected=true] { background: var(--accent-soft); color: var(--accent); }
+.chk { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); }
+
+.banner { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin: 10px 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.banner .spacer { flex: 1; }
+
+/* board */
+.board { display: grid; grid-template-columns: repeat(5, minmax(240px, 1fr)); gap: 12px; align-items: start; overflow-x: auto; padding-bottom: 8px; }
+.col { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; min-height: 160px; display: flex; flex-direction: column; }
+.col.over { outline: 2px dashed var(--accent); }
+.col h3 { margin: 0; padding: 10px 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: flex; justify-content: space-between; }
+.col .cards { padding: 0 8px 8px; display: flex; flex-direction: column; gap: 8px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ws, var(--border)); border-radius: 10px; padding: 9px 10px; box-shadow: var(--shadow); cursor: pointer; }
+.card:hover { border-color: var(--accent); }
+.card.dragging { opacity: .45; }
+.card .t { font-weight: 600; margin: 0 0 6px; overflow-wrap: anywhere; }
+.card .m { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; font-size: 12px; color: var(--muted); }
+.card .id { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 11px; }
+.card.done .t { text-decoration: line-through; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); white-space: nowrap; }
+.pill.high { background: var(--danger-soft); color: var(--danger); border-color: transparent; }
+.pill.medium { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.pill.overdue { background: var(--danger-soft); color: var(--danger); border-color: transparent; }
+.pill.soon { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.pill.accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.avatar { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 10px; font-weight: 700; }
+.chk-card { margin-right: 2px; }
+.empty { color: var(--muted); font-size: 12px; text-align: center; padding: 14px 6px; }
+
+/* list */
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; min-width: 980px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--surface-2); cursor: pointer; white-space: nowrap; user-select: none; }
+tr.row { cursor: pointer; } tr.row:hover td { background: var(--surface-2); }
+tr.done td.title { text-decoration: line-through; color: var(--muted); }
+
+/* schedule */
+.group { margin: 0 0 18px; }
+.group h3 { margin: 0 0 8px; font-size: 13px; display: flex; gap: 8px; align-items: center; }
+.group h3 .count { color: var(--muted); font-weight: 500; }
+.sched { display: grid; gap: 8px; }
+.srow { display: grid; grid-template-columns: 110px 1fr auto; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ws, var(--border)); border-radius: 10px; padding: 9px 12px; cursor: pointer; }
+.srow:hover { border-color: var(--accent); }
+.srow .d { font-variant-numeric: tabular-nums; font-weight: 600; }
+.srow .d small { display: block; color: var(--muted); font-weight: 500; }
+
+/* drawer */
+.overlay { position: fixed; inset: 0; background: rgba(10,14,20,.45); z-index: 40; display: none; }
+.overlay.open { display: block; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(620px, 100%); background: var(--surface); border-left: 1px solid var(--border); z-index: 50; transform: translateX(105%); transition: transform .18s ease; display: flex; flex-direction: column; }
+.drawer.open { transform: none; }
+.drawer header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.drawer header h2 { margin: 0; font-size: 15px; flex: 1; }
+.drawer .body { padding: 16px; overflow-y: auto; flex: 1; display: grid; gap: 14px; align-content: start; }
+.drawer footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.field { display: grid; gap: 4px; }
+.field label, .lbl { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.field input, .field select, .field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+.field textarea { min-height: 80px; resize: vertical; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .grid2, .grid3 { grid-template-columns: 1fr; } .srow { grid-template-columns: 1fr; } }
+.refs, .comments { display: grid; gap: 6px; }
+.ref { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+.ref .k { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); min-width: 56px; }
+.ref a { flex: 1; overflow-wrap: anywhere; }
+.addref { display: grid; grid-template-columns: 90px 1fr 1fr auto; gap: 6px; }
+.addref input, .addref select { padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); min-width: 0; }
+.comment { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; background: var(--bg); }
+.comment .h { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 3px; }
+.comment p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; gap: 4px; align-items: center; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 600; }
+.chip button { border: 0; background: transparent; cursor: pointer; color: inherit; padding: 0 0 0 2px; font-size: 14px; line-height: 1; }
+.toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 8px; z-index: 80; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .15s; }
+.toast.show { opacity: 1; }
+.menu { position: relative; }
+.menu .pop { position: absolute; right: 0; top: 110%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.18); min-width: 220px; padding: 6px; display: none; z-index: 30; }
+.menu.open .pop { display: block; }
+.menu .pop button { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 8px 10px; border-radius: 6px; cursor: pointer; }
+.menu .pop button:hover { background: var(--surface-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted); padding: 2px 0 10px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand">ERA V5 Capstone Task Board<small id="sub"></small></div>
+      <div class="tabs" role="tablist" aria-label="View">
+        <button role="tab" data-view="board" aria-selected="true">Board</button>
+        <button role="tab" data-view="list" aria-selected="false">List</button>
+        <button role="tab" data-view="schedule" aria-selected="false">Schedule</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn" id="themeBtn" title="Toggle light and dark">Theme</button>
+      <div class="menu" id="dataMenu">
+        <button class="btn" id="dataBtn" aria-haspopup="true">Data &#9662;</button>
+        <div class="pop" role="menu">
+          <button id="exportJs">Export tasks.js (for git)</button>
+          <button id="exportJson">Export JSON backup</button>
+          <button id="importBtn">Import JSON or tasks.js</button>
+          <button id="resetBtn" class="danger">Reset to tasks.js in the repo</button>
+        </div>
+      </div>
+      <button class="btn primary" id="newBtn">+ New task</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banner"></div>
+  <section class="stats" id="stats" aria-label="Summary"></section>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search title, notes, labels, PR or commit" aria-label="Search">
+    <select id="fWs" aria-label="Workstream"></select>
+    <select id="fStatus" aria-label="Status"></select>
+    <select id="fAssignee" aria-label="Assignee"></select>
+    <select id="fWeek" aria-label="Week"></select>
+    <select id="fType" aria-label="Type">
+      <option value="">All types</option><option value="task">Tasks</option><option value="recurring">Recurring (daily/weekly)</option><option value="milestone">Milestones</option>
+    </select>
+    <label class="chk"><input type="checkbox" id="fMine"> Mine</label>
+    <label class="chk"><input type="checkbox" id="fHideDone"> Hide complete</label>
+    <button class="btn small" id="clearF">Clear filters</button>
+  </div>
+  <div class="legend" id="legend"></div>
+
+  <div id="view"></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Task details"></aside>
+<div class="toast" id="toast" role="status"></div>
+<input type="file" id="file" accept=".json,.js,application/json" hidden>
+
+<script src="tasks.js"></script>
+<script>
+(function () {
+"use strict";
+
+/* ---------- constants ---------- */
+var STORE = "era-v5-taskboard-v1";
+var STATUSES = [
+  { id: "todo", label: "Pending" },
+  { id: "progress", label: "In progress" },
+  { id: "review", label: "In review" },
+  { id: "blocked", label: "Blocked" },
+  { id: "done", label: "Complete" }
+];
+var PRIORITIES = ["high", "medium", "low"];
+var TYPES = [{ id: "task", label: "Task" }, { id: "recurring", label: "Recurring" }, { id: "milestone", label: "Milestone" }];
+var REF_KINDS = [{ id: "pr", label: "PR" }, { id: "commit", label: "Commit" }, { id: "issue", label: "Issue" }, { id: "comment", label: "Comment" }, { id: "link", label: "Link" }];
+var WS_COLORS = ["#2457d6", "#c2410c", "#0f766e", "#7c3aed", "#b45309", "#be185d", "#4d7c0f", "#0369a1"];
+var SEED = window.TASKBOARD_SEED || { rev: 0, tasks: [], repos: {}, me: "" };
+
+/* ---------- state ---------- */
+var state = load();
+var ui = { view: "board", sort: { key: "due", dir: 1 }, openId: null, draft: null };
+var filters = { q: "", ws: "", status: "", assignee: "", week: "", type: "", mine: false, hideDone: false };
+
+function load() {
+  try {
+    var raw = localStorage.getItem(STORE);
+    if (raw) { var s = JSON.parse(raw); if (s && Array.isArray(s.tasks)) return s; }
+  } catch (e) { /* storage blocked: fall through to seed */ }
+  return fromSeed();
+}
+function fromSeed() {
+  return { baseRev: SEED.rev || 0, me: SEED.me || "", repos: clone(SEED.repos || {}), tasks: clone(SEED.tasks || []) };
+}
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) { toast("Browser storage is blocked: changes are kept only until you close the tab. Use Data > Export."); }
+}
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+/* ---------- helpers ---------- */
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function $(id) { return document.getElementById(id); }
+function todayStr() { var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function dayDiff(a, b) { return Math.round((Date.parse(a + "T00:00:00Z") - Date.parse(b + "T00:00:00Z")) / 86400000); }
+function fmtDate(s) {
+  if (!s) return "No date";
+  var d = new Date(s + "T00:00:00Z");
+  return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+}
+function statusLabel(id) { var s = STATUSES.filter(function (x) { return x.id === id; })[0]; return s ? s.label : id; }
+function nextId(prefix) {
+  var max = 0;
+  state.tasks.forEach(function (t) { var m = /^T-(\d+)$/.exec(t.id); if (m && +m[1] > max) max = +m[1]; });
+  return prefix + "-" + String(max + 1).padStart(3, "0");
+}
+function initials(n) { return String(n).split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase(); }
+function wsColor(ws) {
+  var list = wsList(); var i = list.indexOf(ws);
+  return WS_COLORS[(i < 0 ? 0 : i) % WS_COLORS.length];
+}
+function wsList() {
+  var seen = [];
+  (SEED.tasks || []).concat(state.tasks).forEach(function (t) { if (t.workstream && seen.indexOf(t.workstream) < 0) seen.push(t.workstream); });
+  return seen;
+}
+function allAssignees() {
+  var seen = [];
+  state.tasks.forEach(function (t) { (t.assignees || []).forEach(function (a) { if (seen.indexOf(a) < 0) seen.push(a); }); });
+  if (state.me && seen.indexOf(state.me) < 0) seen.unshift(state.me);
+  return seen.sort();
+}
+function refUrl(r) {
+  var repo = state.repos[r.repo] || r.repo || "";
+  if (r.kind === "link") return /^https?:\/\//i.test(r.ref) ? r.ref : "";
+  if (!repo) return "";
+  if (r.kind === "pr") return "https://github.com/" + repo + "/pull/" + encodeURIComponent(r.ref);
+  if (r.kind === "issue") return "https://github.com/" + repo + "/issues/" + encodeURIComponent(r.ref);
+  if (r.kind === "commit") return "https://github.com/" + repo + "/commit/" + encodeURIComponent(r.ref);
+  if (r.kind === "comment") {
+    var p = String(r.ref).split("#");
+    return "https://github.com/" + repo + "/pull/" + encodeURIComponent(p[0]) + (p[1] ? "#" + encodeURIComponent(p[1]) : "");
+  }
+  return "";
+}
+function refLabel(r) {
+  var repo = state.repos[r.repo] || r.repo || "";
+  var short = repo.split("/")[1] || repo;
+  if (r.kind === "pr") return "PR #" + r.ref + (short ? " (" + (r.repo in state.repos ? r.repo : short) + ")" : "");
+  if (r.kind === "issue") return "Issue #" + r.ref + (short ? " (" + (r.repo in state.repos ? r.repo : short) + ")" : "");
+  if (r.kind === "commit") return String(r.ref).slice(0, 7) + (short ? " (" + (r.repo in state.repos ? r.repo : short) + ")" : "");
+  if (r.kind === "comment") return "Comment on #" + String(r.ref).split("#")[0];
+  return r.ref;
+}
+function dueState(t) {
+  if (!t.due || t.status === "done") return "";
+  var d = dayDiff(t.due, todayStr());
+  if (d < 0) return "overdue"; if (d <= 2) return "soon"; return "";
+}
+function dueBadge(t) {
+  if (!t.due) return "";
+  var d = dayDiff(t.due, todayStr()), st = dueState(t), txt = fmtDate(t.due);
+  if (t.status !== "done") { if (d < 0) txt += " (" + (-d) + "d late)"; else if (d === 0) txt += " (today)"; else if (d === 1) txt += " (tomorrow)"; }
+  return '<span class="pill ' + st + '" title="Due ' + esc(t.due) + " " + esc(t.dueTime || "23:59") + ' IST">' + esc(txt) + "</span>";
+}
+function toast(msg) { var el = $("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove("show"); }, 2800); }
+function touch(t) { t.updated = new Date().toISOString().slice(0, 16); }
+
+/* ---------- filtering ---------- */
+function visible() {
+  var q = filters.q.trim().toLowerCase();
+  return state.tasks.filter(function (t) {
+    if (filters.ws && t.workstream !== filters.ws) return false;
+    if (filters.status && t.status !== filters.status) return false;
+    if (filters.assignee) { if (filters.assignee === "__none") { if ((t.assignees || []).length) return false; } else if ((t.assignees || []).indexOf(filters.assignee) < 0) return false; }
+    if (filters.week && String(t.week) !== filters.week) return false;
+    if (filters.type && (t.type || "task") !== filters.type) return false;
+    if (filters.mine && (t.assignees || []).indexOf(state.me) < 0) return false;
+    if (filters.hideDone && t.status === "done") return false;
+    if (q) {
+      var hay = [t.id, t.title, t.desc, t.workstream, (t.labels || []).join(" "), (t.assignees || []).join(" "), t.blockedBy,
+        (t.refs || []).map(function (r) { return r.kind + " " + r.ref + " " + r.repo; }).join(" "),
+        (t.comments || []).map(function (c) { return c.text; }).join(" ")].join(" ").toLowerCase();
+      if (hay.indexOf(q) < 0) return false;
+    }
+    return true;
+  });
+}
+
+/* ---------- rendering ---------- */
+function render() {
+  renderBanner(); renderStats(); renderFilters(); renderLegend();
+  var list = visible();
+  var v = $("view");
+  if (ui.view === "board") v.innerHTML = boardHtml(list);
+  else if (ui.view === "list") v.innerHTML = listHtml(list);
+  else v.innerHTML = scheduleHtml(list);
+  $("sub").textContent = "Updated " + (SEED.updated || "") + " · " + state.tasks.length + " items · data saved in this browser";
+  document.querySelectorAll(".tabs button").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.view === ui.view ? "true" : "false"); });
+  wireDnD();
+}
+
+function renderBanner() {
+  var b = $("banner");
+  if ((SEED.rev || 0) > (state.baseRev || 0)) {
+    b.innerHTML = '<div class="banner"><span>A newer tasks.js (rev ' + esc(SEED.rev) + ') is in the repo.</span><span class="spacer"></span>' +
+      '<button class="btn small" data-act="mergeSeed">Merge new tasks, keep my edits</button><button class="btn small" data-act="dismissSeed">Keep mine, hide this</button></div>';
+  } else b.innerHTML = "";
+}
+
+function renderStats() {
+  var t = state.tasks, today = todayStr();
+  var open = t.filter(function (x) { return x.status !== "done" && x.type !== "milestone"; });
+  var done = t.filter(function (x) { return x.status === "done" && x.type !== "milestone"; }).length;
+  var total = done + open.length;
+  var overdue = open.filter(function (x) { return x.due && x.due < today; }).length;
+  var soon = open.filter(function (x) { return x.due && dayDiff(x.due, today) >= 0 && dayDiff(x.due, today) <= 2; }).length;
+  var blocked = open.filter(function (x) { return x.status === "blocked"; }).length;
+  var mine = open.filter(function (x) { return (x.assignees || []).indexOf(state.me) >= 0; }).length;
+  var unassigned = open.filter(function (x) { return !(x.assignees || []).length; }).length;
+  var cards = [
+    ["Open", open.length, "", { hideDone: true }], ["Overdue", overdue, overdue ? "bad" : "good", { od: 1 }], ["Due in 2 days", soon, soon ? "warn" : "", { soon: 1 }],
+    ["Blocked", blocked, blocked ? "bad" : "", { status: "blocked" }], ["Mine, open", mine, "", { mine: true, hideDone: true }],
+    ["Unassigned", unassigned, unassigned ? "warn" : "", { assignee: "__none", hideDone: true }], ["Complete", done + " / " + total, "good", { status: "done" }]
+  ];
+  $("stats").innerHTML = cards.map(function (c, i) {
+    return '<button class="stat ' + c[2] + '" data-stat="' + i + '"><b>' + esc(c[1]) + "</b><span>" + esc(c[0]) + "</span></button>";
+  }).join("");
+  $("stats").__cards = cards;
+  $("prog").style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+}
+
+function opt(v, l, sel) { return '<option value="' + esc(v) + '"' + (sel ? " selected" : "") + ">" + esc(l) + "</option>"; }
+function renderFilters() {
+  $("fWs").innerHTML = opt("", "All workstreams", !filters.ws) + wsList().map(function (w) { return opt(w, w, filters.ws === w); }).join("");
+  $("fStatus").innerHTML = opt("", "All statuses", !filters.status) + STATUSES.map(function (s) { return opt(s.id, s.label, filters.status === s.id); }).join("");
+  $("fAssignee").innerHTML = opt("", "All assignees", !filters.assignee) + opt("__none", "Unassigned", filters.assignee === "__none") +
+    allAssignees().map(function (a) { return opt(a, a, filters.assignee === a); }).join("");
+  var weeks = []; state.tasks.forEach(function (t) { if (t.week != null && t.week !== "" && weeks.indexOf(String(t.week)) < 0) weeks.push(String(t.week)); });
+  weeks.sort();
+  $("fWeek").innerHTML = opt("", "All weeks", !filters.week) + weeks.map(function (w) { return opt(w, "Week " + w, filters.week === w); }).join("");
+  $("fType").value = filters.type; $("q").value = filters.q;
+  $("fMine").checked = filters.mine; $("fHideDone").checked = filters.hideDone;
+}
+function renderLegend() {
+  $("legend").innerHTML = wsList().map(function (w) { return '<span><i style="background:' + wsColor(w) + '"></i>' + esc(w) + "</span>"; }).join("");
+}
+
+function cardHtml(t) {
+  var as = (t.assignees || []).map(function (a) { return '<span class="avatar" title="' + esc(a) + '">' + esc(initials(a)) + "</span>"; }).join("");
+  var kind = t.type === "milestone" ? '<span class="pill accent">Milestone</span>' : (t.type === "recurring" ? '<span class="pill accent">' + esc(t.recurring || "recurring") + "</span>" : "");
+  var refs = (t.refs || []).length ? '<span class="pill" title="Linked PRs and commits">&#128279; ' + t.refs.length + "</span>" : "";
+  var cm = (t.comments || []).length ? '<span class="pill" title="Comments">&#128172; ' + t.comments.length + "</span>" : "";
+  var bl = t.blockedBy ? '<span class="pill overdue" title="Blocked by ' + esc(t.blockedBy) + '">&#9940; ' + esc(t.blockedBy) + "</span>" : "";
+  return '<div class="card ' + (t.status === "done" ? "done" : "") + '" tabindex="0" draggable="true" data-id="' + esc(t.id) + '" style="--ws:' + wsColor(t.workstream) + '">' +
+    '<div class="m"><input class="chk-card" type="checkbox" data-done="' + esc(t.id) + '" aria-label="Mark complete" ' + (t.status === "done" ? "checked" : "") + '><span class="id">' + esc(t.id) + "</span>" +
+    '<span class="pill ' + esc(t.priority) + '">' + esc(t.priority) + "</span>" + kind + "</div>" +
+    '<p class="t">' + esc(t.title) + "</p>" +
+    '<div class="m">' + dueBadge(t) + (t.week != null && t.week !== "" ? '<span class="pill">W' + esc(t.week) + "</span>" : "") + bl + refs + cm + '<span class="spacer"></span>' + as + "</div></div>";
+}
+function boardHtml(list) {
+  return '<div class="board">' + STATUSES.map(function (s) {
+    var items = list.filter(function (t) { return t.status === s.id; }).sort(byDue);
+    return '<section class="col" data-status="' + s.id + '"><h3><span>' + s.label + "</span><span>" + items.length + '</span></h3><div class="cards">' +
+      (items.length ? items.map(cardHtml).join("") : '<div class="empty">Nothing here</div>') + "</div></section>";
+  }).join("") + "</div>";
+}
+function byDue(a, b) {
+  var pa = PRIORITIES.indexOf(a.priority), pb = PRIORITIES.indexOf(b.priority);
+  if ((a.due || "9999") !== (b.due || "9999")) return (a.due || "9999") < (b.due || "9999") ? -1 : 1;
+  if (pa !== pb) return pa - pb;
+  return a.id < b.id ? -1 : 1;
+}
+
+function listHtml(list) {
+  var k = ui.sort.key, dir = ui.sort.dir;
+  var val = function (t) {
+    if (k === "priority") return PRIORITIES.indexOf(t.priority);
+    if (k === "status") return STATUSES.map(function (s) { return s.id; }).indexOf(t.status);
+    if (k === "assignee") return (t.assignees || []).join(",").toLowerCase() || "￿";
+    if (k === "due") return t.due || "9999";
+    if (k === "refs") return (t.refs || []).length;
+    return String(t[k] || "").toLowerCase();
+  };
+  list = list.slice().sort(function (a, b) { var x = val(a), y = val(b); return (x < y ? -1 : x > y ? 1 : 0) * dir; });
+  var cols = [["id", "ID"], ["title", "Task"], ["workstream", "Workstream"], ["status", "Status"], ["priority", "Priority"], ["assignee", "Assignee"], ["due", "Due"], ["week", "Week"], ["refs", "PR / commit"]];
+  var head = cols.map(function (c) { return '<th data-sort="' + c[0] + '">' + c[1] + (ui.sort.key === c[0] ? (dir > 0 ? " &#9650;" : " &#9660;") : "") + "</th>"; }).join("");
+  var rows = list.map(function (t) {
+    var refs = (t.refs || []).map(function (r) { var u = refUrl(r); return u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener" data-stop>' + esc(refLabel(r)) + "</a>" : esc(refLabel(r)); }).join("<br>");
+    return '<tr class="row ' + (t.status === "done" ? "done" : "") + '" data-id="' + esc(t.id) + '"><td>' + esc(t.id) + '</td><td class="title">' + esc(t.title) + "</td><td>" + esc(t.workstream) + "</td>" +
+      "<td>" + esc(statusLabel(t.status)) + '</td><td><span class="pill ' + esc(t.priority) + '">' + esc(t.priority) + "</span></td><td>" + (esc((t.assignees || []).join(", ")) || '<span class="pill">unassigned</span>') +
+      "</td><td>" + (dueBadge(t) || "") + "</td><td>" + (t.week != null && t.week !== "" ? "W" + esc(t.week) : "") + "</td><td>" + refs + "</td></tr>";
+  }).join("");
+  return '<div class="tablewrap"><table><thead><tr>' + head + "</tr></thead><tbody>" + (rows || '<tr><td colspan="9" class="empty">No tasks match the filters</td></tr>') + "</tbody></table></div>";
+}
+
+function scheduleHtml(list) {
+  var today = todayStr();
+  var groups = [["Overdue", function (t) { return t.status !== "done" && t.due && t.due < today; }],
+    ["Today", function (t) { return t.status !== "done" && t.due === today; }],
+    ["Next 7 days", function (t) { var d = t.due ? dayDiff(t.due, today) : -1; return t.status !== "done" && d >= 1 && d <= 7; }],
+    ["Later", function (t) { return t.status !== "done" && t.due && dayDiff(t.due, today) > 7; }],
+    ["No date", function (t) { return t.status !== "done" && !t.due; }],
+    ["Complete", function (t) { return t.status === "done"; }]];
+  var rest = list.slice();
+  return groups.map(function (g) {
+    var items = rest.filter(g[1]).sort(byDue);
+    if (g[0] === "Complete") items.reverse();
+    if (!items.length) return "";
+    return '<div class="group"><h3>' + g[0] + ' <span class="count">' + items.length + '</span></h3><div class="sched">' + items.map(function (t) {
+      var d = t.due ? fmtDate(t.due) : "No date";
+      return '<div class="srow" data-id="' + esc(t.id) + '" style="--ws:' + wsColor(t.workstream) + '"><div class="d">' + esc(d) + "<small>" + esc(t.dueTime || (t.due ? "23:59 IST" : "")) + "</small></div><div><b>" +
+        esc(t.title) + '</b><div class="m" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span class="pill">' + esc(t.id) + '</span><span class="pill">' + esc(t.workstream) + '</span><span class="pill">' + esc(statusLabel(t.status)) +
+        '</span>' + ((t.assignees || []).length ? '<span class="pill">' + esc(t.assignees.join(", ")) + "</span>" : '<span class="pill">unassigned</span>') + "</div></div><div>" + dueBadge(t) + "</div></div>";
+    }).join("") + "</div></div>";
+  }).join("") || '<div class="empty">No tasks match the filters</div>';
+}
+
+/* ---------- drag and drop ---------- */
+function wireDnD() {
+  var dragId = null;
+  document.querySelectorAll(".card").forEach(function (c) {
+    c.addEventListener("dragstart", function (e) { dragId = c.dataset.id; c.classList.add("dragging"); e.dataTransfer.setData("text/plain", dragId); e.dataTransfer.effectAllowed = "move"; });
+    c.addEventListener("dragend", function () { c.classList.remove("dragging"); document.querySelectorAll(".col").forEach(function (x) { x.classList.remove("over"); }); });
+  });
+  document.querySelectorAll(".col").forEach(function (col) {
+    col.addEventListener("dragover", function (e) { e.preventDefault(); col.classList.add("over"); });
+    col.addEventListener("dragleave", function () { col.classList.remove("over"); });
+    col.addEventListener("drop", function (e) {
+      e.preventDefault(); col.classList.remove("over");
+      var id = dragId || e.dataTransfer.getData("text/plain"); if (id) setStatus(id, col.dataset.status);
+    });
+  });
+}
+function setStatus(id, status) {
+  var t = find(id); if (!t || t.status === status) return;
+  t.status = status; touch(t);
+  if (status === "done") t.completedAt = todayStr(); else delete t.completedAt;
+  if (status !== "blocked" && status !== "done" && false) t.blockedBy = "";
+  save(); render(); if (ui.openId === id) openDrawer(id);
+  toast(t.id + " moved to " + statusLabel(status));
+}
+function find(id) { return state.tasks.filter(function (t) { return t.id === id; })[0]; }
+
+/* ---------- drawer (create / edit) ---------- */
+function blankTask() {
+  var t = { id: nextId("T"), type: "task", workstream: filters.ws || wsList()[0] || "General", title: "", desc: "", status: "todo", priority: "medium",
+    assignees: [state.me].filter(Boolean), due: "", week: 2, labels: [], blockedBy: "", refs: [], comments: [] };
+  return t;
+}
+function openDrawer(id, isNew) {
+  var t = isNew ? blankTask() : clone(find(id));
+  if (!t) return;
+  ui.openId = isNew ? null : id; ui.draft = t; ui.isNew = !!isNew;
+  var d = $("drawer");
+  var wsOpts = wsList().map(function (w) { return opt(w, w, t.workstream === w); }).join("") + (wsList().indexOf(t.workstream) < 0 ? opt(t.workstream, t.workstream, true) : "");
+  d.innerHTML =
+    '<header><h2>' + (isNew ? "New task" : esc(t.id) + " · Task details") + '</h2><button class="btn small" data-act="closeDrawer" aria-label="Close">Close</button></header>' +
+    '<div class="body">' +
+    '<div class="field"><label for="f_title">Title</label><input id="f_title" value="' + esc(t.title) + '" placeholder="What needs to be done?"></div>' +
+    '<div class="field"><label for="f_desc">Description</label><textarea id="f_desc">' + esc(t.desc) + "</textarea></div>" +
+    '<div class="grid3"><div class="field"><label for="f_status">Status</label><select id="f_status">' + STATUSES.map(function (s) { return opt(s.id, s.label, t.status === s.id); }).join("") + "</select></div>" +
+    '<div class="field"><label for="f_priority">Priority</label><select id="f_priority">' + PRIORITIES.map(function (p) { return opt(p, p, t.priority === p); }).join("") + "</select></div>" +
+    '<div class="field"><label for="f_type">Type</label><select id="f_type">' + TYPES.map(function (p) { return opt(p.id, p.label, (t.type || "task") === p.id); }).join("") + "</select></div></div>" +
+    '<div class="grid3"><div class="field"><label for="f_due">Deadline</label><input id="f_due" type="date" value="' + esc(t.due || "") + '"></div>' +
+    '<div class="field"><label for="f_dueTime">Due time (IST)</label><input id="f_dueTime" value="' + esc(t.dueTime || "23:59") + '" placeholder="23:59"></div>' +
+    '<div class="field"><label for="f_week">Week</label><input id="f_week" type="number" min="1" max="8" value="' + esc(t.week == null ? "" : t.week) + '"></div></div>' +
+    '<div class="grid2"><div class="field"><label for="f_ws">Workstream</label><select id="f_ws">' + wsOpts + '</select></div>' +
+    '<div class="field"><label for="f_recurring">Repeats (for recurring)</label><select id="f_recurring">' +
+    ["", "daily", "weekly"].map(function (r) { return opt(r, r || "Does not repeat", (t.recurring || "") === r); }).join("") + "</select></div></div>" +
+    '<div class="field"><span class="lbl">Assignees</span><div class="chips" id="assignChips"></div>' +
+    '<div class="grid2" style="margin-top:6px"><input id="f_assignNew" list="people" placeholder="Add a name and press Enter"><datalist id="people">' +
+    allAssignees().map(function (a) { return '<option value="' + esc(a) + '">'; }).join("") + "</datalist></div></div>" +
+    '<div class="field"><label for="f_labels">Labels (comma separated)</label><input id="f_labels" value="' + esc((t.labels || []).join(", ")) + '"></div>' +
+    '<div class="field"><label for="f_blocked">Blocked by (task ID or free text)</label><input id="f_blocked" value="' + esc(t.blockedBy || "") + '" placeholder="e.g. T-060 or waiting for Sai Teja"></div>' +
+    '<div class="field"><span class="lbl">PRs, commits and links</span><div class="refs" id="refList"></div>' +
+    '<div class="addref"><select id="r_kind">' + REF_KINDS.map(function (k) { return opt(k.id, k.label); }).join("") + '</select>' +
+    '<select id="r_repo">' + Object.keys(state.repos).map(function (k) { return opt(k, k + " – " + state.repos[k]); }).join("") + '</select>' +
+    '<input id="r_ref" placeholder="Number, sha or URL"><button class="btn small" data-act="addRef">Add</button></div></div>' +
+    '<div class="field"><span class="lbl">Comments</span><div class="comments" id="cmList"></div>' +
+    '<textarea id="c_text" placeholder="Add a comment: decisions, blockers, links"></textarea><div><button class="btn small" data-act="addComment">Add comment</button></div></div>' +
+    (isNew ? "" : '<div class="lbl" style="font-weight:500;text-transform:none">Updated ' + esc(t.updated || "") + (t.completedAt ? " · completed " + esc(t.completedAt) : "") + "</div>") +
+    "</div>" +
+    '<footer><button class="btn primary" data-act="saveTask">' + (isNew ? "Create task" : "Save changes") + "</button>" +
+    (t.status !== "done" && !isNew ? '<button class="btn" data-act="markDone">Mark complete</button>' : "") +
+    '<span class="spacer"></span>' + (isNew ? "" : '<button class="btn danger" data-act="deleteTask">Delete</button>') + "</footer>";
+  renderChips(); renderRefs(); renderComments();
+  $("overlay").classList.add("open"); d.classList.add("open"); d.setAttribute("aria-hidden", "false");
+  setTimeout(function () { $("f_title").focus(); }, 60);
+  $("f_assignNew").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); var v = this.value.trim(); if (v && ui.draft.assignees.indexOf(v) < 0) ui.draft.assignees.push(v); this.value = ""; renderChips(); }
+  });
+}
+function renderChips() {
+  $("assignChips").innerHTML = ui.draft.assignees.map(function (a, i) {
+    return '<span class="chip">' + esc(a) + '<button data-rmassign="' + i + '" aria-label="Remove ' + esc(a) + '">&times;</button></span>';
+  }).join("") || '<span class="empty" style="padding:0">Unassigned</span>';
+}
+function renderRefs() {
+  $("refList").innerHTML = (ui.draft.refs || []).map(function (r, i) {
+    var u = refUrl(r);
+    return '<div class="ref"><span class="k">' + esc(r.kind) + "</span>" + (u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(refLabel(r)) + "</a>" : "<span>" + esc(refLabel(r)) + "</span>") +
+      '<button class="btn small" data-rmref="' + i + '" aria-label="Remove link">&times;</button></div>';
+  }).join("") || '<div class="empty" style="text-align:left;padding:0">No PR or commit linked yet</div>';
+}
+function renderComments() {
+  $("cmList").innerHTML = (ui.draft.comments || []).map(function (c, i) {
+    return '<div class="comment"><div class="h"><span>' + esc(c.by || "") + " · " + esc(String(c.at || "").replace("T", " ")) + '</span><button class="btn small" data-rmcm="' + i + '" aria-label="Delete comment">&times;</button></div><p>' + esc(c.text) + "</p></div>";
+  }).join("") || '<div class="empty" style="text-align:left;padding:0">No comments yet</div>';
+}
+function closeDrawer() { $("overlay").classList.remove("open"); $("drawer").classList.remove("open"); $("drawer").setAttribute("aria-hidden", "true"); ui.openId = null; ui.draft = null; }
+function readForm() {
+  var t = ui.draft;
+  t.title = $("f_title").value.trim(); t.desc = $("f_desc").value.trim();
+  t.status = $("f_status").value; t.priority = $("f_priority").value; t.type = $("f_type").value;
+  t.due = $("f_due").value; t.dueTime = $("f_dueTime").value.trim() || "23:59";
+  var w = $("f_week").value; t.week = w === "" ? null : +w;
+  t.workstream = $("f_ws").value; t.recurring = $("f_recurring").value;
+  t.labels = $("f_labels").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  t.blockedBy = $("f_blocked").value.trim();
+  return t;
+}
+function saveTask() {
+  var t = readForm();
+  if (!t.title) { toast("Give the task a title"); $("f_title").focus(); return; }
+  var prev = ui.isNew ? null : find(t.id);
+  if (t.status === "done") { if (!prev || prev.status !== "done") t.completedAt = todayStr(); } else delete t.completedAt;
+  if (t.type !== "recurring") delete t.recurring;
+  touch(t);
+  if (ui.isNew) { state.tasks.push(t); toast(t.id + " created"); }
+  else { var i = state.tasks.indexOf(prev); state.tasks[i] = t; toast(t.id + " saved"); }
+  save(); closeDrawer(); render();
+}
+
+/* ---------- import / export ---------- */
+function exportObj() { return { rev: (SEED.rev || 0) + 1, updated: todayStr(), me: state.me, repos: state.repos, tasks: state.tasks }; }
+function download(name, text, mime) {
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function parseImport(text) {
+  var s = text.trim();
+  var m = /window\.TASKBOARD_SEED\s*=\s*([\s\S]*?);?\s*$/.exec(s);
+  var json = m ? m[1].replace(/;\s*$/, "") : s;
+  try { return JSON.parse(json); } catch (e) { return null; }
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", function (e) {
+  var el = e.target;
+  if (el.closest("[data-stop]")) return;
+  var dn = el.closest("[data-done]");
+  if (dn) { e.stopPropagation(); setStatus(dn.dataset.done, dn.checked ? "done" : "todo"); return; }
+  var stat = el.closest("[data-stat]");
+  if (stat) {
+    var spec = $("stats").__cards[+stat.dataset.stat][3];
+    filters = { q: "", ws: "", status: spec.status || "", assignee: spec.assignee || "", week: "", type: "", mine: !!spec.mine, hideDone: !!spec.hideDone };
+    if (spec.od || spec.soon) { ui.view = "schedule"; filters.hideDone = true; }
+    render(); return;
+  }
+  var th = el.closest("th[data-sort]");
+  if (th) { var k = th.dataset.sort; ui.sort = { key: k, dir: ui.sort.key === k ? -ui.sort.dir : 1 }; render(); return; }
+  var act = el.closest("[data-act]");
+  if (act) { doAct(act.dataset.act); return; }
+  var rmA = el.closest("[data-rmassign]"); if (rmA) { ui.draft.assignees.splice(+rmA.dataset.rmassign, 1); renderChips(); return; }
+  var rmR = el.closest("[data-rmref]"); if (rmR) { ui.draft.refs.splice(+rmR.dataset.rmref, 1); renderRefs(); return; }
+  var rmC = el.closest("[data-rmcm]"); if (rmC) { ui.draft.comments.splice(+rmC.dataset.rmcm, 1); renderComments(); return; }
+  var item = el.closest(".card, tr.row, .srow");
+  if (item && item.dataset.id) { openDrawer(item.dataset.id); return; }
+  if (!el.closest("#dataMenu")) $("dataMenu").classList.remove("open");
+  if (el.id === "overlay") closeDrawer();
+});
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") { closeDrawer(); $("dataMenu").classList.remove("open"); }
+  if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("card")) { e.preventDefault(); openDrawer(e.target.dataset.id); }
+  if (e.key === "n" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !$("drawer").classList.contains("open")) { e.preventDefault(); openDrawer(null, true); }
+});
+function doAct(a) {
+  if (a === "closeDrawer") closeDrawer();
+  else if (a === "saveTask") saveTask();
+  else if (a === "markDone") { readForm(); ui.draft.status = "done"; saveTask(); }
+  else if (a === "deleteTask") { if (confirm("Delete " + ui.draft.id + "? This cannot be undone.")) { state.tasks = state.tasks.filter(function (t) { return t.id !== ui.draft.id; }); save(); closeDrawer(); render(); toast("Deleted"); } }
+  else if (a === "addRef") {
+    var v = $("r_ref").value.trim(); if (!v) return;
+    var kind = $("r_kind").value;
+    if (kind !== "link" && kind !== "commit" && kind !== "comment") v = v.replace(/^#/, "");
+    ui.draft.refs.push({ kind: kind, repo: $("r_repo").value, ref: v }); $("r_ref").value = ""; renderRefs();
+  }
+  else if (a === "addComment") {
+    var tx = $("c_text").value.trim(); if (!tx) return;
+    ui.draft.comments.push({ at: new Date().toISOString().slice(0, 16), by: state.me || "Me", text: tx }); $("c_text").value = ""; renderComments();
+  }
+  else if (a === "mergeSeed") {
+    var have = {}; state.tasks.forEach(function (t) { have[t.id] = 1; });
+    var added = 0; (SEED.tasks || []).forEach(function (t) { if (!have[t.id]) { state.tasks.push(clone(t)); added++; } });
+    state.baseRev = SEED.rev; save(); render(); toast(added + " new task(s) merged; your edits were kept");
+  }
+  else if (a === "dismissSeed") { state.baseRev = SEED.rev; save(); render(); }
+}
+$("newBtn").addEventListener("click", function () { openDrawer(null, true); });
+$("q").addEventListener("input", function () { filters.q = this.value; render(); $("q").focus(); var v = $("q"); v.setSelectionRange(v.value.length, v.value.length); });
+[["fWs", "ws"], ["fStatus", "status"], ["fAssignee", "assignee"], ["fWeek", "week"], ["fType", "type"]].forEach(function (p) { $(p[0]).addEventListener("change", function () { filters[p[1]] = this.value; render(); }); });
+$("fMine").addEventListener("change", function () { filters.mine = this.checked; render(); });
+$("fHideDone").addEventListener("change", function () { filters.hideDone = this.checked; render(); });
+$("clearF").addEventListener("click", function () { filters = { q: "", ws: "", status: "", assignee: "", week: "", type: "", mine: false, hideDone: false }; render(); });
+document.querySelectorAll(".tabs button").forEach(function (b) { b.addEventListener("click", function () { ui.view = b.dataset.view; render(); }); });
+$("dataBtn").addEventListener("click", function (e) { e.stopPropagation(); $("dataMenu").classList.toggle("open"); });
+$("exportJs").addEventListener("click", function () {
+  var head = "/* Seed data for the ERA V5 capstone task board. Exported " + new Date().toISOString().slice(0, 16) + ". Replace taskboard/tasks.js with this file and commit it. */\n";
+  download("tasks.js", head + "window.TASKBOARD_SEED = " + JSON.stringify(exportObj(), null, 2) + ";\n", "text/javascript"); $("dataMenu").classList.remove("open"); toast("Exported tasks.js");
+});
+$("exportJson").addEventListener("click", function () { download("taskboard-backup-" + todayStr() + ".json", JSON.stringify(exportObj(), null, 2), "application/json"); $("dataMenu").classList.remove("open"); toast("Exported JSON backup"); });
+$("importBtn").addEventListener("click", function () { $("file").click(); $("dataMenu").classList.remove("open"); });
+$("file").addEventListener("change", function () {
+  var f = this.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function () {
+    var o = parseImport(String(r.result));
+    if (!o || !Array.isArray(o.tasks)) { toast("That file is not a task board export"); return; }
+    if (!confirm("Replace the " + state.tasks.length + " tasks in this browser with " + o.tasks.length + " tasks from the file?")) return;
+    state = { baseRev: o.rev || 0, me: o.me || state.me, repos: o.repos || state.repos, tasks: o.tasks }; save(); render(); toast("Imported " + o.tasks.length + " tasks");
+  };
+  r.readAsText(f); this.value = "";
+});
+$("resetBtn").addEventListener("click", function () {
+  $("dataMenu").classList.remove("open");
+  if (confirm("Discard all edits made in this browser and reload tasks.js from the repo?")) { state = fromSeed(); save(); render(); toast("Reset to tasks.js"); }
+});
+$("themeBtn").addEventListener("click", function () {
+  var cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  var nxt = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nxt;
+  try { localStorage.setItem(STORE + "-theme", nxt); } catch (e) {}
+});
+try { var th = localStorage.getItem(STORE + "-theme"); if (th) document.documentElement.dataset.theme = th; } catch (e) {}
+
+render();
+})();
+</script>
+</body>
+</html>
