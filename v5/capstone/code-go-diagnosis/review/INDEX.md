@@ -500,5 +500,5 @@
 | 495_dc5a80e80c7279ac | fix | full | B3 | fix | agree |
 | 496_545bbbf50b90c8a4 | drop | partial | E1;B4 | drop | agree |
 | 497_c25abad70c85c6e8 | drop | full | E1;E4 | drop | agree |
-| 498_34133f5414afff81 | fix | partial | A2 | clean | DISAGREE |
+| 498_34133f5414afff81 | clean | full |  | clean | agree |
 | 499_99f44bf526a302ff | clean | full |  | clean | agree |
