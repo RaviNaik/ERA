@@ -156,14 +156,15 @@ tr.done td.title { text-decoration: line-through; color: var(--muted); }
         <button role="tab" data-view="schedule" aria-selected="false">Schedule</button>
       </div>
       <div class="spacer"></div>
+      <span class="pill" id="saveState" role="status" aria-live="polite">Loading&hellip;</span>
       <button class="btn" id="themeBtn" title="Toggle light and dark">Theme</button>
       <div class="menu" id="dataMenu">
         <button class="btn" id="dataBtn" aria-haspopup="true">Data &#9662;</button>
         <div class="pop" role="menu">
-          <button id="exportJs">Export tasks.js (for git)</button>
-          <button id="exportJson">Export JSON backup</button>
-          <button id="importBtn">Import JSON or tasks.js</button>
-          <button id="resetBtn" class="danger">Reset to tasks.js in the repo</button>
+          <button id="reloadBtn">Reload from tasks.json</button>
+          <button id="backupsBtn">Restore a backup&hellip;</button>
+          <button id="exportJson">Download a copy (JSON)</button>
+          <button id="importBtn" class="danger">Replace tasks.json from a file&hellip;</button>
         </div>
       </div>
       <button class="btn primary" id="newBtn">+ New task</button>
@@ -197,15 +198,14 @@ tr.done td.title { text-decoration: line-through; color: var(--muted); }
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Task details"></aside>
 <div class="toast" id="toast" role="status"></div>
-<input type="file" id="file" accept=".json,.js,application/json" hidden>
+<input type="file" id="file" accept=".json,application/json" hidden>
 
-<script src="tasks.js"></script>
 <script>
 (function () {
 "use strict";
 
 /* ---------- constants ---------- */
-var STORE = "era-v5-taskboard-v1";
+var THEME_KEY = "era-v5-taskboard-theme"; /* only the light/dark choice lives in the browser; all task data is in tasks.json */
 var STATUSES = [
   { id: "todo", label: "Pending" },
   { id: "progress", label: "In progress" },
@@ -217,27 +217,59 @@ var PRIORITIES = ["high", "medium", "low"];
 var TYPES = [{ id: "task", label: "Task" }, { id: "recurring", label: "Recurring" }, { id: "milestone", label: "Milestone" }];
 var REF_KINDS = [{ id: "pr", label: "PR" }, { id: "commit", label: "Commit" }, { id: "issue", label: "Issue" }, { id: "comment", label: "Comment" }, { id: "link", label: "Link" }];
 var WS_COLORS = ["#2457d6", "#c2410c", "#0f766e", "#7c3aed", "#b45309", "#be185d", "#4d7c0f", "#0369a1"];
-var SEED = window.TASKBOARD_SEED || { rev: 0, tasks: [], repos: {}, me: "" };
 
-/* ---------- state ---------- */
-var state = load();
-var ui = { view: "board", sort: { key: "due", dir: 1 }, openId: null, draft: null };
+/* ---------- state and persistence: every read and write goes to tasks.json through server.py ---------- */
+var state = { rev: 0, me: "", repos: {}, workstreams: [], tasks: [] };
+var ui = { view: "board", sort: { key: "due", dir: 1 }, openId: null, draft: null, loaded: false };
 var filters = { q: "", ws: "", status: "", assignee: "", week: "", type: "", mine: false, hideDone: false };
+var sync = { rev: 0, dirty: false, saving: false, conflict: false, timer: null, error: "" };
 
-function load() {
-  try {
-    var raw = localStorage.getItem(STORE);
-    if (raw) { var s = JSON.parse(raw); if (s && Array.isArray(s.tasks)) return s; }
-  } catch (e) { /* storage blocked: fall through to seed */ }
-  return fromSeed();
-}
-function fromSeed() {
-  return { baseRev: SEED.rev || 0, me: SEED.me || "", repos: clone(SEED.repos || {}), tasks: clone(SEED.tasks || []) };
-}
-function save() {
-  try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) { toast("Browser storage is blocked: changes are kept only until you close the tab. Use Data > Export."); }
-}
 function clone(o) { return JSON.parse(JSON.stringify(o)); }
+function api(method, url, body) {
+  var opts = { method: method, headers: { "X-Taskboard": "1" }, cache: "no-store" };
+  if (body !== undefined) { opts.headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(body); }
+  return fetch(url, opts).then(function (r) {
+    return r.json().catch(function () { return {}; }).then(function (j) {
+      if (!r.ok) { var e = new Error(j.error || ("HTTP " + r.status)); e.status = r.status; e.body = j; throw e; }
+      return j;
+    });
+  });
+}
+function normalize(d) { d.repos = d.repos || {}; d.workstreams = d.workstreams || []; d.me = d.me || ""; d.tasks = d.tasks || []; return d; }
+function loadData() {
+  return api("GET", "/api/data").then(function (d) {
+    state = normalize(d); sync.rev = d.rev || 0; sync.dirty = false; sync.conflict = false; ui.loaded = true; setSave("saved");
+  });
+}
+function setSave(kind, msg) {
+  var el = $("saveState"); if (!el) return;
+  var map = { pending: ["Unsaved changes", "soon"], saving: ["Saving to tasks.json…", "soon"], saved: ["Saved to tasks.json", "ok"],
+    conflict: ["tasks.json changed on disk", "overdue"], error: ["Not saved: " + (msg || "error"), "overdue"] };
+  var m = map[kind] || map.saved; el.className = "pill " + m[1]; el.textContent = m[0]; el.dataset.kind = kind;
+  el.title = kind === "error" ? "Click to retry" : "Rev " + sync.rev;
+}
+function save() { sync.dirty = true; setSave(sync.conflict ? "conflict" : "pending"); clearTimeout(sync.timer); sync.timer = setTimeout(function () { flush(false); }, 350); }
+function flush(force) {
+  if (sync.saving || !sync.dirty || (sync.conflict && !force)) return;
+  sync.saving = true; sync.dirty = false; setSave("saving");
+  var payload = clone(state); delete payload.rev;
+  api("PUT", "/api/data", { baseRev: sync.rev, data: payload, force: force === true }).then(function (r) {
+    sync.rev = r.rev; state.rev = r.rev; state.updated = r.updated; sync.saving = false; sync.conflict = false;
+    if (sync.dirty) flush(false); else { setSave("saved"); renderBanner(); renderSub(); }
+  }).catch(function (e) {
+    sync.saving = false; sync.dirty = true;
+    if (e.status === 409) { sync.conflict = true; setSave("conflict"); renderBanner(); }
+    else setSave("error", e instanceof TypeError ? "server not reachable" : e.message);
+  });
+}
+function checkDisk() {
+  if (!ui.loaded) return;
+  api("GET", "/api/rev").then(function (r) {
+    if (r.rev === sync.rev) return;
+    if (!sync.dirty && !sync.saving) { loadData().then(function () { render(); toast("tasks.json changed on disk: reloaded"); }); }
+    else { sync.conflict = true; setSave("conflict"); renderBanner(); }
+  }).catch(function () { /* server stopped: the next save reports it */ });
+}
 
 /* ---------- helpers ---------- */
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -262,8 +294,8 @@ function wsColor(ws) {
   return WS_COLORS[(i < 0 ? 0 : i) % WS_COLORS.length];
 }
 function wsList() {
-  var seen = [];
-  (SEED.tasks || []).concat(state.tasks).forEach(function (t) { if (t.workstream && seen.indexOf(t.workstream) < 0) seen.push(t.workstream); });
+  var seen = (state.workstreams || []).slice();
+  state.tasks.forEach(function (t) { if (t.workstream && seen.indexOf(t.workstream) < 0) seen.push(t.workstream); });
   return seen;
 }
 function allAssignees() {
@@ -337,16 +369,19 @@ function render() {
   if (ui.view === "board") v.innerHTML = boardHtml(list);
   else if (ui.view === "list") v.innerHTML = listHtml(list);
   else v.innerHTML = scheduleHtml(list);
-  $("sub").textContent = "Updated " + (SEED.updated || "") + " · " + state.tasks.length + " items · data saved in this browser";
+  renderSub();
   document.querySelectorAll(".tabs button").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.view === ui.view ? "true" : "false"); });
   wireDnD();
 }
 
+function renderSub() {
+  $("sub").textContent = "tasks.json · rev " + sync.rev + (state.updated ? " · updated " + state.updated : "") + " · " + state.tasks.length + " items";
+}
 function renderBanner() {
   var b = $("banner");
-  if ((SEED.rev || 0) > (state.baseRev || 0)) {
-    b.innerHTML = '<div class="banner"><span>A newer tasks.js (rev ' + esc(SEED.rev) + ') is in the repo.</span><span class="spacer"></span>' +
-      '<button class="btn small" data-act="mergeSeed">Merge new tasks, keep my edits</button><button class="btn small" data-act="dismissSeed">Keep mine, hide this</button></div>';
+  if (sync.conflict) {
+    b.innerHTML = '<div class="banner"><span><b>tasks.json was changed outside this page</b> (for example by git or a text editor), and you have unsaved edits here.</span><span class="spacer"></span>' +
+      '<button class="btn small" data-act="reloadFile">Load the file (drop my edits)</button><button class="btn small" data-act="overwriteFile">Save my version over the file</button></div>';
   } else b.innerHTML = "";
 }
 
@@ -507,7 +542,7 @@ function openDrawer(id, isNew) {
     '<div class="grid3"><div class="field"><label for="f_due">Deadline</label><input id="f_due" type="date" value="' + esc(t.due || "") + '"></div>' +
     '<div class="field"><label for="f_dueTime">Due time (IST)</label><input id="f_dueTime" value="' + esc(t.dueTime || "23:59") + '" placeholder="23:59"></div>' +
     '<div class="field"><label for="f_week">Week</label><input id="f_week" type="number" min="1" max="8" value="' + esc(t.week == null ? "" : t.week) + '"></div></div>' +
-    '<div class="grid2"><div class="field"><label for="f_ws">Workstream</label><select id="f_ws">' + wsOpts + '</select></div>' +
+    '<div class="grid2"><div class="field"><label for="f_ws">Workstream</label><select id="f_ws">' + wsOpts + '</select><input id="f_wsNew" placeholder="or type a new workstream" style="margin-top:6px"></div>' +
     '<div class="field"><label for="f_recurring">Repeats (for recurring)</label><select id="f_recurring">' +
     ["", "daily", "weekly"].map(function (r) { return opt(r, r || "Does not repeat", (t.recurring || "") === r); }).join("") + "</select></div></div>" +
     '<div class="field"><span class="lbl">Assignees</span><div class="chips" id="assignChips"></div>' +
@@ -557,7 +592,7 @@ function readForm() {
   t.status = $("f_status").value; t.priority = $("f_priority").value; t.type = $("f_type").value;
   t.due = $("f_due").value; t.dueTime = $("f_dueTime").value.trim() || "23:59";
   var w = $("f_week").value; t.week = w === "" ? null : +w;
-  t.workstream = $("f_ws").value; t.recurring = $("f_recurring").value;
+  t.workstream = $("f_wsNew").value.trim() || $("f_ws").value; t.recurring = $("f_recurring").value;
   t.labels = $("f_labels").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
   t.blockedBy = $("f_blocked").value.trim();
   return t;
@@ -568,6 +603,7 @@ function saveTask() {
   var prev = ui.isNew ? null : find(t.id);
   if (t.status === "done") { if (!prev || prev.status !== "done") t.completedAt = todayStr(); } else delete t.completedAt;
   if (t.type !== "recurring") delete t.recurring;
+  if (state.workstreams.indexOf(t.workstream) < 0) state.workstreams.push(t.workstream);
   touch(t);
   if (ui.isNew) { state.tasks.push(t); toast(t.id + " created"); }
   else { var i = state.tasks.indexOf(prev); state.tasks[i] = t; toast(t.id + " saved"); }
@@ -575,17 +611,22 @@ function saveTask() {
 }
 
 /* ---------- import / export ---------- */
-function exportObj() { return { rev: (SEED.rev || 0) + 1, updated: todayStr(), me: state.me, repos: state.repos, tasks: state.tasks }; }
 function download(name, text, mime) {
   var a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([text], { type: mime })); a.download = name; document.body.appendChild(a); a.click();
   setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
-function parseImport(text) {
-  var s = text.trim();
-  var m = /window\.TASKBOARD_SEED\s*=\s*([\s\S]*?);?\s*$/.exec(s);
-  var json = m ? m[1].replace(/;\s*$/, "") : s;
-  try { return JSON.parse(json); } catch (e) { return null; }
+function openBackups() {
+  api("GET", "/api/backups").then(function (r) {
+    var d = $("drawer"); ui.draft = null; ui.openId = null;
+    d.innerHTML = '<header><h2>Backups of tasks.json</h2><button class="btn small" data-act="closeDrawer">Close</button></header><div class="body">' +
+      '<p style="margin:0;color:var(--muted)">The server copies tasks.json to the <code>backups</code> folder before it changes (at most one every 5 minutes, newest 40 kept) and always before an import or restore. Restoring first backs up the current file.</p>' +
+      (r.backups.length ? r.backups.map(function (b) {
+        return '<div class="ref"><span style="flex:1">' + esc(b.time) + ' &middot; ' + (b.tasks == null ? "unreadable" : b.tasks + " tasks") + '<br><small style="color:var(--muted)">' + esc(b.name) + '</small></span>' +
+          '<button class="btn small" data-restore="' + esc(b.name) + '">Restore</button></div>';
+      }).join("") : '<div class="empty">No backups yet. The first one appears after your next save.</div>') + "</div>";
+    $("overlay").classList.add("open"); d.classList.add("open"); d.setAttribute("aria-hidden", "false");
+  }).catch(function (e) { toast("Could not list backups: " + e.message); });
 }
 
 /* ---------- events ---------- */
@@ -633,12 +674,8 @@ function doAct(a) {
     var tx = $("c_text").value.trim(); if (!tx) return;
     ui.draft.comments.push({ at: new Date().toISOString().slice(0, 16), by: state.me || "Me", text: tx }); $("c_text").value = ""; renderComments();
   }
-  else if (a === "mergeSeed") {
-    var have = {}; state.tasks.forEach(function (t) { have[t.id] = 1; });
-    var added = 0; (SEED.tasks || []).forEach(function (t) { if (!have[t.id]) { state.tasks.push(clone(t)); added++; } });
-    state.baseRev = SEED.rev; save(); render(); toast(added + " new task(s) merged; your edits were kept");
-  }
-  else if (a === "dismissSeed") { state.baseRev = SEED.rev; save(); render(); }
+  else if (a === "reloadFile") { clearTimeout(sync.timer); loadData().then(function () { renderBanner(); render(); toast("Loaded tasks.json"); }).catch(function (e) { toast("Could not load: " + e.message); }); }
+  else if (a === "overwriteFile") { sync.conflict = false; sync.dirty = true; flush(true); toast("Saving your version over tasks.json (the old file is backed up)"); }
 }
 $("newBtn").addEventListener("click", function () { openDrawer(null, true); });
 $("q").addEventListener("input", function () { filters.q = this.value; render(); $("q").focus(); var v = $("q"); v.setSelectionRange(v.value.length, v.value.length); });
@@ -648,35 +685,52 @@ $("fHideDone").addEventListener("change", function () { filters.hideDone = this.
 $("clearF").addEventListener("click", function () { filters = { q: "", ws: "", status: "", assignee: "", week: "", type: "", mine: false, hideDone: false }; render(); });
 document.querySelectorAll(".tabs button").forEach(function (b) { b.addEventListener("click", function () { ui.view = b.dataset.view; render(); }); });
 $("dataBtn").addEventListener("click", function (e) { e.stopPropagation(); $("dataMenu").classList.toggle("open"); });
-$("exportJs").addEventListener("click", function () {
-  var head = "/* Seed data for the ERA V5 capstone task board. Exported " + new Date().toISOString().slice(0, 16) + ". Replace taskboard/tasks.js with this file and commit it. */\n";
-  download("tasks.js", head + "window.TASKBOARD_SEED = " + JSON.stringify(exportObj(), null, 2) + ";\n", "text/javascript"); $("dataMenu").classList.remove("open"); toast("Exported tasks.js");
+$("reloadBtn").addEventListener("click", function () {
+  $("dataMenu").classList.remove("open");
+  if ((sync.dirty || sync.saving) && !confirm("You have changes that are not saved yet. Load tasks.json anyway?")) return;
+  clearTimeout(sync.timer);
+  loadData().then(function () { render(); toast("Loaded tasks.json"); }).catch(function (e) { toast("Could not load: " + e.message); });
 });
-$("exportJson").addEventListener("click", function () { download("taskboard-backup-" + todayStr() + ".json", JSON.stringify(exportObj(), null, 2), "application/json"); $("dataMenu").classList.remove("open"); toast("Exported JSON backup"); });
+$("backupsBtn").addEventListener("click", function () { $("dataMenu").classList.remove("open"); openBackups(); });
+$("exportJson").addEventListener("click", function () { download("taskboard-copy-" + todayStr() + ".json", JSON.stringify(state, null, 2) + "\n", "application/json"); $("dataMenu").classList.remove("open"); toast("Downloaded a copy"); });
 $("importBtn").addEventListener("click", function () { $("file").click(); $("dataMenu").classList.remove("open"); });
 $("file").addEventListener("change", function () {
   var f = this.files[0]; if (!f) return;
   var r = new FileReader();
   r.onload = function () {
-    var o = parseImport(String(r.result));
-    if (!o || !Array.isArray(o.tasks)) { toast("That file is not a task board export"); return; }
-    if (!confirm("Replace the " + state.tasks.length + " tasks in this browser with " + o.tasks.length + " tasks from the file?")) return;
-    state = { baseRev: o.rev || 0, me: o.me || state.me, repos: o.repos || state.repos, tasks: o.tasks }; save(); render(); toast("Imported " + o.tasks.length + " tasks");
+    var o = null; try { o = JSON.parse(String(r.result)); } catch (e) { /* reported below */ }
+    if (!o || !Array.isArray(o.tasks)) { toast("That file is not a task board JSON file"); return; }
+    if (!confirm("Replace tasks.json (" + state.tasks.length + " tasks) with this file (" + o.tasks.length + " tasks)? The current file is backed up first.")) return;
+    state = normalize(o); sync.conflict = false; sync.dirty = true; flush(true); render(); toast("Replacing tasks.json");
   };
   r.readAsText(f); this.value = "";
 });
-$("resetBtn").addEventListener("click", function () {
-  $("dataMenu").classList.remove("open");
-  if (confirm("Discard all edits made in this browser and reload tasks.js from the repo?")) { state = fromSeed(); save(); render(); toast("Reset to tasks.js"); }
+document.addEventListener("click", function (e) {
+  var rs = e.target.closest("[data-restore]"); if (!rs) return;
+  if (!confirm("Restore " + rs.dataset.restore + "? The current tasks.json is backed up first.")) return;
+  api("POST", "/api/restore", { name: rs.dataset.restore }).then(function () { return loadData(); })
+    .then(function () { closeDrawer(); render(); toast("Backup restored"); }).catch(function (er) { toast("Restore failed: " + er.message); });
 });
+$("saveState").addEventListener("click", function () { if (this.dataset.kind === "error") { sync.dirty = true; flush(false); } });
 $("themeBtn").addEventListener("click", function () {
   var cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   var nxt = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = nxt;
-  try { localStorage.setItem(STORE + "-theme", nxt); } catch (e) {}
+  try { localStorage.setItem(THEME_KEY, nxt); } catch (e) { /* theme is optional */ }
 });
-try { var th = localStorage.getItem(STORE + "-theme"); if (th) document.documentElement.dataset.theme = th; } catch (e) {}
+try { var th = localStorage.getItem(THEME_KEY); if (th) document.documentElement.dataset.theme = th; } catch (e) { /* theme is optional */ }
 
-render();
+window.addEventListener("beforeunload", function (e) { if (sync.dirty || sync.saving) { e.preventDefault(); e.returnValue = ""; } });
+document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") checkDisk(); });
+window.addEventListener("focus", checkDisk);
+
+function boot() {
+  loadData().then(function () { render(); }).catch(function (e) {
+    setSave("error", "server not reachable");
+    $("view").innerHTML = '<div class="banner" style="display:block"><b>Cannot load tasks.json.</b> ' + esc(e instanceof TypeError ? "The task board server is not running." : e.message) +
+      '<br>Start it from the <code>taskboard</code> folder with <code>python3 server.py</code> and the board opens at <code>http://127.0.0.1:8765/</code>. Opening <code>index.html</code> directly cannot read or write the data file.</div>';
+  });
+}
+boot();
 })();
 </script>
 </body>
