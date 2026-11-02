@@ -1,5 +1,4 @@
 {
-  "rev": 3,
   "updated": "2026-11-02",
   "me": "Ravi Naik",
   "repos": {
@@ -489,6 +488,16 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "No request to G3 yet: nothing in the G3 chat or on issue #132 as of the 1 Nov evening check. G3 owns the rename; G3 freeze report is Thu 12 Nov."
+        },
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Included in the drafted message to Sai Teja (PR #20 message). Not yet posted."
+        },
+        {
+          "at": "2026-11-02T12:35",
+          "by": "Ravi Naik",
+          "text": "Raised with Sai Teja in the posted PR #20 message. Waiting for him to ask G3."
         }
       ]
     },
@@ -498,7 +507,7 @@
       "workstream": "G10 Post-training",
       "title": "Member A: render.py and tests read the IDs from the Team 3 tokenizer file",
       "desc": "Remove the 0 to 29 / 000 to 255 numbering. render.py still uses its own IDs in tokenize_markers().",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [],
       "due": "2026-11-02",
@@ -507,8 +516,20 @@
         "render.py",
         "member-A"
       ],
-      "refs": [],
-      "comments": []
+      "refs": [
+        {
+          "kind": "commit",
+          "repo": "fork",
+          "ref": "ca9e785"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Done by Sai Teja in ca9e785 on his branch: render.py reads Team 3 IDs (build_v0_1.py, with special_tokens_v1.md as fallback); 000-255 numbering removed. 36 tests pass; both loading paths checked."
+        }
+      ]
     },
     {
       "id": "T-025",
@@ -532,6 +553,16 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Rammohan asked the same on 31 Oct and got no letters, only \"check the pinned instructions\". Bring to the 9 pm call."
+        },
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Included in the drafted message to Sai Teja (PR #20 message). Not yet posted."
+        },
+        {
+          "at": "2026-11-02T12:35",
+          "by": "Ravi Naik",
+          "text": "Raised with Sai Teja in the posted PR #20 message. Waiting for the member letters."
         }
       ]
     },
@@ -568,6 +599,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Sai Teja lists the last two placeholder sections: Section 5 (Ashish Kamble) and Section 11 (Syed Abdul). Neither PR has arrived. TSAI says extra datasets stay as candidates only."
+        },
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "PR #20 adds 4 rows and sections and updates the excluded count (now 23) and the Team 11 hand-off block. Sections 5 and 11 are still open."
         }
       ]
     },
@@ -606,7 +642,13 @@
         "member-B"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Offered in the PR #20 message: I can take Member B (convert.py) if nobody holds it. Needs Sai Teja to confirm the letters (T-025). Due Tue 3 Nov."
+        }
+      ]
     },
     {
       "id": "T-029",
@@ -633,7 +675,7 @@
       "workstream": "G10 Post-training",
       "title": "sft/sft_mix_proposal.md, first version",
       "desc": "Code, agentic, tool use, Indic, general: a share and a reason for each. Lead and Member B. Final proposal due Thu 12 Nov.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Sai Teja"
@@ -644,12 +686,28 @@
         "sft",
         "gate-2"
       ],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "commit",
+          "repo": "fork",
+          "ref": "479d3e0"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Sai Teja already has a draft sft/sft_mix_proposal.md on g10-week1-post-training and asked the group to review. He also listed 5 excluded rotation-suggested sets (OpenHermes 2.5, Tulu 3 filtered, SWE-Gym trajectories, UltraFeedback clean, Nectar RM)."
+        },
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "First version done by Sai Teja in 479d3e0. Revised by our PR #20 (licence gaps); final proposal is T-031 (Thu 12 Nov)."
         }
       ]
     },
@@ -785,7 +843,7 @@
       "workstream": "G10 Post-training",
       "title": "Give licence facts to Team 11 (Release)",
       "desc": "Due Wed 4 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Sai Teja"
@@ -796,7 +854,13 @@
         "handoff"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Team 11 hand-off block is in licence_table.md (479d3e0); updated again in PR #20 for the new decisions."
+        }
+      ]
     },
     {
       "id": "T-038",
@@ -1264,7 +1328,7 @@
       "workstream": "G10 Post-training",
       "title": "Review Sai Teja's 5 exclusions and his sft_mix_proposal.md draft",
       "desc": "He tagged Amit and Ravi. Check each exclusion against the licence rule (closed OpenAI/Anthropic/Google or Llama output is out) and comment on the mix shares.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik",
@@ -1276,8 +1340,20 @@
         "licence",
         "sft-mix"
       ],
-      "refs": [],
-      "comments": []
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Reviewed against the dataset cards and fixed in fork PR #20: 3 unrecorded Nemotron sets added, NuminaMath-1.5 excluded, aya_collection narrowed. Points 4 (wording) and 5 (decontamination claims) not included."
+        }
+      ]
     },
     {
       "id": "T-072",
@@ -1341,7 +1417,7 @@
       "workstream": "Individual: code-go",
       "title": "Post the harm-test result as a comment on PR #36",
       "desc": "Short comment for TSAI and Data A: PASS on the official Go gold set, the extractor wording fix, and the open question about the 29 disputed rows. Draft is ready; post only after approval.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1356,9 +1432,22 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "36"
+        },
+        {
+          "kind": "comment",
+          "repo": "lab",
+          "ref": "36#issuecomment-6570603151"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T12:28",
+          "by": "Ravi Naik",
+          "text": "Posted on PR #36 on 2 Nov (harm test PASS, extractor wording fix, question to Data A about the 29 disputed rows)."
+        }
+      ],
+      "updated": "2026-11-02T06:26",
+      "completedAt": "2026-11-02"
     },
     {
       "id": "T-075",
@@ -1403,6 +1492,89 @@
       ],
       "refs": [],
       "comments": []
+    },
+    {
+      "id": "T-077",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "PR #20: get Sai Teja to review and merge (message posted)",
+      "desc": "The message to Sai Teja was posted in the G10 group on 2 Nov. Waiting for his reply and for him to merge fork PR #20.",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-02",
+      "week": 2,
+      "labels": [
+        "licence",
+        "pr-20"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-02T12:35",
+          "by": "Ravi Naik",
+          "text": "Message posted by Ravi in the G10 group. Waiting for Sai Teja."
+        }
+      ]
+    },
+    {
+      "id": "T-078",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Check the source dataset and licence of each of the 12 aya_collection Indic subsets",
+      "desc": "PR #20 keeps 12 templated Indic subsets (Hindi, Bengali, Tamil, Telugu) only after each subset's source, licence and origin are written in its licence_table section. Good task for a rotation member.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [],
+      "due": "2026-11-14",
+      "week": 2,
+      "labels": [
+        "licence",
+        "rotation"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-079",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Ask TSAI: NLLB (cc-by-nc-4.0) licence question and a NuminaMath-1.5 source-filtered subset",
+      "desc": "Two open questions from PR #20. Does a translation made with an NC-licensed model carry the restriction? Could a subset of NuminaMath-1.5 with only manually parsed sources be allowed? Lead asks in the G10 thread or CAP.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "licence",
+        "tsai"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
+      "comments": []
     }
-  ]
+  ],
+  "rev": 6
 }
