@@ -37,6 +37,7 @@ header.top .wrap { padding-bottom: 0; }
 .brand small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
 .spacer { flex: 1; }
 .btn { border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 7px 12px; cursor: pointer; font-weight: 500; }
+a.btn { text-decoration: none; color: var(--text); display: inline-block; }
 .btn:hover { background: var(--surface-2); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
@@ -156,6 +157,7 @@ tr.done td.title { text-decoration: line-through; color: var(--muted); }
         <button role="tab" data-view="schedule" aria-selected="false">Schedule</button>
       </div>
       <div class="spacer"></div>
+      <a class="btn" href="/guide.html" title="How every activity serves the larger goal">Big picture</a>
       <span class="pill" id="saveState" role="status" aria-live="polite">Loading&hellip;</span>
       <button class="btn" id="themeBtn" title="Toggle light and dark">Theme</button>
       <div class="menu" id="dataMenu">

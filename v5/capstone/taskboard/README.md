@@ -17,6 +17,10 @@ Options: `--no-open` (do not open a browser), `--port 9000`, `--data /path/to/ot
 
 Opening `index.html` directly (double-click) does not work: a web page cannot write files, so the board shows how to start the server.
 
+## Big picture guide
+
+**Big picture** (header button, or <http://127.0.0.1:8765/guide.html>) is a reading page: the end goal (an Indic, coding, math and science LLM trained from scratch), the pipeline, what each team did in week 1 and plans for week 2 onward, and a deep section on G10 and our own `code-go` work. It is one static file, `guide.html`, and needs the server only because the server serves it.
+
 ## Where the data is and how it is protected
 
 | What | Where |

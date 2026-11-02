@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERA V5 Capstone Big Picture</title>
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface-2:#f0f2f5;--border:#dde1e7;--text:#1b2430;--muted:#5d6b7c;--accent:#2457d6;--accent-soft:#e3ebfc;--warn:#a15c00;--warn-soft:#fff1d6;--ok:#1b7a3e;--ok-soft:#e0f4e8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11151b;--surface:#1a2029;--surface-2:#212936;--border:#2d3746;--text:#e6ebf2;--muted:#93a1b4;--accent:#7ba2ff;--accent-soft:#1f2f55;--warn:#ffc266;--warn-soft:#3a2d12;--ok:#6fd69a;--ok-soft:#163325}}
+:root[data-theme="dark"]{--bg:#11151b;--surface:#1a2029;--surface-2:#212936;--border:#2d3746;--text:#e6ebf2;--muted:#93a1b4;--accent:#7ba2ff;--accent-soft:#1f2f55;--warn:#ffc266;--warn-soft:#3a2d12;--ok:#6fd69a;--ok-soft:#163325}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border)}
+.top .in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.top b{flex:1}
+a{color:var(--accent)}
+.btn{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--text);text-decoration:none;font:inherit;font-size:14px}
+.layout{max-width:1080px;margin:0 auto;padding:16px;display:grid;grid-template-columns:220px 1fr;gap:28px}
+nav{position:sticky;top:64px;align-self:start;font-size:14px}
+nav a{display:block;padding:4px 0;text-decoration:none;color:var(--muted)}nav a:hover{color:var(--accent)}
+main{min-width:0}
+h1{font-size:28px;line-height:1.25;margin:8px 0 6px}
+h2{font-size:22px;margin:40px 0 8px;padding-top:8px;border-top:1px solid var(--border)}
+h3{font-size:17px;margin:24px 0 4px}
+p,li{max-width:74ch}
+.lead{color:var(--muted);font-size:17px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:12px 0}
+.card.why{background:var(--accent-soft);border-color:transparent}
+.card.warn{background:var(--warn-soft);border-color:transparent}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--muted);margin-right:4px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0;display:block;overflow-x:auto}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top}th{background:var(--surface-2)}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0;font-size:14px}
+.flow span{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px}
+.flow i{color:var(--muted);font-style:normal}
+.mine{border-left:4px solid var(--accent)}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600}
+@media(max-width:800px){.layout{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in"><b>ERA V5 Capstone: big picture</b><a class="btn" href="/">Back to board</a><button class="btn" id="th">Theme</button></div></div>
+<div class="layout">
+<nav>
+<a href="#goal">1. The goal</a><a href="#pipeline">2. The pipeline</a><a href="#teams">3. The 12 teams</a>
+<a href="#w1">4. Week 1</a><a href="#w2">5. Week 2</a><a href="#w34">6. Weeks 3 and 4</a>
+<a href="#gates">7. Gates and decisions</a><a href="#g10">8. G10 in depth</a><a href="#mine">9. Our own work</a>
+<a href="#rules">10. Rules that protect quality</a><a href="#open">11. Open questions</a>
+</nav>
+<main>
+<h1>How every activity serves one goal</h1>
+<p class="lead">The goal: train a language model from scratch that is strong at Indian languages, coding, maths and science, and that behaves as an agentic assistant. Twelve teams each own one piece. This page explains, piece by piece and week by week, what is done and why it matters. It is built from the Lab 2 briefing, the course sessions (S17 on SFT in particular), the group chats and our own work. Dates are IST, 2026.</p>
+
+<h2 id="goal">1. The goal and why it is hard</h2>
+<p>A model is only as good as five things: the text it reads, the way that text is cut into tokens, the network that learns from it, the hardware time spent well, and the training after pre-training that turns it into an assistant. A weakness in any one shows up in the final model. Three examples that drive many decisions here:</p>
+<ul>
+<li><b>Indic scripts break easily.</b> Zero-width joiner and non-joiner characters (ZWJ/ZWNJ) change how a Hindi, Bengali or Malayalam word is shaped. A cleaning step that drops them, or a Unicode normalisation (NFKC) that rewrites them, silently damages the language. So every cleaning rule is tested against a gold set before it is allowed near the data.</li>
+<li><b>A tokenizer decides how much Indic text costs.</b> If a language needs many tokens per word (high fertility), the model sees less of it per training step and pays more to serve it. The current tokenizer baseline has mean fertility 2.8355 on FLORES, and the first new candidate is 15.96% better on Indic text while English is only 1.98% worse (the limit is 2%).</li>
+<li><b>Scores must be honest.</b> If benchmark questions leak into training data, the score means nothing. Decontamination and licences are treated as hard gates, not paperwork.</li>
+</ul>
+
+<h2 id="pipeline">2. The pipeline end to end</h2>
+<div class="flow"><span>Raw sources</span><i>&rarr;</i><span>Clean + dedup (G1, G2)</span><i>&rarr;</i><span>Tokenizer (G3) + KE2 codes (G4)</span><i>&rarr;</i><span>Model config (G5) + speed (G6)</span><i>&rarr;</i><span>Pre-training on shared compute (G7, G8)</span><i>&rarr;</i><span>SFT + RL (G10)</span><i>&rarr;</i><span>Quantize + serve (G12)</span><i>&rarr;</i><span>Release (G11)</span></div>
+<p>Evaluation (G9) sits across the whole chain: it supplies the benchmarks that tell every other team whether a change helped, and the fingerprints that keep benchmark text out of training data.</p>
+<div class="card why"><b>Where our team fits.</b> Pre-training gives a base model that only predicts the next token. SFT is the step that turns it into an assistant: it reasons when needed, calls tools, answers once and stops. The loss is the same next-token loss, but the data is conversations and agent trajectories in one fixed chat format, and only the tokens the assistant writes are trained on. After SFT, RL scores attempts with checkers (tests, references) and pushes the model towards the ones that pass. Everything G10 produces is the raw material for those two stages.</div>
+
+<h2 id="teams">3. The twelve teams and what each contributes</h2>
+<table>
+<tr><th>Team</th><th>Owns</th><th>How it helps the goal</th></tr>
+<tr><td>01 Data A</td><td>English, code, maths, science data</td><td>The knowledge and the reasoning skill of the model. Builds gold sets and harm tests so cleaning never damages good text.</td></tr>
+<tr><td>02 Data B</td><td>Indic data, 8 languages</td><td>The Indic ability. Its harm test protects ZWJ/ZWNJ. Decides, with TSAI, the native Indic share and the cap on romanised text.</td></tr>
+<tr><td>03 Tokenizer</td><td>Vocabulary of 131,072 tokens, special tokens</td><td>Cost and quality of every language. Reserves IDs 130,822 to 131,071 for special tokens, which is where our chat markers live.</td></tr>
+<tr><td>04 KE2</td><td>Decode tables for the 131,072 codes</td><td>A compact code scheme for tokens; all codes are distinct, so no two tokens collide.</td></tr>
+<tr><td>05 Architecture</td><td>Model config (attention, experts, optimizer)</td><td>The shape of the network. Config v0 has a checker and a seeded smoke test; v1 is a Gate 2 decision.</td></tr>
+<tr><td>06 Performance</td><td>Speed of training</td><td>More tokens per GPU hour. Found the step is CPU-bound, with host syncs in expert dispatch.</td></tr>
+<tr><td>07 Infrastructure</td><td>Checkpoint contract, job queue, health checks</td><td>Runs survive failures; 44 drills practised. Everyone submits work through the queue (no cloud keys).</td></tr>
+<tr><td>08 Monitoring</td><td>Viewer, tracker, metric list</td><td>We can see a run going wrong before compute is wasted.</td></tr>
+<tr><td>09 Evaluation</td><td>Benchmarks, fingerprints, decontamination, eval-mini</td><td>The ruler for every decision. Fingerprints for 17 benchmarks; v2 due Wed 4 Nov.</td></tr>
+<tr class="mine"><td><b>10 Post-training</b> (us)</td><td>Chat format, licence-clean SFT/RL data, SWE environments, verifier</td><td>Turns the base model into a coding, agentic and Indic assistant.</td></tr>
+<tr><td>11 Release</td><td>Public/internal list, style guide, consent form</td><td>What may be published and under which licence; consumes our licence table.</td></tr>
+<tr><td>12 Quantization</td><td>Smaller formats, GGUF, serving</td><td>Makes the model cheap to run. Needs our chat template, and tests the tokenizer survives a GGUF round trip.</td></tr>
+</table>
+
+<h2 id="w1">4. Week 1 (Sun 25 to Sat 31 Oct): build the pieces and the safety nets</h2>
+<p>Week 1 produced starting versions of everything, plus the checks that stop bad changes. Totals: 38 sample packs (English, code, maths, science, 8 Indic languages) and 92 diagnosis PRs.</p>
+<table>
+<tr><th>Team</th><th>Week 1 result</th><th>Why it matters</th></tr>
+<tr><td>Data A</td><td>Gold sets, harm test, medicine collector; 1% rule adjusted for small gold sets</td><td>A "medicine" (cleaning rule) may only change or drop at most max(1 doc, 1%) of a gold set. This is the safety net.</td></tr>
+<tr><td>Data B</td><td>Indic gold builder and harm test</td><td>Same net for Indic, protecting ZWJ/ZWNJ.</td></tr>
+<tr><td>Tokenizer</td><td>Baseline reproduced; candidate c0; special-token slots v0</td><td>Proves we can match the baseline, then beat it on Indic.</td></tr>
+<tr><td>KE2</td><td>Decode tables, 131,072 distinct codes</td><td>Correctness base for the code scheme.</td></tr>
+<tr><td>Architecture / Performance</td><td>Config v0 + checker; timing harness</td><td>A runnable model and a measured bottleneck.</td></tr>
+<tr><td>Infrastructure / Monitoring</td><td>Checkpoint contract, job queue, 44 drills; viewer and tracker</td><td>Reliable runs we can watch.</td></tr>
+<tr><td>Evaluation</td><td>Benchmark list with licences, 17 fingerprints, decontamination check, eval-mini v0</td><td>The ruler and the leak detector.</td></tr>
+<tr class="mine"><td>Post-training (us)</td><td>Chat format v0, renderer, one SWE task, licence table</td><td>The format every SFT sample will be written in, and the first licence decisions.</td></tr>
+<tr><td>Release / Quantization</td><td>Public/internal list, style guide, consent form; tools survey and 7 formats of OLMoE on eval-mini (PR #154)</td><td>Release rules early; first data on how small the model can get.</td></tr>
+</table>
+<p>Each person also diagnosed one source pack and proposed cleaning rules. Gate 1 closed Sat 31 Oct 23:59.</p>
+
+<h2 id="w2">5. Week 2 (1 to 4 Nov and 12 to 14 Nov): turn pieces into decisions</h2>
+<p>Work days are 1 to 4 Nov and 12 to 13 Nov, with a break from 5 to 11 Nov. Everyone also joins a rotation team. Each work evening needs a daily note: done, blocked, next.</p>
+<table>
+<tr><th>Team</th><th>Week 2 goal</th><th>What it feeds</th></tr>
+<tr><td>Data A and B</td><td>Apply cleaning spec v1 to the tokenizer sample (87-file week-2 sample v0), design dedup, rank sources, define shard format</td><td>The tokenizer is trained on cleaned text; the same spec becomes the pre-training pipeline.</td></tr>
+<tr><td>Tokenizer</td><td>Candidates C1 to C3 retrained on sample v0; freeze report Thu 12 Nov; frozen tokenizer Sat 14 Nov</td><td>Everything downstream (renderer, GGUF, KE2) waits on the frozen vocabulary.</td></tr>
+<tr><td>Evaluation</td><td>Fingerprints v2 due Wed 4 Nov</td><td>Our decontamination check (task C) needs them.</td></tr>
+<tr><td>Quantization</td><td>Smallest format that keeps the score; GGUF round trip (same token IDs on every line, ZWJ/ZWNJ kept, no NFKC); bitwidth proposal Thu 12 Nov</td><td>Decides how cheaply the final model can be served.</td></tr>
+<tr class="mine"><td>Post-training (us)</td><td>Fix chat format on the frozen tokenizer, licence-clean SFT/RL data, 20 SWE environments, code verifier</td><td>See section 8.</td></tr>
+</table>
+
+<h2 id="w34">6. Weeks 3 and 4</h2>
+<ul>
+<li><b>Week 3 (15 to 21 Nov):</b> second rotation (for Ravi, G5 Architecture). Teams act on the Gate 2 decisions: config v1, the data pipeline at scale, evaluation of first small runs.</li>
+<li><b>Week 4:</b> core teams only; assembling the final runs, SFT mix experiments, evaluation and release. This is where the SFT mixture is chosen by proxy runs on a small model, then confirmed by full runs.</li>
+</ul>
+<p>The exact week 3 and 4 task lists are not published yet; this page will need updating when they are.</p>
+
+<h2 id="gates">7. Gates and the decisions TSAI makes</h2>
+<p>Gate 1 (31 Oct) checked week 1 deliverables. Gate 2 (Sat 14 Nov, proposals due Thu 12 Nov) is where the shared choices are locked:</p>
+<ul>
+<li>Tokenizer freeze and the KE2 decision</li>
+<li>Model config v1: attention type, expert count, optimizer</li>
+<li>Native Indic share and the romanised cap</li>
+<li>Dedup design, source priority and cleaning spec v1.1</li>
+<li>SFT mix and quantization bit widths</li>
+</ul>
+<p>Our SFT mix proposal and the chat template for G12 are both due before Gate 2 for that reason.</p>
+
+<h2 id="g10">8. G10 Post-training and Agentic, in depth</h2>
+<p>The Session 17 lesson sets the question we answer: what exactly do we train on, in what format and with what settings, so the model becomes a strong coding and agentic assistant that also works in Indian languages?</p>
+
+<h3>A. Chat format and renderer (task A)</h3>
+<p><b>What:</b> ChatML with four roles (system, user, assistant, tool). Every structural marker is one special token: <code>&lt;|im_start|&gt;</code>, <code>&lt;|im_end|&gt;</code>, think and tool-call markers. Effort is a plain text line at the top of the system turn, <code>Reasoning effort: 4k</code>, levels 1k, 4k, 16k, 64k. <code>render.py</code> turns a conversation into token IDs and a loss mask, and rejects a literal <code>&lt;think&gt;</code> typed as text.</p>
+<p><b>Why it matters:</b> training and serving must use the identical format, or quality falls. Special tokens make turn boundaries safe: a user cannot fake a system turn by typing text. The loss mask is what teaches the model to write only assistant text. The slot map is shared with G3: the g10 slots start at ID 130,822. Slots 05 and 06 (subagent call and return) still need renaming by G3.</p>
+<p><b>Deadlines:</b> chat template to G12 Thu 12 Nov; render tests on the frozen tokenizer Sat 14 Nov.</p>
+
+<h3>B. Licence table (the data gate)</h3>
+<p><b>What:</b> every candidate SFT or RL set gets a row: licence, who or what generated the text, and a decision. In: permissive and CC-BY-SA with attribution, open-weight generators with permissive output terms (for example gpt-oss). Out: non-commercial, no-derivatives, unstated licences, text from closed OpenAI, Anthropic or Google models or from Llama models, untraceable sources.</p>
+<p><b>Why it matters:</b> a teacher's output carries the teacher's terms. If we train on data we may not use, the final model cannot be released (G11) and the work is lost. Our fork PR #20 closed three gaps: three Nemotron sets with no row at all (up to 22% of the mix), NuminaMath-1.5 with no single generator (excluded), and the Aya collection narrowed to 12 templated Indic subsets with the rest excluded. Still missing: sections for two members.</p>
+
+<h3>C. Conversion to chat format (task B, <code>convert.py</code>)</h3>
+<p><b>What:</b> adapters read each licensed open dataset, render it with <code>render.py</code>, mark loss spans (assistant bodies plus the end marker), derive an effort label from the think plus tool trace, and write a manifest per set (source, licence, generator, decision, rows, content hash). It refuses sets the licence table excludes. Four adapters exist (self-oss-instruct, codeforces-cots, swe-rebench-openhands, aya_dataset); the rest of the proposal's sets still need adapters.</p>
+<p><b>Why it matters:</b> this is the bridge from "datasets on the internet" to "tokens the trainer can use". The manifest makes every training row traceable, which is what the licence rule and decontamination both need.</p>
+
+<h3>D. Decontamination (task C)</h3>
+<p><b>What:</b> <code>decontam_check.py</code> compares SFT/RL prompts against the G9 fingerprints (v2 due 4 Nov) and writes <code>sft/decontam_report.md</code>; rerun Fri 13 Nov.</p>
+<p><b>Why it matters:</b> Kolibri-1 removed only 0.005% of rows, but we still check every source against every benchmark we report, because a score is only useful when it can be trusted.</p>
+
+<h3>E. SFT mix proposal (lead and member B)</h3>
+<p><b>What:</b> Code 35%, Agentic 25%, Tool use 15%, Indic 15%, General 10%. Effort tiers 1k/4k/16k/64k target 30/35/25/10. Four gates: licence and generator, decontamination, ChatML v0 with loss masks, script integrity (no NFKC, ZWJ/ZWNJ kept).</p>
+<p><b>Why it matters:</b> the shares are a starting guess, not a result. The Kolibri-1 report shows a larger math share did not help math and that 7.3% of generations in the math-heavy mix ended in loops. So the mix is settled later by proxy runs scored on IndicIFEval and English benchmarks together.</p>
+
+<h3>F. SWE environments and results (tasks D, E, F)</h3>
+<p><b>What:</b> 20 software-engineering environments (a real repository, a task, tests) plus <code>results/swe_gold_check.md</code>, due Fri 13 Nov.</p>
+<p><b>Why it matters:</b> agentic coding is the most important SFT data for us. Trajectories that pass real tests become training data; the same environments later become RL tasks. OpenThoughts-Agent found the task source matters most (up to 30 points), that a few good sources beat many, and that dropping very short traces gave +3.5 points.</p>
+
+<h3>G. RL code tasks and verifier (task G)</h3>
+<p><b>What:</b> 10 RL code tasks, <code>rl/verifier.py</code> and a test, due Fri 13 Nov.</p>
+<p><b>Why it matters:</b> RL needs a checker that scores an attempt without a human. A reliable verifier is what makes the RL stage possible and keeps it from rewarding wrong code.</p>
+
+<h3>H. Rotation members</h3>
+<p>Three rotation members each check five SFT/RL sets against the licence table by Sat 14 Nov. Their checks are an independent second look at our decisions.</p>
+
+<h3>How G10 serves each target skill</h3>
+<table>
+<tr><th>Skill</th><th>What G10 does for it</th></tr>
+<tr><td>Coding</td><td>Code share of the mix (35%); verified solutions (tests as the verifier); SWE environments and the RL verifier.</td></tr>
+<tr><td>Agentic / tools</td><td>Tool-call and tool-result markers; trajectory data; wrong tool calls kept as context but not trained on; tool-use share of the mix.</td></tr>
+<tr><td>Maths and science</td><td>Reasoning traces labelled with effort; answers checked against references; no benchmark overlap; small shares since more is not better.</td></tr>
+<tr><td>Indic</td><td>15% share; language and script gates; no machine-translated reasoning; prompts from existing sets with answers regenerated by licensed open teachers; code-mixed and romanised prompts; NFKC banned.</td></tr>
+</table>
+
+<h2 id="mine">9. Our own work: <code>code-go</code> diagnosis (PR #36) and G10 contributions</h2>
+<div class="card mine">
+<p><b>Individual pack.</b> I diagnosed the Go source pack: which problems ("diseases") it has and which cleaning rule ("medicine") fixes each. Five medicines (B3, E1, E2, E4, B4). Tested on the official Go gold set (163 documents, limit 1 document): each changes 0 and drops 0, and so does the whole pipeline. Result PASS.</p>
+<p><b>Why it counts.</b> These rules become part of cleaning spec v1, which prepares every code document the model reads. The harm test proves they do not damage good code. Open: the Gate 1 fix list from TSAI, and a ruling on 29 disputed gold rows (H3/E4).</p>
+<p><b>G10.</b> Reviewed the lead's branch, found the licence gaps and raised fork PR #20, statically reviewed the <code>convert.py</code> PR (#19), and approved the chat-format PR #178. Rotation: G12 in week 2, G5 in week 3.</p>
+</div>
+
+<h2 id="rules">10. Rules that protect quality</h2>
+<ul>
+<li>A medicine passes only if it changes or drops at most max(1 doc, 1%) of the gold set.</li>
+<li>Harm tests count only on the real gold set; an empty gold is "not testable".</li>
+<li>Never edit the gold to pass.</li>
+<li>ZWJ and ZWNJ are never diseases.</li>
+<li>Benchmark and evaluation text never goes into training data.</li>
+<li>Work goes into the lab repo as a pull request that passes pr-guard; heavy jobs go through the TSAI job queue.</li>
+</ul>
+
+<h2 id="open">11. Open questions to watch</h2>
+<div class="card warn">
+<ul>
+<li>Slots 05 and 06 (subagent call/return) are not renamed in the tokenizer yet.</li>
+<li>Whether tool results count toward the effort budget, and who balances the four tiers.</li>
+<li>Reasoning history rule: keep reasoning inside a tool episode, drop it at a new user turn (current plan, not final).</li>
+<li>Whether the 1k level is enough for direct answers with no thinking.</li>
+<li>Which teachers (small SFT probe of 2 or 3 candidates) and the final Indic share.</li>
+<li>TSAI confirmation of our own exclusions: NuminaMath-CoT, rStar-Coder, Big-Math.</li>
+<li>Order of merging the lab PR #178 and fork PRs #19 and #20.</li>
+</ul>
+</div>
+<p style="color:var(--muted);font-size:13px">Sources: Lab 2 briefing, Session 17 (SFT), group chats and our own PR history. Numbers from the briefing are week 1 results as reported at Gate 1. For live status see the board.</p>
+</main>
+</div>
+<script>
+(function(){var b=document.getElementById("th");b.onclick=function(){var d=document.documentElement,c=d.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");var n=c==="dark"?"light":"dark";d.dataset.theme=n;try{localStorage.setItem("theme",n)}catch(e){}};try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}})();
+</script>
+</body>
+</html>

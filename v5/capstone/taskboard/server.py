@@ -131,6 +131,7 @@ def make_handler(store, port):
     allowed_hosts = {"127.0.0.1:%d" % port, "localhost:%d" % port}
     allowed_origins = {"http://" + h for h in allowed_hosts}
     index = HERE / "index.html"
+    guide = HERE / "guide.html"
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "TaskBoard/1"
@@ -174,8 +175,8 @@ def make_handler(store, port):
             if not self.guard(False):
                 return
             path = self.path.split("?", 1)[0]
-            if path in ("/", "/index.html"):
-                body = index.read_bytes()
+            if path in ("/", "/index.html", "/guide", "/guide.html"):
+                body = (guide if path.startswith("/guide") else index).read_bytes()
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(body)))

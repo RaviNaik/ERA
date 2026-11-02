@@ -631,22 +631,35 @@
       "type": "task",
       "workstream": "G10 Post-training",
       "title": "Member B: sft/convert.py and sft/test_convert.py (chat JSONL, loss masks, manifest)",
-      "desc": "Manifest fields: set, licence, generator model, rows, content hash. Test on 1,000 rows.",
-      "status": "todo",
+      "desc": "Member B task done by Anirudh in fork PR #19: sft/convert.py, sft/test_convert.py and sft/convert_report.md (1,000-row test on 4 sets). Waiting for review and merge by Sai Teja.",
+      "status": "review",
       "priority": "high",
-      "assignees": [],
+      "assignees": [
+        "Anirudh narla"
+      ],
       "due": "2026-11-03",
       "week": 2,
       "labels": [
         "sft",
         "member-B"
       ],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "19"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-02T12:28",
           "by": "Ravi Naik",
           "text": "Offered in the PR #20 message: I can take Member B (convert.py) if nobody holds it. Needs Sai Teja to confirm the letters (T-025). Due Tue 3 Nov."
+        },
+        {
+          "at": "2026-11-02T12:36",
+          "by": "Ravi Naik",
+          "text": "Read PR #19 in full (static review, not run: the sandbox blocked running an external unmerged branch). Design is sound. No file overlap with PR #20; the Stage 1 table still parses after PR #20. Our offer to take convert.py is no longer needed."
         }
       ]
     },
@@ -667,7 +680,13 @@
       ],
       "blockedBy": "",
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T12:36",
+          "by": "Ravi Naik",
+          "text": "PR #19 output rows have id and text, and decontam_check.py on main accepts --id-field id, so the outputs can be checked as they are once fingerprints v2 arrive (Wed 4 Nov)."
+        }
+      ]
     },
     {
       "id": "T-030",
@@ -790,7 +809,9 @@
       "desc": "Test one correct and one wrong answer per task. Offer left open to prototype Go RL tasks.",
       "status": "todo",
       "priority": "medium",
-      "assignees": [],
+      "assignees": [
+        "Ravi Naik"
+      ],
       "due": "2026-11-13",
       "week": 2,
       "labels": [
@@ -798,7 +819,13 @@
         "member-G"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "text": "Claimed by Ravi (request sent to Sai Teja, waiting for confirmation). Plan: reuse 2 or 3 SWE environments as RL tasks.",
+          "at": "2026-11-02T20:00",
+          "by": "Ravi Naik"
+        }
+      ]
     },
     {
       "id": "T-035",
@@ -1574,7 +1601,105 @@
         }
       ],
       "comments": []
+    },
+    {
+      "id": "T-080",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Decide whether tool results count toward the effort budget, and who balances the effort tiers",
+      "desc": "PR #19 counts think, tool calls and tool results toward the effort level, as the proposal says. Result on 1,000 rows: 466 of 468 SWE trajectories land in 64k, and 177 of 972 codeforces rows. The proposal targets 10% for 64k and says convert.py balances the tiers, but convert.py only labels. Decide the rule and add a mix sampler.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "sft-mix",
+        "effort"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "19"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-081",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Write convert.py adapters for the other proposal sets (one adapter and one fixture test each)",
+      "desc": "Only 4 sets have adapters (self-oss-instruct, codeforces-cots, swe-rebench-openhands, aya_dataset). Needs one each for OpenCodeReasoning, Cascade-SWE, Agentic-v1, Agentic-v2 tool-calling, xlam and the math sets. Note: the source column of the new PR #20 rows has trailing text, so hf_rows would need the source parsed more carefully.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "sft-convert"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "19"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "20"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-082",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Post a review comment on fork PR #19",
+      "desc": "Short review for Anirudh and Sai Teja: what is good, the effort-tier result, the source-column note for new rows, and a request to rerun on the frozen tokenizer on Sat 14 Nov. Draft first.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-03",
+      "week": 2,
+      "labels": [
+        "review"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "19"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-083",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Get Sai Teja to confirm Ravi as Member G",
+      "desc": "Message posted asking to take Member G (RL code tasks, verifier, test) and to reuse a few SWE environments as RL tasks. Confirm in the group, then start the verifier design.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-03",
+      "week": 2,
+      "labels": [
+        "claim"
+      ],
+      "refs": [],
+      "comments": []
     }
   ],
-  "rev": 6
+  "rev": 8
 }
