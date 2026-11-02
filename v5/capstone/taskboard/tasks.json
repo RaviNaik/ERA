@@ -1,5 +1,5 @@
 {
-  "rev": 2,
+  "rev": 3,
   "updated": "2026-11-02",
   "me": "Ravi Naik",
   "repos": {
@@ -71,15 +71,21 @@
           "ref": "36"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:51",
+          "by": "Ravi Naik",
+          "text": "Harm-test wording and result fixed in medicine.md (70c1d69). Numbered items from the DM are still to be copied (T-001)."
+        }
+      ]
     },
     {
       "id": "T-003",
       "type": "task",
       "workstream": "Individual: code-go",
       "title": "Run the harm test on the real Go gold set",
-      "desc": "Run the lab harm test on our rules against the Go gold set (teams/01-data-a/gold/code-go_gold.csv). #140 is merged, so the script is on main. Read it first and run it with python -I. Gold may still be rebuilt by Data A (T-061).",
-      "status": "todo",
+      "desc": "Ran the lab harm test (lab PR #140, now on main) on our five rules against teams/01-data-a/gold/code-go_gold.csv (163 documents, limit 1). B3, E1, E2, E4, B4 and the ordered pipeline: 0 changed, 0 dropped, PASS. Script read first and run with python -I.",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -101,6 +107,11 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "36"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "70c1d69"
         }
       ],
       "comments": [
@@ -118,6 +129,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Unblocked on 1 Nov: lab PR #140 is merged. Next: read tools/harm_test.py, then run it."
+        },
+        {
+          "at": "2026-11-02T11:51",
+          "by": "Ravi Naik",
+          "text": "PASS on all five rules. First run loaded only 3 rules because the B4 line was not read as a disease section; fixed in medicine.md (commit 70c1d69)."
         }
       ]
     },
@@ -127,7 +143,7 @@
       "workstream": "Individual: code-go",
       "title": "Put the harm-test result for each rule into medicine.md",
       "desc": "Gate 1 asks for the result of each medicine on the real gold set, written in medicine.md.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -143,9 +159,20 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "36"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "70c1d69"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:51",
+          "by": "Ravi Naik",
+          "text": "medicine.md now states the official result for each medicine, replaces the proxy caveat, and notes the gold set is interim (163 of 200). Pushed to PR #36 as 70c1d69."
+        }
+      ]
     },
     {
       "id": "T-005",
@@ -251,7 +278,7 @@
       "workstream": "Individual: code-go",
       "title": "Check which 29 code-go gold candidates are disputed",
       "desc": "Gold coverage lists 29 disputed candidates for code-go (8 earlier). Find out whether any of my rows are among them and whether a re-review would settle them. Never edit a gold set to make a rule pass.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -268,7 +295,13 @@
           "ref": "140"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:51",
+          "by": "Ravi Naik",
+          "text": "All 29 disputed candidates are rows where I and udisinghania voted full+clean and TEJASKUMAR-REDDY-J voted drop (19) or fix (10). Codes he cites: H3 15, E4 12, F2 2 (some rows carry two). It is a labelling-rule disagreement. If settled as label errors, up to 29 rows could join gold (163 now, target 200)."
+        }
+      ]
     },
     {
       "id": "T-009",
@@ -1298,6 +1331,75 @@
       "week": 2,
       "labels": [
         "compute"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-074",
+      "type": "task",
+      "workstream": "Individual: code-go",
+      "title": "Post the harm-test result as a comment on PR #36",
+      "desc": "Short comment for TSAI and Data A: PASS on the official Go gold set, the extractor wording fix, and the open question about the 29 disputed rows. Draft is ready; post only after approval.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-02",
+      "week": 2,
+      "labels": [
+        "pr-36"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "36"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-075",
+      "type": "task",
+      "workstream": "Individual: code-go",
+      "title": "Settle the H3 and E4 disagreement on the 29 disputed gold candidates",
+      "desc": "Ask Data A or TSAI for the ruling on what H3 and E4 mean for these rows, or compare with TEJASKUMAR-REDDY-J. If they are label errors, up to 29 rows could join the gold set (163 now, target 200).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "gold-set"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "36"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-076",
+      "type": "task",
+      "workstream": "Individual: code-go",
+      "title": "Re-run the harm test if Data A rebuilds the Go gold set",
+      "desc": "Command: python -I teams/01-data-a/tools/harm_test.py --pack code-go.parquet --gold teams/01-data-a/gold/code-go_gold.csv --rules medicine.md --rule all. Update medicine.md and PR #36 if the result changes.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "gold-set"
       ],
       "refs": [],
       "comments": []
