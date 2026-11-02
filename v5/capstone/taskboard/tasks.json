@@ -1,6 +1,6 @@
 {
-  "rev": 1,
-  "updated": "2026-11-01",
+  "rev": 2,
+  "updated": "2026-11-02",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -78,8 +78,8 @@
       "type": "task",
       "workstream": "Individual: code-go",
       "title": "Run the harm test on the real Go gold set",
-      "desc": "Gold file code-go_gold.csv (163 documents, interim, below the 200 target) is on Data A's PR #140. Rule: a medicine passes if it changes or drops at most max(1 document, 1%) of the gold set. Read harm_test.py before running it; run with python -I in a scratch folder.",
-      "status": "blocked",
+      "desc": "Run the lab harm test on our rules against the Go gold set (teams/01-data-a/gold/code-go_gold.csv). #140 is merged, so the script is on main. Read it first and run it with python -I. Gold may still be rebuilt by Data A (T-061).",
+      "status": "todo",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -90,7 +90,7 @@
         "harm-test",
         "gold-set"
       ],
-      "blockedBy": "T-060",
+      "blockedBy": "",
       "refs": [
         {
           "kind": "pr",
@@ -113,6 +113,11 @@
           "at": "2026-11-01T12:05",
           "by": "Ravi Naik",
           "text": "Fallback if it stays unavailable: write 'gold set interim, not testable' per rule in medicine.md."
+        },
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Unblocked on 1 Nov: lab PR #140 is merged. Next: read tools/harm_test.py, then run it."
         }
       ]
     },
@@ -289,7 +294,13 @@
           "ref": "36"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "1 Nov evening check: no new TSAI comment on PR #36. Last comment is our reply to Vijay on row 500. Review state: review required."
+        }
+      ]
     },
     {
       "id": "T-020",
@@ -297,7 +308,7 @@
       "workstream": "G10 Post-training",
       "title": "PR #18: resolve #178 conflict, special_tokens_v1 Team 3 IDs, no NFKC",
       "desc": "Fork PR into Sai Teja's g10-week1-post-training. Fixes the three items in TSAI's review of lab PR #178. Waiting for Sai Teja to merge.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -334,6 +345,11 @@
           "at": "2026-11-01T17:30",
           "by": "Ravi Naik",
           "text": "35 tests pass. Diff shows 523 files because main was merged in; #178 should show only teams/10-post-training once merged."
+        },
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Merged by Sai Teja into g10-week1-post-training on 1 Nov (15:47 UTC). He confirmed in the G10 chat."
         }
       ]
     },
@@ -343,7 +359,7 @@
       "workstream": "G10 Post-training",
       "title": "Send Sai Teja the PR #18 message",
       "desc": "Short version drafted: three fixes, plus two notes (his local special_tokens_v1 may be newer; G3 still has to rename slots 05 and 06).",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -360,15 +376,21 @@
           "ref": "18"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Message posted in the G10 group on 1 Nov, with the two notes (his #178 text vs his file; G3 slots 05 and 06). Sai Teja has not replied about slots 05 and 06."
+        }
+      ]
     },
     {
       "id": "T-022",
       "type": "task",
       "workstream": "G10 Post-training",
       "title": "Lab PR #178: merge fork PR #18, rebase on main, get pr-guard green",
-      "desc": "TSAI asked for: merge conflict fixed, NFKC paragraph replaced, Team 3 IDs. This is the lead's first week 2 task (due Sun 1 Nov).",
-      "status": "blocked",
+      "desc": "Fork PR #18 is merged, so #178 no longer conflicts. Waiting for TSAI to re-review (review is still 'changes requested' from 1 Nov) and merge.",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Sai Teja"
@@ -379,15 +401,26 @@
         "gate-2",
         "special-tokens"
       ],
-      "blockedBy": "T-020",
+      "blockedBy": "",
       "refs": [
         {
           "kind": "pr",
           "repo": "lab",
           "ref": "178"
+        },
+        {
+          "kind": "commit",
+          "repo": "lab",
+          "ref": "ca9e785"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Head is now ca9e785: mergeable, pr-guard green, 34 files. Sai Teja commented asking TSAI to review and merge. Not merged yet."
+        }
+      ]
     },
     {
       "id": "T-023",
@@ -418,7 +451,13 @@
           "ref": "173"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "No request to G3 yet: nothing in the G3 chat or on issue #132 as of the 1 Nov evening check. G3 owns the rename; G3 freeze report is Thu 12 Nov."
+        }
+      ]
     },
     {
       "id": "T-024",
@@ -455,7 +494,13 @@
         "coordination"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Rammohan asked the same on 31 Oct and got no letters, only \"check the pinned instructions\". Bring to the 9 pm call."
+        }
+      ]
     },
     {
       "id": "T-026",
@@ -485,7 +530,13 @@
           "ref": "ed666fa"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Sai Teja lists the last two placeholder sections: Section 5 (Ashish Kamble) and Section 11 (Syed Abdul). Neither PR has arrived. TSAI says extra datasets stay as candidates only."
+        }
+      ]
     },
     {
       "id": "T-027",
@@ -549,7 +600,7 @@
       "workstream": "G10 Post-training",
       "title": "sft/sft_mix_proposal.md, first version",
       "desc": "Code, agentic, tool use, Indic, general: a share and a reason for each. Lead and Member B. Final proposal due Thu 12 Nov.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Sai Teja"
@@ -561,7 +612,13 @@
         "gate-2"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Sai Teja already has a draft sft/sft_mix_proposal.md on g10-week1-post-training and asked the group to review. He also listed 5 excluded rotation-suggested sets (OpenHermes 2.5, Tulu 3 filtered, SWE-Gym trajectories, UltraFeedback clean, Nectar RM)."
+        }
+      ]
     },
     {
       "id": "T-031",
@@ -842,7 +899,13 @@
         "g12"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Taken in the G12 chat: Phi-3-mini (Shishir), Qwen3-4B (Tharun). Pick another small open model. Do not use the llama-cpp-python server: it returns shifted logprobs; use the in-process backend in teams/12-quantization/eval_mini."
+        }
+      ]
     },
     {
       "id": "T-053",
@@ -910,8 +973,8 @@
       "type": "task",
       "workstream": "Dependencies (other teams)",
       "title": "Data A: merge lab PR #140 (gold sets, harm_test.py, medicine tools)",
-      "desc": "TSAI approved on 1 Nov. Waiting for the gold rebuild and the result of pytest teams/01-data-a/tests -q. After merge the gold path becomes teams/01-data-a/gold/ on main.",
-      "status": "review",
+      "desc": "Merged by Data A on 1 Nov (15:03 UTC). The gold files are now on main in teams/01-data-a/gold/ (code-go_gold.csv among them).",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Vijay Patil"
@@ -929,7 +992,13 @@
           "ref": "140"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Merged. Gold files and tools (harm_test.py, run_harm_suite.py) are on main."
+        }
+      ]
     },
     {
       "id": "T-061",
@@ -973,9 +1042,15 @@
       "labels": [
         "dependency"
       ],
-      "blockedBy": "T-060",
+      "blockedBy": "",
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "Unblocked: #140 is merged."
+        }
+      ]
     },
     {
       "id": "T-063",
@@ -1018,7 +1093,13 @@
           "ref": "132"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-02T11:33",
+          "by": "Ravi Naik",
+          "text": "G3 daily 1 Nov: C1 to C3 retrained on week 2 sample v0 (PR #195 merged). Freeze report moves to Thu 12 Nov; frozen tokenizer still due Sat 14 Nov."
+        }
+      ]
     },
     {
       "id": "M-01",
@@ -1121,6 +1202,102 @@
       "week": 3,
       "labels": [
         "calendar"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-070",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Answer the rotation members: where are the SFT and RL sets?",
+      "desc": "Srinivasan, Shankar and Sagar asked for their tasks and where to find the SFT/RL sets. Point them to licences/licence_table.md and the sets list in Sai Teja's branch; each checks 5 sets by Sat 14 Nov.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-02",
+      "week": 2,
+      "labels": [
+        "rotation"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-071",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review Sai Teja's 5 exclusions and his sft_mix_proposal.md draft",
+      "desc": "He tagged Amit and Ravi. Check each exclusion against the licence rule (closed OpenAI/Anthropic/Google or Llama output is out) and comment on the mix shares.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik",
+        "Amit T"
+      ],
+      "due": "2026-11-03",
+      "week": 2,
+      "labels": [
+        "licence",
+        "sft-mix"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-072",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Bring the PR #178 and week 2 discussion points to the 9 pm IST call",
+      "desc": "Points: TSAI re-review of #178; slots 05/06 with G3; member letters A to G; licence table sections 5 and 11 (Ashish, Syed); exclusions; rotation members; daily notes.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-02",
+      "week": 2,
+      "labels": [
+        "call"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-073",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Ashish (section 5) and Syed (section 11): submit licence table sections",
+      "desc": "The last two placeholders in licences/licence_table.md. Neither fork PR has arrived. Sai Teja asked on 31 Oct and 1 Nov; if nothing comes, a member picks them up.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ashish Kamble",
+        "Syed Abdul"
+      ],
+      "due": "2026-11-03",
+      "week": 2,
+      "labels": [
+        "licence"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-065",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "TSAI job queue: job requests due Wed 4 Nov 23:59 IST",
+      "desc": "TSAI runs approved job requests during the break (results on PRs by Thu 12 Nov). Copy JOB_REQUEST.md, attach a log, pin inputs. Only needed if G10 or G12 has a run that cannot be done locally.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "compute"
       ],
       "refs": [],
       "comments": []
