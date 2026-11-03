@@ -27,7 +27,7 @@ fi
 nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader | tee "$LOGS/gpus.txt"
 FREE_GB=$(df -BG --output=avail "$WORK_DIR" | tail -1 | tr -dc '0-9')
 echo "free disk at $WORK_DIR: ${FREE_GB} GB"
-[ "$FREE_GB" -ge 200 ] || die "need at least 200 GB free (330 GB is comfortable); set WORK_DIR to a bigger disk"
+[ "$FREE_GB" -ge "${MIN_FREE_GB:-200}" ] || die "need at least ${MIN_FREE_GB:-200} GB free (330 GB is comfortable); set HOST_WORK_DIR / WORK_DIR to a bigger disk"
 command -v uv >/dev/null || pip install --user "uv==$UV_VERSION"
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -66,7 +66,8 @@ say "evaluation venv: llama-cpp-python $LLAMA_CPP_PYTHON with CUDA, lm_eval $LM_
 if [ ! -f "$EVAL_VENV/.ready" ]; then
   rm -rf "$EVAL_VENV"
   uv venv -q --python "$EVAL_PYTHON" "$EVAL_VENV"
-  ARCHS=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d '.' | sort -u | paste -sd';')
+  ARCHS=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | tr -d ' ' | grep -E '^[0-9]+\.[0-9]+$' | tr -d '.' | sort -u | paste -sd';')
+  [ -n "$ARCHS" ] || die "could not read the GPU compute capability from nvidia-smi"
   echo "CUDA architectures: $ARCHS (build takes 15 to 30 minutes)"
   CMAKE_ARGS="-DGGML_CUDA=on -DGGML_CUDA_NO_VMM=ON -DCMAKE_CUDA_ARCHITECTURES=$ARCHS" \
     uv pip install --python "$EVAL_VENV/bin/python" --no-cache "llama-cpp-python==$LLAMA_CPP_PYTHON" \

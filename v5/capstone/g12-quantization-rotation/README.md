@@ -26,18 +26,43 @@ these scripts: llama.cpp **b11669 registers `SarvamMoEForCausalLM`** (`conversio
 | `score` = unweighted mean of the five primary metrics | `make_runs_row.py` (reproduces G12's own OLMoE `runs.csv` numbers: Q4_K_M 0.4258) |
 | No code from the model repo is downloaded or run | `02_convert_quantize.sh` downloads data files only (no `*.py`) |
 
-## Run it
+## Run it (Docker, recommended)
 
-Needs a Linux machine with NVIDIA GPUs, the CUDA toolkit (`nvcc`), `git`, `cmake`, `gcc/g++`, `curl`, Python 3 and
-internet. Two 48 GB cards hold the bf16 model (about 64 GB) with room for context.
+The whole task runs in a container built from `nvidia/cuda:12.4.1-devel-ubuntu22.04` (compiler, cmake, git, uv; nothing
+to install on the host except Docker and the NVIDIA Container Toolkit). Everything that matters stays on the host:
+
+| Host folder | In the container | Holds |
+|---|---|---|
+| `HOST_WORK_DIR` (default `./work`) | `/work` | the 129 GB download, bf16 and quantized GGUFs, llama.cpp build, venvs, caches (about 330 GB at the peak) |
+| this folder | `/app` | `config.sh` and `results/` (scores, `runs_row.csv`, logs, per-question rows) |
+
+The container runs as your own user, so nothing on the host is owned by root. Deleting the container loses nothing;
+the next run continues from the files in `work/` and `results/`.
 
 ```bash
 git clone https://github.com/RaviNaik/ERA && cd ERA/v5/capstone/g12-quantization-rotation
-# edit config.sh: at least WORK_DIR (needs about 330 GB free at the peak) and FORMATS
+# edit config.sh if you want other formats (default: bf16 and Q4_K_M)
+export HOST_WORK_DIR=/data/g12          # a disk with 330 GB free; default is ./work
+./run_docker.sh gpu-test                # both A6000s should be listed
+./run_docker.sh 2>&1 | tee run_all.log  # build the image, then steps 1 to 4 (resumable: run it again after a stop)
+```
+
+Other commands: `./run_docker.sh step 3` (one step), `./run_docker.sh shell` (a shell with the same mounts),
+`GPUS='"device=0,1"' ./run_docker.sh` (pick cards), `BASE_IMAGE=nvidia/cuda:12.1.1-devel-ubuntu22.04
+./run_docker.sh` (older driver: CUDA 12.4 needs driver 550 or newer). `gpu-test` failing means the NVIDIA Container
+Toolkit is missing: `sudo apt install nvidia-container-toolkit && sudo nvidia-ctk runtime configure --runtime=docker
+&& sudo systemctl restart docker`.
+
+## Run it without Docker
+
+Needs a Linux machine with NVIDIA GPUs, the CUDA toolkit (`nvcc`), `git`, `cmake` (installed for you with pip if
+missing), `gcc/g++`, `curl`, Python 3 and internet.
+
+```bash
 WORK_DIR=/data/g12 ./run_all.sh 2>&1 | tee run_all.log
 ```
 
-Every step is resumable: if it stops, run `./run_all.sh` again. Or run the steps one by one:
+Every step is resumable: if it stops, run it again. The steps (the same four run inside the container):
 
 | Step | Script | What it does | Rough size |
 |---|---|---|---|
@@ -49,9 +74,8 @@ Every step is resumable: if it stops, run `./run_all.sh` again. Or run the steps
 Disk peak is the fp32 download plus the bf16 GGUF (about 193 GB); the download is deleted after conversion unless
 `KEEP_HF=1`. After that about 64 GB plus the quantized files remain.
 
-To try a quick end-to-end check first, run step 3 for one format with a few items by hand:
-`cd $WORK_DIR/eval_mini_code && <eval-venv>/bin/python run_mini_gguf.py ... --limit 3`. A run made with `--limit`
-must not be reported (G12's `combine.py` refuses it).
+To try a quick end-to-end check first, run step 3 for one format with a few items by hand
+(`run_mini_gguf.py ... --limit 3`). A run made with `--limit` must not be reported (G12's `combine.py` refuses it).
 
 ## What comes out (`results/`)
 
@@ -81,11 +105,12 @@ must not be reported (G12's `combine.py` refuses it).
 - **Converter error.** Send me the end of `results/logs/convert.log`.
 - **GPU out of memory in bf16.** Unlikely on 96 GB; lower `--n-ctx` is not allowed (it changes the scores). Use fewer
   GPU layers only for bf16 and record it.
-- **`nvcc` missing.** Install the CUDA toolkit; `01_setup.sh` stops at the first check.
+- **`nvcc` missing (without Docker).** Install the CUDA toolkit; `01_setup.sh` stops at the first check. The Docker image has it.
 - **Not tested here.** This machine has a 4 GB GPU, so the 30B run could not be tested. What was tested: shell
   syntax, `check_gguf.py` on small synthetic GGUFs (passes a good file, rejects an F16 router), and
   `make_runs_row.py` on G12's real OLMoE results (same scores and `runs.csv` columns). Steps 1 to 3 run for the first
-  time on your server.
+  time on your server. The Docker image builds, runs as your user and writes to the mounted folders (checked here
+  with a plain Ubuntu base image and stubbed GPU tools).
 
 ## Phase 2 (optional, recommended for Sarvam): code and Indic eval
 
