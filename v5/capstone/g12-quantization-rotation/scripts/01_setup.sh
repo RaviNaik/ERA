@@ -3,7 +3,27 @@
 source "$(dirname "$0")/common.sh"
 
 say "checks"
-for t in git cmake curl gcc g++ nvidia-smi nvcc; do command -v "$t" >/dev/null || die "$t not found (nvcc = CUDA toolkit, needed to build llama-cpp-python with GPU support)"; done
+export PATH="$HOME/.local/bin:/usr/local/cuda/bin:$PATH"
+if ! command -v cmake >/dev/null; then   # no root needed: the PyPI build of cmake is enough for llama.cpp
+  echo "cmake not found: installing it for this user (pip install --user cmake)"
+  python3 -m pip install --user cmake || die "cmake not found and pip could not install it. Run: sudo apt install cmake"
+  hash -r
+fi
+missing=()
+for t in git curl gcc g++ cmake nvidia-smi nvcc; do command -v "$t" >/dev/null || missing+=("$t"); done
+if [ "${#missing[@]}" -gt 0 ]; then
+  echo "missing tools: ${missing[*]}"
+  for t in "${missing[@]}"; do
+    case "$t" in
+      git|curl)   echo "  $t: sudo apt install $t" ;;
+      gcc|g++)    echo "  $t: sudo apt install build-essential" ;;
+      cmake)      echo "  cmake: sudo apt install cmake   (or: python3 -m pip install --user cmake)" ;;
+      nvidia-smi) echo "  nvidia-smi: the NVIDIA driver is not installed or not on PATH" ;;
+      nvcc)       echo "  nvcc: CUDA toolkit (compiler). If installed, add its bin to PATH, e.g. export PATH=/usr/local/cuda/bin:\$PATH; else sudo apt install nvidia-cuda-toolkit" ;;
+    esac
+  done
+  die "install the tools above and rerun"
+fi
 nvidia-smi --query-gpu=name,memory.total,compute_cap --format=csv,noheader | tee "$LOGS/gpus.txt"
 FREE_GB=$(df -BG --output=avail "$WORK_DIR" | tail -1 | tr -dc '0-9')
 echo "free disk at $WORK_DIR: ${FREE_GB} GB"
