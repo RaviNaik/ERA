@@ -451,6 +451,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Head is now ca9e785: mergeable, pr-guard green, 34 files. Sai Teja commented asking TSAI to review and merge. Not merged yet."
+        },
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "Still open and approved on 3 Nov; waiting for TSAI to merge. Sai Teja merged the fork side only."
         }
       ]
     },
@@ -632,7 +637,7 @@
       "workstream": "G10 Post-training",
       "title": "Member B: sft/convert.py and sft/test_convert.py (chat JSONL, loss masks, manifest)",
       "desc": "Member B task done by Anirudh in fork PR #19: sft/convert.py, sft/test_convert.py and sft/convert_report.md (1,000-row test on 4 sets). Waiting for review and merge by Sai Teja.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Anirudh narla"
@@ -660,6 +665,11 @@
           "at": "2026-11-02T12:36",
           "by": "Ravi Naik",
           "text": "Read PR #19 in full (static review, not run: the sandbox blocked running an external unmerged branch). Design is sound. No file overlap with PR #20; the Stage 1 table still parses after PR #20. Our offer to take convert.py is no longer needed."
+        },
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "Fork PR #19 merged by Sai Teja on 2 Nov."
         }
       ]
     },
@@ -807,7 +817,7 @@
       "workstream": "G10 Post-training",
       "title": "Member G: 10 code tasks in rl/tasks/, rl/verifier.py, rl/test_verifier.py",
       "desc": "Test one correct and one wrong answer per task. Offer left open to prototype Go RL tasks.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -824,6 +834,11 @@
           "text": "Claimed by Ravi (request sent to Sai Teja, waiting for confirmation). Plan: reuse 2 or 3 SWE environments as RL tasks.",
           "at": "2026-11-02T20:00",
           "by": "Ravi Naik"
+        },
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "Posted in G10 on 2 Nov that I started on Member G. Reading RL and verifier material; design note comes next."
         }
       ]
     },
@@ -1028,6 +1043,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Taken in the G12 chat: Phi-3-mini (Shishir), Qwen3-4B (Tharun). Pick another small open model. Do not use the llama-cpp-python server: it returns shifted logprobs; use the in-process backend in teams/12-quantization/eval_mini."
+        },
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "3 Nov in G12: Phi-3-mini (PR 259), Qwen3-4B (PR 238) and Qwen2.5-1.5B (PR 236) are taken. Llama-3.2-1B and Gemma-3-1B were offered. Put run results in runs/, not runs.csv (combine.py builds it). Due 3 Nov."
         }
       ]
     },
@@ -1526,7 +1546,7 @@
       "workstream": "G10 Post-training",
       "title": "PR #20: get Sai Teja to review and merge (message posted)",
       "desc": "The message to Sai Teja was posted in the G10 group on 2 Nov. Waiting for his reply and for him to merge fork PR #20.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1549,6 +1569,11 @@
           "at": "2026-11-02T12:35",
           "by": "Ravi Naik",
           "text": "Message posted by Ravi in the G10 group. Waiting for Sai Teja."
+        },
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "Fork PR #20 merged by Sai Teja on 2 Nov."
         }
       ]
     },
@@ -1662,7 +1687,7 @@
       "workstream": "G10 Post-training",
       "title": "Post a review comment on fork PR #19",
       "desc": "Short review for Anirudh and Sai Teja: what is good, the effort-tier result, the source-column note for new rows, and a request to rerun on the frozen tokenizer on Sat 14 Nov. Draft first.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Ravi Naik"
@@ -1679,7 +1704,13 @@
           "ref": "19"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "Not needed: PR #19 was merged before a review comment was posted. Review notes (effort-tier balance, source column, rerun on frozen tokenizer 14 Nov) are tracked in T-080 and T-081."
+        }
+      ]
     },
     {
       "id": "T-083",
@@ -1698,8 +1729,104 @@
         "claim"
       ],
       "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-03T20:00",
+          "by": "Ravi Naik",
+          "text": "No reply from Sai Teja yet on 3 Nov. Others (Vikash for D/E/F, Amit for A) are claiming letters, so ask again."
+        }
+      ]
+    },
+    {
+      "id": "T-084",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Update sft_mix_proposal.md and licence_table.md with the TSAI generator rule of 3 Nov",
+      "desc": "Rule: in = human-written, execution-verified synthesis, open-weight models under MIT or Apache 2.0 that allow training on output (gpt-oss, DeepSeek-R1, Qwen Apache, QwQ, Mixtral); out = closed models, Llama, OpenRAIL-M (StarCoder2), unknown generator. Record generator and its licence for every set, and state the rule in the proposal for Gate 2.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Sai Teja",
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "licence"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-085",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Recheck our own exclusions under the 3 Nov rule: NuminaMath-CoT, rStar-Coder, Big-Math",
+      "desc": "The rule now allows output of R1, Qwen (Apache) and QwQ. Check each set generator and licence from its card; keep GPT-4 and other closed-model outputs out. Update licence_table.md only if a decision changes.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "licence",
+        "review"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-086",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review fork PR #21 (Lokesh: safety datasets, 3% Safety, General 7%)",
+      "desc": "Touches licence_table.md and sft_mix_proposal.md after our PR #20. Check the generator and licence of each of the 13 new entries against the 3 Nov rule, and that the shares still sum to 100%.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "review"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "21"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-087",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review fork PR #22 (Amit, Member A: chat engine reads Team 3 tokenizer IDs)",
+      "desc": "File list is very large and includes .github/workflows/pr-guard.yml, CODEOWNERS and other teams folders: looks like a merge of main. Ask for a focused diff before merge; then check render.py reads IDs from tokenizer.json and tests pass.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "review"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "22"
+        }
+      ],
       "comments": []
     }
   ],
-  "rev": 8
+  "rev": 9
 }
