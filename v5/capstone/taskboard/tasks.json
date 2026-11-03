@@ -1027,7 +1027,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Choose one small open model and a 4-bit method; agree it with the G12 lead",
       "desc": "Rotation task: quantize one small open model to 4-bit. Compare only with a bf16 score from the same runtime and eval set. Keep the router in F32 or BF16.",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1048,6 +1048,11 @@
           "at": "2026-11-03T20:00",
           "by": "Ravi Naik",
           "text": "3 Nov in G12: Phi-3-mini (PR 259), Qwen3-4B (PR 238) and Qwen2.5-1.5B (PR 236) are taken. Llama-3.2-1B and Gemma-3-1B were offered. Put run results in runs/, not runs.csv (combine.py builds it). Due 3 Nov."
+        },
+        {
+          "at": "2026-11-03T22:00",
+          "by": "Ravi Naik",
+          "text": "Model picked: Sarvam-30B (MoE, Apache 2.0), bf16 vs Q4_K_M, G12 eval_mini, own 2x A6000 server. Scripts and README in v5/capstone/g12-quantization-rotation. Confirmed llama.cpp b11669 converts it. Still to ask Sreekanth: is a 30B model OK, and runs/ folder vs runs.csv."
         }
       ]
     },
@@ -1826,7 +1831,84 @@
         }
       ],
       "comments": []
+    },
+    {
+      "id": "T-088",
+      "type": "task",
+      "workstream": "G12 Quantization (rotation)",
+      "title": "Ask Sreekanth in G12: is a 30B MoE (Sarvam-30B) OK, and where do results go (runs/ folder or runs.csv)",
+      "desc": "Post the model pick in the G12 group so nobody duplicates it. Ask the two questions, and the topic folder name for the PR.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-03",
+      "week": 2,
+      "labels": [
+        "g12"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-089",
+      "type": "task",
+      "workstream": "G12 Quantization (rotation)",
+      "title": "Run the Sarvam-30B quantization on the server (run_all.sh) and collect results/",
+      "desc": "Clone the ERA repo on the server, edit config.sh (WORK_DIR, about 330 GB free), run v5/capstone/g12-quantization-rotation/run_all.sh. Check the guard test and gguf checks pass. Share results/ or commit them.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "g12"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-090",
+      "type": "task",
+      "workstream": "G12 Quantization (rotation)",
+      "title": "Open the lab PR with the Sarvam-30B results and runs row; post the daily notes in G12",
+      "desc": "Put results in a topic folder under teams/12-quantization/ named by the lead, add the row, pr-guard must pass. Due Sat 14 Nov.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-14",
+      "week": 2,
+      "labels": [
+        "g12"
+      ],
+      "refs": [],
+      "comments": []
+    },
+    {
+      "id": "T-091",
+      "type": "task",
+      "workstream": "G12 Quantization (rotation)",
+      "title": "Optional phase 2: G12 eval_code_indic on Sarvam-30B (MILU Indic, HumanEval+, MBPP+)",
+      "desc": "Needs an HF token with MILU access, evalplus without torch, G9 commit fa5d87e, n_ctx 4096. Shows whether 4-bit hurts Indic more than English. Build after the main run works.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "g12",
+        "optional"
+      ],
+      "refs": [],
+      "comments": []
     }
   ],
-  "rev": 9
+  "rev": 10
 }
