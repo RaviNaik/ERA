@@ -57,7 +57,7 @@
       "workstream": "Individual: code-go",
       "title": "Fix each numbered item from the DM in PR #36",
       "desc": "Rows below target end your place in the lab. A missing harm result keeps the rule out of spec v1, but you stay in.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -80,6 +80,11 @@
           "at": "2026-11-02T11:51",
           "by": "Ravi Naik",
           "text": "Harm-test wording and result fixed in medicine.md (70c1d69). Numbered items from the DM are still to be copied (T-001)."
+        },
+        {
+          "at": "2026-11-04T23:55",
+          "by": "Ravi Naik",
+          "text": "Closed. All numbered DM items were fixed in commit 70c1d69 (2 Nov) and the 4 Nov re-run passes: B3, E1, E2, E4, B4 each 0 changed, 0 dropped (see T-001, T-009)."
         }
       ]
     },
@@ -480,7 +485,7 @@
       "workstream": "G10 Post-training",
       "title": "Ask G3 to rename g10_slot_05 and g10_slot_06 (subagent_call, subagent_return)",
       "desc": "Tokenizer v0.1 (#173) only renamed slots 00 to 04. IDs 130827 and 130828 are still unnamed.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Sai Teja"
@@ -519,7 +524,9 @@
           "by": "Ravi Naik",
           "text": "Raised with Sai Teja in the posted PR #20 message. Waiting for him to ask G3."
         }
-      ]
+      ],
+      "updated": "2026-11-04T16:26",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-024",
@@ -564,7 +571,7 @@
       "workstream": "G10 Post-training",
       "title": "Ask Sai Teja which letter (A to G) each member holds",
       "desc": "Rammohan and Srinivasan asked the same; no answer yet. Decide whether to offer Member A (render.py) or the Go SWE environments (D to F).",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -590,6 +597,11 @@
           "at": "2026-11-02T12:35",
           "by": "Ravi Naik",
           "text": "Raised with Sai Teja in the posted PR #20 message. Waiting for the member letters."
+        },
+        {
+          "at": "2026-11-04T23:55",
+          "by": "Ravi Naik",
+          "text": "Closed. The letter is G: Ravi holds Member G (10 RL code tasks and verifier), see T-034 and T-093 to T-096."
         }
       ]
     },
@@ -599,7 +611,7 @@
       "workstream": "G10 Post-training",
       "title": "Licence table: every SFT and RL set with source, licence, generator model, decision",
       "desc": "Our 40 candidate rows are in: 11 excluded, 2 allowed (CC-BY-SA), the rest TSAI reserves. TSAI confirmed (31 Oct) that extra sets stay as candidates only; none enters a mix without diagnosis, medicine, harm test and a Gate 2 decision.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -632,7 +644,9 @@
           "by": "Ravi Naik",
           "text": "PR #20 adds 4 rows and sections and updates the excluded count (now 23) and the Team 11 hand-off block. Sections 5 and 11 are still open."
         }
-      ]
+      ],
+      "updated": "2026-11-04T16:25",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-027",
@@ -640,7 +654,7 @@
       "workstream": "G10 Post-training",
       "title": "Get TSAI confirmation on our own exclusions: NuminaMath-CoT, rStar-Coder, Big-Math",
       "desc": "TSAI already confirmed Magicoder and indic-align. These three were excluded on our own reading of the generator models (GPT-4o, Llama, gpt-4o-mini).",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -651,7 +665,9 @@
         "licence"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:30",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-028",
@@ -846,7 +862,7 @@
       "workstream": "G10 Post-training",
       "title": "Member G: 10 code tasks in rl/tasks/, rl/verifier.py, rl/test_verifier.py",
       "desc": "Sai Teja task text: write 10 code tasks with hidden tests in rl/tasks/, rl/verifier.py, and rl/test_verifier.py with 1 correct and 1 wrong answer per task. Due Fri 13 Nov. Constraints from TSAI: tasks must be original (no HumanEval, MBPP or other benchmark text: eval firewall of 4 Nov), human-written or execution-verified, pass decontam_check.py on fingerprints v2 (full set), files only under teams/10-post-training/rl/ (pr-guard: only .md directly in the team folder, no other team folders), PR to saitej123 fork branch g10-week1-post-training.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -873,6 +889,11 @@
           "at": "2026-11-04T14:00",
           "by": "Ravi Naik",
           "text": "Read Rohan guidelines of 2, 3 and 4 Nov. Anirudh fork PR 27 already has verify.py for repository patches; align the interface (T-092). Split into T-093 to T-096."
+        },
+        {
+          "at": "2026-11-04T23:55",
+          "by": "Ravi Naik",
+          "text": "Closed as the umbrella. Delivered in PR #30 (saitej123, g10-week1-post-training): 10 tasks, verifier, 47 tests. Review and pr-guard are tracked in T-093 to T-096."
         }
       ]
     },
@@ -945,7 +966,7 @@
       "workstream": "G10 Post-training",
       "title": "Daily note in the G10 group (done, blocked, next)",
       "desc": "Each work evening: Sun 1 to Wed 4 Nov, Thu 12 and Fri 13 Nov. Include paths and commit ids.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -956,7 +977,9 @@
         "daily-note"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:26",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-039",
@@ -1023,7 +1046,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Join the pinned Telegram group for G12 connects",
       "desc": "Axiom chat gives no notifications; connects are announced in the pinned Telegram group.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1034,7 +1057,9 @@
         "coordination"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:40",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-051",
@@ -1042,7 +1067,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Read tools.md and scripts/quantize_eval.py in teams/12-quantization",
       "desc": "Week 1 result: OLMoE-1B-7B in 7 formats. Q4_K_M shows no measurable loss; Q3_K_M loses 4.2 MMLU points; Q2_K breaks. The eval-mini notebook runs on Kaggle.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1053,7 +1078,13 @@
         "g12"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T23:55",
+          "by": "Ravi Naik",
+          "text": "Closed. tools.md and scripts/quantize_eval.py were read on 3 Nov and used to build the Sarvam-30B offline run (see T-089)."
+        }
+      ]
     },
     {
       "id": "T-052",
@@ -1138,7 +1169,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Daily note in the G12 group (done, blocked, next)",
       "desc": "Each work evening, same days as G10.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1149,7 +1180,9 @@
         "daily-note"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:26",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-060",
@@ -1325,7 +1358,7 @@
       "workstream": "Lab milestones",
       "title": "Break: no student work (5 to 11 Nov)",
       "desc": "TSAI runs queued job requests. Send any job request before Wed 4 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [],
       "due": "2026-11-05",
@@ -1334,7 +1367,9 @@
         "calendar"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:29",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "M-04",
@@ -1395,7 +1430,7 @@
       "workstream": "G10 Post-training",
       "title": "Answer the rotation members: where are the SFT and RL sets?",
       "desc": "Srinivasan, Shankar and Sagar asked for their tasks and where to find the SFT/RL sets. Point them to licences/licence_table.md and the sets list in Sai Teja's branch; each checks 5 sets by Sat 14 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1406,7 +1441,13 @@
         "rotation"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T23:59",
+          "by": "Ravi Naik",
+          "text": "Closed. Discussed with the rotation members on the call, per Ravi."
+        }
+      ]
     },
     {
       "id": "T-071",
@@ -1447,7 +1488,7 @@
       "workstream": "G10 Post-training",
       "title": "Bring the PR #178 and week 2 discussion points to the 9 pm IST call",
       "desc": "Points: TSAI re-review of #178; slots 05/06 with G3; member letters A to G; licence table sections 5 and 11 (Ashish, Syed); exclusions; rotation members; daily notes.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1458,7 +1499,13 @@
         "call"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T23:55",
+          "by": "Ravi Naik",
+          "text": "Closed as past: the 2 Nov 9 pm IST call has happened. Carry-overs are tracked elsewhere: member letters (T-025, closed), exclusions (T-027, T-085), rotation members (T-070), daily notes (T-038, T-055)."
+        }
+      ]
     },
     {
       "id": "T-073",
@@ -1466,7 +1513,7 @@
       "workstream": "G10 Post-training",
       "title": "Ashish (section 5) and Syed (section 11): submit licence table sections",
       "desc": "The last two placeholders in licences/licence_table.md. Neither fork PR has arrived. Sai Teja asked on 31 Oct and 1 Nov; if nothing comes, a member picks them up.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ashish Kamble",
@@ -1478,7 +1525,9 @@
         "licence"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:29",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-065",
@@ -1787,7 +1836,7 @@
       "workstream": "G10 Post-training",
       "title": "Update sft_mix_proposal.md and licence_table.md with the TSAI generator rule of 3 Nov",
       "desc": "Rule: in = human-written, execution-verified synthesis, open-weight models under MIT or Apache 2.0 that allow training on output (gpt-oss, DeepSeek-R1, Qwen Apache, QwQ, Mixtral); out = closed models, Llama, OpenRAIL-M (StarCoder2), unknown generator. Record generator and its licence for every set, and state the rule in the proposal for Gate 2.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Sai Teja",
@@ -1805,7 +1854,9 @@
           "by": "Ravi Naik",
           "text": "Sai Teja pushed the 3 Nov rule to branch g10-week1-post-training (G10 chat, 3 Nov): generator + licence on every row, StarCoder2 set removed, unknown generators excluded, convert.py check_allowed, 56 tests pass. Ravi to read the branch and confirm our PR 20 decisions are kept."
         }
-      ]
+      ],
+      "updated": "2026-11-04T16:25",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-085",
@@ -1901,7 +1952,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Ask Sreekanth in G12: is a 30B MoE (Sarvam-30B) OK, and where do results go (runs/ folder or runs.csv)",
       "desc": "Post the model pick in the G12 group so nobody duplicates it. Ask the two questions, and the topic folder name for the PR.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1912,7 +1963,9 @@
         "g12"
       ],
       "refs": [],
-      "comments": []
+      "comments": [],
+      "updated": "2026-11-04T16:37",
+      "completedAt": "2026-11-04"
     },
     {
       "id": "T-089",
@@ -2172,5 +2225,5 @@
       ]
     }
   ],
-  "rev": 18
+  "rev": 30
 }
