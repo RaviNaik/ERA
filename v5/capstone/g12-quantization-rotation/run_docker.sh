@@ -37,5 +37,5 @@ exec docker run --rm ${TTY[@]+"${TTY[@]}"} --gpus "$GPUS" --ipc=host \
   -u "$(id -u):$(id -g)" \
   -v "$HOST_WORK_DIR:/work" \
   -v "$HERE:/app" \
-  -e WORK_DIR=/work -e HOME=/work/home \
+  -e WORK_DIR=/work -e HOME=/work/home -e "OFFLINE=${OFFLINE:-0}" \
   "$IMAGE" "${CMD[@]}"

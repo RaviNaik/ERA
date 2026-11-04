@@ -9,6 +9,7 @@ REVISION="071ae95e933605ca1104a6b4524a36a98488efa4"      # HF commit of 23 Mar 2
 FORMATS="bf16 Q4_K_M"
 WORK_DIR="${WORK_DIR:-$HOME/era-v5-g12-work}"            # needs ~330 GB free at the peak (see README)
 KEEP_HF="${KEEP_HF:-0}"                                  # 1 keeps the 128 GB fp32 download after conversion
+OFFLINE="${OFFLINE:-0}"                                  # 1 = no Hugging Face access: use files copied from another machine (see README)
 TEST_TOL=""                                              # empty = G12's 0.05; see README before changing it
 
 # --- G12 / G9 pins (do not change; combine.py refuses runs made with other versions) -------------------------

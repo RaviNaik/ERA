@@ -6,13 +6,18 @@ QUANT="$LLAMA_DIR/build/bin/llama-quantize"
 TIMES="$ROOT/results/quant_times.json"; [ -f "$TIMES" ] || echo '{}' > "$TIMES"
 
 if [ ! -f "$BF16" ]; then
-  say "download $MODEL @ $REVISION (about 129 GB of fp32 safetensors)"
-  # only data files: no *.py, so no code from the model repo is downloaded or run
-  env -u PYTHONPATH "$CONV_VENV/bin/python" - <<PY
+  if hf_complete "$WORK_DIR/hf"; then
+    say "model files already in $WORK_DIR/hf (copied or downloaded earlier): no download"
+  else
+    [ "$OFFLINE" = "1" ] && die "OFFLINE=1 but $WORK_DIR/hf is incomplete: copy the model folder from a machine with Hugging Face access (README, 'No Hugging Face on the server')"
+    say "download $MODEL @ $REVISION (about 129 GB of fp32 safetensors)"
+    # only data files: no *.py, so no code from the model repo is downloaded or run
+    env -u PYTHONPATH "$CONV_VENV/bin/python" - <<PY
 from huggingface_hub import snapshot_download
 snapshot_download("$MODEL", revision="$REVISION", local_dir="$WORK_DIR/hf",
                   allow_patterns=["*.json", "*.safetensors", "*.model", "*.txt", "*.jinja"])
 PY
+  fi
   say "convert to bf16 GGUF (about 64 GB)"
   env -u PYTHONPATH "$CONV_VENV/bin/python" "$LLAMA_DIR/convert_hf_to_gguf.py" "$WORK_DIR/hf" \
       --outtype bf16 --outfile "$BF16" 2>&1 | tee "$LOGS/convert.log"

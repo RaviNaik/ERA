@@ -53,6 +53,30 @@ Other commands: `./run_docker.sh step 3` (one step), `./run_docker.sh shell` (a 
 Toolkit is missing: `sudo apt install nvidia-container-toolkit && sudo nvidia-ctk runtime configure --runtime=docker
 && sudo systemctl restart docker`.
 
+## No Hugging Face on the server
+
+If the server cannot reach huggingface.co (the model download fails with an SSL error), fetch the files on a machine
+that can, then copy them over. Two things come from Hugging Face: the model (129 GB) and the five eval datasets
+(small, but `lm_eval` loads them at scoring time, so step 3 would fail the same way).
+
+```bash
+# on a machine WITH Hugging Face access and about 140 GB free
+OUT=/big/disk/g12-hf ./scripts/prefetch_hf.sh     # downloads both, then proves the datasets load with the network off
+
+# copy to the server, into HOST_WORK_DIR there (same folder names)
+rsync -ah --progress /big/disk/g12-hf/hf/                      server:/data/g12/hf/
+rsync -ah --progress /big/disk/g12-hf/home/.cache/huggingface/ server:/data/g12/home/.cache/huggingface/
+
+# on the server
+export HOST_WORK_DIR=/data/g12
+OFFLINE=1 KEEP_HF=1 ./run_docker.sh 2>&1 | tee -a run_all.log
+```
+
+`OFFLINE=1` switches off every Hugging Face network call and stops with a clear message if a file is missing. Step 2
+uses the copied model folder instead of downloading. `KEEP_HF=1` keeps that folder after conversion (otherwise it is
+deleted to save 129 GB). Everything else that needs the internet (GitHub for llama.cpp and the evaluation code, PyPI for
+packages) is unchanged; if the server blocks those too, tell me which.
+
 ## Run it without Docker
 
 Needs a Linux machine with NVIDIA GPUs, the CUDA toolkit (`nvcc`), `git`, `cmake` (installed for you with pip if
