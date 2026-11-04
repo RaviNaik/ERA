@@ -2221,9 +2221,56 @@
           "at": "2026-11-04T23:30",
           "by": "Ravi Naik",
           "text": "Decontam done: fingerprints v2, full set, set_sha256 2826a3b8..., 10 prompts, 0 flagged. Local pr-guard patterns: 0 hits. PR #30 opened to saitej123 g10-week1-post-training (60 files, all under teams/10-post-training/rl/). pr-guard had not reported yet when checked. Done once pr-guard passes and the PR is reviewed."
+        },
+        {
+          "at": "2026-11-05T00:30",
+          "by": "Ravi Naik",
+          "text": "Re-checked 4 Nov: PR #30 is open and mergeable, no review yet, and no pr-guard checks reported on the branch."
+        }
+      ]
+    },
+    {
+      "id": "T-097",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review fork PRs #28, #29 and #24 and post comments",
+      "desc": "Checked each PR against the cards, the merged table format (PR #25) and the TSAI rules. Comments posted 4 Nov. #28 (Ranjani): table format, SYNTHETIC-2-RL licence is inherited, Skywork-OR1 data_source includes NuminaMath-1.5 subsets. #29 (Soma): LeetCodeDataset test inputs made by an unnamed LLM (paper arXiv 2504.14655), so hold the decision until known; wrong second paper cited; OpenR1-Math-Raw consistent with the 220k precedent; ProcessBench is eval only; asked Sai Teja why the LeetCode set was removed. #24 (Hema): description does not match the diff, branch carries Anirudh's commit from #27.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-04",
+      "week": 2,
+      "labels": [
+        "review",
+        "licence"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "28"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "29"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "24"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-05T00:30",
+          "by": "Ravi Naik",
+          "text": "Comments posted on #28, #29 and #24. Open: Sai Teja's answer on why the LeetCode set was removed; Soma to find which LLM made the LeetCodeDataset test inputs; Hema to fix the #24 description and rebase."
         }
       ]
     }
   ],
-  "rev": 30
+  "rev": 31
 }
