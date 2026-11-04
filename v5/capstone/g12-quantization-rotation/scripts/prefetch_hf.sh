@@ -4,7 +4,9 @@
 #   2. the five eval_mini datasets (ARC-Challenge, HellaSwag, MMLU, GSM8K, TruthfulQA) into an HF cache,
 # then proves the datasets load with the network switched off. Copy the two folders to the server (README).
 #
-#   OUT=/path/with/140GB/free ./scripts/prefetch_hf.sh
+#   OUT=/path/with/140GB/free ./scripts/prefetch_hf.sh          # datasets, then the model
+#   STEPS=model OUT=... ./scripts/prefetch_hf.sh                # only the model (resumes a stopped download)
+# A Hugging Face token (export HF_TOKEN=... in your own shell) lifts the rate limit for unauthenticated downloads.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck disable=SC1091
@@ -17,6 +19,8 @@ export PATH="$HOME/.local/bin:$PATH"
 PY="$OUT/.venv/bin/python"
 export HF_HOME="$OUT/home/.cache/huggingface"
 
+STEPS="${STEPS:-datasets model}"   # STEPS=model skips the datasets (already cached and verified)
+if [[ " $STEPS " == *" datasets "* ]]; then
 echo "=== datasets"
 "$PY" - <<'PYC'
 from lm_eval.tasks import TaskManager, get_task_dict
@@ -29,13 +33,16 @@ from lm_eval.tasks import TaskManager, get_task_dict
 get_task_dict(["arc_challenge", "hellaswag", "mmlu", "gsm8k", "truthfulqa_mc2"], TaskManager())
 print("OFFLINE OK: all five tasks load from the cache")
 PYC
+fi
 
+if [[ " $STEPS " == *" model "* ]]; then
 echo "=== model $MODEL @ $REVISION"
 "$PY" - <<PYC
 from huggingface_hub import snapshot_download
 snapshot_download("$MODEL", revision="$REVISION", local_dir="$OUT/hf",
                   allow_patterns=["*.json", "*.safetensors", "*.model", "*.txt", "*.jinja"])
 PYC
+fi
 du -sh "$OUT/hf" "$OUT/home/.cache/huggingface"
 cat <<MSG
 

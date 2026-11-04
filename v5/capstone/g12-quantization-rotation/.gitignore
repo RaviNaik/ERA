@@ -1,3 +1,4 @@
 *.gguf
+hf_offline/
 __pycache__/
 work/
