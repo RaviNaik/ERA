@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02",
+  "updated": "2026-11-04",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -21,7 +21,7 @@
       "workstream": "Individual: code-go",
       "title": "Read TSAI's Gate 1 DM and list every item to fix on PR #36",
       "desc": "TSAI sent each student a DM with the Gate 1 result. A partial result has a numbered list of items. The DM is private, so copy the list here.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -43,6 +43,11 @@
           "at": "2026-11-01T18:00",
           "by": "Ravi Naik",
           "text": "CAP post of 1 Nov: partial results must be fixed in the same PR by Wed 4 Nov 23:59 IST."
+        },
+        {
+          "at": "2026-11-04T20:10",
+          "by": "Ravi Naik",
+          "text": "DM read (Gate 1 result: partial, sent 1 Nov). Two items: (1) add the E1 harm result in medicine.md; (2) run the harm test for B3, B4, E2, E4 on the real gold set of the pack, or write 'gold set empty, not testable'. Both were done in commit 70c1d69 on 2 Nov, before the deadline (Wed 4 Nov 23:59 IST). Re-run on 4 Nov with the exact command from the instructor, per rule, on the 163-document Go gold set (harm_test.py and code-go_gold.csv unchanged on main): B3, E1, E2, E4, B4 each 0 changed, 0 dropped, PASS."
         }
       ]
     },
@@ -309,7 +314,7 @@
       "workstream": "Individual: code-go",
       "title": "Check PR #36 and the TSAI DM for new comments",
       "desc": "Until Gate 1 fixes are accepted.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -331,6 +336,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "1 Nov evening check: no new TSAI comment on PR #36. Last comment is our reply to Vijay on row 500. Review state: review required."
+        },
+        {
+          "at": "2026-11-04T20:10",
+          "by": "Ravi Naik",
+          "text": "4 Nov: no new TSAI comment on PR #36; Gate 1 items fixed in 70c1d69; nothing left to fix tonight. Reopen only if TSAI comments or Data A changes the gold set."
         }
       ]
     },
@@ -422,7 +432,7 @@
       "workstream": "G10 Post-training",
       "title": "Lab PR #178: merge fork PR #18, rebase on main, get pr-guard green",
       "desc": "Fork PR #18 is merged, so #178 no longer conflicts. Waiting for TSAI to re-review (review is still 'changes requested' from 1 Nov) and merge.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Sai Teja"
@@ -456,6 +466,11 @@
           "at": "2026-11-03T20:00",
           "by": "Ravi Naik",
           "text": "Still open and approved on 3 Nov; waiting for TSAI to merge. Sai Teja merged the fork side only."
+        },
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Lab PR 178 merged on 3 Nov (17:18)."
         }
       ]
     },
@@ -514,7 +529,9 @@
       "desc": "Remove the 0 to 29 / 000 to 255 numbering. render.py still uses its own IDs in tokenize_markers().",
       "status": "done",
       "priority": "high",
-      "assignees": [],
+      "assignees": [
+        "Amit T"
+      ],
       "due": "2026-11-02",
       "week": 2,
       "labels": [
@@ -533,6 +550,11 @@
           "at": "2026-11-02T12:28",
           "by": "Ravi Naik",
           "text": "Done by Sai Teja in ca9e785 on his branch: render.py reads Team 3 IDs (build_v0_1.py, with special_tokens_v1.md as fallback); 000-255 numbering removed. 36 tests pass; both loading paths checked."
+        },
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Fork PR 22 merged 3 Nov. Amit still owes the chat template hand-off to G12 (Thu 12 Nov) and render tests on the frozen tokenizer (Sat 14 Nov)."
         }
       ]
     },
@@ -679,9 +701,11 @@
       "workstream": "G10 Post-training",
       "title": "Member C: decontam_check.py with fingerprints v2 and sft/decontam_report.md",
       "desc": "Needs Team 9's fingerprints v2 (due Wed 4 Nov). Include the set_sha256. TSAI packs by Fri 13 Nov.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
-      "assignees": [],
+      "assignees": [
+        "Anirudh narla"
+      ],
       "due": "2026-11-04",
       "week": 2,
       "labels": [
@@ -695,6 +719,11 @@
           "at": "2026-11-02T12:36",
           "by": "Ravi Naik",
           "text": "PR #19 output rows have id and text, and decontam_check.py on main accepts --id-field id, so the outputs can be checked as they are once fingerprints v2 arrive (Wed 4 Nov)."
+        },
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Anirudh took Member C (G10 chat, 3 Nov). Fingerprints v2 is merged (lab PR 280, set_sha256 2826a3b8...). Run the FULL set (no --benchmarks/--tags/--exclude) and record set_sha256. Our RL tasks must also pass it (T-096)."
         }
       ]
     },
@@ -816,7 +845,7 @@
       "type": "task",
       "workstream": "G10 Post-training",
       "title": "Member G: 10 code tasks in rl/tasks/, rl/verifier.py, rl/test_verifier.py",
-      "desc": "Test one correct and one wrong answer per task. Offer left open to prototype Go RL tasks.",
+      "desc": "Sai Teja task text: write 10 code tasks with hidden tests in rl/tasks/, rl/verifier.py, and rl/test_verifier.py with 1 correct and 1 wrong answer per task. Due Fri 13 Nov. Constraints from TSAI: tasks must be original (no HumanEval, MBPP or other benchmark text: eval firewall of 4 Nov), human-written or execution-verified, pass decontam_check.py on fingerprints v2 (full set), files only under teams/10-post-training/rl/ (pr-guard: only .md directly in the team folder, no other team folders), PR to saitej123 fork branch g10-week1-post-training.",
       "status": "progress",
       "priority": "medium",
       "assignees": [
@@ -839,6 +868,11 @@
           "at": "2026-11-03T20:00",
           "by": "Ravi Naik",
           "text": "Posted in G10 on 2 Nov that I started on Member G. Reading RL and verifier material; design note comes next."
+        },
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Read Rohan guidelines of 2, 3 and 4 Nov. Anirudh fork PR 27 already has verify.py for repository patches; align the interface (T-092). Split into T-093 to T-096."
         }
       ]
     },
@@ -1723,7 +1757,7 @@
       "workstream": "G10 Post-training",
       "title": "Get Sai Teja to confirm Ravi as Member G",
       "desc": "Message posted asking to take Member G (RL code tasks, verifier, test) and to reuse a few SWE environments as RL tasks. Confirm in the group, then start the verifier design.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1739,6 +1773,11 @@
           "at": "2026-11-03T20:00",
           "by": "Ravi Naik",
           "text": "No reply from Sai Teja yet on 3 Nov. Others (Vikash for D/E/F, Amit for A) are claiming letters, so ask again."
+        },
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Sai Teja confirmed in G10 on 3 Nov: Member G (Ravi) = 10 RL code tasks with hidden tests, rl/verifier.py, rl/test_verifier.py (1 correct and 1 wrong answer per task)."
         }
       ]
     },
@@ -1748,7 +1787,7 @@
       "workstream": "G10 Post-training",
       "title": "Update sft_mix_proposal.md and licence_table.md with the TSAI generator rule of 3 Nov",
       "desc": "Rule: in = human-written, execution-verified synthesis, open-weight models under MIT or Apache 2.0 that allow training on output (gpt-oss, DeepSeek-R1, Qwen Apache, QwQ, Mixtral); out = closed models, Llama, OpenRAIL-M (StarCoder2), unknown generator. Record generator and its licence for every set, and state the rule in the proposal for Gate 2.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Sai Teja",
@@ -1760,7 +1799,13 @@
         "licence"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Sai Teja pushed the 3 Nov rule to branch g10-week1-post-training (G10 chat, 3 Nov): generator + licence on every row, StarCoder2 set removed, unknown generators excluded, convert.py check_allowed, 56 tests pass. Ravi to read the branch and confirm our PR 20 decisions are kept."
+        }
+      ]
     },
     {
       "id": "T-085",
@@ -1780,7 +1825,13 @@
         "review"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Sai Teja table now excludes unknown generators. Recheck the three own exclusions (NuminaMath-CoT: GPT-4, rStar-Coder, Big-Math) against the rule and the current table."
+        }
+      ]
     },
     {
       "id": "T-086",
@@ -1788,7 +1839,7 @@
       "workstream": "G10 Post-training",
       "title": "Review fork PR #21 (Lokesh: safety datasets, 3% Safety, General 7%)",
       "desc": "Touches licence_table.md and sft_mix_proposal.md after our PR #20. Check the generator and licence of each of the 13 new entries against the 3 Nov rule, and that the shares still sum to 100%.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1805,7 +1856,13 @@
           "ref": "21"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Fork PR 21 was merged on 3 Nov before a review. Nothing to review; check the merged licence_table.md and sft_mix_proposal.md in Sai Teja branch under T-084."
+        }
+      ]
     },
     {
       "id": "T-087",
@@ -1813,7 +1870,7 @@
       "workstream": "G10 Post-training",
       "title": "Review fork PR #22 (Amit, Member A: chat engine reads Team 3 tokenizer IDs)",
       "desc": "File list is very large and includes .github/workflows/pr-guard.yml, CODEOWNERS and other teams folders: looks like a merge of main. Ask for a focused diff before merge; then check render.py reads IDs from tokenizer.json and tests pass.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1830,7 +1887,13 @@
           "ref": "22"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Fork PR 22 was merged on 3 Nov before a review. Nothing to review; check the merged licence_table.md and sft_mix_proposal.md in Sai Teja branch under T-084."
+        }
+      ]
     },
     {
       "id": "T-088",
@@ -1857,7 +1920,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Run the Sarvam-30B quantization on the server (run_all.sh) and collect results/",
       "desc": "Clone the ERA repo on the server, edit config.sh (WORK_DIR, about 330 GB free), run v5/capstone/g12-quantization-rotation/run_all.sh. Check the guard test and gguf checks pass. Share results/ or commit them.",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1868,7 +1931,18 @@
         "g12"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Model download on this machine: HF token set, about 13 MB/s, 6 of 26 shards done at 14:00. Raw per-question logs now stay outside the repo (eval firewall)."
+        },
+        {
+          "at": "2026-11-04T18:10",
+          "by": "Ravi Naik",
+          "text": "Model download finished on this machine: 26 of 26 shards, every file matches the expected size for revision 071ae95e, no .incomplete files left. Next: rsync hf_offline/hf and hf_offline/home/.cache/huggingface to the server HOST_WORK_DIR, then OFFLINE=1 KEEP_HF=1 ./run_docker.sh."
+        }
+      ]
     },
     {
       "id": "T-090",
@@ -1887,7 +1961,13 @@
         "g12"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-04T14:00",
+          "by": "Ravi Naik",
+          "text": "Eval firewall: commit only results/ (stripped copy, no target or response text). Never commit hf_offline/ or work/. G12 lead also rejected jsonl with target and response (PR 272)."
+        }
+      ]
     },
     {
       "id": "T-091",
@@ -1908,7 +1988,189 @@
       ],
       "refs": [],
       "comments": []
+    },
+    {
+      "id": "T-092",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review fork PR #27 (Anirudh: 21 SWE environments, verify.py) and align the RL verifier interface",
+      "desc": "Anirudh asked Ravi and Amit to review (G10 chat, 4 Nov). Check the gold check evidence (fail before, pass after, 5 runs), licences of the source repos, no LLM-generated parts. Note how verify.py gives a reward and refuses patches that touch tests, to reuse the ideas in rl/verifier.py.",
+      "status": "done",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-05",
+      "week": 2,
+      "labels": [
+        "review",
+        "rl"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "27"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-04T18:10",
+          "by": "Ravi Naik",
+          "text": "Review posted on fork PR #27 (comment review). Reproduced with the real verify.py and the validators-191 image: (1) a patch that appends an atexit hook to a source file forges the junit report and gets reward 1 without fixing the bug, (2) no --pids-limit in docker run (1500 processes started; stops at 255 with the limit), (3) git-quoted non-ASCII paths skip the test-path check, (4) only 2 envs checked on amd64, (5) flagged envs need a field in env.json. Data side (gold check 21/21, licences, provenance) is correct."
+        }
+      ]
+    },
+    {
+      "id": "T-093",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "RL design note: task format, reward rules, hidden tests, anti-cheating checks",
+      "desc": "One page for Sai Teja and Anirudh before coding: task folder layout, how a completion is parsed, sandbox (process, timeout, memory, no network), binary reward, hidden vs visible tests, cheating cases to test (sys.exit, printing expected output, hard-coding visible tests, overwriting the harness, infinite loop). Task source rule: original, no benchmark text.",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-06",
+      "week": 2,
+      "labels": [
+        "rl",
+        "design"
+      ],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-04T18:10",
+          "by": "Ravi Naik",
+          "text": "Draft written: v5/capstone/g10-rl/design_note.md (layout, parsing, sandbox, reward rule, hidden vs visible tests, cheating table, 3 open questions). To add: sentinel test idea from the PR #27 review, exact decontam command (fingerprints v2 default after #280). Not posted yet."
+        },
+        {
+          "at": "2026-11-04T19:30",
+          "by": "Ravi Naik",
+          "text": "Design note rewritten to match the code: expected answers never enter the sandbox (the sandbox gets inputs only, the verifier compares outputs), which removes the forged-report attack found in PR #27. File: v5/capstone/g10-rl/design_note.md. Ready for the user to read, then post to Sai Teja and Anirudh."
+        }
+      ]
+    },
+    {
+      "id": "T-094",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Write 10 original code tasks with hidden tests in rl/tasks/",
+      "desc": "Ten original tasks (not from HumanEval, MBPP or any benchmark), each with prompt, signature, visible tests, hidden tests, time limit and reference solution. Execution-verified: verifier.py --check-task passes for all ten, in process and docker mode. Includes Indic text handling (clusters, digits, phone numbers).",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-11",
+      "week": 2,
+      "labels": [
+        "rl"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-04T21:00",
+          "by": "Ravi Naik",
+          "text": "Ten tasks written in g10-rl/rl/tasks/: indic_cluster_count, normalize_phone_in, session_split, parse_duration, ring_sums, topo_order, wrap_text, next_business_day, transliterate_digits, weighted_median. All pass --check-task; naive wrong answers score 0. Needs Ravi's review before the PR."
+        },
+        {
+          "at": "2026-11-04T21:30",
+          "by": "Ravi Naik",
+          "text": "Clarified: the human-written / closed-model generator rule is for SFT data only. RL tasks have no such limit, so the tasks can be model-assisted. Design note made generic."
+        },
+        {
+          "at": "2026-11-04T22:30",
+          "by": "Ravi Naik",
+          "text": "Independent review done, fixed: answer parser mis-paired fences (a correct answer with an output block before the final python block scored 0); int/float strictness; subclass exceptions; shared mutable returns; docker disk-fill and swap limits; fixed hash seed; hidden-call lint never matched; stub lint added. Tasks: spec gaps fixed (cluster ZWJ chain, 9999-12-31, phone spaces), tests added for gaps found by mutation testing, null -> None in examples, answer-format line added, param date -> day. 47 tests pass; 10 tasks OK in process and docker."
+        },
+        {
+          "at": "2026-11-04T23:30",
+          "by": "Ravi Naik",
+          "text": "Included in PR #30 (saitej123, branch g10-week1-post-training). Waiting for Sai Teja's review."
+        }
+      ]
+    },
+    {
+      "id": "T-095",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Write rl/verifier.py and rl/test_verifier.py (1 correct and 1 wrong answer per task, plus cheating cases)",
+      "desc": "Sandboxed execution, deterministic binary reward, refuses to be fooled by the cheating cases in T-093. pytest must pass.",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "rl"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-04T19:30",
+          "by": "Ravi Naik",
+          "text": "rl/verifier.py, rl/_sandbox_child.py and rl/test_verifier.py written in v5/capstone/g10-rl/rl/. 38 tests pass (process and docker sandboxes, a correct and a wrong answer, 17 cheating cases: sys.exit, os._exit, printed output, forged results file, patched json, infinite loop, memory bomb, fork bomb, 50 MB file, read hidden tests from disk, network, read-only root). Task lint: verifier.py --check-task. Cost: 0.04 s per reward in process mode, 0.23 s in docker. Still to do: run it on the 10 real tasks once they exist (T-094), then copy into the lab folder."
+        },
+        {
+          "at": "2026-11-04T22:30",
+          "by": "Ravi Naik",
+          "text": "Independent review done, fixed: answer parser mis-paired fences (a correct answer with an output block before the final python block scored 0); int/float strictness; subclass exceptions; shared mutable returns; docker disk-fill and swap limits; fixed hash seed; hidden-call lint never matched; stub lint added. Tasks: spec gaps fixed (cluster ZWJ chain, 9999-12-31, phone spaces), tests added for gaps found by mutation testing, null -> None in examples, answer-format line added, param date -> day. 47 tests pass; 10 tasks OK in process and docker."
+        },
+        {
+          "at": "2026-11-04T23:30",
+          "by": "Ravi Naik",
+          "text": "Verifier, child and 47 tests are in PR #30. Waiting for Sai Teja's review; open questions in the PR: one reward wrapper with the SWE envs, custom checkers, cost."
+        }
+      ]
+    },
+    {
+      "id": "T-096",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Run decontam_check.py (fingerprints v2, full set) on rl/tasks and open the PR to saitej123 branch g10-week1-post-training",
+      "desc": "Record removals and set_sha256 in the PR. pr-guard must pass: files only under teams/10-post-training/rl/. First complete PR gets merged first (Sai Teja). Due Fri 13 Nov.",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "rl",
+        "pr"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-04T23:30",
+          "by": "Ravi Naik",
+          "text": "Decontam done: fingerprints v2, full set, set_sha256 2826a3b8..., 10 prompts, 0 flagged. Local pr-guard patterns: 0 hits. PR #30 opened to saitej123 g10-week1-post-training (60 files, all under teams/10-post-training/rl/). pr-guard had not reported yet when checked. Done once pr-guard passes and the PR is reviewed."
+        }
+      ]
     }
   ],
-  "rev": 10
+  "rev": 18
 }
