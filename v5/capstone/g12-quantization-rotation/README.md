@@ -107,11 +107,21 @@ To try a quick end-to-end check first, run step 3 for one format with a few item
 |---|---|
 | `scores.csv` | five task scores and the mean, per format |
 | `runs_row.csv` | one row per format in the columns of `teams/12-quantization/runs/runs.csv` |
-| `runs/<format>/summary.json`, `*.samples.jsonl` | G9 record format and one row per question (what G12's `combine.py` reads) |
+| `runs/<format>/summary.json`, `*.samples.jsonl` | G9 record format and one row per question with scores and ids only. **No benchmark text and no model output** (step 4 strips `target`, `response` and similar fields) |
 | `runs/paired.md` | each format against bf16 on the same questions, with 95% CI and McNemar p |
 | `gguf_check_<format>.json` | tensor types, bits per weight, router and output types |
 | `speed_<format>.json`, `quant_times.json` | generation tokens per second, quantize time |
 | `environment.json`, `gpus.txt`, `env_probe.json`, `logs/` | versions, hardware and every log |
+
+## Eval firewall (TSAI rule of 4 Nov)
+
+Benchmark item text never goes into a repo, fork, PR, issue, chat or notebook, and per-item logs with text never go
+in Git. G12's lead also rejected a PR for having `target` and `response` in its jsonl files. So the raw per-question
+logs (which contain both) are written to `WORK_DIR/runs_raw`, outside the repo folder, and step 4 writes the
+committable copy to `results/runs/` without them (`scripts/strip_item_text.py`, which fails if any text field is left).
+Commit only `results/`. Never commit `hf_offline/` or `work/` (both are in `.gitignore`; `hf_offline/` holds the
+benchmark datasets). The rule allows G12's quantized eval runs and rotators' one benchmark run; it does not allow
+naming an eval dataset in a training job.
 
 ## Handing it in to G12
 

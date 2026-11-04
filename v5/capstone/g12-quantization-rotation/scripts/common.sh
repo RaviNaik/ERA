@@ -10,7 +10,7 @@ EVAL_VENV="$WORK_DIR/eval-venv"
 CONV_VENV="$WORK_DIR/convert-venv"
 NAME="${MODEL##*/}"
 BF16="$WORK_DIR/$NAME-bf16.gguf"
-RUNS="$ROOT/results/runs"
+RUNS="$WORK_DIR/runs_raw"      # raw per-question logs WITH item text: stay outside the repo (eval firewall, 4 Nov)
 LOGS="$ROOT/results/logs"
 say() { printf '\n=== %s\n' "$*"; }
 die() { echo "ERROR: $*" >&2; exit 1; }
