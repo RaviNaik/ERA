@@ -9,7 +9,8 @@
 # Mounts (everything that matters stays on the host):
 #   HOST_WORK_DIR (default ./work)  -> /work   models, GGUFs, llama.cpp build, venvs, caches   (~330 GB peak)
 #   this folder                     -> /app    config.sh and results/ (scores, runs_row.csv, logs)
-# The container runs as your user, so no file on the host is owned by root.
+# The container runs as your user, so no file on the host is owned by root. That uid has no entry in the container's
+# /etc/passwd, so USER, LOGNAME and the torch cache folder are set here (torch looks up the user name and fails otherwise).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HOST_WORK_DIR="${HOST_WORK_DIR:-$HERE/work}"
@@ -38,4 +39,5 @@ exec docker run --rm ${TTY[@]+"${TTY[@]}"} --gpus "$GPUS" --ipc=host \
   -v "$HOST_WORK_DIR:/work" \
   -v "$HERE:/app" \
   -e WORK_DIR=/work -e HOME=/work/home -e "OFFLINE=${OFFLINE:-0}" \
+  -e USER=g12 -e LOGNAME=g12 -e TORCHINDUCTOR_CACHE_DIR=/work/home/.cache/torchinductor \
   "$IMAGE" "${CMD[@]}"
