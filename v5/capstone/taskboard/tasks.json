@@ -740,6 +740,11 @@
           "at": "2026-11-04T14:00",
           "by": "Ravi Naik",
           "text": "Anirudh took Member C (G10 chat, 3 Nov). Fingerprints v2 is merged (lab PR 280, set_sha256 2826a3b8...). Run the FULL set (no --benchmarks/--tags/--exclude) and record set_sha256. Our RL tasks must also pass it (T-096)."
+        },
+        {
+          "at": "2026-11-05T16:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: Anirudh and Sai Teja agreed that I take up the run today and Anirudh joins when available. Tracked in T-101."
         }
       ]
     },
@@ -2410,7 +2415,121 @@
         }
       ],
       "comments": []
+    },
+    {
+      "id": "T-101",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Run the full decontam_check.py (fingerprints v2) on each SFT set and write sft/decontam_report.md",
+      "desc": "Takes over Member C's task T-029 with Anirudh (agreed with Sai Teja in G10, 5 Nov). Full set only (no --benchmarks, --tags or --exclude), run canary_scan.py too, and record set_sha256 2826a3b8...d22a. Per set: flagged file, filtered shard, reconciliation (in = kept + removed, no duplicate ids). Report holds counts and ids only (eval firewall, TSAI #269). Prepare runner, filter, reconciliation and report scripts first and test them on sample rows. TSAI packs by Fri 13 Nov.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "decontamination",
+        "sft"
+      ],
+      "blockedBy": "",
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-05T16:00",
+          "by": "Ravi Naik",
+          "text": "Sai Teja tagged me and Amit on the Team 9 v2 announcement; Anirudh and Sai Teja agreed in G10 that I take it up today. Ask which sets to run first. Ajay verified the 141 fingerprint files; the full run is still pending."
+        }
+      ]
+    },
+    {
+      "id": "T-102",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "RL verifier: one wrapper reward(env_id, output) with a registry",
+      "desc": "TSAI answer on PR #30 (5 Nov): one wrapper reward(env_id, output) returning a score and an info dict. Each environment registers its own checker under its env_id. Register the RL code tasks (rl/verifier.py); Anirudh registers the SWE environments from #27 (verify.py) and we agree what output means for them. Tests: unknown env_id fails loudly, one call per environment type, the cheating cases still score 0 through the wrapper. Small PR to the fork, files only under teams/10-post-training/rl/.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "rl",
+        "pr"
+      ],
+      "blockedBy": "T-101",
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-05T16:00",
+          "by": "Ravi Naik",
+          "text": "Take immediately after T-101. Tell Sai Teja and Anirudh that the SWE side needs a registration."
+        }
+      ]
+    },
+    {
+      "id": "T-103",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "RL design note: record the TSAI answers (no custom checker in v1, warm pool)",
+      "desc": "Update rl/design_note.md open questions: custom checkers are not in v1 (tasks with one exact check; add a hook later only when a real task needs several valid answers, with its own tests); one wrapper reward(env_id, output); warm container pool plan. Re-check that none of the ten tasks needs more than one valid answer. Do in the same PR as T-102.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "rl",
+        "design"
+      ],
+      "blockedBy": "T-101",
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-104",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "RL verifier: warm container pool with parallel workers, and measure rollouts per second",
+      "desc": "TSAI answer on PR #30: a warm container pool, one worker per CPU core, each container reused for a batch of rollouts. Measure rollouts per second with the pool before changing the step size (a Docker call is now about 0.23 s). Keep the protections: no network, read-only, capability drop, pid limit, no expected answers inside, clean working directory per rollout, fresh container after a failure or hang. Report rollouts per second with the pool on and off. Second PR, after the wrapper (T-102).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "rl",
+        "performance"
+      ],
+      "blockedBy": "T-102",
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "30"
+        }
+      ],
+      "comments": []
     }
   ],
-  "rev": 34
+  "rev": 35
 }
