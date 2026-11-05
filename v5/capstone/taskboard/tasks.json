@@ -2303,6 +2303,11 @@
           "at": "2026-11-05T14:00",
           "by": "Ravi Naik",
           "text": "5 Nov: Soma pushed c6e0c88 on #29 (LeetCode pending until the generator is known, ProcessBench eval only, OpenR1-Math-Raw note) and asked for a re-review. Sai Teja says LeetCode variants can be used if they meet the licence and TSAI rules. #23, #24, #27, #28, #31: authors told to apply the feedback, Sai Teja will merge afterwards."
+        },
+        {
+          "at": "2026-11-05T15:00",
+          "by": "Ravi Naik",
+          "text": "Posted a second comment on #29 (issuecomment-6652656226): re-checked c6e0c88 against my review points, all addressed (LeetCode pending, wrong paper removed, licence and rights notes, OpenR1-Math-Raw note, ProcessBench eval only). Open: authors' answer on the LeetCode test-input generator, TSAI ruling on OpenR1-Math-Raw, and my question to Sai Teja whether the unknown generator blocks an RL-only set. Rows can go ahead as written."
         }
       ]
     },
@@ -2407,5 +2412,5 @@
       "comments": []
     }
   ],
-  "rev": 33
+  "rev": 34
 }
