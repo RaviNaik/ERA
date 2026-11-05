@@ -2080,7 +2080,7 @@
       "workstream": "G10 Post-training",
       "title": "RL design note: task format, reward rules, hidden tests, anti-cheating checks",
       "desc": "One page for Sai Teja and Anirudh before coding: task folder layout, how a completion is parsed, sandbox (process, timeout, memory, no network), binary reward, hidden vs visible tests, cheating cases to test (sys.exit, printing expected output, hard-coding visible tests, overwriting the harness, infinite loop). Task source rule: original, no benchmark text.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2102,6 +2102,11 @@
           "at": "2026-11-04T19:30",
           "by": "Ravi Naik",
           "text": "Design note rewritten to match the code: expected answers never enter the sandbox (the sandbox gets inputs only, the verifier compares outputs), which removes the forged-report attack found in PR #27. File: v5/capstone/g10-rl/design_note.md. Ready for the user to read, then post to Sai Teja and Anirudh."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed with Member G work: the design note matches the merged code in PR #30."
         }
       ]
     },
@@ -2111,7 +2116,7 @@
       "workstream": "G10 Post-training",
       "title": "Write 10 original code tasks with hidden tests in rl/tasks/",
       "desc": "Ten original tasks (not from HumanEval, MBPP or any benchmark), each with prompt, signature, visible tests, hidden tests, time limit and reference solution. Execution-verified: verifier.py --check-task passes for all ten, in process and docker mode. Includes Indic text handling (clusters, digits, phone numbers).",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2148,6 +2153,11 @@
           "at": "2026-11-04T23:30",
           "by": "Ravi Naik",
           "text": "Included in PR #30 (saitej123, branch g10-week1-post-training). Waiting for Sai Teja's review."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed: the ten tasks with hidden tests are merged in PR #30."
         }
       ]
     },
@@ -2157,7 +2167,7 @@
       "workstream": "G10 Post-training",
       "title": "Write rl/verifier.py and rl/test_verifier.py (1 correct and 1 wrong answer per task, plus cheating cases)",
       "desc": "Sandboxed execution, deterministic binary reward, refuses to be fooled by the cheating cases in T-093. pytest must pass.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2189,6 +2199,11 @@
           "at": "2026-11-04T23:30",
           "by": "Ravi Naik",
           "text": "Verifier, child and 47 tests are in PR #30. Waiting for Sai Teja's review; open questions in the PR: one reward wrapper with the SWE envs, custom checkers, cost."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed: rl/verifier.py and test_verifier.py are merged in PR #30."
         }
       ]
     },
@@ -2198,7 +2213,7 @@
       "workstream": "G10 Post-training",
       "title": "Run decontam_check.py (fingerprints v2, full set) on rl/tasks and open the PR to saitej123 branch g10-week1-post-training",
       "desc": "Record removals and set_sha256 in the PR. pr-guard must pass: files only under teams/10-post-training/rl/. First complete PR gets merged first (Sai Teja). Due Fri 13 Nov.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2231,6 +2246,11 @@
           "at": "2026-11-05T11:00",
           "by": "Ravi Naik",
           "text": "G10 chat, 4 Nov: Sai Teja said he will merge the PRs the next morning (5 Nov) and asked me to review the other PRs. No review, no pr-guard checks on #30 yet. Calendar from CAP: break 5 to 11 Nov, work days 12 and 13 Nov, Gate 2 draft due 13 Nov, Gate 2 on Sat 14 Nov."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "PR #30 merged by Sai Teja on 5 Nov at 06:16 UTC (merge commit a6584a1), with no review comments. Member G tasks are closed."
         }
       ]
     },
@@ -2278,6 +2298,11 @@
           "at": "2026-11-05T11:00",
           "by": "Ravi Naik",
           "text": "G10 chat, 4 Nov: Sai Teja told Soma 'we have removed this leetcode set earlier' and to check the guidelines, but gave no reason. thinkTinkerGreen also commented on #29: LeetCode must not enter RLVR until Team 9 runs a 13-gram decontamination audit and TSAI signs off on the LeetCode text. Our tagged question to Sai Teja is still open."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: Soma pushed c6e0c88 on #29 (LeetCode pending until the generator is known, ProcessBench eval only, OpenR1-Math-Raw note) and asked for a re-review. Sai Teja says LeetCode variants can be used if they meet the licence and TSAI rules. #23, #24, #27, #28, #31: authors told to apply the feedback, Sai Teja will merge afterwards."
         }
       ]
     },
@@ -2347,6 +2372,11 @@
           "at": "2026-11-05T11:00",
           "by": "Ravi Naik",
           "text": "Instructor message posted on 5 Nov. No TSAI comment on the PR since the Gate 1 result. Check the PR again on 12 Nov."
+        },
+        {
+          "at": "2026-11-05T14:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: the instructor replied in DM. Nothing in #36 blocks it, nothing more is needed from me, and TSAI merges the Gate 1 diagnosis PRs together in one batch after the Gate 1 re-check. Still open, not yet merged."
         }
       ]
     },
@@ -2377,5 +2407,5 @@
       "comments": []
     }
   ],
-  "rev": 32
+  "rev": 33
 }
