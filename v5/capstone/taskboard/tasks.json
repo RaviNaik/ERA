@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2226,6 +2226,11 @@
           "at": "2026-11-05T00:30",
           "by": "Ravi Naik",
           "text": "Re-checked 4 Nov: PR #30 is open and mergeable, no review yet, and no pr-guard checks reported on the branch."
+        },
+        {
+          "at": "2026-11-05T11:00",
+          "by": "Ravi Naik",
+          "text": "G10 chat, 4 Nov: Sai Teja said he will merge the PRs the next morning (5 Nov) and asked me to review the other PRs. No review, no pr-guard checks on #30 yet. Calendar from CAP: break 5 to 11 Nov, work days 12 and 13 Nov, Gate 2 draft due 13 Nov, Gate 2 on Sat 14 Nov."
         }
       ]
     },
@@ -2268,9 +2273,109 @@
           "at": "2026-11-05T00:30",
           "by": "Ravi Naik",
           "text": "Comments posted on #28, #29 and #24. Open: Sai Teja's answer on why the LeetCode set was removed; Soma to find which LLM made the LeetCodeDataset test inputs; Hema to fix the #24 description and rebase."
+        },
+        {
+          "at": "2026-11-05T11:00",
+          "by": "Ravi Naik",
+          "text": "G10 chat, 4 Nov: Sai Teja told Soma 'we have removed this leetcode set earlier' and to check the guidelines, but gave no reason. thinkTinkerGreen also commented on #29: LeetCode must not enter RLVR until Team 9 runs a 13-gram decontamination audit and TSAI signs off on the LeetCode text. Our tagged question to Sai Teja is still open."
         }
       ]
+    },
+    {
+      "id": "T-098",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review fork PRs #31 and #23 and post comments",
+      "desc": "Checked against the cards, papers and the table. #31 (Sagar, 5 SWE/code-agent sets): Claude-3.7 belongs to SmolAgents not OAgents; R2E-Gym wording contradicts the table; AFM-RL decision includes the excluded DAPO slice; SWE-Fixer claims (SWE-bench repos removed, 856 repos) not found, so send to Team 9; two existing detail entries disagree with the table. #23 (thinkTinkerGreen, chat template test): fine, suggested an explicit skip and naming the path for Team 12. Review message posted in G10 chat.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-05",
+      "week": 2,
+      "labels": [
+        "review",
+        "licence"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "31"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "23"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-05T11:00",
+          "by": "Ravi Naik",
+          "text": "Comments posted on #31 and #23 on 5 Nov. Chat message to Sai Teja lists #23, #24, #27, #28, #29 and #31 as reviewed."
+        }
+      ]
+    },
+    {
+      "id": "T-099",
+      "type": "task",
+      "workstream": "Individual: code-go",
+      "title": "Wait for TSAI review and merge of lab PR #36",
+      "desc": "PR #36 has been open since 26 Oct, mergeable, pr-guard green, review required. Message sent to the instructor on 5 Nov with the timeline and a request to name any blocker. Act only on a TSAI comment or a Data A change to the gold set.",
+      "status": "review",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "pr",
+        "gate-1"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "36"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-05T11:00",
+          "by": "Ravi Naik",
+          "text": "Instructor message posted on 5 Nov. No TSAI comment on the PR since the Gate 1 result. Check the PR again on 12 Nov."
+        }
+      ]
+    },
+    {
+      "id": "T-100",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Tell G12 (Sreekanth) the canonical chat template path once PR #23 merges",
+      "desc": "PR #23 points the Team 12 hand-off to teams/10-post-training/chat-format/chat_template.jinja because no copy exists under teams/12-quantization. G12's notes expect the template from G10 on 12 Nov. After #23 merges, post the path in G12 and check the hand-off doc names it.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "chat-format",
+        "handoff"
+      ],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "23"
+        }
+      ],
+      "comments": []
     }
   ],
-  "rev": 31
+  "rev": 32
 }
