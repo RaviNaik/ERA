@@ -717,7 +717,7 @@
       "workstream": "G10 Post-training",
       "title": "Member C: decontam_check.py with fingerprints v2 and sft/decontam_report.md",
       "desc": "Needs Team 9's fingerprints v2 (due Wed 4 Nov). Include the set_sha256. TSAI packs by Fri 13 Nov.",
-      "status": "progress",
+      "status": "review",
       "priority": "medium",
       "assignees": [
         "Anirudh narla"
@@ -745,6 +745,11 @@
           "at": "2026-11-05T16:00",
           "by": "Ravi Naik",
           "text": "5 Nov: Anirudh and Sai Teja agreed that I take up the run today and Anirudh joins when available. Tracked in T-101."
+        },
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: the work moved to T-101 (PR #34 open). Closing this one when #34 is merged."
         }
       ]
     },
@@ -1279,7 +1284,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Team 9: fingerprints v2 and the spec-v1 normalize function",
       "desc": "Needed for our decontamination report (T-029). Due Wed 4 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-04",
@@ -1288,7 +1293,13 @@
         "dependency"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "Fingerprints v2 merged in lab PR #280 on 4 Nov (set_sha256 2826a3b8...d22a, 20 benchmarks). Used in T-101."
+        }
+      ]
     },
     {
       "id": "T-064",
@@ -2422,7 +2433,7 @@
       "workstream": "G10 Post-training",
       "title": "Run the full decontam_check.py (fingerprints v2) on each SFT set and write sft/decontam_report.md",
       "desc": "Takes over Member C's task T-029 with Anirudh (agreed with Sai Teja in G10, 5 Nov). Full set only (no --benchmarks, --tags or --exclude), run canary_scan.py too, and record set_sha256 2826a3b8...d22a. Per set: flagged file, filtered shard, reconciliation (in = kept + removed, no duplicate ids). Report holds counts and ids only (eval firewall, TSAI #269). Prepare runner, filter, reconciliation and report scripts first and test them on sample rows. TSAI packs by Fri 13 Nov.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2434,12 +2445,23 @@
         "sft"
       ],
       "blockedBy": "",
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "34"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-05T16:00",
           "by": "Ravi Naik",
           "text": "Sai Teja tagged me and Amit on the Team 9 v2 announcement; Anirudh and Sai Teja agreed in G10 that I take it up today. Ask which sets to run first. Ajay verified the 141 fingerprint files; the full run is still pending."
+        },
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: runner, report builder and 19 tests are done and the PR is open: saitej123/era-v5-lab #34 (pr-guard passes). Test run on 1,000-row files with fingerprints v2 (set_sha256 2826a3b8...d22a), full set, canary scan 0 hits, independently re-run with the same numbers: codeforces-cots 972 rows, 496 flagged, 476 kept; swe-rebench-openhands 442 rows, 71 flagged (2 near-copies of SWE-bench Live), 371 kept; aya_dataset 1,000 rows, 0 flagged. Still to do: Sai Teja's review; the other sets once convert.py adapters exist (T-081); rerun when Team 3 freezes the tokenizer (14 Nov); ask G9 how to triage low-coverage flags; known v2 gap (no HumanEval/MBPP/ARC), TSAI runs the full-data clean."
         }
       ]
     },
@@ -2449,7 +2471,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: one wrapper reward(env_id, output) with a registry",
       "desc": "TSAI answer on PR #30 (5 Nov): one wrapper reward(env_id, output) returning a score and an info dict. Each environment registers its own checker under its env_id. Register the RL code tasks (rl/verifier.py); Anirudh registers the SWE environments from #27 (verify.py) and we agree what output means for them. Tests: unknown env_id fails loudly, one call per environment type, the cheating cases still score 0 through the wrapper. Small PR to the fork, files only under teams/10-post-training/rl/.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2460,12 +2482,17 @@
         "rl",
         "pr"
       ],
-      "blockedBy": "T-101",
+      "blockedBy": "",
       "refs": [
         {
           "kind": "pr",
           "repo": "fork",
           "ref": "30"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "33"
         }
       ],
       "comments": [
@@ -2473,6 +2500,11 @@
           "at": "2026-11-05T16:00",
           "by": "Ravi Naik",
           "text": "Take immediately after T-101. Tell Sai Teja and Anirudh that the SWE side needs a registration."
+        },
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: Anirudh's PR #33 implements this (rl/reward.py, reward(env_id, output) with a registry, 12 tests, pr-guard passes), including the change to rl/verifier.py. What remains for me: check that my verifier works through the wrapper after #33 merges, and the hardening in T-105."
         }
       ]
     },
@@ -2493,7 +2525,7 @@
         "rl",
         "design"
       ],
-      "blockedBy": "T-101",
+      "blockedBy": "",
       "refs": [
         {
           "kind": "pr",
@@ -2501,7 +2533,13 @@
           "ref": "30"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: not blocked on T-101 any more. Add the #33 pool results and the PR #30 answers to rl/design_note.md; do it after #33 merges."
+        }
+      ]
     },
     {
       "id": "T-104",
@@ -2509,7 +2547,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: warm container pool with parallel workers, and measure rollouts per second",
       "desc": "TSAI answer on PR #30: a warm container pool, one worker per CPU core, each container reused for a batch of rollouts. Measure rollouts per second with the pool before changing the step size (a Docker call is now about 0.23 s). Keep the protections: no network, read-only, capability drop, pid limit, no expected answers inside, clean working directory per rollout, fresh container after a failure or hang. Report rollouts per second with the pool on and off. Second PR, after the wrapper (T-102).",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2520,16 +2558,54 @@
         "rl",
         "performance"
       ],
-      "blockedBy": "T-102",
+      "blockedBy": "",
       "refs": [
         {
           "kind": "pr",
           "repo": "fork",
           "ref": "30"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "33"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-05T19:00",
+          "by": "Ravi Naik",
+          "text": "5 Nov: PR #33 also adds the warm container pool (rl/pool.py) and a benchmark: code tasks 21.4 rollouts/s with the pool, 12.5 parallel, 4.4 serial (M1, Docker). SWE environments are not pooled, with the reason in the PR. Closing when #33 is merged."
+        }
+      ]
+    },
+    {
+      "id": "T-105",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "RL verifier: reject a symlinked or oversized results.json before reading it",
+      "desc": "The candidate code runs in a container that has the work folder mounted writable, and the host then reads results.json from it (rl/verifier.py read_text, and shutil.copyfile in rl/pool.py from #33). A symlink or a huge file there would make the host read an endless or huge file. Check that it is a regular file and cap its size before reading, and add a test for each. Also: skip RLIMIT_AS on macOS, and remove the duplicated README sentence. Small PR to the fork after #33 merges; files only under teams/10-post-training/rl/.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "rl",
+        "security"
+      ],
+      "blockedBy": "",
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "33"
         }
       ],
       "comments": []
     }
   ],
-  "rev": 35
+  "rev": 36
 }
