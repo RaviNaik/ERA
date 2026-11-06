@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1102,7 +1102,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Choose one small open model and a 4-bit method; agree it with the G12 lead",
       "desc": "Rotation task: quantize one small open model to 4-bit. Compare only with a bf16 score from the same runtime and eval set. Keep the router in F32 or BF16.",
-      "status": "progress",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1128,6 +1128,11 @@
           "at": "2026-11-03T22:00",
           "by": "Ravi Naik",
           "text": "Model picked: Sarvam-30B (MoE, Apache 2.0), bf16 vs Q4_K_M, G12 eval_mini, own 2x A6000 server. Scripts and README in v5/capstone/g12-quantization-rotation. Confirmed llama.cpp b11669 converts it. Still to ask Sreekanth: is a 30B model OK, and runs/ folder vs runs.csv."
+        },
+        {
+          "at": "2026-11-06T20:00",
+          "by": "Ravi Naik",
+          "text": "Sarvam-30B (Apache 2.0 MoE), bf16 vs Q4_K_M; told the G12 lead on 4 Nov."
         }
       ]
     },
@@ -1137,7 +1142,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Quantize to 4-bit and measure the drop on the eval-mini subset",
       "desc": "Use Colab, Kaggle or your own machine. For a bigger run, send a job request (JOB_REQUEST.md). Work days: 1 to 4 Nov and 12 to 13 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1147,9 +1152,15 @@
       "labels": [
         "g12"
       ],
-      "blockedBy": "T-052",
+      "blockedBy": "",
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-06T20:00",
+          "by": "Ravi Naik",
+          "text": "6 Nov: full eval_mini (1,870 items per format) on 2 x RTX 6000 Ada, llama.cpp b11669. Mean 58.45 (bf16) to 55.75 (Q4_K_M); only GSM8K drops significantly (59.5 to 50.0, p 0.037). 64.34 GB to 19.84 GB, 55.7 to 76.5 tokens/s. Guard test passes at 0.05; gguf checks ok."
+        }
+      ]
     },
     {
       "id": "T-054",
@@ -1157,7 +1168,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Add a row to runs/runs.csv by pull request",
       "desc": "Each row needs the model revision, tool version, machine and eval set. Due Sat 14 Nov.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1168,9 +1179,21 @@
         "g12",
         "gate-2"
       ],
-      "blockedBy": "T-053",
-      "refs": [],
-      "comments": []
+      "blockedBy": "",
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "323"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-06T20:00",
+          "by": "Ravi Naik",
+          "text": "The two rows (bf16 and Q4_K_M) are in PR 323, appended after the existing rows, header once."
+        }
+      ]
     },
     {
       "id": "T-055",
@@ -1989,7 +2012,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Run the Sarvam-30B quantization on the server (run_all.sh) and collect results/",
       "desc": "Clone the ERA repo on the server, edit config.sh (WORK_DIR, about 330 GB free), run v5/capstone/g12-quantization-rotation/run_all.sh. Check the guard test and gguf checks pass. Share results/ or commit them.",
-      "status": "progress",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2010,6 +2033,11 @@
           "at": "2026-11-04T18:10",
           "by": "Ravi Naik",
           "text": "Model download finished on this machine: 26 of 26 shards, every file matches the expected size for revision 071ae95e, no .incomplete files left. Next: rsync hf_offline/hf and hf_offline/home/.cache/huggingface to the server HOST_WORK_DIR, then OFFLINE=1 KEEP_HF=1 ./run_docker.sh."
+        },
+        {
+          "at": "2026-11-06T20:00",
+          "by": "Ravi Naik",
+          "text": "6 Nov: run finished after three fixes (offline scripts on the server, uid with no passwd entry for torch, check_gguf matched attn_output.weight by substring). Results committed in ERA main (e56a63a). Eval files pinned to lab PR 221 head (no item text)."
         }
       ]
     },
@@ -2019,7 +2047,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Open the lab PR with the Sarvam-30B results and runs row; post the daily notes in G12",
       "desc": "Put results in a topic folder under teams/12-quantization/ named by the lead, add the row, pr-guard must pass. Due Sat 14 Nov.",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2029,12 +2057,23 @@
       "labels": [
         "g12"
       ],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "323"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-04T14:00",
           "by": "Ravi Naik",
           "text": "Eval firewall: commit only results/ (stripped copy, no target or response text). Never commit hf_offline/ or work/. G12 lead also rejected jsonl with target and response (PR 272)."
+        },
+        {
+          "at": "2026-11-06T20:00",
+          "by": "Ravi Naik",
+          "text": "6 Nov: PR opened to the lab, theschoolofai/era-v5-lab #323: results/sarvam-30b folder in Tharun's PR 306 layout, two runs.csv rows, README. No target or response text, no links to fork branches. Posted the summary in G12 for Sreekanth's review. pr-guard passes. Waiting for review; the eval code depends on lab PR 221 (open)."
         }
       ]
     },
@@ -2607,5 +2646,5 @@
       "comments": []
     }
   ],
-  "rev": 36
+  "rev": 37
 }
