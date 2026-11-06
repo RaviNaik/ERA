@@ -6,8 +6,16 @@
  "llama_cpp_tag": "b11669",
  "llama_cpp_python": "0.3.36",
  "lab_commit": "048de644e7b5e85e23177add0458f7fe124566b5",
- "gpus": "",
- "packages": {},
+ "gpus": "NVIDIA RTX 6000 Ada Generation, 49140 MiB, 8.9 + NVIDIA RTX 6000 Ada Generation, 49140 MiB, 8.9",
+ "packages": {
+  "python": "3.13.18",
+  "llama_cpp_python": "0.3.36",
+  "lm_eval": "0.4.13",
+  "datasets": "5.1.0",
+  "gpu_offload": true,
+  "torch_visible": false,
+  "transformers_visible": false
+ },
  "formats": {
   "bf16": {
    "gguf_bytes": 64339517696,
