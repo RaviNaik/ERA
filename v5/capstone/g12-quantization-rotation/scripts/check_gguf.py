@@ -34,7 +34,8 @@ def main() -> int:
     def kind(substr: str) -> set[str]:
         return {v for k, v in types.items() if substr in k}
 
-    router, bias, output = kind("ffn_gate_inp"), kind("exp_probs_b"), kind("output.weight")
+    # exact name: a substring test would also match every blk.N.attn_output.weight (Q4_K), a false failure
+    router, bias, output = kind("ffn_gate_inp"), kind("exp_probs_b"), {v for k, v in types.items() if k == "output.weight"}
     arch = next((bytes(f.parts[f.data[0]]).decode() for k, f in r.fields.items() if k == "general.architecture"), "?")
     problems = []
     if not router:

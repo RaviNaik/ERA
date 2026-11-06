@@ -20,7 +20,7 @@ these scripts: llama.cpp **b11669 registers `SarvamMoEForCausalLM`** (`conversio
 | Scoring in-process with `llamacpp_lm.py` (llama-server and llama-cpp-python's server give wrong log-probabilities) | `run_mini_gguf.py` from G12, unchanged |
 | Instructor's guard `test_llamacpp_lm.py` passes for every file before it is scored | `03_evaluate.sh` |
 | Router (`ffn_gate_inp`) F32 or BF16; output layer Q8_0 in every quantized format | `scripts/check_gguf.py` stops the run if broken |
-| G9's `run_eval_mini.py` defines the task set (ARC-C 500, HellaSwag 400, MMLU 570, GSM8K 5-shot 200, TruthfulQA-mc2 200), seed 42 | fetched at lab commit `da3f8df`; every file is checked against `SHA256SUMS` |
+| G9's `run_eval_mini.py` defines the task set (ARC-C 500, HellaSwag 400, MMLU 570, GSM8K 5-shot 200, TruthfulQA-mc2 200), seed 42 | fetched at lab commit `048de64` (head of PR #221, the version without item text); every file is checked against `SHA256SUMS` |
 | llama-cpp-python 0.3.36, lm_eval 0.4.13, datasets 5.1.0, no torch or transformers in the eval venv | `01_setup.sh` |
 | Hardware may differ; it is recorded | `results/environment.json`, `machine` column |
 | `score` = unweighted mean of the five primary metrics | `make_runs_row.py` (reproduces G12's own OLMoE `runs.csv` numbers: Q4_K_M 0.4258) |

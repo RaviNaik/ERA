@@ -20,5 +20,5 @@ DATASETS="5.1.0"
 UV_VERSION="0.13.6"
 EVAL_PYTHON="3.13"
 LAB_REPO="theschoolofai/era-v5-lab"
-LAB_SHA="da3f8df8c98ac3c373c83c0bb40a014f4751c0b4"       # lab main on 3 Nov 2026; the eval files below come from it
+LAB_SHA="048de644e7b5e85e23177add0458f7fe124566b5"       # head of lab PR #221 (G12-Week2), 6 Nov 2026: run_mini_gguf.py writes no target/response, combine.py refuses them
 ALLOWED_FORMATS="bf16 Q8_0 Q6_K Q5_K_M Q4_K_M Q3_K_M Q2_K"
