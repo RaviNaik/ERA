@@ -1,0 +1,1 @@
+{"python": "3.13.18", "llama_cpp_python": "0.3.36", "lm_eval": "0.4.13", "datasets": "5.1.0", "gpu_offload": true, "torch_visible": false, "transformers_visible": false}
