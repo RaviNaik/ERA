@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-07T12:30",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1168,7 +1168,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Add a row to runs/runs.csv by pull request",
       "desc": "Each row needs the model revision, tool version, machine and eval set. Due Sat 14 Nov.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -1192,6 +1192,11 @@
           "at": "2026-11-06T20:00",
           "by": "Ravi Naik",
           "text": "The two rows (bf16 and Q4_K_M) are in PR 323, appended after the existing rows, header once."
+        },
+        {
+          "at": "2026-11-07T12:30",
+          "by": "Ravi Naik",
+          "text": "Lab PR 323 is merged (Sreekanth, 6 Nov, merge commit f651562). Sarvam-30B bf16 and Q4_K_M results and the two runs.csv rows are in the lab. The eval code it relies on (lab PR 221) is still open."
         }
       ]
     },
@@ -1785,8 +1790,8 @@
       "type": "task",
       "workstream": "G10 Post-training",
       "title": "Write convert.py adapters for the other proposal sets (one adapter and one fixture test each)",
-      "desc": "Only 4 sets have adapters (self-oss-instruct, codeforces-cots, swe-rebench-openhands, aya_dataset). Needs one each for OpenCodeReasoning, Cascade-SWE, Agentic-v1, Agentic-v2 tool-calling, xlam and the math sets. Note: the source column of the new PR #20 rows has trailing text, so hf_rows would need the source parsed more carefully.",
-      "status": "todo",
+      "desc": "Only 4 sets have adapters (self-oss-instruct, codeforces-cots, swe-rebench-openhands, aya_dataset). Needs one each for OpenCodeReasoning, Cascade-SWE, Agentic-v1, Agentic-v2 tool-calling, xlam and the math sets. Note: the source column of the new PR #20 rows has trailing text, so hf_rows would need the source parsed more carefully. 6 Nov: 38 sets now have an adapter and a fixture test (ranged Hub file reader, --hf-file). Not converted: xlam (gated), aegis (classification data), OpenCodeReasoning-2 (questions withheld upstream; adapter written).",
+      "status": "review",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-12",
@@ -1804,9 +1809,30 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "20"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "40"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-06T21:00",
+          "by": "Ravi Naik",
+          "text": "Adapters and tests are committed locally on branch g10-decontam-all-RaviNaik (not pushed). Cascade user prompts name the think tags, so they are written with brackets; empty tool results become '(no output)'."
+        },
+        {
+          "at": "2026-11-07T11:45",
+          "by": "Ravi Naik",
+          "text": "7 Nov: adapters now stream their output and survive Hub connection resets, so 16 sets (all sft sets under 5 GB, plus Agentic v1 and Math v4) were converted from the whole source. Committed locally, not pushed."
+        },
+        {
+          "at": "2026-11-07T12:30",
+          "by": "Ravi Naik",
+          "text": "PR open: saitej123/era-v5-lab #40 (pr-guard passes, mergeable). 16 SFT sets done on every row, 16 pending (13 need a full run; xlam, aegis and OpenCodeReasoning-2 cannot be run yet)."
+        }
+      ]
     },
     {
       "id": "T-082",
@@ -2047,7 +2073,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Open the lab PR with the Sarvam-30B results and runs row; post the daily notes in G12",
       "desc": "Put results in a topic folder under teams/12-quantization/ named by the lead, add the row, pr-guard must pass. Due Sat 14 Nov.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2074,6 +2100,11 @@
           "at": "2026-11-06T20:00",
           "by": "Ravi Naik",
           "text": "6 Nov: PR opened to the lab, theschoolofai/era-v5-lab #323: results/sarvam-30b folder in Tharun's PR 306 layout, two runs.csv rows, README. No target or response text, no links to fork branches. Posted the summary in G12 for Sreekanth's review. pr-guard passes. Waiting for review; the eval code depends on lab PR 221 (open)."
+        },
+        {
+          "at": "2026-11-07T12:30",
+          "by": "Ravi Naik",
+          "text": "Lab PR 323 is merged (Sreekanth, 6 Nov, merge commit f651562). Sarvam-30B bf16 and Q4_K_M results and the two runs.csv rows are in the lab. The eval code it relies on (lab PR 221) is still open."
         }
       ]
     },
@@ -2489,6 +2520,11 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "34"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "40"
         }
       ],
       "comments": [
@@ -2501,6 +2537,21 @@
           "at": "2026-11-05T19:00",
           "by": "Ravi Naik",
           "text": "5 Nov: runner, report builder and 19 tests are done and the PR is open: saitej123/era-v5-lab #34 (pr-guard passes). Test run on 1,000-row files with fingerprints v2 (set_sha256 2826a3b8...d22a), full set, canary scan 0 hits, independently re-run with the same numbers: codeforces-cots 972 rows, 496 flagged, 476 kept; swe-rebench-openhands 442 rows, 71 flagged (2 near-copies of SWE-bench Live), 371 kept; aya_dataset 1,000 rows, 0 flagged. Still to do: Sai Teja's review; the other sets once convert.py adapters exist (T-081); rerun when Team 3 freezes the tokenizer (14 Nov); ask G9 how to triage low-coverage flags; known v2 gap (no HumanEval/MBPP/ARC), TSAI runs the full-data clean."
+        },
+        {
+          "at": "2026-11-06T21:00",
+          "by": "Ravi Naik",
+          "text": "6 Nov: 29 sets run on fingerprints v2, full set (124,639 rows in, 3,586 removed, 0 canaries), report rebuilt. Large sets cover the first rows of one shard only (see report section 8). Not run: xlam, aegis, OpenCodeReasoning-2. Local commit, waiting for approval to push and open a PR."
+        },
+        {
+          "at": "2026-11-07T11:45",
+          "by": "Ravi Naik",
+          "text": "7 Nov: 16 sets are now decontaminated on every row (fingerprints v2, full set, set_sha256 2826a3b8...d22a): 2,096,624 rows, 43,448 removed (2.07%), 0 canaries. 13 more sets still need a full run. Not run: xlam (gated), aegis (classification data), OCR2 (questions withheld). Added --reuse-clean --workers N to decontam_run.py to finish the 18 GB Math v4 set in about 75 minutes instead of 10 hours. Committed locally on g10-decontam-all-RaviNaik , not pushed."
+        },
+        {
+          "at": "2026-11-07T12:30",
+          "by": "Ravi Naik",
+          "text": "PR open: saitej123/era-v5-lab #40 (pr-guard passes, mergeable). 16 SFT sets done on every row, 16 pending (13 need a full run; xlam, aegis and OpenCodeReasoning-2 cannot be run yet)."
         }
       ]
     },
@@ -2646,5 +2697,5 @@
       "comments": []
     }
   ],
-  "rev": 37
+  "rev": 40
 }
