@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-07T12:30",
+  "updated": "2026-11-07T19:45",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2552,6 +2552,11 @@
           "at": "2026-11-07T12:30",
           "by": "Ravi Naik",
           "text": "PR open: saitej123/era-v5-lab #40 (pr-guard passes, mergeable). 16 SFT sets done on every row, 16 pending (13 need a full run; xlam, aegis and OpenCodeReasoning-2 cannot be run yet)."
+        },
+        {
+          "at": "2026-11-07T19:45",
+          "by": "Ravi Naik",
+          "text": "7 Nov: 5 more sets decontaminated on every row (opencode, cascade-swe, openr1-math-raw, openr1-math, opencodereasoning): 1,391,481 rows, 135,630 removed (9.75%), 0 canaries. 21 sets are done now; 8 need a full run and 3 cannot be run yet. New pipeline decontam_pipeline.py downloads, renders and checks in parallel, with a live status file. Committed locally on g10-decontam-all-RaviNaik (4bab6ed), not pushed."
         }
       ]
     },
@@ -2697,5 +2702,5 @@
       "comments": []
     }
   ],
-  "rev": 40
+  "rev": 41
 }
