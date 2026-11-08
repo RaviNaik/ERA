@@ -1,0 +1,516 @@
+2026-11-07 14:48:51 plan sft-code-nemotron-opencode: 1 units, 6.30 GB of source files
+2026-11-07 14:48:51 plan sft-code-nemotron-cascade-swe: 3 units, 6.77 GB of source files
+2026-11-07 14:48:52 plan sft-math-openr1-math-raw: 39 units, 8.03 GB of source files
+2026-11-07 14:48:52 plan sft-math-openr1-math: 20 units, 4.22 GB of source files
+2026-11-07 14:48:53 plan sft-code-opencodereasoning: 30 units, 8.33 GB of source files
+2026-11-07 14:48:53 start: sets sft-code-nemotron-opencode, sft-code-nemotron-cascade-swe, sft-math-openr1-math-raw, sft-math-openr1-math, sft-code-opencodereasoning; disk free 207 GB; decontam slots 15, download slots 6
+2026-11-07 14:48:53 unit start sft-code-nemotron-opencode u000 agent_skills/data.jsonl (6.30 GB)
+2026-11-07 14:48:53 unit start sft-code-nemotron-cascade-swe u001 swe_repair.jsonl (3.75 GB)
+2026-11-07 14:48:53 unit start sft-code-nemotron-cascade-swe u000 swe_localization.jsonl (2.16 GB)
+2026-11-07 14:48:53 unit start sft-code-nemotron-cascade-swe u002 swe_testgen.jsonl (0.85 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u021 split_0/train-00021-of-00030.parquet (0.39 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u022 split_0/train-00022-of-00030.parquet (0.39 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u026 split_0/train-00026-of-00030.parquet (0.39 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u028 split_0/train-00028-of-00030.parquet (0.38 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u027 split_0/train-00027-of-00030.parquet (0.38 GB)
+2026-11-07 14:48:53 unit start sft-code-opencodereasoning u029 split_0/train-00029-of-00030.parquet (0.38 GB)
+2026-11-07 14:48:53 unit start sft-math-openr1-math-raw u000 data/train-00000-of-00039.parquet (0.35 GB)
+2026-11-07 14:48:53 unit start sft-math-openr1-math-raw u037 data/train-00037-of-00039.parquet (0.34 GB)
+2026-11-07 14:50:44 part start sft-code-nemotron-cascade-swe.u000.p0000 (300 MB)
+2026-11-07 14:51:20 unit FAILED sft-code-nemotron-cascade-swe u002 rc 1
+2026-11-07 14:51:20 unit start sft-code-opencodereasoning u023 split_0/train-00023-of-00030.parquet (0.33 GB)
+2026-11-07 14:51:56 unit FAILED sft-code-nemotron-cascade-swe u001 rc -15
+2026-11-07 14:51:56 unit FAILED sft-code-nemotron-cascade-swe u000 rc -15
+2026-11-07 14:51:56 part FAILED sft-code-nemotron-cascade-swe.u000.p0000 rc -15 (canary or reconciliation failure keeps the part for inspection)
+2026-11-07 14:51:56 unit start sft-code-opencodereasoning u020 split_0/train-00020-of-00030.parquet (0.33 GB)
+2026-11-07 14:51:56 unit start sft-math-openr1-math-raw u004 data/train-00004-of-00039.parquet (0.32 GB)
+2026-11-07 14:52:32 part start sft-code-opencodereasoning.u027.p0000 (300 MB)
+2026-11-07 14:53:01 part start sft-code-opencodereasoning.u027.p0001 (300 MB)
+2026-11-07 14:53:13 part start sft-code-nemotron-opencode.u000.p0000 (300 MB)
+2026-11-07 14:53:36 part start sft-code-opencodereasoning.u027.p0002 (300 MB)
+2026-11-07 14:53:40 unit done sft-code-opencodereasoning u027: rows 18,929 of 18,929 selected, skipped 0, 287s
+2026-11-07 14:53:40 part start sft-code-opencodereasoning.u027.p0003 (31 MB)
+2026-11-07 14:53:40 unit start sft-math-openr1-math-raw u014 data/train-00014-of-00039.parquet (0.32 GB)
+2026-11-07 14:55:13 part start sft-code-opencodereasoning.u026.p0000 (300 MB)
+2026-11-07 14:55:26 part start sft-code-opencodereasoning.u020.p0000 (300 MB)
+2026-11-07 14:55:56 part start sft-code-opencodereasoning.u026.p0001 (300 MB)
+2026-11-07 14:56:11 part start sft-code-opencodereasoning.u020.p0001 (300 MB)
+2026-11-07 14:56:25 part done sft-code-opencodereasoning.u027.p0003: rows 639 flagged 77 canary 0 kept 562 166s
+2026-11-07 14:56:43 unit done sft-code-opencodereasoning u020: rows 18,929 of 18,929 selected, skipped 0, 287s
+2026-11-07 14:56:43 part start sft-code-opencodereasoning.u020.p0002 (175 MB)
+2026-11-07 14:56:43 unit start sft-math-openr1-math-raw u001 data/train-00001-of-00039.parquet (0.32 GB)
+2026-11-07 14:56:51 part start sft-code-opencodereasoning.u026.p0002 (300 MB)
+2026-11-07 14:56:57 unit done sft-code-opencodereasoning u026: rows 18,928 of 18,929 selected, skipped 1, 484s
+2026-11-07 14:56:57 part start sft-code-opencodereasoning.u026.p0003 (32 MB)
+2026-11-07 14:56:57 unit start sft-math-openr1-math-raw u036 data/train-00036-of-00039.parquet (0.31 GB)
+2026-11-07 14:57:15 part start sft-code-opencodereasoning.u021.p0000 (300 MB)
+2026-11-07 14:58:44 part start sft-code-opencodereasoning.u021.p0001 (300 MB)
+2026-11-07 14:59:19 part start sft-code-opencodereasoning.u028.p0000 (300 MB)
+2026-11-07 14:59:33 part start sft-code-nemotron-opencode.u000.p0001 (300 MB)
+2026-11-07 15:00:30 unit done sft-math-openr1-math-raw u000: rows 7,428 of 7,429 selected, skipped 1, 697s
+2026-11-07 15:01:12 unit done sft-code-opencodereasoning u021: rows 18,928 of 18,929 selected, skipped 1, 739s
+2026-11-07 15:02:33 part done sft-code-opencodereasoning.u026.p0003: rows 660 flagged 64 canary 0 kept 596 336s
+2026-11-07 15:02:33 part start sft-math-openr1-math-raw.u000.p0000 (162 MB)
+2026-11-07 15:03:17 unit done sft-math-openr1-math-raw u037: rows 8,652 of 8,654 selected, skipped 2, 864s
+2026-11-07 15:03:44 unit done sft-math-openr1-math-raw u014: rows 7,559 of 7,560 selected, skipped 1, 604s
+2026-11-07 15:03:54 unit done sft-math-openr1-math-raw u004: rows 7,925 of 7,926 selected, skipped 1, 718s
+2026-11-07 15:04:06 unit done sft-code-opencodereasoning u028: rows 18,929 of 18,929 selected, skipped 0, 913s
+2026-11-07 15:04:12 unit done sft-math-openr1-math-raw u036: rows 7,963 of 7,967 selected, skipped 4, 435s
+2026-11-07 15:04:12 unit start sft-math-openr1-math-raw u010 data/train-00010-of-00039.parquet (0.31 GB)
+2026-11-07 15:05:04 unit done sft-math-openr1-math-raw u001: rows 7,854 of 7,854 selected, skipped 0, 500s
+2026-11-07 15:05:04 unit start sft-math-openr1-math-raw u015 data/train-00015-of-00039.parquet (0.30 GB)
+2026-11-07 15:05:26 unit done sft-code-opencodereasoning u023: rows 18,927 of 18,929 selected, skipped 2, 845s
+2026-11-07 15:05:26 unit start sft-math-openr1-math-raw u007 data/train-00007-of-00039.parquet (0.30 GB)
+2026-11-07 15:07:12 unit done sft-code-opencodereasoning u022: rows 18,929 of 18,929 selected, skipped 0, 1099s
+2026-11-07 15:07:12 unit start sft-math-openr1-math-raw u008 data/train-00008-of-00039.parquet (0.30 GB)
+2026-11-07 15:07:39 unit done sft-code-opencodereasoning u029: rows 18,909 of 18,909 selected, skipped 0, 1126s
+2026-11-07 15:07:39 unit start sft-math-openr1-math-raw u009 data/train-00009-of-00039.parquet (0.30 GB)
+2026-11-07 15:10:32 unit done sft-math-openr1-math-raw u015: rows 7,358 of 7,362 selected, skipped 4, 329s
+2026-11-07 15:10:32 unit start sft-math-openr1-math-raw u011 data/train-00011-of-00039.parquet (0.29 GB)
+2026-11-07 15:10:38 unit done sft-math-openr1-math-raw u010: rows 8,388 of 8,391 selected, skipped 3, 386s
+2026-11-07 15:10:38 unit start sft-math-openr1-math-raw u012 data/train-00012-of-00039.parquet (0.29 GB)
+2026-11-07 15:12:23 unit done sft-math-openr1-math-raw u007: rows 8,092 of 8,095 selected, skipped 3, 417s
+2026-11-07 15:12:23 unit start sft-math-openr1-math-raw u006 data/train-00006-of-00039.parquet (0.29 GB)
+2026-11-07 15:13:11 unit done sft-math-openr1-math-raw u009: rows 8,176 of 8,179 selected, skipped 3, 332s
+2026-11-07 15:13:11 unit start sft-math-openr1-math-raw u005 data/train-00005-of-00039.parquet (0.28 GB)
+2026-11-07 15:13:22 unit done sft-math-openr1-math-raw u008: rows 8,152 of 8,152 selected, skipped 0, 370s
+2026-11-07 15:13:22 unit start sft-code-opencodereasoning u025 split_0/train-00025-of-00030.parquet (0.26 GB)
+2026-11-07 15:15:48 unit done sft-math-openr1-math-raw u012: rows 7,492 of 7,492 selected, skipped 0, 310s
+2026-11-07 15:15:48 unit start sft-math-openr1-math-raw u038 data/train-00038-of-00039.parquet (0.25 GB)
+2026-11-07 15:15:51 unit done sft-math-openr1-math-raw u011: rows 8,005 of 8,007 selected, skipped 2, 318s
+2026-11-07 15:15:51 unit start sft-math-openr1-math-raw u003 data/train-00003-of-00039.parquet (0.25 GB)
+2026-11-07 15:17:32 unit done sft-math-openr1-math-raw u006: rows 8,295 of 8,296 selected, skipped 1, 309s
+2026-11-07 15:17:32 unit start sft-code-opencodereasoning u007 split_0/train-00007-of-00030.parquet (0.24 GB)
+2026-11-07 15:18:33 unit done sft-math-openr1-math-raw u005: rows 8,469 of 8,469 selected, skipped 0, 322s
+2026-11-07 15:18:33 unit start sft-code-opencodereasoning u014 split_0/train-00014-of-00030.parquet (0.24 GB)
+2026-11-07 15:18:41 unit done sft-code-opencodereasoning u025: rows 18,929 of 18,929 selected, skipped 0, 319s
+2026-11-07 15:18:41 unit start sft-code-opencodereasoning u015 split_0/train-00015-of-00030.parquet (0.24 GB)
+2026-11-07 15:20:03 unit done sft-math-openr1-math-raw u038: rows 8,056 of 8,056 selected, skipped 0, 254s
+2026-11-07 15:20:03 unit start sft-code-opencodereasoning u008 split_0/train-00008-of-00030.parquet (0.24 GB)
+2026-11-07 15:20:47 unit done sft-math-openr1-math-raw u003: rows 7,579 of 7,579 selected, skipped 0, 296s
+2026-11-07 15:20:47 unit start sft-code-opencodereasoning u017 split_0/train-00017-of-00030.parquet (0.24 GB)
+2026-11-07 15:22:23 unit done sft-code-opencodereasoning u007: rows 18,928 of 18,929 selected, skipped 1, 291s
+2026-11-07 15:22:23 unit start sft-code-opencodereasoning u018 split_0/train-00018-of-00030.parquet (0.24 GB)
+2026-11-07 15:22:36 part done sft-code-opencodereasoning.u020.p0002: rows 3,576 flagged 426 canary 0 kept 3,150 1552s
+2026-11-07 15:22:36 part start sft-code-opencodereasoning.u021.p0002 (300 MB)
+2026-11-07 15:23:11 unit done sft-code-opencodereasoning u014: rows 18,928 of 18,929 selected, skipped 1, 277s
+2026-11-07 15:23:11 unit start sft-code-opencodereasoning u016 split_0/train-00016-of-00030.parquet (0.24 GB)
+2026-11-07 15:23:49 unit done sft-code-opencodereasoning u015: rows 18,929 of 18,929 selected, skipped 0, 308s
+2026-11-07 15:23:49 unit start sft-code-opencodereasoning u011 split_0/train-00011-of-00030.parquet (0.24 GB)
+2026-11-07 15:25:04 unit done sft-code-opencodereasoning u008: rows 18,928 of 18,929 selected, skipped 1, 301s
+2026-11-07 15:25:04 unit start sft-code-opencodereasoning u019 split_0/train-00019-of-00030.parquet (0.24 GB)
+2026-11-07 15:25:59 part done sft-code-nemotron-opencode.u000.p0000: rows 3,254 flagged 24 canary 0 kept 3,230 1966s
+2026-11-07 15:25:59 part start sft-code-opencodereasoning.u021.p0003 (35 MB)
+2026-11-07 15:26:01 unit done sft-code-opencodereasoning u017: rows 18,929 of 18,929 selected, skipped 0, 314s
+2026-11-07 15:26:01 unit start sft-code-opencodereasoning u005 split_0/train-00005-of-00030.parquet (0.24 GB)
+2026-11-07 15:27:32 unit done sft-code-opencodereasoning u018: rows 18,928 of 18,929 selected, skipped 1, 308s
+2026-11-07 15:27:32 unit start sft-code-opencodereasoning u000 split_0/train-00000-of-00030.parquet (0.24 GB)
+2026-11-07 15:28:08 unit done sft-code-opencodereasoning u016: rows 18,929 of 18,929 selected, skipped 0, 297s
+2026-11-07 15:28:08 unit start sft-code-opencodereasoning u010 split_0/train-00010-of-00030.parquet (0.24 GB)
+2026-11-07 15:28:45 unit done sft-code-opencodereasoning u011: rows 18,928 of 18,929 selected, skipped 1, 296s
+2026-11-07 15:28:46 unit start sft-code-opencodereasoning u002 split_0/train-00002-of-00030.parquet (0.24 GB)
+2026-11-07 15:29:54 unit done sft-code-opencodereasoning u019: rows 18,929 of 18,929 selected, skipped 0, 290s
+2026-11-07 15:29:54 unit start sft-code-opencodereasoning u006 split_0/train-00006-of-00030.parquet (0.24 GB)
+2026-11-07 15:30:09 part done sft-math-openr1-math-raw.u000.p0000: rows 7,428 flagged 53 canary 0 kept 7,375 1656s
+2026-11-07 15:30:09 part start sft-code-opencodereasoning.u028.p0001 (300 MB)
+2026-11-07 15:30:47 unit done sft-code-opencodereasoning u005: rows 18,928 of 18,929 selected, skipped 1, 286s
+2026-11-07 15:30:47 unit start sft-code-opencodereasoning u012 split_0/train-00012-of-00030.parquet (0.24 GB)
+2026-11-07 15:32:28 unit done sft-code-opencodereasoning u000: rows 18,929 of 18,929 selected, skipped 0, 296s
+2026-11-07 15:32:28 unit start sft-code-opencodereasoning u003 split_0/train-00003-of-00030.parquet (0.24 GB)
+2026-11-07 15:32:33 part done sft-code-opencodereasoning.u021.p0003: rows 715 flagged 97 canary 0 kept 618 394s
+2026-11-07 15:32:33 part start sft-code-opencodereasoning.u023.p0000 (300 MB)
+2026-11-07 15:33:09 unit done sft-code-opencodereasoning u010: rows 18,927 of 18,929 selected, skipped 2, 301s
+2026-11-07 15:33:09 unit start sft-code-opencodereasoning u001 split_0/train-00001-of-00030.parquet (0.24 GB)
+2026-11-07 15:33:11 part done sft-code-opencodereasoning.u027.p0000: rows 6,085 flagged 822 canary 0 kept 5,263 2439s
+2026-11-07 15:33:11 part start sft-code-opencodereasoning.u022.p0000 (300 MB)
+2026-11-07 15:33:30 unit done sft-code-opencodereasoning u002: rows 18,927 of 18,929 selected, skipped 2, 284s
+2026-11-07 15:33:30 unit start sft-code-opencodereasoning u013 split_0/train-00013-of-00030.parquet (0.24 GB)
+2026-11-07 15:35:02 unit done sft-code-opencodereasoning u006: rows 18,929 of 18,929 selected, skipped 0, 308s
+2026-11-07 15:35:02 unit start sft-code-opencodereasoning u009 split_0/train-00009-of-00030.parquet (0.24 GB)
+2026-11-07 15:35:44 unit done sft-code-opencodereasoning u012: rows 18,928 of 18,929 selected, skipped 1, 297s
+2026-11-07 15:35:44 unit start sft-code-opencodereasoning u004 split_0/train-00004-of-00030.parquet (0.24 GB)
+2026-11-07 15:37:22 part done sft-code-opencodereasoning.u027.p0001: rows 6,097 flagged 797 canary 0 kept 5,300 2661s
+2026-11-07 15:37:22 part start sft-code-opencodereasoning.u029.p0000 (300 MB)
+2026-11-07 15:37:30 unit done sft-code-opencodereasoning u003: rows 18,929 of 18,929 selected, skipped 0, 302s
+2026-11-07 15:37:30 unit start sft-code-opencodereasoning u024 split_0/train-00024-of-00030.parquet (0.24 GB)
+2026-11-07 15:37:35 part done sft-code-opencodereasoning.u027.p0002: rows 6,108 flagged 789 canary 0 kept 5,319 2639s
+2026-11-07 15:37:35 part start sft-code-nemotron-opencode.u000.p0002 (300 MB)
+2026-11-07 15:37:59 unit done sft-code-opencodereasoning u001: rows 18,927 of 18,929 selected, skipped 2, 290s
+2026-11-07 15:37:59 unit start sft-math-openr1-math-raw u013 data/train-00013-of-00039.parquet (0.23 GB)
+2026-11-07 15:38:32 unit done sft-code-opencodereasoning u013: rows 18,929 of 18,929 selected, skipped 0, 302s
+2026-11-07 15:38:32 unit start sft-math-openr1-math-raw u002 data/train-00002-of-00039.parquet (0.23 GB)
+2026-11-07 15:39:54 unit done sft-code-opencodereasoning u009: rows 18,929 of 18,929 selected, skipped 0, 292s
+2026-11-07 15:39:54 unit start sft-math-openr1-math u001 all/train-00001-of-00020.parquet (0.21 GB)
+2026-11-07 15:40:27 unit done sft-math-openr1-math-raw u013: rows 7,771 of 7,771 selected, skipped 0, 148s
+2026-11-07 15:40:28 unit start sft-math-openr1-math u011 all/train-00011-of-00020.parquet (0.21 GB)
+2026-11-07 15:40:30 part done sft-code-nemotron-opencode.u000.p0001: rows 3,232 flagged 22 canary 0 kept 3,210 2457s
+2026-11-07 15:40:30 part start sft-math-openr1-math-raw.u037.p0000 (206 MB)
+2026-11-07 15:40:31 unit done sft-code-opencodereasoning u004: rows 18,929 of 18,929 selected, skipped 0, 287s
+2026-11-07 15:40:31 unit start sft-math-openr1-math u017 all/train-00017-of-00020.parquet (0.21 GB)
+2026-11-07 15:40:50 part done sft-code-opencodereasoning.u026.p0000: rows 6,076 flagged 805 canary 0 kept 5,271 2737s
+2026-11-07 15:40:50 part start sft-math-openr1-math-raw.u014.p0000 (153 MB)
+2026-11-07 15:40:54 part done sft-code-opencodereasoning.u020.p0000: rows 9,284 flagged 1,652 canary 0 kept 7,632 2728s
+2026-11-07 15:40:54 part done sft-code-opencodereasoning.u026.p0001: rows 6,085 flagged 807 canary 0 kept 5,278 2698s
+2026-11-07 15:40:54 part start sft-code-opencodereasoning.u028.p0002 (300 MB)
+2026-11-07 15:40:54 part start sft-math-openr1-math-raw.u004.p0000 (216 MB)
+2026-11-07 15:41:24 unit done sft-math-openr1-math-raw u002: rows 7,800 of 7,800 selected, skipped 0, 172s
+2026-11-07 15:41:24 unit start sft-math-openr1-math u005 all/train-00005-of-00020.parquet (0.21 GB)
+2026-11-07 15:41:47 part done sft-code-opencodereasoning.u020.p0001: rows 6,069 flagged 808 canary 0 kept 5,261 2736s
+2026-11-07 15:41:48 part start sft-code-opencodereasoning.u028.p0003 (28 MB)
+2026-11-07 15:42:10 unit done sft-code-opencodereasoning u024: rows 18,927 of 18,929 selected, skipped 2, 280s
+2026-11-07 15:42:10 unit start sft-math-openr1-math u008 all/train-00008-of-00020.parquet (0.21 GB)
+2026-11-07 15:43:14 part done sft-code-opencodereasoning.u026.p0002: rows 6,107 flagged 748 canary 0 kept 5,359 2783s
+2026-11-07 15:43:14 part start sft-code-opencodereasoning.u023.p0001 (300 MB)
+2026-11-07 15:43:20 unit done sft-math-openr1-math u001: rows 11,245 of 11,257 selected, skipped 12, 206s
+2026-11-07 15:43:20 unit start sft-math-openr1-math u016 all/train-00016-of-00020.parquet (0.21 GB)
+2026-11-07 15:43:31 part done sft-code-opencodereasoning.u021.p0000: rows 6,079 flagged 824 canary 0 kept 5,255 2776s
+2026-11-07 15:43:31 part start sft-math-openr1-math-raw.u036.p0000 (173 MB)
+2026-11-07 15:43:54 unit done sft-math-openr1-math u011: rows 11,242 of 11,256 selected, skipped 14, 207s
+2026-11-07 15:43:55 unit start sft-math-openr1-math u010 all/train-00010-of-00020.parquet (0.21 GB)
+2026-11-07 15:44:18 unit done sft-math-openr1-math u017: rows 11,245 of 11,256 selected, skipped 11, 228s
+2026-11-07 15:44:19 unit start sft-math-openr1-math u002 all/train-00002-of-00020.parquet (0.21 GB)
+2026-11-07 15:45:02 part done sft-code-opencodereasoning.u021.p0001: rows 6,072 flagged 750 canary 0 kept 5,322 2778s
+2026-11-07 15:45:02 part start sft-code-opencodereasoning.u022.p0001 (300 MB)
+2026-11-07 15:45:26 part done sft-code-opencodereasoning.u028.p0000: rows 6,134 flagged 827 canary 0 kept 5,307 2767s
+2026-11-07 15:45:26 part start sft-code-opencodereasoning.u029.p0001 (300 MB)
+2026-11-07 15:45:32 unit done sft-code-nemotron-opencode u000: rows 67,086 of 67,132 selected, skipped 46, 3399s
+2026-11-07 15:45:32 unit start sft-math-openr1-math u018 all/train-00018-of-00020.parquet (0.21 GB)
+2026-11-07 15:45:36 unit done sft-math-openr1-math u005: rows 11,246 of 11,257 selected, skipped 11, 252s
+2026-11-07 15:45:36 unit start sft-math-openr1-math u006 all/train-00006-of-00020.parquet (0.21 GB)
+2026-11-07 15:46:00 unit done sft-math-openr1-math u008: rows 11,237 of 11,257 selected, skipped 20, 230s
+2026-11-07 15:46:00 unit start sft-math-openr1-math u007 all/train-00007-of-00020.parquet (0.21 GB)
+2026-11-07 15:46:05 part done sft-code-opencodereasoning.u028.p0003: rows 573 flagged 64 canary 0 kept 509 258s
+2026-11-07 15:46:05 part start sft-math-openr1-math-raw.u001.p0000 (191 MB)
+2026-11-07 15:47:28 unit done sft-math-openr1-math u016: rows 11,244 of 11,256 selected, skipped 12, 247s
+2026-11-07 15:47:28 unit start sft-math-openr1-math u009 all/train-00009-of-00020.parquet (0.21 GB)
+2026-11-07 15:47:39 unit done sft-math-openr1-math u010: rows 11,248 of 11,256 selected, skipped 8, 225s
+2026-11-07 15:47:39 unit start sft-math-openr1-math u000 all/train-00000-of-00020.parquet (0.21 GB)
+2026-11-07 15:47:57 unit done sft-math-openr1-math u002: rows 11,246 of 11,257 selected, skipped 11, 219s
+2026-11-07 15:47:58 unit start sft-math-openr1-math u015 all/train-00015-of-00020.parquet (0.21 GB)
+2026-11-07 15:49:07 unit done sft-math-openr1-math u018: rows 11,247 of 11,256 selected, skipped 9, 215s
+2026-11-07 15:49:07 unit start sft-math-openr1-math u004 all/train-00004-of-00020.parquet (0.21 GB)
+2026-11-07 15:49:18 unit done sft-math-openr1-math u007: rows 11,241 of 11,257 selected, skipped 16, 198s
+2026-11-07 15:49:18 unit start sft-math-openr1-math u012 all/train-00012-of-00020.parquet (0.21 GB)
+2026-11-07 15:49:22 unit done sft-math-openr1-math u006: rows 11,243 of 11,257 selected, skipped 14, 225s
+2026-11-07 15:49:22 unit start sft-math-openr1-math u013 all/train-00013-of-00020.parquet (0.21 GB)
+2026-11-07 15:50:51 unit done sft-math-openr1-math u009: rows 11,246 of 11,256 selected, skipped 10, 203s
+2026-11-07 15:50:51 unit start sft-math-openr1-math u003 all/train-00003-of-00020.parquet (0.21 GB)
+2026-11-07 15:51:31 unit done sft-math-openr1-math u000: rows 11,244 of 11,257 selected, skipped 13, 232s
+2026-11-07 15:51:31 unit start sft-math-openr1-math u019 all/train-00019-of-00020.parquet (0.21 GB)
+2026-11-07 15:51:37 unit done sft-math-openr1-math u015: rows 11,238 of 11,256 selected, skipped 18, 219s
+2026-11-07 15:51:38 unit start sft-math-openr1-math u014 all/train-00014-of-00020.parquet (0.21 GB)
+2026-11-07 15:52:27 unit done sft-math-openr1-math u012: rows 11,241 of 11,256 selected, skipped 15, 189s
+2026-11-07 15:52:28 unit start sft-math-openr1-math-raw u035 data/train-00035-of-00039.parquet (0.14 GB)
+2026-11-07 15:52:30 unit done sft-math-openr1-math u004: rows 11,246 of 11,257 selected, skipped 11, 203s
+2026-11-07 15:52:30 unit start sft-math-openr1-math-raw u034 data/train-00034-of-00039.parquet (0.12 GB)
+2026-11-07 15:53:13 unit done sft-math-openr1-math u013: rows 11,243 of 11,256 selected, skipped 13, 231s
+2026-11-07 15:53:13 unit start sft-math-openr1-math-raw u020 data/train-00020-of-00039.parquet (0.12 GB)
+2026-11-07 15:54:12 unit done sft-math-openr1-math u003: rows 11,242 of 11,257 selected, skipped 15, 201s
+2026-11-07 15:54:12 unit start sft-math-openr1-math-raw u016 data/train-00016-of-00039.parquet (0.12 GB)
+2026-11-07 15:54:41 unit done sft-math-openr1-math-raw u034: rows 8,449 of 8,449 selected, skipped 0, 131s
+2026-11-07 15:54:41 unit start sft-math-openr1-math-raw u030 data/train-00030-of-00039.parquet (0.12 GB)
+2026-11-07 15:54:43 unit done sft-math-openr1-math u019: rows 11,250 of 11,256 selected, skipped 6, 192s
+2026-11-07 15:54:43 unit start sft-math-openr1-math-raw u033 data/train-00033-of-00039.parquet (0.12 GB)
+2026-11-07 15:54:50 unit done sft-math-openr1-math-raw u035: rows 8,282 of 8,282 selected, skipped 0, 142s
+2026-11-07 15:54:50 unit start sft-math-openr1-math-raw u019 data/train-00019-of-00039.parquet (0.12 GB)
+2026-11-07 15:55:02 unit done sft-math-openr1-math-raw u020: rows 8,482 of 8,482 selected, skipped 0, 109s
+2026-11-07 15:55:03 unit start sft-math-openr1-math-raw u031 data/train-00031-of-00039.parquet (0.12 GB)
+2026-11-07 15:55:03 unit done sft-math-openr1-math u014: rows 11,248 of 11,256 selected, skipped 8, 205s
+2026-11-07 15:55:03 unit start sft-math-openr1-math-raw u028 data/train-00028-of-00039.parquet (0.12 GB)
+2026-11-07 15:56:23 unit done sft-math-openr1-math-raw u016: rows 8,540 of 8,540 selected, skipped 0, 131s
+2026-11-07 15:56:23 unit start sft-math-openr1-math-raw u023 data/train-00023-of-00039.parquet (0.12 GB)
+2026-11-07 15:56:46 unit done sft-math-openr1-math-raw u019: rows 8,476 of 8,476 selected, skipped 0, 116s
+2026-11-07 15:56:47 unit start sft-math-openr1-math-raw u032 data/train-00032-of-00039.parquet (0.12 GB)
+2026-11-07 15:56:48 unit done sft-math-openr1-math-raw u030: rows 8,432 of 8,432 selected, skipped 0, 127s
+2026-11-07 15:56:48 unit start sft-math-openr1-math-raw u026 data/train-00026-of-00039.parquet (0.12 GB)
+2026-11-07 15:56:59 unit done sft-math-openr1-math-raw u033: rows 8,482 of 8,482 selected, skipped 0, 136s
+2026-11-07 15:56:59 unit start sft-math-openr1-math-raw u024 data/train-00024-of-00039.parquet (0.12 GB)
+2026-11-07 15:57:23 unit done sft-math-openr1-math-raw u031: rows 8,545 of 8,545 selected, skipped 0, 140s
+2026-11-07 15:57:24 unit start sft-math-openr1-math-raw u018 data/train-00018-of-00039.parquet (0.12 GB)
+2026-11-07 15:57:40 unit done sft-math-openr1-math-raw u028: rows 8,490 of 8,490 selected, skipped 0, 157s
+2026-11-07 15:57:40 unit start sft-math-openr1-math-raw u025 data/train-00025-of-00039.parquet (0.12 GB)
+2026-11-07 15:58:31 unit done sft-math-openr1-math-raw u023: rows 8,573 of 8,573 selected, skipped 0, 128s
+2026-11-07 15:58:31 paused downloads: free 169 GB, backlog 25 GB
+2026-11-07 15:58:47 unit done sft-math-openr1-math-raw u026: rows 8,492 of 8,492 selected, skipped 0, 119s
+2026-11-07 15:58:48 paused downloads: free 170 GB, backlog 25 GB
+2026-11-07 15:58:57 unit done sft-math-openr1-math-raw u024: rows 8,586 of 8,586 selected, skipped 0, 118s
+2026-11-07 15:59:15 unit done sft-math-openr1-math-raw u018: rows 8,503 of 8,503 selected, skipped 0, 111s
+2026-11-07 15:59:16 unit done sft-math-openr1-math-raw u032: rows 8,578 of 8,578 selected, skipped 0, 149s
+2026-11-07 15:59:31 paused downloads: free 169 GB, backlog 25 GB
+2026-11-07 15:59:39 unit done sft-math-openr1-math-raw u025: rows 8,526 of 8,526 selected, skipped 0, 119s
+2026-11-07 16:01:34 paused downloads: free 170 GB, backlog 25 GB
+2026-11-07 16:02:40 part done sft-math-openr1-math-raw.u014.p0000: rows 7,559 flagged 191 canary 0 kept 7,368 1311s
+2026-11-07 16:02:40 part start sft-code-opencodereasoning.u023.p0002 (178 MB)
+2026-11-07 16:05:19 paused downloads: free 171 GB, backlog 25 GB
+2026-11-07 16:05:42 paused downloads: free 170 GB, backlog 25 GB
+2026-11-07 16:06:08 part done sft-code-opencodereasoning.u021.p0002: rows 6,062 flagged 794 canary 0 kept 5,268 2612s
+2026-11-07 16:06:08 part start sft-code-nemotron-opencode.u000.p0003 (300 MB)
+2026-11-07 16:06:08 paused downloads: free 171 GB, backlog 25 GB
+2026-11-07 16:11:55 part done sft-math-openr1-math-raw.u036.p0000: rows 7,963 flagged 93 canary 0 kept 7,870 1704s
+2026-11-07 16:11:55 part start sft-code-opencodereasoning.u022.p0002 (300 MB)
+2026-11-07 16:11:55 unit start sft-math-openr1-math-raw u029 data/train-00029-of-00039.parquet (0.12 GB)
+2026-11-07 16:11:55 unit start sft-math-openr1-math-raw u022 data/train-00022-of-00039.parquet (0.12 GB)
+2026-11-07 16:11:55 unit start sft-math-openr1-math-raw u021 data/train-00021-of-00039.parquet (0.12 GB)
+2026-11-07 16:11:55 unit start sft-math-openr1-math-raw u027 data/train-00027-of-00039.parquet (0.12 GB)
+2026-11-07 16:11:55 unit start sft-math-openr1-math-raw u017 data/train-00017-of-00039.parquet (0.12 GB)
+2026-11-07 16:12:00 part done sft-code-opencodereasoning.u028.p0001: rows 6,093 flagged 806 canary 0 kept 5,287 2511s
+2026-11-07 16:12:00 part start sft-code-opencodereasoning.u022.p0003 (33 MB)
+2026-11-07 16:13:35 part done sft-code-nemotron-opencode.u000.p0002: rows 3,264 flagged 14 canary 0 kept 3,250 2161s
+2026-11-07 16:13:35 part start sft-code-opencodereasoning.u029.p0002 (300 MB)
+2026-11-07 16:13:46 unit done sft-math-openr1-math-raw u022: rows 8,473 of 8,473 selected, skipped 0, 112s
+2026-11-07 16:13:51 unit done sft-math-openr1-math-raw u021: rows 8,514 of 8,514 selected, skipped 0, 116s
+2026-11-07 16:13:57 unit done sft-math-openr1-math-raw u029: rows 8,604 of 8,604 selected, skipped 0, 122s
+2026-11-07 16:14:00 unit done sft-math-openr1-math-raw u027: rows 8,506 of 8,506 selected, skipped 0, 125s
+2026-11-07 16:14:01 unit done sft-math-openr1-math-raw u017: rows 8,553 of 8,553 selected, skipped 0, 126s
+2026-11-07 16:15:17 part done sft-math-openr1-math-raw.u037.p0000: rows 8,652 flagged 126 canary 0 kept 8,526 2088s
+2026-11-07 16:15:17 part start sft-code-opencodereasoning.u029.p0003 (28 MB)
+2026-11-07 16:15:37 part done sft-math-openr1-math-raw.u004.p0000: rows 7,925 flagged 80 canary 0 kept 7,845 2083s
+2026-11-07 16:15:37 part start sft-code-nemotron-opencode.u000.p0004 (300 MB)
+2026-11-07 16:16:00 part done sft-math-openr1-math-raw.u001.p0000: rows 7,854 flagged 48 canary 0 kept 7,806 1795s
+2026-11-07 16:16:00 part start sft-math-openr1-math-raw.u015.p0000 (139 MB)
+2026-11-07 16:16:43 part done sft-code-opencodereasoning.u022.p0000: rows 6,100 flagged 743 canary 0 kept 5,357 2611s
+2026-11-07 16:16:43 part start sft-math-openr1-math-raw.u010.p0000 (192 MB)
+2026-11-07 16:17:04 part done sft-code-opencodereasoning.u023.p0000: rows 6,109 flagged 715 canary 0 kept 5,394 2671s
+2026-11-07 16:17:04 part start sft-code-nemotron-opencode.u000.p0005 (300 MB)
+2026-11-07 16:17:58 part done sft-code-opencodereasoning.u022.p0003: rows 669 flagged 92 canary 0 kept 577 358s
+2026-11-07 16:17:58 part start sft-math-openr1-math-raw.u007.p0000 (175 MB)
+2026-11-07 16:19:58 part done sft-code-opencodereasoning.u029.p0003: rows 572 flagged 72 canary 0 kept 500 280s
+2026-11-07 16:19:58 part start sft-math-openr1-math-raw.u009.p0000 (176 MB)
+2026-11-07 16:20:43 part done sft-code-opencodereasoning.u029.p0000: rows 6,105 flagged 780 canary 0 kept 5,325 2600s
+2026-11-07 16:20:43 part start sft-math-openr1-math-raw.u008.p0000 (175 MB)
+2026-11-07 16:23:12 part done sft-code-opencodereasoning.u028.p0002: rows 6,129 flagged 745 canary 0 kept 5,384 2538s
+2026-11-07 16:23:12 part start sft-code-nemotron-opencode.u000.p0006 (300 MB)
+2026-11-07 16:24:56 part done sft-code-opencodereasoning.u023.p0001: rows 6,797 flagged 902 canary 0 kept 5,895 2502s
+2026-11-07 16:24:56 part start sft-math-openr1-math-raw.u012.p0000 (169 MB)
+2026-11-07 16:24:59 part done sft-code-opencodereasoning.u023.p0002: rows 6,021 flagged 3,357 canary 0 kept 2,664 1339s
+2026-11-07 16:24:59 part start sft-math-openr1-math-raw.u011.p0000 (182 MB)
+2026-11-07 16:26:21 part done sft-code-opencodereasoning.u029.p0001: rows 6,093 flagged 736 canary 0 kept 5,357 2455s
+2026-11-07 16:26:21 part start sft-code-opencodereasoning.u025.p0000 (300 MB)
+2026-11-07 16:26:51 part done sft-code-opencodereasoning.u022.p0001: rows 6,068 flagged 900 canary 0 kept 5,168 2509s
+2026-11-07 16:26:51 part start sft-code-nemotron-opencode.u000.p0007 (300 MB)
+2026-11-07 16:39:54 part done sft-math-openr1-math-raw.u015.p0000: rows 7,358 flagged 114 canary 0 kept 7,244 1433s
+2026-11-07 16:39:54 part start sft-math-openr1-math-raw.u006.p0000 (176 MB)
+2026-11-07 16:43:45 part done sft-code-nemotron-opencode.u000.p0003: rows 3,252 flagged 15 canary 0 kept 3,237 2257s
+2026-11-07 16:43:45 part start sft-math-openr1-math-raw.u005.p0000 (187 MB)
+2026-11-07 16:45:26 part done sft-math-openr1-math-raw.u007.p0000: rows 8,092 flagged 77 canary 0 kept 8,015 1648s
+2026-11-07 16:45:26 part start sft-code-opencodereasoning.u025.p0001 (300 MB)
+2026-11-07 16:46:20 part done sft-math-openr1-math-raw.u010.p0000: rows 8,388 flagged 128 canary 0 kept 8,260 1778s
+2026-11-07 16:46:20 part start sft-code-opencodereasoning.u025.p0002 (7 MB)
+2026-11-07 16:47:01 part done sft-math-openr1-math-raw.u009.p0000: rows 8,176 flagged 118 canary 0 kept 8,058 1623s
+2026-11-07 16:47:01 part start sft-code-nemotron-opencode.u000.p0008 (300 MB)
+2026-11-07 16:47:49 part done sft-code-opencodereasoning.u025.p0002: rows 155 flagged 18 canary 0 kept 137 89s
+2026-11-07 16:47:49 part start sft-math-openr1-math-raw.u038.p0000 (177 MB)
+2026-11-07 16:48:35 part done sft-math-openr1-math-raw.u008.p0000: rows 8,152 flagged 110 canary 0 kept 8,042 1672s
+2026-11-07 16:48:35 part start sft-code-opencodereasoning.u007.p0000 (300 MB)
+2026-11-07 16:48:53 part done sft-code-nemotron-opencode.u000.p0004: rows 3,181 flagged 19 canary 0 kept 3,162 1995s
+2026-11-07 16:48:53 part start sft-math-openr1-math-raw.u003.p0000 (134 MB)
+2026-11-07 16:49:24 part done sft-math-openr1-math-raw.u012.p0000: rows 7,492 flagged 83 canary 0 kept 7,409 1468s
+2026-11-07 16:49:24 part start sft-code-opencodereasoning.u014.p0000 (300 MB)
+2026-11-07 16:50:44 part done sft-code-nemotron-opencode.u000.p0005: rows 3,250 flagged 17 canary 0 kept 3,233 2020s
+2026-11-07 16:50:44 part start sft-code-opencodereasoning.u015.p0000 (300 MB)
+2026-11-07 16:51:55 part done sft-math-openr1-math-raw.u011.p0000: rows 8,005 flagged 76 canary 0 kept 7,929 1616s
+2026-11-07 16:51:55 part start sft-code-nemotron-opencode.u000.p0009 (300 MB)
+2026-11-07 16:52:38 part done sft-code-opencodereasoning.u022.p0002: rows 6,092 flagged 791 canary 0 kept 5,301 2444s
+2026-11-07 16:52:38 part start sft-code-opencodereasoning.u007.p0001 (270 MB)
+2026-11-07 16:54:50 part done sft-code-opencodereasoning.u029.p0002: rows 6,139 flagged 786 canary 0 kept 5,353 2475s
+2026-11-07 16:54:50 part start sft-code-opencodereasoning.u008.p0000 (300 MB)
+2026-11-07 16:56:43 part done sft-code-nemotron-opencode.u000.p0006: rows 3,227 flagged 15 canary 0 kept 3,212 2011s
+2026-11-07 16:56:43 part start sft-code-opencodereasoning.u014.p0001 (270 MB)
+2026-11-07 16:57:04 part done sft-code-opencodereasoning.u025.p0000: rows 10,102 flagged 5,581 canary 0 kept 4,521 1842s
+2026-11-07 16:57:04 part start sft-code-opencodereasoning.u017.p0000 (300 MB)
+2026-11-07 17:00:24 part done sft-code-nemotron-opencode.u000.p0007: rows 3,230 flagged 7 canary 0 kept 3,223 2013s
+2026-11-07 17:00:24 part start sft-code-opencodereasoning.u015.p0001 (270 MB)
+2026-11-07 17:05:30 part done sft-math-openr1-math-raw.u006.p0000: rows 8,295 flagged 98 canary 0 kept 8,197 1536s
+2026-11-07 17:05:30 part start sft-code-nemotron-opencode.u000.p0010 (300 MB)
+2026-11-07 17:10:33 part done sft-math-openr1-math-raw.u005.p0000: rows 8,469 flagged 86 canary 0 kept 8,383 1608s
+2026-11-07 17:10:33 part start sft-code-opencodereasoning.u008.p0001 (271 MB)
+2026-11-07 17:11:35 part done sft-math-openr1-math-raw.u003.p0000: rows 7,579 flagged 43 canary 0 kept 7,536 1362s
+2026-11-07 17:11:35 part start sft-code-opencodereasoning.u018.p0000 (300 MB)
+2026-11-07 17:17:07 part done sft-math-openr1-math-raw.u038.p0000: rows 8,056 flagged 177 canary 0 kept 7,879 1758s
+2026-11-07 17:17:07 part start sft-code-opencodereasoning.u017.p0001 (270 MB)
+2026-11-07 17:20:25 part done sft-code-opencodereasoning.u025.p0001: rows 8,672 flagged 4,199 canary 0 kept 4,473 2099s
+2026-11-07 17:20:25 part start sft-code-opencodereasoning.u016.p0000 (300 MB)
+2026-11-07 17:22:05 part done sft-code-nemotron-opencode.u000.p0008: rows 3,231 flagged 18 canary 0 kept 3,213 2104s
+2026-11-07 17:22:05 part start sft-code-opencodereasoning.u011.p0000 (300 MB)
+2026-11-07 17:25:17 part done sft-code-nemotron-opencode.u000.p0009: rows 3,173 flagged 11 canary 0 kept 3,162 2002s
+2026-11-07 17:25:17 part start sft-code-nemotron-opencode.u000.p0011 (300 MB)
+2026-11-07 17:28:09 part done sft-code-opencodereasoning.u007.p0001: rows 8,955 flagged 1,669 canary 0 kept 7,286 2130s
+2026-11-07 17:28:09 part start sft-code-opencodereasoning.u018.p0001 (270 MB)
+2026-11-07 17:28:29 part done sft-code-opencodereasoning.u007.p0000: rows 9,973 flagged 1,829 canary 0 kept 8,144 2394s
+2026-11-07 17:28:29 part start sft-code-opencodereasoning.u019.p0000 (300 MB)
+2026-11-07 17:28:59 part done sft-code-opencodereasoning.u014.p0000: rows 9,941 flagged 1,835 canary 0 kept 8,106 2374s
+2026-11-07 17:28:59 part start sft-code-opencodereasoning.u016.p0001 (270 MB)
+2026-11-07 17:30:26 part done sft-code-opencodereasoning.u015.p0000: rows 9,975 flagged 1,838 canary 0 kept 8,137 2382s
+2026-11-07 17:30:26 part start sft-code-opencodereasoning.u005.p0000 (300 MB)
+2026-11-07 17:31:33 part done sft-code-opencodereasoning.u014.p0001: rows 8,987 flagged 1,655 canary 0 kept 7,332 2090s
+2026-11-07 17:31:33 part start sft-code-opencodereasoning.u011.p0001 (270 MB)
+2026-11-07 17:32:45 part done sft-code-opencodereasoning.u008.p0000: rows 9,941 flagged 1,829 canary 0 kept 8,112 2274s
+2026-11-07 17:32:45 part start sft-code-nemotron-opencode.u000.p0012 (300 MB)
+2026-11-07 17:35:56 part done sft-code-opencodereasoning.u017.p0000: rows 9,995 flagged 1,854 canary 0 kept 8,141 2332s
+2026-11-07 17:35:56 part start sft-code-opencodereasoning.u019.p0001 (269 MB)
+2026-11-07 17:35:59 part done sft-code-opencodereasoning.u015.p0001: rows 8,954 flagged 1,655 canary 0 kept 7,299 2135s
+2026-11-07 17:35:59 part start sft-code-opencodereasoning.u000.p0000 (300 MB)
+2026-11-07 17:38:42 part done sft-code-nemotron-opencode.u000.p0010: rows 3,255 flagged 19 canary 0 kept 3,236 1992s
+2026-11-07 17:38:42 part start sft-code-opencodereasoning.u005.p0001 (269 MB)
+2026-11-07 17:44:29 part done sft-code-opencodereasoning.u008.p0001: rows 8,987 flagged 1,632 canary 0 kept 7,355 2035s
+2026-11-07 17:44:29 part start sft-code-opencodereasoning.u010.p0000 (300 MB)
+2026-11-07 17:48:17 part done sft-code-opencodereasoning.u018.p0000: rows 9,969 flagged 1,809 canary 0 kept 8,160 2202s
+2026-11-07 17:48:17 part start sft-code-nemotron-opencode.u000.p0013 (300 MB)
+2026-11-07 17:53:41 part done sft-code-opencodereasoning.u017.p0001: rows 8,934 flagged 1,634 canary 0 kept 7,300 2194s
+2026-11-07 17:53:41 part start sft-code-opencodereasoning.u002.p0000 (300 MB)
+2026-11-07 17:57:15 part done sft-code-nemotron-opencode.u000.p0011: rows 3,205 flagged 11 canary 0 kept 3,194 1918s
+2026-11-07 17:57:15 part start sft-code-opencodereasoning.u000.p0001 (269 MB)
+2026-11-07 17:58:50 part done sft-code-opencodereasoning.u016.p0000: rows 9,997 flagged 1,807 canary 0 kept 8,190 2305s
+2026-11-07 17:58:50 part start sft-code-opencodereasoning.u006.p0000 (300 MB)
+2026-11-07 18:00:24 part done sft-code-opencodereasoning.u011.p0000: rows 10,027 flagged 1,811 canary 0 kept 8,216 2299s
+2026-11-07 18:00:24 part start sft-code-opencodereasoning.u010.p0001 (269 MB)
+2026-11-07 18:01:31 part done sft-code-opencodereasoning.u018.p0001: rows 8,959 flagged 1,631 canary 0 kept 7,328 2002s
+2026-11-07 18:01:31 part start sft-code-nemotron-opencode.u000.p0014 (300 MB)
+2026-11-07 18:01:49 part done sft-code-opencodereasoning.u016.p0001: rows 8,932 flagged 1,630 canary 0 kept 7,302 1970s
+2026-11-07 18:01:49 part start sft-code-opencodereasoning.u002.p0001 (269 MB)
+2026-11-07 18:02:39 part done sft-code-nemotron-opencode.u000.p0012: rows 3,192 flagged 19 canary 0 kept 3,173 1794s
+2026-11-07 18:02:39 part start sft-code-opencodereasoning.u012.p0000 (300 MB)
+2026-11-07 18:03:27 part done sft-code-opencodereasoning.u011.p0001: rows 8,901 flagged 1,652 canary 0 kept 7,249 1914s
+2026-11-07 18:03:27 part start sft-code-opencodereasoning.u006.p0001 (269 MB)
+2026-11-07 18:04:14 part done sft-code-opencodereasoning.u019.p0000: rows 10,014 flagged 1,841 canary 0 kept 8,173 2146s
+2026-11-07 18:04:14 part start sft-code-opencodereasoning.u003.p0000 (300 MB)
+2026-11-07 18:04:43 part done sft-code-opencodereasoning.u005.p0000: rows 9,955 flagged 1,834 canary 0 kept 8,121 2057s
+2026-11-07 18:04:43 part start sft-code-opencodereasoning.u012.p0001 (269 MB)
+2026-11-07 18:07:04 part done sft-code-opencodereasoning.u019.p0001: rows 8,915 flagged 1,601 canary 0 kept 7,314 1869s
+2026-11-07 18:07:04 part start sft-code-nemotron-opencode.u000.p0015 (300 MB)
+2026-11-07 18:08:05 part done sft-code-opencodereasoning.u005.p0001: rows 8,973 flagged 1,652 canary 0 kept 7,321 1763s
+2026-11-07 18:08:05 part start sft-code-opencodereasoning.u001.p0000 (300 MB)
+2026-11-07 18:09:04 part done sft-code-opencodereasoning.u000.p0000: rows 9,994 flagged 1,824 canary 0 kept 8,170 1985s
+2026-11-07 18:09:04 part start sft-code-opencodereasoning.u013.p0000 (300 MB)
+2026-11-07 18:13:44 part done sft-code-nemotron-opencode.u000.p0013: rows 3,268 flagged 16 canary 0 kept 3,252 1526s
+2026-11-07 18:13:44 part start sft-code-opencodereasoning.u003.p0001 (269 MB)
+2026-11-07 18:16:08 part done sft-code-opencodereasoning.u010.p0000: rows 9,942 flagged 1,843 canary 0 kept 8,099 1899s
+2026-11-07 18:16:08 part start sft-code-opencodereasoning.u009.p0000 (300 MB)
+2026-11-07 18:24:30 part done sft-code-opencodereasoning.u002.p0000: rows 9,958 flagged 1,839 canary 0 kept 8,119 1849s
+2026-11-07 18:24:30 part start sft-code-opencodereasoning.u001.p0001 (268 MB)
+2026-11-07 18:24:33 part done sft-code-opencodereasoning.u000.p0001: rows 8,935 flagged 1,638 canary 0 kept 7,297 1638s
+2026-11-07 18:24:33 part start sft-code-nemotron-opencode.u000.p0016 (300 MB)
+2026-11-07 18:26:27 part done sft-code-nemotron-opencode.u000.p0014: rows 3,198 flagged 15 canary 0 kept 3,183 1497s
+2026-11-07 18:26:27 part start sft-code-opencodereasoning.u004.p0000 (300 MB)
+2026-11-07 18:27:05 part done sft-code-opencodereasoning.u010.p0001: rows 8,985 flagged 1,647 canary 0 kept 7,338 1601s
+2026-11-07 18:27:05 part start sft-code-opencodereasoning.u013.p0001 (268 MB)
+2026-11-07 18:28:09 part done sft-code-opencodereasoning.u002.p0001: rows 8,969 flagged 1,647 canary 0 kept 7,322 1580s
+2026-11-07 18:28:09 part start sft-code-opencodereasoning.u009.p0001 (268 MB)
+2026-11-07 18:28:33 part done sft-code-opencodereasoning.u006.p0000: rows 10,025 flagged 1,821 canary 0 kept 8,204 1783s
+2026-11-07 18:28:33 part start sft-code-nemotron-opencode.u000.p0017 (300 MB)
+2026-11-07 18:29:56 part done sft-code-opencodereasoning.u006.p0001: rows 8,904 flagged 1,653 canary 0 kept 7,251 1588s
+2026-11-07 18:29:56 part start sft-code-opencodereasoning.u024.p0000 (300 MB)
+2026-11-07 18:31:11 part done sft-code-opencodereasoning.u012.p0001: rows 8,918 flagged 1,629 canary 0 kept 7,289 1588s
+2026-11-07 18:31:11 part start sft-math-openr1-math-raw.u013.p0000 (127 MB)
+2026-11-07 18:32:15 part done sft-code-nemotron-opencode.u000.p0015: rows 3,219 flagged 18 canary 0 kept 3,201 1510s
+2026-11-07 18:32:15 part start sft-code-opencodereasoning.u004.p0001 (267 MB)
+2026-11-07 18:32:40 part done sft-code-opencodereasoning.u012.p0000: rows 10,010 flagged 1,825 canary 0 kept 8,185 1801s
+2026-11-07 18:32:40 part start sft-math-openr1-math-raw.u002.p0000 (136 MB)
+2026-11-07 18:33:54 part done sft-code-opencodereasoning.u003.p0000: rows 10,011 flagged 1,838 canary 0 kept 8,173 1779s
+2026-11-07 18:33:54 part start sft-code-opencodereasoning.u024.p0001 (269 MB)
+2026-11-07 18:38:13 part done sft-code-opencodereasoning.u001.p0000: rows 9,979 flagged 1,840 canary 0 kept 8,139 1809s
+2026-11-07 18:38:13 part start sft-code-nemotron-opencode.u000.p0018 (300 MB)
+2026-11-07 18:39:39 part done sft-code-opencodereasoning.u013.p0000: rows 9,988 flagged 1,820 canary 0 kept 8,168 1835s
+2026-11-07 18:39:39 part start sft-math-openr1-math.u001.p0000 (165 MB)
+2026-11-07 18:40:46 part done sft-code-opencodereasoning.u003.p0001: rows 8,918 flagged 1,638 canary 0 kept 7,280 1622s
+2026-11-07 18:40:46 part start sft-math-openr1-math.u011.p0000 (166 MB)
+2026-11-07 18:45:50 part done sft-math-openr1-math-raw.u013.p0000: rows 7,771 flagged 66 canary 0 kept 7,705 879s
+2026-11-07 18:45:50 part start sft-code-nemotron-opencode.u000.p0019 (300 MB)
+2026-11-07 18:46:02 part done sft-code-opencodereasoning.u009.p0000: rows 9,972 flagged 1,838 canary 0 kept 8,134 1794s
+2026-11-07 18:46:02 part start sft-math-openr1-math.u017.p0000 (165 MB)
+2026-11-07 18:48:22 part done sft-math-openr1-math-raw.u002.p0000: rows 7,800 flagged 51 canary 0 kept 7,749 941s
+2026-11-07 18:48:22 part start sft-code-nemotron-opencode.u000.p0020 (248 MB)
+2026-11-07 18:49:24 part done sft-code-nemotron-opencode.u000.p0016: rows 3,241 flagged 12 canary 0 kept 3,229 1491s
+2026-11-07 18:49:24 part start sft-math-openr1-math.u005.p0000 (165 MB)
+2026-11-07 18:50:57 part done sft-code-opencodereasoning.u001.p0001: rows 8,948 flagged 1,647 canary 0 kept 7,301 1587s
+2026-11-07 18:50:57 part start sft-math-openr1-math.u008.p0000 (164 MB)
+2026-11-07 18:52:44 part done sft-code-nemotron-opencode.u000.p0017: rows 3,201 flagged 16 canary 0 kept 3,185 1451s
+2026-11-07 18:52:44 part start sft-math-openr1-math.u016.p0000 (165 MB)
+2026-11-07 18:52:51 part done sft-code-opencodereasoning.u024.p0000: rows 9,978 flagged 5,768 canary 0 kept 4,210 1375s
+2026-11-07 18:52:51 part start sft-math-openr1-math.u010.p0000 (164 MB)
+2026-11-07 18:53:41 part done sft-code-opencodereasoning.u013.p0001: rows 8,941 flagged 1,634 canary 0 kept 7,307 1596s
+2026-11-07 18:53:41 part start sft-math-openr1-math.u002.p0000 (164 MB)
+2026-11-07 18:54:45 part done sft-code-opencodereasoning.u024.p0001: rows 8,949 flagged 5,192 canary 0 kept 3,757 1252s
+2026-11-07 18:54:45 part start sft-math-openr1-math.u018.p0000 (164 MB)
+2026-11-07 18:55:00 part done sft-code-opencodereasoning.u009.p0001: rows 8,957 flagged 1,648 canary 0 kept 7,309 1610s
+2026-11-07 18:55:00 part start sft-math-openr1-math.u007.p0000 (163 MB)
+2026-11-07 18:55:54 part done sft-code-opencodereasoning.u004.p0000: rows 9,990 flagged 1,826 canary 0 kept 8,164 1767s
+2026-11-07 18:55:54 part start sft-math-openr1-math.u006.p0000 (164 MB)
+2026-11-07 18:58:27 part done sft-math-openr1-math.u001.p0000: rows 11,245 flagged 101 canary 0 kept 11,144 1128s
+2026-11-07 18:58:27 part start sft-math-openr1-math.u009.p0000 (164 MB)
+2026-11-07 18:59:08 part done sft-code-opencodereasoning.u004.p0001: rows 8,939 flagged 1,626 canary 0 kept 7,313 1613s
+2026-11-07 18:59:08 part start sft-math-openr1-math.u000.p0000 (164 MB)
+2026-11-07 18:59:15 SET DONE sft-code-opencodereasoning: parts 75 rows 567,831 flagged 112,753 canary 0 removed 112,753 kept 455,078 OK
+2026-11-07 18:59:49 part done sft-math-openr1-math.u011.p0000: rows 11,242 flagged 87 canary 0 kept 11,155 1143s
+2026-11-07 18:59:49 part start sft-math-openr1-math.u015.p0000 (163 MB)
+2026-11-07 19:03:07 part done sft-code-nemotron-opencode.u000.p0018: rows 3,256 flagged 19 canary 0 kept 3,237 1493s
+2026-11-07 19:03:07 part start sft-math-openr1-math.u012.p0000 (163 MB)
+2026-11-07 19:04:56 part done sft-math-openr1-math.u017.p0000: rows 11,245 flagged 76 canary 0 kept 11,169 1135s
+2026-11-07 19:04:56 part start sft-math-openr1-math.u004.p0000 (163 MB)
+2026-11-07 19:08:18 part done sft-math-openr1-math.u005.p0000: rows 11,246 flagged 95 canary 0 kept 11,151 1135s
+2026-11-07 19:08:18 part start sft-math-openr1-math.u013.p0000 (163 MB)
+2026-11-07 19:08:38 part done sft-code-nemotron-opencode.u000.p0020: rows 2,597 flagged 12 canary 0 kept 2,585 1216s
+2026-11-07 19:08:38 part start sft-math-openr1-math.u003.p0000 (163 MB)
+2026-11-07 19:09:41 part done sft-math-openr1-math.u008.p0000: rows 11,237 flagged 99 canary 0 kept 11,138 1124s
+2026-11-07 19:09:41 part start sft-math-openr1-math-raw.u034.p0000 (87 MB)
+2026-11-07 19:10:27 part done sft-code-nemotron-opencode.u000.p0019: rows 3,160 flagged 13 canary 0 kept 3,147 1476s
+2026-11-07 19:10:27 part start sft-math-openr1-math.u019.p0000 (163 MB)
+2026-11-07 19:10:27 SET DONE sft-code-nemotron-opencode: parts 21 rows 67,086 flagged 332 canary 0 removed 332 kept 66,754 OK
+2026-11-07 19:10:55 part done sft-math-openr1-math.u016.p0000: rows 11,244 flagged 95 canary 0 kept 11,149 1092s
+2026-11-07 19:10:55 part start sft-math-openr1-math-raw.u035.p0000 (93 MB)
+2026-11-07 19:11:16 part done sft-math-openr1-math.u010.p0000: rows 11,248 flagged 80 canary 0 kept 11,168 1105s
+2026-11-07 19:11:16 part start sft-math-openr1-math.u014.p0000 (163 MB)
+2026-11-07 19:12:14 part done sft-math-openr1-math.u002.p0000: rows 11,246 flagged 92 canary 0 kept 11,154 1113s
+2026-11-07 19:12:14 part start sft-math-openr1-math-raw.u020.p0000 (88 MB)
+2026-11-07 19:13:10 part done sft-math-openr1-math.u007.p0000: rows 11,241 flagged 80 canary 0 kept 11,161 1090s
+2026-11-07 19:13:10 part start sft-math-openr1-math-raw.u016.p0000 (87 MB)
+2026-11-07 19:13:25 part done sft-math-openr1-math.u018.p0000: rows 11,247 flagged 80 canary 0 kept 11,167 1120s
+2026-11-07 19:13:25 part start sft-math-openr1-math-raw.u019.p0000 (88 MB)
+2026-11-07 19:14:30 part done sft-math-openr1-math.u006.p0000: rows 11,243 flagged 89 canary 0 kept 11,154 1116s
+2026-11-07 19:14:30 part start sft-math-openr1-math-raw.u030.p0000 (86 MB)
+2026-11-07 19:17:00 part done sft-math-openr1-math.u009.p0000: rows 11,246 flagged 100 canary 0 kept 11,146 1113s
+2026-11-07 19:17:00 part start sft-math-openr1-math-raw.u033.p0000 (88 MB)
+2026-11-07 19:17:48 part done sft-math-openr1-math.u000.p0000: rows 11,244 flagged 84 canary 0 kept 11,160 1120s
+2026-11-07 19:17:48 part start sft-math-openr1-math-raw.u031.p0000 (86 MB)
+2026-11-07 19:17:59 part done sft-math-openr1-math.u015.p0000: rows 11,238 flagged 99 canary 0 kept 11,139 1090s
+2026-11-07 19:17:59 part start sft-math-openr1-math-raw.u028.p0000 (88 MB)
+2026-11-07 19:19:38 part done sft-math-openr1-math-raw.u034.p0000: rows 8,449 flagged 28 canary 0 kept 8,421 597s
+2026-11-07 19:19:38 part start sft-math-openr1-math-raw.u023.p0000 (87 MB)
+2026-11-07 19:21:14 part done sft-math-openr1-math.u012.p0000: rows 11,241 flagged 88 canary 0 kept 11,153 1087s
+2026-11-07 19:21:14 part start sft-math-openr1-math-raw.u026.p0000 (86 MB)
+2026-11-07 19:21:22 part done sft-math-openr1-math-raw.u035.p0000: rows 8,282 flagged 45 canary 0 kept 8,237 627s
+2026-11-07 19:21:22 part start sft-math-openr1-math-raw.u024.p0000 (88 MB)
+2026-11-07 19:22:11 part done sft-math-openr1-math-raw.u020.p0000: rows 8,482 flagged 24 canary 0 kept 8,458 597s
+2026-11-07 19:22:11 part start sft-math-openr1-math-raw.u032.p0000 (88 MB)
+2026-11-07 19:22:52 part done sft-math-openr1-math-raw.u019.p0000: rows 8,476 flagged 32 canary 0 kept 8,444 566s
+2026-11-07 19:22:52 part start sft-math-openr1-math-raw.u018.p0000 (86 MB)
+2026-11-07 19:23:01 part done sft-math-openr1-math-raw.u016.p0000: rows 8,540 flagged 40 canary 0 kept 8,500 591s
+2026-11-07 19:23:01 part start sft-math-openr1-math-raw.u025.p0000 (87 MB)
+2026-11-07 19:23:04 part done sft-math-openr1-math.u004.p0000: rows 11,246 flagged 85 canary 0 kept 11,161 1088s
+2026-11-07 19:23:04 part start sft-math-openr1-math-raw.u022.p0000 (86 MB)
+2026-11-07 19:23:59 part done sft-math-openr1-math-raw.u030.p0000: rows 8,432 flagged 41 canary 0 kept 8,391 569s
+2026-11-07 19:23:59 part start sft-math-openr1-math-raw.u021.p0000 (86 MB)
+2026-11-07 19:26:15 part done sft-math-openr1-math.u013.p0000: rows 11,243 flagged 86 canary 0 kept 11,157 1076s
+2026-11-07 19:26:15 part start sft-math-openr1-math-raw.u029.p0000 (88 MB)
+2026-11-07 19:26:35 part done sft-math-openr1-math.u003.p0000: rows 11,242 flagged 91 canary 0 kept 11,151 1077s
+2026-11-07 19:26:35 part start sft-math-openr1-math-raw.u027.p0000 (87 MB)
+2026-11-07 19:26:36 part done sft-math-openr1-math-raw.u033.p0000: rows 8,482 flagged 27 canary 0 kept 8,455 576s
+2026-11-07 19:26:36 part start sft-math-openr1-math-raw.u017.p0000 (86 MB)
+2026-11-07 19:27:33 part done sft-math-openr1-math-raw.u031.p0000: rows 8,545 flagged 38 canary 0 kept 8,507 585s
+2026-11-07 19:27:45 part done sft-math-openr1-math-raw.u028.p0000: rows 8,490 flagged 31 canary 0 kept 8,459 586s
+2026-11-07 19:28:09 part done sft-math-openr1-math.u019.p0000: rows 11,250 flagged 97 canary 0 kept 11,153 1062s
+2026-11-07 19:28:46 part done sft-math-openr1-math.u014.p0000: rows 11,248 flagged 99 canary 0 kept 11,149 1050s
+2026-11-07 19:28:46 SET DONE sft-math-openr1-math: parts 20 rows 224,882 flagged 1,803 canary 0 removed 1,803 kept 223,079 OK
+2026-11-07 19:28:55 part done sft-math-openr1-math-raw.u023.p0000: rows 8,573 flagged 43 canary 0 kept 8,530 557s
+2026-11-07 19:30:01 part done sft-math-openr1-math-raw.u026.p0000: rows 8,492 flagged 24 canary 0 kept 8,468 527s
+2026-11-07 19:30:16 part done sft-math-openr1-math-raw.u024.p0000: rows 8,586 flagged 33 canary 0 kept 8,553 534s
+2026-11-07 19:30:54 part done sft-math-openr1-math-raw.u032.p0000: rows 8,578 flagged 34 canary 0 kept 8,544 523s
+2026-11-07 19:31:19 part done sft-math-openr1-math-raw.u018.p0000: rows 8,503 flagged 28 canary 0 kept 8,475 507s
+2026-11-07 19:31:24 part done sft-math-openr1-math-raw.u025.p0000: rows 8,526 flagged 38 canary 0 kept 8,488 503s
+2026-11-07 19:31:28 part done sft-math-openr1-math-raw.u022.p0000: rows 8,473 flagged 27 canary 0 kept 8,446 504s
+2026-11-07 19:32:07 part done sft-math-openr1-math-raw.u021.p0000: rows 8,514 flagged 43 canary 0 kept 8,471 488s
+2026-11-07 19:34:04 part done sft-math-openr1-math-raw.u029.p0000: rows 8,604 flagged 34 canary 0 kept 8,570 470s
+2026-11-07 19:34:06 part done sft-math-openr1-math-raw.u027.p0000: rows 8,506 flagged 30 canary 0 kept 8,476 451s
+2026-11-07 19:34:10 part done sft-math-openr1-math-raw.u017.p0000: rows 8,553 flagged 36 canary 0 kept 8,517 454s
+2026-11-07 19:34:10 SET DONE sft-math-openr1-math-raw: parts 39 rows 321,100 flagged 2,494 canary 0 removed 2,494 kept 318,606 OK
+2026-11-07 19:34:10 finished: not merged: ['sft-code-nemotron-cascade-swe']

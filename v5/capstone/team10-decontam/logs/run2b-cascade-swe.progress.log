@@ -1,0 +1,58 @@
+2026-11-07 14:51:59 plan sft-code-nemotron-cascade-swe: 3 units, 6.77 GB of source files
+2026-11-07 14:51:59 start: sets sft-code-nemotron-cascade-swe; disk free 207 GB; decontam slots 4, download slots 3
+2026-11-07 14:51:59 unit start sft-code-nemotron-cascade-swe u001 swe_repair.jsonl (3.75 GB)
+2026-11-07 14:51:59 unit start sft-code-nemotron-cascade-swe u000 swe_localization.jsonl (2.16 GB)
+2026-11-07 14:51:59 unit start sft-code-nemotron-cascade-swe u002 swe_testgen.jsonl (0.85 GB)
+2026-11-07 14:54:09 part start sft-code-nemotron-cascade-swe.u001.p0000 (300 MB)
+2026-11-07 14:55:14 part start sft-code-nemotron-cascade-swe.u000.p0000 (300 MB)
+2026-11-07 14:56:44 part start sft-code-nemotron-cascade-swe.u001.p0001 (300 MB)
+2026-11-07 14:57:35 part start sft-code-nemotron-cascade-swe.u002.p0000 (300 MB)
+2026-11-07 15:02:57 unit done sft-code-nemotron-cascade-swe u002: rows 31,638 of 31,651 selected, skipped 13, 658s
+2026-11-07 15:12:32 unit done sft-code-nemotron-cascade-swe u000: rows 92,256 of 92,265 selected, skipped 9, 1233s
+2026-11-07 15:18:17 unit done sft-code-nemotron-cascade-swe u001: rows 86,688 of 86,907 selected, skipped 219, 1578s
+2026-11-07 15:25:59 part done sft-code-nemotron-cascade-swe.u001.p0000: rows 7,010 flagged 668 canary 0 kept 6,342 1910s
+2026-11-07 15:25:59 part done sft-code-nemotron-cascade-swe.u000.p0000: rows 12,833 flagged 1,073 canary 0 kept 11,760 1845s
+2026-11-07 15:25:59 part start sft-code-nemotron-cascade-swe.u000.p0001 (300 MB)
+2026-11-07 15:25:59 part start sft-code-nemotron-cascade-swe.u002.p0001 (300 MB)
+2026-11-07 15:31:05 part done sft-code-nemotron-cascade-swe.u001.p0001: rows 6,918 flagged 647 canary 0 kept 6,271 2061s
+2026-11-07 15:31:05 part start sft-code-nemotron-cascade-swe.u001.p0002 (300 MB)
+2026-11-07 15:36:32 part done sft-code-nemotron-cascade-swe.u002.p0000: rows 11,610 flagged 553 canary 0 kept 11,057 2337s
+2026-11-07 15:36:32 part start sft-code-nemotron-cascade-swe.u000.p0002 (300 MB)
+2026-11-07 15:58:47 part done sft-code-nemotron-cascade-swe.u000.p0001: rows 12,687 flagged 1,053 canary 0 kept 11,634 1968s
+2026-11-07 15:58:47 part start sft-code-nemotron-cascade-swe.u002.p0002 (256 MB)
+2026-11-07 16:01:34 part done sft-code-nemotron-cascade-swe.u001.p0002: rows 6,882 flagged 694 canary 0 kept 6,188 1829s
+2026-11-07 16:01:34 part start sft-code-nemotron-cascade-swe.u001.p0003 (300 MB)
+2026-11-07 16:02:12 part done sft-code-nemotron-cascade-swe.u002.p0001: rows 10,877 flagged 873 canary 0 kept 10,004 2173s
+2026-11-07 16:02:12 part start sft-code-nemotron-cascade-swe.u000.p0003 (300 MB)
+2026-11-07 16:05:19 part done sft-code-nemotron-cascade-swe.u000.p0002: rows 12,780 flagged 1,084 canary 0 kept 11,696 1727s
+2026-11-07 16:05:19 part start sft-code-nemotron-cascade-swe.u001.p0004 (300 MB)
+2026-11-07 16:28:12 part done sft-code-nemotron-cascade-swe.u002.p0002: rows 9,151 flagged 669 canary 0 kept 8,482 1765s
+2026-11-07 16:28:12 part start sft-code-nemotron-cascade-swe.u000.p0004 (300 MB)
+2026-11-07 16:36:07 part done sft-code-nemotron-cascade-swe.u001.p0003: rows 6,953 flagged 686 canary 0 kept 6,267 2074s
+2026-11-07 16:36:07 part start sft-code-nemotron-cascade-swe.u001.p0005 (300 MB)
+2026-11-07 16:37:48 part done sft-code-nemotron-cascade-swe.u000.p0003: rows 12,939 flagged 1,132 canary 0 kept 11,807 2137s
+2026-11-07 16:37:48 part start sft-code-nemotron-cascade-swe.u001.p0006 (300 MB)
+2026-11-07 16:39:20 part done sft-code-nemotron-cascade-swe.u001.p0004: rows 6,927 flagged 700 canary 0 kept 6,227 2041s
+2026-11-07 16:39:20 part start sft-code-nemotron-cascade-swe.u000.p0005 (300 MB)
+2026-11-07 16:57:33 part done sft-code-nemotron-cascade-swe.u000.p0004: rows 12,718 flagged 1,014 canary 0 kept 11,704 1761s
+2026-11-07 16:57:33 part start sft-code-nemotron-cascade-swe.u001.p0007 (300 MB)
+2026-11-07 17:03:25 part done sft-code-nemotron-cascade-swe.u001.p0005: rows 6,965 flagged 692 canary 0 kept 6,273 1638s
+2026-11-07 17:03:25 part start sft-code-nemotron-cascade-swe.u000.p0006 (300 MB)
+2026-11-07 17:06:05 part done sft-code-nemotron-cascade-swe.u001.p0006: rows 6,979 flagged 625 canary 0 kept 6,354 1696s
+2026-11-07 17:06:05 part start sft-code-nemotron-cascade-swe.u001.p0008 (300 MB)
+2026-11-07 17:08:16 part done sft-code-nemotron-cascade-swe.u000.p0005: rows 12,714 flagged 1,096 canary 0 kept 11,618 1736s
+2026-11-07 17:08:16 part start sft-code-nemotron-cascade-swe.u000.p0007 (67 MB)
+2026-11-07 17:15:43 part done sft-code-nemotron-cascade-swe.u000.p0007: rows 2,833 flagged 219 canary 0 kept 2,614 448s
+2026-11-07 17:15:43 part start sft-code-nemotron-cascade-swe.u001.p0009 (300 MB)
+2026-11-07 17:26:26 part done sft-code-nemotron-cascade-swe.u001.p0007: rows 6,961 flagged 690 canary 0 kept 6,271 1734s
+2026-11-07 17:26:26 part start sft-code-nemotron-cascade-swe.u001.p0010 (300 MB)
+2026-11-07 17:31:36 part done sft-code-nemotron-cascade-swe.u000.p0006: rows 12,752 flagged 1,049 canary 0 kept 11,703 1691s
+2026-11-07 17:31:36 part start sft-code-nemotron-cascade-swe.u001.p0011 (300 MB)
+2026-11-07 17:34:07 part done sft-code-nemotron-cascade-swe.u001.p0008: rows 6,969 flagged 644 canary 0 kept 6,325 1683s
+2026-11-07 17:34:07 part start sft-code-nemotron-cascade-swe.u001.p0012 (147 MB)
+2026-11-07 17:43:07 part done sft-code-nemotron-cascade-swe.u001.p0009: rows 6,914 flagged 682 canary 0 kept 6,232 1644s
+2026-11-07 17:49:37 part done sft-code-nemotron-cascade-swe.u001.p0012: rows 3,371 flagged 323 canary 0 kept 3,048 929s
+2026-11-07 17:55:14 part done sft-code-nemotron-cascade-swe.u001.p0010: rows 6,890 flagged 657 canary 0 kept 6,233 1728s
+2026-11-07 17:58:45 part done sft-code-nemotron-cascade-swe.u001.p0011: rows 6,949 flagged 725 canary 0 kept 6,224 1628s
+2026-11-07 17:58:46 SET DONE sft-code-nemotron-cascade-swe: parts 24 rows 210,582 flagged 18,248 canary 0 removed 18,248 kept 192,334 OK
+2026-11-07 17:58:46 finished: all sets merged

@@ -1,0 +1,24 @@
+{
+ "set": "sft-agentic-nemotron-sft-agentic-v2-tool-calling",
+ "units": 1,
+ "files": [
+  "data/tool_calling.jsonl"
+ ],
+ "rows_scanned": 364920,
+ "rows_in": 364920,
+ "rows": 364889,
+ "skipped": {
+  "tool call arguments must be an object": 12,
+  "trace over the 64k effort budget": 9,
+  "empty user turn": 8,
+  "content contains special token <|endoftext|>": 1,
+  "tool call arguments must be valid JSON": 1
+ },
+ "effort": {
+  "1k": 177491,
+  "4k": 142105,
+  "16k": 36237,
+  "64k": 9056
+ },
+ "selection": "all rows"
+}

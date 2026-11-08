@@ -1,0 +1,21 @@
+{
+ "set": "sft-code-nemotron-opencode",
+ "units": 1,
+ "files": [
+  "agent_skills/data.jsonl"
+ ],
+ "rows_scanned": 67132,
+ "rows_in": 67132,
+ "rows": 67086,
+ "skipped": {
+  "trace over the 64k effort budget": 43,
+  "content contains plain-text marker </tool_call>; every chat marker must be one special token": 3
+ },
+ "effort": {
+  "1k": 14464,
+  "4k": 15841,
+  "16k": 23565,
+  "64k": 13216
+ },
+ "selection": "agent_skills file"
+}

@@ -1,0 +1,3 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-code-nemotron-cuda/272,(single source file or files in order),272,codeforces,1,0.001
+sft-code-nemotron-cuda/952,(single source file or files in order),952,hle,1,0.002

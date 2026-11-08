@@ -1,0 +1,1 @@
+sft-math-openr1-math-raw: rows 5000 flagged 48 canary 0 kept 4952 set_sha256 2826a3b8... OK

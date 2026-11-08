@@ -1,0 +1,532 @@
+2026-11-07 20:33:31 plan sft-agentic-nemotron-sft-agentic-v2-tool-calling: 1 units, 14.94 GB of source files
+2026-11-07 20:33:32 plan sft-chat-nemotron-if-v2: 1 units, 10.06 GB of source files
+2026-11-07 20:33:32 plan sft-code-swe-zero-openhands: 64 units, 12.21 GB of source files
+2026-11-07 20:33:32 start: sets sft-agentic-nemotron-sft-agentic-v2-tool-calling, sft-chat-nemotron-if-v2, sft-code-swe-zero-openhands; disk free 209 GB; decontam slots 17, download slots 4
+2026-11-07 20:33:32 unit start sft-agentic-nemotron-sft-agentic-v2-tool-calling u000 data/tool_calling.jsonl (14.94 GB)
+2026-11-07 20:33:32 unit start sft-chat-nemotron-if-v2 u000 data/reasoning_on.jsonl (10.06 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u052 data/train-00052-of-00064.parquet (0.23 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u051 data/train-00051-of-00064.parquet (0.23 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u045 data/train-00045-of-00064.parquet (0.22 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u050 data/train-00050-of-00064.parquet (0.22 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u047 data/train-00047-of-00064.parquet (0.22 GB)
+2026-11-07 20:33:32 unit start sft-code-swe-zero-openhands u048 data/train-00048-of-00064.parquet (0.22 GB)
+2026-11-07 20:36:01 part start sft-code-swe-zero-openhands.u051.p0000 (300 MB)
+2026-11-07 20:36:03 part start sft-code-swe-zero-openhands.u045.p0000 (300 MB)
+2026-11-07 20:36:08 part start sft-chat-nemotron-if-v2.u000.p0000 (300 MB)
+2026-11-07 20:36:27 part start sft-code-swe-zero-openhands.u051.p0001 (300 MB)
+2026-11-07 20:36:28 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0000 (300 MB)
+2026-11-07 20:36:31 part start sft-code-swe-zero-openhands.u045.p0001 (300 MB)
+2026-11-07 20:36:34 unit done sft-code-swe-zero-openhands u051: rows 4,966 of 5,000 selected, skipped 34, 181s
+2026-11-07 20:36:34 unit done sft-code-swe-zero-openhands u045: rows 4,981 of 5,000 selected, skipped 19, 181s
+2026-11-07 20:36:34 part start sft-code-swe-zero-openhands.u051.p0002 (70 MB)
+2026-11-07 20:36:34 part start sft-code-swe-zero-openhands.u045.p0002 (34 MB)
+2026-11-07 20:36:34 unit start sft-code-swe-zero-openhands u046 data/train-00046-of-00064.parquet (0.22 GB)
+2026-11-07 20:36:34 unit start sft-code-swe-zero-openhands u049 data/train-00049-of-00064.parquet (0.22 GB)
+2026-11-07 20:36:47 part start sft-chat-nemotron-if-v2.u000.p0001 (300 MB)
+2026-11-07 20:37:08 part start sft-code-swe-zero-openhands.u048.p0000 (300 MB)
+2026-11-07 20:37:17 part start sft-code-swe-zero-openhands.u050.p0000 (300 MB)
+2026-11-07 20:37:24 part start sft-code-swe-zero-openhands.u047.p0000 (300 MB)
+2026-11-07 20:37:54 part start sft-chat-nemotron-if-v2.u000.p0002 (300 MB)
+2026-11-07 20:38:10 part start sft-code-swe-zero-openhands.u048.p0001 (300 MB)
+2026-11-07 20:38:19 part start sft-code-swe-zero-openhands.u052.p0000 (300 MB)
+2026-11-07 20:38:23 unit done sft-code-swe-zero-openhands u048: rows 4,969 of 5,000 selected, skipped 31, 291s
+2026-11-07 20:38:23 part start sft-code-swe-zero-openhands.u048.p0002 (43 MB)
+2026-11-07 20:38:31 part start sft-code-swe-zero-openhands.u050.p0001 (300 MB)
+2026-11-07 20:38:50 unit done sft-code-swe-zero-openhands u050: rows 4,968 of 5,000 selected, skipped 32, 318s
+2026-11-07 20:39:04 unit done sft-code-swe-zero-openhands u047: rows 4,985 of 5,000 selected, skipped 15, 332s
+2026-11-07 20:40:26 part done sft-code-swe-zero-openhands.u045.p0002: rows 264 flagged 13 canary 0 kept 251 232s
+2026-11-07 20:40:26 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0001 (300 MB)
+2026-11-07 20:40:51 unit done sft-code-swe-zero-openhands u052: rows 4,975 of 5,000 selected, skipped 25, 439s
+2026-11-07 20:42:05 unit done sft-code-swe-zero-openhands u046: rows 4,972 of 5,000 selected, skipped 28, 331s
+2026-11-07 20:42:05 unit start sft-code-swe-zero-openhands u044 data/train-00044-of-00064.parquet (0.22 GB)
+2026-11-07 20:42:16 unit done sft-code-swe-zero-openhands u049: rows 4,974 of 5,000 selected, skipped 26, 342s
+2026-11-07 20:42:16 unit start sft-code-swe-zero-openhands u042 data/train-00042-of-00064.parquet (0.21 GB)
+2026-11-07 20:43:44 part done sft-code-swe-zero-openhands.u048.p0002: rows 333 flagged 21 canary 0 kept 312 321s
+2026-11-07 20:43:44 part start sft-code-swe-zero-openhands.u047.p0001 (300 MB)
+2026-11-07 20:44:17 part done sft-code-swe-zero-openhands.u051.p0002: rows 510 flagged 34 canary 0 kept 476 463s
+2026-11-07 20:44:17 part start sft-code-swe-zero-openhands.u050.p0002 (51 MB)
+2026-11-07 20:46:30 unit done sft-code-swe-zero-openhands u044: rows 4,984 of 5,000 selected, skipped 16, 265s
+2026-11-07 20:46:30 unit start sft-code-swe-zero-openhands u038 data/train-00038-of-00064.parquet (0.21 GB)
+2026-11-07 20:46:34 unit done sft-code-swe-zero-openhands u042: rows 4,978 of 5,000 selected, skipped 22, 258s
+2026-11-07 20:46:34 unit start sft-code-swe-zero-openhands u043 data/train-00043-of-00064.parquet (0.21 GB)
+2026-11-07 20:50:45 part done sft-code-swe-zero-openhands.u050.p0002: rows 383 flagged 24 canary 0 kept 359 389s
+2026-11-07 20:50:45 part start sft-code-swe-zero-openhands.u047.p0002 (45 MB)
+2026-11-07 20:51:07 unit done sft-code-swe-zero-openhands u043: rows 4,980 of 5,000 selected, skipped 20, 273s
+2026-11-07 20:51:07 unit start sft-code-swe-zero-openhands u062 data/train-00062-of-00064.parquet (0.21 GB)
+2026-11-07 20:51:42 unit done sft-code-swe-zero-openhands u038: rows 4,983 of 5,000 selected, skipped 17, 312s
+2026-11-07 20:51:42 unit start sft-code-swe-zero-openhands u040 data/train-00040-of-00064.parquet (0.20 GB)
+2026-11-07 20:55:50 part done sft-code-swe-zero-openhands.u047.p0002: rows 346 flagged 14 canary 0 kept 332 305s
+2026-11-07 20:55:50 part start sft-chat-nemotron-if-v2.u000.p0003 (300 MB)
+2026-11-07 20:58:30 unit done sft-code-swe-zero-openhands u040: rows 4,980 of 5,000 selected, skipped 20, 408s
+2026-11-07 20:58:30 unit start sft-code-swe-zero-openhands u041 data/train-00041-of-00064.parquet (0.20 GB)
+2026-11-07 20:58:43 unit done sft-code-swe-zero-openhands u062: rows 4,985 of 5,000 selected, skipped 15, 457s
+2026-11-07 20:58:43 unit start sft-code-swe-zero-openhands u034 data/train-00034-of-00064.parquet (0.20 GB)
+2026-11-07 21:03:54 unit done sft-code-swe-zero-openhands u041: rows 4,977 of 5,000 selected, skipped 23, 324s
+2026-11-07 21:03:54 unit start sft-code-swe-zero-openhands u036 data/train-00036-of-00064.parquet (0.19 GB)
+2026-11-07 21:06:54 part done sft-code-swe-zero-openhands.u045.p0000: rows 2,370 flagged 162 canary 0 kept 2,208 1851s
+2026-11-07 21:06:54 part start sft-code-swe-zero-openhands.u046.p0000 (300 MB)
+2026-11-07 21:06:58 part done sft-code-swe-zero-openhands.u051.p0000: rows 2,235 flagged 134 canary 0 kept 2,101 1857s
+2026-11-07 21:06:58 part start sft-code-swe-zero-openhands.u049.p0000 (300 MB)
+2026-11-07 21:07:49 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0000: rows 14,843 flagged 90 canary 0 kept 14,753 1882s
+2026-11-07 21:07:49 part start sft-code-swe-zero-openhands.u052.p0001 (300 MB)
+2026-11-07 21:08:12 part done sft-code-swe-zero-openhands.u051.p0001: rows 2,221 flagged 125 canary 0 kept 2,096 1906s
+2026-11-07 21:08:12 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0002 (300 MB)
+2026-11-07 21:08:13 unit done sft-code-swe-zero-openhands u034: rows 4,981 of 5,000 selected, skipped 19, 570s
+2026-11-07 21:08:14 unit start sft-code-swe-zero-openhands u039 data/train-00039-of-00064.parquet (0.19 GB)
+2026-11-07 21:08:24 part done sft-code-swe-zero-openhands.u045.p0001: rows 2,347 flagged 180 canary 0 kept 2,167 1913s
+2026-11-07 21:08:24 part start sft-code-swe-zero-openhands.u052.p0002 (85 MB)
+2026-11-07 21:08:40 part done sft-code-swe-zero-openhands.u048.p0000: rows 2,311 flagged 145 canary 0 kept 2,166 1892s
+2026-11-07 21:08:40 part start sft-chat-nemotron-if-v2.u000.p0004 (300 MB)
+2026-11-07 21:09:36 unit done sft-code-swe-zero-openhands u036: rows 4,980 of 5,000 selected, skipped 20, 342s
+2026-11-07 21:09:36 part done sft-code-swe-zero-openhands.u047.p0000: rows 2,316 flagged 144 canary 0 kept 2,172 1932s
+2026-11-07 21:09:36 part start sft-code-swe-zero-openhands.u046.p0001 (300 MB)
+2026-11-07 21:09:36 unit start sft-code-swe-zero-openhands u035 data/train-00035-of-00064.parquet (0.19 GB)
+2026-11-07 21:09:46 part done sft-code-swe-zero-openhands.u048.p0001: rows 2,325 flagged 140 canary 0 kept 2,185 1896s
+2026-11-07 21:09:46 part start sft-code-swe-zero-openhands.u049.p0001 (300 MB)
+2026-11-07 21:09:47 part done sft-code-swe-zero-openhands.u050.p0000: rows 2,313 flagged 128 canary 0 kept 2,185 1950s
+2026-11-07 21:09:47 part start sft-code-swe-zero-openhands.u046.p0002 (39 MB)
+2026-11-07 21:10:25 part done sft-code-swe-zero-openhands.u052.p0000: rows 2,206 flagged 123 canary 0 kept 2,083 1926s
+2026-11-07 21:10:25 part start sft-code-swe-zero-openhands.u049.p0002 (39 MB)
+2026-11-07 21:10:27 part done sft-chat-nemotron-if-v2.u000.p0000: rows 27,380 flagged 157 canary 0 kept 27,223 2060s
+2026-11-07 21:10:27 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0003 (300 MB)
+2026-11-07 21:10:38 part done sft-code-swe-zero-openhands.u050.p0001: rows 2,272 flagged 111 canary 0 kept 2,161 1927s
+2026-11-07 21:10:38 part start sft-chat-nemotron-if-v2.u000.p0005 (300 MB)
+2026-11-07 21:10:48 part done sft-chat-nemotron-if-v2.u000.p0001: rows 27,487 flagged 159 canary 0 kept 27,328 2041s
+2026-11-07 21:10:48 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0004 (300 MB)
+2026-11-07 21:11:33 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0001: rows 14,719 flagged 104 canary 0 kept 14,615 1867s
+2026-11-07 21:11:33 part start sft-code-swe-zero-openhands.u044.p0000 (300 MB)
+2026-11-07 21:12:18 part done sft-chat-nemotron-if-v2.u000.p0002: rows 27,356 flagged 185 canary 0 kept 27,171 2064s
+2026-11-07 21:12:18 part start sft-code-swe-zero-openhands.u042.p0000 (300 MB)
+2026-11-07 21:13:53 part done sft-code-swe-zero-openhands.u046.p0002: rows 291 flagged 21 canary 0 kept 270 246s
+2026-11-07 21:13:53 part start sft-chat-nemotron-if-v2.u000.p0006 (300 MB)
+2026-11-07 21:14:27 unit done sft-code-swe-zero-openhands u039: rows 4,982 of 5,000 selected, skipped 18, 373s
+2026-11-07 21:14:27 unit start sft-code-swe-zero-openhands u037 data/train-00037-of-00064.parquet (0.19 GB)
+2026-11-07 21:14:41 part done sft-code-swe-zero-openhands.u049.p0002: rows 301 flagged 15 canary 0 kept 286 256s
+2026-11-07 21:14:41 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0005 (300 MB)
+2026-11-07 21:15:08 part done sft-code-swe-zero-openhands.u047.p0001: rows 2,323 flagged 156 canary 0 kept 2,167 1884s
+2026-11-07 21:15:08 part start sft-code-swe-zero-openhands.u044.p0001 (300 MB)
+2026-11-07 21:15:44 unit done sft-code-swe-zero-openhands u035: rows 4,981 of 5,000 selected, skipped 19, 368s
+2026-11-07 21:15:44 unit start sft-code-swe-zero-openhands u009 data/train-00009-of-00064.parquet (0.19 GB)
+2026-11-07 21:16:55 part done sft-code-swe-zero-openhands.u052.p0002: rows 610 flagged 47 canary 0 kept 563 511s
+2026-11-07 21:16:55 part start sft-code-swe-zero-openhands.u044.p0002 (33 MB)
+2026-11-07 21:19:02 unit done sft-code-swe-zero-openhands u037: rows 4,981 of 5,000 selected, skipped 19, 275s
+2026-11-07 21:19:02 unit start sft-code-swe-zero-openhands u030 data/train-00030-of-00064.parquet (0.19 GB)
+2026-11-07 21:20:14 unit done sft-code-swe-zero-openhands u009: rows 4,981 of 5,000 selected, skipped 19, 270s
+2026-11-07 21:20:14 unit start sft-code-swe-zero-openhands u061 data/train-00061-of-00064.parquet (0.19 GB)
+2026-11-07 21:20:36 part done sft-code-swe-zero-openhands.u044.p0002: rows 261 flagged 15 canary 0 kept 246 221s
+2026-11-07 21:20:36 part start sft-code-swe-zero-openhands.u042.p0001 (286 MB)
+2026-11-07 21:28:50 unit done sft-code-swe-zero-openhands u061: rows 4,990 of 5,000 selected, skipped 10, 516s
+2026-11-07 21:28:50 unit start sft-code-swe-zero-openhands u053 data/train-00053-of-00064.parquet (0.19 GB)
+2026-11-07 21:29:49 part done sft-chat-nemotron-if-v2.u000.p0003: rows 27,374 flagged 179 canary 0 kept 27,195 2039s
+2026-11-07 21:29:49 part start sft-code-swe-zero-openhands.u043.p0000 (300 MB)
+2026-11-07 21:30:16 unit done sft-code-swe-zero-openhands u030: rows 4,978 of 5,000 selected, skipped 22, 674s
+2026-11-07 21:30:16 unit start sft-code-swe-zero-openhands u056 data/train-00056-of-00064.parquet (0.19 GB)
+2026-11-07 21:34:34 part done sft-code-swe-zero-openhands.u046.p0000: rows 2,348 flagged 149 canary 0 kept 2,199 1661s
+2026-11-07 21:34:34 part start sft-code-swe-zero-openhands.u038.p0000 (300 MB)
+2026-11-07 21:35:03 part done sft-code-swe-zero-openhands.u049.p0000: rows 2,341 flagged 137 canary 0 kept 2,204 1685s
+2026-11-07 21:35:03 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0006 (300 MB)
+2026-11-07 21:35:09 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0002: rows 14,763 flagged 94 canary 0 kept 14,669 1616s
+2026-11-07 21:35:09 part start sft-code-swe-zero-openhands.u043.p0001 (290 MB)
+2026-11-07 21:36:00 unit done sft-code-swe-zero-openhands u056: rows 4,989 of 5,000 selected, skipped 11, 344s
+2026-11-07 21:36:00 unit start sft-code-swe-zero-openhands u004 data/train-00004-of-00064.parquet (0.19 GB)
+2026-11-07 21:36:02 part done sft-code-swe-zero-openhands.u052.p0001: rows 2,159 flagged 113 canary 0 kept 2,046 1692s
+2026-11-07 21:36:02 part start sft-code-swe-zero-openhands.u038.p0001 (260 MB)
+2026-11-07 21:36:17 unit done sft-code-swe-zero-openhands u053: rows 4,988 of 5,000 selected, skipped 12, 447s
+2026-11-07 21:36:17 unit start sft-code-swe-zero-openhands u033 data/train-00033-of-00064.parquet (0.19 GB)
+2026-11-07 21:37:19 part done sft-code-swe-zero-openhands.u046.p0001: rows 2,333 flagged 129 canary 0 kept 2,204 1663s
+2026-11-07 21:37:19 part start sft-chat-nemotron-if-v2.u000.p0007 (300 MB)
+2026-11-07 21:37:49 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0003: rows 14,556 flagged 81 canary 0 kept 14,475 1641s
+2026-11-07 21:37:49 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0007 (300 MB)
+2026-11-07 21:38:11 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0004: rows 14,474 flagged 85 canary 0 kept 14,389 1643s
+2026-11-07 21:38:11 part start sft-chat-nemotron-if-v2.u000.p0008 (300 MB)
+2026-11-07 21:38:14 part done sft-code-swe-zero-openhands.u049.p0001: rows 2,332 flagged 148 canary 0 kept 2,184 1708s
+2026-11-07 21:38:14 part start sft-code-swe-zero-openhands.u040.p0000 (300 MB)
+2026-11-07 21:38:25 part done sft-chat-nemotron-if-v2.u000.p0004: rows 27,411 flagged 181 canary 0 kept 27,230 1785s
+2026-11-07 21:38:25 part start sft-code-swe-zero-openhands.u062.p0000 (300 MB)
+2026-11-07 21:39:03 part done sft-code-swe-zero-openhands.u044.p0000: rows 2,361 flagged 154 canary 0 kept 2,207 1649s
+2026-11-07 21:39:03 part start sft-code-swe-zero-openhands.u040.p0001 (283 MB)
+2026-11-07 21:39:31 part done sft-code-swe-zero-openhands.u042.p0000: rows 2,570 flagged 228 canary 0 kept 2,342 1633s
+2026-11-07 21:39:31 part start sft-code-swe-zero-openhands.u062.p0001 (280 MB)
+2026-11-07 21:41:21 part done sft-chat-nemotron-if-v2.u000.p0005: rows 27,539 flagged 190 canary 0 kept 27,349 1843s
+2026-11-07 21:41:21 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0008 (300 MB)
+2026-11-07 21:41:35 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0005: rows 14,477 flagged 93 canary 0 kept 14,384 1614s
+2026-11-07 21:41:35 part start sft-chat-nemotron-if-v2.u000.p0009 (300 MB)
+2026-11-07 21:41:53 part done sft-code-swe-zero-openhands.u044.p0001: rows 2,362 flagged 149 canary 0 kept 2,213 1604s
+2026-11-07 21:41:53 part start sft-code-swe-zero-openhands.u041.p0000 (300 MB)
+2026-11-07 21:42:16 unit done sft-code-swe-zero-openhands u033: rows 4,982 of 5,000 selected, skipped 18, 359s
+2026-11-07 21:42:16 unit start sft-code-swe-zero-openhands u021 data/train-00021-of-00064.parquet (0.19 GB)
+2026-11-07 21:42:37 unit done sft-code-swe-zero-openhands u004: rows 4,976 of 5,000 selected, skipped 24, 397s
+2026-11-07 21:42:37 unit start sft-code-swe-zero-openhands u020 data/train-00020-of-00064.parquet (0.19 GB)
+2026-11-07 21:44:12 part done sft-chat-nemotron-if-v2.u000.p0006: rows 27,466 flagged 180 canary 0 kept 27,286 1819s
+2026-11-07 21:44:12 part start sft-code-swe-zero-openhands.u041.p0001 (282 MB)
+2026-11-07 21:46:19 part done sft-code-swe-zero-openhands.u042.p0001: rows 2,408 flagged 181 canary 0 kept 2,227 1542s
+2026-11-07 21:46:19 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0009 (300 MB)
+2026-11-07 21:47:05 unit done sft-code-swe-zero-openhands u020: rows 4,985 of 5,000 selected, skipped 15, 268s
+2026-11-07 21:47:05 unit start sft-code-swe-zero-openhands u010 data/train-00010-of-00064.parquet (0.19 GB)
+2026-11-07 21:48:58 unit done sft-code-swe-zero-openhands u021: rows 4,989 of 5,000 selected, skipped 11, 401s
+2026-11-07 21:48:58 unit start sft-code-swe-zero-openhands u027 data/train-00027-of-00064.parquet (0.18 GB)
+2026-11-07 21:52:08 unit done sft-code-swe-zero-openhands u010: rows 4,986 of 5,000 selected, skipped 14, 303s
+2026-11-07 21:52:08 unit start sft-code-swe-zero-openhands u026 data/train-00026-of-00064.parquet (0.18 GB)
+2026-11-07 21:53:57 unit done sft-code-swe-zero-openhands u027: rows 4,979 of 5,000 selected, skipped 21, 299s
+2026-11-07 21:53:57 unit start sft-code-swe-zero-openhands u029 data/train-00029-of-00064.parquet (0.18 GB)
+2026-11-07 21:56:56 part done sft-code-swe-zero-openhands.u043.p0000: rows 2,552 flagged 188 canary 0 kept 2,364 1627s
+2026-11-07 21:56:56 part start sft-chat-nemotron-if-v2.u000.p0010 (300 MB)
+2026-11-07 21:57:41 unit done sft-code-swe-zero-openhands u026: rows 4,991 of 5,000 selected, skipped 9, 333s
+2026-11-07 21:57:41 unit start sft-code-swe-zero-openhands u013 data/train-00013-of-00064.parquet (0.18 GB)
+2026-11-07 21:59:20 part done sft-code-swe-zero-openhands.u038.p0001: rows 2,314 flagged 179 canary 0 kept 2,135 1398s
+2026-11-07 21:59:20 part start sft-code-swe-zero-openhands.u034.p0000 (300 MB)
+2026-11-07 22:00:02 unit done sft-code-swe-zero-openhands u029: rows 4,979 of 5,000 selected, skipped 21, 365s
+2026-11-07 22:00:02 unit start sft-code-swe-zero-openhands u008 data/train-00008-of-00064.parquet (0.18 GB)
+2026-11-07 22:01:29 part done sft-code-swe-zero-openhands.u038.p0000: rows 2,669 flagged 202 canary 0 kept 2,467 1614s
+2026-11-07 22:01:29 part start sft-code-swe-zero-openhands.u034.p0001 (261 MB)
+2026-11-07 22:01:44 part done sft-code-swe-zero-openhands.u043.p0001: rows 2,428 flagged 169 canary 0 kept 2,259 1595s
+2026-11-07 22:01:44 part start sft-code-swe-zero-openhands.u036.p0000 (300 MB)
+2026-11-07 22:02:01 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0006: rows 14,590 flagged 90 canary 0 kept 14,500 1618s
+2026-11-07 22:02:01 part start sft-code-swe-zero-openhands.u036.p0001 (263 MB)
+2026-11-07 22:04:00 unit done sft-code-swe-zero-openhands u013: rows 4,979 of 5,000 selected, skipped 21, 379s
+2026-11-07 22:04:00 unit start sft-code-swe-zero-openhands u005 data/train-00005-of-00064.parquet (0.18 GB)
+2026-11-07 22:04:29 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0007: rows 14,928 flagged 83 canary 0 kept 14,845 1600s
+2026-11-07 22:04:29 part start sft-code-swe-zero-openhands.u039.p0000 (300 MB)
+2026-11-07 22:04:39 part done sft-code-swe-zero-openhands.u040.p0001: rows 2,392 flagged 177 canary 0 kept 2,215 1536s
+2026-11-07 22:04:39 part start sft-code-swe-zero-openhands.u039.p0001 (261 MB)
+2026-11-07 22:05:01 part done sft-code-swe-zero-openhands.u040.p0000: rows 2,588 flagged 232 canary 0 kept 2,356 1607s
+2026-11-07 22:05:01 part start sft-code-swe-zero-openhands.u035.p0000 (300 MB)
+2026-11-07 22:05:06 part done sft-code-swe-zero-openhands.u062.p0001: rows 2,378 flagged 145 canary 0 kept 2,233 1535s
+2026-11-07 22:05:06 part start sft-code-swe-zero-openhands.u035.p0001 (257 MB)
+2026-11-07 22:05:19 part done sft-code-swe-zero-openhands.u062.p0000: rows 2,607 flagged 164 canary 0 kept 2,443 1614s
+2026-11-07 22:05:19 part start sft-code-swe-zero-openhands.u037.p0000 (300 MB)
+2026-11-07 22:06:49 unit done sft-code-swe-zero-openhands u008: rows 4,986 of 5,000 selected, skipped 14, 407s
+2026-11-07 22:06:49 unit start sft-code-swe-zero-openhands u031 data/train-00031-of-00064.parquet (0.18 GB)
+2026-11-07 22:07:11 part done sft-chat-nemotron-if-v2.u000.p0007: rows 27,742 flagged 165 canary 0 kept 27,577 1792s
+2026-11-07 22:07:11 part start sft-code-swe-zero-openhands.u037.p0001 (258 MB)
+2026-11-07 22:07:15 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0008: rows 14,484 flagged 73 canary 0 kept 14,411 1555s
+2026-11-07 22:07:15 part start sft-code-swe-zero-openhands.u009.p0000 (300 MB)
+2026-11-07 22:08:19 part done sft-chat-nemotron-if-v2.u000.p0008: rows 27,463 flagged 154 canary 0 kept 27,309 1807s
+2026-11-07 22:08:19 part start sft-code-swe-zero-openhands.u009.p0001 (224 MB)
+2026-11-07 22:08:29 part done sft-code-swe-zero-openhands.u041.p0000: rows 2,575 flagged 206 canary 0 kept 2,369 1596s
+2026-11-07 22:08:29 part start sft-code-swe-zero-openhands.u061.p0000 (300 MB)
+2026-11-07 22:09:31 unit done sft-code-swe-zero-openhands u005: rows 4,984 of 5,000 selected, skipped 16, 331s
+2026-11-07 22:09:31 unit start sft-code-swe-zero-openhands u022 data/train-00022-of-00064.parquet (0.18 GB)
+2026-11-07 22:10:01 part done sft-code-swe-zero-openhands.u041.p0001: rows 2,402 flagged 190 canary 0 kept 2,212 1548s
+2026-11-07 22:10:01 part start sft-code-swe-zero-openhands.u061.p0001 (254 MB)
+2026-11-07 22:12:14 unit done sft-code-swe-zero-openhands u031: rows 4,985 of 5,000 selected, skipped 15, 325s
+2026-11-07 22:12:14 unit start sft-code-swe-zero-openhands u015 data/train-00015-of-00064.parquet (0.18 GB)
+2026-11-07 22:12:31 part done sft-chat-nemotron-if-v2.u000.p0009: rows 27,506 flagged 187 canary 0 kept 27,319 1856s
+2026-11-07 22:12:31 part start sft-code-swe-zero-openhands.u030.p0000 (300 MB)
+2026-11-07 22:13:21 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0009: rows 14,734 flagged 78 canary 0 kept 14,656 1622s
+2026-11-07 22:13:21 part start sft-code-swe-zero-openhands.u030.p0001 (223 MB)
+2026-11-07 22:17:02 unit done sft-code-swe-zero-openhands u022: rows 4,991 of 5,000 selected, skipped 9, 450s
+2026-11-07 22:17:02 unit start sft-code-swe-zero-openhands u006 data/train-00006-of-00064.parquet (0.18 GB)
+2026-11-07 22:20:40 unit done sft-code-swe-zero-openhands u015: rows 4,989 of 5,000 selected, skipped 11, 506s
+2026-11-07 22:20:40 unit start sft-code-swe-zero-openhands u018 data/train-00018-of-00064.parquet (0.18 GB)
+2026-11-07 22:25:18 unit done sft-code-swe-zero-openhands u018: rows 4,984 of 5,000 selected, skipped 16, 278s
+2026-11-07 22:25:18 unit start sft-code-swe-zero-openhands u023 data/train-00023-of-00064.parquet (0.18 GB)
+2026-11-07 22:26:26 unit done sft-code-swe-zero-openhands u006: rows 4,989 of 5,000 selected, skipped 11, 565s
+2026-11-07 22:26:26 unit start sft-code-swe-zero-openhands u011 data/train-00011-of-00064.parquet (0.18 GB)
+2026-11-07 22:27:00 part done sft-code-swe-zero-openhands.u034.p0001: rows 2,342 flagged 164 canary 0 kept 2,178 1532s
+2026-11-07 22:27:00 part start sft-code-swe-zero-openhands.u056.p0000 (300 MB)
+2026-11-07 22:28:14 part done sft-code-swe-zero-openhands.u034.p0000: rows 2,639 flagged 215 canary 0 kept 2,424 1735s
+2026-11-07 22:28:14 part start sft-code-swe-zero-openhands.u053.p0000 (300 MB)
+2026-11-07 22:28:29 part done sft-chat-nemotron-if-v2.u000.p0010: rows 27,210 flagged 208 canary 0 kept 27,002 1893s
+2026-11-07 22:28:30 part done sft-code-swe-zero-openhands.u036.p0001: rows 2,321 flagged 155 canary 0 kept 2,166 1589s
+2026-11-07 22:28:30 part start sft-code-swe-zero-openhands.u056.p0001 (223 MB)
+2026-11-07 22:28:30 part start sft-code-swe-zero-openhands.u053.p0001 (240 MB)
+2026-11-07 22:30:06 part done sft-code-swe-zero-openhands.u039.p0001: rows 2,316 flagged 164 canary 0 kept 2,152 1528s
+2026-11-07 22:30:06 part start sft-code-swe-zero-openhands.u033.p0000 (300 MB)
+2026-11-07 22:30:31 part done sft-code-swe-zero-openhands.u009.p0001: rows 2,141 flagged 163 canary 0 kept 1,978 1333s
+2026-11-07 22:30:31 part start sft-code-swe-zero-openhands.u004.p0000 (300 MB)
+2026-11-07 22:31:04 unit done sft-code-swe-zero-openhands u023: rows 4,989 of 5,000 selected, skipped 11, 346s
+2026-11-07 22:31:04 unit start sft-code-swe-zero-openhands u012 data/train-00012-of-00064.parquet (0.18 GB)
+2026-11-07 22:31:05 part done sft-code-swe-zero-openhands.u035.p0001: rows 2,317 flagged 196 canary 0 kept 2,121 1559s
+2026-11-07 22:31:05 part start sft-code-swe-zero-openhands.u033.p0001 (235 MB)
+2026-11-07 22:32:10 part done sft-code-swe-zero-openhands.u036.p0000: rows 2,659 flagged 214 canary 0 kept 2,445 1826s
+2026-11-07 22:32:10 part start sft-code-swe-zero-openhands.u004.p0001 (222 MB)
+2026-11-07 22:33:59 part done sft-code-swe-zero-openhands.u037.p0001: rows 2,312 flagged 209 canary 0 kept 2,103 1608s
+2026-11-07 22:33:59 part start sft-code-swe-zero-openhands.u020.p0000 (300 MB)
+2026-11-07 22:35:10 part done sft-code-swe-zero-openhands.u039.p0000: rows 2,666 flagged 212 canary 0 kept 2,454 1841s
+2026-11-07 22:35:10 part start sft-code-swe-zero-openhands.u020.p0001 (223 MB)
+2026-11-07 22:35:43 part done sft-code-swe-zero-openhands.u035.p0000: rows 2,664 flagged 212 canary 0 kept 2,452 1842s
+2026-11-07 22:35:43 part start sft-chat-nemotron-if-v2.u000.p0011 (300 MB)
+2026-11-07 22:35:44 part done sft-code-swe-zero-openhands.u037.p0000: rows 2,669 flagged 213 canary 0 kept 2,456 1825s
+2026-11-07 22:35:44 part start sft-code-swe-zero-openhands.u021.p0000 (300 MB)
+2026-11-07 22:35:49 unit done sft-code-swe-zero-openhands u011: rows 4,987 of 5,000 selected, skipped 13, 563s
+2026-11-07 22:35:49 unit start sft-code-swe-zero-openhands u007 data/train-00007-of-00064.parquet (0.18 GB)
+2026-11-07 22:36:18 unit done sft-code-swe-zero-openhands u012: rows 4,980 of 5,000 selected, skipped 20, 314s
+2026-11-07 22:36:18 unit start sft-code-swe-zero-openhands u060 data/train-00060-of-00064.parquet (0.18 GB)
+2026-11-07 22:36:56 part done sft-code-swe-zero-openhands.u061.p0001: rows 2,245 flagged 131 canary 0 kept 2,114 1615s
+2026-11-07 22:36:56 part start sft-code-swe-zero-openhands.u021.p0001 (230 MB)
+2026-11-07 22:37:56 part done sft-code-swe-zero-openhands.u009.p0000: rows 2,840 flagged 257 canary 0 kept 2,583 1841s
+2026-11-07 22:37:56 part start sft-code-swe-zero-openhands.u010.p0000 (300 MB)
+2026-11-07 22:38:16 part done sft-code-swe-zero-openhands.u030.p0001: rows 2,123 flagged 162 canary 0 kept 1,961 1495s
+2026-11-07 22:38:16 part start sft-code-swe-zero-openhands.u010.p0001 (232 MB)
+2026-11-07 22:39:13 part done sft-code-swe-zero-openhands.u061.p0000: rows 2,745 flagged 158 canary 0 kept 2,587 1844s
+2026-11-07 22:39:13 part start sft-chat-nemotron-if-v2.u000.p0012 (300 MB)
+2026-11-07 22:40:29 unit done sft-code-swe-zero-openhands u007: rows 4,989 of 5,000 selected, skipped 11, 280s
+2026-11-07 22:40:29 unit start sft-code-swe-zero-openhands u032 data/train-00032-of-00064.parquet (0.18 GB)
+2026-11-07 22:41:41 unit done sft-code-swe-zero-openhands u060: rows 4,984 of 5,000 selected, skipped 16, 323s
+2026-11-07 22:41:41 unit start sft-code-swe-zero-openhands u016 data/train-00016-of-00064.parquet (0.18 GB)
+2026-11-07 22:44:07 part done sft-code-swe-zero-openhands.u030.p0000: rows 2,855 flagged 203 canary 0 kept 2,652 1897s
+2026-11-07 22:44:07 part start sft-code-swe-zero-openhands.u027.p0000 (300 MB)
+2026-11-07 22:47:16 unit done sft-code-swe-zero-openhands u016: rows 4,990 of 5,000 selected, skipped 10, 335s
+2026-11-07 22:47:16 unit start sft-code-swe-zero-openhands u014 data/train-00014-of-00064.parquet (0.18 GB)
+2026-11-07 22:49:00 unit done sft-code-swe-zero-openhands u032: rows 4,988 of 5,000 selected, skipped 12, 511s
+2026-11-07 22:49:01 unit start sft-code-swe-zero-openhands u017 data/train-00017-of-00064.parquet (0.18 GB)
+2026-11-07 22:51:18 part done sft-code-swe-zero-openhands.u056.p0001: rows 2,119 flagged 116 canary 0 kept 2,003 1369s
+2026-11-07 22:51:18 part start sft-code-swe-zero-openhands.u027.p0001 (228 MB)
+2026-11-07 22:53:06 unit done sft-code-swe-zero-openhands u014: rows 4,980 of 5,000 selected, skipped 20, 350s
+2026-11-07 22:53:06 unit start sft-code-swe-zero-openhands u025 data/train-00025-of-00064.parquet (0.18 GB)
+2026-11-07 22:53:51 part done sft-code-swe-zero-openhands.u004.p0001: rows 2,142 flagged 185 canary 0 kept 1,957 1302s
+2026-11-07 22:53:51 part start sft-code-swe-zero-openhands.u026.p0000 (300 MB)
+2026-11-07 22:54:14 part done sft-code-swe-zero-openhands.u053.p0001: rows 2,441 flagged 15 canary 0 kept 2,426 1544s
+2026-11-07 22:54:14 part start sft-code-swe-zero-openhands.u026.p0001 (229 MB)
+2026-11-07 22:54:20 unit done sft-code-swe-zero-openhands u017: rows 4,981 of 5,000 selected, skipped 19, 319s
+2026-11-07 22:54:20 unit start sft-code-swe-zero-openhands u028 data/train-00028-of-00064.parquet (0.18 GB)
+2026-11-07 22:54:24 part done sft-code-swe-zero-openhands.u033.p0001: rows 2,138 flagged 163 canary 0 kept 1,975 1399s
+2026-11-07 22:54:24 part start sft-code-swe-zero-openhands.u029.p0000 (300 MB)
+2026-11-07 22:55:55 part done sft-code-swe-zero-openhands.u020.p0001: rows 2,133 flagged 164 canary 0 kept 1,969 1245s
+2026-11-07 22:55:55 part start sft-code-swe-zero-openhands.u029.p0001 (227 MB)
+2026-11-07 22:56:36 part done sft-code-swe-zero-openhands.u056.p0000: rows 2,870 flagged 170 canary 0 kept 2,700 1776s
+2026-11-07 22:56:36 part start sft-code-swe-zero-openhands.u013.p0000 (300 MB)
+2026-11-07 22:58:27 part done sft-code-swe-zero-openhands.u021.p0001: rows 2,172 flagged 163 canary 0 kept 2,009 1291s
+2026-11-07 22:58:27 part start sft-code-swe-zero-openhands.u013.p0001 (220 MB)
+2026-11-07 22:58:49 unit done sft-code-swe-zero-openhands u028: rows 4,985 of 5,000 selected, skipped 15, 269s
+2026-11-07 22:58:49 unit start sft-code-swe-zero-openhands u019 data/train-00019-of-00064.parquet (0.18 GB)
+2026-11-07 22:58:56 part done sft-code-swe-zero-openhands.u053.p0000: rows 2,547 flagged 78 canary 0 kept 2,469 1842s
+2026-11-07 22:58:56 part start sft-code-swe-zero-openhands.u008.p0000 (300 MB)
+2026-11-07 22:59:13 part done sft-code-swe-zero-openhands.u033.p0000: rows 2,844 flagged 207 canary 0 kept 2,637 1746s
+2026-11-07 22:59:13 part start sft-code-swe-zero-openhands.u008.p0001 (225 MB)
+2026-11-07 22:59:40 unit done sft-code-swe-zero-openhands u025: rows 4,979 of 5,000 selected, skipped 21, 394s
+2026-11-07 22:59:41 unit start sft-code-swe-zero-openhands u000 data/train-00000-of-00064.parquet (0.18 GB)
+2026-11-07 23:00:09 part done sft-code-swe-zero-openhands.u010.p0001: rows 2,186 flagged 199 canary 0 kept 1,987 1313s
+2026-11-07 23:00:09 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0010 (300 MB)
+2026-11-07 23:00:11 part done sft-code-swe-zero-openhands.u004.p0000: rows 2,834 flagged 220 canary 0 kept 2,614 1780s
+2026-11-07 23:00:11 part start sft-code-swe-zero-openhands.u005.p0000 (300 MB)
+2026-11-07 23:03:11 part done sft-code-swe-zero-openhands.u020.p0000: rows 2,852 flagged 214 canary 0 kept 2,638 1752s
+2026-11-07 23:03:11 part start sft-code-swe-zero-openhands.u005.p0001 (221 MB)
+2026-11-07 23:03:41 part done sft-code-swe-zero-openhands.u021.p0000: rows 2,817 flagged 223 canary 0 kept 2,594 1677s
+2026-11-07 23:03:41 part start sft-code-swe-zero-openhands.u031.p0000 (300 MB)
+2026-11-07 23:05:10 part done sft-code-swe-zero-openhands.u010.p0000: rows 2,800 flagged 242 canary 0 kept 2,558 1633s
+2026-11-07 23:05:10 part start sft-code-swe-zero-openhands.u031.p0001 (227 MB)
+2026-11-07 23:07:24 unit done sft-code-swe-zero-openhands u019: rows 4,989 of 5,000 selected, skipped 11, 515s
+2026-11-07 23:07:24 unit start sft-code-swe-zero-openhands u003 data/train-00003-of-00064.parquet (0.18 GB)
+2026-11-07 23:07:32 part done sft-chat-nemotron-if-v2.u000.p0011: rows 27,381 flagged 195 canary 0 kept 27,186 1909s
+2026-11-07 23:07:32 part start sft-code-swe-zero-openhands.u022.p0000 (300 MB)
+2026-11-07 23:08:57 unit done sft-code-swe-zero-openhands u000: rows 4,983 of 5,000 selected, skipped 17, 557s
+2026-11-07 23:08:57 unit start sft-code-swe-zero-openhands u024 data/train-00024-of-00064.parquet (0.18 GB)
+2026-11-07 23:10:04 part done sft-chat-nemotron-if-v2.u000.p0012: rows 27,470 flagged 158 canary 0 kept 27,312 1851s
+2026-11-07 23:10:04 part start sft-code-swe-zero-openhands.u022.p0001 (228 MB)
+2026-11-07 23:11:29 part done sft-code-swe-zero-openhands.u027.p0000: rows 2,844 flagged 213 canary 0 kept 2,631 1642s
+2026-11-07 23:11:29 part start sft-code-swe-zero-openhands.u015.p0000 (300 MB)
+2026-11-07 23:11:30 unit done sft-code-swe-zero-openhands u003: rows 4,986 of 5,000 selected, skipped 14, 246s
+2026-11-07 23:11:30 unit start sft-code-swe-zero-openhands u057 data/train-00057-of-00064.parquet (0.18 GB)
+2026-11-07 23:12:21 part done sft-code-swe-zero-openhands.u027.p0001: rows 2,135 flagged 160 canary 0 kept 1,975 1263s
+2026-11-07 23:12:21 part start sft-code-swe-zero-openhands.u015.p0001 (225 MB)
+2026-11-07 23:13:45 unit done sft-code-swe-zero-openhands u024: rows 4,983 of 5,000 selected, skipped 17, 288s
+2026-11-07 23:13:46 unit start sft-code-swe-zero-openhands u001 data/train-00001-of-00064.parquet (0.18 GB)
+2026-11-07 23:15:20 part done sft-code-swe-zero-openhands.u026.p0001: rows 2,168 flagged 170 canary 0 kept 1,998 1266s
+2026-11-07 23:15:20 part start sft-chat-nemotron-if-v2.u000.p0013 (300 MB)
+2026-11-07 23:15:26 unit done sft-code-swe-zero-openhands u057: rows 4,988 of 5,000 selected, skipped 12, 236s
+2026-11-07 23:15:26 unit start sft-code-swe-zero-openhands u055 data/train-00055-of-00064.parquet (0.18 GB)
+2026-11-07 23:16:18 part done sft-code-swe-zero-openhands.u029.p0001: rows 2,133 flagged 168 canary 0 kept 1,965 1224s
+2026-11-07 23:16:18 part start sft-code-swe-zero-openhands.u018.p0000 (300 MB)
+2026-11-07 23:18:32 part done sft-code-swe-zero-openhands.u013.p0001: rows 2,102 flagged 147 canary 0 kept 1,955 1205s
+2026-11-07 23:18:32 part start sft-code-swe-zero-openhands.u018.p0001 (227 MB)
+2026-11-07 23:19:46 unit done sft-code-swe-zero-openhands u001: rows 4,988 of 5,000 selected, skipped 12, 361s
+2026-11-07 23:19:46 unit start sft-code-swe-zero-openhands u058 data/train-00058-of-00064.parquet (0.18 GB)
+2026-11-07 23:20:05 part done sft-code-swe-zero-openhands.u008.p0001: rows 2,139 flagged 187 canary 0 kept 1,952 1252s
+2026-11-07 23:20:05 part start sft-code-swe-zero-openhands.u006.p0000 (300 MB)
+2026-11-07 23:21:14 unit done sft-code-swe-zero-openhands u055: rows 4,985 of 5,000 selected, skipped 15, 347s
+2026-11-07 23:21:14 unit start sft-code-swe-zero-openhands u002 data/train-00002-of-00064.parquet (0.18 GB)
+2026-11-07 23:21:29 part done sft-code-swe-zero-openhands.u026.p0000: rows 2,823 flagged 195 canary 0 kept 2,628 1658s
+2026-11-07 23:21:29 part start sft-code-swe-zero-openhands.u006.p0001 (222 MB)
+2026-11-07 23:21:31 part done sft-code-swe-zero-openhands.u029.p0000: rows 2,846 flagged 235 canary 0 kept 2,611 1627s
+2026-11-07 23:21:31 part start sft-code-swe-zero-openhands.u023.p0000 (300 MB)
+2026-11-07 23:23:16 unit done sft-code-swe-zero-openhands u058: rows 4,989 of 5,000 selected, skipped 11, 209s
+2026-11-07 23:23:16 unit start sft-code-swe-zero-openhands u059 data/train-00059-of-00064.parquet (0.18 GB)
+2026-11-07 23:24:00 part done sft-code-swe-zero-openhands.u005.p0001: rows 2,088 flagged 151 canary 0 kept 1,937 1248s
+2026-11-07 23:24:00 part start sft-code-swe-zero-openhands.u023.p0001 (226 MB)
+2026-11-07 23:24:16 part done sft-code-swe-zero-openhands.u013.p0000: rows 2,877 flagged 216 canary 0 kept 2,661 1660s
+2026-11-07 23:24:16 part start sft-code-swe-zero-openhands.u011.p0000 (300 MB)
+2026-11-07 23:25:58 part done sft-code-swe-zero-openhands.u031.p0001: rows 2,152 flagged 167 canary 0 kept 1,985 1248s
+2026-11-07 23:25:58 part start sft-code-swe-zero-openhands.u012.p0000 (300 MB)
+2026-11-07 23:26:30 part done sft-code-swe-zero-openhands.u008.p0000: rows 2,847 flagged 247 canary 0 kept 2,600 1653s
+2026-11-07 23:26:30 part start sft-code-swe-zero-openhands.u011.p0001 (226 MB)
+2026-11-07 23:27:14 part done sft-code-swe-zero-openhands.u005.p0000: rows 2,896 flagged 238 canary 0 kept 2,658 1623s
+2026-11-07 23:27:14 part start sft-code-swe-zero-openhands.u012.p0001 (226 MB)
+2026-11-07 23:27:39 unit done sft-code-swe-zero-openhands u059: rows 4,986 of 5,000 selected, skipped 14, 263s
+2026-11-07 23:27:39 unit start sft-code-swe-zero-openhands u054 data/train-00054-of-00064.parquet (0.17 GB)
+2026-11-07 23:28:07 unit done sft-code-swe-zero-openhands u002: rows 4,988 of 5,000 selected, skipped 12, 413s
+2026-11-07 23:28:07 unit start sft-code-swe-zero-openhands u063 data/train-00063-of-00064.parquet (0.14 GB)
+2026-11-07 23:28:42 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0010: rows 14,936 flagged 77 canary 0 kept 14,859 1713s
+2026-11-07 23:28:42 part start sft-code-swe-zero-openhands.u007.p0000 (300 MB)
+2026-11-07 23:30:44 part done sft-code-swe-zero-openhands.u031.p0000: rows 2,833 flagged 202 canary 0 kept 2,631 1624s
+2026-11-07 23:30:44 part start sft-code-swe-zero-openhands.u007.p0001 (224 MB)
+2026-11-07 23:30:51 part done sft-code-swe-zero-openhands.u022.p0001: rows 2,143 flagged 181 canary 0 kept 1,962 1247s
+2026-11-07 23:30:51 part start sft-code-swe-zero-openhands.u060.p0000 (300 MB)
+2026-11-07 23:32:38 unit done sft-code-swe-zero-openhands u054: rows 4,995 of 5,000 selected, skipped 5, 299s
+2026-11-07 23:33:17 unit done sft-code-swe-zero-openhands u063: rows 3,105 of 3,115 selected, skipped 10, 310s
+2026-11-07 23:33:36 part done sft-code-swe-zero-openhands.u015.p0001: rows 2,160 flagged 177 canary 0 kept 1,983 1275s
+2026-11-07 23:33:36 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0011 (300 MB)
+2026-11-07 23:35:31 part done sft-code-swe-zero-openhands.u022.p0000: rows 2,848 flagged 205 canary 0 kept 2,643 1680s
+2026-11-07 23:35:31 part start sft-code-swe-zero-openhands.u060.p0001 (231 MB)
+2026-11-07 23:39:47 part done sft-code-swe-zero-openhands.u018.p0001: rows 2,131 flagged 149 canary 0 kept 1,982 1276s
+2026-11-07 23:39:47 part start sft-code-swe-zero-openhands.u016.p0000 (300 MB)
+2026-11-07 23:40:01 part done sft-code-swe-zero-openhands.u015.p0000: rows 2,829 flagged 203 canary 0 kept 2,626 1712s
+2026-11-07 23:40:01 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0012 (300 MB)
+2026-11-07 23:43:06 part done sft-code-swe-zero-openhands.u006.p0001: rows 2,106 flagged 162 canary 0 kept 1,944 1297s
+2026-11-07 23:43:06 part start sft-code-swe-zero-openhands.u016.p0001 (226 MB)
+2026-11-07 23:43:43 part done sft-code-swe-zero-openhands.u018.p0000: rows 2,853 flagged 245 canary 0 kept 2,608 1644s
+2026-11-07 23:43:43 part start sft-code-swe-zero-openhands.u032.p0000 (300 MB)
+2026-11-07 23:45:59 part done sft-code-swe-zero-openhands.u023.p0001: rows 2,138 flagged 166 canary 0 kept 1,972 1320s
+2026-11-07 23:45:59 part start sft-code-swe-zero-openhands.u032.p0001 (226 MB)
+2026-11-07 23:46:42 part done sft-chat-nemotron-if-v2.u000.p0013: rows 27,826 flagged 163 canary 0 kept 27,663 1882s
+2026-11-07 23:46:42 part start sft-code-swe-zero-openhands.u014.p0000 (300 MB)
+2026-11-07 23:48:22 part done sft-code-swe-zero-openhands.u006.p0000: rows 2,883 flagged 231 canary 0 kept 2,652 1697s
+2026-11-07 23:48:22 part done sft-code-swe-zero-openhands.u011.p0001: rows 2,157 flagged 181 canary 0 kept 1,976 1313s
+2026-11-07 23:48:22 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0013 (300 MB)
+2026-11-07 23:48:22 part start sft-code-swe-zero-openhands.u014.p0001 (222 MB)
+2026-11-07 23:49:30 part done sft-code-swe-zero-openhands.u012.p0001: rows 2,143 flagged 162 canary 0 kept 1,981 1336s
+2026-11-07 23:49:30 part start sft-code-swe-zero-openhands.u017.p0000 (300 MB)
+2026-11-07 23:49:53 part done sft-code-swe-zero-openhands.u023.p0000: rows 2,851 flagged 221 canary 0 kept 2,630 1701s
+2026-11-07 23:49:53 part start sft-code-swe-zero-openhands.u017.p0001 (226 MB)
+2026-11-07 23:52:08 part done sft-code-swe-zero-openhands.u007.p0001: rows 2,116 flagged 193 canary 0 kept 1,923 1284s
+2026-11-07 23:52:08 part start sft-code-swe-zero-openhands.u028.p0000 (300 MB)
+2026-11-07 23:52:50 part done sft-code-swe-zero-openhands.u011.p0000: rows 2,830 flagged 219 canary 0 kept 2,611 1714s
+2026-11-07 23:52:50 part start sft-code-swe-zero-openhands.u025.p0000 (300 MB)
+2026-11-07 23:53:58 part done sft-code-swe-zero-openhands.u012.p0000: rows 2,837 flagged 213 canary 0 kept 2,624 1680s
+2026-11-07 23:53:58 part start sft-code-swe-zero-openhands.u028.p0001 (225 MB)
+2026-11-07 23:56:27 part done sft-code-swe-zero-openhands.u007.p0000: rows 2,873 flagged 253 canary 0 kept 2,620 1664s
+2026-11-07 23:56:27 part start sft-code-swe-zero-openhands.u025.p0001 (222 MB)
+2026-11-07 23:57:23 part done sft-code-swe-zero-openhands.u060.p0001: rows 2,114 flagged 137 canary 0 kept 1,977 1311s
+2026-11-07 23:57:23 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0014 (300 MB)
+2026-11-07 23:59:13 part done sft-code-swe-zero-openhands.u060.p0000: rows 2,870 flagged 159 canary 0 kept 2,711 1702s
+2026-11-07 23:59:13 part start sft-chat-nemotron-if-v2.u000.p0014 (300 MB)
+2026-11-08 00:01:52 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0011: rows 14,554 flagged 97 canary 0 kept 14,457 1696s
+2026-11-08 00:01:52 part start sft-code-swe-zero-openhands.u019.p0000 (300 MB)
+2026-11-08 00:03:08 part done sft-code-swe-zero-openhands.u016.p0001: rows 2,149 flagged 164 canary 0 kept 1,985 1201s
+2026-11-08 00:03:08 part start sft-code-swe-zero-openhands.u019.p0001 (227 MB)
+2026-11-08 00:05:37 part done sft-code-swe-zero-openhands.u032.p0001: rows 2,115 flagged 155 canary 0 kept 1,960 1178s
+2026-11-08 00:05:37 part start sft-chat-nemotron-if-v2.u000.p0015 (300 MB)
+2026-11-08 00:06:18 part done sft-code-swe-zero-openhands.u016.p0000: rows 2,841 flagged 206 canary 0 kept 2,635 1591s
+2026-11-08 00:06:18 part start sft-code-swe-zero-openhands.u000.p0000 (300 MB)
+2026-11-08 00:07:15 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0012: rows 14,444 flagged 75 canary 0 kept 14,369 1634s
+2026-11-08 00:07:15 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0015 (300 MB)
+2026-11-08 00:07:42 part done sft-code-swe-zero-openhands.u014.p0001: rows 2,112 flagged 155 canary 0 kept 1,957 1160s
+2026-11-08 00:07:42 part start sft-code-swe-zero-openhands.u000.p0001 (228 MB)
+2026-11-08 00:09:59 part done sft-code-swe-zero-openhands.u017.p0001: rows 2,139 flagged 160 canary 0 kept 1,979 1206s
+2026-11-08 00:09:59 part start sft-chat-nemotron-if-v2.u000.p0016 (300 MB)
+2026-11-08 00:10:06 part done sft-code-swe-zero-openhands.u032.p0000: rows 2,873 flagged 228 canary 0 kept 2,645 1583s
+2026-11-08 00:10:06 part start sft-code-swe-zero-openhands.u003.p0000 (300 MB)
+2026-11-08 00:13:08 part done sft-code-swe-zero-openhands.u014.p0000: rows 2,868 flagged 222 canary 0 kept 2,646 1586s
+2026-11-08 00:13:08 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0016 (300 MB)
+2026-11-08 00:13:45 part done sft-code-swe-zero-openhands.u028.p0001: rows 2,146 flagged 161 canary 0 kept 1,985 1187s
+2026-11-08 00:13:45 part start sft-code-swe-zero-openhands.u003.p0001 (222 MB)
+2026-11-08 00:14:05 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0013: rows 14,752 flagged 74 canary 0 kept 14,678 1543s
+2026-11-08 00:14:05 part start sft-code-swe-zero-openhands.u024.p0000 (300 MB)
+2026-11-08 00:15:41 unit done sft-agentic-nemotron-sft-agentic-v2-tool-calling u000: rows 364,889 of 364,920 selected, skipped 31, 13328s
+2026-11-08 00:15:41 part done sft-code-swe-zero-openhands.u017.p0000: rows 2,842 flagged 226 canary 0 kept 2,616 1571s
+2026-11-08 00:15:41 part start sft-chat-nemotron-if-v2.u000.p0017 (300 MB)
+2026-11-08 00:15:49 part done sft-code-swe-zero-openhands.u025.p0001: rows 2,118 flagged 163 canary 0 kept 1,955 1163s
+2026-11-08 00:15:49 part start sft-code-swe-zero-openhands.u024.p0001 (221 MB)
+2026-11-08 00:18:40 part done sft-code-swe-zero-openhands.u028.p0000: rows 2,839 flagged 217 canary 0 kept 2,622 1592s
+2026-11-08 00:18:40 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0017 (300 MB)
+2026-11-08 00:18:55 part done sft-code-swe-zero-openhands.u025.p0000: rows 2,861 flagged 206 canary 0 kept 2,655 1565s
+2026-11-08 00:18:55 part start sft-code-swe-zero-openhands.u057.p0000 (300 MB)
+2026-11-08 00:23:04 part done sft-code-swe-zero-openhands.u019.p0001: rows 2,142 flagged 176 canary 0 kept 1,966 1196s
+2026-11-08 00:23:04 part start sft-code-swe-zero-openhands.u057.p0001 (222 MB)
+2026-11-08 00:23:38 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0014: rows 14,675 flagged 90 canary 0 kept 14,585 1576s
+2026-11-08 00:23:38 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0018 (300 MB)
+2026-11-08 00:27:23 part done sft-code-swe-zero-openhands.u000.p0001: rows 2,131 flagged 105 canary 0 kept 2,026 1181s
+2026-11-08 00:27:23 part start sft-chat-nemotron-if-v2.u000.p0018 (300 MB)
+2026-11-08 00:27:56 part done sft-code-swe-zero-openhands.u019.p0000: rows 2,847 flagged 211 canary 0 kept 2,636 1565s
+2026-11-08 00:27:56 part start sft-code-swe-zero-openhands.u001.p0000 (300 MB)
+2026-11-08 00:28:00 part done sft-chat-nemotron-if-v2.u000.p0014: rows 27,554 flagged 178 canary 0 kept 27,376 1727s
+2026-11-08 00:28:00 part start sft-code-swe-zero-openhands.u001.p0001 (221 MB)
+2026-11-08 00:33:01 part done sft-code-swe-zero-openhands.u000.p0000: rows 2,852 flagged 122 canary 0 kept 2,730 1603s
+2026-11-08 00:33:01 part done sft-code-swe-zero-openhands.u003.p0001: rows 2,112 flagged 198 canary 0 kept 1,914 1156s
+2026-11-08 00:33:01 part start sft-code-swe-zero-openhands.u055.p0000 (300 MB)
+2026-11-08 00:33:01 part start sft-chat-nemotron-if-v2.u000.p0019 (300 MB)
+2026-11-08 00:33:09 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0015: rows 14,852 flagged 92 canary 0 kept 14,760 1554s
+2026-11-08 00:33:09 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0019 (300 MB)
+2026-11-08 00:33:20 part done sft-chat-nemotron-if-v2.u000.p0015: rows 27,717 flagged 159 canary 0 kept 27,558 1663s
+2026-11-08 00:33:20 part start sft-code-swe-zero-openhands.u055.p0001 (219 MB)
+2026-11-08 00:34:27 part done sft-code-swe-zero-openhands.u024.p0001: rows 2,118 flagged 159 canary 0 kept 1,959 1118s
+2026-11-08 00:34:27 part start sft-code-swe-zero-openhands.u058.p0000 (300 MB)
+2026-11-08 00:37:21 part done sft-code-swe-zero-openhands.u003.p0000: rows 2,874 flagged 208 canary 0 kept 2,666 1635s
+2026-11-08 00:37:21 part start sft-chat-nemotron-if-v2.u000.p0020 (300 MB)
+2026-11-08 00:38:07 part done sft-chat-nemotron-if-v2.u000.p0016: rows 27,537 flagged 159 canary 0 kept 27,378 1688s
+2026-11-08 00:38:07 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0020 (300 MB)
+2026-11-08 00:38:48 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0016: rows 14,717 flagged 88 canary 0 kept 14,629 1540s
+2026-11-08 00:38:48 part start sft-code-swe-zero-openhands.u058.p0001 (218 MB)
+2026-11-08 00:39:40 part done sft-code-swe-zero-openhands.u024.p0000: rows 2,865 flagged 243 canary 0 kept 2,622 1534s
+2026-11-08 00:39:40 part start sft-chat-nemotron-if-v2.u000.p0021 (300 MB)
+2026-11-08 00:42:51 part done sft-code-swe-zero-openhands.u057.p0001: rows 2,124 flagged 149 canary 0 kept 1,975 1188s
+2026-11-08 00:42:51 part start sft-code-swe-zero-openhands.u059.p0000 (300 MB)
+2026-11-08 00:43:45 part done sft-chat-nemotron-if-v2.u000.p0017: rows 27,471 flagged 181 canary 0 kept 27,290 1684s
+2026-11-08 00:43:45 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0021 (300 MB)
+2026-11-08 00:43:57 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0017: rows 14,759 flagged 93 canary 0 kept 14,666 1516s
+2026-11-08 00:43:57 part start sft-code-swe-zero-openhands.u002.p0000 (300 MB)
+2026-11-08 00:45:07 part done sft-code-swe-zero-openhands.u057.p0000: rows 2,864 flagged 171 canary 0 kept 2,693 1572s
+2026-11-08 00:45:07 part start sft-code-swe-zero-openhands.u059.p0001 (217 MB)
+2026-11-08 00:47:29 part done sft-code-swe-zero-openhands.u001.p0001: rows 2,143 flagged 100 canary 0 kept 2,043 1170s
+2026-11-08 00:47:29 part start sft-code-swe-zero-openhands.u002.p0001 (222 MB)
+2026-11-08 00:49:09 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0018: rows 14,506 flagged 93 canary 0 kept 14,413 1530s
+2026-11-08 00:49:09 part start sft-chat-nemotron-if-v2.u000.p0022 (300 MB)
+2026-11-08 00:52:37 part done sft-code-swe-zero-openhands.u055.p0001: rows 2,067 flagged 134 canary 0 kept 1,933 1157s
+2026-11-08 00:52:37 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0022 (300 MB)
+2026-11-08 00:54:52 part done sft-code-swe-zero-openhands.u001.p0000: rows 2,845 flagged 156 canary 0 kept 2,689 1615s
+2026-11-08 00:54:52 part start sft-code-swe-zero-openhands.u054.p0000 (300 MB)
+2026-11-08 00:56:20 part done sft-chat-nemotron-if-v2.u000.p0018: rows 27,367 flagged 165 canary 0 kept 27,202 1737s
+2026-11-08 00:56:20 part start sft-code-swe-zero-openhands.u054.p0001 (188 MB)
+2026-11-08 00:57:44 part done sft-code-swe-zero-openhands.u058.p0001: rows 2,106 flagged 124 canary 0 kept 1,982 1137s
+2026-11-08 00:57:44 part start sft-code-swe-zero-openhands.u063.p0000 (300 MB)
+2026-11-08 00:58:56 part done sft-code-swe-zero-openhands.u055.p0000: rows 2,918 flagged 141 canary 0 kept 2,777 1555s
+2026-11-08 00:58:56 part start sft-code-swe-zero-openhands.u063.p0001 (76 MB)
+2026-11-08 00:59:04 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0019: rows 14,548 flagged 81 canary 0 kept 14,467 1555s
+2026-11-08 00:59:04 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0023 (300 MB)
+2026-11-08 01:00:34 part done sft-code-swe-zero-openhands.u058.p0000: rows 2,883 flagged 168 canary 0 kept 2,715 1567s
+2026-11-08 01:00:34 part start sft-chat-nemotron-if-v2.u000.p0023 (300 MB)
+2026-11-08 01:02:10 part done sft-chat-nemotron-if-v2.u000.p0019: rows 27,433 flagged 188 canary 0 kept 27,245 1749s
+2026-11-08 01:02:10 part start sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0024 (278 MB)
+2026-11-08 01:03:35 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0020: rows 14,654 flagged 76 canary 0 kept 14,578 1528s
+2026-11-08 01:03:35 part start sft-chat-nemotron-if-v2.u000.p0024 (300 MB)
+2026-11-08 01:03:51 part done sft-code-swe-zero-openhands.u059.p0001: rows 2,097 flagged 129 canary 0 kept 1,968 1124s
+2026-11-08 01:03:51 part start sft-chat-nemotron-if-v2.u000.p0025 (300 MB)
+2026-11-08 01:05:52 part done sft-chat-nemotron-if-v2.u000.p0020: rows 27,584 flagged 174 canary 0 kept 27,410 1712s
+2026-11-08 01:05:52 part start sft-chat-nemotron-if-v2.u000.p0026 (300 MB)
+2026-11-08 01:05:54 part done sft-code-swe-zero-openhands.u063.p0001: rows 630 flagged 38 canary 0 kept 592 418s
+2026-11-08 01:05:54 part start sft-chat-nemotron-if-v2.u000.p0027 (300 MB)
+2026-11-08 01:07:01 part done sft-code-swe-zero-openhands.u002.p0001: rows 2,123 flagged 98 canary 0 kept 2,025 1172s
+2026-11-08 01:07:01 part start sft-chat-nemotron-if-v2.u000.p0028 (300 MB)
+2026-11-08 01:08:15 part done sft-code-swe-zero-openhands.u059.p0000: rows 2,889 flagged 184 canary 0 kept 2,705 1523s
+2026-11-08 01:08:15 part start sft-chat-nemotron-if-v2.u000.p0029 (300 MB)
+2026-11-08 01:09:01 part done sft-chat-nemotron-if-v2.u000.p0021: rows 27,746 flagged 151 canary 0 kept 27,595 1761s
+2026-11-08 01:09:01 part start sft-chat-nemotron-if-v2.u000.p0030 (300 MB)
+2026-11-08 01:09:13 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0021: rows 14,439 flagged 75 canary 0 kept 14,364 1528s
+2026-11-08 01:09:40 part done sft-code-swe-zero-openhands.u002.p0000: rows 2,865 flagged 173 canary 0 kept 2,692 1543s
+2026-11-08 01:10:24 part start sft-chat-nemotron-if-v2.u000.p0031 (300 MB)
+2026-11-08 01:12:17 part start sft-chat-nemotron-if-v2.u000.p0032 (300 MB)
+2026-11-08 01:13:37 part done sft-code-swe-zero-openhands.u054.p0001: rows 1,939 flagged 11 canary 0 kept 1,928 1037s
+2026-11-08 01:15:12 unit done sft-chat-nemotron-if-v2 u000: rows 929,130 of 929,237 selected, skipped 107, 16899s
+2026-11-08 01:15:12 part start sft-chat-nemotron-if-v2.u000.p0033 (241 MB)
+2026-11-08 01:17:57 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0022: rows 14,412 flagged 89 canary 0 kept 14,323 1520s
+2026-11-08 01:18:29 part done sft-chat-nemotron-if-v2.u000.p0022: rows 27,249 flagged 157 canary 0 kept 27,092 1760s
+2026-11-08 01:21:20 part done sft-code-swe-zero-openhands.u054.p0000: rows 3,056 flagged 23 canary 0 kept 3,033 1588s
+2026-11-08 01:22:19 part done sft-code-swe-zero-openhands.u063.p0000: rows 2,475 flagged 151 canary 0 kept 2,324 1475s
+2026-11-08 01:22:20 SET DONE sft-code-swe-zero-openhands: parts 137 rows 317,039 flagged 22,167 canary 0 removed 22,167 kept 294,872 OK
+2026-11-08 01:23:41 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0023: rows 14,501 flagged 96 canary 0 kept 14,405 1477s
+2026-11-08 01:24:54 part done sft-agentic-nemotron-sft-agentic-v2-tool-calling.u000.p0024: rows 13,572 flagged 79 canary 0 kept 13,493 1365s
+2026-11-08 01:24:54 SET DONE sft-agentic-nemotron-sft-agentic-v2-tool-calling: parts 25 rows 364,889 flagged 2,146 canary 0 removed 2,146 kept 362,743 OK
+2026-11-08 01:27:37 part done sft-chat-nemotron-if-v2.u000.p0023: rows 27,355 flagged 161 canary 0 kept 27,194 1622s
+2026-11-08 01:29:19 part done sft-chat-nemotron-if-v2.u000.p0024: rows 27,273 flagged 163 canary 0 kept 27,110 1544s
+2026-11-08 01:30:15 part done sft-chat-nemotron-if-v2.u000.p0025: rows 27,197 flagged 176 canary 0 kept 27,021 1584s
+2026-11-08 01:30:26 part done sft-chat-nemotron-if-v2.u000.p0026: rows 27,720 flagged 169 canary 0 kept 27,551 1474s
+2026-11-08 01:30:42 part done sft-chat-nemotron-if-v2.u000.p0027: rows 27,533 flagged 162 canary 0 kept 27,371 1489s
+2026-11-08 01:31:10 part done sft-chat-nemotron-if-v2.u000.p0028: rows 27,607 flagged 166 canary 0 kept 27,441 1449s
+2026-11-08 01:31:32 part done sft-chat-nemotron-if-v2.u000.p0029: rows 27,604 flagged 179 canary 0 kept 27,425 1397s
+2026-11-08 01:32:20 part done sft-chat-nemotron-if-v2.u000.p0030: rows 27,511 flagged 194 canary 0 kept 27,317 1399s
+2026-11-08 01:32:35 part done sft-chat-nemotron-if-v2.u000.p0033: rows 22,095 flagged 117 canary 0 kept 21,978 1043s
+2026-11-08 01:32:56 part done sft-chat-nemotron-if-v2.u000.p0031: rows 27,429 flagged 169 canary 0 kept 27,260 1352s
+2026-11-08 01:33:44 part done sft-chat-nemotron-if-v2.u000.p0032: rows 27,537 flagged 191 canary 0 kept 27,346 1287s
+2026-11-08 01:33:44 SET DONE sft-chat-nemotron-if-v2: parts 34 rows 929,130 flagged 5,820 canary 0 removed 5,820 kept 923,310 OK
+2026-11-08 01:33:44 finished: all sets merged

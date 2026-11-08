@@ -1,0 +1,9 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-indic-aya-dataset/16747,(single source file or files in order),16747,milu,4,0.05
+sft-indic-aya-dataset/19493,(single source file or files in order),19493,milu,1,0.088
+sft-indic-aya-dataset/27660,(single source file or files in order),27660,milu,1,0.018
+sft-indic-aya-dataset/52284,(single source file or files in order),52284,flores200,1,0.25
+sft-indic-aya-dataset/101766,(single source file or files in order),101766,milu,4,0.05
+sft-indic-aya-dataset/144625,(single source file or files in order),144625,milu,1,0.24
+sft-indic-aya-dataset/166237,(single source file or files in order),166237,flores200,2,1.0
+sft-indic-aya-dataset/200513,(single source file or files in order),200513,milu,1,0.018

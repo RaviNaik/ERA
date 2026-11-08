@@ -1,0 +1,27 @@
+{
+ "set": "sft-code-nemotron-cascade-swe",
+ "units": 3,
+ "files": [
+  "swe_repair.jsonl",
+  "swe_localization.jsonl",
+  "swe_testgen.jsonl"
+ ],
+ "rows_scanned": 210823,
+ "rows_in": 210823,
+ "rows": 210582,
+ "skipped": {
+  "content contains plain-text marker </think>; every chat marker must be one special token": 185,
+  "content contains plain-text marker <think>; every chat marker must be one special token": 23,
+  "content contains special token <|endoftext|>": 18,
+  "content contains special token <|im_start|>": 6,
+  "think contains plain-text marker <think>; every chat marker must be one special token": 7,
+  "think contains special token <|endoftext|>": 2
+ },
+ "effort": {
+  "1k": 15089,
+  "4k": 137911,
+  "16k": 57578,
+  "64k": 4
+ },
+ "selection": "all three files (localization, repair, testgen)"
+}

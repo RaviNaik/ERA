@@ -1,0 +1,40 @@
+{
+ "set": "sft-math-openr1-math",
+ "units": 20,
+ "files": [
+  "all/train-00001-of-00020.parquet",
+  "all/train-00011-of-00020.parquet",
+  "all/train-00017-of-00020.parquet",
+  "all/train-00005-of-00020.parquet",
+  "all/train-00008-of-00020.parquet",
+  "all/train-00016-of-00020.parquet",
+  "all/train-00010-of-00020.parquet",
+  "all/train-00002-of-00020.parquet",
+  "all/train-00018-of-00020.parquet",
+  "all/train-00006-of-00020.parquet",
+  "all/train-00007-of-00020.parquet",
+  "all/train-00009-of-00020.parquet",
+  "all/train-00000-of-00020.parquet",
+  "all/train-00015-of-00020.parquet",
+  "all/train-00004-of-00020.parquet",
+  "all/train-00012-of-00020.parquet",
+  "all/train-00013-of-00020.parquet",
+  "all/train-00003-of-00020.parquet",
+  "all/train-00019-of-00020.parquet",
+  "all/train-00014-of-00020.parquet"
+ ],
+ "rows_scanned": 225129,
+ "rows_in": 225129,
+ "rows": 224882,
+ "skipped": {
+  "content contains plain-text marker <think>; every chat marker must be one special token": 235,
+  "content contains plain-text marker </think>; every chat marker must be one special token": 12
+ },
+ "effort": {
+  "1k": 42701,
+  "4k": 126050,
+  "16k": 56088,
+  "64k": 43
+ },
+ "selection": "config all, 20 shards"
+}

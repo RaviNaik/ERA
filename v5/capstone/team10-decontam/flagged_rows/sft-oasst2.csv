@@ -1,0 +1,6 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-oasst2/5847,(single source file or files in order),5847,milu,1,0.132
+sft-oasst2/7181,(single source file or files in order),7181,mmlu,4,0.451
+sft-oasst2/8809,(single source file or files in order),8809,hle,1,0.003
+sft-oasst2/8966,(single source file or files in order),8966,milu,1,0.2
+sft-oasst2/11303,(single source file or files in order),11303,swe_bench_live,1,0.004

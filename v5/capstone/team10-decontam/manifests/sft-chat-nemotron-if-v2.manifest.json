@@ -1,0 +1,27 @@
+{
+ "set": "sft-chat-nemotron-if-v2",
+ "units": 1,
+ "files": [
+  "data/reasoning_on.jsonl"
+ ],
+ "rows_scanned": 929237,
+ "rows_in": 929237,
+ "rows": 929130,
+ "skipped": {
+  "content contains plain-text marker </think>; every chat marker must be one special token": 46,
+  "content contains special token <|endoftext|>": 27,
+  "content contains special token <|im_start|>": 20,
+  "think contains special token <|endoftext|>": 7,
+  "content contains special token <|im_end|>": 2,
+  "content contains plain-text marker <think>; every chat marker must be one special token": 2,
+  "content contains plain-text marker <tool_call>; every chat marker must be one special token": 2,
+  "think contains special token <|im_start|>": 1
+ },
+ "effort": {
+  "1k": 508610,
+  "4k": 400488,
+  "16k": 20025,
+  "64k": 7
+ },
+ "selection": "reasoning_on file"
+}

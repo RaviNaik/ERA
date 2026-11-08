@@ -1,0 +1,7 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-indic-aya-collection/31863,(single source file or files in order),31863,in22_gen,1,0.011
+sft-indic-aya-collection/50757,(single source file or files in order),50757,heldout_g5_v1,1,0.012
+sft-indic-aya-collection/91215,(single source file or files in order),91215,heldout_g5_v1,1,0.83
+sft-indic-aya-collection/92472,(single source file or files in order),92472,in22_gen,1,0.002
+sft-indic-aya-collection/373005,(single source file or files in order),373005,in22_gen,1,0.001
+sft-indic-aya-collection/490923,(single source file or files in order),490923,in22_gen,1,0.001

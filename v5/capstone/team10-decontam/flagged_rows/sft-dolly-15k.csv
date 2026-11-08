@@ -1,0 +1,5 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-dolly-15k/903,(single source file or files in order),903,mmlu,1,0.071
+sft-dolly-15k/5001,(single source file or files in order),5001,milu,1,0.151
+sft-dolly-15k/6631,(single source file or files in order),6631,mmlu,1,0.042
+sft-dolly-15k/8241,(single source file or files in order),8241,milu,1,0.094

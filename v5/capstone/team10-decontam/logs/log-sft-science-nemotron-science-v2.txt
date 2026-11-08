@@ -1,0 +1,1 @@
+sft-science-nemotron-science-v2: rows 96605 flagged 286 canary 0 kept 96319 set_sha256 2826a3b8... OK
