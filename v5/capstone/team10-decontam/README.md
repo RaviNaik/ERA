@@ -16,7 +16,9 @@ OpenCodeReasoning-2 withholds the questions). See `summary.csv`; `pending_full.j
 | `records/<set>.record.json.gz` | The full record of the run: per flagged document the matched benchmark items with n-gram counts, coverage and character offsets; sha256 of every input and clean part; the reconciliation checks |
 | `manifests/` | What the converter wrote for each set run through the pipeline: rows scanned, rows kept, rows skipped and why, effort tiers, content sha256 |
 | `logs/` | `progress.log` of each run (one line per event) |
-| `report/decontam_report.md` | The report as in lab PR #40 (saitej123/era-v5-lab) |
+| `report/decontam_report.md` | The report of lab PR #42 (saitej123/era-v5-lab), 27 sets |
+| `code/sft/` | The code that produced these results: `convert.py` (adapters, Hub and local sources), `decontam_pipeline.py`, `decontam_run.py`, `decontam_report.py` and their tests. A snapshot of lab branch `g10-decontam-ot3-dolly-RaviNaik` at `201e614` (PR #40 as merged, plus gmrammohan15's PR #41 and the OpenThoughts3 full-set source); the lab PRs are the reference copy |
+| `code/launch/` | The launch scripts of each run (`run2` to `run6`) with their settings, and the two download scripts (resumable, sha256 checked against the Hub) |
 | `scripts/export_flagged.py` | Rebuilds `flagged_rows/` and `summary.csv` from the records |
 | `scripts/collect.sh` | Copies new records, manifests and logs here after a batch (paths of the working machine) |
 | `full_sets.txt`, `pending_full.json` | The finished sets, and the sets not run with the reason |
