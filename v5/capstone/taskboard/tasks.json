@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-07T19:45",
+  "updated": "2026-11-09T16:15",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1814,6 +1814,11 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "40"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "41"
         }
       ],
       "comments": [
@@ -1831,6 +1836,11 @@
           "at": "2026-11-07T12:30",
           "by": "Ravi Naik",
           "text": "PR open: saitej123/era-v5-lab #40 (pr-guard passes, mergeable). 16 SFT sets done on every row, 16 pending (13 need a full run; xlam, aegis and OpenCodeReasoning-2 cannot be run yet)."
+        },
+        {
+          "at": "2026-11-09T16:15",
+          "by": "Ravi Naik",
+          "text": "9 Nov: OpenThoughts3 now reads all 120 parquet shards (local commit on g10-decontam-ot3-dolly-RaviNaik, on top of gmrammohan15's PR #41). convert.py can read a downloaded copy of a Hub repo (G10_LOCAL_ROOT) and glob one file type (glob:data/*.parquet); both merged in #40."
         }
       ]
     },
@@ -2525,6 +2535,16 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "40"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "42"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "41"
         }
       ],
       "comments": [
@@ -2557,6 +2577,21 @@
           "at": "2026-11-07T19:45",
           "by": "Ravi Naik",
           "text": "7 Nov: 5 more sets decontaminated on every row (opencode, cascade-swe, openr1-math-raw, openr1-math, opencodereasoning): 1,391,481 rows, 135,630 removed (9.75%), 0 canaries. 21 sets are done now; 8 need a full run and 3 cannot be run yet. New pipeline decontam_pipeline.py downloads, renders and checks in parallel, with a live status file. Committed locally on g10-decontam-all-RaviNaik (4bab6ed), not pushed."
+        },
+        {
+          "at": "2026-11-09T16:15",
+          "by": "Ravi Naik",
+          "text": "8 Nov: PR #40 (24 sets) was merged by Sai Teja on 8 Nov 04:26 UTC (merge commit 5f8d0f5). It holds the pipeline, the local-source mode and the converter throttle."
+        },
+        {
+          "at": "2026-11-09T16:15",
+          "by": "Ravi Naik",
+          "text": "9 Nov: Math-v2, Proofs and OpenMathReasoning are done on every row (11,201,582 rows, 128,424 removed, 1.15%, 0 canaries; 245.9 GB of text checked, 32 h). 27 sets are done: 16,300,745 rows in, 337,635 removed (2.07%), 0 canaries. New PR: saitej123/era-v5-lab #42 (pr-guard passes), continues #40; only the report changes. Results, flagged-row lists (one CSV per set), records and logs are in RaviNaik/ERA v5/capstone/team10-decontam."
+        },
+        {
+          "at": "2026-11-09T16:15",
+          "by": "Ravi Naik",
+          "text": "9 Nov, next: gmrammohan15's PR #41 adds the context filter for Dolly_T (the 15,011 / 15,011 row in the report is stale) and reads OASST_T from the Hub file. Re-running both sets with the #41 filter together with OpenThoughts3 (all 120 shards, 28 GB, downloaded) from branch g10-decontam-ot3-dolly-RaviNaik; run started 16:08. Not run yet: Proofs-v3-SFT (131 GB, not downloaded), xlam, aegis, OpenCodeReasoning-2."
         }
       ]
     },
@@ -2702,5 +2737,5 @@
       "comments": []
     }
   ],
-  "rev": 41
+  "rev": 42
 }
