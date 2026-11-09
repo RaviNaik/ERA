@@ -16,10 +16,13 @@ sft-dolly-15k,15011,4,0,4,15007,2026-11-06T15:36:23Z,True
 sft-indic-aya-collection,654530,6,0,6,654524,2026-11-06T18:10:42Z,True
 sft-indic-aya-dataset,41261,8,0,8,41253,2026-11-06T15:54:42Z,True
 sft-indic-indic-align-dolly-t,15011,0,0,0,15011,2026-11-06T15:49:43Z,True
+sft-math-nemotron-math-v2,7079896,60665,0,60665,7019231,2026-11-09T01:29:36Z,True
+sft-math-nemotron-proofs,920831,2357,0,2357,918474,2026-11-08T16:59:22Z,True
 sft-math-nemotron-sft-math-v4,542117,4776,0,4776,537341,2026-11-07T06:04:18Z,True
 sft-math-openr1-math-raw,321100,2494,0,2494,318606,2026-11-07T14:04:09Z,True
 sft-math-openr1-math,224882,1803,0,1803,223079,2026-11-07T13:58:45Z,True
 sft-oasst2,9548,5,0,5,9543,2026-11-06T15:58:14Z,True
+sft-rl-math-openmathreasoning,3200855,65402,0,65402,3135453,2026-11-09T09:58:56Z,True
 sft-science-glm51-phd,103702,207,0,207,103495,2026-11-06T18:11:05Z,True
 sft-science-nemotron-science-v2,96605,286,0,286,96319,2026-11-06T16:21:34Z,True
 sft-science-nemotron-science,174155,369,0,369,173786,2026-11-06T18:14:52Z,True

@@ -1,0 +1,21 @@
+{
+ "set": "sft-math-nemotron-proofs",
+ "units": 1,
+ "files": [
+  "data/lean.jsonl"
+ ],
+ "rows_scanned": 1376663,
+ "rows_in": 1376663,
+ "rows": 920831,
+ "skipped": {
+  "row has no messages (statement only)": 455782,
+  "trace over the 64k effort budget": 50
+ },
+ "effort": {
+  "1k": 64514,
+  "4k": 444425,
+  "16k": 406270,
+  "64k": 5622
+ },
+ "selection": "whole lean file"
+}

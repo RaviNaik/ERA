@@ -5,9 +5,9 @@ Every SFT set of the Team 10 mix was checked against Team 9's benchmark fingerpr
 canaries, on every row of the whole source. This folder keeps the results. It holds no source data, no training rows and no
 text of any document or benchmark item: counts, document ids, benchmark item ids, offsets and sha256 values only.
 
-Status: 24 sets done (5,099,163 rows in, 209,211 flagged and removed, 4.10%, 0 canaries). Math-v2, Proofs and
-OpenMathReasoning were running when this was written; OpenThoughts3 and Proofs-v3-SFT are not run yet. See `summary.csv`.
-`pending_full.json` gives the reason for each set not run.
+Status: 27 sets done (16,300,745 rows in, 337,635 flagged and removed, 2.07%, 0 canaries). Not run yet: OpenThoughts3
+(downloaded, run pending) and Proofs-v3-SFT, plus three sets that cannot be run (xlam gated, aegis has no chat format,
+OpenCodeReasoning-2 withholds the questions). See `summary.csv`; `pending_full.json` gives the reason for each set not run.
 
 | Path | What |
 |---|---|

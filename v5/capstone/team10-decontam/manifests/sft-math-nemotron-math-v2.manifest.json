@@ -1,0 +1,25 @@
+{
+ "set": "sft-math-nemotron-math-v2",
+ "units": 5,
+ "files": [
+  "data/high_part00.parquet",
+  "data/high_part02.parquet",
+  "data/high_part01.parquet",
+  "data/medium.parquet",
+  "data/low.parquet"
+ ],
+ "rows_scanned": 7085839,
+ "rows_in": 7085839,
+ "rows": 7079896,
+ "skipped": {
+  "trace over the 64k effort budget": 5319,
+  "assistant turn is empty": 624
+ },
+ "effort": {
+  "1k": 2788675,
+  "4k": 2415361,
+  "16k": 1485902,
+  "64k": 389958
+ },
+ "selection": "all 5 parquet files (high x3, medium, low); the jsonl copies of the same data are not read"
+}
