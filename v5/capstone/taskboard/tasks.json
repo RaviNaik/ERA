@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09T19:00",
+  "updated": "2026-11-09T20:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2602,6 +2602,11 @@
           "at": "2026-11-09T19:00",
           "by": "Ravi Naik",
           "text": "9 Nov, result: 29 SFT sets done on every row (16,766,783 rows in, 345,101 removed, 2.06%, 0 canaries). Dolly-T re-run with the PR #41 filter: 10,541 rows in, 0 flagged (a second independent run gives the same). OASST-T 19,909 in, 9 removed. OpenThoughts3 450,599 in (only rows with a closed think block are converted), 7,457 removed (1.65%), 120 parts, 0 canaries. Report, records and flagged rows are in RaviNaik/ERA v5/capstone/team10-decontam (local commit, not pushed yet). Follow-up PR to the lab after #41 merges. Left: Proofs-v3-SFT (131 GB, not downloaded)."
+        },
+        {
+          "at": "2026-11-09T20:00",
+          "by": "Ravi Naik",
+          "text": "9 Nov, PR 42 (saitej123/era-v5-lab) updated to 29 sets: report, title and description now include Dolly-T re-run (with the PR 41 filter, why it was re-run), OASST-T and OpenThoughts3. Comment posted on PR 41 explaining why the Dolly_T context filter was missed. Left: Proofs-v3-SFT (131 GB, not downloaded, waiting for go-ahead), xlam (gated: needs a Hub token on this machine plus an adapter), OpenCodeReasoning-2 (questions withheld upstream), Aegis (no chat format). Follow-up lab PR with the OpenThoughts3 change after PR 41 is merged."
         }
       ]
     },
@@ -2747,5 +2752,5 @@
       "comments": []
     }
   ],
-  "rev": 43
+  "rev": 44
 }
