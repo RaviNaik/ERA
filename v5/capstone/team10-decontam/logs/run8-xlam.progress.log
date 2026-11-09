@@ -1,0 +1,8 @@
+2026-11-09 20:18:18 plan sft-salesforce-xlam-60k: 1 units, 0.10 GB of source files
+2026-11-09 20:18:18 start: sets sft-salesforce-xlam-60k; disk free 202 GB; decontam slots 8, download slots 1
+2026-11-09 20:18:18 unit start sft-salesforce-xlam-60k u000 xlam_function_calling_60k.json (0.10 GB)
+2026-11-09 20:18:27 unit done sft-salesforce-xlam-60k u000: rows 60,000 of 60,000 selected, skipped 0, 9s
+2026-11-09 20:18:27 part start sft-salesforce-xlam-60k.u000.p0000 (112 MB)
+2026-11-09 20:22:21 part done sft-salesforce-xlam-60k.u000.p0000: rows 60,000 flagged 182 canary 0 kept 59,818 233s
+2026-11-09 20:22:21 SET DONE sft-salesforce-xlam-60k: parts 1 rows 60,000 flagged 182 canary 0 removed 182 kept 59,818 OK
+2026-11-09 20:22:21 finished: all sets merged

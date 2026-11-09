@@ -1,0 +1,18 @@
+{
+ "set": "sft-salesforce-xlam-60k",
+ "units": 1,
+ "files": [
+  "xlam_function_calling_60k.json"
+ ],
+ "rows_scanned": 60000,
+ "rows_in": 60000,
+ "rows": 60000,
+ "skipped": {},
+ "effort": {
+  "1k": 59999,
+  "4k": 1,
+  "16k": 0,
+  "64k": 0
+ },
+ "selection": "all rows"
+}

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09T20:00",
+  "updated": "2026-11-09T21:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1846,6 +1846,11 @@
           "at": "2026-11-09T19:00",
           "by": "Ravi Naik",
           "text": "9 Nov: Dolly-T and OASST-T re-run finished with the PR #41 code (10,541 and 19,909 rows), OpenThoughts3 full set done too (450,599 rows, 7,457 removed). Details on T-101."
+        },
+        {
+          "at": "2026-11-09T21:00",
+          "by": "Ravi Naik",
+          "text": "9 Nov: convert.py has an adapter for xLAM 60k (all 60,000 rows convert, none skipped; reads the single JSON array of the file) and Proofs-v3-SFT now reads all 10 jsonl files (was first part only). Local commit e29c772, goes in the follow-up PR after PR 41."
         }
       ]
     },
@@ -2607,6 +2612,11 @@
           "at": "2026-11-09T20:00",
           "by": "Ravi Naik",
           "text": "9 Nov, PR 42 (saitej123/era-v5-lab) updated to 29 sets: report, title and description now include Dolly-T re-run (with the PR 41 filter, why it was re-run), OASST-T and OpenThoughts3. Comment posted on PR 41 explaining why the Dolly_T context filter was missed. Left: Proofs-v3-SFT (131 GB, not downloaded, waiting for go-ahead), xlam (gated: needs a Hub token on this machine plus an adapter), OpenCodeReasoning-2 (questions withheld upstream), Aegis (no chat format). Follow-up lab PR with the OpenThoughts3 change after PR 41 is merged."
+        },
+        {
+          "at": "2026-11-09T21:00",
+          "by": "Ravi Naik",
+          "text": "9 Nov, xLAM 60k done on every row: 60,000 rows in, 182 removed (0.30%; bfcl_v3 164, swe_bench_live 13, hle 4, milu 1), 59,818 kept, 0 canaries. New xLAM adapter (local commit e29c772 on g10-decontam-ot3-dolly-RaviNaik, goes in the follow-up PR after PR 41 is merged). PR 42 (saitej123/era-v5-lab) updated to 30 sets: report, title, description. Totals for 30 sets: 16,826,783 in, 345,283 removed (2.05%), 0 canaries. Left: Proofs-v3-SFT (download 131 GB in progress, run after it), OpenCodeReasoning-2 (questions withheld upstream), Aegis (no chat format)."
         }
       ]
     },
@@ -2752,5 +2762,5 @@
       "comments": []
     }
   ],
-  "rev": 44
+  "rev": 45
 }

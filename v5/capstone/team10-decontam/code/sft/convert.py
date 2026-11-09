@@ -241,6 +241,21 @@ def nemotron_chat(row: dict) -> list[dict]:
     return messages
 
 
+def xlam_function_calling(row: dict) -> list[dict]:
+    """Salesforce xLAM: `query`, `tools` and `answers` (the last two are JSON text). One user turn, one assistant turn of tool calls."""
+    try:
+        tools, answers = json.loads(row["tools"]), json.loads(row["answers"])
+    except (TypeError, ValueError):
+        raise Skip("tools or answers is not valid JSON") from None
+    calls = [{"function": {"name": a["name"], "arguments": a.get("arguments") or {}}, "id": None}
+             for a in answers if isinstance(a, dict) and a.get("name")]
+    if not calls or len(calls) != len(answers):
+        raise Skip("no usable tool call")
+    system = "Tools:\n" + json.dumps(tools, ensure_ascii=False, sort_keys=True)
+    return [{"role": "system", "content": system}, {"role": "user", "content": _text(row["query"])},
+            {"role": "assistant", "content": "", "tool_calls": calls}]
+
+
 def think_tag_messages(row: dict) -> list[dict]:
     """`messages` or `conversations` whose assistant turns carry one leading <think>...</think> block
     (Nemotron Cascade SWE, Nemotron Terminal)."""
@@ -498,7 +513,8 @@ ADAPTERS: dict[str, tuple[Callable[[dict], list[dict]], str, tuple[str, str], Ca
         "per row by sha256(doc_id) from " + ",".join(INDIC_ALIGN_COLUMNS),
     ),
     "sft-science-glm51-phd": (sharegpt_think, "id", ("file", "PHD-Science.jsonl"), None, "PHD-Science config"),
-    "sft-math-nemotron-proofs-v3-sft": (nemotron_chat, "uuid", ("file", "data/train-00000-of-00010.jsonl"), None, "first part"),
+    "sft-salesforce-xlam-60k": (xlam_function_calling, "id", ("file", "xlam_function_calling_60k.json"), None, "all rows"),
+    "sft-math-nemotron-proofs-v3-sft": (nemotron_chat, "uuid", ("file", "glob:data/*.jsonl"), None, "all 10 jsonl files"),
     "sft-oasst2": (oasst2_thread, "id", ("oasst2", "data/train-00000-of-00001-88ba0162028a73fc.parquet"), None,
                    "best-ranked reply at each step; not deleted, not synthetic, ready_for_export trees"),
     "sft-indic-aya-collection": (aya_collection, "", ("aya", ""), None,
@@ -840,6 +856,10 @@ def _local_file_rows(file: Path, offset: int, n: int) -> Iterator[dict]:
                 if taken >= offset:
                     yield row
                 taken += 1
+        return
+    if file.suffix == ".json":  # one JSON array (xLAM, 96 MB): read whole
+        BYTES_READ += file.stat().st_size
+        yield from json.loads(file.read_text(encoding="utf-8"))[offset:offset + n]
         return
     with open(file, "rb") as f:
         for line in f:
