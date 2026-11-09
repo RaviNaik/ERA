@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09T21:00",
+  "updated": "2026-11-10T04:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2617,6 +2617,11 @@
           "at": "2026-11-09T21:00",
           "by": "Ravi Naik",
           "text": "9 Nov, xLAM 60k done on every row: 60,000 rows in, 182 removed (0.30%; bfcl_v3 164, swe_bench_live 13, hle 4, milu 1), 59,818 kept, 0 canaries. New xLAM adapter (local commit e29c772 on g10-decontam-ot3-dolly-RaviNaik, goes in the follow-up PR after PR 41 is merged). PR 42 (saitej123/era-v5-lab) updated to 30 sets: report, title, description. Totals for 30 sets: 16,826,783 in, 345,283 removed (2.05%), 0 canaries. Left: Proofs-v3-SFT (download 131 GB in progress, run after it), OpenCodeReasoning-2 (questions withheld upstream), Aegis (no chat format)."
+        },
+        {
+          "at": "2026-11-10T04:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, commitpackft (56,025 in, 15 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed, 1.03%; 151 parts, 0 canaries) done on every row. 32 SFT sets in total: 17,176,456 rows in, 348,310 removed (2.03%), 0 canaries. Report, PR 42 branch and the ERA folder updated locally (PR 42 push pending). Left: OpenCodeReasoning-2 (questions withheld upstream) and Aegis (no chat format), both need a TSAI decision. Follow-up lab PR with the code after PR 41 is merged."
         }
       ]
     },
@@ -2762,5 +2767,5 @@
       "comments": []
     }
   ],
-  "rev": 45
+  "rev": 46
 }

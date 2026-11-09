@@ -1,0 +1,8 @@
+2026-11-09 20:57:36 plan sft-code-commitpackft: 1 units, 0.14 GB of source files
+2026-11-09 20:57:36 start: sets sft-code-commitpackft; disk free 165 GB; decontam slots 4, download slots 1
+2026-11-09 20:57:36 unit start sft-code-commitpackft u000 data/python/data.jsonl (0.14 GB)
+2026-11-09 20:59:48 unit done sft-code-commitpackft u000: rows 56,025 of 56,025 selected, skipped 0, 132s
+2026-11-09 20:59:48 part start sft-code-commitpackft.u000.p0000 (115 MB)
+2026-11-09 21:12:03 part done sft-code-commitpackft.u000.p0000: rows 56,025 flagged 15 canary 0 kept 56,010 734s
+2026-11-09 21:12:03 SET DONE sft-code-commitpackft: parts 1 rows 56,025 flagged 15 canary 0 removed 15 kept 56,010 OK
+2026-11-09 21:12:03 finished: all sets merged

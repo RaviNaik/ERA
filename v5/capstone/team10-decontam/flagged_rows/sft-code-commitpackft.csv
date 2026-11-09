@@ -1,0 +1,16 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-code-commitpackft/677,(single source file or files in order),677,swe_bench_verified,1,0.028
+sft-code-commitpackft/2300,(single source file or files in order),2300,swe_bench_live,1,0.01
+sft-code-commitpackft/5500,(single source file or files in order),5500,swe_bench_verified,1,0.012
+sft-code-commitpackft/11469,(single source file or files in order),11469,swe_bench_live,1,0.014
+sft-code-commitpackft/12162,(single source file or files in order),12162,swe_bench_live,1,0.014
+sft-code-commitpackft/17723,(single source file or files in order),17723,swe_bench_pro,6,0.007
+sft-code-commitpackft/18545,(single source file or files in order),18545,swe_bench_verified,1,0.084
+sft-code-commitpackft/20446,(single source file or files in order),20446,swe_bench_live,3,0.01
+sft-code-commitpackft/25630,(single source file or files in order),25630,swe_bench_verified,1,0.084
+sft-code-commitpackft/27207,(single source file or files in order),27207,swe_bench_pro,6,0.007
+sft-code-commitpackft/28276,(single source file or files in order),28276,swe_bench_verified,1,0.003
+sft-code-commitpackft/30597,(single source file or files in order),30597,swe_bench_verified,1,0.018
+sft-code-commitpackft/33311,(single source file or files in order),33311,swe_bench_pro,2,0.002
+sft-code-commitpackft/37239,(single source file or files in order),37239,swe_bench_pro,6,0.007
+sft-code-commitpackft/51384,(single source file or files in order),51384,swe_bench_verified,1,0.021

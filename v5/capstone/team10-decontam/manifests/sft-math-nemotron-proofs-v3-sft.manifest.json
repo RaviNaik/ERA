@@ -1,0 +1,30 @@
+{
+ "set": "sft-math-nemotron-proofs-v3-sft",
+ "units": 10,
+ "files": [
+  "data/train-00003-of-00010.jsonl",
+  "data/train-00004-of-00010.jsonl",
+  "data/train-00007-of-00010.jsonl",
+  "data/train-00008-of-00010.jsonl",
+  "data/train-00001-of-00010.jsonl",
+  "data/train-00000-of-00010.jsonl",
+  "data/train-00005-of-00010.jsonl",
+  "data/train-00002-of-00010.jsonl",
+  "data/train-00006-of-00010.jsonl",
+  "data/train-00009-of-00010.jsonl"
+ ],
+ "rows_scanned": 414890,
+ "rows_in": 414890,
+ "rows": 293648,
+ "skipped": {
+  "trace over the 64k effort budget": 121239,
+  "think contains special token <|im_start|>": 3
+ },
+ "effort": {
+  "1k": 2,
+  "4k": 281,
+  "16k": 22196,
+  "64k": 271169
+ },
+ "selection": "all 10 jsonl files"
+}

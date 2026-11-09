@@ -1,0 +1,18 @@
+{
+ "set": "sft-code-commitpackft",
+ "units": 1,
+ "files": [
+  "data/python/data.jsonl"
+ ],
+ "rows_scanned": 56025,
+ "rows_in": 56025,
+ "rows": 56025,
+ "skipped": {},
+ "effort": {
+  "1k": 56025,
+  "4k": 0,
+  "16k": 0,
+  "64k": 0
+ },
+ "selection": "python subset (data/python/data.jsonl)"
+}

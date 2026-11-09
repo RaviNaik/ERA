@@ -5,6 +5,7 @@ sft-bespoke-stratos-17k,16710,1791,0,1791,14919,2026-11-06T16:05:22Z,True
 sft-chat-nemotron-if-v1,4963,1,0,1,4962,2026-11-06T15:39:28Z,True
 sft-chat-nemotron-if-v2,929130,5820,0,5820,923310,2026-11-07T20:03:43Z,True
 sft-code-codeforces-cots,45734,20796,0,20796,24938,2026-11-06T19:10:09Z,True
+sft-code-commitpackft,56025,15,0,15,56010,2026-11-09T15:42:02Z,True
 sft-code-nemotron-cascade-swe,210582,18248,0,18248,192334,2026-11-07T12:28:43Z,True
 sft-code-nemotron-cuda,2273,2,0,2,2271,2026-11-06T15:42:03Z,True
 sft-code-nemotron-opencode,67086,332,0,332,66754,2026-11-07T13:40:25Z,True
@@ -18,6 +19,7 @@ sft-indic-aya-dataset,41261,8,0,8,41253,2026-11-06T15:54:42Z,True
 sft-indic-indic-align-dolly-t,10541,0,0,0,10541,2026-11-09T11:13:20Z,True
 sft-indic-indic-align-oasst-t,19909,9,0,9,19900,2026-11-09T10:49:39Z,True
 sft-math-nemotron-math-v2,7079896,60665,0,60665,7019231,2026-11-09T01:29:36Z,True
+sft-math-nemotron-proofs-v3-sft,293648,3012,0,3012,290636,2026-11-09T22:03:57Z,True
 sft-math-nemotron-proofs,920831,2357,0,2357,918474,2026-11-08T16:59:22Z,True
 sft-math-nemotron-sft-math-v4,542117,4776,0,4776,537341,2026-11-07T06:04:18Z,True
 sft-math-openr1-math-raw,321100,2494,0,2494,318606,2026-11-07T14:04:09Z,True

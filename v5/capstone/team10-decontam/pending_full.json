@@ -1,5 +1,4 @@
 {
  "sft-safety-aegis-v1": "safety classification data (text plus labels, no assistant turn); no chat format applies, so no adapter",
- "sft-code-opencodereasoning-2": "adapter and test written, but upstream withholds the question text ('-') in the python shard; needs a join with the source problem sets (taco, apps, code_contests) before it can be converted",
- "sft-math-nemotron-proofs-v3-sft": "full run not done yet"
+ "sft-code-opencodereasoning-2": "adapter and test written, but upstream withholds the question text ('-') in the python shard; needs a join with the source problem sets (taco, apps, code_contests) before it can be converted"
 }

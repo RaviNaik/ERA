@@ -1,0 +1,361 @@
+2026-11-09 20:33:16 plan sft-math-nemotron-proofs-v3-sft: 10 units, 130.94 GB of source files
+2026-11-09 20:33:16 start: sets sft-math-nemotron-proofs-v3-sft; disk free 191 GB; decontam slots 17, download slots 3
+2026-11-09 20:33:16 unit start sft-math-nemotron-proofs-v3-sft u003 data/train-00003-of-00010.jsonl (13.16 GB)
+2026-11-09 20:36:36 part start sft-math-nemotron-proofs-v3-sft.u003.p0000 (300 MB)
+2026-11-09 20:37:05 part start sft-math-nemotron-proofs-v3-sft.u003.p0001 (300 MB)
+2026-11-09 20:37:35 part start sft-math-nemotron-proofs-v3-sft.u003.p0002 (300 MB)
+2026-11-09 20:38:09 part start sft-math-nemotron-proofs-v3-sft.u003.p0003 (300 MB)
+2026-11-09 20:38:46 part start sft-math-nemotron-proofs-v3-sft.u003.p0004 (301 MB)
+2026-11-09 20:39:24 part start sft-math-nemotron-proofs-v3-sft.u003.p0005 (300 MB)
+2026-11-09 20:40:03 part start sft-math-nemotron-proofs-v3-sft.u003.p0006 (300 MB)
+2026-11-09 20:40:43 part start sft-math-nemotron-proofs-v3-sft.u003.p0007 (300 MB)
+2026-11-09 20:41:23 part start sft-math-nemotron-proofs-v3-sft.u003.p0008 (300 MB)
+2026-11-09 20:42:03 part start sft-math-nemotron-proofs-v3-sft.u003.p0009 (300 MB)
+2026-11-09 20:42:44 part start sft-math-nemotron-proofs-v3-sft.u003.p0010 (300 MB)
+2026-11-09 20:43:28 part start sft-math-nemotron-proofs-v3-sft.u003.p0011 (300 MB)
+2026-11-09 20:44:24 part start sft-math-nemotron-proofs-v3-sft.u003.p0012 (300 MB)
+2026-11-09 20:45:46 part start sft-math-nemotron-proofs-v3-sft.u003.p0013 (300 MB)
+2026-11-09 20:47:04 part start sft-math-nemotron-proofs-v3-sft.u003.p0014 (300 MB)
+2026-11-09 20:48:24 part start sft-math-nemotron-proofs-v3-sft.u003.p0015 (300 MB)
+2026-11-09 20:49:55 part start sft-math-nemotron-proofs-v3-sft.u003.p0016 (300 MB)
+2026-11-09 21:05:34 unit done sft-math-nemotron-proofs-v3-sft u003: rows 54,080 of 61,102 selected, skipped 7,022, 1939s
+2026-11-09 21:05:35 source deleted sft-math-nemotron-proofs-v3-sft u003 data/train-00003-of-00010.jsonl
+2026-11-09 21:17:04 part done sft-math-nemotron-proofs-v3-sft.u003.p0000: rows 2,057 flagged 27 canary 0 kept 2,030 2427s
+2026-11-09 21:17:04 part start sft-math-nemotron-proofs-v3-sft.u003.p0017 (300 MB)
+2026-11-09 21:18:11 part done sft-math-nemotron-proofs-v3-sft.u003.p0001: rows 2,105 flagged 21 canary 0 kept 2,084 2465s
+2026-11-09 21:18:11 part start sft-math-nemotron-proofs-v3-sft.u003.p0018 (300 MB)
+2026-11-09 21:18:15 part done sft-math-nemotron-proofs-v3-sft.u003.p0002: rows 2,123 flagged 21 canary 0 kept 2,102 2440s
+2026-11-09 21:18:15 part start sft-math-nemotron-proofs-v3-sft.u003.p0019 (300 MB)
+2026-11-09 21:20:52 part done sft-math-nemotron-proofs-v3-sft.u003.p0003: rows 2,102 flagged 16 canary 0 kept 2,086 2563s
+2026-11-09 21:20:52 part start sft-math-nemotron-proofs-v3-sft.u003.p0020 (300 MB)
+2026-11-09 21:21:51 part done sft-math-nemotron-proofs-v3-sft.u003.p0004: rows 2,084 flagged 18 canary 0 kept 2,066 2586s
+2026-11-09 21:21:51 part start sft-math-nemotron-proofs-v3-sft.u003.p0021 (300 MB)
+2026-11-09 21:37:49 plan sft-math-nemotron-proofs-v3-sft: 10 units, 130.94 GB of source files
+2026-11-09 21:37:49 resume: unit u003 of sft-math-nemotron-proofs-v3-sft was converted before (54,080 rows, 27 parts)
+2026-11-09 21:37:49 start: sets sft-math-nemotron-proofs-v3-sft; disk free 158 GB; decontam slots 17, download slots 3
+2026-11-09 21:37:49 resume: part sft-math-nemotron-proofs-v3-sft.u003.p0000 was checked before (flagged 27, kept 2,030)
+2026-11-09 21:37:49 resume: part sft-math-nemotron-proofs-v3-sft.u003.p0001 was checked before (flagged 21, kept 2,084)
+2026-11-09 21:37:49 resume: part sft-math-nemotron-proofs-v3-sft.u003.p0002 was checked before (flagged 21, kept 2,102)
+2026-11-09 21:37:49 resume: part sft-math-nemotron-proofs-v3-sft.u003.p0003 was checked before (flagged 16, kept 2,086)
+2026-11-09 21:37:49 resume: part sft-math-nemotron-proofs-v3-sft.u003.p0004 was checked before (flagged 18, kept 2,066)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0005 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0006 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0007 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0008 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0009 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0010 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0011 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0012 (300 MB)
+2026-11-09 21:37:49 part start sft-math-nemotron-proofs-v3-sft.u003.p0013 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0014 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0015 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0016 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0017 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0018 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0019 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0020 (300 MB)
+2026-11-09 21:37:50 part start sft-math-nemotron-proofs-v3-sft.u003.p0021 (300 MB)
+2026-11-09 22:24:30 unit start sft-math-nemotron-proofs-v3-sft u000 data/train-00000-of-00010.jsonl (13.16 GB)
+2026-11-09 22:27:28 part done sft-math-nemotron-proofs-v3-sft.u003.p0009: rows 2,686 flagged 29 canary 0 kept 2,657 2979s
+2026-11-09 22:27:28 part start sft-math-nemotron-proofs-v3-sft.u003.p0022 (300 MB)
+2026-11-09 22:28:06 part done sft-math-nemotron-proofs-v3-sft.u003.p0011: rows 2,263 flagged 20 canary 0 kept 2,243 3016s
+2026-11-09 22:28:06 part start sft-math-nemotron-proofs-v3-sft.u003.p0023 (300 MB)
+2026-11-09 22:28:28 part done sft-math-nemotron-proofs-v3-sft.u003.p0005: rows 2,218 flagged 28 canary 0 kept 2,190 3039s
+2026-11-09 22:28:28 part start sft-math-nemotron-proofs-v3-sft.u003.p0024 (300 MB)
+2026-11-09 22:29:07 part done sft-math-nemotron-proofs-v3-sft.u003.p0006: rows 2,125 flagged 10 canary 0 kept 2,115 3078s
+2026-11-09 22:29:07 part start sft-math-nemotron-proofs-v3-sft.u003.p0025 (300 MB)
+2026-11-09 22:29:27 part done sft-math-nemotron-proofs-v3-sft.u003.p0008: rows 2,062 flagged 26 canary 0 kept 2,036 3098s
+2026-11-09 22:29:27 part start sft-math-nemotron-proofs-v3-sft.u003.p0026 (278 MB)
+2026-11-09 22:29:45 part done sft-math-nemotron-proofs-v3-sft.u003.p0010: rows 2,035 flagged 17 canary 0 kept 2,018 3115s
+2026-11-09 22:30:14 part done sft-math-nemotron-proofs-v3-sft.u003.p0007: rows 1,973 flagged 18 canary 0 kept 1,955 3145s
+2026-11-09 22:30:34 part done sft-math-nemotron-proofs-v3-sft.u003.p0012: rows 2,186 flagged 10 canary 0 kept 2,176 3164s
+2026-11-09 22:32:26 part done sft-math-nemotron-proofs-v3-sft.u003.p0015: rows 1,833 flagged 19 canary 0 kept 1,814 3277s
+2026-11-09 22:32:29 part done sft-math-nemotron-proofs-v3-sft.u003.p0020: rows 1,866 flagged 20 canary 0 kept 1,846 3280s
+2026-11-09 22:32:30 part done sft-math-nemotron-proofs-v3-sft.u003.p0017: rows 1,852 flagged 18 canary 0 kept 1,834 3281s
+2026-11-09 22:32:36 part done sft-math-nemotron-proofs-v3-sft.u003.p0021: rows 1,874 flagged 23 canary 0 kept 1,851 3287s
+2026-11-09 22:32:41 part done sft-math-nemotron-proofs-v3-sft.u003.p0013: rows 1,910 flagged 24 canary 0 kept 1,886 3292s
+2026-11-09 22:32:47 part done sft-math-nemotron-proofs-v3-sft.u003.p0016: rows 1,923 flagged 26 canary 0 kept 1,897 3298s
+2026-11-09 22:32:50 part done sft-math-nemotron-proofs-v3-sft.u003.p0014: rows 1,869 flagged 15 canary 0 kept 1,854 3300s
+2026-11-09 22:32:59 part done sft-math-nemotron-proofs-v3-sft.u003.p0018: rows 1,852 flagged 18 canary 0 kept 1,834 3309s
+2026-11-09 22:33:14 part done sft-math-nemotron-proofs-v3-sft.u003.p0019: rows 1,878 flagged 25 canary 0 kept 1,853 3324s
+2026-11-09 22:35:20 part start sft-math-nemotron-proofs-v3-sft.u000.p0000 (300 MB)
+2026-11-09 22:37:35 unit done sft-math-nemotron-proofs-v3-sft u000: rows 1,757 of 20,023 selected, skipped 18,266, 785s
+2026-11-09 22:37:36 source deleted sft-math-nemotron-proofs-v3-sft u000 data/train-00000-of-00010.jsonl
+2026-11-09 22:37:36 part start sft-math-nemotron-proofs-v3-sft.u000.p0001 (90 MB)
+2026-11-09 22:42:26 unit start sft-math-nemotron-proofs-v3-sft u001 data/train-00001-of-00010.jsonl (13.16 GB)
+2026-11-09 22:45:13 part done sft-math-nemotron-proofs-v3-sft.u000.p0001: rows 402 flagged 7 canary 0 kept 395 457s
+2026-11-09 22:46:21 unit start sft-math-nemotron-proofs-v3-sft u006 data/train-00006-of-00010.jsonl (13.16 GB)
+2026-11-09 22:52:43 unit done sft-math-nemotron-proofs-v3-sft u001: rows 919 of 18,968 selected, skipped 18,049, 618s
+2026-11-09 22:52:44 source deleted sft-math-nemotron-proofs-v3-sft u001 data/train-00001-of-00010.jsonl
+2026-11-09 22:52:44 part start sft-math-nemotron-proofs-v3-sft.u001.p0000 (212 MB)
+2026-11-09 22:53:39 part done sft-math-nemotron-proofs-v3-sft.u003.p0026: rows 1,691 flagged 14 canary 0 kept 1,677 1452s
+2026-11-09 22:53:47 unit start sft-math-nemotron-proofs-v3-sft u002 data/train-00002-of-00010.jsonl (13.16 GB)
+2026-11-09 22:54:28 part done sft-math-nemotron-proofs-v3-sft.u003.p0023: rows 1,839 flagged 14 canary 0 kept 1,825 1582s
+2026-11-09 22:54:31 part done sft-math-nemotron-proofs-v3-sft.u003.p0025: rows 1,894 flagged 28 canary 0 kept 1,866 1524s
+2026-11-09 22:54:48 part start sft-math-nemotron-proofs-v3-sft.u006.p0000 (300 MB)
+2026-11-09 22:55:05 part done sft-math-nemotron-proofs-v3-sft.u003.p0022: rows 1,893 flagged 18 canary 0 kept 1,875 1657s
+2026-11-09 22:55:52 part done sft-math-nemotron-proofs-v3-sft.u003.p0024: rows 1,887 flagged 17 canary 0 kept 1,870 1644s
+2026-11-09 22:56:47 unit done sft-math-nemotron-proofs-v3-sft u006: rows 1,555 of 19,889 selected, skipped 18,334, 626s
+2026-11-09 22:56:48 source deleted sft-math-nemotron-proofs-v3-sft u006 data/train-00006-of-00010.jsonl
+2026-11-09 22:56:48 part start sft-math-nemotron-proofs-v3-sft.u006.p0001 (47 MB)
+2026-11-09 23:00:25 part done sft-math-nemotron-proofs-v3-sft.u006.p0001: rows 207 flagged 13 canary 0 kept 194 218s
+2026-11-09 23:00:29 part done sft-math-nemotron-proofs-v3-sft.u000.p0000: rows 1,355 flagged 35 canary 0 kept 1,320 1510s
+2026-11-09 23:02:57 unit done sft-math-nemotron-proofs-v3-sft u002: rows 115 of 17,974 selected, skipped 17,859, 550s
+2026-11-09 23:02:57 source deleted sft-math-nemotron-proofs-v3-sft u002 data/train-00002-of-00010.jsonl
+2026-11-09 23:02:57 part start sft-math-nemotron-proofs-v3-sft.u002.p0000 (30 MB)
+2026-11-09 23:04:13 unit start sft-math-nemotron-proofs-v3-sft u005 data/train-00005-of-00010.jsonl (13.16 GB)
+2026-11-09 23:04:38 unit start sft-math-nemotron-proofs-v3-sft u007 data/train-00007-of-00010.jsonl (13.16 GB)
+2026-11-09 23:04:48 part start sft-math-nemotron-proofs-v3-sft.u005.p0000 (300 MB)
+2026-11-09 23:04:57 part done sft-math-nemotron-proofs-v3-sft.u002.p0000: rows 115 flagged 3 canary 0 kept 112 119s
+2026-11-09 23:05:23 part start sft-math-nemotron-proofs-v3-sft.u005.p0001 (300 MB)
+2026-11-09 23:06:02 part start sft-math-nemotron-proofs-v3-sft.u005.p0002 (300 MB)
+2026-11-09 23:06:41 part start sft-math-nemotron-proofs-v3-sft.u005.p0003 (300 MB)
+2026-11-09 23:06:53 unit start sft-math-nemotron-proofs-v3-sft u008 data/train-00008-of-00010.jsonl (13.16 GB)
+2026-11-09 23:07:20 part start sft-math-nemotron-proofs-v3-sft.u005.p0004 (300 MB)
+2026-11-09 23:07:54 part done sft-math-nemotron-proofs-v3-sft.u001.p0000: rows 919 flagged 27 canary 0 kept 892 911s
+2026-11-09 23:08:00 part start sft-math-nemotron-proofs-v3-sft.u005.p0005 (300 MB)
+2026-11-09 23:08:03 unit start sft-math-nemotron-proofs-v3-sft u004 data/train-00004-of-00010.jsonl (13.16 GB)
+2026-11-09 23:08:40 part start sft-math-nemotron-proofs-v3-sft.u005.p0006 (300 MB)
+2026-11-09 23:08:44 part start sft-math-nemotron-proofs-v3-sft.u004.p0000 (300 MB)
+2026-11-09 23:09:27 part start sft-math-nemotron-proofs-v3-sft.u005.p0007 (300 MB)
+2026-11-09 23:09:30 part start sft-math-nemotron-proofs-v3-sft.u004.p0001 (300 MB)
+2026-11-09 23:10:20 part start sft-math-nemotron-proofs-v3-sft.u005.p0008 (300 MB)
+2026-11-09 23:10:24 part start sft-math-nemotron-proofs-v3-sft.u004.p0002 (300 MB)
+2026-11-09 23:11:16 part start sft-math-nemotron-proofs-v3-sft.u005.p0009 (300 MB)
+2026-11-09 23:11:24 part start sft-math-nemotron-proofs-v3-sft.u004.p0003 (300 MB)
+2026-11-09 23:12:37 part start sft-math-nemotron-proofs-v3-sft.u005.p0010 (300 MB)
+2026-11-09 23:12:49 part start sft-math-nemotron-proofs-v3-sft.u004.p0004 (300 MB)
+2026-11-09 23:18:00 unit done sft-math-nemotron-proofs-v3-sft u007: rows 111 of 17,869 selected, skipped 17,758, 802s
+2026-11-09 23:18:00 source deleted sft-math-nemotron-proofs-v3-sft u007 data/train-00007-of-00010.jsonl
+2026-11-09 23:23:23 part done sft-math-nemotron-proofs-v3-sft.u006.p0000: rows 1,348 flagged 34 canary 0 kept 1,314 1715s
+2026-11-09 23:23:23 part start sft-math-nemotron-proofs-v3-sft.u005.p0011 (300 MB)
+2026-11-09 23:34:34 unit done sft-math-nemotron-proofs-v3-sft u008: rows 23,296 of 36,728 selected, skipped 13,432, 1661s
+2026-11-09 23:34:34 source deleted sft-math-nemotron-proofs-v3-sft u008 data/train-00008-of-00010.jsonl
+2026-11-09 23:34:35 unit start sft-math-nemotron-proofs-v3-sft u009 data/train-00009-of-00010.jsonl (12.51 GB)
+2026-11-09 23:36:35 unit done sft-math-nemotron-proofs-v3-sft u005: rows 45,444 of 55,858 selected, skipped 10,414, 1942s
+2026-11-09 23:36:36 source deleted sft-math-nemotron-proofs-v3-sft u005 data/train-00005-of-00010.jsonl
+2026-11-09 23:40:44 part done sft-math-nemotron-proofs-v3-sft.u005.p0000: rows 2,147 flagged 25 canary 0 kept 2,122 2156s
+2026-11-09 23:40:44 part start sft-math-nemotron-proofs-v3-sft.u004.p0005 (300 MB)
+2026-11-09 23:43:31 part done sft-math-nemotron-proofs-v3-sft.u005.p0001: rows 2,345 flagged 18 canary 0 kept 2,327 2289s
+2026-11-09 23:43:31 part start sft-math-nemotron-proofs-v3-sft.u005.p0012 (300 MB)
+2026-11-09 23:43:38 part done sft-math-nemotron-proofs-v3-sft.u005.p0003: rows 2,423 flagged 14 canary 0 kept 2,409 2217s
+2026-11-09 23:43:38 part start sft-math-nemotron-proofs-v3-sft.u004.p0006 (300 MB)
+2026-11-09 23:43:50 part done sft-math-nemotron-proofs-v3-sft.u005.p0002: rows 2,380 flagged 20 canary 0 kept 2,360 2268s
+2026-11-09 23:43:50 part start sft-math-nemotron-proofs-v3-sft.u005.p0013 (300 MB)
+2026-11-09 23:46:05 part done sft-math-nemotron-proofs-v3-sft.u005.p0005: rows 2,270 flagged 16 canary 0 kept 2,254 2285s
+2026-11-09 23:46:05 part start sft-math-nemotron-proofs-v3-sft.u004.p0007 (300 MB)
+2026-11-09 23:46:09 part done sft-math-nemotron-proofs-v3-sft.u005.p0004: rows 2,348 flagged 15 canary 0 kept 2,333 2329s
+2026-11-09 23:46:09 part start sft-math-nemotron-proofs-v3-sft.u007.p0000 (32 MB)
+2026-11-09 23:47:22 part done sft-math-nemotron-proofs-v3-sft.u005.p0006: rows 2,211 flagged 17 canary 0 kept 2,194 2322s
+2026-11-09 23:47:22 part start sft-math-nemotron-proofs-v3-sft.u005.p0014 (300 MB)
+2026-11-09 23:48:13 part done sft-math-nemotron-proofs-v3-sft.u005.p0007: rows 2,352 flagged 21 canary 0 kept 2,331 2327s
+2026-11-09 23:48:13 part start sft-math-nemotron-proofs-v3-sft.u004.p0008 (300 MB)
+2026-11-09 23:50:12 part done sft-math-nemotron-proofs-v3-sft.u005.p0008: rows 2,346 flagged 16 canary 0 kept 2,330 2392s
+2026-11-09 23:50:12 part start sft-math-nemotron-proofs-v3-sft.u008.p0000 (300 MB)
+2026-11-09 23:50:18 part done sft-math-nemotron-proofs-v3-sft.u004.p0000: rows 1,901 flagged 25 canary 0 kept 1,876 2494s
+2026-11-09 23:50:18 part start sft-math-nemotron-proofs-v3-sft.u005.p0015 (300 MB)
+2026-11-09 23:50:54 part done sft-math-nemotron-proofs-v3-sft.u007.p0000: rows 111 flagged 0 canary 0 kept 111 285s
+2026-11-09 23:50:54 part start sft-math-nemotron-proofs-v3-sft.u008.p0001 (300 MB)
+2026-11-09 23:50:58 part done sft-math-nemotron-proofs-v3-sft.u004.p0002: rows 1,791 flagged 20 canary 0 kept 1,771 2434s
+2026-11-09 23:50:58 part start sft-math-nemotron-proofs-v3-sft.u004.p0009 (300 MB)
+2026-11-09 23:51:33 part done sft-math-nemotron-proofs-v3-sft.u004.p0001: rows 1,886 flagged 20 canary 0 kept 1,866 2523s
+2026-11-09 23:51:33 part start sft-math-nemotron-proofs-v3-sft.u005.p0016 (300 MB)
+2026-11-09 23:51:44 part done sft-math-nemotron-proofs-v3-sft.u005.p0009: rows 2,310 flagged 10 canary 0 kept 2,300 2428s
+2026-11-09 23:51:44 part start sft-math-nemotron-proofs-v3-sft.u008.p0002 (300 MB)
+2026-11-09 23:52:04 part done sft-math-nemotron-proofs-v3-sft.u005.p0010: rows 2,353 flagged 12 canary 0 kept 2,341 2368s
+2026-11-09 23:52:04 part start sft-math-nemotron-proofs-v3-sft.u004.p0010 (300 MB)
+2026-11-09 23:54:24 part done sft-math-nemotron-proofs-v3-sft.u004.p0003: rows 1,950 flagged 24 canary 0 kept 1,926 2580s
+2026-11-09 23:54:24 part start sft-math-nemotron-proofs-v3-sft.u005.p0017 (300 MB)
+2026-11-09 23:54:41 part done sft-math-nemotron-proofs-v3-sft.u004.p0004: rows 1,881 flagged 21 canary 0 kept 1,860 2512s
+2026-11-09 23:54:41 part start sft-math-nemotron-proofs-v3-sft.u008.p0003 (300 MB)
+2026-11-10 00:03:19 part done sft-math-nemotron-proofs-v3-sft.u005.p0011: rows 2,299 flagged 24 canary 0 kept 2,275 2396s
+2026-11-10 00:03:19 part start sft-math-nemotron-proofs-v3-sft.u004.p0011 (300 MB)
+2026-11-10 00:08:13 unit done sft-math-nemotron-proofs-v3-sft u004: rows 83,564 of 83,623 selected, skipped 59, 3610s
+2026-11-10 00:08:14 source deleted sft-math-nemotron-proofs-v3-sft u004 data/train-00004-of-00010.jsonl
+2026-11-10 00:20:53 part done sft-math-nemotron-proofs-v3-sft.u004.p0005: rows 1,815 flagged 12 canary 0 kept 1,803 2409s
+2026-11-10 00:20:53 part start sft-math-nemotron-proofs-v3-sft.u005.p0018 (300 MB)
+2026-11-10 00:22:37 part done sft-math-nemotron-proofs-v3-sft.u005.p0013: rows 2,406 flagged 10 canary 0 kept 2,396 2326s
+2026-11-10 00:22:37 part start sft-math-nemotron-proofs-v3-sft.u008.p0004 (300 MB)
+2026-11-10 00:22:41 part done sft-math-nemotron-proofs-v3-sft.u005.p0012: rows 2,335 flagged 17 canary 0 kept 2,318 2349s
+2026-11-10 00:22:41 part start sft-math-nemotron-proofs-v3-sft.u004.p0012 (300 MB)
+2026-11-10 00:24:46 part done sft-math-nemotron-proofs-v3-sft.u004.p0006: rows 1,916 flagged 16 canary 0 kept 1,900 2468s
+2026-11-10 00:24:46 part start sft-math-nemotron-proofs-v3-sft.u008.p0005 (300 MB)
+2026-11-10 00:25:13 unit done sft-math-nemotron-proofs-v3-sft u009: rows 82,807 of 82,856 selected, skipped 49, 3038s
+2026-11-10 00:25:13 source deleted sft-math-nemotron-proofs-v3-sft u009 data/train-00009-of-00010.jsonl
+2026-11-10 00:25:39 part done sft-math-nemotron-proofs-v3-sft.u004.p0007: rows 1,856 flagged 23 canary 0 kept 1,833 2374s
+2026-11-10 00:25:39 part start sft-math-nemotron-proofs-v3-sft.u004.p0013 (300 MB)
+2026-11-10 00:26:05 part done sft-math-nemotron-proofs-v3-sft.u005.p0014: rows 2,334 flagged 12 canary 0 kept 2,322 2323s
+2026-11-10 00:26:05 part start sft-math-nemotron-proofs-v3-sft.u008.p0006 (300 MB)
+2026-11-10 00:27:24 part done sft-math-nemotron-proofs-v3-sft.u008.p0000: rows 2,052 flagged 41 canary 0 kept 2,011 2232s
+2026-11-10 00:27:24 part start sft-math-nemotron-proofs-v3-sft.u004.p0014 (300 MB)
+2026-11-10 00:27:51 part done sft-math-nemotron-proofs-v3-sft.u005.p0015: rows 2,372 flagged 20 canary 0 kept 2,352 2253s
+2026-11-10 00:27:51 part start sft-math-nemotron-proofs-v3-sft.u008.p0007 (300 MB)
+2026-11-10 00:28:22 part done sft-math-nemotron-proofs-v3-sft.u004.p0008: rows 1,804 flagged 16 canary 0 kept 1,788 2409s
+2026-11-10 00:28:22 part start sft-math-nemotron-proofs-v3-sft.u004.p0015 (300 MB)
+2026-11-10 00:29:26 part done sft-math-nemotron-proofs-v3-sft.u005.p0016: rows 2,316 flagged 15 canary 0 kept 2,301 2273s
+2026-11-10 00:29:26 part start sft-math-nemotron-proofs-v3-sft.u008.p0008 (300 MB)
+2026-11-10 00:29:31 part done sft-math-nemotron-proofs-v3-sft.u008.p0001: rows 2,143 flagged 30 canary 0 kept 2,113 2317s
+2026-11-10 00:29:31 part start sft-math-nemotron-proofs-v3-sft.u004.p0016 (300 MB)
+2026-11-10 00:30:21 part done sft-math-nemotron-proofs-v3-sft.u008.p0002: rows 2,140 flagged 24 canary 0 kept 2,116 2317s
+2026-11-10 00:30:21 part start sft-math-nemotron-proofs-v3-sft.u008.p0009 (300 MB)
+2026-11-10 00:31:47 part done sft-math-nemotron-proofs-v3-sft.u004.p0010: rows 1,884 flagged 18 canary 0 kept 1,866 2383s
+2026-11-10 00:31:47 part start sft-math-nemotron-proofs-v3-sft.u004.p0017 (300 MB)
+2026-11-10 00:32:20 part done sft-math-nemotron-proofs-v3-sft.u008.p0003: rows 2,178 flagged 25 canary 0 kept 2,153 2259s
+2026-11-10 00:32:20 part start sft-math-nemotron-proofs-v3-sft.u008.p0010 (236 MB)
+2026-11-10 00:32:21 part done sft-math-nemotron-proofs-v3-sft.u004.p0009: rows 1,901 flagged 24 canary 0 kept 1,877 2483s
+2026-11-10 00:32:21 part start sft-math-nemotron-proofs-v3-sft.u004.p0018 (300 MB)
+2026-11-10 00:33:15 part done sft-math-nemotron-proofs-v3-sft.u005.p0017: rows 2,348 flagged 19 canary 0 kept 2,329 2330s
+2026-11-10 00:33:15 part start sft-math-nemotron-proofs-v3-sft.u009.p0000 (300 MB)
+2026-11-10 00:45:09 part done sft-math-nemotron-proofs-v3-sft.u004.p0011: rows 1,830 flagged 13 canary 0 kept 1,817 2510s
+2026-11-10 00:45:09 part start sft-math-nemotron-proofs-v3-sft.u004.p0019 (300 MB)
+2026-11-10 00:56:48 part done sft-math-nemotron-proofs-v3-sft.u008.p0004: rows 2,194 flagged 24 canary 0 kept 2,170 2051s
+2026-11-10 00:56:48 part start sft-math-nemotron-proofs-v3-sft.u005.p0019 (241 MB)
+2026-11-10 00:58:30 part done sft-math-nemotron-proofs-v3-sft.u008.p0010: rows 1,866 flagged 14 canary 0 kept 1,852 1570s
+2026-11-10 00:58:30 part start sft-math-nemotron-proofs-v3-sft.u009.p0001 (300 MB)
+2026-11-10 00:58:56 part done sft-math-nemotron-proofs-v3-sft.u008.p0005: rows 2,112 flagged 19 canary 0 kept 2,093 2050s
+2026-11-10 00:58:56 part start sft-math-nemotron-proofs-v3-sft.u004.p0020 (300 MB)
+2026-11-10 01:00:31 part done sft-math-nemotron-proofs-v3-sft.u005.p0018: rows 2,328 flagged 22 canary 0 kept 2,306 2378s
+2026-11-10 01:00:31 part start sft-math-nemotron-proofs-v3-sft.u009.p0002 (300 MB)
+2026-11-10 01:01:38 part done sft-math-nemotron-proofs-v3-sft.u008.p0006: rows 2,105 flagged 14 canary 0 kept 2,091 2133s
+2026-11-10 01:01:38 part start sft-math-nemotron-proofs-v3-sft.u004.p0021 (300 MB)
+2026-11-10 01:01:54 part done sft-math-nemotron-proofs-v3-sft.u008.p0007: rows 1,939 flagged 22 canary 0 kept 1,917 2042s
+2026-11-10 01:01:54 part start sft-math-nemotron-proofs-v3-sft.u009.p0003 (300 MB)
+2026-11-10 01:03:10 part done sft-math-nemotron-proofs-v3-sft.u004.p0012: rows 1,922 flagged 19 canary 0 kept 1,903 2429s
+2026-11-10 01:03:10 part start sft-math-nemotron-proofs-v3-sft.u004.p0022 (300 MB)
+2026-11-10 01:04:12 part done sft-math-nemotron-proofs-v3-sft.u008.p0008: rows 2,291 flagged 21 canary 0 kept 2,270 2086s
+2026-11-10 01:04:12 part start sft-math-nemotron-proofs-v3-sft.u009.p0004 (300 MB)
+2026-11-10 01:04:49 part done sft-math-nemotron-proofs-v3-sft.u004.p0014: rows 1,842 flagged 13 canary 0 kept 1,829 2245s
+2026-11-10 01:04:49 part start sft-math-nemotron-proofs-v3-sft.u004.p0023 (300 MB)
+2026-11-10 01:04:52 part done sft-math-nemotron-proofs-v3-sft.u008.p0009: rows 2,276 flagged 14 canary 0 kept 2,262 2071s
+2026-11-10 01:04:52 part start sft-math-nemotron-proofs-v3-sft.u009.p0005 (300 MB)
+2026-11-10 01:05:56 part done sft-math-nemotron-proofs-v3-sft.u004.p0013: rows 1,863 flagged 23 canary 0 kept 1,840 2417s
+2026-11-10 01:05:56 part start sft-math-nemotron-proofs-v3-sft.u004.p0024 (300 MB)
+2026-11-10 01:06:57 part done sft-math-nemotron-proofs-v3-sft.u004.p0015: rows 1,902 flagged 15 canary 0 kept 1,887 2315s
+2026-11-10 01:06:57 part start sft-math-nemotron-proofs-v3-sft.u009.p0006 (300 MB)
+2026-11-10 01:07:40 part done sft-math-nemotron-proofs-v3-sft.u009.p0000: rows 2,114 flagged 18 canary 0 kept 2,096 2066s
+2026-11-10 01:07:40 part start sft-math-nemotron-proofs-v3-sft.u004.p0025 (300 MB)
+2026-11-10 01:09:30 part done sft-math-nemotron-proofs-v3-sft.u004.p0017: rows 1,834 flagged 20 canary 0 kept 1,814 2263s
+2026-11-10 01:09:30 part start sft-math-nemotron-proofs-v3-sft.u009.p0007 (300 MB)
+2026-11-10 01:10:03 part done sft-math-nemotron-proofs-v3-sft.u004.p0016: rows 1,858 flagged 22 canary 0 kept 1,836 2432s
+2026-11-10 01:10:03 part start sft-math-nemotron-proofs-v3-sft.u004.p0026 (300 MB)
+2026-11-10 01:14:51 part done sft-math-nemotron-proofs-v3-sft.u004.p0018: rows 1,908 flagged 17 canary 0 kept 1,891 2550s
+2026-11-10 01:14:51 part start sft-math-nemotron-proofs-v3-sft.u009.p0008 (300 MB)
+2026-11-10 01:25:57 part done sft-math-nemotron-proofs-v3-sft.u004.p0019: rows 1,856 flagged 28 canary 0 kept 1,828 2448s
+2026-11-10 01:25:57 part start sft-math-nemotron-proofs-v3-sft.u004.p0027 (300 MB)
+2026-11-10 01:27:44 part done sft-math-nemotron-proofs-v3-sft.u005.p0019: rows 1,221 flagged 33 canary 0 kept 1,188 1857s
+2026-11-10 01:27:44 part start sft-math-nemotron-proofs-v3-sft.u009.p0009 (300 MB)
+2026-11-10 01:36:38 part done sft-math-nemotron-proofs-v3-sft.u009.p0001: rows 1,850 flagged 24 canary 0 kept 1,826 2288s
+2026-11-10 01:36:38 part start sft-math-nemotron-proofs-v3-sft.u004.p0028 (300 MB)
+2026-11-10 01:38:15 part done sft-math-nemotron-proofs-v3-sft.u009.p0002: rows 1,811 flagged 23 canary 0 kept 1,788 2263s
+2026-11-10 01:38:15 part start sft-math-nemotron-proofs-v3-sft.u009.p0010 (300 MB)
+2026-11-10 01:39:45 part done sft-math-nemotron-proofs-v3-sft.u004.p0020: rows 1,830 flagged 17 canary 0 kept 1,813 2449s
+2026-11-10 01:39:45 part start sft-math-nemotron-proofs-v3-sft.u004.p0029 (300 MB)
+2026-11-10 01:39:58 part done sft-math-nemotron-proofs-v3-sft.u009.p0003: rows 1,752 flagged 20 canary 0 kept 1,732 2284s
+2026-11-10 01:39:58 part start sft-math-nemotron-proofs-v3-sft.u009.p0011 (300 MB)
+2026-11-10 01:40:23 part done sft-math-nemotron-proofs-v3-sft.u004.p0021: rows 1,908 flagged 22 canary 0 kept 1,886 2326s
+2026-11-10 01:40:23 part start sft-math-nemotron-proofs-v3-sft.u004.p0030 (300 MB)
+2026-11-10 01:41:01 part done sft-math-nemotron-proofs-v3-sft.u009.p0004: rows 1,849 flagged 21 canary 0 kept 1,828 2209s
+2026-11-10 01:41:01 part start sft-math-nemotron-proofs-v3-sft.u009.p0012 (300 MB)
+2026-11-10 01:41:59 part done sft-math-nemotron-proofs-v3-sft.u004.p0023: rows 1,869 flagged 24 canary 0 kept 1,845 2230s
+2026-11-10 01:41:59 part start sft-math-nemotron-proofs-v3-sft.u004.p0031 (300 MB)
+2026-11-10 01:42:20 part done sft-math-nemotron-proofs-v3-sft.u004.p0022: rows 1,860 flagged 18 canary 0 kept 1,842 2350s
+2026-11-10 01:42:20 part start sft-math-nemotron-proofs-v3-sft.u009.p0013 (300 MB)
+2026-11-10 01:43:15 part done sft-math-nemotron-proofs-v3-sft.u004.p0024: rows 1,886 flagged 15 canary 0 kept 1,871 2238s
+2026-11-10 01:43:15 part start sft-math-nemotron-proofs-v3-sft.u004.p0032 (300 MB)
+2026-11-10 01:44:11 part done sft-math-nemotron-proofs-v3-sft.u009.p0006: rows 1,750 flagged 23 canary 0 kept 1,727 2234s
+2026-11-10 01:44:11 part start sft-math-nemotron-proofs-v3-sft.u009.p0014 (300 MB)
+2026-11-10 01:44:57 part done sft-math-nemotron-proofs-v3-sft.u004.p0025: rows 1,854 flagged 25 canary 0 kept 1,829 2237s
+2026-11-10 01:44:57 part start sft-math-nemotron-proofs-v3-sft.u004.p0033 (300 MB)
+2026-11-10 01:46:57 part done sft-math-nemotron-proofs-v3-sft.u009.p0005: rows 1,811 flagged 17 canary 0 kept 1,794 2525s
+2026-11-10 01:46:57 part start sft-math-nemotron-proofs-v3-sft.u009.p0015 (300 MB)
+2026-11-10 01:48:31 part done sft-math-nemotron-proofs-v3-sft.u004.p0026: rows 1,906 flagged 22 canary 0 kept 1,884 2308s
+2026-11-10 01:48:31 part start sft-math-nemotron-proofs-v3-sft.u004.p0034 (300 MB)
+2026-11-10 01:49:13 part done sft-math-nemotron-proofs-v3-sft.u009.p0007: rows 1,858 flagged 27 canary 0 kept 1,831 2383s
+2026-11-10 01:49:13 part start sft-math-nemotron-proofs-v3-sft.u009.p0016 (300 MB)
+2026-11-10 01:55:57 part done sft-math-nemotron-proofs-v3-sft.u009.p0008: rows 1,835 flagged 13 canary 0 kept 1,822 2466s
+2026-11-10 01:55:57 part start sft-math-nemotron-proofs-v3-sft.u004.p0035 (300 MB)
+2026-11-10 02:05:25 part done sft-math-nemotron-proofs-v3-sft.u004.p0027: rows 1,885 flagged 17 canary 0 kept 1,868 2368s
+2026-11-10 02:05:25 part start sft-math-nemotron-proofs-v3-sft.u009.p0017 (300 MB)
+2026-11-10 02:06:15 part done sft-math-nemotron-proofs-v3-sft.u009.p0009: rows 1,730 flagged 23 canary 0 kept 1,707 2310s
+2026-11-10 02:06:15 part start sft-math-nemotron-proofs-v3-sft.u004.p0036 (300 MB)
+2026-11-10 02:14:05 part done sft-math-nemotron-proofs-v3-sft.u004.p0028: rows 1,813 flagged 16 canary 0 kept 1,797 2247s
+2026-11-10 02:14:05 part start sft-math-nemotron-proofs-v3-sft.u009.p0018 (300 MB)
+2026-11-10 02:16:29 part done sft-math-nemotron-proofs-v3-sft.u009.p0010: rows 1,866 flagged 19 canary 0 kept 1,847 2294s
+2026-11-10 02:16:29 part done sft-math-nemotron-proofs-v3-sft.u004.p0030: rows 1,880 flagged 23 canary 0 kept 1,857 2166s
+2026-11-10 02:16:29 part start sft-math-nemotron-proofs-v3-sft.u004.p0037 (300 MB)
+2026-11-10 02:16:29 part start sft-math-nemotron-proofs-v3-sft.u009.p0019 (300 MB)
+2026-11-10 02:19:16 part done sft-math-nemotron-proofs-v3-sft.u004.p0029: rows 1,924 flagged 22 canary 0 kept 1,902 2371s
+2026-11-10 02:19:16 part start sft-math-nemotron-proofs-v3-sft.u004.p0038 (300 MB)
+2026-11-10 02:19:17 part done sft-math-nemotron-proofs-v3-sft.u004.p0031: rows 1,797 flagged 9 canary 0 kept 1,788 2237s
+2026-11-10 02:19:17 part start sft-math-nemotron-proofs-v3-sft.u009.p0020 (300 MB)
+2026-11-10 02:19:44 part done sft-math-nemotron-proofs-v3-sft.u009.p0011: rows 1,795 flagged 20 canary 0 kept 1,775 2386s
+2026-11-10 02:19:44 part start sft-math-nemotron-proofs-v3-sft.u004.p0039 (300 MB)
+2026-11-10 02:19:59 part done sft-math-nemotron-proofs-v3-sft.u009.p0012: rows 1,799 flagged 15 canary 0 kept 1,784 2338s
+2026-11-10 02:19:59 part start sft-math-nemotron-proofs-v3-sft.u009.p0021 (300 MB)
+2026-11-10 02:20:57 part done sft-math-nemotron-proofs-v3-sft.u009.p0014: rows 1,835 flagged 24 canary 0 kept 1,811 2207s
+2026-11-10 02:20:57 part start sft-math-nemotron-proofs-v3-sft.u004.p0040 (300 MB)
+2026-11-10 02:22:04 part done sft-math-nemotron-proofs-v3-sft.u009.p0013: rows 1,833 flagged 25 canary 0 kept 1,808 2385s
+2026-11-10 02:22:04 part start sft-math-nemotron-proofs-v3-sft.u009.p0022 (300 MB)
+2026-11-10 02:23:03 part done sft-math-nemotron-proofs-v3-sft.u004.p0032: rows 1,908 flagged 16 canary 0 kept 1,892 2388s
+2026-11-10 02:23:03 part start sft-math-nemotron-proofs-v3-sft.u004.p0041 (300 MB)
+2026-11-10 02:24:41 part done sft-math-nemotron-proofs-v3-sft.u004.p0033: rows 1,862 flagged 15 canary 0 kept 1,847 2383s
+2026-11-10 02:24:41 part start sft-math-nemotron-proofs-v3-sft.u009.p0023 (300 MB)
+2026-11-10 02:24:58 part done sft-math-nemotron-proofs-v3-sft.u009.p0015: rows 1,774 flagged 23 canary 0 kept 1,751 2280s
+2026-11-10 02:24:58 part start sft-math-nemotron-proofs-v3-sft.u004.p0042 (300 MB)
+2026-11-10 02:27:29 part done sft-math-nemotron-proofs-v3-sft.u004.p0034: rows 2,017 flagged 24 canary 0 kept 1,993 2338s
+2026-11-10 02:27:29 part start sft-math-nemotron-proofs-v3-sft.u004.p0043 (163 MB)
+2026-11-10 02:29:28 part done sft-math-nemotron-proofs-v3-sft.u009.p0016: rows 1,825 flagged 24 canary 0 kept 1,801 2415s
+2026-11-10 02:29:28 part start sft-math-nemotron-proofs-v3-sft.u009.p0024 (300 MB)
+2026-11-10 02:35:00 part done sft-math-nemotron-proofs-v3-sft.u004.p0035: rows 2,089 flagged 17 canary 0 kept 2,072 2344s
+2026-11-10 02:35:00 part start sft-math-nemotron-proofs-v3-sft.u009.p0025 (300 MB)
+2026-11-10 02:43:28 part done sft-math-nemotron-proofs-v3-sft.u004.p0036: rows 2,113 flagged 19 canary 0 kept 2,094 2233s
+2026-11-10 02:43:28 part start sft-math-nemotron-proofs-v3-sft.u009.p0026 (300 MB)
+2026-11-10 02:44:20 part done sft-math-nemotron-proofs-v3-sft.u009.p0017: rows 1,811 flagged 14 canary 0 kept 1,797 2335s
+2026-11-10 02:44:20 part start sft-math-nemotron-proofs-v3-sft.u009.p0027 (300 MB)
+2026-11-10 02:47:51 part done sft-math-nemotron-proofs-v3-sft.u004.p0043: rows 1,096 flagged 6 canary 0 kept 1,090 1222s
+2026-11-10 02:47:51 part start sft-math-nemotron-proofs-v3-sft.u009.p0028 (300 MB)
+2026-11-10 02:52:08 part done sft-math-nemotron-proofs-v3-sft.u009.p0018: rows 1,820 flagged 22 canary 0 kept 1,798 2283s
+2026-11-10 02:52:08 part start sft-math-nemotron-proofs-v3-sft.u009.p0029 (300 MB)
+2026-11-10 02:53:43 part done sft-math-nemotron-proofs-v3-sft.u009.p0019: rows 1,796 flagged 18 canary 0 kept 1,778 2234s
+2026-11-10 02:53:43 part start sft-math-nemotron-proofs-v3-sft.u009.p0030 (300 MB)
+2026-11-10 02:54:07 part done sft-math-nemotron-proofs-v3-sft.u004.p0037: rows 2,148 flagged 14 canary 0 kept 2,134 2258s
+2026-11-10 02:54:07 part start sft-math-nemotron-proofs-v3-sft.u009.p0031 (300 MB)
+2026-11-10 02:55:56 part done sft-math-nemotron-proofs-v3-sft.u004.p0039: rows 2,087 flagged 17 canary 0 kept 2,070 2171s
+2026-11-10 02:55:56 part start sft-math-nemotron-proofs-v3-sft.u009.p0032 (300 MB)
+2026-11-10 02:56:29 part done sft-math-nemotron-proofs-v3-sft.u009.p0020: rows 1,853 flagged 26 canary 0 kept 1,827 2232s
+2026-11-10 02:56:29 part start sft-math-nemotron-proofs-v3-sft.u009.p0033 (300 MB)
+2026-11-10 02:56:44 part done sft-math-nemotron-proofs-v3-sft.u004.p0038: rows 2,109 flagged 28 canary 0 kept 2,081 2249s
+2026-11-10 02:56:44 part start sft-math-nemotron-proofs-v3-sft.u009.p0034 (300 MB)
+2026-11-10 02:57:34 part done sft-math-nemotron-proofs-v3-sft.u009.p0021: rows 1,807 flagged 23 canary 0 kept 1,784 2256s
+2026-11-10 02:57:34 part start sft-math-nemotron-proofs-v3-sft.u009.p0035 (300 MB)
+2026-11-10 02:58:00 part done sft-math-nemotron-proofs-v3-sft.u004.p0040: rows 2,045 flagged 13 canary 0 kept 2,032 2222s
+2026-11-10 02:58:00 part start sft-math-nemotron-proofs-v3-sft.u009.p0036 (300 MB)
+2026-11-10 02:58:58 part done sft-math-nemotron-proofs-v3-sft.u004.p0041: rows 2,117 flagged 18 canary 0 kept 2,099 2156s
+2026-11-10 02:58:58 part start sft-math-nemotron-proofs-v3-sft.u009.p0037 (300 MB)
+2026-11-10 03:00:14 part done sft-math-nemotron-proofs-v3-sft.u009.p0022: rows 2,058 flagged 28 canary 0 kept 2,030 2290s
+2026-11-10 03:00:14 part start sft-math-nemotron-proofs-v3-sft.u009.p0038 (300 MB)
+2026-11-10 03:01:43 part done sft-math-nemotron-proofs-v3-sft.u004.p0042: rows 2,161 flagged 23 canary 0 kept 2,138 2205s
+2026-11-10 03:01:43 part start sft-math-nemotron-proofs-v3-sft.u009.p0039 (300 MB)
+2026-11-10 03:06:36 part done sft-math-nemotron-proofs-v3-sft.u009.p0023: rows 2,069 flagged 25 canary 0 kept 2,044 2515s
+2026-11-10 03:06:36 part start sft-math-nemotron-proofs-v3-sft.u009.p0040 (300 MB)
+2026-11-10 03:09:38 part done sft-math-nemotron-proofs-v3-sft.u009.p0024: rows 2,044 flagged 26 canary 0 kept 2,018 2410s
+2026-11-10 03:09:38 part start sft-math-nemotron-proofs-v3-sft.u009.p0041 (113 MB)
+2026-11-10 03:14:06 part done sft-math-nemotron-proofs-v3-sft.u009.p0025: rows 2,051 flagged 28 canary 0 kept 2,023 2346s
+2026-11-10 03:20:06 part done sft-math-nemotron-proofs-v3-sft.u009.p0027: rows 2,038 flagged 22 canary 0 kept 2,016 2146s
+2026-11-10 03:21:12 part done sft-math-nemotron-proofs-v3-sft.u009.p0026: rows 2,026 flagged 19 canary 0 kept 2,007 2264s
+2026-11-10 03:22:06 part done sft-math-nemotron-proofs-v3-sft.u009.p0041: rows 876 flagged 8 canary 0 kept 868 748s
+2026-11-10 03:24:40 part done sft-math-nemotron-proofs-v3-sft.u009.p0028: rows 2,030 flagged 17 canary 0 kept 2,013 2209s
+2026-11-10 03:26:25 part done sft-math-nemotron-proofs-v3-sft.u009.p0029: rows 2,366 flagged 21 canary 0 kept 2,345 2057s
+2026-11-10 03:27:05 part done sft-math-nemotron-proofs-v3-sft.u009.p0030: rows 2,381 flagged 22 canary 0 kept 2,359 2003s
+2026-11-10 03:27:18 part done sft-math-nemotron-proofs-v3-sft.u009.p0031: rows 2,238 flagged 25 canary 0 kept 2,213 1990s
+2026-11-10 03:28:39 part done sft-math-nemotron-proofs-v3-sft.u009.p0034: rows 2,298 flagged 24 canary 0 kept 2,274 1914s
+2026-11-10 03:28:59 part done sft-math-nemotron-proofs-v3-sft.u009.p0033: rows 2,272 flagged 25 canary 0 kept 2,247 1950s
+2026-11-10 03:29:07 part done sft-math-nemotron-proofs-v3-sft.u009.p0032: rows 2,251 flagged 31 canary 0 kept 2,220 1991s
+2026-11-10 03:29:21 part done sft-math-nemotron-proofs-v3-sft.u009.p0035: rows 2,249 flagged 28 canary 0 kept 2,221 1907s
+2026-11-10 03:29:43 part done sft-math-nemotron-proofs-v3-sft.u009.p0037: rows 2,271 flagged 33 canary 0 kept 2,238 1845s
+2026-11-10 03:29:58 part done sft-math-nemotron-proofs-v3-sft.u009.p0036: rows 2,247 flagged 22 canary 0 kept 2,225 1919s
+2026-11-10 03:32:08 part done sft-math-nemotron-proofs-v3-sft.u009.p0039: rows 2,247 flagged 19 canary 0 kept 2,228 1825s
+2026-11-10 03:32:51 part done sft-math-nemotron-proofs-v3-sft.u009.p0038: rows 2,349 flagged 21 canary 0 kept 2,328 1957s
+2026-11-10 03:33:57 part done sft-math-nemotron-proofs-v3-sft.u009.p0040: rows 2,272 flagged 14 canary 0 kept 2,258 1642s
+2026-11-10 03:33:57 SET DONE sft-math-nemotron-proofs-v3-sft: parts 151 rows 293,648 flagged 3,012 canary 0 removed 3,012 kept 290,636 OK
+2026-11-10 03:33:57 finished: all sets merged
