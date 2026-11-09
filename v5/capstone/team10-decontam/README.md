@@ -5,8 +5,9 @@ Every SFT set of the Team 10 mix was checked against Team 9's benchmark fingerpr
 canaries, on every row of the whole source. This folder keeps the results. It holds no source data, no training rows and no
 text of any document or benchmark item: counts, document ids, benchmark item ids, offsets and sha256 values only.
 
-Status: 27 sets done (16,300,745 rows in, 337,635 flagged and removed, 2.07%, 0 canaries). Not run yet: OpenThoughts3
-(downloaded, run pending) and Proofs-v3-SFT, plus three sets that cannot be run (xlam gated, aegis has no chat format,
+Status: 29 sets done (16,766,783 rows in, 345,101 flagged and removed, 2.06%, 0 canaries). Dolly-T was re-run with the
+context filter of gmrammohan15's PR #41 (10,541 rows kept instead of 15,011), together with OASST-T and OpenThoughts3. Not run yet:
+Proofs-v3-SFT (131 GB, not downloaded), plus three sets that cannot be run (xlam gated, aegis has no chat format,
 OpenCodeReasoning-2 withholds the questions). See `summary.csv`; `pending_full.json` gives the reason for each set not run.
 
 | Path | What |
@@ -16,7 +17,7 @@ OpenCodeReasoning-2 withholds the questions). See `summary.csv`; `pending_full.j
 | `records/<set>.record.json.gz` | The full record of the run: per flagged document the matched benchmark items with n-gram counts, coverage and character offsets; sha256 of every input and clean part; the reconciliation checks |
 | `manifests/` | What the converter wrote for each set run through the pipeline: rows scanned, rows kept, rows skipped and why, effort tiers, content sha256 |
 | `logs/` | `progress.log` of each run (one line per event) |
-| `report/decontam_report.md` | The report of lab PR #42 (saitej123/era-v5-lab), 27 sets |
+| `report/decontam_report.md` | The report of lab PR #42 (saitej123/era-v5-lab) extended to 29 sets (follow-up PR after #41 merges) |
 | `code/sft/` | The code that produced these results: `convert.py` (adapters, Hub and local sources), `decontam_pipeline.py`, `decontam_run.py`, `decontam_report.py` and their tests. A snapshot of lab branch `g10-decontam-ot3-dolly-RaviNaik` at `201e614` (PR #40 as merged, plus gmrammohan15's PR #41 and the OpenThoughts3 full-set source); the lab PRs are the reference copy |
 | `code/launch/` | The launch scripts of each run (`run2` to `run6`) with their settings, and the two download scripts (resumable, sha256 checked against the Hub) |
 | `scripts/export_flagged.py` | Rebuilds `flagged_rows/` and `summary.csv` from the records |

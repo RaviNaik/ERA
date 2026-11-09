@@ -1,0 +1,496 @@
+2026-11-09 16:08:21 plan sft-indic-indic-align-dolly-t: 1 units, 0.16 GB of source files
+2026-11-09 16:08:22 plan sft-indic-indic-align-oasst-t: 1 units, 0.47 GB of source files
+2026-11-09 16:08:22 plan sft-stem-code-openthoughts3: 120 units, 28.19 GB of source files
+2026-11-09 16:08:22 start: sets sft-indic-indic-align-dolly-t, sft-indic-indic-align-oasst-t, sft-stem-code-openthoughts3; disk free 182 GB; decontam slots 17, download slots 4
+2026-11-09 16:08:22 unit start sft-indic-indic-align-oasst-t u000 indicalign-instruct/oasst/oasst.parquet (0.47 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u017 data/train-00017-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u005 data/train-00005-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u002 data/train-00002-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u003 data/train-00003-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u024 data/train-00024-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u009 data/train-00009-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:22 unit start sft-stem-code-openthoughts3 u019 data/train-00019-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:59 unit done sft-stem-code-openthoughts3 u005: rows 3,399 of 10,000 selected, skipped 6,601, 37s
+2026-11-09 16:08:59 unit done sft-stem-code-openthoughts3 u002: rows 3,476 of 10,000 selected, skipped 6,524, 37s
+2026-11-09 16:08:59 unit done sft-stem-code-openthoughts3 u003: rows 3,438 of 10,000 selected, skipped 6,562, 37s
+2026-11-09 16:08:59 unit done sft-stem-code-openthoughts3 u009: rows 3,462 of 10,000 selected, skipped 6,538, 37s
+2026-11-09 16:08:59 unit done sft-stem-code-openthoughts3 u019: rows 3,518 of 10,000 selected, skipped 6,482, 37s
+2026-11-09 16:08:59 part start sft-stem-code-openthoughts3.u005.p0000 (180 MB)
+2026-11-09 16:08:59 part start sft-stem-code-openthoughts3.u002.p0000 (184 MB)
+2026-11-09 16:08:59 part start sft-stem-code-openthoughts3.u003.p0000 (182 MB)
+2026-11-09 16:08:59 part start sft-stem-code-openthoughts3.u009.p0000 (183 MB)
+2026-11-09 16:08:59 part start sft-stem-code-openthoughts3.u019.p0000 (186 MB)
+2026-11-09 16:08:59 unit start sft-stem-code-openthoughts3 u004 data/train-00004-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:59 unit start sft-stem-code-openthoughts3 u015 data/train-00015-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:59 unit start sft-stem-code-openthoughts3 u010 data/train-00010-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:59 unit start sft-stem-code-openthoughts3 u023 data/train-00023-of-00120.parquet (0.29 GB)
+2026-11-09 16:08:59 unit start sft-stem-code-openthoughts3 u000 data/train-00000-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:00 unit done sft-stem-code-openthoughts3 u017: rows 3,519 of 10,000 selected, skipped 6,481, 38s
+2026-11-09 16:09:00 unit done sft-stem-code-openthoughts3 u024: rows 3,478 of 10,000 selected, skipped 6,522, 38s
+2026-11-09 16:09:00 part start sft-stem-code-openthoughts3.u017.p0000 (188 MB)
+2026-11-09 16:09:00 part start sft-stem-code-openthoughts3.u024.p0000 (183 MB)
+2026-11-09 16:09:00 unit start sft-stem-code-openthoughts3 u020 data/train-00020-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:00 unit start sft-stem-code-openthoughts3 u008 data/train-00008-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:53 unit done sft-stem-code-openthoughts3 u004: rows 3,542 of 10,000 selected, skipped 6,458, 54s
+2026-11-09 16:09:53 unit done sft-stem-code-openthoughts3 u015: rows 3,561 of 10,000 selected, skipped 6,439, 54s
+2026-11-09 16:09:53 unit done sft-stem-code-openthoughts3 u000: rows 3,531 of 10,000 selected, skipped 6,469, 54s
+2026-11-09 16:09:53 unit done sft-stem-code-openthoughts3 u008: rows 3,453 of 10,000 selected, skipped 6,547, 53s
+2026-11-09 16:09:53 part start sft-stem-code-openthoughts3.u004.p0000 (187 MB)
+2026-11-09 16:09:53 part start sft-stem-code-openthoughts3.u015.p0000 (188 MB)
+2026-11-09 16:09:53 part start sft-stem-code-openthoughts3.u000.p0000 (186 MB)
+2026-11-09 16:09:53 part start sft-stem-code-openthoughts3.u008.p0000 (181 MB)
+2026-11-09 16:09:53 unit start sft-stem-code-openthoughts3 u007 data/train-00007-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:53 unit start sft-stem-code-openthoughts3 u013 data/train-00013-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:53 unit start sft-stem-code-openthoughts3 u011 data/train-00011-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:53 unit start sft-stem-code-openthoughts3 u022 data/train-00022-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:54 unit done sft-stem-code-openthoughts3 u010: rows 3,537 of 10,000 selected, skipped 6,463, 55s
+2026-11-09 16:09:54 unit done sft-stem-code-openthoughts3 u023: rows 3,597 of 10,000 selected, skipped 6,403, 55s
+2026-11-09 16:09:54 unit done sft-stem-code-openthoughts3 u020: rows 3,492 of 10,000 selected, skipped 6,508, 54s
+2026-11-09 16:09:54 part start sft-stem-code-openthoughts3.u010.p0000 (188 MB)
+2026-11-09 16:09:54 part start sft-stem-code-openthoughts3.u023.p0000 (191 MB)
+2026-11-09 16:09:54 part start sft-stem-code-openthoughts3.u020.p0000 (184 MB)
+2026-11-09 16:09:54 unit start sft-stem-code-openthoughts3 u001 data/train-00001-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:54 unit start sft-stem-code-openthoughts3 u021 data/train-00021-of-00120.parquet (0.29 GB)
+2026-11-09 16:09:54 unit start sft-stem-code-openthoughts3 u016 data/train-00016-of-00120.parquet (0.29 GB)
+2026-11-09 16:10:55 unit done sft-indic-indic-align-oasst-t u000: rows 19,909 of 19,909 selected, skipped 0, 153s
+2026-11-09 16:10:55 part start sft-indic-indic-align-oasst-t.u000.p0000 (88 MB)
+2026-11-09 16:11:35 unit done sft-stem-code-openthoughts3 u022: rows 3,512 of 10,000 selected, skipped 6,488, 102s
+2026-11-09 16:11:35 part start sft-stem-code-openthoughts3.u022.p0000 (185 MB)
+2026-11-09 16:11:36 unit done sft-stem-code-openthoughts3 u007: rows 3,526 of 10,000 selected, skipped 6,474, 103s
+2026-11-09 16:11:36 unit done sft-stem-code-openthoughts3 u011: rows 3,597 of 10,000 selected, skipped 6,403, 103s
+2026-11-09 16:11:36 part start sft-stem-code-openthoughts3.u007.p0000 (187 MB)
+2026-11-09 16:11:39 unit done sft-stem-code-openthoughts3 u013: rows 3,600 of 10,000 selected, skipped 6,400, 106s
+2026-11-09 16:11:39 unit start sft-stem-code-openthoughts3 u018 data/train-00018-of-00120.parquet (0.29 GB)
+2026-11-09 16:11:40 unit done sft-stem-code-openthoughts3 u001: rows 3,560 of 10,000 selected, skipped 6,440, 106s
+2026-11-09 16:11:40 unit done sft-stem-code-openthoughts3 u016: rows 3,475 of 10,000 selected, skipped 6,525, 106s
+2026-11-09 16:11:40 unit start sft-stem-code-openthoughts3 u012 data/train-00012-of-00120.parquet (0.29 GB)
+2026-11-09 16:11:40 unit start sft-stem-code-openthoughts3 u006 data/train-00006-of-00120.parquet (0.29 GB)
+2026-11-09 16:11:41 unit done sft-stem-code-openthoughts3 u021: rows 3,526 of 10,000 selected, skipped 6,474, 107s
+2026-11-09 16:11:41 unit start sft-stem-code-openthoughts3 u014 data/train-00014-of-00120.parquet (0.29 GB)
+2026-11-09 16:13:40 unit done sft-stem-code-openthoughts3 u014: rows 3,475 of 10,000 selected, skipped 6,525, 118s
+2026-11-09 16:13:40 unit start sft-stem-code-openthoughts3 u032 data/train-00032-of-00120.parquet (0.23 GB)
+2026-11-09 16:13:44 unit done sft-stem-code-openthoughts3 u018: rows 3,487 of 10,000 selected, skipped 6,513, 124s
+2026-11-09 16:13:44 unit start sft-stem-code-openthoughts3 u030 data/train-00030-of-00120.parquet (0.23 GB)
+2026-11-09 16:13:49 unit done sft-stem-code-openthoughts3 u006: rows 3,541 of 10,000 selected, skipped 6,459, 129s
+2026-11-09 16:13:49 unit start sft-stem-code-openthoughts3 u086 data/train-00086-of-00120.parquet (0.23 GB)
+2026-11-09 16:13:52 unit done sft-stem-code-openthoughts3 u012: rows 3,564 of 10,000 selected, skipped 6,436, 132s
+2026-11-09 16:13:52 unit start sft-stem-code-openthoughts3 u049 data/train-00049-of-00120.parquet (0.23 GB)
+2026-11-09 16:15:26 unit done sft-stem-code-openthoughts3 u032: rows 3,145 of 10,000 selected, skipped 6,855, 106s
+2026-11-09 16:15:26 unit start sft-stem-code-openthoughts3 u070 data/train-00070-of-00120.parquet (0.23 GB)
+2026-11-09 16:15:28 unit done sft-stem-code-openthoughts3 u030: rows 3,198 of 10,000 selected, skipped 6,802, 104s
+2026-11-09 16:15:28 unit start sft-stem-code-openthoughts3 u060 data/train-00060-of-00120.parquet (0.23 GB)
+2026-11-09 16:15:36 unit done sft-stem-code-openthoughts3 u086: rows 3,221 of 10,000 selected, skipped 6,779, 106s
+2026-11-09 16:15:36 unit done sft-stem-code-openthoughts3 u049: rows 3,228 of 10,000 selected, skipped 6,772, 104s
+2026-11-09 16:15:36 unit start sft-stem-code-openthoughts3 u085 data/train-00085-of-00120.parquet (0.23 GB)
+2026-11-09 16:15:36 unit start sft-stem-code-openthoughts3 u053 data/train-00053-of-00120.parquet (0.23 GB)
+2026-11-09 16:17:01 unit done sft-stem-code-openthoughts3 u070: rows 3,168 of 10,000 selected, skipped 6,832, 95s
+2026-11-09 16:17:01 unit start sft-stem-code-openthoughts3 u080 data/train-00080-of-00120.parquet (0.23 GB)
+2026-11-09 16:17:08 unit done sft-stem-code-openthoughts3 u060: rows 3,189 of 10,000 selected, skipped 6,811, 101s
+2026-11-09 16:17:08 unit done sft-stem-code-openthoughts3 u053: rows 3,208 of 10,000 selected, skipped 6,792, 93s
+2026-11-09 16:17:08 unit start sft-stem-code-openthoughts3 u042 data/train-00042-of-00120.parquet (0.23 GB)
+2026-11-09 16:17:09 unit start sft-stem-code-openthoughts3 u043 data/train-00043-of-00120.parquet (0.23 GB)
+2026-11-09 16:17:12 unit done sft-stem-code-openthoughts3 u085: rows 3,274 of 10,000 selected, skipped 6,726, 96s
+2026-11-09 16:17:13 unit start sft-stem-code-openthoughts3 u028 data/train-00028-of-00120.parquet (0.23 GB)
+2026-11-09 16:18:37 unit done sft-stem-code-openthoughts3 u080: rows 3,150 of 10,000 selected, skipped 6,850, 96s
+2026-11-09 16:18:37 unit start sft-stem-code-openthoughts3 u069 data/train-00069-of-00120.parquet (0.23 GB)
+2026-11-09 16:18:48 unit done sft-stem-code-openthoughts3 u043: rows 3,195 of 10,000 selected, skipped 6,805, 100s
+2026-11-09 16:18:48 unit start sft-stem-code-openthoughts3 u072 data/train-00072-of-00120.parquet (0.23 GB)
+2026-11-09 16:18:49 unit done sft-stem-code-openthoughts3 u042: rows 3,160 of 10,000 selected, skipped 6,840, 101s
+2026-11-09 16:18:49 unit start sft-stem-code-openthoughts3 u065 data/train-00065-of-00120.parquet (0.23 GB)
+2026-11-09 16:18:58 unit done sft-stem-code-openthoughts3 u028: rows 3,155 of 10,000 selected, skipped 6,845, 106s
+2026-11-09 16:18:58 unit start sft-stem-code-openthoughts3 u029 data/train-00029-of-00120.parquet (0.23 GB)
+2026-11-09 16:19:41 part done sft-indic-indic-align-oasst-t.u000.p0000: rows 19,909 flagged 9 canary 0 kept 19,900 526s
+2026-11-09 16:19:41 part start sft-stem-code-openthoughts3.u011.p0000 (190 MB)
+2026-11-09 16:19:41 SET DONE sft-indic-indic-align-oasst-t: parts 1 rows 19,909 flagged 9 canary 0 removed 9 kept 19,900 OK
+2026-11-09 16:20:26 unit done sft-stem-code-openthoughts3 u069: rows 3,245 of 10,000 selected, skipped 6,755, 108s
+2026-11-09 16:20:26 unit start sft-stem-code-openthoughts3 u089 data/train-00089-of-00120.parquet (0.23 GB)
+2026-11-09 16:20:33 unit done sft-stem-code-openthoughts3 u072: rows 3,156 of 10,000 selected, skipped 6,844, 105s
+2026-11-09 16:20:33 unit start sft-stem-code-openthoughts3 u038 data/train-00038-of-00120.parquet (0.23 GB)
+2026-11-09 16:20:39 unit done sft-stem-code-openthoughts3 u065: rows 3,224 of 10,000 selected, skipped 6,776, 109s
+2026-11-09 16:20:39 unit start sft-stem-code-openthoughts3 u054 data/train-00054-of-00120.parquet (0.23 GB)
+2026-11-09 16:20:45 unit done sft-stem-code-openthoughts3 u029: rows 3,213 of 10,000 selected, skipped 6,787, 106s
+2026-11-09 16:20:45 unit start sft-stem-code-openthoughts3 u103 data/train-00103-of-00120.parquet (0.23 GB)
+2026-11-09 16:22:00 unit done sft-stem-code-openthoughts3 u089: rows 3,202 of 10,000 selected, skipped 6,798, 94s
+2026-11-09 16:22:00 unit start sft-stem-code-openthoughts3 u031 data/train-00031-of-00120.parquet (0.23 GB)
+2026-11-09 16:22:05 unit done sft-stem-code-openthoughts3 u038: rows 3,171 of 10,000 selected, skipped 6,829, 91s
+2026-11-09 16:22:05 unit start sft-stem-code-openthoughts3 u082 data/train-00082-of-00120.parquet (0.23 GB)
+2026-11-09 16:22:13 unit done sft-stem-code-openthoughts3 u054: rows 3,229 of 10,000 selected, skipped 6,771, 94s
+2026-11-09 16:22:13 unit start sft-stem-code-openthoughts3 u090 data/train-00090-of-00120.parquet (0.23 GB)
+2026-11-09 16:22:29 unit done sft-stem-code-openthoughts3 u103: rows 3,235 of 10,000 selected, skipped 6,765, 104s
+2026-11-09 16:22:29 unit start sft-stem-code-openthoughts3 u056 data/train-00056-of-00120.parquet (0.23 GB)
+2026-11-09 16:23:38 unit done sft-stem-code-openthoughts3 u082: rows 3,266 of 10,000 selected, skipped 6,734, 93s
+2026-11-09 16:23:38 unit start sft-stem-code-openthoughts3 u058 data/train-00058-of-00120.parquet (0.23 GB)
+2026-11-09 16:23:39 unit done sft-stem-code-openthoughts3 u031: rows 3,219 of 10,000 selected, skipped 6,781, 99s
+2026-11-09 16:23:39 unit start sft-stem-code-openthoughts3 u026 data/train-00026-of-00120.parquet (0.23 GB)
+2026-11-09 16:23:53 unit done sft-stem-code-openthoughts3 u090: rows 3,226 of 10,000 selected, skipped 6,774, 101s
+2026-11-09 16:23:53 unit start sft-stem-code-openthoughts3 u061 data/train-00061-of-00120.parquet (0.23 GB)
+2026-11-09 16:24:10 unit done sft-stem-code-openthoughts3 u056: rows 3,243 of 10,000 selected, skipped 6,757, 101s
+2026-11-09 16:24:10 unit start sft-stem-code-openthoughts3 u095 data/train-00095-of-00120.parquet (0.23 GB)
+2026-11-09 16:25:10 unit done sft-stem-code-openthoughts3 u026: rows 3,131 of 10,000 selected, skipped 6,869, 91s
+2026-11-09 16:25:10 unit start sft-stem-code-openthoughts3 u066 data/train-00066-of-00120.parquet (0.23 GB)
+2026-11-09 16:25:13 unit done sft-stem-code-openthoughts3 u058: rows 3,163 of 10,000 selected, skipped 6,837, 94s
+2026-11-09 16:25:13 unit start sft-stem-code-openthoughts3 u047 data/train-00047-of-00120.parquet (0.23 GB)
+2026-11-09 16:25:26 unit done sft-stem-code-openthoughts3 u061: rows 3,180 of 10,000 selected, skipped 6,820, 93s
+2026-11-09 16:25:26 unit start sft-stem-code-openthoughts3 u079 data/train-00079-of-00120.parquet (0.23 GB)
+2026-11-09 16:25:39 unit done sft-stem-code-openthoughts3 u095: rows 3,178 of 10,000 selected, skipped 6,822, 89s
+2026-11-09 16:25:39 unit start sft-stem-code-openthoughts3 u039 data/train-00039-of-00120.parquet (0.23 GB)
+2026-11-09 16:26:44 unit done sft-stem-code-openthoughts3 u047: rows 3,202 of 10,000 selected, skipped 6,798, 91s
+2026-11-09 16:26:44 unit start sft-stem-code-openthoughts3 u035 data/train-00035-of-00120.parquet (0.23 GB)
+2026-11-09 16:26:45 unit done sft-stem-code-openthoughts3 u066: rows 3,264 of 10,000 selected, skipped 6,736, 95s
+2026-11-09 16:26:45 unit start sft-stem-code-openthoughts3 u037 data/train-00037-of-00120.parquet (0.23 GB)
+2026-11-09 16:27:00 unit done sft-stem-code-openthoughts3 u079: rows 3,277 of 10,000 selected, skipped 6,723, 94s
+2026-11-09 16:27:00 unit start sft-stem-code-openthoughts3 u041 data/train-00041-of-00120.parquet (0.23 GB)
+2026-11-09 16:27:12 unit done sft-stem-code-openthoughts3 u039: rows 3,178 of 10,000 selected, skipped 6,822, 94s
+2026-11-09 16:27:12 unit start sft-stem-code-openthoughts3 u087 data/train-00087-of-00120.parquet (0.23 GB)
+2026-11-09 16:28:35 unit done sft-stem-code-openthoughts3 u035: rows 3,256 of 10,000 selected, skipped 6,744, 111s
+2026-11-09 16:28:35 unit done sft-stem-code-openthoughts3 u037: rows 3,237 of 10,000 selected, skipped 6,763, 109s
+2026-11-09 16:28:35 unit start sft-stem-code-openthoughts3 u073 data/train-00073-of-00120.parquet (0.23 GB)
+2026-11-09 16:28:35 unit start sft-stem-code-openthoughts3 u096 data/train-00096-of-00120.parquet (0.23 GB)
+2026-11-09 16:28:48 unit done sft-stem-code-openthoughts3 u041: rows 3,204 of 10,000 selected, skipped 6,796, 108s
+2026-11-09 16:28:48 unit start sft-stem-code-openthoughts3 u048 data/train-00048-of-00120.parquet (0.23 GB)
+2026-11-09 16:29:06 unit done sft-stem-code-openthoughts3 u087: rows 3,265 of 10,000 selected, skipped 6,735, 113s
+2026-11-09 16:29:06 unit start sft-stem-code-openthoughts3 u100 data/train-00100-of-00120.parquet (0.23 GB)
+2026-11-09 16:30:14 unit done sft-stem-code-openthoughts3 u073: rows 3,267 of 10,000 selected, skipped 6,733, 99s
+2026-11-09 16:30:14 unit done sft-stem-code-openthoughts3 u096: rows 3,227 of 10,000 selected, skipped 6,773, 99s
+2026-11-09 16:30:14 unit start sft-stem-code-openthoughts3 u104 data/train-00104-of-00120.parquet (0.23 GB)
+2026-11-09 16:30:14 unit start sft-stem-code-openthoughts3 u088 data/train-00088-of-00120.parquet (0.23 GB)
+2026-11-09 16:30:27 unit done sft-stem-code-openthoughts3 u048: rows 3,310 of 10,000 selected, skipped 6,690, 99s
+2026-11-09 16:30:28 unit start sft-stem-code-openthoughts3 u025 data/train-00025-of-00120.parquet (0.23 GB)
+2026-11-09 16:30:41 unit done sft-stem-code-openthoughts3 u100: rows 3,210 of 10,000 selected, skipped 6,790, 95s
+2026-11-09 16:30:42 unit start sft-stem-code-openthoughts3 u034 data/train-00034-of-00120.parquet (0.23 GB)
+2026-11-09 16:31:38 unit done sft-stem-code-openthoughts3 u104: rows 3,219 of 10,000 selected, skipped 6,781, 84s
+2026-11-09 16:31:38 unit start sft-stem-code-openthoughts3 u083 data/train-00083-of-00120.parquet (0.23 GB)
+2026-11-09 16:31:40 unit done sft-stem-code-openthoughts3 u088: rows 3,208 of 10,000 selected, skipped 6,792, 86s
+2026-11-09 16:31:40 unit start sft-stem-code-openthoughts3 u101 data/train-00101-of-00120.parquet (0.23 GB)
+2026-11-09 16:31:55 unit done sft-stem-code-openthoughts3 u025: rows 3,284 of 10,000 selected, skipped 6,716, 87s
+2026-11-09 16:31:55 unit start sft-stem-code-openthoughts3 u099 data/train-00099-of-00120.parquet (0.23 GB)
+2026-11-09 16:32:12 unit done sft-stem-code-openthoughts3 u034: rows 3,242 of 10,000 selected, skipped 6,758, 91s
+2026-11-09 16:32:12 unit start sft-stem-code-openthoughts3 u109 data/train-00109-of-00120.parquet (0.23 GB)
+2026-11-09 16:32:57 unit done sft-stem-code-openthoughts3 u101: rows 3,252 of 10,000 selected, skipped 6,748, 76s
+2026-11-09 16:32:57 unit start sft-stem-code-openthoughts3 u077 data/train-00077-of-00120.parquet (0.23 GB)
+2026-11-09 16:33:04 unit done sft-stem-code-openthoughts3 u083: rows 3,256 of 10,000 selected, skipped 6,744, 86s
+2026-11-09 16:33:04 unit start sft-stem-code-openthoughts3 u107 data/train-00107-of-00120.parquet (0.23 GB)
+2026-11-09 16:33:15 unit done sft-stem-code-openthoughts3 u099: rows 3,279 of 10,000 selected, skipped 6,721, 81s
+2026-11-09 16:33:16 unit start sft-stem-code-openthoughts3 u055 data/train-00055-of-00120.parquet (0.23 GB)
+2026-11-09 16:33:32 unit done sft-stem-code-openthoughts3 u109: rows 3,209 of 10,000 selected, skipped 6,791, 79s
+2026-11-09 16:33:32 unit start sft-stem-code-openthoughts3 u068 data/train-00068-of-00120.parquet (0.23 GB)
+2026-11-09 16:34:23 unit done sft-stem-code-openthoughts3 u077: rows 3,215 of 10,000 selected, skipped 6,785, 86s
+2026-11-09 16:34:24 unit start sft-stem-code-openthoughts3 u092 data/train-00092-of-00120.parquet (0.23 GB)
+2026-11-09 16:34:28 unit done sft-stem-code-openthoughts3 u107: rows 3,222 of 10,000 selected, skipped 6,778, 84s
+2026-11-09 16:34:28 unit start sft-stem-code-openthoughts3 u050 data/train-00050-of-00120.parquet (0.23 GB)
+2026-11-09 16:34:35 unit done sft-stem-code-openthoughts3 u055: rows 3,221 of 10,000 selected, skipped 6,779, 79s
+2026-11-09 16:34:35 unit start sft-stem-code-openthoughts3 u033 data/train-00033-of-00120.parquet (0.23 GB)
+2026-11-09 16:34:54 unit done sft-stem-code-openthoughts3 u068: rows 3,298 of 10,000 selected, skipped 6,702, 83s
+2026-11-09 16:34:54 unit start sft-stem-code-openthoughts3 u052 data/train-00052-of-00120.parquet (0.23 GB)
+2026-11-09 16:35:46 unit done sft-stem-code-openthoughts3 u092: rows 3,223 of 10,000 selected, skipped 6,777, 82s
+2026-11-09 16:35:46 unit start sft-stem-code-openthoughts3 u051 data/train-00051-of-00120.parquet (0.23 GB)
+2026-11-09 16:35:50 unit done sft-stem-code-openthoughts3 u050: rows 3,233 of 10,000 selected, skipped 6,767, 82s
+2026-11-09 16:35:51 unit start sft-stem-code-openthoughts3 u091 data/train-00091-of-00120.parquet (0.23 GB)
+2026-11-09 16:35:56 unit done sft-stem-code-openthoughts3 u033: rows 3,180 of 10,000 selected, skipped 6,820, 81s
+2026-11-09 16:35:56 unit start sft-stem-code-openthoughts3 u064 data/train-00064-of-00120.parquet (0.23 GB)
+2026-11-09 16:36:09 part done sft-stem-code-openthoughts3.u005.p0000: rows 3,399 flagged 196 canary 0 kept 3,203 1630s
+2026-11-09 16:36:09 part start sft-stem-code-openthoughts3.u013.p0000 (191 MB)
+2026-11-09 16:36:16 unit done sft-stem-code-openthoughts3 u052: rows 3,214 of 10,000 selected, skipped 6,786, 81s
+2026-11-09 16:36:16 unit start sft-stem-code-openthoughts3 u105 data/train-00105-of-00120.parquet (0.23 GB)
+2026-11-09 16:36:22 part done sft-stem-code-openthoughts3.u003.p0000: rows 3,438 flagged 212 canary 0 kept 3,226 1643s
+2026-11-09 16:36:22 part start sft-stem-code-openthoughts3.u001.p0000 (188 MB)
+2026-11-09 16:36:29 part done sft-stem-code-openthoughts3.u002.p0000: rows 3,476 flagged 182 canary 0 kept 3,294 1650s
+2026-11-09 16:36:29 part start sft-stem-code-openthoughts3.u016.p0000 (182 MB)
+2026-11-09 16:36:42 part done sft-stem-code-openthoughts3.u009.p0000: rows 3,462 flagged 183 canary 0 kept 3,279 1663s
+2026-11-09 16:36:42 part start sft-stem-code-openthoughts3.u021.p0000 (186 MB)
+2026-11-09 16:36:49 part done sft-stem-code-openthoughts3.u024.p0000: rows 3,478 flagged 185 canary 0 kept 3,293 1669s
+2026-11-09 16:36:49 part start sft-stem-code-openthoughts3.u014.p0000 (182 MB)
+2026-11-09 16:36:54 part done sft-stem-code-openthoughts3.u019.p0000: rows 3,518 flagged 186 canary 0 kept 3,332 1674s
+2026-11-09 16:36:54 part start sft-stem-code-openthoughts3.u018.p0000 (183 MB)
+2026-11-09 16:36:59 unit done sft-stem-code-openthoughts3 u051: rows 3,176 of 10,000 selected, skipped 6,824, 73s
+2026-11-09 16:36:59 unit start sft-stem-code-openthoughts3 u078 data/train-00078-of-00120.parquet (0.23 GB)
+2026-11-09 16:37:04 unit done sft-stem-code-openthoughts3 u091: rows 3,305 of 10,000 selected, skipped 6,695, 73s
+2026-11-09 16:37:04 unit start sft-stem-code-openthoughts3 u076 data/train-00076-of-00120.parquet (0.23 GB)
+2026-11-09 16:37:08 part done sft-stem-code-openthoughts3.u008.p0000: rows 3,453 flagged 173 canary 0 kept 3,280 1635s
+2026-11-09 16:37:08 part start sft-stem-code-openthoughts3.u006.p0000 (186 MB)
+2026-11-09 16:37:10 unit done sft-stem-code-openthoughts3 u064: rows 3,213 of 10,000 selected, skipped 6,787, 73s
+2026-11-09 16:37:10 unit start sft-stem-code-openthoughts3 u036 data/train-00036-of-00120.parquet (0.23 GB)
+2026-11-09 16:37:11 part done sft-stem-code-openthoughts3.u017.p0000: rows 3,519 flagged 163 canary 0 kept 3,356 1691s
+2026-11-09 16:37:11 part start sft-stem-code-openthoughts3.u012.p0000 (189 MB)
+2026-11-09 16:37:31 unit done sft-stem-code-openthoughts3 u105: rows 3,264 of 10,000 selected, skipped 6,736, 75s
+2026-11-09 16:37:32 unit start sft-stem-code-openthoughts3 u098 data/train-00098-of-00120.parquet (0.23 GB)
+2026-11-09 16:37:34 part done sft-stem-code-openthoughts3.u010.p0000: rows 3,537 flagged 183 canary 0 kept 3,354 1660s
+2026-11-09 16:37:34 part start sft-stem-code-openthoughts3.u032.p0000 (143 MB)
+2026-11-09 16:37:38 part done sft-stem-code-openthoughts3.u000.p0000: rows 3,531 flagged 160 canary 0 kept 3,371 1666s
+2026-11-09 16:37:38 part start sft-stem-code-openthoughts3.u030.p0000 (147 MB)
+2026-11-09 16:37:42 part done sft-stem-code-openthoughts3.u004.p0000: rows 3,542 flagged 180 canary 0 kept 3,362 1669s
+2026-11-09 16:37:42 part start sft-stem-code-openthoughts3.u049.p0000 (147 MB)
+2026-11-09 16:37:49 part done sft-stem-code-openthoughts3.u020.p0000: rows 3,492 flagged 190 canary 0 kept 3,302 1675s
+2026-11-09 16:37:49 part start sft-stem-code-openthoughts3.u086.p0000 (146 MB)
+2026-11-09 16:38:01 part done sft-stem-code-openthoughts3.u015.p0000: rows 3,561 flagged 179 canary 0 kept 3,382 1688s
+2026-11-09 16:38:01 part start sft-stem-code-openthoughts3.u070.p0000 (144 MB)
+2026-11-09 16:38:16 unit done sft-stem-code-openthoughts3 u078: rows 3,242 of 10,000 selected, skipped 6,758, 77s
+2026-11-09 16:38:16 unit start sft-stem-code-openthoughts3 u044 data/train-00044-of-00120.parquet (0.23 GB)
+2026-11-09 16:38:19 unit done sft-stem-code-openthoughts3 u076: rows 3,190 of 10,000 selected, skipped 6,810, 75s
+2026-11-09 16:38:19 unit start sft-stem-code-openthoughts3 u027 data/train-00027-of-00120.parquet (0.23 GB)
+2026-11-09 16:38:24 unit done sft-stem-code-openthoughts3 u036: rows 3,161 of 10,000 selected, skipped 6,839, 75s
+2026-11-09 16:38:25 unit start sft-stem-code-openthoughts3 u046 data/train-00046-of-00120.parquet (0.23 GB)
+2026-11-09 16:38:32 part done sft-stem-code-openthoughts3.u023.p0000: rows 3,597 flagged 177 canary 0 kept 3,420 1718s
+2026-11-09 16:38:32 part start sft-stem-code-openthoughts3.u053.p0000 (146 MB)
+2026-11-09 16:38:50 unit done sft-stem-code-openthoughts3 u098: rows 3,199 of 10,000 selected, skipped 6,801, 78s
+2026-11-09 16:38:50 unit start sft-stem-code-openthoughts3 u106 data/train-00106-of-00120.parquet (0.23 GB)
+2026-11-09 16:39:10 part done sft-stem-code-openthoughts3.u022.p0000: rows 3,512 flagged 203 canary 0 kept 3,309 1655s
+2026-11-09 16:39:10 part start sft-stem-code-openthoughts3.u060.p0000 (145 MB)
+2026-11-09 16:39:18 part done sft-stem-code-openthoughts3.u007.p0000: rows 3,526 flagged 173 canary 0 kept 3,353 1662s
+2026-11-09 16:39:18 part start sft-stem-code-openthoughts3.u085.p0000 (149 MB)
+2026-11-09 16:39:34 unit done sft-stem-code-openthoughts3 u027: rows 3,182 of 10,000 selected, skipped 6,818, 76s
+2026-11-09 16:39:35 unit start sft-stem-code-openthoughts3 u075 data/train-00075-of-00120.parquet (0.23 GB)
+2026-11-09 16:39:37 unit done sft-stem-code-openthoughts3 u044: rows 3,249 of 10,000 selected, skipped 6,751, 81s
+2026-11-09 16:39:37 unit start sft-stem-code-openthoughts3 u094 data/train-00094-of-00120.parquet (0.23 GB)
+2026-11-09 16:39:43 unit done sft-stem-code-openthoughts3 u046: rows 3,218 of 10,000 selected, skipped 6,782, 78s
+2026-11-09 16:39:43 unit start sft-stem-code-openthoughts3 u057 data/train-00057-of-00120.parquet (0.23 GB)
+2026-11-09 16:40:09 unit done sft-stem-code-openthoughts3 u106: rows 3,282 of 10,000 selected, skipped 6,718, 79s
+2026-11-09 16:40:09 unit start sft-stem-code-openthoughts3 u063 data/train-00063-of-00120.parquet (0.23 GB)
+2026-11-09 16:41:01 unit done sft-stem-code-openthoughts3 u075: rows 3,308 of 10,000 selected, skipped 6,692, 86s
+2026-11-09 16:41:01 unit start sft-stem-code-openthoughts3 u081 data/train-00081-of-00120.parquet (0.23 GB)
+2026-11-09 16:41:06 unit done sft-stem-code-openthoughts3 u094: rows 3,263 of 10,000 selected, skipped 6,737, 89s
+2026-11-09 16:41:06 unit start sft-stem-code-openthoughts3 u093 data/train-00093-of-00120.parquet (0.23 GB)
+2026-11-09 16:41:07 unit done sft-stem-code-openthoughts3 u057: rows 3,239 of 10,000 selected, skipped 6,761, 85s
+2026-11-09 16:41:08 unit start sft-stem-code-openthoughts3 u084 data/train-00084-of-00120.parquet (0.23 GB)
+2026-11-09 16:41:36 unit done sft-stem-code-openthoughts3 u063: rows 3,305 of 10,000 selected, skipped 6,695, 87s
+2026-11-09 16:41:36 unit start sft-stem-code-openthoughts3 u040 data/train-00040-of-00120.parquet (0.23 GB)
+2026-11-09 16:42:28 unit done sft-stem-code-openthoughts3 u081: rows 3,292 of 10,000 selected, skipped 6,708, 87s
+2026-11-09 16:42:28 unit start sft-stem-code-openthoughts3 u059 data/train-00059-of-00120.parquet (0.23 GB)
+2026-11-09 16:42:34 unit done sft-stem-code-openthoughts3 u093: rows 3,253 of 10,000 selected, skipped 6,747, 88s
+2026-11-09 16:42:34 unit done sft-stem-code-openthoughts3 u084: rows 3,193 of 10,000 selected, skipped 6,807, 86s
+2026-11-09 16:42:34 unit start sft-stem-code-openthoughts3 u067 data/train-00067-of-00120.parquet (0.23 GB)
+2026-11-09 16:42:34 unit start sft-stem-code-openthoughts3 u108 data/train-00108-of-00120.parquet (0.23 GB)
+2026-11-09 16:42:59 unit done sft-stem-code-openthoughts3 u040: rows 3,254 of 10,000 selected, skipped 6,746, 83s
+2026-11-09 16:42:59 unit start sft-stem-code-openthoughts3 u045 data/train-00045-of-00120.parquet (0.23 GB)
+2026-11-09 16:43:52 unit done sft-stem-code-openthoughts3 u059: rows 3,273 of 10,000 selected, skipped 6,727, 83s
+2026-11-09 16:43:53 unit start sft-stem-code-openthoughts3 u097 data/train-00097-of-00120.parquet (0.23 GB)
+2026-11-09 16:43:54 unit done sft-stem-code-openthoughts3 u067: rows 3,218 of 10,000 selected, skipped 6,782, 80s
+2026-11-09 16:43:55 unit start sft-stem-code-openthoughts3 u074 data/train-00074-of-00120.parquet (0.23 GB)
+2026-11-09 16:44:00 unit done sft-stem-code-openthoughts3 u108: rows 3,258 of 10,000 selected, skipped 6,742, 86s
+2026-11-09 16:44:01 unit start sft-stem-code-openthoughts3 u062 data/train-00062-of-00120.parquet (0.23 GB)
+2026-11-09 16:44:23 unit done sft-stem-code-openthoughts3 u045: rows 3,199 of 10,000 selected, skipped 6,801, 84s
+2026-11-09 16:44:23 unit start sft-stem-code-openthoughts3 u102 data/train-00102-of-00120.parquet (0.23 GB)
+2026-11-09 16:45:20 unit done sft-stem-code-openthoughts3 u097: rows 3,244 of 10,000 selected, skipped 6,756, 88s
+2026-11-09 16:45:21 unit start sft-stem-code-openthoughts3 u071 data/train-00071-of-00120.parquet (0.23 GB)
+2026-11-09 16:45:22 unit done sft-stem-code-openthoughts3 u074: rows 3,265 of 10,000 selected, skipped 6,735, 87s
+2026-11-09 16:45:23 unit start sft-indic-indic-align-dolly-t u000 indicalign-instruct/dolly/Dolly.parquet (0.16 GB)
+2026-11-09 16:45:31 unit done sft-stem-code-openthoughts3 u062: rows 3,247 of 10,000 selected, skipped 6,753, 89s
+2026-11-09 16:45:31 unit start sft-stem-code-openthoughts3 u116 data/train-00116-of-00120.parquet (0.15 GB)
+2026-11-09 16:45:47 unit done sft-stem-code-openthoughts3 u102: rows 3,211 of 10,000 selected, skipped 6,789, 83s
+2026-11-09 16:45:47 unit start sft-stem-code-openthoughts3 u118 data/train-00118-of-00120.parquet (0.15 GB)
+2026-11-09 16:46:34 part done sft-stem-code-openthoughts3.u011.p0000: rows 3,597 flagged 206 canary 0 kept 3,391 1613s
+2026-11-09 16:46:34 part start sft-stem-code-openthoughts3.u080.p0000 (142 MB)
+2026-11-09 16:46:35 unit done sft-indic-indic-align-dolly-t u000: rows 10,541 of 10,541 selected, skipped 0, 73s
+2026-11-09 16:46:36 unit start sft-stem-code-openthoughts3 u113 data/train-00113-of-00120.parquet (0.15 GB)
+2026-11-09 16:46:43 unit done sft-stem-code-openthoughts3 u071: rows 3,335 of 10,000 selected, skipped 6,665, 82s
+2026-11-09 16:46:43 unit start sft-stem-code-openthoughts3 u119 data/train-00119-of-00120.parquet (0.15 GB)
+2026-11-09 16:47:26 unit done sft-stem-code-openthoughts3 u116: rows 8,871 of 10,000 selected, skipped 1,129, 116s
+2026-11-09 16:47:26 unit start sft-stem-code-openthoughts3 u115 data/train-00115-of-00120.parquet (0.15 GB)
+2026-11-09 16:47:40 unit done sft-stem-code-openthoughts3 u118: rows 8,809 of 10,000 selected, skipped 1,191, 114s
+2026-11-09 16:47:40 unit start sft-stem-code-openthoughts3 u114 data/train-00114-of-00120.parquet (0.15 GB)
+2026-11-09 16:48:19 unit done sft-stem-code-openthoughts3 u113: rows 8,840 of 10,000 selected, skipped 1,160, 104s
+2026-11-09 16:48:19 unit done sft-stem-code-openthoughts3 u119: rows 8,822 of 10,000 selected, skipped 1,178, 96s
+2026-11-09 16:48:19 unit start sft-stem-code-openthoughts3 u110 data/train-00110-of-00120.parquet (0.15 GB)
+2026-11-09 16:48:19 unit start sft-stem-code-openthoughts3 u111 data/train-00111-of-00120.parquet (0.15 GB)
+2026-11-09 16:49:00 unit done sft-stem-code-openthoughts3 u115: rows 8,824 of 10,000 selected, skipped 1,176, 94s
+2026-11-09 16:49:01 unit start sft-stem-code-openthoughts3 u117 data/train-00117-of-00120.parquet (0.15 GB)
+2026-11-09 16:49:08 unit done sft-stem-code-openthoughts3 u114: rows 8,857 of 10,000 selected, skipped 1,143, 88s
+2026-11-09 16:49:08 unit start sft-stem-code-openthoughts3 u112 data/train-00112-of-00120.parquet (0.15 GB)
+2026-11-09 16:49:49 unit done sft-stem-code-openthoughts3 u110: rows 8,867 of 10,000 selected, skipped 1,133, 90s
+2026-11-09 16:49:50 unit done sft-stem-code-openthoughts3 u111: rows 8,848 of 10,000 selected, skipped 1,152, 91s
+2026-11-09 16:50:28 unit done sft-stem-code-openthoughts3 u117: rows 8,871 of 10,000 selected, skipped 1,129, 87s
+2026-11-09 16:50:37 unit done sft-stem-code-openthoughts3 u112: rows 8,862 of 10,000 selected, skipped 1,138, 89s
+2026-11-09 16:56:02 part done sft-stem-code-openthoughts3.u032.p0000: rows 3,145 flagged 32 canary 0 kept 3,113 1108s
+2026-11-09 16:56:02 part start sft-stem-code-openthoughts3.u043.p0000 (145 MB)
+2026-11-09 16:56:13 part done sft-stem-code-openthoughts3.u070.p0000: rows 3,168 flagged 34 canary 0 kept 3,134 1092s
+2026-11-09 16:56:13 part start sft-stem-code-openthoughts3.u042.p0000 (143 MB)
+2026-11-09 16:56:14 part done sft-stem-code-openthoughts3.u086.p0000: rows 3,221 flagged 28 canary 0 kept 3,193 1105s
+2026-11-09 16:56:14 part start sft-stem-code-openthoughts3.u028.p0000 (144 MB)
+2026-11-09 16:56:23 part done sft-stem-code-openthoughts3.u049.p0000: rows 3,228 flagged 33 canary 0 kept 3,195 1121s
+2026-11-09 16:56:23 part start sft-stem-code-openthoughts3.u069.p0000 (147 MB)
+2026-11-09 16:57:02 part done sft-stem-code-openthoughts3.u030.p0000: rows 3,198 flagged 30 canary 0 kept 3,168 1163s
+2026-11-09 16:57:02 part start sft-stem-code-openthoughts3.u072.p0000 (143 MB)
+2026-11-09 16:57:40 part done sft-stem-code-openthoughts3.u014.p0000: rows 3,475 flagged 201 canary 0 kept 3,274 1251s
+2026-11-09 16:57:40 part start sft-stem-code-openthoughts3.u065.p0000 (146 MB)
+2026-11-09 16:57:54 part done sft-stem-code-openthoughts3.u053.p0000: rows 3,208 flagged 25 canary 0 kept 3,183 1162s
+2026-11-09 16:57:54 part start sft-stem-code-openthoughts3.u029.p0000 (146 MB)
+2026-11-09 16:58:11 part done sft-stem-code-openthoughts3.u013.p0000: rows 3,600 flagged 208 canary 0 kept 3,392 1322s
+2026-11-09 16:58:11 part start sft-stem-code-openthoughts3.u089.p0000 (145 MB)
+2026-11-09 16:58:23 part done sft-stem-code-openthoughts3.u001.p0000: rows 3,560 flagged 183 canary 0 kept 3,377 1321s
+2026-11-09 16:58:23 part start sft-stem-code-openthoughts3.u038.p0000 (144 MB)
+2026-11-09 16:58:31 part done sft-stem-code-openthoughts3.u016.p0000: rows 3,475 flagged 200 canary 0 kept 3,275 1321s
+2026-11-09 16:58:31 part start sft-stem-code-openthoughts3.u054.p0000 (146 MB)
+2026-11-09 16:59:02 part done sft-stem-code-openthoughts3.u060.p0000: rows 3,189 flagged 23 canary 0 kept 3,166 1192s
+2026-11-09 16:59:02 part start sft-stem-code-openthoughts3.u103.p0000 (147 MB)
+2026-11-09 16:59:15 part done sft-stem-code-openthoughts3.u021.p0000: rows 3,526 flagged 201 canary 0 kept 3,325 1353s
+2026-11-09 16:59:15 part start sft-stem-code-openthoughts3.u082.p0000 (148 MB)
+2026-11-09 16:59:23 part done sft-stem-code-openthoughts3.u018.p0000: rows 3,487 flagged 178 canary 0 kept 3,309 1349s
+2026-11-09 16:59:23 part start sft-stem-code-openthoughts3.u031.p0000 (146 MB)
+2026-11-09 16:59:49 part done sft-stem-code-openthoughts3.u085.p0000: rows 3,274 flagged 29 canary 0 kept 3,245 1231s
+2026-11-09 16:59:49 part start sft-stem-code-openthoughts3.u090.p0000 (146 MB)
+2026-11-09 17:00:15 part done sft-stem-code-openthoughts3.u006.p0000: rows 3,541 flagged 190 canary 0 kept 3,351 1387s
+2026-11-09 17:00:15 part start sft-stem-code-openthoughts3.u056.p0000 (148 MB)
+2026-11-09 17:01:02 part done sft-stem-code-openthoughts3.u012.p0000: rows 3,564 flagged 177 canary 0 kept 3,387 1431s
+2026-11-09 17:01:02 part start sft-stem-code-openthoughts3.u026.p0000 (142 MB)
+2026-11-09 17:04:37 part done sft-stem-code-openthoughts3.u080.p0000: rows 3,150 flagged 23 canary 0 kept 3,127 1083s
+2026-11-09 17:04:37 part start sft-stem-code-openthoughts3.u058.p0000 (143 MB)
+2026-11-09 17:12:32 part done sft-stem-code-openthoughts3.u043.p0000: rows 3,195 flagged 25 canary 0 kept 3,170 990s
+2026-11-09 17:12:32 part start sft-stem-code-openthoughts3.u061.p0000 (144 MB)
+2026-11-09 17:12:45 part done sft-stem-code-openthoughts3.u042.p0000: rows 3,160 flagged 27 canary 0 kept 3,133 992s
+2026-11-09 17:12:45 part start sft-stem-code-openthoughts3.u095.p0000 (143 MB)
+2026-11-09 17:13:33 part done sft-stem-code-openthoughts3.u072.p0000: rows 3,156 flagged 31 canary 0 kept 3,125 991s
+2026-11-09 17:13:33 part start sft-stem-code-openthoughts3.u047.p0000 (145 MB)
+2026-11-09 17:14:19 part done sft-stem-code-openthoughts3.u069.p0000: rows 3,245 flagged 34 canary 0 kept 3,211 1075s
+2026-11-09 17:14:19 part start sft-stem-code-openthoughts3.u066.p0000 (149 MB)
+2026-11-09 17:14:36 part done sft-stem-code-openthoughts3.u038.p0000: rows 3,171 flagged 29 canary 0 kept 3,142 973s
+2026-11-09 17:14:36 part start sft-stem-code-openthoughts3.u079.p0000 (149 MB)
+2026-11-09 17:14:41 part done sft-stem-code-openthoughts3.u028.p0000: rows 3,155 flagged 39 canary 0 kept 3,116 1107s
+2026-11-09 17:14:41 part start sft-stem-code-openthoughts3.u039.p0000 (143 MB)
+2026-11-09 17:15:30 part done sft-stem-code-openthoughts3.u065.p0000: rows 3,224 flagged 33 canary 0 kept 3,191 1071s
+2026-11-09 17:15:30 part start sft-stem-code-openthoughts3.u037.p0000 (146 MB)
+2026-11-09 17:15:45 part done sft-stem-code-openthoughts3.u029.p0000: rows 3,213 flagged 22 canary 0 kept 3,191 1071s
+2026-11-09 17:15:45 part start sft-stem-code-openthoughts3.u035.p0000 (148 MB)
+2026-11-09 17:16:31 part done sft-stem-code-openthoughts3.u103.p0000: rows 3,235 flagged 40 canary 0 kept 3,195 1049s
+2026-11-09 17:16:31 part done sft-stem-code-openthoughts3.u082.p0000: rows 3,266 flagged 32 canary 0 kept 3,234 1036s
+2026-11-09 17:16:31 part start sft-stem-code-openthoughts3.u041.p0000 (145 MB)
+2026-11-09 17:16:31 part start sft-stem-code-openthoughts3.u087.p0000 (148 MB)
+2026-11-09 17:17:28 part done sft-stem-code-openthoughts3.u089.p0000: rows 3,202 flagged 31 canary 0 kept 3,171 1157s
+2026-11-09 17:17:28 part start sft-stem-code-openthoughts3.u096.p0000 (146 MB)
+2026-11-09 17:18:12 part done sft-stem-code-openthoughts3.u054.p0000: rows 3,229 flagged 23 canary 0 kept 3,206 1181s
+2026-11-09 17:18:12 part start sft-stem-code-openthoughts3.u073.p0000 (149 MB)
+2026-11-09 17:19:30 part done sft-stem-code-openthoughts3.u026.p0000: rows 3,131 flagged 29 canary 0 kept 3,102 1108s
+2026-11-09 17:19:30 part start sft-stem-code-openthoughts3.u048.p0000 (151 MB)
+2026-11-09 17:19:43 part done sft-stem-code-openthoughts3.u031.p0000: rows 3,219 flagged 30 canary 0 kept 3,189 1220s
+2026-11-09 17:19:43 part start sft-stem-code-openthoughts3.u100.p0000 (145 MB)
+2026-11-09 17:20:07 part done sft-stem-code-openthoughts3.u090.p0000: rows 3,226 flagged 30 canary 0 kept 3,196 1218s
+2026-11-09 17:20:07 part start sft-stem-code-openthoughts3.u104.p0000 (146 MB)
+2026-11-09 17:20:42 part done sft-stem-code-openthoughts3.u056.p0000: rows 3,243 flagged 32 canary 0 kept 3,211 1227s
+2026-11-09 17:20:42 part start sft-stem-code-openthoughts3.u088.p0000 (144 MB)
+2026-11-09 17:22:47 part done sft-stem-code-openthoughts3.u058.p0000: rows 3,163 flagged 24 canary 0 kept 3,139 1090s
+2026-11-09 17:22:47 part start sft-stem-code-openthoughts3.u025.p0000 (149 MB)
+2026-11-09 17:29:29 part done sft-stem-code-openthoughts3.u095.p0000: rows 3,178 flagged 41 canary 0 kept 3,137 1004s
+2026-11-09 17:29:29 part start sft-stem-code-openthoughts3.u034.p0000 (148 MB)
+2026-11-09 17:30:30 part done sft-stem-code-openthoughts3.u061.p0000: rows 3,180 flagged 36 canary 0 kept 3,144 1079s
+2026-11-09 17:30:30 part start sft-stem-code-openthoughts3.u101.p0000 (148 MB)
+2026-11-09 17:30:53 part done sft-stem-code-openthoughts3.u047.p0000: rows 3,202 flagged 31 canary 0 kept 3,171 1041s
+2026-11-09 17:30:53 part start sft-stem-code-openthoughts3.u083.p0000 (147 MB)
+2026-11-09 17:31:43 part done sft-stem-code-openthoughts3.u079.p0000: rows 3,277 flagged 36 canary 0 kept 3,241 1027s
+2026-11-09 17:31:43 part start sft-stem-code-openthoughts3.u099.p0000 (148 MB)
+2026-11-09 17:31:51 part done sft-stem-code-openthoughts3.u039.p0000: rows 3,178 flagged 29 canary 0 kept 3,149 1029s
+2026-11-09 17:31:51 part start sft-stem-code-openthoughts3.u109.p0000 (145 MB)
+2026-11-09 17:32:33 part done sft-stem-code-openthoughts3.u066.p0000: rows 3,264 flagged 29 canary 0 kept 3,235 1094s
+2026-11-09 17:32:33 part start sft-stem-code-openthoughts3.u077.p0000 (146 MB)
+2026-11-09 17:33:03 part done sft-stem-code-openthoughts3.u035.p0000: rows 3,256 flagged 36 canary 0 kept 3,220 1038s
+2026-11-09 17:33:03 part start sft-stem-code-openthoughts3.u107.p0000 (145 MB)
+2026-11-09 17:33:19 part done sft-stem-code-openthoughts3.u037.p0000: rows 3,237 flagged 22 canary 0 kept 3,215 1069s
+2026-11-09 17:33:19 part start sft-stem-code-openthoughts3.u055.p0000 (145 MB)
+2026-11-09 17:34:07 part done sft-stem-code-openthoughts3.u041.p0000: rows 3,204 flagged 36 canary 0 kept 3,168 1056s
+2026-11-09 17:34:07 part start sft-stem-code-openthoughts3.u068.p0000 (149 MB)
+2026-11-09 17:34:29 part done sft-stem-code-openthoughts3.u096.p0000: rows 3,227 flagged 31 canary 0 kept 3,196 1021s
+2026-11-09 17:34:29 part start sft-stem-code-openthoughts3.u092.p0000 (145 MB)
+2026-11-09 17:34:30 part done sft-stem-code-openthoughts3.u087.p0000: rows 3,265 flagged 33 canary 0 kept 3,232 1079s
+2026-11-09 17:34:30 part start sft-stem-code-openthoughts3.u050.p0000 (145 MB)
+2026-11-09 17:37:05 part done sft-stem-code-openthoughts3.u073.p0000: rows 3,267 flagged 30 canary 0 kept 3,237 1133s
+2026-11-09 17:37:05 part start sft-stem-code-openthoughts3.u033.p0000 (144 MB)
+2026-11-09 17:38:00 part done sft-stem-code-openthoughts3.u048.p0000: rows 3,310 flagged 35 canary 0 kept 3,275 1110s
+2026-11-09 17:38:00 part start sft-stem-code-openthoughts3.u052.p0000 (145 MB)
+2026-11-09 17:38:07 part done sft-stem-code-openthoughts3.u100.p0000: rows 3,210 flagged 43 canary 0 kept 3,167 1104s
+2026-11-09 17:38:07 part start sft-stem-code-openthoughts3.u051.p0000 (142 MB)
+2026-11-09 17:38:25 part done sft-stem-code-openthoughts3.u088.p0000: rows 3,208 flagged 31 canary 0 kept 3,177 1063s
+2026-11-09 17:38:25 part start sft-stem-code-openthoughts3.u091.p0000 (150 MB)
+2026-11-09 17:40:16 part done sft-stem-code-openthoughts3.u104.p0000: rows 3,219 flagged 39 canary 0 kept 3,180 1209s
+2026-11-09 17:40:16 part start sft-stem-code-openthoughts3.u064.p0000 (145 MB)
+2026-11-09 17:41:45 part done sft-stem-code-openthoughts3.u025.p0000: rows 3,284 flagged 32 canary 0 kept 3,252 1138s
+2026-11-09 17:41:45 part start sft-stem-code-openthoughts3.u105.p0000 (148 MB)
+2026-11-09 17:47:10 part done sft-stem-code-openthoughts3.u034.p0000: rows 3,242 flagged 30 canary 0 kept 3,212 1061s
+2026-11-09 17:47:10 part start sft-stem-code-openthoughts3.u078.p0000 (146 MB)
+2026-11-09 17:48:14 part done sft-stem-code-openthoughts3.u083.p0000: rows 3,256 flagged 32 canary 0 kept 3,224 1040s
+2026-11-09 17:48:14 part start sft-stem-code-openthoughts3.u076.p0000 (144 MB)
+2026-11-09 17:49:22 part done sft-stem-code-openthoughts3.u101.p0000: rows 3,252 flagged 26 canary 0 kept 3,226 1132s
+2026-11-09 17:49:22 part start sft-stem-code-openthoughts3.u036.p0000 (142 MB)
+2026-11-09 17:49:33 part done sft-stem-code-openthoughts3.u109.p0000: rows 3,209 flagged 33 canary 0 kept 3,176 1062s
+2026-11-09 17:49:33 part start sft-stem-code-openthoughts3.u098.p0000 (144 MB)
+2026-11-09 17:49:40 part done sft-stem-code-openthoughts3.u099.p0000: rows 3,279 flagged 30 canary 0 kept 3,249 1077s
+2026-11-09 17:49:40 part start sft-stem-code-openthoughts3.u027.p0000 (143 MB)
+2026-11-09 17:50:06 part done sft-stem-code-openthoughts3.u055.p0000: rows 3,221 flagged 23 canary 0 kept 3,198 1007s
+2026-11-09 17:50:06 part start sft-stem-code-openthoughts3.u044.p0000 (147 MB)
+2026-11-09 17:50:49 part done sft-stem-code-openthoughts3.u107.p0000: rows 3,222 flagged 25 canary 0 kept 3,197 1066s
+2026-11-09 17:50:49 part start sft-stem-code-openthoughts3.u046.p0000 (145 MB)
+2026-11-09 17:51:41 part done sft-stem-code-openthoughts3.u050.p0000: rows 3,233 flagged 33 canary 0 kept 3,200 1030s
+2026-11-09 17:51:41 part start sft-stem-code-openthoughts3.u106.p0000 (149 MB)
+2026-11-09 17:52:15 part done sft-stem-code-openthoughts3.u068.p0000: rows 3,298 flagged 31 canary 0 kept 3,267 1088s
+2026-11-09 17:52:15 part start sft-stem-code-openthoughts3.u075.p0000 (150 MB)
+2026-11-09 17:52:22 part done sft-stem-code-openthoughts3.u092.p0000: rows 3,223 flagged 29 canary 0 kept 3,194 1072s
+2026-11-09 17:52:22 part start sft-stem-code-openthoughts3.u094.p0000 (147 MB)
+2026-11-09 17:52:59 part done sft-stem-code-openthoughts3.u077.p0000: rows 3,215 flagged 25 canary 0 kept 3,190 1226s
+2026-11-09 17:52:59 part start sft-stem-code-openthoughts3.u057.p0000 (146 MB)
+2026-11-09 17:55:11 part done sft-stem-code-openthoughts3.u033.p0000: rows 3,180 flagged 32 canary 0 kept 3,148 1087s
+2026-11-09 17:55:11 part start sft-stem-code-openthoughts3.u063.p0000 (150 MB)
+2026-11-09 17:56:18 part done sft-stem-code-openthoughts3.u052.p0000: rows 3,214 flagged 32 canary 0 kept 3,182 1098s
+2026-11-09 17:56:18 part start sft-stem-code-openthoughts3.u081.p0000 (148 MB)
+2026-11-09 17:57:41 part done sft-stem-code-openthoughts3.u051.p0000: rows 3,176 flagged 29 canary 0 kept 3,147 1174s
+2026-11-09 17:57:41 part start sft-stem-code-openthoughts3.u084.p0000 (144 MB)
+2026-11-09 17:57:43 part done sft-stem-code-openthoughts3.u091.p0000: rows 3,305 flagged 28 canary 0 kept 3,277 1158s
+2026-11-09 17:57:43 part start sft-stem-code-openthoughts3.u093.p0000 (147 MB)
+2026-11-09 17:58:17 part done sft-stem-code-openthoughts3.u064.p0000: rows 3,213 flagged 38 canary 0 kept 3,175 1081s
+2026-11-09 17:58:17 part start sft-stem-code-openthoughts3.u040.p0000 (148 MB)
+2026-11-09 18:00:02 part done sft-stem-code-openthoughts3.u105.p0000: rows 3,264 flagged 19 canary 0 kept 3,245 1096s
+2026-11-09 18:00:02 part start sft-stem-code-openthoughts3.u059.p0000 (147 MB)
+2026-11-09 18:05:41 part done sft-stem-code-openthoughts3.u076.p0000: rows 3,190 flagged 27 canary 0 kept 3,163 1047s
+2026-11-09 18:05:41 part start sft-stem-code-openthoughts3.u067.p0000 (145 MB)
+2026-11-09 18:05:59 part done sft-stem-code-openthoughts3.u078.p0000: rows 3,242 flagged 24 canary 0 kept 3,218 1129s
+2026-11-09 18:05:59 part start sft-stem-code-openthoughts3.u108.p0000 (147 MB)
+2026-11-09 18:06:58 part done sft-stem-code-openthoughts3.u027.p0000: rows 3,182 flagged 27 canary 0 kept 3,155 1038s
+2026-11-09 18:06:58 part start sft-stem-code-openthoughts3.u045.p0000 (145 MB)
+2026-11-09 18:07:04 part done sft-stem-code-openthoughts3.u098.p0000: rows 3,199 flagged 27 canary 0 kept 3,172 1052s
+2026-11-09 18:07:04 part start sft-stem-code-openthoughts3.u097.p0000 (146 MB)
+2026-11-09 18:07:25 part done sft-stem-code-openthoughts3.u044.p0000: rows 3,249 flagged 33 canary 0 kept 3,216 1039s
+2026-11-09 18:07:25 part start sft-stem-code-openthoughts3.u074.p0000 (147 MB)
+2026-11-09 18:07:48 part done sft-stem-code-openthoughts3.u036.p0000: rows 3,161 flagged 26 canary 0 kept 3,135 1106s
+2026-11-09 18:07:48 part start sft-stem-code-openthoughts3.u062.p0000 (146 MB)
+2026-11-09 18:09:09 part done sft-stem-code-openthoughts3.u046.p0000: rows 3,218 flagged 27 canary 0 kept 3,191 1100s
+2026-11-09 18:09:09 part start sft-stem-code-openthoughts3.u102.p0000 (144 MB)
+2026-11-09 18:09:37 part done sft-stem-code-openthoughts3.u106.p0000: rows 3,282 flagged 26 canary 0 kept 3,256 1077s
+2026-11-09 18:09:37 part start sft-indic-indic-align-dolly-t.u000.p0000 (17 MB)
+2026-11-09 18:10:10 part done sft-stem-code-openthoughts3.u094.p0000: rows 3,263 flagged 20 canary 0 kept 3,243 1068s
+2026-11-09 18:10:10 part start sft-stem-code-openthoughts3.u071.p0000 (150 MB)
+2026-11-09 18:10:44 part done sft-stem-code-openthoughts3.u057.p0000: rows 3,239 flagged 33 canary 0 kept 3,206 1066s
+2026-11-09 18:10:44 part start sft-stem-code-openthoughts3.u116.p0000 (265 MB)
+2026-11-09 18:10:51 part done sft-indic-indic-align-dolly-t.u000.p0000: rows 10,541 flagged 0 canary 0 kept 10,541 74s
+2026-11-09 18:10:51 part start sft-stem-code-openthoughts3.u118.p0000 (259 MB)
+2026-11-09 18:10:51 SET DONE sft-indic-indic-align-dolly-t: parts 1 rows 10,541 flagged 0 canary 0 removed 0 kept 10,541 OK
+2026-11-09 18:12:42 part done sft-stem-code-openthoughts3.u075.p0000: rows 3,308 flagged 32 canary 0 kept 3,276 1227s
+2026-11-09 18:12:42 part start sft-stem-code-openthoughts3.u113.p0000 (260 MB)
+2026-11-09 18:14:17 part done sft-stem-code-openthoughts3.u081.p0000: rows 3,292 flagged 32 canary 0 kept 3,260 1079s
+2026-11-09 18:14:17 part start sft-stem-code-openthoughts3.u119.p0000 (260 MB)
+2026-11-09 18:15:27 part done sft-stem-code-openthoughts3.u063.p0000: rows 3,305 flagged 21 canary 0 kept 3,284 1216s
+2026-11-09 18:15:27 part start sft-stem-code-openthoughts3.u115.p0000 (260 MB)
+2026-11-09 18:15:30 part done sft-stem-code-openthoughts3.u084.p0000: rows 3,193 flagged 40 canary 0 kept 3,153 1068s
+2026-11-09 18:15:30 part done sft-stem-code-openthoughts3.u093.p0000: rows 3,253 flagged 24 canary 0 kept 3,229 1066s
+2026-11-09 18:15:30 part start sft-stem-code-openthoughts3.u114.p0000 (260 MB)
+2026-11-09 18:15:30 part start sft-stem-code-openthoughts3.u110.p0000 (261 MB)
+2026-11-09 18:17:15 part done sft-stem-code-openthoughts3.u040.p0000: rows 3,254 flagged 19 canary 0 kept 3,235 1138s
+2026-11-09 18:17:15 part start sft-stem-code-openthoughts3.u111.p0000 (260 MB)
+2026-11-09 18:20:26 part done sft-stem-code-openthoughts3.u059.p0000: rows 3,273 flagged 38 canary 0 kept 3,235 1225s
+2026-11-09 18:20:26 part start sft-stem-code-openthoughts3.u117.p0000 (261 MB)
+2026-11-09 18:23:28 part done sft-stem-code-openthoughts3.u108.p0000: rows 3,258 flagged 28 canary 0 kept 3,230 1050s
+2026-11-09 18:23:28 part start sft-stem-code-openthoughts3.u112.p0000 (261 MB)
+2026-11-09 18:23:32 part done sft-stem-code-openthoughts3.u067.p0000: rows 3,218 flagged 25 canary 0 kept 3,193 1071s
+2026-11-09 18:24:08 part done sft-stem-code-openthoughts3.u045.p0000: rows 3,199 flagged 29 canary 0 kept 3,170 1030s
+2026-11-09 18:24:11 part done sft-stem-code-openthoughts3.u062.p0000: rows 3,247 flagged 37 canary 0 kept 3,210 983s
+2026-11-09 18:24:42 part done sft-stem-code-openthoughts3.u097.p0000: rows 3,244 flagged 37 canary 0 kept 3,207 1058s
+2026-11-09 18:24:51 part done sft-stem-code-openthoughts3.u074.p0000: rows 3,265 flagged 24 canary 0 kept 3,241 1046s
+2026-11-09 18:25:46 part done sft-stem-code-openthoughts3.u102.p0000: rows 3,211 flagged 23 canary 0 kept 3,188 997s
+2026-11-09 18:27:23 part done sft-stem-code-openthoughts3.u071.p0000: rows 3,335 flagged 32 canary 0 kept 3,303 1033s
+2026-11-09 18:34:50 part done sft-stem-code-openthoughts3.u118.p0000: rows 8,809 flagged 30 canary 0 kept 8,779 1439s
+2026-11-09 18:35:17 part done sft-stem-code-openthoughts3.u116.p0000: rows 8,871 flagged 27 canary 0 kept 8,844 1472s
+2026-11-09 18:37:03 part done sft-stem-code-openthoughts3.u113.p0000: rows 8,840 flagged 31 canary 0 kept 8,809 1461s
+2026-11-09 18:37:43 part done sft-stem-code-openthoughts3.u119.p0000: rows 8,822 flagged 25 canary 0 kept 8,797 1406s
+2026-11-09 18:38:19 part done sft-stem-code-openthoughts3.u115.p0000: rows 8,824 flagged 21 canary 0 kept 8,803 1372s
+2026-11-09 18:39:03 part done sft-stem-code-openthoughts3.u114.p0000: rows 8,857 flagged 23 canary 0 kept 8,834 1413s
+2026-11-09 18:39:08 part done sft-stem-code-openthoughts3.u110.p0000: rows 8,867 flagged 21 canary 0 kept 8,846 1419s
+2026-11-09 18:40:15 part done sft-stem-code-openthoughts3.u111.p0000: rows 8,848 flagged 23 canary 0 kept 8,825 1379s
+2026-11-09 18:42:20 part done sft-stem-code-openthoughts3.u117.p0000: rows 8,871 flagged 24 canary 0 kept 8,847 1313s
+2026-11-09 18:42:33 part done sft-stem-code-openthoughts3.u112.p0000: rows 8,862 flagged 19 canary 0 kept 8,843 1145s
+2026-11-09 18:42:33 SET DONE sft-stem-code-openthoughts3: parts 120 rows 450,599 flagged 7,457 canary 0 removed 7,457 kept 443,142 OK
+2026-11-09 18:42:33 finished: all sets merged

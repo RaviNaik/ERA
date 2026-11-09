@@ -1,0 +1,8 @@
+2026-11-09 16:40:36 plan sft-indic-indic-align-dolly-t: 1 units, 0.16 GB of source files
+2026-11-09 16:40:36 start: sets sft-indic-indic-align-dolly-t; disk free 170 GB; decontam slots 3, download slots 1
+2026-11-09 16:40:36 unit start sft-indic-indic-align-dolly-t u000 indicalign-instruct/dolly/Dolly.parquet (0.16 GB)
+2026-11-09 16:41:50 unit done sft-indic-indic-align-dolly-t u000: rows 10,541 of 10,541 selected, skipped 0, 74s
+2026-11-09 16:41:50 part start sft-indic-indic-align-dolly-t.u000.p0000 (17 MB)
+2026-11-09 16:43:21 part done sft-indic-indic-align-dolly-t.u000.p0000: rows 10,541 flagged 0 canary 0 kept 10,541 92s
+2026-11-09 16:43:21 SET DONE sft-indic-indic-align-dolly-t: parts 1 rows 10,541 flagged 0 canary 0 removed 0 kept 10,541 OK
+2026-11-09 16:43:21 finished: all sets merged

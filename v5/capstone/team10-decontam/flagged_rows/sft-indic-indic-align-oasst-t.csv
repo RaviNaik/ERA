@@ -1,0 +1,10 @@
+id,source_file,row_in_file_0based,benchmarks,n_items,max_coverage
+sft-indic-indic-align-oasst-t/2914,(single source file or files in order),2914,in22_conv,1,0.143
+sft-indic-indic-align-oasst-t/7889,(single source file or files in order),7889,in22_conv,1,0.167
+sft-indic-indic-align-oasst-t/13048,(single source file or files in order),13048,hle,1,0.002
+sft-indic-indic-align-oasst-t/13049,(single source file or files in order),13049,hle,1,0.002
+sft-indic-indic-align-oasst-t/13050,(single source file or files in order),13050,hle,1,0.002
+sft-indic-indic-align-oasst-t/13051,(single source file or files in order),13051,hle,1,0.002
+sft-indic-indic-align-oasst-t/13052,(single source file or files in order),13052,hle,1,0.002
+sft-indic-indic-align-oasst-t/15521,(single source file or files in order),15521,in22_conv,1,0.091
+sft-indic-indic-align-oasst-t/15997,(single source file or files in order),15997,in22_conv,1,0.167
