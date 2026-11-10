@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T10:00",
+  "updated": "2026-11-10T11:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1856,6 +1856,11 @@
           "at": "2026-11-10T10:00",
           "by": "Ravi Naik",
           "text": "10 Nov, commitpackft adapter reads all 277 language files (glob:data/*/data.jsonl). Follow-up branch commits 0e9a7cb and 9871874 on top of saitej123 ca6b299; 102 tests pass, ruff clean."
+        },
+        {
+          "at": "2026-11-10T11:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, adapter and pipeline changes are in PR 43 (xLAM adapter, full-source specs for OpenThoughts3, Proofs-v3-SFT and commitpackft, --wait-ready, --delete-source, --resume, guard for a single JSON array file). 103 tests pass, ruff clean."
         }
       ]
     },
@@ -2632,6 +2637,11 @@
           "at": "2026-11-10T10:00",
           "by": "Ravi Naik",
           "text": "10 Nov, commitpackft re-run on all 277 language files (was the python split only): 702,062 in, 1,001 removed (0.14%), 0 canaries, 0 flagged on recheck. 32 sets now 17,822,493 in, 349,296 removed (1.96%), 17,473,197 kept. Sai Teja posted partial rows for commitpackft, OCR-2 shard 0, Proofs-v3 part 1 and Aegis text on 9 Nov; the full runs replace the partial ones. Follow-up branch g10-decontam-full-RaviNaik (local) holds the code and the per-set kept-rows table; no PR raised because Sai asked for none."
+        },
+        {
+          "at": "2026-11-10T11:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, PR 43 raised on saitej123/era-v5-lab (branch g10-decontam-full-RaviNaik, on top of Sai ca6b299): full runs of commitpackft (all 277 languages, 702,062 in, 1,001 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed), per-set kept-rows table (sft/decontam_kept_rows.md). 32 sets: 17,822,493 in, 349,296 removed (1.96%), 17,473,197 kept, 0 canaries. decontam_report.md left to Sai (he is editing it): section 1 and 7 need the two full-run rows; mix proposal line 155 needs the new commitpackft numbers. Waiting for Sai review."
         }
       ]
     },
@@ -2777,5 +2787,5 @@
       "comments": []
     }
   ],
-  "rev": 47
+  "rev": 48
 }
