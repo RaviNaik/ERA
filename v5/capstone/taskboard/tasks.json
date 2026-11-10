@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T13:00",
+  "updated": "2026-11-10T14:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -262,7 +262,7 @@
       "workstream": "Individual: code-go",
       "title": "Decide whether docs 376 and 472 should carry E2 (data blob)",
       "desc": "Optional. E2 means data blobs such as long number arrays. Left as is for now.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Ravi Naik"
@@ -279,7 +279,13 @@
           "ref": "36"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed. Optional, left as is: docs 376 and 472 stay as labelled in PR #36 (still open, waiting for the TSAI batch merge). Reopen only if TSAI comments on E2."
+        }
+      ]
     },
     {
       "id": "T-008",
@@ -827,7 +833,7 @@
       "workstream": "G10 Post-training",
       "title": "Members D, E, F: 20 SWE environments in swe-envs/<env_id>/ + results/swe_gold_check.md",
       "desc": "Each: fixed commit, failing test, gold patch. The check is: the test fails before the gold patch and passes after it. Docker needs a Linux machine.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [],
       "due": "2026-11-13",
@@ -837,7 +843,13 @@
         "gate-2"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed. 21 of 21 environments pass the gold check over 5 runs each (results/swe_gold_check.md and swe_gold_check_amd64.md), above the 20 required; in the lab PR 312 and Sai Teja Gate 2 summary."
+        }
+      ]
     },
     {
       "id": "T-033",
@@ -845,7 +857,7 @@
       "workstream": "G10 Post-training",
       "title": "Turn swe-task-go into gold-checked Go environment(s)",
       "desc": "Proposed contribution to the 20 environments. Existing task: Sum off-by-one in stats.go, run in golang:1.23-alpine with --network none. Needs a fixed upstream commit per environment.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -869,7 +881,13 @@
           "ref": "2addc53"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed, superseded. The 21 gold-checked environments include Go repos (Masterminds/semver), so the 20-environment requirement is met without a separate Go task. swe-task-go stays in the repo as the Go end-to-end demo (results/go_swe_e2e.md)."
+        }
+      ]
     },
     {
       "id": "T-034",
@@ -1297,7 +1315,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Data A: announce the new gold path on main in CAP",
       "desc": "TSAI asked Vijay to announce it after the merge.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Vijay Patil"
@@ -1314,6 +1332,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "Unblocked: #140 is merged."
+        },
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed. Not ours: Vijay announces it. #140 merged on 1 Nov and the gold files are on lab main (teams/01-data-a/gold, last rebuilt 1 Nov); the path is in use."
         }
       ]
     },
@@ -1657,7 +1680,7 @@
       "workstream": "Individual: code-go",
       "title": "Settle the H3 and E4 disagreement on the 29 disputed gold candidates",
       "desc": "Ask Data A or TSAI for the ruling on what H3 and E4 mean for these rows, or compare with TEJASKUMAR-REDDY-J. If they are label errors, up to 29 rows could join the gold set (163 now, target 200).",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1674,7 +1697,13 @@
           "ref": "36"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed, overtaken. The Gate 1 gold set was built on 1 Nov (Data A, 163 documents for code-go) and the 4 Nov deadline has passed; Gate 1 is over. No ruling was received on the 29 disputed rows, so they stay out of the gold set."
+        }
+      ]
     },
     {
       "id": "T-076",
@@ -1682,7 +1711,7 @@
       "workstream": "Individual: code-go",
       "title": "Re-run the harm test if Data A rebuilds the Go gold set",
       "desc": "Command: python -I teams/01-data-a/tools/harm_test.py --pack code-go.parquet --gold teams/01-data-a/gold/code-go_gold.csv --rules medicine.md --rule all. Update medicine.md and PR #36 if the result changes.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Ravi Naik"
@@ -1693,7 +1722,13 @@
         "gold-set"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed. Done on 2 Nov: harm test run on the official Go gold set after #140 (163 documents), posted as a comment on PR #36 with the medicine.md update (commit of 2 Nov 06:19). Data A has not rebuilt the Go gold since 1 Nov."
+        }
+      ]
     },
     {
       "id": "T-077",
@@ -1762,7 +1797,7 @@
       "workstream": "G10 Post-training",
       "title": "Ask TSAI: NLLB (cc-by-nc-4.0) licence question and a NuminaMath-1.5 source-filtered subset",
       "desc": "Two open questions from PR #20. Does a translation made with an NC-licensed model carry the restriction? Could a subset of NuminaMath-1.5 with only manually parsed sources be allowed? Lead asks in the G10 thread or CAP.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Sai Teja"
@@ -1780,7 +1815,13 @@
           "ref": "20"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed, overtaken. aya_collection translated sets (NLLB) and NuminaMath-1.5 are both excluded in the licence table (unknown or closed generators), so neither question blocks the mix. The 12 templated Indic subsets in use do not use NLLB. Reopen if TSAI re-allows them."
+        }
+      ]
     },
     {
       "id": "T-080",
@@ -1982,7 +2023,7 @@
       "workstream": "G10 Post-training",
       "title": "Recheck our own exclusions under the 3 Nov rule: NuminaMath-CoT, rStar-Coder, Big-Math",
       "desc": "The rule now allows output of R1, Qwen (Apache) and QwQ. Check each set generator and licence from its card; keep GPT-4 and other closed-model outputs out. Update licence_table.md only if a decision changes.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -1999,6 +2040,11 @@
           "at": "2026-11-04T14:00",
           "by": "Ravi Naik",
           "text": "Sai Teja table now excludes unknown generators. Recheck the three own exclusions (NuminaMath-CoT: GPT-4, rStar-Coder, Big-Math) against the rule and the current table."
+        },
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed. Rechecked against the current licence table: NuminaMath-CoT (GPT-4 and GPT-4o), rStar-Coder (GPT-4o) and Big-Math (Llama 3.1 and gpt-4o-mini) are still excluded, and each row gives its generator. No decision changed."
         }
       ]
     },
@@ -2167,7 +2213,7 @@
       "workstream": "G12 Quantization (rotation)",
       "title": "Optional phase 2: G12 eval_code_indic on Sarvam-30B (MILU Indic, HumanEval+, MBPP+)",
       "desc": "Needs an HF token with MILU access, evalplus without torch, G9 commit fa5d87e, n_ctx 4096. Shows whether 4-bit hurts Indic more than English. Build after the main run works.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Ravi Naik"
@@ -2179,7 +2225,13 @@
         "optional"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "Closed, optional and not pursued. G12 has merged eval-mini v0 for code and Indic (#219) and Sarvam-30B bf16 vs Q4_K_M (#323); MILU, HumanEval+ and MBPP+ were not added. Reopen if G12 asks."
+        }
+      ]
     },
     {
       "id": "T-092",
@@ -2828,7 +2880,13 @@
           "ref": "33"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T14:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: still needed. Checked the current G10 branch: rl/verifier.py reads results.json with read_text and rl/pool.py copies it with shutil.copyfile, with no regular-file or size check. PR 33 is merged, so the small PR to the fork can be raised (after Sai lifts the PR pause)."
+        }
+      ]
     },
     {
       "id": "T-106",
@@ -2919,5 +2977,5 @@
       ]
     }
   ],
-  "rev": 50
+  "rev": 51
 }
