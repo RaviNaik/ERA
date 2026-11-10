@@ -5,8 +5,8 @@ Every SFT set of the Team 10 mix was checked against Team 9's benchmark fingerpr
 canaries, on every row of the whole source. This folder keeps the results. It holds no source data, no training rows and no
 text of any document or benchmark item: counts, document ids, benchmark item ids, offsets and sha256 values only.
 
-Status: 32 sets done (17,176,456 rows in, 348,310 flagged and removed, 2.03%, 0 canaries). Dolly-T was re-run with the context filter of
-gmrammohan15's PR #41 (10,541 rows kept instead of 15,011), together with OASST-T and OpenThoughts3; xLAM 60k, commitpackft and Proofs-v3-SFT
+Status: 32 sets done (17,822,493 rows in, 349,296 flagged and removed, 1.96%, 0 canaries). Dolly-T was re-run with the context filter of
+gmrammohan15's PR #41 (10,541 rows kept instead of 15,011), together with OASST-T and OpenThoughts3; xLAM 60k, commitpackft (all 277 language files, 702,062 rows, 1,001 removed) and Proofs-v3-SFT
 were added later. Not run yet: two sets that cannot be run (aegis has no chat format, OpenCodeReasoning-2 withholds the questions).
 See `summary.csv`; `pending_full.json` gives the reason for each set not run.
 
@@ -18,7 +18,7 @@ See `summary.csv`; `pending_full.json` gives the reason for each set not run.
 | `manifests/` | What the converter wrote for each set run through the pipeline: rows scanned, rows kept, rows skipped and why, effort tiers, content sha256 |
 | `logs/` | `progress.log` of each run (one line per event) |
 | `report/decontam_report.md` | The report of lab PR #42 (saitej123/era-v5-lab) extended to 32 sets (follow-up PR after #41 merges) |
-| `code/sft/` | The code that produced these results: `convert.py` (adapters, Hub and local sources), `decontam_pipeline.py`, `decontam_run.py`, `decontam_report.py` and their tests. A snapshot of lab branch `g10-decontam-ot3-dolly-RaviNaik` at `201e614` plus the xLAM adapter (PR #40 as merged, plus gmrammohan15's PR #41 and the OpenThoughts3 full-set source); the lab PRs are the reference copy |
+| `code/sft/` | The code that produced these results: `convert.py` (adapters, Hub and local sources), `decontam_pipeline.py`, `decontam_run.py`, `decontam_report.py` and their tests. A snapshot of lab branch `g10-decontam-full-RaviNaik` (on top of saitej123's `g10-week1-post-training` at `ca6b299`): the xLAM adapter, the full-source file specs for OpenThoughts3, Proofs-v3-SFT and commitpackft, and the `--wait-ready`, `--delete-source` and `--resume` options; the lab PRs are the reference copy |
 | `code/launch/` | The launch scripts of each run (`run2` to `run6`) with their settings, and the two download scripts (resumable, sha256 checked against the Hub) |
 | `scripts/export_flagged.py` | Rebuilds `flagged_rows/` and `summary.csv` from the records |
 | `scripts/collect.sh` | Copies new records, manifests and logs here after a batch (paths of the working machine) |

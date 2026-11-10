@@ -1,6 +1,6 @@
 # SFT decontamination report
 
-Run for G10 on 2026-11-06 to 2026-11-09. Every set was checked against Team 9's benchmark fingerprints **v2** with the **full set** (no `--benchmarks`, `--tags` or `--exclude`), and scanned for canaries.
+Run for G10 on 2026-11-06 to 2026-11-10. Every set was checked against Team 9's benchmark fingerprints **v2** with the **full set** (no `--benchmarks`, `--tags` or `--exclude`), and scanned for canaries.
 
 - **set_sha256:** `2826a3b883210c653979103c09ce1c79e40fc4f7034b54027f2836482370d22a`
 - **Tools:** `teams/09-evaluation/decontam/decontam_check.py` and `canary_scan.py`, lab main `c6b0ce0961028020b3e3eaf86fe0c5873fca3bc0`. sha256 of the files used:
@@ -10,7 +10,7 @@ Run for G10 on 2026-11-06 to 2026-11-09. Every set was checked against Team 9's 
   - `lab_canary.py`: `373536a777c9f16367cf6affcc2cc6243755ac23e75850a2624eadf65918ea09`
   - `normalize.py`: `570dcb820ac2ae6c667b1abc5ea1d781a6795aa42a7735aa94377e756d7d70e9`
 - **Runner and reconciliation:** `sft/decontam_run.py`; this file is written by `sft/decontam_report.py`.
-- **Sets run:** 32. **Rows in:** 17,176,456. **Removed (flagged or canary):** 348,310 (2.03%). **Kept:** 16,828,146.
+- **Sets run:** 32. **Rows in:** 17,822,493. **Removed (flagged or canary):** 349,296 (1.96%). **Kept:** 17,473,197.
 - No benchmark item text is in this file or in the run records: only set names, counts, document ids, benchmark item ids, offsets and sha256 values.
 
 ## 1. Result per set
@@ -23,7 +23,7 @@ Run for G10 on 2026-11-06 to 2026-11-09. Every set was checked against Team 9's 
 | `sft-chat-nemotron-if-v1` | full set | 4,963 | 1 | 0 | 1 (0.02%) | 4,962 | `38e757a1a7f8…` |
 | `sft-chat-nemotron-if-v2` | full set | 929,130 | 5,820 | 0 | 5,820 (0.63%) | 923,310 | `d275e5fc036a…`, `129921cf9708…`, `fa59bf8e5412…`, `7cfc5eac47ec…`, `9f434f177f06…`, `84b302f24bc3…`, `1de7ab5945bf…`, `95ee581fa4b7…`, `8786b14b2153…`, `2db777df7567…`, `dfe1154ba357…`, `8ee148c1f184…`, `2f9ddc83eca2…`, `ca5c6a4d63bd…`, `58fc17fa19c0…`, `ae4ba4a2e852…`, `a6440d349208…`, `528a1c30fcf2…`, `d5b1a0a38e99…`, `4ab4d078274d…`, `2201fd1dca64…`, `5a792d0c4f3b…`, `a8a7284e9979…`, `da409765b5e0…`, `dd1c17be5e1e…`, `5fde6e9c38f1…`, `a17c0ff681ce…`, `624b556ba607…`, `64edd9dd9c9f…`, `c67e1d319c41…`, `e9ac4479954e…`, `b17bd1527fd8…`, `b0ac423bf558…`, `2de5563c2e80…` |
 | `sft-code-codeforces-cots` | full set | 45,734 | 20,796 | 0 | 20,796 (45.47%) | 24,938 | `b5df0cfbc19b…` |
-| `sft-code-commitpackft` | full set | 56,025 | 15 | 0 | 15 (0.03%) | 56,010 | `e34bda519e71…` |
+| `sft-code-commitpackft` | full set | 702,062 | 1,001 | 0 | 1,001 (0.14%) | 701,061 | `0cb076d440c8…`, `6c53baddfea0…`, `2f4e4a9a8490…`, `c55fc845d21d…`, `582ef092cade…`, `824ef3101d1d…`, `1704fd6d2d7a…`, `5923b0bec1e4…`, `ff63c77d24b1…`, `aa4b64497454…`, `40c119c75363…`, `f13c00bbd8b6…`, `4ff2ebf906e6…`, `9ef6d216c301…`, `7a31484fc327…`, `eeca4384d015…`, `1f086d989401…`, `5d651cf9634d…`, `0c8bdc7d1ec7…`, `33da9f02f6e5…`, `f1def38cebab…`, `14f87fe9bf1c…`, `a87df647f5f3…`, `872f9a2e206e…`, `0dd9e0afe7de…`, `f600ce1c1f6e…`, `e9e2cb03899a…`, `bbc9ba09b076…`, `5d27c00a1dea…`, `7480d3ee1a7a…`, `b7289bf77e04…`, `5c454409cd88…`, `6403f4954dd4…`, `5bced3cfd16b…`, `c4389736a907…`, `19547d0f2b8b…`, `23422eb9b3e2…`, `cd81e5869bb9…`, `f3d8ef50e967…`, `d70d67cc4d52…`, `5b2f5de6c9a1…`, `c5b6724ef0c9…`, `4fcac9e266a8…`, `224c21d27d99…`, `78d474cb16fa…`, `f033aafd0b9b…`, `00ba90b485dc…`, `eaf6b63b65a5…`, `93d2235fe426…`, `a0114f2f5582…`, `4ccf781501df…`, `e5c995f3182d…`, `92d78063cb5f…`, `90bcbafbd793…`, `5d67d06d1d32…`, `d81ba3c7b274…`, `31048ffc6eca…`, `a3089e8b5c7a…`, `92af64de9e87…`, `d13baa8bc9f5…`, `455c5e4a3f2d…`, `db1e607107fd…`, `bb2badb84db6…`, `d7e464a0e399…`, `167828eccdb2…`, `867239868d29…`, `503e5df24d79…`, `9c6f872e75f1…`, `fb0ae256803e…`, `e7ed73afc924…`, `606a22df3d6d…`, `47e2d842e0ce…`, `fc5eab862eeb…`, `2f0a31eea6f2…`, `bc12ef9d7cb4…`, `e24f63abfef3…`, `cc268fbb9121…`, `792509ce060d…`, `5de97c2c6d04…`, `7350543a543b…`, `7daa5caad761…`, `d27989261380…`, `ab5334414302…`, `0199728565c0…`, `96eee3b4a895…`, `3014efbf4254…`, `e819c3048928…`, `c702064448b1…`, `ada99646f389…`, `9265eee70957…`, `d1bb92cf7976…`, `0e958d03e48f…`, `f82f718a58c4…`, `2e1bf58324dd…`, `61cccc81fd91…`, `ab3b74579d16…`, `6f9e934930c1…`, `468401480c75…`, `a1321a4e0dbf…`, `d1eff7915f8d…`, `e350b756c83a…`, `2823f04f49b0…`, `cfbdfec59fb8…`, `bdbc7243a2bf…`, `d8389168613b…`, `8d8ded0bcb61…`, `ab3630923ca2…`, `c42a2fe026ad…`, `b8efd302adb8…`, `663ef6d6f8ef…`, `f34c191c8c3d…`, `0605a43894ce…`, `ef70a40dabec…`, `3f6777a1e7bf…`, `7e9ff294afdc…`, `39649d061bd2…`, `74d25a4c020c…`, `601099a07a92…`, `198af62a27f1…`, `eb591fcca408…`, `88b5c5c23a4c…`, `f0ab4d03cf41…`, `cbd019a44095…`, `2116e0c49adc…`, `ce9bb531aa09…`, `8c617d8f6cc3…`, `83cf439d3418…`, `fa922e4a3380…`, `35315d1e5dd5…`, `32257dabf85d…`, `3c524a7fe4c0…`, `08c58b9015bd…`, `f69849b7f39c…`, `54fe9be675ef…`, `c6863055d00a…`, `5c60caea433f…`, `6529b000030b…`, `7cb6b9711437…`, `a2aa73c78d0a…`, `1964fca0b901…`, `de9777f3c89f…`, `7ac359a36655…`, `26000337b7fc…`, `486078c3e3aa…`, `0f834658f073…`, `7c707e7f3b9e…`, `cd28e24725a9…`, `13429189cb70…`, `57f7ea55306d…`, `d9bd944cae94…`, `d8b5c5e7d124…`, `d4841999edad…`, `5410bee92869…`, `c2ec5e89e8f4…`, `fa981853a9f2…`, `20af1f33e772…`, `6b9d53e10bf2…`, `77eafeae3b02…`, `ce4ee095a0f4…`, `950943b569fe…`, `d1b16aaa070b…`, `b90db74fd240…`, `d1164d80169f…`, `c9eefc45f2c0…`, `fa28e58c6787…`, `fb5e8c7288cc…`, `746168aa48f0…`, `a234e057a5d3…`, `1d512da86f7b…`, `5ba37d31235a…`, `3f57f049ed32…`, `fe7e9787cd24…`, `4827b83ade81…`, `b9dbd0570113…`, `2ef3e4de038f…`, `f018720bc24e…`, `75172edd869b…`, `a7ba80fc4e1e…`, `f161c3a9dd63…`, `833596862b16…`, `878cbe113665…`, `bbaf0c308b44…`, `1cc2463edc6c…`, `50c193286ee0…`, `58500ab9f67d…`, `d44180252913…`, `0f0aca004eaf…`, `469ec8786a6c…`, `59bf3edc68b8…`, `e9d29e2f4c95…`, `5cd2190006dc…`, `55fe40769e54…`, `5c175bf8080a…`, `3da63cf12aff…`, `0a618b85130a…`, `3756c096beb0…`, `68d60c64fee2…`, `086f62edc849…`, `4e9e87ec227f…`, `ef296ae1dcce…`, `cd96bcebd5c7…`, `c00ba643b8b1…`, `f3adf2d28360…`, `78176d2a8de4…`, `856a3dd4fada…`, `b1d45c2a3173…`, `4a2e2edcf6a0…`, `f29b2ad7d826…`, `4faa97908d23…`, `d574486aa4d9…`, `838c77b3083d…`, `6a5dc1749006…`, `fbe3f309341a…`, `748b7b2be8a9…`, `440c7960392c…`, `e5813a8b9aa2…`, `ee85cdc0da79…`, `27add7196549…`, `29ec4fa1810e…`, `fc890af103c3…`, `0d8451151d41…`, `1a94e6636c01…`, `866ba569a55f…`, `e6cbdb3c7150…`, `6afe3ca9ecc4…`, `9aa284f27f50…`, `ecf24c69d593…`, `530d2fe20982…`, `1d93efa02c6f…`, `93ecd6949ece…`, `8e7d2de18799…`, `9e86be835b5a…`, `d34afd2ba3d7…`, `4f0bd1e415ed…`, `628fa755aacf…`, `2c22525b7dec…`, `ed441c995b7f…`, `224d8a9ec45f…`, `fad31309687b…`, `dc07c0f8d9e8…`, `e46a0c4d301f…`, `f19adab651bd…`, `eff332bd9f2f…`, `045da7751b93…`, `54b0c439b823…`, `1d8992baaf20…`, `edba64af4396…`, `ad01854c6e1a…`, `c8d4a31405d9…`, `611cefc0777f…`, `324be4caf6c1…`, `77d8a5947302…`, `ee1af6fe5ffd…`, `ddffe3339bc9…`, `012e669a6646…`, `22ff06ff4762…`, `45d485c56636…`, `e395af1f7cfd…`, `8244476dede6…`, `f91ce37adace…`, `c8920a8713c7…`, `d4473023b607…`, `d6dc4e936eff…`, `8978c95a5222…`, `bd9c0f8f5c53…`, `8875e4925ada…`, `364e395b9a31…`, `2d934a43c547…`, `86568c0eece0…`, `233a5ef7aaad…`, `e7b6781db505…`, `22c2c4e38042…`, `b7754e3030ed…`, `8633ea7ef86c…`, `e471de4abc27…`, `38bd8bf60acd…`, `b3e4c0030e70…` |
 | `sft-code-nemotron-cascade-swe` | full set | 210,582 | 18,248 | 0 | 18,248 (8.67%) | 192,334 | `ec7e6a4e58e8…`, `b9aaf1093062…`, `f1524e849126…`, `b7e3ebb5dc8f…`, `c4700d5da8c7…`, `91de7b00189f…`, `058cccb5229b…`, `3f56e742de15…`, `0fca44d358a8…`, `0b501560491e…`, `7d1e2ef8c7bf…`, `f82da2a04c2f…`, `7618789a1f73…`, `94b8ed89df74…`, `020a4a1c7882…`, `acc3d8f4ef93…`, `f98976abc534…`, `21f6b684fa80…`, `dfac7970bfa9…`, `ff3c3bcbc331…`, `dad9eca584aa…`, `d7c97dad7b3a…`, `356f34dfb865…`, `6bb300fb1545…` |
 | `sft-code-nemotron-cuda` | full set | 2,273 | 2 | 0 | 2 (0.09%) | 2,271 | `f451b673db79…` |
 | `sft-code-nemotron-opencode` | full set | 67,086 | 332 | 0 | 332 (0.49%) | 66,754 | `dc562d0cc443…`, `3576800758a9…`, `52b89bc87e69…`, `203bfab03d84…`, `79c4877ed535…`, `f51db030cd1b…`, `1b83bfbd73c4…`, `c2dbcd0e59fa…`, `908d315b0121…`, `c74074761b8b…`, `0ae8c0e47d8e…`, `6c1b81f80ad8…`, `97de60f12503…`, `44dea49aa7e2…`, `319e3bec33bd…`, `eecfa70e05a2…`, `ae13045008f6…`, `7b9ae04c4554…`, `90944e688cf0…`, `e9afa04e9c57…`, `ef96eb70bb11…` |
@@ -49,7 +49,7 @@ Run for G10 on 2026-11-06 to 2026-11-09. Every set was checked against Team 9's 
 | `sft-science-nemotron-science-v2` | full set | 96,605 | 286 | 0 | 286 (0.30%) | 96,319 | `390c839aae1b…` |
 | `sft-science-nemotron-science` | full set | 174,155 | 369 | 0 | 369 (0.21%) | 173,786 | `6f9ac4dc35a0…` |
 | `sft-stem-code-openthoughts3` | full set | 450,599 | 7,457 | 0 | 7,457 (1.65%) | 443,142 | `79f4ff26c091…`, `ade7c9a57a9a…`, `339d8d7a2365…`, `6cd690ad6162…`, `bfc8889fd947…`, `bbf06c20198f…`, `c0b69a521656…`, `050dc50cc113…`, `78b37d9adaaf…`, `45112561996b…`, `df2a24c8ffb1…`, `035b09e8392d…`, `e91b9317cf4f…`, `79c54c847f81…`, `f1fd1a47c906…`, `fb0dc7686647…`, `6f98a681965c…`, `3b9ce3d515f8…`, `06de3c49caa6…`, `7b5c21530b81…`, `b68890d2f196…`, `e96250c2c5dd…`, `47ffd65a22c6…`, `f97a16876b62…`, `b2eda5876be9…`, `784f6476778e…`, `9ee3aeb836ee…`, `4f9a39e0d2b6…`, `82a3e0878dfc…`, `8e49fff488bb…`, `24eab6e1e40f…`, `a0a74c9b6662…`, `6db44fc142f7…`, `b49184e84ecb…`, `08ef9e409887…`, `759d62dea723…`, `4aa6cd514c76…`, `16315ac38c30…`, `a14c07d455d4…`, `ac423827f18d…`, `2b150183b97b…`, `28c038ede56f…`, `17a8a8b4699f…`, `d25d0d3cb5c8…`, `3bfa28c90937…`, `c8535b6b24c3…`, `7170551799f6…`, `980940982da2…`, `0cfbbf6fe7ff…`, `6278731204e0…`, `f46e39ba4445…`, `a008b84b3403…`, `b75cec629a02…`, `180233fa0a0d…`, `f4ddf86d1768…`, `176a98edadd0…`, `c8fd43f1ca01…`, `0490573de419…`, `7d1a10cca633…`, `c5451affbdb0…`, `ad0ee9308e89…`, `5ac1e4c7b8ae…`, `2d06beeec41a…`, `c562fc524337…`, `60e57ff96219…`, `90f37ab833e4…`, `ac39bc75d9e3…`, `2e5bcc6805e3…`, `ab93ee9ddac1…`, `89b9caa7b479…`, `9b24af20c6fa…`, `85eb8b58180d…`, `86b2cb843c66…`, `8aa42a3c0b7e…`, `0d92bbe5c35d…`, `96ff98da4576…`, `2f57f6cdd449…`, `e4ca30295e37…`, `a97bfbbb54de…`, `e7ac6d81e8bb…`, `5b5d250c2b15…`, `a48fdf3f83fb…`, `622db5de91b8…`, `14fd7d1bcb25…`, `fc679955203f…`, `41d40a253c48…`, `2995815864d7…`, `697f08fa7820…`, `b418bdfc940c…`, `6f6683ebeeac…`, `5e654702115f…`, `6aa5102da92c…`, `a07c687c112b…`, `37bae8c93b88…`, `1ad5a7501c96…`, `eab3dc4bb945…`, `f813e452f827…`, `2e749834981f…`, `6e843ee19136…`, `4ffba978fc49…`, `144580db0fe3…`, `976ee17bcc51…`, `1dc640b953af…`, `248755862922…`, `ad4367db46ce…`, `0e0ae3cf1233…`, `6331f959579d…`, `b4e65d14ef97…`, `b470a1881d98…`, `23029aeec603…`, `087a9770b759…`, `80865aa19021…`, `af50e4d4dcf2…`, `d99412775cec…`, `fa8706efcf46…`, `38a251e43b1b…`, `d6f01e3864e4…`, `6252a408aa3b…`, `124f8b845375…`, `f6eb39dfe732…` |
-| **Total** | | **17,176,456** | **348,310** | **0** | **348,310** (2.03%) | **16,828,146** | |
+| **Total** | | **17,822,493** | **349,296** | **0** | **349,296** (1.96%) | **17,473,197** | |
 
 **Run on** says what was checked: *full set* is every row the converter produced from the whole source (32 sets); *sample* is the first rows of a split only (0 sets), and is not cleared as a whole.
 
@@ -65,7 +65,7 @@ A row that is both flagged and carries a canary counts once in Removed.
 | `sft-chat-nemotron-if-v1` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
 | `sft-chat-nemotron-if-v2` | 322 | 287 | 540 | 61 | 2 | 14 | 2 | 240 | 3 | 559 | 38 | 2 | 461 | 4 | 176 | 1425 | 1916 | 15 | 29 | 31 |
 | `sft-code-codeforces-cots` | 0 | 0 | 0 | 19253 | 0 | 5 | 0 | 0 | 6 | 1738 | 0 | 0 | 10720 | 0 | 1 | 1 | 0 | 0 | 0 | 0 |
-| `sft-code-commitpackft` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 4 | 7 | 0 |
+| `sft-code-commitpackft` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 1 | 0 | 0 | 3 | 1 | 0 | 0 | 524 | 96 | 515 | 3 |
 | `sft-code-nemotron-cascade-swe` | 0 | 0 | 2 | 5 | 0 | 0 | 0 | 0 | 1 | 30 | 68 | 0 | 2 | 0 | 0 | 5 | 14799 | 2613 | 4375 | 4 |
 | `sft-code-nemotron-cuda` | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | `sft-code-nemotron-opencode` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 332 | 0 | 0 | 0 |
@@ -106,7 +106,7 @@ Coverage is the share of one benchmark item's runs that the document contains (t
 | `sft-chat-nemotron-if-v1` | 1 | 0 | 1 | 0 |
 | `sft-chat-nemotron-if-v2` | 5820 | 669 | 1011 | 4140 |
 | `sft-code-codeforces-cots` | 20796 | 45 | 1563 | 19188 |
-| `sft-code-commitpackft` | 15 | 0 | 0 | 15 |
+| `sft-code-commitpackft` | 1001 | 1 | 32 | 968 |
 | `sft-code-nemotron-cascade-swe` | 18248 | 211 | 1620 | 16417 |
 | `sft-code-nemotron-cuda` | 2 | 0 | 0 | 2 |
 | `sft-code-nemotron-opencode` | 332 | 0 | 0 | 332 |
@@ -241,24 +241,25 @@ Coverage is the share of one benchmark item's runs that the document contains (t
 | `hle:test:672f72e3609b665328565e6b` | 5 | 0.213 | 112 / 526 | `sft-code-codeforces-cots/37475` | 806 |
 | `codeforces:test:2018/A` | 139 | 0.209 | 83 / 398 | `sft-code-codeforces-cots/4730` | 462 |
 
-**`sft-code-commitpackft`**: at least 14 different benchmark items found in 15 documents (top 14 by coverage; the checker lists the best 5 items per document, so this is a lower bound)
+**`sft-code-commitpackft`**: at least 70 different benchmark items found in 1001 documents (top 15 by coverage; the checker lists the best 5 items per document, so this is a lower bound)
 
 | Benchmark item | Documents | Highest coverage | Shared runs / item runs | Example document | Offset |
 |---|---:|---:|---:|---|---:|
-| `swe_bench_verified:test:sphinx-doc__sphinx-10449` | 5 | 0.084 | 48 / 570 | `sft-code-commitpackft/18545` | 162 |
-| `swe_bench_verified:test:django__django-13112` | 1 | 0.021 | 7 / 329 | `sft-code-commitpackft/51384` | 875 |
-| `swe_bench_live:test:streamlink__streamlink-6111` | 2 | 0.014 | 4 / 290 | `sft-code-commitpackft/11469` | 359 |
-| `swe_bench_live:test:conan-io__conan-18153` | 1 | 0.010 | 6 / 608 | `sft-code-commitpackft/20446` | 736 |
-| `swe_bench_live:test:icloud-photos-downloader__icloud_photos_downloader-1061` | 1 | 0.010 | 5 / 484 | `sft-code-commitpackft/2300` | 510 |
-| `swe_bench_pro:test:instance_ansible__ansible-11c1777d56664b1acb56b387a1ad6aeadef1391d-v0f01c69f1e2528b935359cfe578530722bca2c59` | 3 | 0.007 | 6 / 892 | `sft-code-commitpackft/17723` | 760 |
-| `swe_bench_pro:test:instance_ansible__ansible-189fcb37f973f0b1d52b555728208eeb9a6fce83-v906c969b551b346ef54a2c0b41e04f632b7b73c2` | 3 | 0.003 | 6 / 2382 | `sft-code-commitpackft/17723` | 760 |
-| `swe_bench_pro:test:instance_ansible__ansible-709484969c8a4ffd74b839a673431a8c5caa6457-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5` | 3 | 0.003 | 6 / 1929 | `sft-code-commitpackft/17723` | 760 |
-| `swe_bench_verified:test:django__django-11451` | 1 | 0.003 | 1 / 301 | `sft-code-commitpackft/28276` | 955 |
-| `swe_bench_live:test:conan-io__conan-17725` | 1 | 0.002 | 6 / 2481 | `sft-code-commitpackft/20446` | 736 |
-| `swe_bench_pro:test:instance_ansible__ansible-a6e671db25381ed111bbad0ab3e7d97366395d05-v0f01c69f1e2528b935359cfe578530722bca2c59` | 1 | 0.002 | 1 / 646 | `sft-code-commitpackft/33311` | 756 |
-| `swe_bench_pro:test:instance_ansible__ansible-eea46a0d1b99a6dadedbb6a3502d599235fa7ec3-v390e508d27db7a51eece36bb6d9698b63a5b638a` | 4 | 0.002 | 6 / 3309 | `sft-code-commitpackft/17723` | 760 |
-| `swe_bench_pro:test:instance_ansible__ansible-d72025be751c894673ba85caa063d835a0ad3a8c-v390e508d27db7a51eece36bb6d9698b63a5b638a` | 3 | 0.001 | 6 / 4468 | `sft-code-commitpackft/17723` | 760 |
-| `swe_bench_live:test:conan-io__conan-16964` | 1 | 0.000 | 6 / 15601 | `sft-code-commitpackft/20446` | 736 |
+| `heldout_g5_v1:heldout:vault-js-test-000022` | 1 | 0.563 | 40 / 71 | `sft-code-commitpackft/11400008097` | 662 |
+| `heldout_g5_v1:heldout:vault-go-test-000007` | 1 | 0.184 | 9 / 49 | `sft-code-commitpackft/8200004011` | 309 |
+| `swe_bench_live:test:sphinx-doc__sphinx-11879` | 40 | 0.124 | 20 / 161 | `sft-code-commitpackft/14500006325` | 459 |
+| `swe_bench_verified:test:sphinx-doc__sphinx-10449` | 175 | 0.084 | 48 / 570 | `sft-code-commitpackft/19400018545` | 162 |
+| `swe_bench_live:test:vacanza__holidays-2780` | 42 | 0.075 | 27 / 359 | `sft-code-commitpackft/14500006325` | 200 |
+| `swe_bench_live:test:instructlab__instructlab-3060` | 110 | 0.057 | 45 / 786 | `sft-code-commitpackft/14500057139` | 239 |
+| `swe_bench_verified:test:pytest-dev__pytest-10356` | 4 | 0.054 | 37 / 684 | `sft-code-commitpackft/14500032005` | 137 |
+| `swe_bench_live:test:kedro-org__kedro-3944` | 2 | 0.048 | 9 / 189 | `sft-code-commitpackft/14500018099` | 358 |
+| `swe_bench_live:test:instructlab__instructlab-3125` | 40 | 0.038 | 20 / 528 | `sft-code-commitpackft/14500006325` | 200 |
+| `swe_bench_live:test:deepset-ai__haystack-9322` | 40 | 0.032 | 20 / 629 | `sft-code-commitpackft/14500006325` | 459 |
+| `swe_bench_live:test:google__adk-python-1305` | 100 | 0.030 | 26 / 869 | `sft-code-commitpackft/14500006241` | 245 |
+| `swe_bench_live:test:tox-dev__tox-3409` | 1 | 0.023 | 34 / 1506 | `sft-code-commitpackft/14500009465` | 343 |
+| `swe_bench_verified:test:django__django-13112` | 1 | 0.021 | 7 / 329 | `sft-code-commitpackft/19400051384` | 875 |
+| `swe_bench_verified:test:pylint-dev__pylint-4661` | 1 | 0.020 | 4 / 196 | `sft-code-commitpackft/27300088204` | 908 |
+| `swe_bench_live:test:conan-io__conan-16362` | 2 | 0.019 | 9 / 463 | `sft-code-commitpackft/22000026990` | 871 |
 
 **`sft-code-nemotron-cascade-swe`**: at least 630 different benchmark items found in 18248 documents (top 15 by coverage; the checker lists the best 5 items per document, so this is a lower bound)
 
@@ -750,7 +751,283 @@ Coverage is the share of the item's runs found in the document. A value near 1.0
 | `sft-chat-nemotron-if-v2` | `u000.part0032.jsonl` | 300,007,472 | `d6b32d5c1ef0ab9bf3f97cfa51bdc472ab64357e5de390d7f1c5191de88aee4d` |
 | `sft-chat-nemotron-if-v2` | `u000.part0033.jsonl` | 240,681,203 | `678489bb8031b72549e4ff2c211b3335c7f729c70f32bf366e9acbef0e265a40` |
 | `sft-code-codeforces-cots` | `code-codeforces-cots.jsonl` | 2,287,612,938 | `d3ef4f33f43f1d22c2912fe2de97951d3c44843e20994b9b24b711f635c0e2fa` |
-| `sft-code-commitpackft` | `u000.part0000.jsonl` | 115,308,453 | `36d7bad28fa6c551f8e9b6cb9db1d090c44633a27a313d57b3927c7de1f32439` |
+| `sft-code-commitpackft` | `u194.part0000.jsonl` | 115,655,713 | `a5cfc0d3e920a03b6a8173195a0a4ca9d6dac4b3b7076d211335c69e7115fd64` |
+| `sft-code-commitpackft` | `u243.part0000.jsonl` | 56,994,091 | `759fe2b38037b69b89f2cb53cc04d87428f5e7a67504b01a91b11976ac322ffa` |
+| `sft-code-commitpackft` | `u209.part0000.jsonl` | 134,098,428 | `7c00a11b9b4107652b373eeebd423ce4ed54f3521d2f8acb6a91205bb54cf1e5` |
+| `sft-code-commitpackft` | `u114.part0000.jsonl` | 112,886,313 | `46ec69bc8d6872f5664544be4cf2755418e3938f23155eb019d361e929d35d54` |
+| `sft-code-commitpackft` | `u145.part0000.jsonl` | 116,392,850 | `fef4d533b7bf6c475271fdf6da818770dbcd505d3308da44f6e479be9747e674` |
+| `sft-code-commitpackft` | `u099.part0000.jsonl` | 39,299,377 | `8c536b97a06b2135dcccbccfac0be38af38d2681e4851a0a3606499377451860` |
+| `sft-code-commitpackft` | `u113.part0000.jsonl` | 47,967,496 | `1704fd6d2d7a22e8059e2506eb7ff66a1c4a7c95c1c9955002574037e23596a5` |
+| `sft-code-commitpackft` | `u026.part0000.jsonl` | 24,260,448 | `2bfa903321a25d399769747d1704ec0cfec928c609b1120bb828d803fab94117` |
+| `sft-code-commitpackft` | `u265.part0000.jsonl` | 19,448,779 | `ff63c77d24b1637f7f5bdc77bf7a17043ec149549becc2d8735b8dbe3e4161c5` |
+| `sft-code-commitpackft` | `u097.part0000.jsonl` | 19,386,164 | `e084bd8a99b48f5d33c557504c1b80d4c6441302cddc25c55aa9d20977b9b0d9` |
+| `sft-code-commitpackft` | `u220.part0000.jsonl` | 49,093,476 | `c835c2bf3871c6fb6e42a30174bec80ced7222c64d865f9a568bcd422f26a8ff` |
+| `sft-code-commitpackft` | `u105.part0000.jsonl` | 16,944,270 | `f13c00bbd8b69507ba09455089733c4bb1f28aa319e00fed944fbede12a108c8` |
+| `sft-code-commitpackft` | `u037.part0000.jsonl` | 11,559,344 | `23d5b24447a98500024f24e2f9cb379aebf2603dd1ff07b6e8c37fffce01f13c` |
+| `sft-code-commitpackft` | `u028.part0000.jsonl` | 15,842,393 | `474ea28fa88454157f606fab31f1f9de45445e753c9eb5610b51d5c66720e902` |
+| `sft-code-commitpackft` | `u249.part0000.jsonl` | 12,824,460 | `1c786d03823d8733d3e89e31fa439810079ed9642e487c55ed567ae776180f0f` |
+| `sft-code-commitpackft` | `u238.part0000.jsonl` | 9,903,942 | `eeca4384d0150445a770fe5d2f2fb49b01a1782a9e864d9d7b25e5b7d0616fbe` |
+| `sft-code-commitpackft` | `u205.part0000.jsonl` | 13,283,819 | `9e6864e557c301a7f849806ac82c0424ad2f52cdbd68122a49f62efd083f22b3` |
+| `sft-code-commitpackft` | `u180.part0000.jsonl` | 54,014,859 | `a972805462b39386d22c9bd236196a508342eaec6f90a0032a1d19fd58407e3b` |
+| `sft-code-commitpackft` | `u116.part0000.jsonl` | 77,123,300 | `f2d85ad202531bda46c00e09b7810caf71a4ddd4fb791ebcb0d1420a5b966571` |
+| `sft-code-commitpackft` | `u027.part0000.jsonl` | 9,923,872 | `33da9f02f6e5f2ff0c244efbe91416eea961172342a62a99f7a17647d6f7aa92` |
+| `sft-code-commitpackft` | `u082.part0000.jsonl` | 9,897,081 | `d60aa96daeb6e45db99499d0e6aefe4559802035aac0f99fb07bfc3a69609e05` |
+| `sft-code-commitpackft` | `u219.part0000.jsonl` | 11,579,180 | `972e838736a70efb61a6cf788ba855a9779adc326418f8bf10f45783c24a768a` |
+| `sft-code-commitpackft` | `u215.part0000.jsonl` | 10,018,223 | `1b36e8cbba39e74a78ee153b61ebf8004e192d93be3f99271f3e275641e5f6aa` |
+| `sft-code-commitpackft` | `u273.part0000.jsonl` | 169,832,320 | `0f6b65b69b05d2b6ea088354de0c81c6c09dfeb80c2dd2928c8dcbf71cb8635c` |
+| `sft-code-commitpackft` | `u088.part0000.jsonl` | 7,952,653 | `93e44716daacba35bc16d101190d33a0a5df36c39c1cdd56f0e832e55024a093` |
+| `sft-code-commitpackft` | `u044.part0000.jsonl` | 7,649,790 | `f600ce1c1f6e6f24ae56e5a180428edca115bf6b8430aba03a1e54133e66b4ea` |
+| `sft-code-commitpackft` | `u210.part0000.jsonl` | 5,504,376 | `e9e2cb03899a4b4a527c01e8437b4784c0640269460aa3e41a755829a39108f5` |
+| `sft-code-commitpackft` | `u246.part0000.jsonl` | 5,357,840 | `bbc9ba09b07618b531c1e21139c9b34c59301c47008b9d74ed4baa61d63216f7` |
+| `sft-code-commitpackft` | `u120.part0000.jsonl` | 5,142,912 | `f0f3873d783a71e0facc310a7e56b869afe6d4da6d5f8de90025b2a7db2a34a6` |
+| `sft-code-commitpackft` | `u123.part0000.jsonl` | 4,976,124 | `7480d3ee1a7a220f125705ace9ceac2f70416aba51ba19c715db885b8d8fd673` |
+| `sft-code-commitpackft` | `u035.part0000.jsonl` | 4,893,376 | `b7289bf77e046b761e941c6203758f5c62406b2227010543c8ad7d2e0093c597` |
+| `sft-code-commitpackft` | `u178.part0000.jsonl` | 3,977,853 | `193cd10568224db1afd4bab45aa6a0d052b0c962c4a1b1c3e07ab7a5d9d3eea4` |
+| `sft-code-commitpackft` | `u020.part0000.jsonl` | 2,034,610 | `6403f4954dd46479abe5d70e2186f663b6f9c3573247208dd40cd1af3944ca93` |
+| `sft-code-commitpackft` | `u087.part0000.jsonl` | 3,447,693 | `5bced3cfd16bee3a4510579fbf0321fe55721c1f8885bb10d158cf2a3473f890` |
+| `sft-code-commitpackft` | `u248.part0000.jsonl` | 3,207,121 | `b2e9548fe5eae2e0ec55a89622e6e02fac47016f3342bdb94ce7cefca2be7e4f` |
+| `sft-code-commitpackft` | `u127.part0000.jsonl` | 2,327,075 | `19547d0f2b8b6fdc83ec5c2e3e0241ccc72487e9c6626daf0c54f7950e129948` |
+| `sft-code-commitpackft` | `u163.part0000.jsonl` | 3,164,408 | `23422eb9b3e216dcc107fafc2400540ebaeb59c676619caf81afed1a38db4cda` |
+| `sft-code-commitpackft` | `u230.part0000.jsonl` | 3,091,491 | `cd81e5869bb99ab4d347ba3011dfce60b93f8f6d5ff3c47f41d9d18f9a8d36bd` |
+| `sft-code-commitpackft` | `u091.part0000.jsonl` | 3,138,327 | `f3d8ef50e967229a0b5ffe7cdf5c20a0be31e6d5fb3bb5b2f1077321e4ff1728` |
+| `sft-code-commitpackft` | `u089.part0000.jsonl` | 2,633,256 | `7263a892fb6944f064c5e366ab90e0388edbcf0451b34abe8da3ec5716b1e814` |
+| `sft-code-commitpackft` | `u251.part0000.jsonl` | 2,643,693 | `5b2f5de6c9a10a500dc2d53abb74b290b2b7eb1c4ba3090c9a750aa12b5d7c9d` |
+| `sft-code-commitpackft` | `u019.part0000.jsonl` | 2,072,056 | `c5b6724ef0c93049f2efa56473b387ab28ee2e3c818940da5e48be200e634ae9` |
+| `sft-code-commitpackft` | `u046.part0000.jsonl` | 2,109,823 | `4fcac9e266a877cef094fc8c1fc1b6844c2dac6f413492849d7811e551c5aab8` |
+| `sft-code-commitpackft` | `u142.part0000.jsonl` | 1,661,616 | `224c21d27d99a4ad3c71a5dd84060bee68778b393936ffa119ab758957b1cc31` |
+| `sft-code-commitpackft` | `u110.part0000.jsonl` | 2,132,868 | `3bfa334aaa6d647fa720037407f2fa351514ad92c9ee55cbdd71da32235c7f5f` |
+| `sft-code-commitpackft` | `u061.part0000.jsonl` | 2,218,696 | `f033aafd0b9bc4ddb2e444694b88affb2d2d5e52b2d9e84e4876a4e2fb76659d` |
+| `sft-code-commitpackft` | `u036.part0000.jsonl` | 1,705,537 | `25914a13d4c1521d59a1fb52cbf2a8aacb3e291060d8ef1bee44a66c2c308d40` |
+| `sft-code-commitpackft` | `u187.part0000.jsonl` | 1,816,201 | `eaf6b63b65a581f89d0b7a3406fac4fabc13b218bc9caa635809d71bb1c72758` |
+| `sft-code-commitpackft` | `u222.part0000.jsonl` | 1,925,760 | `200629cbe1b61400dac75f57843319e2eb5d858f002a543def8b67fb680554f4` |
+| `sft-code-commitpackft` | `u063.part0000.jsonl` | 1,795,932 | `a0114f2f55826ac7082531dbe48cb744fae9564893e06cef0b652537c87bdfda` |
+| `sft-code-commitpackft` | `u049.part0000.jsonl` | 1,651,754 | `4ccf781501df06e23f57a9cd53db819201fa825d77bad2c8ee5379490e397c23` |
+| `sft-code-commitpackft` | `u258.part0000.jsonl` | 1,700,949 | `e5c995f3182d8e594636adfa3ac81c726862252ecbf9e5aadcb0360fcb4c34b7` |
+| `sft-code-commitpackft` | `u011.part0000.jsonl` | 1,107,431 | `92d78063cb5fc293448d48a7b10cd10c469f7500f0e15bc50a84f520293c1e3e` |
+| `sft-code-commitpackft` | `u140.part0000.jsonl` | 1,702,222 | `90bcbafbd793b6d9745c62b6ff0503ba1f1306aa38c5f2f710c4f540cd14bf15` |
+| `sft-code-commitpackft` | `u136.part0000.jsonl` | 1,041,686 | `5d67d06d1d32b1f281e64f42e3cef07537c78e14b94345de666d0340eb682196` |
+| `sft-code-commitpackft` | `u224.part0000.jsonl` | 1,346,918 | `370e4b3941817907dabf50e0fdcf94c69c85500e563cefbb49f37216645e1828` |
+| `sft-code-commitpackft` | `u051.part0000.jsonl` | 1,032,497 | `31048ffc6ecab5478cddfe4542f4ad462001b454e038f1ce342443d37b995e32` |
+| `sft-code-commitpackft` | `u040.part0000.jsonl` | 1,406,476 | `a3089e8b5c7aabb54c4f55d821b764388aff3949048bd55aa82c839b4cec9d5a` |
+| `sft-code-commitpackft` | `u212.part0000.jsonl` | 1,065,506 | `92af64de9e87bdfc74689399ca16dba1c4f3c2a542797bf5462fccfe90f63a7b` |
+| `sft-code-commitpackft` | `u261.part0000.jsonl` | 1,328,058 | `d13baa8bc9f56324bbf547603f71934b19247361ae97c0301e9a8f58130b61fc` |
+| `sft-code-commitpackft` | `u214.part0000.jsonl` | 1,203,115 | `455c5e4a3f2d45bea4297f7e2eff35fec98ce69b1ee74f75b8f620c6c8c02520` |
+| `sft-code-commitpackft` | `u069.part0000.jsonl` | 1,243,323 | `db1e607107fdfc1df0daa9a11d15dd670fd00b519dc63f6889a8ba3644799f3e` |
+| `sft-code-commitpackft` | `u065.part0000.jsonl` | 968,343 | `bb2badb84db68b26773e17c1ac041747c84c38ec218e15e1b5cd64e045071a92` |
+| `sft-code-commitpackft` | `u073.part0000.jsonl` | 857,635 | `d7e464a0e399e989d953a526a43082a7ca33919021cf859b247c3576cc78ad54` |
+| `sft-code-commitpackft` | `u235.part0000.jsonl` | 856,851 | `167828eccdb290cd23b85d6af40a80f7b620557c1ab49f58cb8d6ec743881e0b` |
+| `sft-code-commitpackft` | `u196.part0000.jsonl` | 859,034 | `867239868d295f6211d28ec03c875ec9abd750d76cf43703b4f04d4bbd4f064e` |
+| `sft-code-commitpackft` | `u093.part0000.jsonl` | 827,362 | `503e5df24d7941ecc93884afbc78c55c64b18a35a3e95dbf95a70d8150d212f2` |
+| `sft-code-commitpackft` | `u095.part0000.jsonl` | 719,951 | `899dd757f1e3d8779b161a989abf399eb5660cb4ed62f5028ecf527a9762b339` |
+| `sft-code-commitpackft` | `u143.part0000.jsonl` | 331,307 | `c6d29a58563176ec8c37252c1dba8d652f1ee4d0b467aae2839f595cb7488d27` |
+| `sft-code-commitpackft` | `u002.part0000.jsonl` | 721,612 | `e7ed73afc9246ad3949480ac8bfe4c261a08315b698c1b894381653e0ae2d67e` |
+| `sft-code-commitpackft` | `u167.part0000.jsonl` | 632,683 | `606a22df3d6d2d10df70dbbdf984e8befcada6e79a35674ee3b65bedee5abf44` |
+| `sft-code-commitpackft` | `u066.part0000.jsonl` | 591,111 | `47e2d842e0ce76526b11fa2a02a0dd3a4b65e7e0b3bd5c17734f68bd4294524b` |
+| `sft-code-commitpackft` | `u062.part0000.jsonl` | 599,621 | `fc5eab862eebf90d996b8e29ad65513d8ba2cda74444770546cee478abcce92c` |
+| `sft-code-commitpackft` | `u242.part0000.jsonl` | 522,986 | `2f0a31eea6f263278aadbb2d95ac494af03ab2458059709d3620e8ead7f4f8e4` |
+| `sft-code-commitpackft` | `u201.part0000.jsonl` | 524,570 | `bc12ef9d7cb4a30d11cc593b23ce9c6b7a92c8342cab754fa71fdb51c3b18433` |
+| `sft-code-commitpackft` | `u045.part0000.jsonl` | 433,330 | `e24f63abfef389be31c52210786567707556c63d5c659e22a6e8f9ba1ccede4d` |
+| `sft-code-commitpackft` | `u190.part0000.jsonl` | 370,058 | `cc268fbb9121ee11de8c7d999c8ccc971478af41c21a373620af07e4f9841092` |
+| `sft-code-commitpackft` | `u223.part0000.jsonl` | 427,912 | `792509ce060d9290a3cf365c6543632048c00e25e090e2446ca0b2ee2d49c0db` |
+| `sft-code-commitpackft` | `u010.part0000.jsonl` | 408,542 | `5de97c2c6d04a60895d5898641303332ae1b611584ce228bf7956380a8fe7fe4` |
+| `sft-code-commitpackft` | `u112.part0000.jsonl` | 354,602 | `f69e40e8e71e8670945414e382634f74fa96a30b2f100900d7550fe4172fcc49` |
+| `sft-code-commitpackft` | `u217.part0000.jsonl` | 362,352 | `e56ff4e8dde6a900206fdbc6bc830db02cffbd0b2eead458edf08d4b3a86ae85` |
+| `sft-code-commitpackft` | `u085.part0000.jsonl` | 330,604 | `d27989261380d2842b9f1498c553189caa2fee5592cf708e4e63993f98e21fb6` |
+| `sft-code-commitpackft` | `u166.part0000.jsonl` | 182,924 | `ab5334414302eb4f5148b4a7c8a591112431f2e36b9f3e20803dc1840c957f19` |
+| `sft-code-commitpackft` | `u050.part0000.jsonl` | 183,192 | `0199728565c0c425f28b6ace3d26a72c4f0fcfb92d5797de8594da7f0eff6967` |
+| `sft-code-commitpackft` | `u067.part0000.jsonl` | 201,503 | `96eee3b4a895ded05bf71b6bb3a526353c69c5f96512eef548ef056f9eb97229` |
+| `sft-code-commitpackft` | `u042.part0000.jsonl` | 345,800 | `3014efbf42547096cbe65bdd704e56c7b2563327c15f0e8651df369fa1e53dce` |
+| `sft-code-commitpackft` | `u206.part0000.jsonl` | 221,582 | `e819c30489284131586c91b3dd455fb0caae6e09e01592888ac95360dabd1dcd` |
+| `sft-code-commitpackft` | `u092.part0000.jsonl` | 320,622 | `c702064448b1e9a6b93351486e6c743888bae6136dd1f7822fbaeb677e13e5be` |
+| `sft-code-commitpackft` | `u080.part0000.jsonl` | 280,536 | `ada99646f389d3d375106456b9fc4e37f76a7bbb13e334aedb3f84cc50580f92` |
+| `sft-code-commitpackft` | `u075.part0000.jsonl` | 268,944 | `9265eee70957526caf664ec753fb7a73fe132643be5ace36f74671744ed38c65` |
+| `sft-code-commitpackft` | `u098.part0000.jsonl` | 297,744 | `54fb701b8a414b9cd1d12db7f89c17c11624aedd6ab213f4ced9b61f379e7abf` |
+| `sft-code-commitpackft` | `u121.part0000.jsonl` | 293,982 | `0e958d03e48fdd370c9efe0be8052fedd49c45301cf2ea5f110e6467e350123d` |
+| `sft-code-commitpackft` | `u195.part0000.jsonl` | 221,471 | `f82f718a58c463a32f30347714f9d242c1c4bf0d1744f728c2014cfad336c17c` |
+| `sft-code-commitpackft` | `u048.part0000.jsonl` | 226,993 | `2e1bf58324dda5acabcde1266b0cd79d949931cec3efe535675029a0c598778f` |
+| `sft-code-commitpackft` | `u096.part0000.jsonl` | 266,834 | `fdc2a692a6c7c9a3be98922bbb4014ad019ed64cb57269651eac7726ca454b5c` |
+| `sft-code-commitpackft` | `u240.part0000.jsonl` | 194,896 | `ab3b74579d16f2a832f50eaec8172db6b4ae8b4d8c5a8a5fe6f79388ac25255d` |
+| `sft-code-commitpackft` | `u171.part0000.jsonl` | 260,585 | `6f9e934930c18f641f0feb8637e8f212614d0b19e428913c2d12bab98c90f504` |
+| `sft-code-commitpackft` | `u179.part0000.jsonl` | 217,733 | `468401480c75de5d3796c628c798d04a26334ee2ac9dd10907b230e8a2cdf436` |
+| `sft-code-commitpackft` | `u141.part0000.jsonl` | 191,789 | `a1321a4e0dbfdacc77d9be5a0773ed360c758473c5f2be5369bf2cf3d687c4dc` |
+| `sft-code-commitpackft` | `u270.part0000.jsonl` | 206,104 | `d1eff7915f8dd7c0ae4373888911de84c38541fa6654688ef766266cdf26c2e0` |
+| `sft-code-commitpackft` | `u237.part0000.jsonl` | 217,157 | `7397599129c20d7ac5cbfcb21647b791a64028bb2b3212cdc9bb178b778d7720` |
+| `sft-code-commitpackft` | `u160.part0000.jsonl` | 119,755 | `2823f04f49b0cbdd495e5ee95573b9f8d63ef89069098e952d321c182cc87ebd` |
+| `sft-code-commitpackft` | `u197.part0000.jsonl` | 216,351 | `cfbdfec59fb8cb2d3513dc9dfe996c3ebe33a22ab07699962a1a238fecd8a5ac` |
+| `sft-code-commitpackft` | `u207.part0000.jsonl` | 189,903 | `bdbc7243a2bfff3f077ed0f58354cfec450a0e4b871a2c61c5c162d7f8228bee` |
+| `sft-code-commitpackft` | `u198.part0000.jsonl` | 171,586 | `d8389168613bfcc938c1d056296f41d7d7b1239d6c9db7bf261fde24e3d4f66c` |
+| `sft-code-commitpackft` | `u244.part0000.jsonl` | 107,793 | `8d8ded0bcb613651012446275d92d0ada3a45c272a6456702fe36e935432231d` |
+| `sft-code-commitpackft` | `u014.part0000.jsonl` | 159,520 | `ab3630923ca21421c63d08ce4a6a11726c1bbf30f7248fa81c8a2699c81f2340` |
+| `sft-code-commitpackft` | `u193.part0000.jsonl` | 162,417 | `c42a2fe026ad4753cbfca5e25468d7682c9af705750040b9461595639b9cd241` |
+| `sft-code-commitpackft` | `u250.part0000.jsonl` | 141,499 | `b8efd302adb80394c776a29ca3d304ca9a4ee246e55c04f827e3f70871b79575` |
+| `sft-code-commitpackft` | `u259.part0000.jsonl` | 117,820 | `663ef6d6f8ef7d266cf6db753faedf1321d8621fa43723b6bfc8664534947f70` |
+| `sft-code-commitpackft` | `u053.part0000.jsonl` | 26,339 | `f34c191c8c3d4328945cfdecab130062470ad9905ba1a5b950e7c8850a008090` |
+| `sft-code-commitpackft` | `u232.part0000.jsonl` | 124,903 | `0605a43894cecb9c0156b4d27f42f315310c775f94a32cf8431a2bede52fb75d` |
+| `sft-code-commitpackft` | `u183.part0000.jsonl` | 111,645 | `ef70a40dabec62453bb504bfd256924d23bdbff329a3686a809df8135bb48b62` |
+| `sft-code-commitpackft` | `u072.part0000.jsonl` | 122,524 | `3f6777a1e7bfb1af9ebe995e2a0dcecb0f9c4974d4c823b0da1bedddf9a96a48` |
+| `sft-code-commitpackft` | `u102.part0000.jsonl` | 77,157 | `7e9ff294afdcb2c6f82416e0c0bf633dbdb4025092e14ab559dc9a342a00cff8` |
+| `sft-code-commitpackft` | `u079.part0000.jsonl` | 114,078 | `39649d061bd2fc9c0db729bdfccfda297112c026b15726a1d193d6b0442c75cb` |
+| `sft-code-commitpackft` | `u271.part0000.jsonl` | 112,310 | `74d25a4c020cfa368e79e2237271fa23bce08844c16b09cce52b390b4750ca98` |
+| `sft-code-commitpackft` | `u135.part0000.jsonl` | 122,466 | `601099a07a92429b2fb3ee0b9d2a229232f2226b7d79f019a974a4c13c069711` |
+| `sft-code-commitpackft` | `u001.part0000.jsonl` | 106,326 | `198af62a27f14123f883fd1c6d8b2ebc8064b9a8baf5f1bb22bc99c57115f5c7` |
+| `sft-code-commitpackft` | `u255.part0000.jsonl` | 105,748 | `eb591fcca408bc3efe5b499f2f6727eb309ec9f13737f000b611a51a570fcea2` |
+| `sft-code-commitpackft` | `u018.part0000.jsonl` | 76,368 | `88b5c5c23a4c72bbe2cfae262fdfa9fe192d8b36d23d74efaaad0bfe4189e093` |
+| `sft-code-commitpackft` | `u122.part0000.jsonl` | 92,345 | `9f92c19bb2dd22411ee81b26a3cee8ef808f96b9f5ab35fe6fce7025914c0a52` |
+| `sft-code-commitpackft` | `u032.part0000.jsonl` | 90,674 | `cbd019a440950ffafe5c35a3739f1e1e1521fb9afc742dd7fe9e4a4795d603bd` |
+| `sft-code-commitpackft` | `u055.part0000.jsonl` | 80,674 | `2116e0c49adc86e7eb248504b44d42d0bd4f60fc4fa02649f7c589efd3c29be9` |
+| `sft-code-commitpackft` | `u208.part0000.jsonl` | 76,292 | `ce9bb531aa091945fb7af880dbe9217abcd669e7f51e76102ce1bb44d1b31dd3` |
+| `sft-code-commitpackft` | `u229.part0000.jsonl` | 83,581 | `8c617d8f6cc3a14edfce35f065e82e4fba9a859344708c9995aebeab0d8a2ab6` |
+| `sft-code-commitpackft` | `u012.part0000.jsonl` | 45,499 | `2e925ce3543b52e5ba0e867d96a4e8fe11db6ab253cc18bdcf94b17242a9e0a6` |
+| `sft-code-commitpackft` | `u059.part0000.jsonl` | 82,289 | `fa922e4a338026133c41ef310e10ac2a48e4905702de9f7a0b56220db937e106` |
+| `sft-code-commitpackft` | `u131.part0000.jsonl` | 56,353 | `c6aa33a3f9c481b556a9ece714b3a067d3fc2e5e3c37ee2dae491df30fd61c54` |
+| `sft-code-commitpackft` | `u268.part0000.jsonl` | 72,385 | `32257dabf85d30d6c6b513db4754d744fead84691ceed6a831a0d5e58d4089dc` |
+| `sft-code-commitpackft` | `u175.part0000.jsonl` | 44,358 | `3c524a7fe4c0860c94b45d152321b24c82f5290b0da0b82a8de610096355d1b7` |
+| `sft-code-commitpackft` | `u130.part0000.jsonl` | 56,522 | `08c58b9015bd8a63302dc23c6d8696e0a3a4a57a38ff912e01e366ba95dcda68` |
+| `sft-code-commitpackft` | `u148.part0000.jsonl` | 66,788 | `53c350efa4b4bc2af53c2e94c551913619a3c9b017db05965df9ef20d8e2324a` |
+| `sft-code-commitpackft` | `u226.part0000.jsonl` | 70,681 | `54fe9be675ef414d222d9e621365c0d22f8b68cefb5cf9b730b471e52aa28fe0` |
+| `sft-code-commitpackft` | `u239.part0000.jsonl` | 64,080 | `c6863055d00a9d45bc8282df6fa6920c013e2b74234e1d5e05a4d5c07b7164b2` |
+| `sft-code-commitpackft` | `u245.part0000.jsonl` | 54,838 | `5c60caea433fe1ce9b2f2f76366a0c2d79bf5472166994e6766b16140fc7b252` |
+| `sft-code-commitpackft` | `u117.part0000.jsonl` | 62,096 | `6529b000030b9264630fa2c3b15c044ed1c96a46708646192393364becc91738` |
+| `sft-code-commitpackft` | `u086.part0000.jsonl` | 58,921 | `ab2b328df2a4d8fc9cf356221513cae8991677a80a98481142dac8db21409354` |
+| `sft-code-commitpackft` | `u188.part0000.jsonl` | 59,927 | `a2aa73c78d0a72d9d6aa745571cda21f6a557e166937494bfbfd119ac63e89ae` |
+| `sft-code-commitpackft` | `u047.part0000.jsonl` | 51,660 | `1964fca0b9016f36b08e8355dcd1cbec7bfa786212f788a7b188cda506a1d31e` |
+| `sft-code-commitpackft` | `u084.part0000.jsonl` | 51,166 | `de9777f3c89fb0ac765212835d1477ba71cd43d41e1a2a25fbce1ef0b34e725d` |
+| `sft-code-commitpackft` | `u106.part0000.jsonl` | 37,564 | `7ac359a36655d867a6df9763f64b3bc08aaf0162f6edcb562a76ba16e9cbeb5b` |
+| `sft-code-commitpackft` | `u006.part0000.jsonl` | 55,762 | `26000337b7fcdcc42bb8404625f53ecdc7bbcb4b6c584bed0e184c567dd597ce` |
+| `sft-code-commitpackft` | `u164.part0000.jsonl` | 29,468 | `486078c3e3aa71e7218d76dd4a45a5a04b7ebe3b63c5375a0bd3875af95e7d4a` |
+| `sft-code-commitpackft` | `u138.part0000.jsonl` | 47,407 | `0f834658f073348ac170854b5e196ce3abaa9c4407f5725bcfd6171810df5362` |
+| `sft-code-commitpackft` | `u078.part0000.jsonl` | 26,596 | `7c707e7f3b9ed84aa2de51aaf91a1d7a5e46b1a4734791eebb636d8d7ca88392` |
+| `sft-code-commitpackft` | `u262.part0000.jsonl` | 12,518 | `cd28e24725a942c709df0a1418fdd8a54b9a82518e95f3f4a65612b2e17655ae` |
+| `sft-code-commitpackft` | `u111.part0000.jsonl` | 23,623 | `13429189cb706a692227cfabdbf35f5ca6f5b7266b0306cf043593f1431e11ba` |
+| `sft-code-commitpackft` | `u133.part0000.jsonl` | 39,990 | `57f7ea55306dcd81f740ab65f951f2e9696819ec8971a161cda7ec55032086ee` |
+| `sft-code-commitpackft` | `u173.part0000.jsonl` | 41,347 | `d9bd944cae94307c954db55fe14cfce16f53f8fdeab79c907bd9636c30ef0d5d` |
+| `sft-code-commitpackft` | `u169.part0000.jsonl` | 34,406 | `d8b5c5e7d124198c26d448fc8167850b24d32325d4230ce53f38764497f49a01` |
+| `sft-code-commitpackft` | `u038.part0000.jsonl` | 42,577 | `d4841999edade55b42b48afc649e3ca72a0d91b6eb10a041320d931c4ffc0179` |
+| `sft-code-commitpackft` | `u247.part0000.jsonl` | 37,027 | `5410bee9286959e4daf9b1e1f51b26ad7a4c1799e6cd3d33e239d334d9719ee2` |
+| `sft-code-commitpackft` | `u176.part0000.jsonl` | 38,828 | `c2ec5e89e8f4a814bbeb1eb29cf60ca8573ecf64edc80b1d79f37f656f126911` |
+| `sft-code-commitpackft` | `u170.part0000.jsonl` | 39,362 | `fa981853a9f21318d4ac7ff7367f37a05d028f28d54952accc999b93488eac7c` |
+| `sft-code-commitpackft` | `u184.part0000.jsonl` | 33,894 | `20af1f33e772a1506149dfb80461b3628e9432f29a290350caed99765d977967` |
+| `sft-code-commitpackft` | `u228.part0000.jsonl` | 37,006 | `6b9d53e10bf2c6352f90e17bf216761f0afc50d60dc526eb9ea9b3f53dd4ac7d` |
+| `sft-code-commitpackft` | `u168.part0000.jsonl` | 33,282 | `77eafeae3b020bc4b89d285c2b95a18ba0b7ace0bf2dacf8ad2607af4be34876` |
+| `sft-code-commitpackft` | `u033.part0000.jsonl` | 26,703 | `ce4ee095a0f4c3849627b8f9c7d3d2dc1bba746fdf90d49e492212a71f3e57ec` |
+| `sft-code-commitpackft` | `u108.part0000.jsonl` | 34,698 | `950943b569febf6ffcf22776b199aa41bb230f6b4633fa0133e340af3d35e720` |
+| `sft-code-commitpackft` | `u150.part0000.jsonl` | 28,636 | `d1b16aaa070be1edad4b5af05bd49b237621dfffa6c8eba3ca2ef18cf9c5aa4c` |
+| `sft-code-commitpackft` | `u008.part0000.jsonl` | 34,534 | `b90db74fd2402ef1d056de4a2ead87c90175151a159467c69df4e3707e873ec1` |
+| `sft-code-commitpackft` | `u074.part0000.jsonl` | 11,452 | `d1164d80169fb239610de0552074664b6d4cb6095121d0eb670db3f9dfa18af8` |
+| `sft-code-commitpackft` | `u016.part0000.jsonl` | 22,150 | `c9eefc45f2c07b02857825b685b050ee33327468965b9252623c47d4cdf8d2be` |
+| `sft-code-commitpackft` | `u137.part0000.jsonl` | 25,229 | `fa28e58c6787c2a94e894c7da20f4d8446121d76cd8c82e47ba7a2f187f44b08` |
+| `sft-code-commitpackft` | `u052.part0000.jsonl` | 29,191 | `fb5e8c7288cc6438a16b0079941ce7388530fd2f2a9ea8d723a6c9cb0eda6f23` |
+| `sft-code-commitpackft` | `u151.part0000.jsonl` | 30,655 | `746168aa48f03599005e872a2486410a931bd85e2fcebe305e70ec6a45246e31` |
+| `sft-code-commitpackft` | `u030.part0000.jsonl` | 16,244 | `a234e057a5d3043fd9e5bcb4d4b197f2483235128af2d590295562f2bd6966e7` |
+| `sft-code-commitpackft` | `u101.part0000.jsonl` | 21,248 | `1d512da86f7bb8b8d99c0cdd5ec02800b9bf19aab6794537b6bd926ccaa7bdef` |
+| `sft-code-commitpackft` | `u256.part0000.jsonl` | 24,558 | `5ba37d31235a8cd2f0dc2d317a4300088777a2c5dce3447d425ed74ddfdbd354` |
+| `sft-code-commitpackft` | `u004.part0000.jsonl` | 26,593 | `3f57f049ed32a7d748b6195e5ab44639bae06f170b30c5486f1b418dd758bfc6` |
+| `sft-code-commitpackft` | `u094.part0000.jsonl` | 21,925 | `fe7e9787cd24f1da66cc79e912130280d0dac69d52387534266b4ae9392acfdb` |
+| `sft-code-commitpackft` | `u076.part0000.jsonl` | 19,576 | `4827b83ade8181e4efacb1bcdec449559d76e402c17d3a807a62bbbdd0a957f5` |
+| `sft-code-commitpackft` | `u083.part0000.jsonl` | 22,447 | `b9dbd05701134549ae68d7c31ee2c8406664fb542168da10da404106914bc75e` |
+| `sft-code-commitpackft` | `u081.part0000.jsonl` | 21,958 | `2ef3e4de038f09ee1d75b7fcb63fcf24ef21c98bdda78c13bf1dfe490751de3a` |
+| `sft-code-commitpackft` | `u161.part0000.jsonl` | 20,981 | `f018720bc24e599e0760db030385328408659cdea0007acf0d122658f45a5c56` |
+| `sft-code-commitpackft` | `u200.part0000.jsonl` | 21,109 | `75172edd869b98c2b61538acf0aa5c1ff5f5d4516f798d256e4adc4968489b76` |
+| `sft-code-commitpackft` | `u100.part0000.jsonl` | 20,983 | `a7ba80fc4e1e65a314e42efd8b086bb5e537f7c7ba5cfde3201251690fd859d5` |
+| `sft-code-commitpackft` | `u172.part0000.jsonl` | 17,554 | `f161c3a9dd636c65952c8e58ec3bc9affd537c6d4f19603c7615fbe6f93ee476` |
+| `sft-code-commitpackft` | `u181.part0000.jsonl` | 17,733 | `833596862b164d6578c0c44a47fd297eda4fed0ecc1280e202610ccc0d418ac1` |
+| `sft-code-commitpackft` | `u013.part0000.jsonl` | 16,144 | `878cbe11366510bbad84a654bd79f721a58577695cd4720c902d24b534b84086` |
+| `sft-code-commitpackft` | `u017.part0000.jsonl` | 18,743 | `bbaf0c308b447be4499d4ce4de9d383f39fa2ed9d067bd6a2cb44ae258d0658e` |
+| `sft-code-commitpackft` | `u274.part0000.jsonl` | 15,993 | `1cc2463edc6c2f79cd0cff892fcd08cd3c9d77f790d3bad6eeb5dfc569709473` |
+| `sft-code-commitpackft` | `u269.part0000.jsonl` | 11,823 | `50c193286ee01713f50b7a1c6c4e40222399741caf1298fec4081273575276d6` |
+| `sft-code-commitpackft` | `u154.part0000.jsonl` | 17,793 | `58500ab9f67da1d431c3f039630af0c5d6306fa5e977117946f68ffedb1d01af` |
+| `sft-code-commitpackft` | `u068.part0000.jsonl` | 17,574 | `d44180252913a53471205b551e496bab1f20c0ee8ff6e14c7a94c394235c1aef` |
+| `sft-code-commitpackft` | `u254.part0000.jsonl` | 17,384 | `0f0aca004eaf0d0cdced0d09787f703e913bb01ba15d80b575082b73992d160e` |
+| `sft-code-commitpackft` | `u233.part0000.jsonl` | 15,047 | `469ec8786a6cb56e2a43c45b96a61d54cd118ca85e226a46414b7ab9fba17902` |
+| `sft-code-commitpackft` | `u039.part0000.jsonl` | 15,635 | `59bf3edc68b853fc459dfac61ad95c28a094411531e85e9b98ca140d2a7adc40` |
+| `sft-code-commitpackft` | `u134.part0000.jsonl` | 10,085 | `e9d29e2f4c95922b204a5ccc8defe5834fdf47479b39241c695e77b0d2fadcb6` |
+| `sft-code-commitpackft` | `u260.part0000.jsonl` | 15,343 | `08bbb25959261162d049e710a32c2649c4f1f1297f53dc7172a523b14a1284c9` |
+| `sft-code-commitpackft` | `u185.part0000.jsonl` | 15,035 | `55fe40769e54fe2ee621e10c0f444f27f479497b043cb9f43dafd272bf5e62ae` |
+| `sft-code-commitpackft` | `u218.part0000.jsonl` | 15,001 | `5c175bf8080a82bb3e0264e17b200bc487f297b3e44d3b80b6d37dd1186f21da` |
+| `sft-code-commitpackft` | `u241.part0000.jsonl` | 13,233 | `3da63cf12affe0cb85b1009b4f9040ed0c8106d5e87bcfae279e9e68db3f4f65` |
+| `sft-code-commitpackft` | `u003.part0000.jsonl` | 13,934 | `0a618b85130aa56c2292a0f6f587af171b30342a01d39f01f98cf737aa4daee6` |
+| `sft-code-commitpackft` | `u064.part0000.jsonl` | 10,796 | `3756c096beb0c051cb234be9870930e32ce818e0f4646fb6f026b36a4b30a7e5` |
+| `sft-code-commitpackft` | `u125.part0000.jsonl` | 11,683 | `68d60c64fee255093a92b4f2f36afc2b83447c2c1bb715dc46e72de1cf6ed186` |
+| `sft-code-commitpackft` | `u007.part0000.jsonl` | 11,161 | `086f62edc8496363730c4dde4339f53f656261dfa969486c264deeb933b993f7` |
+| `sft-code-commitpackft` | `u128.part0000.jsonl` | 11,225 | `4e9e87ec227f3c51bcc8a03adeb9185c9b9b0a6f227e916fb88c9d8a911867ba` |
+| `sft-code-commitpackft` | `u153.part0000.jsonl` | 10,882 | `ef296ae1dccecd0982369c3a0598a3f278175ecb4dd61c0fb306d06da7a7092b` |
+| `sft-code-commitpackft` | `u192.part0000.jsonl` | 9,279 | `cd96bcebd5c74364130bd7be34d75f51f47163ff8581edfe858942b8cac3d420` |
+| `sft-code-commitpackft` | `u257.part0000.jsonl` | 10,741 | `c00ba643b8b1b3b56562e944667ae633104e53f4dd86f01d8e19fc2c731d2ed3` |
+| `sft-code-commitpackft` | `u156.part0000.jsonl` | 10,150 | `f3adf2d2836075486f86cc694d57daeb5a28b06dfef68ccfc2a26e4e09da26f6` |
+| `sft-code-commitpackft` | `u182.part0000.jsonl` | 10,494 | `78176d2a8de46d3f4cb536d439a77c6ca281b8be9e52406f2493bc285113587e` |
+| `sft-code-commitpackft` | `u124.part0000.jsonl` | 9,701 | `856a3dd4fada0519630d3e083fedabf88d3653742cd00c88f2c107aabc74aa5b` |
+| `sft-code-commitpackft` | `u119.part0000.jsonl` | 9,008 | `b1d45c2a31730d02d963ab72cecf59c13198c921dcd2caefc17cce0b1860b638` |
+| `sft-code-commitpackft` | `u204.part0000.jsonl` | 9,285 | `4a2e2edcf6a0693546f5c91c3e256a760abc3e832ee31f6ceca4ea791a4280af` |
+| `sft-code-commitpackft` | `u126.part0000.jsonl` | 2,355 | `f29b2ad7d826ccb8ebacedc2375d8e4549d4290241dd1843664c164ce1466b26` |
+| `sft-code-commitpackft` | `u275.part0000.jsonl` | 6,731 | `4faa97908d235d7e0aa6bd99bcd545337efe835d2307f897c079583a43aff8c5` |
+| `sft-code-commitpackft` | `u267.part0000.jsonl` | 7,540 | `d574486aa4d9a23644549f161644cacb6e20a54729d3012bda1ce5da4cb5a2a5` |
+| `sft-code-commitpackft` | `u149.part0000.jsonl` | 8,125 | `838c77b3083d98f1da2effffa5852e8eb157c1415226e978c20df6f3e926ef21` |
+| `sft-code-commitpackft` | `u077.part0000.jsonl` | 8,063 | `6a5dc1749006253b4d24214c5d0baab08dde2dd19a49e3bff56b2a2870f2dc5c` |
+| `sft-code-commitpackft` | `u157.part0000.jsonl` | 7,966 | `fbe3f309341a4244a4ac3cce0fa70576db406a28e14511474cf3c39ff1f56936` |
+| `sft-code-commitpackft` | `u162.part0000.jsonl` | 5,539 | `748b7b2be8a990ddb4f4b6839721123e34e5f3db7cfa8d667948a7ca9aa5ba5b` |
+| `sft-code-commitpackft` | `u146.part0000.jsonl` | 4,413 | `440c7960392ce0b20dd6d6e701db8071b4784bbd7dd89f05f3915b57ec591635` |
+| `sft-code-commitpackft` | `u252.part0000.jsonl` | 5,632 | `e5813a8b9aa22f47513072b7590b3bb781819a5946027ca5da8eb7ec6bf7d1ec` |
+| `sft-code-commitpackft` | `u276.part0000.jsonl` | 7,025 | `ee85cdc0da7993ca0518c86b3c99af01d379f60bdce8f503a16df52d1bacc8e8` |
+| `sft-code-commitpackft` | `u199.part0000.jsonl` | 7,329 | `27add7196549e5efa14673b93bf79f0a1b41c606bc0fa65fda340d412ae4aa03` |
+| `sft-code-commitpackft` | `u234.part0000.jsonl` | 6,743 | `29ec4fa1810e6009de1335d327c7476e675752a55a67c132e53303ed538b65a2` |
+| `sft-code-commitpackft` | `u118.part0000.jsonl` | 6,839 | `fc890af103c3b46dc14be186b7a7b60291f6ae115347c9e484ccd9f53ab5be44` |
+| `sft-code-commitpackft` | `u031.part0000.jsonl` | 7,131 | `0d8451151d41ef6726bf17868732b74bb91385f249164721585aa6ad0b91b46f` |
+| `sft-code-commitpackft` | `u129.part0000.jsonl` | 6,710 | `1a94e6636c01a1e831e7c76a6b601fe2bfb1354bb8994eae4f0d3f5af1f96de0` |
+| `sft-code-commitpackft` | `u023.part0000.jsonl` | 6,649 | `866ba569a55f3d1c5416ee39c8713b52a5786be9881badce894c0c4fa9019229` |
+| `sft-code-commitpackft` | `u272.part0000.jsonl` | 6,683 | `e6cbdb3c7150afd61a6e266dd2e8fc29fdd9783b4a7581d0cabe8c771eec079f` |
+| `sft-code-commitpackft` | `u024.part0000.jsonl` | 6,408 | `6afe3ca9ecc445e40929c46483246a70ea7262c3106bb4218cb8bc3d7ce25dc1` |
+| `sft-code-commitpackft` | `u058.part0000.jsonl` | 5,407 | `9aa284f27f505984b9d7fbf08e420111e86272a8d1d938ee4ad8b58be575f9d2` |
+| `sft-code-commitpackft` | `u231.part0000.jsonl` | 6,218 | `ecf24c69d593b1145f6dfbfc30f6df721849f824f99b184b99557dfded7f1929` |
+| `sft-code-commitpackft` | `u264.part0000.jsonl` | 6,096 | `530d2fe209825e449fe09b9b83242fbe0ed920f5e3c1edfafa37144981712b97` |
+| `sft-code-commitpackft` | `u139.part0000.jsonl` | 5,766 | `1d93efa02c6f008ed17400c81c71952ba9c05248e7a9b77760333416c1efcaf1` |
+| `sft-code-commitpackft` | `u060.part0000.jsonl` | 6,200 | `93ecd6949ece6b4c44406d26474a481fa2ab2068a27a122b26057f67477f5542` |
+| `sft-code-commitpackft` | `u056.part0000.jsonl` | 6,146 | `8e7d2de1879997a35196ca297ce697aa8dfec4bd6295efaa71bc99507c9083dd` |
+| `sft-code-commitpackft` | `u186.part0000.jsonl` | 5,779 | `9e86be835b5af61fa126a5d5f4cd57ad31d66980c643d9967107c18faef2cfac` |
+| `sft-code-commitpackft` | `u263.part0000.jsonl` | 5,759 | `d34afd2ba3d778780b246617e55da076acce24301acf4bc1e11bc8d1d10ea99d` |
+| `sft-code-commitpackft` | `u165.part0000.jsonl` | 4,720 | `4f0bd1e415eda8f1c5bc8945e6c7dab241362037477133a3918e5269ca94a8ff` |
+| `sft-code-commitpackft` | `u041.part0000.jsonl` | 4,859 | `628fa755aacf7f3b93293cc58f9f1e720bdcc202bfd8f780922a5e94e44601e3` |
+| `sft-code-commitpackft` | `u107.part0000.jsonl` | 5,129 | `2c22525b7dec6eead3adc0ac4207b43acd3fb9728da22ab076600d002fc43406` |
+| `sft-code-commitpackft` | `u227.part0000.jsonl` | 5,300 | `ed441c995b7f8f51c63a5d7319ca78d6e4ed656909938255b2404090455843ce` |
+| `sft-code-commitpackft` | `u221.part0000.jsonl` | 4,855 | `224d8a9ec45f21927c7a01cb77ef996a4bfd22ea8bb1579df99cd58ab7b5da65` |
+| `sft-code-commitpackft` | `u070.part0000.jsonl` | 3,675 | `fad31309687bb70efc8c9885df05014a78eeac85a7efd9d2a31acc1bd31c8bc6` |
+| `sft-code-commitpackft` | `u043.part0000.jsonl` | 3,322 | `dc07c0f8d9e8bc5c76b95e6c3d276ce6a34e23d96981e309249f5e42cdb7f33c` |
+| `sft-code-commitpackft` | `u005.part0000.jsonl` | 4,900 | `e46a0c4d301f6e5e8a7a7e3bca0f378b6e314ffb4912c5fe6fb79e20afd82640` |
+| `sft-code-commitpackft` | `u057.part0000.jsonl` | 3,595 | `f19adab651bd64cbd96b8545ef602fefee90c0afc0df47e70751116f04b7fe7b` |
+| `sft-code-commitpackft` | `u025.part0000.jsonl` | 4,607 | `eff332bd9f2f0fb4b87590448ef5e4f21f2e5aa4dee9a4bac7d5928bcc1a3aed` |
+| `sft-code-commitpackft` | `u159.part0000.jsonl` | 4,049 | `045da7751b9327163a2c4f07d7d09829e5126aef5cf24b74e1875c7a136c10bf` |
+| `sft-code-commitpackft` | `u029.part0000.jsonl` | 3,875 | `54b0c439b8231d1588374cccaf5abee53083496c10ec5cfcf2418a4eca10df31` |
+| `sft-code-commitpackft` | `u177.part0000.jsonl` | 3,880 | `1d8992baaf2066c49d3fd3f2043acfd97dcffdec88cafae4d81577e9da11fa2e` |
+| `sft-code-commitpackft` | `u155.part0000.jsonl` | 3,711 | `edba64af4396f819c6a6d2726f0cbdf4938e5dfaffe336ba64164b81b23f17ea` |
+| `sft-code-commitpackft` | `u236.part0000.jsonl` | 3,480 | `ad01854c6e1a79815f82e711276e7392f2b69b0043499a346476995515160a91` |
+| `sft-code-commitpackft` | `u071.part0000.jsonl` | 3,245 | `c8d4a31405d9d373bc1a383f5b01c83a4f5b17991566c235d3d078fede3f7059` |
+| `sft-code-commitpackft` | `u202.part0000.jsonl` | 3,254 | `611cefc0777f72d8f4e3e8401836e3407de8cf300ed2c1b4c48f6c431a9d6af7` |
+| `sft-code-commitpackft` | `u022.part0000.jsonl` | 3,229 | `324be4caf6c18da5cac83f8fc9ed6fa1236fd38ec19349ddaf61ca9406a551c1` |
+| `sft-code-commitpackft` | `u253.part0000.jsonl` | 2,915 | `77d8a59473026aba56e796af4732dc824f95cfce6e22ded7d1f724235ff31d5d` |
+| `sft-code-commitpackft` | `u109.part0000.jsonl` | 2,887 | `ee1af6fe5ffda72977fcc7b0d36795f191d0ba438080fdf4f7f9211fcb9138a9` |
+| `sft-code-commitpackft` | `u144.part0000.jsonl` | 3,032 | `ddffe3339bc9aa478faf1a9bac7acde8323cb84817e44d3d0340e67325ea31cf` |
+| `sft-code-commitpackft` | `u203.part0000.jsonl` | 3,035 | `012e669a6646d02c0cd3c9509e0ef713eed562af495fc31ae5c7f4b063606f5d` |
+| `sft-code-commitpackft` | `u000.part0000.jsonl` | 3,069 | `22ff06ff47626113e9be285d6e4aee051d6da944886134297b314b16ba165b83` |
+| `sft-code-commitpackft` | `u266.part0000.jsonl` | 2,711 | `45d485c566364e9a6979f49fc5d71f448de66d151beddad227128bbb2c928650` |
+| `sft-code-commitpackft` | `u103.part0000.jsonl` | 2,649 | `e395af1f7cfd9c60d23faafc02f9430554f580ecf59968c589eca1bae5e157e0` |
+| `sft-code-commitpackft` | `u211.part0000.jsonl` | 2,707 | `8244476dede6cb68dda702a10aadacbba6fd76b3d2fafb5be66580060a155b6b` |
+| `sft-code-commitpackft` | `u225.part0000.jsonl` | 2,375 | `f91ce37adaceebcf77adaccb274bac676c1ee227e21fa2595198cc607ec8ee83` |
+| `sft-code-commitpackft` | `u174.part0000.jsonl` | 1,294 | `c8920a8713c745778b7292e4deacc6b947d064ad05c0fe9f1a32acc9bf77598c` |
+| `sft-code-commitpackft` | `u189.part0000.jsonl` | 2,491 | `d4473023b607fba3fcc04c4c56689f399187afe88ec85dcb41f9858a59db84d8` |
+| `sft-code-commitpackft` | `u104.part0000.jsonl` | 2,561 | `d6dc4e936eff200314ee0f088c6162fb594c0fd888b2ede5f9479655ecccebd0` |
+| `sft-code-commitpackft` | `u132.part0000.jsonl` | 2,547 | `8978c95a5222fe71fc7a4689cb8abae7d905ea72143018f79619c654d276720a` |
+| `sft-code-commitpackft` | `u054.part0000.jsonl` | 2,104 | `bd9c0f8f5c535ee0ecfd8beac8ba1f00f8ef4acf6e639f8a038903d7b8e85d73` |
+| `sft-code-commitpackft` | `u115.part0000.jsonl` | 2,458 | `8875e4925ada3735affa488a5dd7f4accc99b4adec6211edd8adde012fc57cf2` |
+| `sft-code-commitpackft` | `u015.part0000.jsonl` | 1,922 | `364e395b9a317b49c653ac008b7a354cffdab572e94fb59cee84a1d3bf777a2d` |
+| `sft-code-commitpackft` | `u009.part0000.jsonl` | 1,939 | `2d934a43c5478d001989158c6c54cd6fb5b0edfb0234dfd73f2f7688c226827d` |
+| `sft-code-commitpackft` | `u034.part0000.jsonl` | 1,665 | `86568c0eece0f9b0d242fb204c4bafb751b01858e8715af84e49c727612da534` |
+| `sft-code-commitpackft` | `u213.part0000.jsonl` | 1,872 | `233a5ef7aaaddf4ddd7ffc0bb914a165935eed0b20d22fae14618c24659a884a` |
+| `sft-code-commitpackft` | `u147.part0000.jsonl` | 1,207 | `e7b6781db5052c70f8401c7a5cfc85a87712856053aff0e47f38158ffa40c37f` |
+| `sft-code-commitpackft` | `u021.part0000.jsonl` | 1,581 | `22c2c4e380424a54ee96ecf43060a9df64f40f35ad8cae358644768c8453bfba` |
+| `sft-code-commitpackft` | `u152.part0000.jsonl` | 1,013 | `b7754e3030ed1ba39578739a88e3415bb959cf8e8649f234a437dfb0e4e05afe` |
+| `sft-code-commitpackft` | `u216.part0000.jsonl` | 699 | `8633ea7ef86c6382f63c15998f29db7a9a3ba97ad3d780b7771986b149f88ccd` |
+| `sft-code-commitpackft` | `u158.part0000.jsonl` | 1,072 | `e471de4abc2782b00ca38c1047e032f87052eb88415fb49a40d0c7c9a8fd8415` |
+| `sft-code-commitpackft` | `u090.part0000.jsonl` | 723 | `38bd8bf60acda289740040cd80a5879b6708a629428bb5390ee6c55def1fc53e` |
+| `sft-code-commitpackft` | `u191.part0000.jsonl` | 521 | `b3e4c0030e706baf40c530cd7d0554cb7404a2ac1ebcbf76f12f99a491fbf597` |
 | `sft-code-nemotron-cascade-swe` | `u001.part0000.jsonl` | 300,031,511 | `4a9b2c58c49b9f59cd1c5e90f4022f889eebdd352a5e0d91dbacbcd0666235f6` |
 | `sft-code-nemotron-cascade-swe` | `u000.part0000.jsonl` | 300,009,446 | `23468d927ee37b0bad463264a1f7b5fd99c90398c776b62f749399dc98267b13` |
 | `sft-code-nemotron-cascade-swe` | `u001.part0001.jsonl` | 300,043,968 | `e7e94b9acec08c3d985ff40f042fafd7ea7671e4ace532611bcd635dfc24f244` |
@@ -2220,7 +2497,7 @@ Coverage is the share of the item's runs found in the document. A value near 1.0
 
 ```
 python teams/10-post-training/sft/decontam_run.py --set <set-id> --input <set>.jsonl --out-dir decontam_out
-python teams/10-post-training/sft/decontam_report.py --records decontam_out --out decontam_report_32.md --sets <set-id> ...
+python teams/10-post-training/sft/decontam_report.py --records decontam_out --out decontam_report_32b.md --sets <set-id> ...
 ```
 
 ## 7. Sets not run yet

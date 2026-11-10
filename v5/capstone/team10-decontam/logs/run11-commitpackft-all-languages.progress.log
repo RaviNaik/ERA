@@ -1,0 +1,1112 @@
+2026-11-10 09:39:49 plan sft-code-commitpackft: 277 units, 1.58 GB of source files
+2026-11-10 09:39:49 start: sets sft-code-commitpackft; disk free 210 GB; decontam slots 14, download slots 4
+2026-11-10 09:39:49 unit start sft-code-commitpackft u209 data/ruby/data.jsonl (0.20 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u273 data/yaml/data.jsonl (0.20 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u194 data/python/data.jsonl (0.14 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u145 data/markdown/data.jsonl (0.13 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u114 data/javascript/data.jsonl (0.13 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u116 data/json/data.jsonl (0.09 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u220 data/shell/data.jsonl (0.07 GB)
+2026-11-10 09:39:49 unit start sft-code-commitpackft u243 data/text/data.jsonl (0.07 GB)
+2026-11-10 09:40:14 unit done sft-code-commitpackft u194: rows 56,025 of 56,025 selected, skipped 0, 25s
+2026-11-10 09:40:14 part start sft-code-commitpackft.u194.p0000 (116 MB)
+2026-11-10 09:40:14 unit start sft-code-commitpackft u180 data/php/data.jsonl (0.06 GB)
+2026-11-10 09:40:26 unit done sft-code-commitpackft u243: rows 46,588 of 46,588 selected, skipped 0, 37s
+2026-11-10 09:40:26 part start sft-code-commitpackft.u243.p0000 (57 MB)
+2026-11-10 09:40:26 unit start sft-code-commitpackft u113 data/java/data.jsonl (0.06 GB)
+2026-11-10 09:40:39 unit done sft-code-commitpackft u209: rows 69,413 of 69,413 selected, skipped 0, 50s
+2026-11-10 09:40:39 part start sft-code-commitpackft.u209.p0000 (134 MB)
+2026-11-10 09:40:39 unit start sft-code-commitpackft u099 data/html/data.jsonl (0.05 GB)
+2026-11-10 09:40:43 unit done sft-code-commitpackft u114: rows 52,989 of 52,989 selected, skipped 0, 54s
+2026-11-10 09:40:43 part start sft-code-commitpackft.u114.p0000 (113 MB)
+2026-11-10 09:40:43 unit start sft-code-commitpackft u026 data/c#/data.jsonl (0.03 GB)
+2026-11-10 09:40:57 unit done sft-code-commitpackft u145: rows 62,518 of 62,518 selected, skipped 0, 68s
+2026-11-10 09:40:57 part start sft-code-commitpackft.u145.p0000 (116 MB)
+2026-11-10 09:40:57 unit start sft-code-commitpackft u265 data/xml/data.jsonl (0.02 GB)
+2026-11-10 09:40:58 unit done sft-code-commitpackft u099: rows 20,214 of 20,214 selected, skipped 0, 19s
+2026-11-10 09:40:58 part start sft-code-commitpackft.u099.p0000 (39 MB)
+2026-11-10 09:40:58 unit start sft-code-commitpackft u097 data/html+erb/data.jsonl (0.02 GB)
+2026-11-10 09:41:06 unit done sft-code-commitpackft u113: rows 20,635 of 20,635 selected, skipped 0, 40s
+2026-11-10 09:41:06 part start sft-code-commitpackft.u113.p0000 (48 MB)
+2026-11-10 09:41:06 unit start sft-code-commitpackft u028 data/c/data.jsonl (0.02 GB)
+2026-11-10 09:41:09 unit done sft-code-commitpackft u026: rows 9,346 of 9,346 selected, skipped 0, 26s
+2026-11-10 09:41:09 part start sft-code-commitpackft.u026.p0000 (24 MB)
+2026-11-10 09:41:09 unit start sft-code-commitpackft u105 data/ini/data.jsonl (0.02 GB)
+2026-11-10 09:41:12 unit done sft-code-commitpackft u265: rows 9,337 of 9,337 selected, skipped 0, 15s
+2026-11-10 09:41:12 unit done sft-code-commitpackft u097: rows 10,910 of 10,910 selected, skipped 0, 14s
+2026-11-10 09:41:12 part start sft-code-commitpackft.u265.p0000 (19 MB)
+2026-11-10 09:41:12 part start sft-code-commitpackft.u097.p0000 (19 MB)
+2026-11-10 09:41:12 unit start sft-code-commitpackft u037 data/coffeescript/data.jsonl (0.02 GB)
+2026-11-10 09:41:12 unit start sft-code-commitpackft u238 data/swift/data.jsonl (0.02 GB)
+2026-11-10 09:41:17 unit done sft-code-commitpackft u220: rows 31,217 of 31,217 selected, skipped 0, 89s
+2026-11-10 09:41:17 part start sft-code-commitpackft.u220.p0000 (49 MB)
+2026-11-10 09:41:17 unit start sft-code-commitpackft u205 data/restructuredtext/data.jsonl (0.02 GB)
+2026-11-10 09:41:21 unit done sft-code-commitpackft u105: rows 11,360 of 11,360 selected, skipped 0, 12s
+2026-11-10 09:41:22 part start sft-code-commitpackft.u105.p0000 (17 MB)
+2026-11-10 09:41:22 unit start sft-code-commitpackft u249 data/typescript/data.jsonl (0.01 GB)
+2026-11-10 09:41:23 unit done sft-code-commitpackft u037: rows 5,513 of 5,513 selected, skipped 0, 10s
+2026-11-10 09:41:23 part start sft-code-commitpackft.u037.p0000 (12 MB)
+2026-11-10 09:41:23 unit start sft-code-commitpackft u027 data/c++/data.jsonl (0.01 GB)
+2026-11-10 09:41:28 unit done sft-code-commitpackft u028: rows 8,506 of 8,506 selected, skipped 0, 21s
+2026-11-10 09:41:28 part start sft-code-commitpackft.u028.p0000 (16 MB)
+2026-11-10 09:41:29 unit done sft-code-commitpackft u249: rows 5,868 of 5,868 selected, skipped 0, 7s
+2026-11-10 09:41:30 unit done sft-code-commitpackft u238: rows 4,849 of 4,849 selected, skipped 0, 17s
+2026-11-10 09:41:31 unit done sft-code-commitpackft u205: rows 6,560 of 6,560 selected, skipped 0, 13s
+2026-11-10 09:41:33 unit done sft-code-commitpackft u180: rows 24,791 of 24,791 selected, skipped 0, 79s
+2026-11-10 09:41:33 unit start sft-code-commitpackft u219 data/scss/data.jsonl (0.01 GB)
+2026-11-10 09:41:35 unit done sft-code-commitpackft u116: rows 39,777 of 39,777 selected, skipped 0, 106s
+2026-11-10 09:41:35 unit start sft-code-commitpackft u082 data/go/data.jsonl (0.01 GB)
+2026-11-10 09:41:37 unit done sft-code-commitpackft u027: rows 4,992 of 4,992 selected, skipped 0, 14s
+2026-11-10 09:41:37 unit start sft-code-commitpackft u215 data/scala/data.jsonl (0.01 GB)
+2026-11-10 09:41:39 unit done sft-code-commitpackft u082: rows 5,004 of 5,004 selected, skipped 0, 4s
+2026-11-10 09:41:39 unit start sft-code-commitpackft u088 data/haml/data.jsonl (0.01 GB)
+2026-11-10 09:41:40 unit done sft-code-commitpackft u219: rows 6,829 of 6,829 selected, skipped 0, 7s
+2026-11-10 09:41:40 unit start sft-code-commitpackft u044 data/css/data.jsonl (0.01 GB)
+2026-11-10 09:41:42 unit done sft-code-commitpackft u215: rows 5,040 of 5,040 selected, skipped 0, 5s
+2026-11-10 09:41:42 unit start sft-code-commitpackft u210 data/rust/data.jsonl (0.01 GB)
+2026-11-10 09:41:43 unit done sft-code-commitpackft u273: rows 114,320 of 114,320 selected, skipped 0, 114s
+2026-11-10 09:41:43 unit start sft-code-commitpackft u246 data/toml/data.jsonl (0.01 GB)
+2026-11-10 09:41:44 unit done sft-code-commitpackft u088: rows 4,415 of 4,415 selected, skipped 0, 5s
+2026-11-10 09:41:44 unit done sft-code-commitpackft u044: rows 5,049 of 5,049 selected, skipped 0, 4s
+2026-11-10 09:41:44 unit start sft-code-commitpackft u120 data/jsx/data.jsonl (0.01 GB)
+2026-11-10 09:41:44 unit start sft-code-commitpackft u123 data/kotlin/data.jsonl (0.01 GB)
+2026-11-10 09:41:45 unit done sft-code-commitpackft u210: rows 2,996 of 2,996 selected, skipped 0, 3s
+2026-11-10 09:41:45 unit start sft-code-commitpackft u035 data/clojure/data.jsonl (0.01 GB)
+2026-11-10 09:41:47 unit done sft-code-commitpackft u246: rows 3,424 of 3,424 selected, skipped 0, 4s
+2026-11-10 09:41:47 unit done sft-code-commitpackft u120: rows 2,199 of 2,199 selected, skipped 0, 3s
+2026-11-10 09:41:47 unit done sft-code-commitpackft u123: rows 2,214 of 2,214 selected, skipped 0, 3s
+2026-11-10 09:41:47 unit start sft-code-commitpackft u178 data/perl/data.jsonl (0.01 GB)
+2026-11-10 09:41:47 unit start sft-code-commitpackft u020 data/bitbake/data.jsonl (0.00 GB)
+2026-11-10 09:41:47 unit start sft-code-commitpackft u087 data/groovy/data.jsonl (0.00 GB)
+2026-11-10 09:41:48 unit done sft-code-commitpackft u035: rows 2,403 of 2,403 selected, skipped 0, 3s
+2026-11-10 09:41:48 unit start sft-code-commitpackft u248 data/twig/data.jsonl (0.00 GB)
+2026-11-10 09:41:50 unit done sft-code-commitpackft u178: rows 2,288 of 2,288 selected, skipped 0, 3s
+2026-11-10 09:41:50 unit done sft-code-commitpackft u020: rows 1,308 of 1,308 selected, skipped 0, 3s
+2026-11-10 09:41:50 unit done sft-code-commitpackft u087: rows 1,486 of 1,486 selected, skipped 0, 3s
+2026-11-10 09:41:50 unit done sft-code-commitpackft u248: rows 1,610 of 1,610 selected, skipped 0, 2s
+2026-11-10 09:41:50 unit start sft-code-commitpackft u163 data/nix/data.jsonl (0.00 GB)
+2026-11-10 09:41:50 unit start sft-code-commitpackft u230 data/sql/data.jsonl (0.00 GB)
+2026-11-10 09:41:50 unit start sft-code-commitpackft u127 data/less/data.jsonl (0.00 GB)
+2026-11-10 09:41:50 unit start sft-code-commitpackft u091 data/haskell/data.jsonl (0.00 GB)
+2026-11-10 09:41:53 unit done sft-code-commitpackft u163: rows 1,593 of 1,593 selected, skipped 0, 3s
+2026-11-10 09:41:53 unit done sft-code-commitpackft u230: rows 2,069 of 2,069 selected, skipped 0, 3s
+2026-11-10 09:41:53 unit done sft-code-commitpackft u127: rows 1,360 of 1,360 selected, skipped 0, 3s
+2026-11-10 09:41:53 unit done sft-code-commitpackft u091: rows 1,389 of 1,389 selected, skipped 0, 3s
+2026-11-10 09:41:53 unit start sft-code-commitpackft u089 data/handlebars/data.jsonl (0.00 GB)
+2026-11-10 09:41:53 unit start sft-code-commitpackft u251 data/unknown/data.jsonl (0.00 GB)
+2026-11-10 09:41:53 unit start sft-code-commitpackft u019 data/batchfile/data.jsonl (0.00 GB)
+2026-11-10 09:41:53 unit start sft-code-commitpackft u046 data/cucumber/data.jsonl (0.00 GB)
+2026-11-10 09:41:57 unit done sft-code-commitpackft u089: rows 1,429 of 1,429 selected, skipped 0, 3s
+2026-11-10 09:41:57 unit done sft-code-commitpackft u251: rows 1,597 of 1,597 selected, skipped 0, 3s
+2026-11-10 09:41:57 unit done sft-code-commitpackft u019: rows 1,466 of 1,466 selected, skipped 0, 3s
+2026-11-10 09:41:57 unit done sft-code-commitpackft u046: rows 976 of 976 selected, skipped 0, 3s
+2026-11-10 09:41:57 unit start sft-code-commitpackft u142 data/makefile/data.jsonl (0.00 GB)
+2026-11-10 09:41:57 unit start sft-code-commitpackft u110 data/jade/data.jsonl (0.00 GB)
+2026-11-10 09:41:57 unit start sft-code-commitpackft u061 data/elixir/data.jsonl (0.00 GB)
+2026-11-10 09:41:57 unit start sft-code-commitpackft u036 data/cmake/data.jsonl (0.00 GB)
+2026-11-10 09:41:59 unit done sft-code-commitpackft u142: rows 960 of 960 selected, skipped 0, 2s
+2026-11-10 09:41:59 unit done sft-code-commitpackft u110: rows 1,119 of 1,119 selected, skipped 0, 2s
+2026-11-10 09:41:59 unit done sft-code-commitpackft u061: rows 1,150 of 1,150 selected, skipped 0, 2s
+2026-11-10 09:41:59 unit start sft-code-commitpackft u187 data/powershell/data.jsonl (0.00 GB)
+2026-11-10 09:41:59 unit start sft-code-commitpackft u222 data/slim/data.jsonl (0.00 GB)
+2026-11-10 09:41:59 unit start sft-code-commitpackft u063 data/emacs-lisp/data.jsonl (0.00 GB)
+2026-11-10 09:42:00 unit done sft-code-commitpackft u036: rows 981 of 981 selected, skipped 0, 3s
+2026-11-10 09:42:00 unit start sft-code-commitpackft u049 data/dart/data.jsonl (0.00 GB)
+2026-11-10 09:42:01 unit done sft-code-commitpackft u187: rows 991 of 991 selected, skipped 0, 2s
+2026-11-10 09:42:01 unit done sft-code-commitpackft u222: rows 1,052 of 1,052 selected, skipped 0, 2s
+2026-11-10 09:42:01 unit done sft-code-commitpackft u063: rows 1,015 of 1,015 selected, skipped 0, 2s
+2026-11-10 09:42:01 unit start sft-code-commitpackft u258 data/viml/data.jsonl (0.00 GB)
+2026-11-10 09:42:01 unit start sft-code-commitpackft u011 data/asciidoc/data.jsonl (0.00 GB)
+2026-11-10 09:42:01 unit start sft-code-commitpackft u140 data/lua/data.jsonl (0.00 GB)
+2026-11-10 09:42:02 unit done sft-code-commitpackft u049: rows 765 of 765 selected, skipped 0, 2s
+2026-11-10 09:42:02 unit start sft-code-commitpackft u136 data/llvm/data.jsonl (0.00 GB)
+2026-11-10 09:42:03 unit done sft-code-commitpackft u258: rows 1,063 of 1,063 selected, skipped 0, 2s
+2026-11-10 09:42:03 unit done sft-code-commitpackft u011: rows 523 of 523 selected, skipped 0, 2s
+2026-11-10 09:42:03 unit done sft-code-commitpackft u140: rows 920 of 920 selected, skipped 0, 2s
+2026-11-10 09:42:03 unit start sft-code-commitpackft u224 data/smarty/data.jsonl (0.00 GB)
+2026-11-10 09:42:03 unit start sft-code-commitpackft u051 data/diff/data.jsonl (0.00 GB)
+2026-11-10 09:42:03 unit start sft-code-commitpackft u040 data/common-lisp/data.jsonl (0.00 GB)
+2026-11-10 09:42:04 unit done sft-code-commitpackft u136: rows 780 of 780 selected, skipped 0, 2s
+2026-11-10 09:42:04 unit start sft-code-commitpackft u212 data/saltstack/data.jsonl (0.00 GB)
+2026-11-10 09:42:05 unit done sft-code-commitpackft u224: rows 737 of 737 selected, skipped 0, 2s
+2026-11-10 09:42:05 unit done sft-code-commitpackft u051: rows 680 of 680 selected, skipped 0, 2s
+2026-11-10 09:42:05 unit done sft-code-commitpackft u040: rows 778 of 778 selected, skipped 0, 2s
+2026-11-10 09:42:05 unit start sft-code-commitpackft u261 data/vue/data.jsonl (0.00 GB)
+2026-11-10 09:42:05 unit start sft-code-commitpackft u214 data/sass/data.jsonl (0.00 GB)
+2026-11-10 09:42:05 unit start sft-code-commitpackft u069 data/fish/data.jsonl (0.00 GB)
+2026-11-10 09:42:06 unit done sft-code-commitpackft u212: rows 617 of 617 selected, skipped 0, 2s
+2026-11-10 09:42:06 unit start sft-code-commitpackft u065 data/erlang/data.jsonl (0.00 GB)
+2026-11-10 09:42:07 unit done sft-code-commitpackft u261: rows 587 of 587 selected, skipped 0, 2s
+2026-11-10 09:42:07 unit done sft-code-commitpackft u214: rows 705 of 705 selected, skipped 0, 2s
+2026-11-10 09:42:07 unit done sft-code-commitpackft u069: rows 813 of 813 selected, skipped 0, 2s
+2026-11-10 09:42:07 unit start sft-code-commitpackft u073 data/freemarker/data.jsonl (0.00 GB)
+2026-11-10 09:42:07 unit start sft-code-commitpackft u235 data/stylus/data.jsonl (0.00 GB)
+2026-11-10 09:42:07 unit start sft-code-commitpackft u196 data/qml/data.jsonl (0.00 GB)
+2026-11-10 09:42:08 unit done sft-code-commitpackft u065: rows 480 of 480 selected, skipped 0, 2s
+2026-11-10 09:42:08 unit start sft-code-commitpackft u093 data/hcl/data.jsonl (0.00 GB)
+2026-11-10 09:42:09 unit done sft-code-commitpackft u073: rows 510 of 510 selected, skipped 0, 2s
+2026-11-10 09:42:09 unit done sft-code-commitpackft u235: rows 480 of 480 selected, skipped 0, 2s
+2026-11-10 09:42:09 unit done sft-code-commitpackft u196: rows 368 of 368 selected, skipped 0, 2s
+2026-11-10 09:42:09 unit start sft-code-commitpackft u095 data/html+django/data.jsonl (0.00 GB)
+2026-11-10 09:42:10 unit start sft-code-commitpackft u143 data/mako/data.jsonl (0.00 GB)
+2026-11-10 09:42:10 unit start sft-code-commitpackft u002 data/ada/data.jsonl (0.00 GB)
+2026-11-10 09:42:11 unit done sft-code-commitpackft u093: rows 421 of 421 selected, skipped 0, 2s
+2026-11-10 09:42:11 unit start sft-code-commitpackft u167 data/ocaml/data.jsonl (0.00 GB)
+2026-11-10 09:42:12 unit done sft-code-commitpackft u095: rows 399 of 399 selected, skipped 0, 2s
+2026-11-10 09:42:12 unit done sft-code-commitpackft u143: rows 170 of 170 selected, skipped 0, 2s
+2026-11-10 09:42:12 unit done sft-code-commitpackft u002: rows 265 of 265 selected, skipped 0, 2s
+2026-11-10 09:42:12 unit start sft-code-commitpackft u066 data/f#/data.jsonl (0.00 GB)
+2026-11-10 09:42:12 unit start sft-code-commitpackft u062 data/elm/data.jsonl (0.00 GB)
+2026-11-10 09:42:12 unit start sft-code-commitpackft u242 data/tex/data.jsonl (0.00 GB)
+2026-11-10 09:42:13 unit done sft-code-commitpackft u167: rows 333 of 333 selected, skipped 0, 2s
+2026-11-10 09:42:13 unit start sft-code-commitpackft u201 data/rdoc/data.jsonl (0.00 GB)
+2026-11-10 09:42:14 unit done sft-code-commitpackft u066: rows 254 of 254 selected, skipped 0, 2s
+2026-11-10 09:42:14 unit done sft-code-commitpackft u062: rows 265 of 265 selected, skipped 0, 2s
+2026-11-10 09:42:14 unit done sft-code-commitpackft u242: rows 307 of 307 selected, skipped 0, 2s
+2026-11-10 09:42:14 unit start sft-code-commitpackft u045 data/csv/data.jsonl (0.00 GB)
+2026-11-10 09:42:14 unit start sft-code-commitpackft u190 data/protocol-buffer/data.jsonl (0.00 GB)
+2026-11-10 09:42:14 unit start sft-code-commitpackft u223 data/smalltalk/data.jsonl (0.00 GB)
+2026-11-10 09:42:15 unit done sft-code-commitpackft u201: rows 270 of 270 selected, skipped 0, 2s
+2026-11-10 09:42:15 unit start sft-code-commitpackft u010 data/arduino/data.jsonl (0.00 GB)
+2026-11-10 09:42:16 unit done sft-code-commitpackft u045: rows 375 of 375 selected, skipped 0, 2s
+2026-11-10 09:42:16 unit done sft-code-commitpackft u190: rows 181 of 181 selected, skipped 0, 2s
+2026-11-10 09:42:16 unit done sft-code-commitpackft u223: rows 284 of 284 selected, skipped 0, 2s
+2026-11-10 09:42:16 unit start sft-code-commitpackft u112 data/java-server-pages/data.jsonl (0.00 GB)
+2026-11-10 09:42:16 unit start sft-code-commitpackft u217 data/scheme/data.jsonl (0.00 GB)
+2026-11-10 09:42:16 unit start sft-code-commitpackft u085 data/groff/data.jsonl (0.00 GB)
+2026-11-10 09:42:17 unit done sft-code-commitpackft u010: rows 225 of 225 selected, skipped 0, 2s
+2026-11-10 09:42:17 unit start sft-code-commitpackft u166 data/objective-c++/data.jsonl (0.00 GB)
+2026-11-10 09:42:18 unit done sft-code-commitpackft u112: rows 173 of 173 selected, skipped 0, 2s
+2026-11-10 09:42:18 unit done sft-code-commitpackft u217: rows 213 of 213 selected, skipped 0, 2s
+2026-11-10 09:42:18 unit done sft-code-commitpackft u085: rows 192 of 192 selected, skipped 0, 2s
+2026-11-10 09:42:18 unit start sft-code-commitpackft u050 data/desktop/data.jsonl (0.00 GB)
+2026-11-10 09:42:18 unit start sft-code-commitpackft u067 data/factor/data.jsonl (0.00 GB)
+2026-11-10 09:42:19 unit start sft-code-commitpackft u042 data/crystal/data.jsonl (0.00 GB)
+2026-11-10 09:42:20 unit done sft-code-commitpackft u166: rows 86 of 86 selected, skipped 0, 2s
+2026-11-10 09:42:20 part done sft-code-commitpackft.u037.p0000: rows 5,513 flagged 1 canary 0 kept 5,512 57s
+2026-11-10 09:42:20 part start sft-code-commitpackft.u249.p0000 (13 MB)
+2026-11-10 09:42:20 unit start sft-code-commitpackft u206 data/rhtml/data.jsonl (0.00 GB)
+2026-11-10 09:42:21 unit done sft-code-commitpackft u050: rows 186 of 186 selected, skipped 0, 2s
+2026-11-10 09:42:21 unit done sft-code-commitpackft u067: rows 113 of 113 selected, skipped 0, 2s
+2026-11-10 09:42:21 unit done sft-code-commitpackft u042: rows 182 of 182 selected, skipped 0, 2s
+2026-11-10 09:42:21 unit start sft-code-commitpackft u092 data/haxe/data.jsonl (0.00 GB)
+2026-11-10 09:42:21 unit start sft-code-commitpackft u080 data/glsl/data.jsonl (0.00 GB)
+2026-11-10 09:42:21 unit start sft-code-commitpackft u075 data/gas/data.jsonl (0.00 GB)
+2026-11-10 09:42:22 unit done sft-code-commitpackft u206: rows 135 of 135 selected, skipped 0, 2s
+2026-11-10 09:42:22 unit start sft-code-commitpackft u098 data/html+php/data.jsonl (0.00 GB)
+2026-11-10 09:42:23 unit done sft-code-commitpackft u092: rows 174 of 174 selected, skipped 0, 2s
+2026-11-10 09:42:23 unit done sft-code-commitpackft u080: rows 164 of 164 selected, skipped 0, 2s
+2026-11-10 09:42:23 unit done sft-code-commitpackft u075: rows 193 of 193 selected, skipped 0, 2s
+2026-11-10 09:42:23 unit start sft-code-commitpackft u195 data/qmake/data.jsonl (0.00 GB)
+2026-11-10 09:42:23 unit start sft-code-commitpackft u121 data/julia/data.jsonl (0.00 GB)
+2026-11-10 09:42:23 unit start sft-code-commitpackft u048 data/cython/data.jsonl (0.00 GB)
+2026-11-10 09:42:24 unit done sft-code-commitpackft u098: rows 150 of 150 selected, skipped 0, 2s
+2026-11-10 09:42:25 unit start sft-code-commitpackft u096 data/html+eex/data.jsonl (0.00 GB)
+2026-11-10 09:42:26 unit done sft-code-commitpackft u195: rows 140 of 140 selected, skipped 0, 2s
+2026-11-10 09:42:26 unit done sft-code-commitpackft u121: rows 180 of 180 selected, skipped 0, 2s
+2026-11-10 09:42:26 unit done sft-code-commitpackft u048: rows 123 of 123 selected, skipped 0, 2s
+2026-11-10 09:42:26 unit start sft-code-commitpackft u240 data/tcl/data.jsonl (0.00 GB)
+2026-11-10 09:42:26 unit start sft-code-commitpackft u171 data/org/data.jsonl (0.00 GB)
+2026-11-10 09:42:26 unit start sft-code-commitpackft u179 data/perl6/data.jsonl (0.00 GB)
+2026-11-10 09:42:27 unit done sft-code-commitpackft u096: rows 135 of 135 selected, skipped 0, 2s
+2026-11-10 09:42:27 unit start sft-code-commitpackft u141 data/m4/data.jsonl (0.00 GB)
+2026-11-10 09:42:28 unit done sft-code-commitpackft u240: rows 103 of 103 selected, skipped 0, 2s
+2026-11-10 09:42:28 unit done sft-code-commitpackft u171: rows 136 of 136 selected, skipped 0, 2s
+2026-11-10 09:42:28 unit done sft-code-commitpackft u179: rows 122 of 122 selected, skipped 0, 2s
+2026-11-10 09:42:28 unit start sft-code-commitpackft u270 data/xslt/data.jsonl (0.00 GB)
+2026-11-10 09:42:28 unit start sft-code-commitpackft u237 data/svg/data.jsonl (0.00 GB)
+2026-11-10 09:42:28 unit start sft-code-commitpackft u160 data/nimrod/data.jsonl (0.00 GB)
+2026-11-10 09:42:29 unit done sft-code-commitpackft u141: rows 101 of 101 selected, skipped 0, 2s
+2026-11-10 09:42:29 unit start sft-code-commitpackft u197 data/r/data.jsonl (0.00 GB)
+2026-11-10 09:42:29 unit done sft-code-commitpackft u270: rows 99 of 99 selected, skipped 0, 1s
+2026-11-10 09:42:29 unit start sft-code-commitpackft u207 data/robotframework/data.jsonl (0.00 GB)
+2026-11-10 09:42:29 unit done sft-code-commitpackft u237: rows 169 of 169 selected, skipped 0, 1s
+2026-11-10 09:42:30 unit start sft-code-commitpackft u198 data/racket/data.jsonl (0.00 GB)
+2026-11-10 09:42:31 unit done sft-code-commitpackft u160: rows 67 of 67 selected, skipped 0, 2s
+2026-11-10 09:42:31 unit start sft-code-commitpackft u244 data/textile/data.jsonl (0.00 GB)
+2026-11-10 09:42:32 unit done sft-code-commitpackft u197: rows 121 of 121 selected, skipped 0, 2s
+2026-11-10 09:42:32 unit done sft-code-commitpackft u207: rows 85 of 85 selected, skipped 0, 2s
+2026-11-10 09:42:32 unit done sft-code-commitpackft u198: rows 117 of 117 selected, skipped 0, 2s
+2026-11-10 09:42:32 unit start sft-code-commitpackft u014 data/assembly/data.jsonl (0.00 GB)
+2026-11-10 09:42:32 unit start sft-code-commitpackft u193 data/purescript/data.jsonl (0.00 GB)
+2026-11-10 09:42:32 unit start sft-code-commitpackft u250 data/unity3d-asset/data.jsonl (0.00 GB)
+2026-11-10 09:42:33 unit done sft-code-commitpackft u244: rows 61 of 61 selected, skipped 0, 2s
+2026-11-10 09:42:33 unit start sft-code-commitpackft u259 data/visual-basic/data.jsonl (0.00 GB)
+2026-11-10 09:42:34 unit done sft-code-commitpackft u014: rows 105 of 105 selected, skipped 0, 2s
+2026-11-10 09:42:34 unit done sft-code-commitpackft u193: rows 80 of 80 selected, skipped 0, 2s
+2026-11-10 09:42:34 unit done sft-code-commitpackft u250: rows 101 of 101 selected, skipped 0, 2s
+2026-11-10 09:42:34 unit start sft-code-commitpackft u053 data/dm/data.jsonl (0.00 GB)
+2026-11-10 09:42:34 unit start sft-code-commitpackft u232 data/standard-ml/data.jsonl (0.00 GB)
+2026-11-10 09:42:34 unit start sft-code-commitpackft u183 data/pod/data.jsonl (0.00 GB)
+2026-11-10 09:42:35 unit done sft-code-commitpackft u259: rows 48 of 48 selected, skipped 0, 2s
+2026-11-10 09:42:35 unit start sft-code-commitpackft u072 data/fortran/data.jsonl (0.00 GB)
+2026-11-10 09:42:36 unit done sft-code-commitpackft u053: rows 16 of 16 selected, skipped 0, 2s
+2026-11-10 09:42:36 unit done sft-code-commitpackft u232: rows 72 of 72 selected, skipped 0, 2s
+2026-11-10 09:42:36 unit done sft-code-commitpackft u183: rows 54 of 54 selected, skipped 0, 2s
+2026-11-10 09:42:37 unit start sft-code-commitpackft u102 data/idris/data.jsonl (0.00 GB)
+2026-11-10 09:42:37 unit start sft-code-commitpackft u079 data/gettext-catalog/data.jsonl (0.00 GB)
+2026-11-10 09:42:37 unit start sft-code-commitpackft u271 data/xtend/data.jsonl (0.00 GB)
+2026-11-10 09:42:38 unit done sft-code-commitpackft u072: rows 70 of 70 selected, skipped 0, 2s
+2026-11-10 09:42:38 unit start sft-code-commitpackft u135 data/livescript/data.jsonl (0.00 GB)
+2026-11-10 09:42:39 unit done sft-code-commitpackft u102: rows 38 of 38 selected, skipped 0, 2s
+2026-11-10 09:42:39 unit done sft-code-commitpackft u079: rows 72 of 72 selected, skipped 0, 2s
+2026-11-10 09:42:39 unit done sft-code-commitpackft u271: rows 55 of 55 selected, skipped 0, 2s
+2026-11-10 09:42:39 unit start sft-code-commitpackft u001 data/actionscript/data.jsonl (0.00 GB)
+2026-11-10 09:42:39 unit start sft-code-commitpackft u255 data/vala/data.jsonl (0.00 GB)
+2026-11-10 09:42:39 unit start sft-code-commitpackft u018 data/awk/data.jsonl (0.00 GB)
+2026-11-10 09:42:40 unit done sft-code-commitpackft u135: rows 63 of 63 selected, skipped 0, 2s
+2026-11-10 09:42:40 unit start sft-code-commitpackft u122 data/jupyter-notebook/data.jsonl (0.00 GB)
+2026-11-10 09:42:41 unit done sft-code-commitpackft u001: rows 49 of 49 selected, skipped 0, 2s
+2026-11-10 09:42:41 unit done sft-code-commitpackft u255: rows 50 of 50 selected, skipped 0, 2s
+2026-11-10 09:42:41 unit done sft-code-commitpackft u018: rows 52 of 52 selected, skipped 0, 2s
+2026-11-10 09:42:41 unit start sft-code-commitpackft u032 data/ceylon/data.jsonl (0.00 GB)
+2026-11-10 09:42:41 unit start sft-code-commitpackft u055 data/dockerfile/data.jsonl (0.00 GB)
+2026-11-10 09:42:41 unit start sft-code-commitpackft u208 data/rouge/data.jsonl (0.00 GB)
+2026-11-10 09:42:43 unit done sft-code-commitpackft u122: rows 48 of 48 selected, skipped 0, 2s
+2026-11-10 09:42:43 unit start sft-code-commitpackft u229 data/sqf/data.jsonl (0.00 GB)
+2026-11-10 09:42:43 part done sft-code-commitpackft.u265.p0000: rows 9,337 flagged 0 canary 0 kept 9,337 90s
+2026-11-10 09:42:43 part start sft-code-commitpackft.u238.p0000 (10 MB)
+2026-11-10 09:42:44 unit done sft-code-commitpackft u032: rows 49 of 49 selected, skipped 0, 2s
+2026-11-10 09:42:44 unit done sft-code-commitpackft u055: rows 39 of 39 selected, skipped 0, 2s
+2026-11-10 09:42:44 unit done sft-code-commitpackft u208: rows 41 of 41 selected, skipped 0, 2s
+2026-11-10 09:42:44 unit start sft-code-commitpackft u012 data/asp/data.jsonl (0.00 GB)
+2026-11-10 09:42:44 unit start sft-code-commitpackft u059 data/edn/data.jsonl (0.00 GB)
+2026-11-10 09:42:44 unit start sft-code-commitpackft u131 data/liquid/data.jsonl (0.00 GB)
+2026-11-10 09:42:45 unit done sft-code-commitpackft u229: rows 45 of 45 selected, skipped 0, 2s
+2026-11-10 09:42:45 unit done sft-code-commitpackft u012: rows 22 of 22 selected, skipped 0, 1s
+2026-11-10 09:42:45 unit start sft-code-commitpackft u268 data/xquery/data.jsonl (0.00 GB)
+2026-11-10 09:42:45 unit start sft-code-commitpackft u175 data/parrot-internal-representation/data.jsonl (0.00 GB)
+2026-11-10 09:42:45 unit done sft-code-commitpackft u059: rows 48 of 48 selected, skipped 0, 1s
+2026-11-10 09:42:45 unit done sft-code-commitpackft u131: rows 30 of 30 selected, skipped 0, 1s
+2026-11-10 09:42:45 unit start sft-code-commitpackft u130 data/linker-script/data.jsonl (0.00 GB)
+2026-11-10 09:42:45 unit start sft-code-commitpackft u148 data/mediawiki/data.jsonl (0.00 GB)
+2026-11-10 09:42:48 unit done sft-code-commitpackft u268: rows 39 of 39 selected, skipped 0, 2s
+2026-11-10 09:42:48 unit done sft-code-commitpackft u175: rows 23 of 23 selected, skipped 0, 2s
+2026-11-10 09:42:48 unit done sft-code-commitpackft u130: rows 37 of 37 selected, skipped 0, 2s
+2026-11-10 09:42:48 unit done sft-code-commitpackft u148: rows 33 of 33 selected, skipped 0, 2s
+2026-11-10 09:42:48 unit start sft-code-commitpackft u226 data/solidity/data.jsonl (0.00 GB)
+2026-11-10 09:42:48 unit start sft-code-commitpackft u239 data/systemverilog/data.jsonl (0.00 GB)
+2026-11-10 09:42:48 unit start sft-code-commitpackft u245 data/thrift/data.jsonl (0.00 GB)
+2026-11-10 09:42:48 unit start sft-code-commitpackft u117 data/json5/data.jsonl (0.00 GB)
+2026-11-10 09:42:49 part done sft-code-commitpackft.u026.p0000: rows 9,346 flagged 1 canary 0 kept 9,345 100s
+2026-11-10 09:42:49 part done sft-code-commitpackft.u097.p0000: rows 10,910 flagged 60 canary 0 kept 10,850 97s
+2026-11-10 09:42:49 part start sft-code-commitpackft.u205.p0000 (13 MB)
+2026-11-10 09:42:49 part start sft-code-commitpackft.u180.p0000 (54 MB)
+2026-11-10 09:42:50 unit done sft-code-commitpackft u226: rows 37 of 37 selected, skipped 0, 2s
+2026-11-10 09:42:50 unit done sft-code-commitpackft u239: rows 35 of 35 selected, skipped 0, 2s
+2026-11-10 09:42:50 unit done sft-code-commitpackft u245: rows 28 of 28 selected, skipped 0, 2s
+2026-11-10 09:42:50 unit done sft-code-commitpackft u117: rows 33 of 33 selected, skipped 0, 2s
+2026-11-10 09:42:50 unit start sft-code-commitpackft u086 data/groovy-server-pages/data.jsonl (0.00 GB)
+2026-11-10 09:42:50 unit start sft-code-commitpackft u188 data/processing/data.jsonl (0.00 GB)
+2026-11-10 09:42:50 unit start sft-code-commitpackft u047 data/cuda/data.jsonl (0.00 GB)
+2026-11-10 09:42:51 unit start sft-code-commitpackft u084 data/graphviz-dot/data.jsonl (0.00 GB)
+2026-11-10 09:42:52 unit done sft-code-commitpackft u086: rows 25 of 25 selected, skipped 0, 2s
+2026-11-10 09:42:52 unit done sft-code-commitpackft u188: rows 35 of 35 selected, skipped 0, 1s
+2026-11-10 09:42:52 unit start sft-code-commitpackft u106 data/inno-setup/data.jsonl (0.00 GB)
+2026-11-10 09:42:52 unit done sft-code-commitpackft u047: rows 25 of 25 selected, skipped 0, 1s
+2026-11-10 09:42:52 unit done sft-code-commitpackft u084: rows 35 of 35 selected, skipped 0, 1s
+2026-11-10 09:42:52 unit start sft-code-commitpackft u006 data/api-blueprint/data.jsonl (0.00 GB)
+2026-11-10 09:42:52 unit start sft-code-commitpackft u164 data/nsis/data.jsonl (0.00 GB)
+2026-11-10 09:42:52 unit start sft-code-commitpackft u138 data/logtalk/data.jsonl (0.00 GB)
+2026-11-10 09:42:53 unit done sft-code-commitpackft u106: rows 16 of 16 selected, skipped 0, 1s
+2026-11-10 09:42:53 unit start sft-code-commitpackft u078 data/gentoo-ebuild/data.jsonl (0.00 GB)
+2026-11-10 09:42:53 unit done sft-code-commitpackft u006: rows 23 of 23 selected, skipped 0, 1s
+2026-11-10 09:42:53 unit done sft-code-commitpackft u164: rows 15 of 15 selected, skipped 0, 1s
+2026-11-10 09:42:54 unit start sft-code-commitpackft u262 data/webidl/data.jsonl (0.00 GB)
+2026-11-10 09:42:54 unit done sft-code-commitpackft u138: rows 21 of 21 selected, skipped 0, 1s
+2026-11-10 09:42:54 unit start sft-code-commitpackft u111 data/jasmin/data.jsonl (0.00 GB)
+2026-11-10 09:42:54 unit start sft-code-commitpackft u133 data/literate-coffeescript/data.jsonl (0.00 GB)
+2026-11-10 09:42:55 unit done sft-code-commitpackft u078: rows 16 of 16 selected, skipped 0, 2s
+2026-11-10 09:42:55 unit done sft-code-commitpackft u262: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:42:55 unit done sft-code-commitpackft u111: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:42:55 unit start sft-code-commitpackft u173 data/pan/data.jsonl (0.00 GB)
+2026-11-10 09:42:55 part done sft-code-commitpackft.u028.p0000: rows 8,506 flagged 3 canary 0 kept 8,503 88s
+2026-11-10 09:42:55 part start sft-code-commitpackft.u116.p0000 (77 MB)
+2026-11-10 09:42:55 unit start sft-code-commitpackft u169 data/opencl/data.jsonl (0.00 GB)
+2026-11-10 09:42:55 unit done sft-code-commitpackft u133: rows 19 of 19 selected, skipped 0, 1s
+2026-11-10 09:42:55 unit start sft-code-commitpackft u038 data/coldfusion-cfc/data.jsonl (0.00 GB)
+2026-11-10 09:42:56 unit start sft-code-commitpackft u247 data/turtle/data.jsonl (0.00 GB)
+2026-11-10 09:42:57 unit done sft-code-commitpackft u173: rows 23 of 23 selected, skipped 0, 2s
+2026-11-10 09:42:57 unit done sft-code-commitpackft u169: rows 23 of 23 selected, skipped 0, 1s
+2026-11-10 09:42:57 unit start sft-code-commitpackft u176 data/pascal/data.jsonl (0.00 GB)
+2026-11-10 09:42:57 unit done sft-code-commitpackft u038: rows 20 of 20 selected, skipped 0, 1s
+2026-11-10 09:42:57 unit done sft-code-commitpackft u247: rows 21 of 21 selected, skipped 0, 1s
+2026-11-10 09:42:57 unit start sft-code-commitpackft u170 data/openscad/data.jsonl (0.00 GB)
+2026-11-10 09:42:57 unit start sft-code-commitpackft u184 data/pony/data.jsonl (0.00 GB)
+2026-11-10 09:42:57 unit start sft-code-commitpackft u228 data/sparql/data.jsonl (0.00 GB)
+2026-11-10 09:42:58 unit done sft-code-commitpackft u176: rows 25 of 25 selected, skipped 0, 1s
+2026-11-10 09:42:59 unit start sft-code-commitpackft u168 data/ooc/data.jsonl (0.00 GB)
+2026-11-10 09:42:59 unit done sft-code-commitpackft u170: rows 21 of 21 selected, skipped 0, 2s
+2026-11-10 09:42:59 unit done sft-code-commitpackft u184: rows 16 of 16 selected, skipped 0, 1s
+2026-11-10 09:42:59 unit done sft-code-commitpackft u228: rows 23 of 23 selected, skipped 0, 1s
+2026-11-10 09:42:59 unit start sft-code-commitpackft u033 data/chapel/data.jsonl (0.00 GB)
+2026-11-10 09:42:59 unit start sft-code-commitpackft u108 data/ioke/data.jsonl (0.00 GB)
+2026-11-10 09:42:59 part done sft-code-commitpackft.u105.p0000: rows 11,360 flagged 0 canary 0 kept 11,360 97s
+2026-11-10 09:42:59 part start sft-code-commitpackft.u027.p0000 (10 MB)
+2026-11-10 09:42:59 unit start sft-code-commitpackft u150 data/mirah/data.jsonl (0.00 GB)
+2026-11-10 09:43:00 unit done sft-code-commitpackft u168: rows 15 of 15 selected, skipped 0, 2s
+2026-11-10 09:43:00 unit done sft-code-commitpackft u033: rows 20 of 20 selected, skipped 0, 1s
+2026-11-10 09:43:00 unit done sft-code-commitpackft u108: rows 25 of 25 selected, skipped 0, 1s
+2026-11-10 09:43:00 unit start sft-code-commitpackft u008 data/applescript/data.jsonl (0.00 GB)
+2026-11-10 09:43:00 unit done sft-code-commitpackft u150: rows 16 of 16 selected, skipped 0, 1s
+2026-11-10 09:43:00 unit start sft-code-commitpackft u074 data/g-code/data.jsonl (0.00 GB)
+2026-11-10 09:43:00 unit start sft-code-commitpackft u016 data/augeas/data.jsonl (0.00 GB)
+2026-11-10 09:43:01 unit start sft-code-commitpackft u137 data/logos/data.jsonl (0.00 GB)
+2026-11-10 09:43:02 unit done sft-code-commitpackft u008: rows 19 of 19 selected, skipped 0, 1s
+2026-11-10 09:43:02 unit done sft-code-commitpackft u074: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:02 unit done sft-code-commitpackft u016: rows 13 of 13 selected, skipped 0, 1s
+2026-11-10 09:43:02 unit start sft-code-commitpackft u052 data/digital-command-language/data.jsonl (0.00 GB)
+2026-11-10 09:43:02 unit start sft-code-commitpackft u151 data/modelica/data.jsonl (0.00 GB)
+2026-11-10 09:43:02 unit done sft-code-commitpackft u137: rows 19 of 19 selected, skipped 0, 1s
+2026-11-10 09:43:02 unit start sft-code-commitpackft u030 data/capn-proto/data.jsonl (0.00 GB)
+2026-11-10 09:43:02 unit start sft-code-commitpackft u101 data/hy/data.jsonl (0.00 GB)
+2026-11-10 09:43:03 unit done sft-code-commitpackft u052: rows 19 of 19 selected, skipped 0, 2s
+2026-11-10 09:43:03 unit done sft-code-commitpackft u151: rows 15 of 15 selected, skipped 0, 1s
+2026-11-10 09:43:03 unit start sft-code-commitpackft u256 data/vcl/data.jsonl (0.00 GB)
+2026-11-10 09:43:03 unit done sft-code-commitpackft u030: rows 12 of 12 selected, skipped 0, 1s
+2026-11-10 09:43:03 unit done sft-code-commitpackft u101: rows 12 of 12 selected, skipped 0, 1s
+2026-11-10 09:43:04 unit start sft-code-commitpackft u004 data/antlr/data.jsonl (0.00 GB)
+2026-11-10 09:43:04 unit start sft-code-commitpackft u094 data/hlsl/data.jsonl (0.00 GB)
+2026-11-10 09:43:04 unit start sft-code-commitpackft u076 data/gdscript/data.jsonl (0.00 GB)
+2026-11-10 09:43:05 unit done sft-code-commitpackft u256: rows 18 of 18 selected, skipped 0, 1s
+2026-11-10 09:43:05 unit done sft-code-commitpackft u004: rows 15 of 15 selected, skipped 0, 1s
+2026-11-10 09:43:05 unit done sft-code-commitpackft u094: rows 11 of 11 selected, skipped 0, 1s
+2026-11-10 09:43:05 unit start sft-code-commitpackft u083 data/graphql/data.jsonl (0.00 GB)
+2026-11-10 09:43:05 unit start sft-code-commitpackft u081 data/gnuplot/data.jsonl (0.00 GB)
+2026-11-10 09:43:05 unit start sft-code-commitpackft u161 data/ninja/data.jsonl (0.00 GB)
+2026-11-10 09:43:05 unit done sft-code-commitpackft u076: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:43:05 unit start sft-code-commitpackft u200 data/raml/data.jsonl (0.00 GB)
+2026-11-10 09:43:07 unit done sft-code-commitpackft u083: rows 17 of 17 selected, skipped 0, 2s
+2026-11-10 09:43:07 unit done sft-code-commitpackft u081: rows 17 of 17 selected, skipped 0, 1s
+2026-11-10 09:43:07 unit done sft-code-commitpackft u161: rows 14 of 14 selected, skipped 0, 1s
+2026-11-10 09:43:07 unit done sft-code-commitpackft u200: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:43:07 unit start sft-code-commitpackft u100 data/http/data.jsonl (0.00 GB)
+2026-11-10 09:43:07 unit start sft-code-commitpackft u172 data/oz/data.jsonl (0.00 GB)
+2026-11-10 09:43:07 unit start sft-code-commitpackft u181 data/piglatin/data.jsonl (0.00 GB)
+2026-11-10 09:43:07 unit start sft-code-commitpackft u013 data/aspectj/data.jsonl (0.00 GB)
+2026-11-10 09:43:08 unit done sft-code-commitpackft u100: rows 19 of 19 selected, skipped 0, 1s
+2026-11-10 09:43:08 unit done sft-code-commitpackft u172: rows 8 of 8 selected, skipped 0, 1s
+2026-11-10 09:43:08 unit done sft-code-commitpackft u181: rows 11 of 11 selected, skipped 0, 1s
+2026-11-10 09:43:08 unit start sft-code-commitpackft u017 data/autohotkey/data.jsonl (0.00 GB)
+2026-11-10 09:43:08 unit start sft-code-commitpackft u274 data/yang/data.jsonl (0.00 GB)
+2026-11-10 09:43:09 unit start sft-code-commitpackft u269 data/xs/data.jsonl (0.00 GB)
+2026-11-10 09:43:09 unit done sft-code-commitpackft u013: rows 8 of 8 selected, skipped 0, 2s
+2026-11-10 09:43:09 unit start sft-code-commitpackft u154 data/moonscript/data.jsonl (0.00 GB)
+2026-11-10 09:43:10 unit done sft-code-commitpackft u017: rows 15 of 15 selected, skipped 0, 1s
+2026-11-10 09:43:10 unit done sft-code-commitpackft u274: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:10 unit done sft-code-commitpackft u269: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:10 unit start sft-code-commitpackft u068 data/fancy/data.jsonl (0.00 GB)
+2026-11-10 09:43:10 unit done sft-code-commitpackft u154: rows 10 of 10 selected, skipped 0, 1s
+2026-11-10 09:43:10 unit start sft-code-commitpackft u254 data/urweb/data.jsonl (0.00 GB)
+2026-11-10 09:43:10 unit start sft-code-commitpackft u233 data/stata/data.jsonl (0.00 GB)
+2026-11-10 09:43:10 unit start sft-code-commitpackft u039 data/coldfusion/data.jsonl (0.00 GB)
+2026-11-10 09:43:11 unit done sft-code-commitpackft u068: rows 8 of 8 selected, skipped 0, 1s
+2026-11-10 09:43:11 unit done sft-code-commitpackft u254: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:11 unit done sft-code-commitpackft u233: rows 10 of 10 selected, skipped 0, 1s
+2026-11-10 09:43:11 unit done sft-code-commitpackft u039: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:43:11 unit start sft-code-commitpackft u134 data/literate-haskell/data.jsonl (0.00 GB)
+2026-11-10 09:43:11 unit start sft-code-commitpackft u260 data/volt/data.jsonl (0.00 GB)
+2026-11-10 09:43:12 unit start sft-code-commitpackft u185 data/postscript/data.jsonl (0.00 GB)
+2026-11-10 09:43:12 unit start sft-code-commitpackft u218 data/scilab/data.jsonl (0.00 GB)
+2026-11-10 09:43:13 unit done sft-code-commitpackft u134: rows 7 of 7 selected, skipped 0, 2s
+2026-11-10 09:43:13 unit done sft-code-commitpackft u260: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:43:13 unit start sft-code-commitpackft u241 data/tcsh/data.jsonl (0.00 GB)
+2026-11-10 09:43:13 unit done sft-code-commitpackft u185: rows 9 of 9 selected, skipped 0, 1s
+2026-11-10 09:43:13 unit done sft-code-commitpackft u218: rows 10 of 10 selected, skipped 0, 1s
+2026-11-10 09:43:13 unit start sft-code-commitpackft u003 data/agda/data.jsonl (0.00 GB)
+2026-11-10 09:43:13 unit start sft-code-commitpackft u064 data/emberscript/data.jsonl (0.00 GB)
+2026-11-10 09:43:13 unit start sft-code-commitpackft u125 data/latte/data.jsonl (0.00 GB)
+2026-11-10 09:43:14 unit done sft-code-commitpackft u241: rows 10 of 10 selected, skipped 0, 1s
+2026-11-10 09:43:14 unit done sft-code-commitpackft u003: rows 10 of 10 selected, skipped 0, 1s
+2026-11-10 09:43:14 unit done sft-code-commitpackft u064: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:15 unit start sft-code-commitpackft u007 data/apl/data.jsonl (0.00 GB)
+2026-11-10 09:43:15 unit done sft-code-commitpackft u125: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:15 unit start sft-code-commitpackft u128 data/lfe/data.jsonl (0.00 GB)
+2026-11-10 09:43:15 unit start sft-code-commitpackft u153 data/monkey/data.jsonl (0.00 GB)
+2026-11-10 09:43:15 unit start sft-code-commitpackft u192 data/purebasic/data.jsonl (0.00 GB)
+2026-11-10 09:43:16 unit done sft-code-commitpackft u007: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:16 unit done sft-code-commitpackft u128: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:16 unit start sft-code-commitpackft u257 data/vhdl/data.jsonl (0.00 GB)
+2026-11-10 09:43:16 unit done sft-code-commitpackft u153: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:16 unit done sft-code-commitpackft u192: rows 5 of 5 selected, skipped 0, 1s
+2026-11-10 09:43:17 unit start sft-code-commitpackft u156 data/mupad/data.jsonl (0.00 GB)
+2026-11-10 09:43:17 unit start sft-code-commitpackft u182 data/pike/data.jsonl (0.00 GB)
+2026-11-10 09:43:17 unit start sft-code-commitpackft u124 data/krl/data.jsonl (0.00 GB)
+2026-11-10 09:43:18 unit done sft-code-commitpackft u257: rows 5 of 5 selected, skipped 0, 2s
+2026-11-10 09:43:18 unit done sft-code-commitpackft u156: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:18 unit start sft-code-commitpackft u119 data/jsonld/data.jsonl (0.00 GB)
+2026-11-10 09:43:18 unit done sft-code-commitpackft u182: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:18 unit done sft-code-commitpackft u124: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:18 unit start sft-code-commitpackft u204 data/renpy/data.jsonl (0.00 GB)
+2026-11-10 09:43:19 unit start sft-code-commitpackft u126 data/lean/data.jsonl (0.00 GB)
+2026-11-10 09:43:19 unit start sft-code-commitpackft u275 data/zephir/data.jsonl (0.00 GB)
+2026-11-10 09:43:20 unit done sft-code-commitpackft u119: rows 6 of 6 selected, skipped 0, 2s
+2026-11-10 09:43:20 unit done sft-code-commitpackft u204: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:20 unit done sft-code-commitpackft u126: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:20 unit start sft-code-commitpackft u267 data/xproc/data.jsonl (0.00 GB)
+2026-11-10 09:43:20 unit start sft-code-commitpackft u149 data/metal/data.jsonl (0.00 GB)
+2026-11-10 09:43:20 unit done sft-code-commitpackft u275: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:20 unit start sft-code-commitpackft u077 data/genshi/data.jsonl (0.00 GB)
+2026-11-10 09:43:21 unit start sft-code-commitpackft u157 data/nesc/data.jsonl (0.00 GB)
+2026-11-10 09:43:22 unit done sft-code-commitpackft u267: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:22 unit done sft-code-commitpackft u149: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:22 unit done sft-code-commitpackft u077: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:22 unit done sft-code-commitpackft u157: rows 7 of 7 selected, skipped 0, 1s
+2026-11-10 09:43:22 part done sft-code-commitpackft.u249.p0000: rows 5,868 flagged 1 canary 0 kept 5,867 62s
+2026-11-10 09:43:22 part start sft-code-commitpackft.u082.p0000 (10 MB)
+2026-11-10 09:43:22 unit start sft-code-commitpackft u162 data/nit/data.jsonl (0.00 GB)
+2026-11-10 09:43:22 unit start sft-code-commitpackft u146 data/mask/data.jsonl (0.00 GB)
+2026-11-10 09:43:22 unit start sft-code-commitpackft u252 data/uno/data.jsonl (0.00 GB)
+2026-11-10 09:43:22 unit start sft-code-commitpackft u276 data/zig/data.jsonl (0.00 GB)
+2026-11-10 09:43:24 unit done sft-code-commitpackft u162: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:24 unit done sft-code-commitpackft u146: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:24 unit done sft-code-commitpackft u252: rows 2 of 2 selected, skipped 0, 1s
+2026-11-10 09:43:24 unit done sft-code-commitpackft u276: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:24 unit start sft-code-commitpackft u199 data/ragel-in-ruby-host/data.jsonl (0.00 GB)
+2026-11-10 09:43:24 unit start sft-code-commitpackft u234 data/ston/data.jsonl (0.00 GB)
+2026-11-10 09:43:24 unit start sft-code-commitpackft u118 data/jsoniq/data.jsonl (0.00 GB)
+2026-11-10 09:43:24 unit start sft-code-commitpackft u031 data/cartocss/data.jsonl (0.00 GB)
+2026-11-10 09:43:25 unit done sft-code-commitpackft u199: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:25 unit done sft-code-commitpackft u234: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:25 unit done sft-code-commitpackft u118: rows 6 of 6 selected, skipped 0, 1s
+2026-11-10 09:43:25 unit done sft-code-commitpackft u031: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:26 unit start sft-code-commitpackft u129 data/lilypond/data.jsonl (0.00 GB)
+2026-11-10 09:43:26 unit start sft-code-commitpackft u023 data/boo/data.jsonl (0.00 GB)
+2026-11-10 09:43:26 unit start sft-code-commitpackft u272 data/yacc/data.jsonl (0.00 GB)
+2026-11-10 09:43:26 unit start sft-code-commitpackft u024 data/brainfuck/data.jsonl (0.00 GB)
+2026-11-10 09:43:27 unit done sft-code-commitpackft u129: rows 6 of 6 selected, skipped 0, 2s
+2026-11-10 09:43:27 unit done sft-code-commitpackft u023: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:27 unit done sft-code-commitpackft u272: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:27 unit start sft-code-commitpackft u058 data/ecl/data.jsonl (0.00 GB)
+2026-11-10 09:43:27 unit done sft-code-commitpackft u024: rows 2 of 2 selected, skipped 0, 1s
+2026-11-10 09:43:28 unit start sft-code-commitpackft u231 data/squirrel/data.jsonl (0.00 GB)
+2026-11-10 09:43:28 unit start sft-code-commitpackft u264 data/xbase/data.jsonl (0.00 GB)
+2026-11-10 09:43:28 unit start sft-code-commitpackft u139 data/lsl/data.jsonl (0.00 GB)
+2026-11-10 09:43:30 unit done sft-code-commitpackft u058: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:30 unit done sft-code-commitpackft u231: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:30 unit done sft-code-commitpackft u264: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:30 unit start sft-code-commitpackft u060 data/eiffel/data.jsonl (0.00 GB)
+2026-11-10 09:43:30 unit done sft-code-commitpackft u139: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:30 unit start sft-code-commitpackft u056 data/dylan/data.jsonl (0.00 GB)
+2026-11-10 09:43:30 unit start sft-code-commitpackft u186 data/pov-ray-sdl/data.jsonl (0.00 GB)
+2026-11-10 09:43:30 unit start sft-code-commitpackft u263 data/wisp/data.jsonl (0.00 GB)
+2026-11-10 09:43:31 unit done sft-code-commitpackft u060: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:31 unit done sft-code-commitpackft u056: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:31 unit done sft-code-commitpackft u186: rows 5 of 5 selected, skipped 0, 1s
+2026-11-10 09:43:31 unit done sft-code-commitpackft u263: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:32 unit start sft-code-commitpackft u165 data/nu/data.jsonl (0.00 GB)
+2026-11-10 09:43:32 unit start sft-code-commitpackft u041 data/creole/data.jsonl (0.00 GB)
+2026-11-10 09:43:32 unit start sft-code-commitpackft u107 data/io/data.jsonl (0.00 GB)
+2026-11-10 09:43:32 unit start sft-code-commitpackft u227 data/sourcepawn/data.jsonl (0.00 GB)
+2026-11-10 09:43:34 unit done sft-code-commitpackft u165: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:34 unit done sft-code-commitpackft u041: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:34 unit done sft-code-commitpackft u107: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:34 unit start sft-code-commitpackft u221 data/slash/data.jsonl (0.00 GB)
+2026-11-10 09:43:34 unit done sft-code-commitpackft u227: rows 3 of 3 selected, skipped 0, 1s
+2026-11-10 09:43:34 unit start sft-code-commitpackft u070 data/flux/data.jsonl (0.00 GB)
+2026-11-10 09:43:34 unit start sft-code-commitpackft u043 data/csound/data.jsonl (0.00 GB)
+2026-11-10 09:43:35 unit start sft-code-commitpackft u005 data/apacheconf/data.jsonl (0.00 GB)
+2026-11-10 09:43:36 unit done sft-code-commitpackft u221: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:36 unit done sft-code-commitpackft u070: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:36 unit done sft-code-commitpackft u043: rows 4 of 4 selected, skipped 0, 1s
+2026-11-10 09:43:36 unit start sft-code-commitpackft u057 data/eagle/data.jsonl (0.00 GB)
+2026-11-10 09:43:36 unit start sft-code-commitpackft u025 data/bro/data.jsonl (0.00 GB)
+2026-11-10 09:43:36 unit done sft-code-commitpackft u005: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:36 unit start sft-code-commitpackft u159 data/nginx/data.jsonl (0.00 GB)
+2026-11-10 09:43:37 unit start sft-code-commitpackft u029 data/c2hs-haskell/data.jsonl (0.00 GB)
+2026-11-10 09:43:38 unit done sft-code-commitpackft u057: rows 4 of 4 selected, skipped 0, 2s
+2026-11-10 09:43:38 unit done sft-code-commitpackft u025: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:38 unit done sft-code-commitpackft u159: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:38 unit done sft-code-commitpackft u029: rows 2 of 2 selected, skipped 0, 1s
+2026-11-10 09:43:38 unit start sft-code-commitpackft u177 data/pawn/data.jsonl (0.00 GB)
+2026-11-10 09:43:38 unit start sft-code-commitpackft u155 data/mtml/data.jsonl (0.00 GB)
+2026-11-10 09:43:39 unit start sft-code-commitpackft u236 data/supercollider/data.jsonl (0.00 GB)
+2026-11-10 09:43:39 unit start sft-code-commitpackft u071 data/forth/data.jsonl (0.00 GB)
+2026-11-10 09:43:40 unit done sft-code-commitpackft u177: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:40 unit done sft-code-commitpackft u155: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:40 unit done sft-code-commitpackft u236: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:41 part done sft-code-commitpackft.u238.p0000: rows 4,849 flagged 0 canary 0 kept 4,849 58s
+2026-11-10 09:43:41 part start sft-code-commitpackft.u219.p0000 (12 MB)
+2026-11-10 09:43:41 unit start sft-code-commitpackft u202 data/rebol/data.jsonl (0.00 GB)
+2026-11-10 09:43:41 unit done sft-code-commitpackft u071: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:41 unit start sft-code-commitpackft u022 data/bluespec/data.jsonl (0.00 GB)
+2026-11-10 09:43:41 unit start sft-code-commitpackft u253 data/unrealscript/data.jsonl (0.00 GB)
+2026-11-10 09:43:41 unit start sft-code-commitpackft u109 data/isabelle/data.jsonl (0.00 GB)
+2026-11-10 09:43:43 unit done sft-code-commitpackft u202: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:43 unit done sft-code-commitpackft u022: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:43 unit done sft-code-commitpackft u253: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:43 unit start sft-code-commitpackft u144 data/maple/data.jsonl (0.00 GB)
+2026-11-10 09:43:43 unit done sft-code-commitpackft u109: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:43 unit start sft-code-commitpackft u203 data/red/data.jsonl (0.00 GB)
+2026-11-10 09:43:44 unit start sft-code-commitpackft u000 data/abap/data.jsonl (0.00 GB)
+2026-11-10 09:43:44 unit start sft-code-commitpackft u266 data/xpages/data.jsonl (0.00 GB)
+2026-11-10 09:43:45 unit done sft-code-commitpackft u144: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:45 unit done sft-code-commitpackft u203: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:45 unit done sft-code-commitpackft u000: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:45 unit done sft-code-commitpackft u266: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:45 unit start sft-code-commitpackft u103 data/igor-pro/data.jsonl (0.00 GB)
+2026-11-10 09:43:46 unit start sft-code-commitpackft u211 data/sage/data.jsonl (0.00 GB)
+2026-11-10 09:43:46 unit start sft-code-commitpackft u225 data/smt/data.jsonl (0.00 GB)
+2026-11-10 09:43:46 unit start sft-code-commitpackft u174 data/parrot-assembly/data.jsonl (0.00 GB)
+2026-11-10 09:43:48 unit done sft-code-commitpackft u103: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:48 unit done sft-code-commitpackft u211: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:48 unit done sft-code-commitpackft u225: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:48 unit start sft-code-commitpackft u189 data/propeller-spin/data.jsonl (0.00 GB)
+2026-11-10 09:43:48 unit done sft-code-commitpackft u174: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:48 unit start sft-code-commitpackft u104 data/inform-7/data.jsonl (0.00 GB)
+2026-11-10 09:43:48 unit start sft-code-commitpackft u132 data/literate-agda/data.jsonl (0.00 GB)
+2026-11-10 09:43:49 unit start sft-code-commitpackft u054 data/dns-zone/data.jsonl (0.00 GB)
+2026-11-10 09:43:50 unit done sft-code-commitpackft u189: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:50 unit done sft-code-commitpackft u104: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:50 unit done sft-code-commitpackft u132: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:50 unit start sft-code-commitpackft u115 data/jflex/data.jsonl (0.00 GB)
+2026-11-10 09:43:50 unit start sft-code-commitpackft u015 data/ats/data.jsonl (0.00 GB)
+2026-11-10 09:43:50 unit done sft-code-commitpackft u054: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:50 unit start sft-code-commitpackft u009 data/arc/data.jsonl (0.00 GB)
+2026-11-10 09:43:51 unit start sft-code-commitpackft u034 data/clean/data.jsonl (0.00 GB)
+2026-11-10 09:43:52 unit done sft-code-commitpackft u115: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:52 unit done sft-code-commitpackft u015: rows 3 of 3 selected, skipped 0, 2s
+2026-11-10 09:43:52 unit done sft-code-commitpackft u009: rows 2 of 2 selected, skipped 0, 2s
+2026-11-10 09:43:52 unit done sft-code-commitpackft u034: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:52 unit start sft-code-commitpackft u213 data/sas/data.jsonl (0.00 GB)
+2026-11-10 09:43:53 unit start sft-code-commitpackft u147 data/mathematica/data.jsonl (0.00 GB)
+2026-11-10 09:43:53 unit start sft-code-commitpackft u021 data/blitzmax/data.jsonl (0.00 GB)
+2026-11-10 09:43:53 unit start sft-code-commitpackft u152 data/module-management-system/data.jsonl (0.00 GB)
+2026-11-10 09:43:54 unit done sft-code-commitpackft u213: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:54 unit done sft-code-commitpackft u147: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:54 unit done sft-code-commitpackft u021: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:54 unit done sft-code-commitpackft u152: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:54 unit start sft-code-commitpackft u216 data/scaml/data.jsonl (0.00 GB)
+2026-11-10 09:43:55 unit start sft-code-commitpackft u158 data/netlinx/data.jsonl (0.00 GB)
+2026-11-10 09:43:55 unit start sft-code-commitpackft u090 data/harbour/data.jsonl (0.00 GB)
+2026-11-10 09:43:55 unit start sft-code-commitpackft u191 data/pure-data/data.jsonl (0.00 GB)
+2026-11-10 09:43:56 unit done sft-code-commitpackft u216: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:56 unit done sft-code-commitpackft u158: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:56 unit done sft-code-commitpackft u090: rows 1 of 1 selected, skipped 0, 2s
+2026-11-10 09:43:56 unit done sft-code-commitpackft u191: rows 1 of 1 selected, skipped 0, 1s
+2026-11-10 09:43:58 part done sft-code-commitpackft.u099.p0000: rows 20,214 flagged 360 canary 0 kept 19,854 180s
+2026-11-10 09:43:58 part start sft-code-commitpackft.u215.p0000 (10 MB)
+2026-11-10 09:44:02 part done sft-code-commitpackft.u027.p0000: rows 4,992 flagged 0 canary 0 kept 4,992 63s
+2026-11-10 09:44:02 part start sft-code-commitpackft.u273.p0000 (170 MB)
+2026-11-10 09:44:05 part done sft-code-commitpackft.u205.p0000: rows 6,560 flagged 167 canary 0 kept 6,393 75s
+2026-11-10 09:44:05 part start sft-code-commitpackft.u088.p0000 (8 MB)
+2026-11-10 09:44:22 part done sft-code-commitpackft.u082.p0000: rows 5,004 flagged 3 canary 0 kept 5,001 60s
+2026-11-10 09:44:22 part start sft-code-commitpackft.u044.p0000 (8 MB)
+2026-11-10 09:44:30 part done sft-code-commitpackft.u113.p0000: rows 20,635 flagged 0 canary 0 kept 20,635 203s
+2026-11-10 09:44:30 part start sft-code-commitpackft.u210.p0000 (6 MB)
+2026-11-10 09:44:43 part done sft-code-commitpackft.u219.p0000: rows 6,829 flagged 1 canary 0 kept 6,828 62s
+2026-11-10 09:44:43 part start sft-code-commitpackft.u246.p0000 (5 MB)
+2026-11-10 09:44:52 part done sft-code-commitpackft.u088.p0000: rows 4,415 flagged 9 canary 0 kept 4,406 47s
+2026-11-10 09:44:52 part start sft-code-commitpackft.u120.p0000 (5 MB)
+2026-11-10 09:44:53 part done sft-code-commitpackft.u215.p0000: rows 5,040 flagged 1 canary 0 kept 5,039 55s
+2026-11-10 09:44:53 part start sft-code-commitpackft.u123.p0000 (5 MB)
+2026-11-10 09:45:07 part done sft-code-commitpackft.u044.p0000: rows 5,049 flagged 0 canary 0 kept 5,049 45s
+2026-11-10 09:45:07 part start sft-code-commitpackft.u035.p0000 (5 MB)
+2026-11-10 09:45:08 part done sft-code-commitpackft.u210.p0000: rows 2,996 flagged 0 canary 0 kept 2,996 39s
+2026-11-10 09:45:08 part start sft-code-commitpackft.u178.p0000 (4 MB)
+2026-11-10 09:45:13 part done sft-code-commitpackft.u243.p0000: rows 46,588 flagged 31 canary 0 kept 46,557 287s
+2026-11-10 09:45:13 part start sft-code-commitpackft.u020.p0000 (2 MB)
+2026-11-10 09:45:19 part done sft-code-commitpackft.u220.p0000: rows 31,217 flagged 4 canary 0 kept 31,213 242s
+2026-11-10 09:45:19 part start sft-code-commitpackft.u087.p0000 (3 MB)
+2026-11-10 09:45:21 part done sft-code-commitpackft.u246.p0000: rows 3,424 flagged 0 canary 0 kept 3,424 38s
+2026-11-10 09:45:21 part start sft-code-commitpackft.u248.p0000 (3 MB)
+2026-11-10 09:45:26 part done sft-code-commitpackft.u120.p0000: rows 2,199 flagged 1 canary 0 kept 2,198 34s
+2026-11-10 09:45:26 part start sft-code-commitpackft.u127.p0000 (2 MB)
+2026-11-10 09:45:31 part done sft-code-commitpackft.u123.p0000: rows 2,214 flagged 0 canary 0 kept 2,214 38s
+2026-11-10 09:45:31 part start sft-code-commitpackft.u163.p0000 (3 MB)
+2026-11-10 09:45:41 part done sft-code-commitpackft.u020.p0000: rows 1,308 flagged 0 canary 0 kept 1,308 28s
+2026-11-10 09:45:41 part start sft-code-commitpackft.u230.p0000 (3 MB)
+2026-11-10 09:45:45 part done sft-code-commitpackft.u035.p0000: rows 2,403 flagged 0 canary 0 kept 2,403 38s
+2026-11-10 09:45:45 part done sft-code-commitpackft.u178.p0000: rows 2,288 flagged 1 canary 0 kept 2,287 37s
+2026-11-10 09:45:45 part start sft-code-commitpackft.u091.p0000 (3 MB)
+2026-11-10 09:45:45 part start sft-code-commitpackft.u089.p0000 (3 MB)
+2026-11-10 09:45:51 part done sft-code-commitpackft.u248.p0000: rows 1,610 flagged 5 canary 0 kept 1,605 31s
+2026-11-10 09:45:51 part start sft-code-commitpackft.u251.p0000 (3 MB)
+2026-11-10 09:45:53 part done sft-code-commitpackft.u087.p0000: rows 1,486 flagged 0 canary 0 kept 1,486 33s
+2026-11-10 09:45:53 part done sft-code-commitpackft.u127.p0000: rows 1,360 flagged 0 canary 0 kept 1,360 27s
+2026-11-10 09:45:53 part start sft-code-commitpackft.u019.p0000 (2 MB)
+2026-11-10 09:45:53 part start sft-code-commitpackft.u046.p0000 (2 MB)
+2026-11-10 09:46:01 part done sft-code-commitpackft.u163.p0000: rows 1,593 flagged 0 canary 0 kept 1,593 30s
+2026-11-10 09:46:01 part start sft-code-commitpackft.u142.p0000 (2 MB)
+2026-11-10 09:46:11 part done sft-code-commitpackft.u180.p0000: rows 24,791 flagged 19 canary 0 kept 24,772 202s
+2026-11-10 09:46:11 part done sft-code-commitpackft.u089.p0000: rows 1,429 flagged 10 canary 0 kept 1,419 26s
+2026-11-10 09:46:11 part start sft-code-commitpackft.u110.p0000 (2 MB)
+2026-11-10 09:46:11 part start sft-code-commitpackft.u061.p0000 (2 MB)
+2026-11-10 09:46:12 part done sft-code-commitpackft.u230.p0000: rows 2,069 flagged 0 canary 0 kept 2,069 31s
+2026-11-10 09:46:12 part start sft-code-commitpackft.u036.p0000 (2 MB)
+2026-11-10 09:46:15 part done sft-code-commitpackft.u091.p0000: rows 1,389 flagged 0 canary 0 kept 1,389 30s
+2026-11-10 09:46:15 part start sft-code-commitpackft.u187.p0000 (2 MB)
+2026-11-10 09:46:18 part done sft-code-commitpackft.u019.p0000: rows 1,466 flagged 0 canary 0 kept 1,466 26s
+2026-11-10 09:46:18 part done sft-code-commitpackft.u046.p0000: rows 976 flagged 0 canary 0 kept 976 26s
+2026-11-10 09:46:18 part start sft-code-commitpackft.u222.p0000 (2 MB)
+2026-11-10 09:46:18 part start sft-code-commitpackft.u063.p0000 (2 MB)
+2026-11-10 09:46:20 part done sft-code-commitpackft.u251.p0000: rows 1,597 flagged 0 canary 0 kept 1,597 28s
+2026-11-10 09:46:20 part start sft-code-commitpackft.u049.p0000 (2 MB)
+2026-11-10 09:46:26 part done sft-code-commitpackft.u142.p0000: rows 960 flagged 0 canary 0 kept 960 25s
+2026-11-10 09:46:26 part start sft-code-commitpackft.u258.p0000 (2 MB)
+2026-11-10 09:46:35 part done sft-code-commitpackft.u036.p0000: rows 981 flagged 4 canary 0 kept 977 23s
+2026-11-10 09:46:35 part start sft-code-commitpackft.u011.p0000 (1 MB)
+2026-11-10 09:46:36 part done sft-code-commitpackft.u110.p0000: rows 1,119 flagged 16 canary 0 kept 1,103 25s
+2026-11-10 09:46:36 part start sft-code-commitpackft.u140.p0000 (2 MB)
+2026-11-10 09:46:37 part done sft-code-commitpackft.u061.p0000: rows 1,150 flagged 0 canary 0 kept 1,150 26s
+2026-11-10 09:46:37 part start sft-code-commitpackft.u136.p0000 (1 MB)
+2026-11-10 09:46:39 part done sft-code-commitpackft.u187.p0000: rows 991 flagged 0 canary 0 kept 991 24s
+2026-11-10 09:46:39 part start sft-code-commitpackft.u224.p0000 (1 MB)
+2026-11-10 09:46:42 part done sft-code-commitpackft.u222.p0000: rows 1,052 flagged 11 canary 0 kept 1,041 24s
+2026-11-10 09:46:42 part done sft-code-commitpackft.u063.p0000: rows 1,015 flagged 0 canary 0 kept 1,015 24s
+2026-11-10 09:46:42 part start sft-code-commitpackft.u051.p0000 (1 MB)
+2026-11-10 09:46:42 part start sft-code-commitpackft.u040.p0000 (1 MB)
+2026-11-10 09:46:44 part done sft-code-commitpackft.u049.p0000: rows 765 flagged 0 canary 0 kept 765 24s
+2026-11-10 09:46:44 part start sft-code-commitpackft.u212.p0000 (1 MB)
+2026-11-10 09:46:51 part done sft-code-commitpackft.u258.p0000: rows 1,063 flagged 0 canary 0 kept 1,063 25s
+2026-11-10 09:46:51 part start sft-code-commitpackft.u261.p0000 (1 MB)
+2026-11-10 09:46:57 part done sft-code-commitpackft.u011.p0000: rows 523 flagged 0 canary 0 kept 523 22s
+2026-11-10 09:46:57 part start sft-code-commitpackft.u214.p0000 (1 MB)
+2026-11-10 09:46:58 part done sft-code-commitpackft.u140.p0000: rows 920 flagged 0 canary 0 kept 920 22s
+2026-11-10 09:46:58 part done sft-code-commitpackft.u136.p0000: rows 780 flagged 0 canary 0 kept 780 21s
+2026-11-10 09:46:58 part start sft-code-commitpackft.u069.p0000 (1 MB)
+2026-11-10 09:46:58 part start sft-code-commitpackft.u065.p0000 (1 MB)
+2026-11-10 09:47:01 part done sft-code-commitpackft.u224.p0000: rows 737 flagged 7 canary 0 kept 730 22s
+2026-11-10 09:47:01 part start sft-code-commitpackft.u073.p0000 (1 MB)
+2026-11-10 09:47:04 part done sft-code-commitpackft.u051.p0000: rows 680 flagged 0 canary 0 kept 680 21s
+2026-11-10 09:47:04 part done sft-code-commitpackft.u040.p0000: rows 778 flagged 0 canary 0 kept 778 21s
+2026-11-10 09:47:04 part done sft-code-commitpackft.u212.p0000: rows 617 flagged 0 canary 0 kept 617 20s
+2026-11-10 09:47:04 part start sft-code-commitpackft.u235.p0000 (1 MB)
+2026-11-10 09:47:04 part start sft-code-commitpackft.u196.p0000 (1 MB)
+2026-11-10 09:47:04 part start sft-code-commitpackft.u093.p0000 (1 MB)
+2026-11-10 09:47:13 part done sft-code-commitpackft.u261.p0000: rows 587 flagged 0 canary 0 kept 587 23s
+2026-11-10 09:47:13 part start sft-code-commitpackft.u095.p0000 (1 MB)
+2026-11-10 09:47:18 part done sft-code-commitpackft.u065.p0000: rows 480 flagged 0 canary 0 kept 480 20s
+2026-11-10 09:47:18 part start sft-code-commitpackft.u143.p0000 (0 MB)
+2026-11-10 09:47:20 part done sft-code-commitpackft.u214.p0000: rows 705 flagged 0 canary 0 kept 705 23s
+2026-11-10 09:47:20 part start sft-code-commitpackft.u002.p0000 (1 MB)
+2026-11-10 09:47:22 part done sft-code-commitpackft.u069.p0000: rows 813 flagged 0 canary 0 kept 813 24s
+2026-11-10 09:47:22 part done sft-code-commitpackft.u073.p0000: rows 510 flagged 0 canary 0 kept 510 21s
+2026-11-10 09:47:22 part start sft-code-commitpackft.u167.p0000 (1 MB)
+2026-11-10 09:47:22 part start sft-code-commitpackft.u066.p0000 (1 MB)
+2026-11-10 09:47:23 part done sft-code-commitpackft.u093.p0000: rows 421 flagged 0 canary 0 kept 421 20s
+2026-11-10 09:47:23 part start sft-code-commitpackft.u062.p0000 (1 MB)
+2026-11-10 09:47:25 part done sft-code-commitpackft.u116.p0000: rows 39,777 flagged 1 canary 0 kept 39,776 269s
+2026-11-10 09:47:25 part done sft-code-commitpackft.u235.p0000: rows 480 flagged 0 canary 0 kept 480 21s
+2026-11-10 09:47:25 part done sft-code-commitpackft.u196.p0000: rows 368 flagged 0 canary 0 kept 368 21s
+2026-11-10 09:47:25 part start sft-code-commitpackft.u242.p0000 (1 MB)
+2026-11-10 09:47:25 part start sft-code-commitpackft.u201.p0000 (1 MB)
+2026-11-10 09:47:25 part start sft-code-commitpackft.u045.p0000 (0 MB)
+2026-11-10 09:47:33 part done sft-code-commitpackft.u095.p0000: rows 399 flagged 1 canary 0 kept 398 20s
+2026-11-10 09:47:33 part start sft-code-commitpackft.u190.p0000 (0 MB)
+2026-11-10 09:47:37 part done sft-code-commitpackft.u143.p0000: rows 170 flagged 2 canary 0 kept 168 19s
+2026-11-10 09:47:37 part start sft-code-commitpackft.u223.p0000 (0 MB)
+2026-11-10 09:47:40 part done sft-code-commitpackft.u002.p0000: rows 265 flagged 0 canary 0 kept 265 20s
+2026-11-10 09:47:40 part start sft-code-commitpackft.u010.p0000 (0 MB)
+2026-11-10 09:47:41 part done sft-code-commitpackft.u066.p0000: rows 254 flagged 0 canary 0 kept 254 19s
+2026-11-10 09:47:41 part start sft-code-commitpackft.u112.p0000 (0 MB)
+2026-11-10 09:47:42 part done sft-code-commitpackft.u167.p0000: rows 333 flagged 0 canary 0 kept 333 20s
+2026-11-10 09:47:42 part done sft-code-commitpackft.u062.p0000: rows 265 flagged 0 canary 0 kept 265 19s
+2026-11-10 09:47:42 part start sft-code-commitpackft.u217.p0000 (0 MB)
+2026-11-10 09:47:42 part start sft-code-commitpackft.u085.p0000 (0 MB)
+2026-11-10 09:47:45 part done sft-code-commitpackft.u114.p0000: rows 52,989 flagged 4 canary 0 kept 52,985 422s
+2026-11-10 09:47:45 part done sft-code-commitpackft.u242.p0000: rows 307 flagged 0 canary 0 kept 307 20s
+2026-11-10 09:47:45 part done sft-code-commitpackft.u201.p0000: rows 270 flagged 0 canary 0 kept 270 20s
+2026-11-10 09:47:45 part done sft-code-commitpackft.u045.p0000: rows 375 flagged 0 canary 0 kept 375 20s
+2026-11-10 09:47:45 part start sft-code-commitpackft.u166.p0000 (0 MB)
+2026-11-10 09:47:45 part start sft-code-commitpackft.u050.p0000 (0 MB)
+2026-11-10 09:47:45 part start sft-code-commitpackft.u067.p0000 (0 MB)
+2026-11-10 09:47:45 part start sft-code-commitpackft.u042.p0000 (0 MB)
+2026-11-10 09:47:51 part done sft-code-commitpackft.u190.p0000: rows 181 flagged 0 canary 0 kept 181 17s
+2026-11-10 09:47:51 part start sft-code-commitpackft.u206.p0000 (0 MB)
+2026-11-10 09:47:55 part done sft-code-commitpackft.u223.p0000: rows 284 flagged 0 canary 0 kept 284 18s
+2026-11-10 09:47:55 part start sft-code-commitpackft.u092.p0000 (0 MB)
+2026-11-10 09:47:57 part done sft-code-commitpackft.u194.p0000: rows 56,025 flagged 15 canary 0 kept 56,010 463s
+2026-11-10 09:47:57 part start sft-code-commitpackft.u080.p0000 (0 MB)
+2026-11-10 09:47:59 part done sft-code-commitpackft.u010.p0000: rows 225 flagged 0 canary 0 kept 225 19s
+2026-11-10 09:47:59 part done sft-code-commitpackft.u112.p0000: rows 173 flagged 2 canary 0 kept 171 18s
+2026-11-10 09:47:59 part start sft-code-commitpackft.u075.p0000 (0 MB)
+2026-11-10 09:47:59 part start sft-code-commitpackft.u098.p0000 (0 MB)
+2026-11-10 09:48:00 part done sft-code-commitpackft.u085.p0000: rows 192 flagged 0 canary 0 kept 192 18s
+2026-11-10 09:48:00 part start sft-code-commitpackft.u121.p0000 (0 MB)
+2026-11-10 09:48:01 part done sft-code-commitpackft.u217.p0000: rows 213 flagged 1 canary 0 kept 212 19s
+2026-11-10 09:48:01 part start sft-code-commitpackft.u195.p0000 (0 MB)
+2026-11-10 09:48:03 part done sft-code-commitpackft.u166.p0000: rows 86 flagged 0 canary 0 kept 86 18s
+2026-11-10 09:48:03 part done sft-code-commitpackft.u067.p0000: rows 113 flagged 0 canary 0 kept 113 18s
+2026-11-10 09:48:03 part start sft-code-commitpackft.u048.p0000 (0 MB)
+2026-11-10 09:48:03 part start sft-code-commitpackft.u096.p0000 (0 MB)
+2026-11-10 09:48:04 part done sft-code-commitpackft.u050.p0000: rows 186 flagged 0 canary 0 kept 186 19s
+2026-11-10 09:48:04 part done sft-code-commitpackft.u042.p0000: rows 182 flagged 0 canary 0 kept 182 19s
+2026-11-10 09:48:04 part start sft-code-commitpackft.u240.p0000 (0 MB)
+2026-11-10 09:48:04 part start sft-code-commitpackft.u171.p0000 (0 MB)
+2026-11-10 09:48:09 part done sft-code-commitpackft.u206.p0000: rows 135 flagged 0 canary 0 kept 135 18s
+2026-11-10 09:48:09 part start sft-code-commitpackft.u179.p0000 (0 MB)
+2026-11-10 09:48:13 part done sft-code-commitpackft.u092.p0000: rows 174 flagged 0 canary 0 kept 174 18s
+2026-11-10 09:48:13 part start sft-code-commitpackft.u141.p0000 (0 MB)
+2026-11-10 09:48:16 part done sft-code-commitpackft.u080.p0000: rows 164 flagged 0 canary 0 kept 164 19s
+2026-11-10 09:48:16 part start sft-code-commitpackft.u270.p0000 (0 MB)
+2026-11-10 09:48:18 part done sft-code-commitpackft.u075.p0000: rows 193 flagged 0 canary 0 kept 193 19s
+2026-11-10 09:48:18 part done sft-code-commitpackft.u098.p0000: rows 150 flagged 1 canary 0 kept 149 19s
+2026-11-10 09:48:18 part done sft-code-commitpackft.u121.p0000: rows 180 flagged 0 canary 0 kept 180 17s
+2026-11-10 09:48:18 part start sft-code-commitpackft.u237.p0000 (0 MB)
+2026-11-10 09:48:18 part start sft-code-commitpackft.u160.p0000 (0 MB)
+2026-11-10 09:48:18 part start sft-code-commitpackft.u197.p0000 (0 MB)
+2026-11-10 09:48:19 part done sft-code-commitpackft.u195.p0000: rows 140 flagged 0 canary 0 kept 140 18s
+2026-11-10 09:48:19 part start sft-code-commitpackft.u207.p0000 (0 MB)
+2026-11-10 09:48:20 part done sft-code-commitpackft.u048.p0000: rows 123 flagged 0 canary 0 kept 123 18s
+2026-11-10 09:48:20 part start sft-code-commitpackft.u198.p0000 (0 MB)
+2026-11-10 09:48:21 part done sft-code-commitpackft.u096.p0000: rows 135 flagged 1 canary 0 kept 134 19s
+2026-11-10 09:48:21 part start sft-code-commitpackft.u244.p0000 (0 MB)
+2026-11-10 09:48:23 part done sft-code-commitpackft.u240.p0000: rows 103 flagged 0 canary 0 kept 103 19s
+2026-11-10 09:48:23 part done sft-code-commitpackft.u171.p0000: rows 136 flagged 0 canary 0 kept 136 19s
+2026-11-10 09:48:23 part start sft-code-commitpackft.u014.p0000 (0 MB)
+2026-11-10 09:48:23 part start sft-code-commitpackft.u193.p0000 (0 MB)
+2026-11-10 09:48:26 part done sft-code-commitpackft.u179.p0000: rows 122 flagged 0 canary 0 kept 122 18s
+2026-11-10 09:48:27 part start sft-code-commitpackft.u250.p0000 (0 MB)
+2026-11-10 09:48:30 part done sft-code-commitpackft.u141.p0000: rows 101 flagged 0 canary 0 kept 101 18s
+2026-11-10 09:48:30 part start sft-code-commitpackft.u259.p0000 (0 MB)
+2026-11-10 09:48:35 part done sft-code-commitpackft.u270.p0000: rows 99 flagged 0 canary 0 kept 99 19s
+2026-11-10 09:48:35 part done sft-code-commitpackft.u197.p0000: rows 121 flagged 0 canary 0 kept 121 17s
+2026-11-10 09:48:35 part start sft-code-commitpackft.u053.p0000 (0 MB)
+2026-11-10 09:48:35 part start sft-code-commitpackft.u232.p0000 (0 MB)
+2026-11-10 09:48:36 part done sft-code-commitpackft.u237.p0000: rows 169 flagged 12 canary 0 kept 157 19s
+2026-11-10 09:48:36 part done sft-code-commitpackft.u160.p0000: rows 67 flagged 0 canary 0 kept 67 19s
+2026-11-10 09:48:36 part done sft-code-commitpackft.u207.p0000: rows 85 flagged 0 canary 0 kept 85 17s
+2026-11-10 09:48:36 part start sft-code-commitpackft.u183.p0000 (0 MB)
+2026-11-10 09:48:36 part start sft-code-commitpackft.u072.p0000 (0 MB)
+2026-11-10 09:48:36 part start sft-code-commitpackft.u102.p0000 (0 MB)
+2026-11-10 09:48:38 part done sft-code-commitpackft.u244.p0000: rows 61 flagged 0 canary 0 kept 61 16s
+2026-11-10 09:48:38 part start sft-code-commitpackft.u079.p0000 (0 MB)
+2026-11-10 09:48:39 part done sft-code-commitpackft.u198.p0000: rows 117 flagged 0 canary 0 kept 117 19s
+2026-11-10 09:48:39 part start sft-code-commitpackft.u271.p0000 (0 MB)
+2026-11-10 09:48:40 part done sft-code-commitpackft.u193.p0000: rows 80 flagged 0 canary 0 kept 80 17s
+2026-11-10 09:48:40 part start sft-code-commitpackft.u135.p0000 (0 MB)
+2026-11-10 09:48:42 part done sft-code-commitpackft.u014.p0000: rows 105 flagged 0 canary 0 kept 105 19s
+2026-11-10 09:48:42 part start sft-code-commitpackft.u001.p0000 (0 MB)
+2026-11-10 09:48:44 part done sft-code-commitpackft.u250.p0000: rows 101 flagged 0 canary 0 kept 101 18s
+2026-11-10 09:48:44 part start sft-code-commitpackft.u255.p0000 (0 MB)
+2026-11-10 09:48:48 part done sft-code-commitpackft.u259.p0000: rows 48 flagged 0 canary 0 kept 48 18s
+2026-11-10 09:48:48 part start sft-code-commitpackft.u018.p0000 (0 MB)
+2026-11-10 09:48:51 part done sft-code-commitpackft.u053.p0000: rows 16 flagged 0 canary 0 kept 16 16s
+2026-11-10 09:48:51 part start sft-code-commitpackft.u122.p0000 (0 MB)
+2026-11-10 09:48:53 part done sft-code-commitpackft.u232.p0000: rows 72 flagged 0 canary 0 kept 72 18s
+2026-11-10 09:48:53 part done sft-code-commitpackft.u072.p0000: rows 70 flagged 0 canary 0 kept 70 16s
+2026-11-10 09:48:53 part start sft-code-commitpackft.u032.p0000 (0 MB)
+2026-11-10 09:48:53 part start sft-code-commitpackft.u055.p0000 (0 MB)
+2026-11-10 09:48:54 part done sft-code-commitpackft.u183.p0000: rows 54 flagged 0 canary 0 kept 54 18s
+2026-11-10 09:48:54 part done sft-code-commitpackft.u102.p0000: rows 38 flagged 0 canary 0 kept 38 18s
+2026-11-10 09:48:54 part start sft-code-commitpackft.u208.p0000 (0 MB)
+2026-11-10 09:48:54 part start sft-code-commitpackft.u229.p0000 (0 MB)
+2026-11-10 09:48:55 part done sft-code-commitpackft.u079.p0000: rows 72 flagged 0 canary 0 kept 72 18s
+2026-11-10 09:48:55 part start sft-code-commitpackft.u012.p0000 (0 MB)
+2026-11-10 09:48:57 part done sft-code-commitpackft.u271.p0000: rows 55 flagged 0 canary 0 kept 55 18s
+2026-11-10 09:48:57 part done sft-code-commitpackft.u135.p0000: rows 63 flagged 0 canary 0 kept 63 16s
+2026-11-10 09:48:57 part start sft-code-commitpackft.u059.p0000 (0 MB)
+2026-11-10 09:48:57 part start sft-code-commitpackft.u131.p0000 (0 MB)
+2026-11-10 09:48:59 part done sft-code-commitpackft.u001.p0000: rows 49 flagged 0 canary 0 kept 49 18s
+2026-11-10 09:48:59 part start sft-code-commitpackft.u268.p0000 (0 MB)
+2026-11-10 09:49:03 part done sft-code-commitpackft.u255.p0000: rows 50 flagged 0 canary 0 kept 50 19s
+2026-11-10 09:49:03 part done sft-code-commitpackft.u018.p0000: rows 52 flagged 0 canary 0 kept 52 15s
+2026-11-10 09:49:03 part start sft-code-commitpackft.u175.p0000 (0 MB)
+2026-11-10 09:49:03 part start sft-code-commitpackft.u130.p0000 (0 MB)
+2026-11-10 09:49:10 part done sft-code-commitpackft.u122.p0000: rows 48 flagged 27 canary 0 kept 21 19s
+2026-11-10 09:49:10 part done sft-code-commitpackft.u032.p0000: rows 49 flagged 0 canary 0 kept 49 17s
+2026-11-10 09:49:10 part done sft-code-commitpackft.u208.p0000: rows 41 flagged 0 canary 0 kept 41 16s
+2026-11-10 09:49:10 part done sft-code-commitpackft.u229.p0000: rows 45 flagged 0 canary 0 kept 45 16s
+2026-11-10 09:49:10 part start sft-code-commitpackft.u148.p0000 (0 MB)
+2026-11-10 09:49:10 part start sft-code-commitpackft.u226.p0000 (0 MB)
+2026-11-10 09:49:10 part start sft-code-commitpackft.u239.p0000 (0 MB)
+2026-11-10 09:49:10 part start sft-code-commitpackft.u245.p0000 (0 MB)
+2026-11-10 09:49:11 part done sft-code-commitpackft.u055.p0000: rows 39 flagged 0 canary 0 kept 39 19s
+2026-11-10 09:49:11 part done sft-code-commitpackft.u012.p0000: rows 22 flagged 2 canary 0 kept 20 16s
+2026-11-10 09:49:11 part start sft-code-commitpackft.u117.p0000 (0 MB)
+2026-11-10 09:49:11 part start sft-code-commitpackft.u086.p0000 (0 MB)
+2026-11-10 09:49:14 part done sft-code-commitpackft.u059.p0000: rows 48 flagged 0 canary 0 kept 48 17s
+2026-11-10 09:49:14 part done sft-code-commitpackft.u131.p0000: rows 30 flagged 1 canary 0 kept 29 17s
+2026-11-10 09:49:14 part start sft-code-commitpackft.u188.p0000 (0 MB)
+2026-11-10 09:49:14 part start sft-code-commitpackft.u047.p0000 (0 MB)
+2026-11-10 09:49:16 part done sft-code-commitpackft.u268.p0000: rows 39 flagged 0 canary 0 kept 39 17s
+2026-11-10 09:49:16 part start sft-code-commitpackft.u084.p0000 (0 MB)
+2026-11-10 09:49:20 part done sft-code-commitpackft.u175.p0000: rows 23 flagged 0 canary 0 kept 23 17s
+2026-11-10 09:49:20 part done sft-code-commitpackft.u130.p0000: rows 37 flagged 0 canary 0 kept 37 17s
+2026-11-10 09:49:20 part start sft-code-commitpackft.u106.p0000 (0 MB)
+2026-11-10 09:49:20 part start sft-code-commitpackft.u006.p0000 (0 MB)
+2026-11-10 09:49:27 part done sft-code-commitpackft.u226.p0000: rows 37 flagged 0 canary 0 kept 37 17s
+2026-11-10 09:49:27 part done sft-code-commitpackft.u239.p0000: rows 35 flagged 0 canary 0 kept 35 17s
+2026-11-10 09:49:27 part done sft-code-commitpackft.u245.p0000: rows 28 flagged 0 canary 0 kept 28 17s
+2026-11-10 09:49:27 part start sft-code-commitpackft.u164.p0000 (0 MB)
+2026-11-10 09:49:27 part start sft-code-commitpackft.u138.p0000 (0 MB)
+2026-11-10 09:49:27 part start sft-code-commitpackft.u078.p0000 (0 MB)
+2026-11-10 09:49:28 part done sft-code-commitpackft.u148.p0000: rows 33 flagged 1 canary 0 kept 32 18s
+2026-11-10 09:49:28 part done sft-code-commitpackft.u117.p0000: rows 33 flagged 0 canary 0 kept 33 17s
+2026-11-10 09:49:28 part done sft-code-commitpackft.u086.p0000: rows 25 flagged 3 canary 0 kept 22 17s
+2026-11-10 09:49:28 part start sft-code-commitpackft.u262.p0000 (0 MB)
+2026-11-10 09:49:28 part start sft-code-commitpackft.u111.p0000 (0 MB)
+2026-11-10 09:49:28 part start sft-code-commitpackft.u133.p0000 (0 MB)
+2026-11-10 09:49:31 part done sft-code-commitpackft.u188.p0000: rows 35 flagged 0 canary 0 kept 35 17s
+2026-11-10 09:49:31 part start sft-code-commitpackft.u173.p0000 (0 MB)
+2026-11-10 09:49:32 part done sft-code-commitpackft.u047.p0000: rows 25 flagged 0 canary 0 kept 25 18s
+2026-11-10 09:49:32 part done sft-code-commitpackft.u084.p0000: rows 35 flagged 0 canary 0 kept 35 16s
+2026-11-10 09:49:32 part start sft-code-commitpackft.u169.p0000 (0 MB)
+2026-11-10 09:49:32 part start sft-code-commitpackft.u038.p0000 (0 MB)
+2026-11-10 09:49:37 part done sft-code-commitpackft.u106.p0000: rows 16 flagged 0 canary 0 kept 16 17s
+2026-11-10 09:49:37 part done sft-code-commitpackft.u006.p0000: rows 23 flagged 0 canary 0 kept 23 17s
+2026-11-10 09:49:37 part start sft-code-commitpackft.u247.p0000 (0 MB)
+2026-11-10 09:49:37 part start sft-code-commitpackft.u176.p0000 (0 MB)
+2026-11-10 09:49:44 part done sft-code-commitpackft.u164.p0000: rows 15 flagged 0 canary 0 kept 15 17s
+2026-11-10 09:49:44 part done sft-code-commitpackft.u138.p0000: rows 21 flagged 0 canary 0 kept 21 17s
+2026-11-10 09:49:44 part done sft-code-commitpackft.u111.p0000: rows 9 flagged 0 canary 0 kept 9 16s
+2026-11-10 09:49:44 part start sft-code-commitpackft.u170.p0000 (0 MB)
+2026-11-10 09:49:44 part start sft-code-commitpackft.u184.p0000 (0 MB)
+2026-11-10 09:49:44 part start sft-code-commitpackft.u228.p0000 (0 MB)
+2026-11-10 09:49:45 part done sft-code-commitpackft.u078.p0000: rows 16 flagged 0 canary 0 kept 16 18s
+2026-11-10 09:49:45 part done sft-code-commitpackft.u262.p0000: rows 6 flagged 0 canary 0 kept 6 17s
+2026-11-10 09:49:45 part done sft-code-commitpackft.u133.p0000: rows 19 flagged 0 canary 0 kept 19 17s
+2026-11-10 09:49:45 part start sft-code-commitpackft.u168.p0000 (0 MB)
+2026-11-10 09:49:45 part start sft-code-commitpackft.u033.p0000 (0 MB)
+2026-11-10 09:49:45 part start sft-code-commitpackft.u108.p0000 (0 MB)
+2026-11-10 09:49:49 part done sft-code-commitpackft.u173.p0000: rows 23 flagged 0 canary 0 kept 23 18s
+2026-11-10 09:49:49 part start sft-code-commitpackft.u150.p0000 (0 MB)
+2026-11-10 09:49:50 part done sft-code-commitpackft.u169.p0000: rows 23 flagged 0 canary 0 kept 23 18s
+2026-11-10 09:49:50 part done sft-code-commitpackft.u038.p0000: rows 20 flagged 0 canary 0 kept 20 18s
+2026-11-10 09:49:50 part start sft-code-commitpackft.u008.p0000 (0 MB)
+2026-11-10 09:49:50 part start sft-code-commitpackft.u074.p0000 (0 MB)
+2026-11-10 09:49:54 part done sft-code-commitpackft.u247.p0000: rows 21 flagged 0 canary 0 kept 21 17s
+2026-11-10 09:49:54 part done sft-code-commitpackft.u176.p0000: rows 25 flagged 0 canary 0 kept 25 17s
+2026-11-10 09:49:54 part start sft-code-commitpackft.u016.p0000 (0 MB)
+2026-11-10 09:49:54 part start sft-code-commitpackft.u137.p0000 (0 MB)
+2026-11-10 09:50:00 part done sft-code-commitpackft.u184.p0000: rows 16 flagged 0 canary 0 kept 16 16s
+2026-11-10 09:50:00 part start sft-code-commitpackft.u052.p0000 (0 MB)
+2026-11-10 09:50:02 part done sft-code-commitpackft.u209.p0000: rows 69,413 flagged 4 canary 0 kept 69,409 563s
+2026-11-10 09:50:02 part done sft-code-commitpackft.u170.p0000: rows 21 flagged 0 canary 0 kept 21 18s
+2026-11-10 09:50:02 part done sft-code-commitpackft.u228.p0000: rows 23 flagged 0 canary 0 kept 23 18s
+2026-11-10 09:50:02 part done sft-code-commitpackft.u033.p0000: rows 20 flagged 0 canary 0 kept 20 17s
+2026-11-10 09:50:02 part done sft-code-commitpackft.u108.p0000: rows 25 flagged 0 canary 0 kept 25 17s
+2026-11-10 09:50:02 part start sft-code-commitpackft.u151.p0000 (0 MB)
+2026-11-10 09:50:02 part start sft-code-commitpackft.u030.p0000 (0 MB)
+2026-11-10 09:50:02 part start sft-code-commitpackft.u101.p0000 (0 MB)
+2026-11-10 09:50:02 part start sft-code-commitpackft.u256.p0000 (0 MB)
+2026-11-10 09:50:02 part start sft-code-commitpackft.u004.p0000 (0 MB)
+2026-11-10 09:50:03 part done sft-code-commitpackft.u168.p0000: rows 15 flagged 0 canary 0 kept 15 18s
+2026-11-10 09:50:03 part start sft-code-commitpackft.u094.p0000 (0 MB)
+2026-11-10 09:50:07 part done sft-code-commitpackft.u145.p0000: rows 62,518 flagged 198 canary 0 kept 62,320 550s
+2026-11-10 09:50:07 part start sft-code-commitpackft.u076.p0000 (0 MB)
+2026-11-10 09:50:08 part done sft-code-commitpackft.u150.p0000: rows 16 flagged 0 canary 0 kept 16 19s
+2026-11-10 09:50:08 part done sft-code-commitpackft.u008.p0000: rows 19 flagged 0 canary 0 kept 19 18s
+2026-11-10 09:50:08 part done sft-code-commitpackft.u074.p0000: rows 7 flagged 0 canary 0 kept 7 18s
+2026-11-10 09:50:08 part start sft-code-commitpackft.u083.p0000 (0 MB)
+2026-11-10 09:50:08 part start sft-code-commitpackft.u081.p0000 (0 MB)
+2026-11-10 09:50:08 part start sft-code-commitpackft.u161.p0000 (0 MB)
+2026-11-10 09:50:11 part done sft-code-commitpackft.u016.p0000: rows 13 flagged 0 canary 0 kept 13 17s
+2026-11-10 09:50:11 part start sft-code-commitpackft.u200.p0000 (0 MB)
+2026-11-10 09:50:12 part done sft-code-commitpackft.u137.p0000: rows 19 flagged 0 canary 0 kept 19 18s
+2026-11-10 09:50:12 part start sft-code-commitpackft.u100.p0000 (0 MB)
+2026-11-10 09:50:18 part done sft-code-commitpackft.u052.p0000: rows 19 flagged 0 canary 0 kept 19 18s
+2026-11-10 09:50:18 part start sft-code-commitpackft.u172.p0000 (0 MB)
+2026-11-10 09:50:20 part done sft-code-commitpackft.u151.p0000: rows 15 flagged 0 canary 0 kept 15 18s
+2026-11-10 09:50:20 part done sft-code-commitpackft.u101.p0000: rows 12 flagged 0 canary 0 kept 12 18s
+2026-11-10 09:50:20 part done sft-code-commitpackft.u256.p0000: rows 18 flagged 0 canary 0 kept 18 18s
+2026-11-10 09:50:20 part done sft-code-commitpackft.u004.p0000: rows 15 flagged 0 canary 0 kept 15 18s
+2026-11-10 09:50:20 part done sft-code-commitpackft.u094.p0000: rows 11 flagged 0 canary 0 kept 11 17s
+2026-11-10 09:50:20 part start sft-code-commitpackft.u181.p0000 (0 MB)
+2026-11-10 09:50:20 part start sft-code-commitpackft.u013.p0000 (0 MB)
+2026-11-10 09:50:20 part start sft-code-commitpackft.u017.p0000 (0 MB)
+2026-11-10 09:50:20 part start sft-code-commitpackft.u274.p0000 (0 MB)
+2026-11-10 09:50:20 part start sft-code-commitpackft.u269.p0000 (0 MB)
+2026-11-10 09:50:21 part done sft-code-commitpackft.u030.p0000: rows 12 flagged 0 canary 0 kept 12 19s
+2026-11-10 09:50:21 part start sft-code-commitpackft.u154.p0000 (0 MB)
+2026-11-10 09:50:24 part done sft-code-commitpackft.u076.p0000: rows 9 flagged 0 canary 0 kept 9 17s
+2026-11-10 09:50:24 part start sft-code-commitpackft.u068.p0000 (0 MB)
+2026-11-10 09:50:25 part done sft-code-commitpackft.u083.p0000: rows 17 flagged 0 canary 0 kept 17 17s
+2026-11-10 09:50:25 part start sft-code-commitpackft.u254.p0000 (0 MB)
+2026-11-10 09:50:26 part done sft-code-commitpackft.u081.p0000: rows 17 flagged 0 canary 0 kept 17 18s
+2026-11-10 09:50:26 part done sft-code-commitpackft.u161.p0000: rows 14 flagged 0 canary 0 kept 14 18s
+2026-11-10 09:50:26 part start sft-code-commitpackft.u233.p0000 (0 MB)
+2026-11-10 09:50:26 part start sft-code-commitpackft.u039.p0000 (0 MB)
+2026-11-10 09:50:27 part done sft-code-commitpackft.u200.p0000: rows 9 flagged 0 canary 0 kept 9 17s
+2026-11-10 09:50:27 part start sft-code-commitpackft.u134.p0000 (0 MB)
+2026-11-10 09:50:30 part done sft-code-commitpackft.u100.p0000: rows 19 flagged 0 canary 0 kept 19 18s
+2026-11-10 09:50:30 part start sft-code-commitpackft.u260.p0000 (0 MB)
+2026-11-10 09:50:34 part done sft-code-commitpackft.u172.p0000: rows 8 flagged 0 canary 0 kept 8 17s
+2026-11-10 09:50:34 part start sft-code-commitpackft.u185.p0000 (0 MB)
+2026-11-10 09:50:38 part done sft-code-commitpackft.u181.p0000: rows 11 flagged 0 canary 0 kept 11 18s
+2026-11-10 09:50:38 part done sft-code-commitpackft.u013.p0000: rows 8 flagged 0 canary 0 kept 8 18s
+2026-11-10 09:50:38 part done sft-code-commitpackft.u017.p0000: rows 15 flagged 0 canary 0 kept 15 18s
+2026-11-10 09:50:38 part done sft-code-commitpackft.u274.p0000: rows 6 flagged 0 canary 0 kept 6 18s
+2026-11-10 09:50:38 part done sft-code-commitpackft.u269.p0000: rows 7 flagged 0 canary 0 kept 7 18s
+2026-11-10 09:50:38 part start sft-code-commitpackft.u218.p0000 (0 MB)
+2026-11-10 09:50:38 part start sft-code-commitpackft.u241.p0000 (0 MB)
+2026-11-10 09:50:38 part start sft-code-commitpackft.u003.p0000 (0 MB)
+2026-11-10 09:50:38 part start sft-code-commitpackft.u064.p0000 (0 MB)
+2026-11-10 09:50:38 part start sft-code-commitpackft.u125.p0000 (0 MB)
+2026-11-10 09:50:39 part done sft-code-commitpackft.u154.p0000: rows 10 flagged 0 canary 0 kept 10 18s
+2026-11-10 09:50:39 part done sft-code-commitpackft.u068.p0000: rows 8 flagged 0 canary 0 kept 8 15s
+2026-11-10 09:50:39 part start sft-code-commitpackft.u007.p0000 (0 MB)
+2026-11-10 09:50:39 part start sft-code-commitpackft.u128.p0000 (0 MB)
+2026-11-10 09:50:43 part done sft-code-commitpackft.u254.p0000: rows 6 flagged 0 canary 0 kept 6 18s
+2026-11-10 09:50:43 part done sft-code-commitpackft.u039.p0000: rows 9 flagged 0 canary 0 kept 9 17s
+2026-11-10 09:50:43 part start sft-code-commitpackft.u153.p0000 (0 MB)
+2026-11-10 09:50:43 part start sft-code-commitpackft.u192.p0000 (0 MB)
+2026-11-10 09:50:44 part done sft-code-commitpackft.u233.p0000: rows 10 flagged 0 canary 0 kept 10 18s
+2026-11-10 09:50:44 part done sft-code-commitpackft.u134.p0000: rows 7 flagged 0 canary 0 kept 7 17s
+2026-11-10 09:50:44 part start sft-code-commitpackft.u257.p0000 (0 MB)
+2026-11-10 09:50:44 part start sft-code-commitpackft.u156.p0000 (0 MB)
+2026-11-10 09:50:48 part done sft-code-commitpackft.u260.p0000: rows 9 flagged 1 canary 0 kept 8 18s
+2026-11-10 09:50:48 part start sft-code-commitpackft.u182.p0000 (0 MB)
+2026-11-10 09:50:53 part done sft-code-commitpackft.u185.p0000: rows 9 flagged 0 canary 0 kept 9 18s
+2026-11-10 09:50:53 part start sft-code-commitpackft.u124.p0000 (0 MB)
+2026-11-10 09:50:55 part done sft-code-commitpackft.u218.p0000: rows 10 flagged 0 canary 0 kept 10 17s
+2026-11-10 09:50:55 part done sft-code-commitpackft.u241.p0000: rows 10 flagged 0 canary 0 kept 10 17s
+2026-11-10 09:50:55 part done sft-code-commitpackft.u003.p0000: rows 10 flagged 0 canary 0 kept 10 17s
+2026-11-10 09:50:55 part done sft-code-commitpackft.u064.p0000: rows 7 flagged 0 canary 0 kept 7 17s
+2026-11-10 09:50:55 part done sft-code-commitpackft.u125.p0000: rows 7 flagged 0 canary 0 kept 7 17s
+2026-11-10 09:50:55 part start sft-code-commitpackft.u119.p0000 (0 MB)
+2026-11-10 09:50:55 part start sft-code-commitpackft.u204.p0000 (0 MB)
+2026-11-10 09:50:55 part start sft-code-commitpackft.u126.p0000 (0 MB)
+2026-11-10 09:50:55 part start sft-code-commitpackft.u275.p0000 (0 MB)
+2026-11-10 09:50:55 part start sft-code-commitpackft.u267.p0000 (0 MB)
+2026-11-10 09:50:57 part done sft-code-commitpackft.u007.p0000: rows 7 flagged 0 canary 0 kept 7 18s
+2026-11-10 09:50:57 part done sft-code-commitpackft.u128.p0000: rows 6 flagged 0 canary 0 kept 6 18s
+2026-11-10 09:50:57 part start sft-code-commitpackft.u149.p0000 (0 MB)
+2026-11-10 09:50:57 part start sft-code-commitpackft.u077.p0000 (0 MB)
+2026-11-10 09:51:01 part done sft-code-commitpackft.u153.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:01 part done sft-code-commitpackft.u192.p0000: rows 5 flagged 0 canary 0 kept 5 18s
+2026-11-10 09:51:01 part start sft-code-commitpackft.u157.p0000 (0 MB)
+2026-11-10 09:51:01 part start sft-code-commitpackft.u162.p0000 (0 MB)
+2026-11-10 09:51:02 part done sft-code-commitpackft.u257.p0000: rows 5 flagged 0 canary 0 kept 5 18s
+2026-11-10 09:51:02 part done sft-code-commitpackft.u156.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:02 part start sft-code-commitpackft.u146.p0000 (0 MB)
+2026-11-10 09:51:02 part start sft-code-commitpackft.u252.p0000 (0 MB)
+2026-11-10 09:51:06 part done sft-code-commitpackft.u182.p0000: rows 6 flagged 0 canary 0 kept 6 18s
+2026-11-10 09:51:06 part start sft-code-commitpackft.u276.p0000 (0 MB)
+2026-11-10 09:51:10 part done sft-code-commitpackft.u124.p0000: rows 4 flagged 0 canary 0 kept 4 17s
+2026-11-10 09:51:10 part start sft-code-commitpackft.u199.p0000 (0 MB)
+2026-11-10 09:51:12 part done sft-code-commitpackft.u119.p0000: rows 6 flagged 0 canary 0 kept 6 17s
+2026-11-10 09:51:12 part done sft-code-commitpackft.u204.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:12 part done sft-code-commitpackft.u126.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:12 part done sft-code-commitpackft.u267.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:12 part start sft-code-commitpackft.u234.p0000 (0 MB)
+2026-11-10 09:51:12 part start sft-code-commitpackft.u118.p0000 (0 MB)
+2026-11-10 09:51:12 part start sft-code-commitpackft.u031.p0000 (0 MB)
+2026-11-10 09:51:12 part start sft-code-commitpackft.u129.p0000 (0 MB)
+2026-11-10 09:51:13 part done sft-code-commitpackft.u275.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:13 part start sft-code-commitpackft.u023.p0000 (0 MB)
+2026-11-10 09:51:15 part done sft-code-commitpackft.u149.p0000: rows 4 flagged 0 canary 0 kept 4 17s
+2026-11-10 09:51:15 part start sft-code-commitpackft.u272.p0000 (0 MB)
+2026-11-10 09:51:16 part done sft-code-commitpackft.u077.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:16 part start sft-code-commitpackft.u024.p0000 (0 MB)
+2026-11-10 09:51:18 part done sft-code-commitpackft.u157.p0000: rows 7 flagged 0 canary 0 kept 7 17s
+2026-11-10 09:51:18 part done sft-code-commitpackft.u146.p0000: rows 4 flagged 0 canary 0 kept 4 16s
+2026-11-10 09:51:18 part start sft-code-commitpackft.u058.p0000 (0 MB)
+2026-11-10 09:51:18 part start sft-code-commitpackft.u231.p0000 (0 MB)
+2026-11-10 09:51:20 part done sft-code-commitpackft.u162.p0000: rows 3 flagged 0 canary 0 kept 3 19s
+2026-11-10 09:51:20 part done sft-code-commitpackft.u252.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:20 part start sft-code-commitpackft.u264.p0000 (0 MB)
+2026-11-10 09:51:20 part start sft-code-commitpackft.u139.p0000 (0 MB)
+2026-11-10 09:51:24 part done sft-code-commitpackft.u276.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:24 part start sft-code-commitpackft.u060.p0000 (0 MB)
+2026-11-10 09:51:26 part done sft-code-commitpackft.u199.p0000: rows 4 flagged 0 canary 0 kept 4 16s
+2026-11-10 09:51:26 part start sft-code-commitpackft.u056.p0000 (0 MB)
+2026-11-10 09:51:29 part done sft-code-commitpackft.u234.p0000: rows 6 flagged 0 canary 0 kept 6 17s
+2026-11-10 09:51:29 part done sft-code-commitpackft.u118.p0000: rows 6 flagged 0 canary 0 kept 6 17s
+2026-11-10 09:51:29 part start sft-code-commitpackft.u186.p0000 (0 MB)
+2026-11-10 09:51:29 part start sft-code-commitpackft.u263.p0000 (0 MB)
+2026-11-10 09:51:30 part done sft-code-commitpackft.u031.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:30 part done sft-code-commitpackft.u129.p0000: rows 6 flagged 0 canary 0 kept 6 18s
+2026-11-10 09:51:30 part done sft-code-commitpackft.u023.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:30 part start sft-code-commitpackft.u165.p0000 (0 MB)
+2026-11-10 09:51:30 part start sft-code-commitpackft.u041.p0000 (0 MB)
+2026-11-10 09:51:30 part start sft-code-commitpackft.u107.p0000 (0 MB)
+2026-11-10 09:51:33 part done sft-code-commitpackft.u272.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:33 part start sft-code-commitpackft.u227.p0000 (0 MB)
+2026-11-10 09:51:34 part done sft-code-commitpackft.u024.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:51:34 part start sft-code-commitpackft.u221.p0000 (0 MB)
+2026-11-10 09:51:37 part done sft-code-commitpackft.u058.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:37 part done sft-code-commitpackft.u231.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:37 part done sft-code-commitpackft.u264.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:37 part done sft-code-commitpackft.u139.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:37 part start sft-code-commitpackft.u070.p0000 (0 MB)
+2026-11-10 09:51:37 part start sft-code-commitpackft.u043.p0000 (0 MB)
+2026-11-10 09:51:37 part start sft-code-commitpackft.u005.p0000 (0 MB)
+2026-11-10 09:51:37 part start sft-code-commitpackft.u057.p0000 (0 MB)
+2026-11-10 09:51:42 part done sft-code-commitpackft.u060.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:42 part start sft-code-commitpackft.u025.p0000 (0 MB)
+2026-11-10 09:51:43 part done sft-code-commitpackft.u056.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:43 part start sft-code-commitpackft.u159.p0000 (0 MB)
+2026-11-10 09:51:46 part done sft-code-commitpackft.u186.p0000: rows 5 flagged 0 canary 0 kept 5 17s
+2026-11-10 09:51:46 part done sft-code-commitpackft.u263.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:51:46 part start sft-code-commitpackft.u029.p0000 (0 MB)
+2026-11-10 09:51:46 part start sft-code-commitpackft.u177.p0000 (0 MB)
+2026-11-10 09:51:48 part done sft-code-commitpackft.u041.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:48 part done sft-code-commitpackft.u107.p0000: rows 4 flagged 0 canary 0 kept 4 17s
+2026-11-10 09:51:48 part start sft-code-commitpackft.u155.p0000 (0 MB)
+2026-11-10 09:51:48 part start sft-code-commitpackft.u236.p0000 (0 MB)
+2026-11-10 09:51:49 part done sft-code-commitpackft.u165.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:51:49 part start sft-code-commitpackft.u071.p0000 (0 MB)
+2026-11-10 09:51:51 part done sft-code-commitpackft.u227.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:51 part done sft-code-commitpackft.u221.p0000: rows 4 flagged 0 canary 0 kept 4 17s
+2026-11-10 09:51:51 part start sft-code-commitpackft.u202.p0000 (0 MB)
+2026-11-10 09:51:51 part start sft-code-commitpackft.u022.p0000 (0 MB)
+2026-11-10 09:51:53 part done sft-code-commitpackft.u043.p0000: rows 4 flagged 0 canary 0 kept 4 17s
+2026-11-10 09:51:53 part start sft-code-commitpackft.u253.p0000 (0 MB)
+2026-11-10 09:51:55 part done sft-code-commitpackft.u070.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:55 part done sft-code-commitpackft.u005.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:51:55 part done sft-code-commitpackft.u057.p0000: rows 4 flagged 0 canary 0 kept 4 18s
+2026-11-10 09:51:55 part start sft-code-commitpackft.u109.p0000 (0 MB)
+2026-11-10 09:51:55 part start sft-code-commitpackft.u144.p0000 (0 MB)
+2026-11-10 09:51:55 part start sft-code-commitpackft.u203.p0000 (0 MB)
+2026-11-10 09:51:59 part done sft-code-commitpackft.u025.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:51:59 part done sft-code-commitpackft.u159.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:51:59 part start sft-code-commitpackft.u000.p0000 (0 MB)
+2026-11-10 09:51:59 part start sft-code-commitpackft.u266.p0000 (0 MB)
+2026-11-10 09:52:03 part done sft-code-commitpackft.u177.p0000: rows 3 flagged 0 canary 0 kept 3 17s
+2026-11-10 09:52:03 part start sft-code-commitpackft.u103.p0000 (0 MB)
+2026-11-10 09:52:04 part done sft-code-commitpackft.u029.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:04 part done sft-code-commitpackft.u155.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:52:04 part start sft-code-commitpackft.u211.p0000 (0 MB)
+2026-11-10 09:52:04 part start sft-code-commitpackft.u225.p0000 (0 MB)
+2026-11-10 09:52:05 part done sft-code-commitpackft.u236.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:05 part start sft-code-commitpackft.u174.p0000 (0 MB)
+2026-11-10 09:52:07 part done sft-code-commitpackft.u071.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:07 part start sft-code-commitpackft.u189.p0000 (0 MB)
+2026-11-10 09:52:08 part done sft-code-commitpackft.u022.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:52:08 part start sft-code-commitpackft.u104.p0000 (0 MB)
+2026-11-10 09:52:09 part done sft-code-commitpackft.u202.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:52:09 part start sft-code-commitpackft.u132.p0000 (0 MB)
+2026-11-10 09:52:10 part done sft-code-commitpackft.u253.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:10 part start sft-code-commitpackft.u054.p0000 (0 MB)
+2026-11-10 09:52:11 part done sft-code-commitpackft.u109.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:52:11 part done sft-code-commitpackft.u144.p0000: rows 2 flagged 0 canary 0 kept 2 17s
+2026-11-10 09:52:11 part done sft-code-commitpackft.u203.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:11 part start sft-code-commitpackft.u115.p0000 (0 MB)
+2026-11-10 09:52:11 part start sft-code-commitpackft.u015.p0000 (0 MB)
+2026-11-10 09:52:11 part start sft-code-commitpackft.u009.p0000 (0 MB)
+2026-11-10 09:52:16 part done sft-code-commitpackft.u000.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:16 part done sft-code-commitpackft.u266.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:16 part start sft-code-commitpackft.u034.p0000 (0 MB)
+2026-11-10 09:52:16 part start sft-code-commitpackft.u213.p0000 (0 MB)
+2026-11-10 09:52:20 part done sft-code-commitpackft.u103.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:20 part start sft-code-commitpackft.u147.p0000 (0 MB)
+2026-11-10 09:52:22 part done sft-code-commitpackft.u211.p0000: rows 1 flagged 0 canary 0 kept 1 18s
+2026-11-10 09:52:22 part done sft-code-commitpackft.u225.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:52:22 part start sft-code-commitpackft.u021.p0000 (0 MB)
+2026-11-10 09:52:22 part start sft-code-commitpackft.u152.p0000 (0 MB)
+2026-11-10 09:52:23 part done sft-code-commitpackft.u174.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:23 part start sft-code-commitpackft.u216.p0000 (0 MB)
+2026-11-10 09:52:24 part done sft-code-commitpackft.u189.p0000: rows 1 flagged 0 canary 0 kept 1 18s
+2026-11-10 09:52:24 part start sft-code-commitpackft.u158.p0000 (0 MB)
+2026-11-10 09:52:26 part done sft-code-commitpackft.u104.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:26 part start sft-code-commitpackft.u090.p0000 (0 MB)
+2026-11-10 09:52:27 part done sft-code-commitpackft.u132.p0000: rows 1 flagged 0 canary 0 kept 1 18s
+2026-11-10 09:52:27 part start sft-code-commitpackft.u191.p0000 (0 MB)
+2026-11-10 09:52:28 part done sft-code-commitpackft.u054.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:28 part done sft-code-commitpackft.u115.p0000: rows 1 flagged 0 canary 0 kept 1 17s
+2026-11-10 09:52:29 part done sft-code-commitpackft.u015.p0000: rows 3 flagged 0 canary 0 kept 3 18s
+2026-11-10 09:52:29 part done sft-code-commitpackft.u009.p0000: rows 2 flagged 0 canary 0 kept 2 18s
+2026-11-10 09:52:33 part done sft-code-commitpackft.u034.p0000: rows 1 flagged 0 canary 0 kept 1 16s
+2026-11-10 09:52:33 part done sft-code-commitpackft.u213.p0000: rows 1 flagged 0 canary 0 kept 1 16s
+2026-11-10 09:52:35 part done sft-code-commitpackft.u147.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:37 part done sft-code-commitpackft.u021.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:37 part done sft-code-commitpackft.u152.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:38 part done sft-code-commitpackft.u216.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:39 part done sft-code-commitpackft.u158.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:40 part done sft-code-commitpackft.u090.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:52:42 part done sft-code-commitpackft.u191.p0000: rows 1 flagged 0 canary 0 kept 1 15s
+2026-11-10 09:54:40 part done sft-code-commitpackft.u273.p0000: rows 114,320 flagged 8 canary 0 kept 114,312 638s
+2026-11-10 09:54:40 SET DONE sft-code-commitpackft: parts 277 rows 702,062 flagged 1,001 canary 0 removed 1,001 kept 701,061 OK
+2026-11-10 09:54:40 finished: all sets merged

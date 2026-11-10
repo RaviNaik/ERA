@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T04:00",
+  "updated": "2026-11-10T10:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -1851,6 +1851,11 @@
           "at": "2026-11-09T21:00",
           "by": "Ravi Naik",
           "text": "9 Nov: convert.py has an adapter for xLAM 60k (all 60,000 rows convert, none skipped; reads the single JSON array of the file) and Proofs-v3-SFT now reads all 10 jsonl files (was first part only). Local commit e29c772, goes in the follow-up PR after PR 41."
+        },
+        {
+          "at": "2026-11-10T10:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, commitpackft adapter reads all 277 language files (glob:data/*/data.jsonl). Follow-up branch commits 0e9a7cb and 9871874 on top of saitej123 ca6b299; 102 tests pass, ruff clean."
         }
       ]
     },
@@ -2622,6 +2627,11 @@
           "at": "2026-11-10T04:00",
           "by": "Ravi Naik",
           "text": "10 Nov, commitpackft (56,025 in, 15 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed, 1.03%; 151 parts, 0 canaries) done on every row. 32 SFT sets in total: 17,176,456 rows in, 348,310 removed (2.03%), 0 canaries. Report, PR 42 branch and the ERA folder updated locally (PR 42 push pending). Left: OpenCodeReasoning-2 (questions withheld upstream) and Aegis (no chat format), both need a TSAI decision. Follow-up lab PR with the code after PR 41 is merged."
+        },
+        {
+          "at": "2026-11-10T10:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, commitpackft re-run on all 277 language files (was the python split only): 702,062 in, 1,001 removed (0.14%), 0 canaries, 0 flagged on recheck. 32 sets now 17,822,493 in, 349,296 removed (1.96%), 17,473,197 kept. Sai Teja posted partial rows for commitpackft, OCR-2 shard 0, Proofs-v3 part 1 and Aegis text on 9 Nov; the full runs replace the partial ones. Follow-up branch g10-decontam-full-RaviNaik (local) holds the code and the per-set kept-rows table; no PR raised because Sai asked for none."
         }
       ]
     },
@@ -2767,5 +2777,5 @@
       "comments": []
     }
   ],
-  "rev": 46
+  "rev": 47
 }
