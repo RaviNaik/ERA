@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T14:00",
+  "updated": "2026-11-10T16:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2728,6 +2728,11 @@
           "at": "2026-11-10T13:00",
           "by": "Ravi Naik",
           "text": "10 Nov, G10 chat update posted (proofs, commitpackft, 32 sets, PR 43) and a G9 reminder for the Codeforces RL pool posted (T-106). PR 43 passes pr-guard and is waiting for Sai. Shankar Pandala (rotating) and Amit both asked for work in the G10 chat; no answer from Sai yet."
+        },
+        {
+          "at": "2026-11-10T16:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: PR 44 (small fixes) also raised: decontam tests skip with a reason on the older Team 9 tools instead of 28 errors; frozen tokenizer test no longer uses a fixed home path (G10_TOKENIZER_CACHE); three E741 lint names. PR 43 and PR 44 wait for Sai review; the PR pause is lifted."
         }
       ]
     },
@@ -2785,7 +2790,7 @@
       "workstream": "G10 Post-training",
       "title": "RL design note: record the TSAI answers (no custom checker in v1, warm pool)",
       "desc": "Update rl/design_note.md open questions: custom checkers are not in v1 (tasks with one exact check; add a hook later only when a real task needs several valid answers, with its own tests); one wrapper reward(env_id, output); warm container pool plan. Re-check that none of the ten tasks needs more than one valid answer. Do in the same PR as T-102.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2809,6 +2814,11 @@
           "at": "2026-11-05T19:00",
           "by": "Ravi Naik",
           "text": "5 Nov: not blocked on T-101 any more. Add the #33 pool results and the PR #30 answers to rl/design_note.md; do it after #33 merges."
+        },
+        {
+          "at": "2026-11-10T16:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: rl/design_note.md open questions replaced by the TSAI answers of 5 Nov and what was built (one reward wrapper, no custom checker in v1, warm pool with the rollouts per second from results/reward_pool_bench.md). In PR 44. All ten tasks have one expected value or exception per case."
         }
       ]
     },
@@ -2861,7 +2871,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: reject a symlinked or oversized results.json before reading it",
       "desc": "The candidate code runs in a container that has the work folder mounted writable, and the host then reads results.json from it (rl/verifier.py read_text, and shutil.copyfile in rl/pool.py from #33). A symlink or a huge file there would make the host read an endless or huge file. Check that it is a regular file and cap its size before reading, and add a test for each. Also: skip RLIMIT_AS on macOS, and remove the duplicated README sentence. Small PR to the fork after #33 merges; files only under teams/10-post-training/rl/.",
-      "status": "todo",
+      "status": "review",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2885,6 +2895,11 @@
           "at": "2026-11-10T14:00",
           "by": "Ravi Naik",
           "text": "10 Nov: still needed. Checked the current G10 branch: rl/verifier.py reads results.json with read_text and rl/pool.py copies it with shutil.copyfile, with no regular-file or size check. PR 33 is merged, so the small PR to the fork can be raised (after Sai lifts the PR pause)."
+        },
+        {
+          "at": "2026-11-10T16:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: fix in PR 44 on saitej123/era-v5-lab. results.json is opened without following a symlink, must be a regular file, at most 1 MB are read; the warm pool also opens the slot folder without following a symlink (the candidate can replace it). RLIMIT_AS skipped on macOS. Tests for a symlink, oversized file, pipe, directory, replaced slot folder. The README duplicate sentence from the task is already gone."
         }
       ]
     },
@@ -2977,5 +2992,5 @@
       ]
     }
   ],
-  "rev": 51
+  "rev": 52
 }
