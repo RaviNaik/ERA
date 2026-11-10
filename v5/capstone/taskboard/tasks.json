@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T12:00",
+  "updated": "2026-11-10T13:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2671,6 +2671,11 @@
           "at": "2026-11-10T11:00",
           "by": "Ravi Naik",
           "text": "10 Nov, PR 43 raised on saitej123/era-v5-lab (branch g10-decontam-full-RaviNaik, on top of Sai ca6b299): full runs of commitpackft (all 277 languages, 702,062 in, 1,001 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed), per-set kept-rows table (sft/decontam_kept_rows.md). 32 sets: 17,822,493 in, 349,296 removed (1.96%), 17,473,197 kept, 0 canaries. decontam_report.md left to Sai (he is editing it): section 1 and 7 need the two full-run rows; mix proposal line 155 needs the new commitpackft numbers. Waiting for Sai review."
+        },
+        {
+          "at": "2026-11-10T13:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov, G10 chat update posted (proofs, commitpackft, 32 sets, PR 43) and a G9 reminder for the Codeforces RL pool posted (T-106). PR 43 passes pr-guard and is waiting for Sai. Shankar Pandala (rotating) and Amit both asked for work in the G10 chat; no answer from Sai yet."
         }
       ]
     },
@@ -2824,7 +2829,95 @@
         }
       ],
       "comments": []
+    },
+    {
+      "id": "T-106",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "G9 confirmation of the Codeforces RL pool",
+      "desc": "TSAI (6 Nov): open-r1/codeforces is allowed, train split only, and G9 checks the RL pool against its Codeforces benchmark. G10 result: 9,556 rows, 624 removed (6.5%), 8,932 kept (rl/decontam_report.md).",
+      "status": "progress",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "rl",
+        "decontam"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-10T13:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: reminder with the numbers and the Thu 12 Nov ask posted in the G9 chat. Waiting for G9. The RL pool itself is not chosen yet (Sai Teja)."
+        }
+      ]
+    },
+    {
+      "id": "T-107",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "OpenCodeReasoning-2 shards 1 to 69: question join and decontam",
+      "desc": "The Hub shards store every question as \"-\". Sai Teja joined shard 0 to TACO, APPS and code_contests (20,000 rows, 4,200 removed). Anirudh built a join and asked Sai for his script, revisions and record to match shard 0. About 1.4M python rows are outside the adapter.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Anirudh Narla",
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "sft",
+        "decontam"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-10T13:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: I offered in the G10 chat to run the shards once the join matches shard 0 (20,000 / 4,200 / 15,800). Waiting for Sai and Anirudh."
+        }
+      ]
+    },
+    {
+      "id": "T-108",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Update decontam_report.md and sft_mix_proposal.md after PR 43",
+      "desc": "Sai Teja is editing both. Section 1 and 7 of the report need the full-run rows for commitpackft (702,062 in, 1,001 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed) in place of the partial ones; mix proposal line 155 still says commitpackft python split, 15 of 56,025. Mix shares are stale after decontam (codeforces-cots 45%, terminal 31%, OpenCodeReasoning 20% removed); per-set table is in sft/decontam_kept_rows.md.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "sft",
+        "mix"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "43"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-10T13:00",
+          "by": "Ravi Naik",
+          "text": "10 Nov: asked in the G10 chat; PR 43 is open and passes pr-guard. Waiting for Sai."
+        }
+      ]
     }
   ],
-  "rev": 49
+  "rev": 50
 }
