@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T11:00",
+  "updated": "2026-11-10T12:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -717,7 +717,7 @@
       "workstream": "G10 Post-training",
       "title": "Member C: decontam_check.py with fingerprints v2 and sft/decontam_report.md",
       "desc": "Needs Team 9's fingerprints v2 (due Wed 4 Nov). Include the set_sha256. TSAI packs by Fri 13 Nov.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Anirudh narla"
@@ -750,6 +750,11 @@
           "at": "2026-11-05T19:00",
           "by": "Ravi Naik",
           "text": "5 Nov: the work moved to T-101 (PR #34 open). Closing this one when #34 is merged."
+        },
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. The work moved to T-101 and PR #34 is merged (5 Nov)."
         }
       ]
     },
@@ -913,7 +918,7 @@
       "workstream": "G10 Post-training",
       "title": "Member A: give the chat template to Team 12 (G12)",
       "desc": "Hand-off to the quantization team.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-12",
@@ -923,7 +928,13 @@
         "member-A"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. Amit informed the Team 12 lead in their team chat (G10 chat, 9 Nov) and PR #23 (merged 9 Nov) documents the template path in the Team 12 hand-off."
+        }
+      ]
     },
     {
       "id": "T-036",
@@ -1385,7 +1396,7 @@
       "workstream": "Lab milestones",
       "title": "Gate 1 fixes due: partial PRs, missing rows, late-joiner deadline",
       "desc": "23:59 IST. A PR with fewer rows than the target ends the place in the lab. A missing or stand-in harm result keeps the rule out of spec v1.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [],
       "due": "2026-11-04",
@@ -1394,7 +1405,13 @@
         "gate-1"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. The date (4 Nov) has passed and G10 went on to week 2 and Gate 2."
+        }
+      ]
     },
     {
       "id": "M-03",
@@ -1579,7 +1596,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "TSAI job queue: job requests due Wed 4 Nov 23:59 IST",
       "desc": "TSAI runs approved job requests during the break (results on PRs by Thu 12 Nov). Copy JOB_REQUEST.md, attach a log, pin inputs. Only needed if G10 or G12 has a run that cannot be done locally.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [],
       "due": "2026-11-04",
@@ -1588,7 +1605,13 @@
         "compute"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed, not needed. The lead closed the RL loop job request PRs (35, 36, 37 on saitej123/era-v5-lab) on 5 Nov and the due date (4 Nov) has passed. The SFT decontam ran locally."
+        }
+      ]
     },
     {
       "id": "T-074",
@@ -2507,7 +2530,7 @@
       "workstream": "G10 Post-training",
       "title": "Tell G12 (Sreekanth) the canonical chat template path once PR #23 merges",
       "desc": "PR #23 points the Team 12 hand-off to teams/10-post-training/chat-format/chat_template.jinja because no copy exists under teams/12-quantization. G12's notes expect the template from G10 on 12 Nov. After #23 merges, post the path in G12 and check the hand-off doc names it.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2525,7 +2548,13 @@
           "ref": "23"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. PR #23 merged on 9 Nov; the canonical path teams/10-post-training/chat-format/chat_template.jinja is in the Team 12 hand-off and the Team 12 lead has been told."
+        }
+      ]
     },
     {
       "id": "T-101",
@@ -2651,7 +2680,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: one wrapper reward(env_id, output) with a registry",
       "desc": "TSAI answer on PR #30 (5 Nov): one wrapper reward(env_id, output) returning a score and an info dict. Each environment registers its own checker under its env_id. Register the RL code tasks (rl/verifier.py); Anirudh registers the SWE environments from #27 (verify.py) and we agree what output means for them. Tests: unknown env_id fails loudly, one call per environment type, the cheating cases still score 0 through the wrapper. Small PR to the fork, files only under teams/10-post-training/rl/.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2685,6 +2714,11 @@
           "at": "2026-11-05T19:00",
           "by": "Ravi Naik",
           "text": "5 Nov: Anirudh's PR #33 implements this (rl/reward.py, reward(env_id, output) with a registry, 12 tests, pr-guard passes), including the change to rl/verifier.py. What remains for me: check that my verifier works through the wrapper after #33 merges, and the hardening in T-105."
+        },
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. PR #33 merged on 6 Nov (rl/reward.py, reward(env_id, output) with a registry)."
         }
       ]
     },
@@ -2727,7 +2761,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: warm container pool with parallel workers, and measure rollouts per second",
       "desc": "TSAI answer on PR #30: a warm container pool, one worker per CPU core, each container reused for a batch of rollouts. Measure rollouts per second with the pool before changing the step size (a Docker call is now about 0.23 s). Keep the protections: no network, read-only, capability drop, pid limit, no expected answers inside, clean working directory per rollout, fresh container after a failure or hang. Report rollouts per second with the pool on and off. Second PR, after the wrapper (T-102).",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2756,6 +2790,11 @@
           "at": "2026-11-05T19:00",
           "by": "Ravi Naik",
           "text": "5 Nov: PR #33 also adds the warm container pool (rl/pool.py) and a benchmark: code tasks 21.4 rollouts/s with the pool, 12.5 parallel, 4.4 serial (M1, Docker). SWE environments are not pooled, with the reason in the PR. Closing when #33 is merged."
+        },
+        {
+          "at": "2026-11-10T12:00",
+          "by": "Ravi Naik",
+          "text": "Closed. PR #33 merged on 6 Nov with the warm container pool and the benchmark (code tasks 21.42 rollouts/s in the Gate 2 results)."
         }
       ]
     },
@@ -2787,5 +2826,5 @@
       "comments": []
     }
   ],
-  "rev": 48
+  "rev": 49
 }
