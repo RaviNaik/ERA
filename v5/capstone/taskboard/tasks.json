@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T18:00",
+  "updated": "2026-11-11T19:30",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2969,6 +2969,11 @@
           "at": "2026-11-10T13:00",
           "by": "Ravi Naik",
           "text": "10 Nov: reminder with the numbers and the Thu 12 Nov ask posted in the G9 chat. Waiting for G9. The RL pool itself is not chosen yet (Sai Teja)."
+        },
+        {
+          "at": "2026-11-11T19:30",
+          "by": "Ravi Naik",
+          "text": "11 Nov evening: checked G9 chat and CAP again; no reply on the Codeforces RL pool yet (G9 posted #342 merged and the 68 contaminated docs go to Data A). Still waiting; add it to the single comment on lab PR 312 if it stays open."
         }
       ]
     },
@@ -3007,6 +3012,11 @@
           "at": "2026-11-11T18:00",
           "by": "Ravi Naik",
           "text": "11 Nov: TSAI admitted sft-code-opencodereasoning-2 (CC-BY-4.0); quality threshold and the SFT mix stay open for Gate 2 on Sat 14 Nov. Admission record is PR 53. Per-shard aggregates for report sections 2, 3, 4 and 6 requested from Anirudh (see T-101)."
+        },
+        {
+          "at": "2026-11-11T19:30",
+          "by": "Ravi Naik",
+          "text": "11 Nov: TSAI admitted the set (CC-BY-4.0, keep attribution in the licence table; PR 53). Quality threshold and the SFT mix stay open for Gate 2 on Sat 14 Nov. Source identity check by Anirudh (shards 0 to 2): TACO 92.5% and APPS 94.7% ordering match, code_contests 93.7%; all 39 code_contests train files now pinned at revision 802411c3. TSAI said it will reply; promotion of the sources to training approved is Sai's call. Context length curve: 16k keeps 96.97% of the 427,152 kept rows, 32k keeps 100%, longest row 29,851 tokens; no cap chosen (TSAI)."
         }
       ]
     },
@@ -3157,7 +3167,83 @@
         }
       ],
       "comments": []
+    },
+    {
+      "id": "T-112",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "List G10 open questions in one comment on lab PR 312 (Sai Teja)",
+      "desc": "TSAI merged lab PR 312 on 11 Nov and decides the SFT mix at Gate 2 on Sat 14 Nov. All open questions go in one comment on 312 by Thu 12 Nov 11:59 PM IST. Ravi's inputs: OCR-2 quality threshold (pass_rate 1.0 proposal, removes 513,809 of 1,398,166 raw rows), Codeforces hold (69,690 rows, producer revision not established), Aegis chat text decision, HumanEval, MBPP, ARC and TruthfulQA in fingerprints v3, G9 confirmation of the Codeforces RL pool, rl-code-swe-rebench scale. Anirudh's three OCR-2 questions are already on his list; admission is answered.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "gate-2",
+        "tsai"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "312"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-113",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "TSAI replies pending to G10: parser bug, think-length scoring, rl-loop location, source identity",
+      "desc": "Anirudh asked on 11 Nov: (1) the chat template writes <|im_end|> straight after content so code and SWE reward parsing fails; fixed in PR 52 inside the G10 codec; (2) should a reply that hits the length cap inside <|think|> score zero (not changed); (3) where rl-loop lives (now PR 52 on the G10 branch); (4) promote TACO and APPS to training approved after the source identity check. TSAI wrote 'TSAI will reply' on (1) and (4).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "TSAI"
+      ],
+      "due": "2026-11-14",
+      "week": 2,
+      "labels": [
+        "tsai",
+        "rl",
+        "sft"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "52"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": "T-114",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Licence rotation: Sunil's five candidate sets and nav333 onboarding",
+      "desc": "Sunil Jakkaraju is auditing StarCoder2 (BigCode OpenRAIL-M), OpenCoder-SFT, Dolma 1.7 (ODC-BY), InfiCoder-Eval and synthetic python instructions; PR to follow. nav333 joined G10 on 11 Nov; Sai asked them to review Swati's PR (merged as 50). Sai asked Shankar to give rotating members RL dataset and licence review tasks on the G10 week 1 branch. Review each licence PR against the dataset card and paper.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Sunil Jakkaraju"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "licences",
+        "rotation"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": []
     }
   ],
-  "rev": 55
+  "rev": 56
 }
