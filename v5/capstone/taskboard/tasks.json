@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T14:00",
+  "updated": "2026-11-11T18:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2760,6 +2760,11 @@
           "at": "2026-11-11T14:00",
           "by": "Ravi Naik",
           "text": "11 Nov: PR 51 is open (full-source commitpackft and Proofs-v3-SFT rows, totals 34 sets 18,376,709 in / 464,365 removed / 17,912,344 kept, kept-rows table 33 sets with OCR-2). pr-guard passes. Sai asked about 32 vs 33 sets; the file has 33 rows and the old 32-set line is the one removed. Waiting for review and merge."
+        },
+        {
+          "at": "2026-11-11T18:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: Sai reviewed PR 51 (5 points, all fixed in a second commit: stale proofs sentence, section 3 note, header dates, section 7, every_removed_row_is_hit note). Rebased on his tip. Sai then asked for Anirudh's OCR-2 records. The repo holds totals only; the section 2 OCR-2 row turned out to be the earlier two-shard run (4,557 flagged), now labelled as such (commit 8ebf0fc). Asked Anirudh for per-benchmark counts, coverage bands, top overlap items and input sha256 from the 70 shard records. PR 51 waits for that."
         }
       ]
     },
@@ -2997,6 +3002,11 @@
           "at": "2026-11-11T12:00",
           "by": "Ravi Naik",
           "text": "11 Nov: OpenCodeReasoning-2 done and merged (PRs 45, 46, 49): 542,219 rows scanned, 115,067 removed, 427,152 kept. Row is in the report and kept-rows table."
+        },
+        {
+          "at": "2026-11-11T18:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: TSAI admitted sft-code-opencodereasoning-2 (CC-BY-4.0); quality threshold and the SFT mix stay open for Gate 2 on Sat 14 Nov. Admission record is PR 53. Per-shard aggregates for report sections 2, 3, 4 and 6 requested from Anirudh (see T-101)."
         }
       ]
     },
@@ -3075,7 +3085,79 @@
           "text": "11 Nov: review posted on PR 50 (7 points: OpenCodeInstruct columns, generator attribution, Dolci id, SYNTHETIC-2 licence, OpenThoughts3 reuse claim, sample count, DeepScaleR Gemini use). Swati pushed a follow-up commit and PR 50 is merged."
         }
       ]
+    },
+    {
+      "id": "T-110",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review PRs 52, 53, 54 (Anirudh): rl-loop, OCR-2 admission record, rl-data",
+      "desc": "Reviewed 11 Nov by reading the code and running the PR 53 tests (87 passed, base 86, with G10_DECONTAM_TOOLS set). Tests of PR 52 and 54 were not run. Points: PR 53 attribution wording and stale TSAI reserves lines in ocr2_coverage.md; PR 52 G5 pin covers 4 files, train_week2 also imports week2.data, evaluation, optim; PR 54 stdio_check reads outputs.json without the symlink and size guard of PR 44, stale TSAI reserves text for code_contests, MATH not in the licence table, task ids not de-duplicated in code_contests_rows.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "review",
+        "rl",
+        "sft"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "52"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "53"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "54"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-11T18:00",
+          "by": "Ravi Naik",
+          "text": "Comments posted on all three PRs. Waiting for Anirudh's answers; Sai said PR 52 should merge before PR 54 (one test)."
+        }
+      ]
+    },
+    {
+      "id": "T-111",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "OCR-2 per-shard aggregates for decontam report sections 2, 3, 4 and 6",
+      "desc": "Anirudh to send, from the 70 shard records, counts only: flagged documents per benchmark, coverage bands (0.5 or more, 0.1 to 0.5, below 0.1), top overlap items per benchmark (item id, documents, highest coverage) and sha256 of each input file. Then Ravi adds the rows to PR 51 and removes the section 2 note.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Anirudh Narla",
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "sft",
+        "decontam"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "51"
+        }
+      ],
+      "comments": []
     }
   ],
-  "rev": 54
+  "rev": 55
 }
