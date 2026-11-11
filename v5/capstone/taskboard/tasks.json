@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T12:00",
+  "updated": "2026-11-11T14:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2755,6 +2755,11 @@
           "at": "2026-11-11T12:00",
           "by": "Ravi Naik",
           "text": "11 Nov: code merged (PR 43, 44). Report rows for commitpackft and Proofs-v3-SFT, totals and sections 3 to 7 are fixed in a local commit (facb00a), PR to be raised after review. Stays in review until it is merged."
+        },
+        {
+          "at": "2026-11-11T14:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: PR 51 is open (full-source commitpackft and Proofs-v3-SFT rows, totals 34 sets 18,376,709 in / 464,365 removed / 17,912,344 kept, kept-rows table 33 sets with OCR-2). pr-guard passes. Sai asked about 32 vs 33 sets; the file has 33 rows and the old 32-set line is the one removed. Waiting for review and merge."
         }
       ]
     },
@@ -3030,6 +3035,11 @@
           "at": "2026-11-11T12:00",
           "by": "Ravi Naik",
           "text": "11 Nov: Aegis text rows fixed in PR 48. Report, mix proposal revision table and kept-rows table are prepared by Ravi (commit facb00a), so Sai only needs to review the PR."
+        },
+        {
+          "at": "2026-11-11T14:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: the report, mix proposal revision table and kept-rows table fixes are in PR 51 (Ravi). Sai only needs to review and merge; mix shares after decontam still to be updated by Sai in T-031."
         }
       ]
     },
@@ -3039,7 +3049,7 @@
       "workstream": "G10 Post-training",
       "title": "Review PR 50: licence table for 5 SFT/RL sets (Swati Bansal)",
       "desc": "Check licence and provenance claims for OpenCodeInstruct, AceReason-1.1-SFT, Dolci-Think-SFT, APIGen-MT-5k, DeepScaleR against the dataset cards and papers. Review drafted 11 Nov, to be posted after Ravi approves.",
-      "status": "in_progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -3058,8 +3068,14 @@
           "ref": "50"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-11T14:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: review posted on PR 50 (7 points: OpenCodeInstruct columns, generator attribution, Dolci id, SYNTHETIC-2 licence, OpenThoughts3 reuse claim, sample count, DeepScaleR Gemini use). Swati pushed a follow-up commit and PR 50 is merged."
+        }
+      ]
     }
   ],
-  "rev": 53
+  "rev": 54
 }
