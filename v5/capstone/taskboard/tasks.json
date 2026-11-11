@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T16:00",
+  "updated": "2026-11-11T12:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -971,7 +971,14 @@
         "member-A"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: unblocked, frozen tokenizer is ready (T-064). Due 14 Nov."
+        }
+      ],
+      "blockedBy": ""
     },
     {
       "id": "T-037",
@@ -1369,7 +1376,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Team 3: frozen tokenizer",
       "desc": "After the freeze token IDs stay fixed. Needed for the render.py frozen-tokenizer test (T-036).",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Rajiv Seelam"
@@ -1392,6 +1399,11 @@
           "at": "2026-11-02T11:33",
           "by": "Ravi Naik",
           "text": "G3 daily 1 Nov: C1 to C3 retrained on week 2 sample v0 (PR #195 merged). Freeze report moves to Thu 12 Nov; frozen tokenizer still due Sat 14 Nov."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: frozen tokenizer is ready (C3 sample v0, sha 15468e66...ddc3). T-036 can run on it."
         }
       ]
     },
@@ -1855,7 +1867,7 @@
       "workstream": "G10 Post-training",
       "title": "Write convert.py adapters for the other proposal sets (one adapter and one fixture test each)",
       "desc": "Only 4 sets have adapters (self-oss-instruct, codeforces-cots, swe-rebench-openhands, aya_dataset). Needs one each for OpenCodeReasoning, Cascade-SWE, Agentic-v1, Agentic-v2 tool-calling, xlam and the math sets. Note: the source column of the new PR #20 rows has trailing text, so hf_rows would need the source parsed more carefully. 6 Nov: 38 sets now have an adapter and a fixture test (ranged Hub file reader, --hf-file). Not converted: xlam (gated), aegis (classification data), OpenCodeReasoning-2 (questions withheld upstream; adapter written).",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-12",
@@ -1925,6 +1937,11 @@
           "at": "2026-11-10T11:00",
           "by": "Ravi Naik",
           "text": "10 Nov, adapter and pipeline changes are in PR 43 (xLAM adapter, full-source specs for OpenThoughts3, Proofs-v3-SFT and commitpackft, --wait-ready, --delete-source, --resume, guard for a single JSON array file). 103 tests pass, ruff clean."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: merged on the lab branch through PR 43 and PR 44."
         }
       ]
     },
@@ -2733,6 +2750,11 @@
           "at": "2026-11-10T16:00",
           "by": "Ravi Naik",
           "text": "10 Nov: PR 44 (small fixes) also raised: decontam tests skip with a reason on the older Team 9 tools instead of 28 errors; frozen tokenizer test no longer uses a fixed home path (G10_TOKENIZER_CACHE); three E741 lint names. PR 43 and PR 44 wait for Sai review; the PR pause is lifted."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: code merged (PR 43, 44). Report rows for commitpackft and Proofs-v3-SFT, totals and sections 3 to 7 are fixed in a local commit (facb00a), PR to be raised after review. Stays in review until it is merged."
         }
       ]
     },
@@ -2790,7 +2812,7 @@
       "workstream": "G10 Post-training",
       "title": "RL design note: record the TSAI answers (no custom checker in v1, warm pool)",
       "desc": "Update rl/design_note.md open questions: custom checkers are not in v1 (tasks with one exact check; add a hook later only when a real task needs several valid answers, with its own tests); one wrapper reward(env_id, output); warm container pool plan. Re-check that none of the ten tasks needs more than one valid answer. Do in the same PR as T-102.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2819,6 +2841,11 @@
           "at": "2026-11-10T16:00",
           "by": "Ravi Naik",
           "text": "10 Nov: rl/design_note.md open questions replaced by the TSAI answers of 5 Nov and what was built (one reward wrapper, no custom checker in v1, warm pool with the rollouts per second from results/reward_pool_bench.md). In PR 44. All ten tasks have one expected value or exception per case."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: merged on the lab branch through PR 43 and PR 44."
         }
       ]
     },
@@ -2871,7 +2898,7 @@
       "workstream": "G10 Post-training",
       "title": "RL verifier: reject a symlinked or oversized results.json before reading it",
       "desc": "The candidate code runs in a container that has the work folder mounted writable, and the host then reads results.json from it (rl/verifier.py read_text, and shutil.copyfile in rl/pool.py from #33). A symlink or a huge file there would make the host read an endless or huge file. Check that it is a regular file and cap its size before reading, and add a test for each. Also: skip RLIMIT_AS on macOS, and remove the duplicated README sentence. Small PR to the fork after #33 merges; files only under teams/10-post-training/rl/.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -2900,6 +2927,11 @@
           "at": "2026-11-10T16:00",
           "by": "Ravi Naik",
           "text": "10 Nov: fix in PR 44 on saitej123/era-v5-lab. results.json is opened without following a symlink, must be a regular file, at most 1 MB are read; the warm pool also opens the slot folder without following a symlink (the candidate can replace it). RLIMIT_AS skipped on macOS. Tests for a symlink, oversized file, pipe, directory, replaced slot folder. The README duplicate sentence from the task is already gone."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: merged on the lab branch through PR 43 and PR 44."
         }
       ]
     },
@@ -2936,7 +2968,7 @@
       "workstream": "G10 Post-training",
       "title": "OpenCodeReasoning-2 shards 1 to 69: question join and decontam",
       "desc": "The Hub shards store every question as \"-\". Sai Teja joined shard 0 to TACO, APPS and code_contests (20,000 rows, 4,200 removed). Anirudh built a join and asked Sai for his script, revisions and record to match shard 0. About 1.4M python rows are outside the adapter.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Anirudh Narla",
@@ -2955,6 +2987,11 @@
           "at": "2026-11-10T13:00",
           "by": "Ravi Naik",
           "text": "10 Nov: I offered in the G10 chat to run the shards once the join matches shard 0 (20,000 / 4,200 / 15,800). Waiting for Sai and Anirudh."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: OpenCodeReasoning-2 done and merged (PRs 45, 46, 49): 542,219 rows scanned, 115,067 removed, 427,152 kept. Row is in the report and kept-rows table."
         }
       ]
     },
@@ -2988,9 +3025,41 @@
           "at": "2026-11-10T13:00",
           "by": "Ravi Naik",
           "text": "10 Nov: asked in the G10 chat; PR 43 is open and passes pr-guard. Waiting for Sai."
+        },
+        {
+          "at": "2026-11-11T12:00",
+          "by": "Ravi Naik",
+          "text": "11 Nov: Aegis text rows fixed in PR 48. Report, mix proposal revision table and kept-rows table are prepared by Ravi (commit facb00a), so Sai only needs to review the PR."
         }
       ]
+    },
+    {
+      "id": "T-109",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review PR 50: licence table for 5 SFT/RL sets (Swati Bansal)",
+      "desc": "Check licence and provenance claims for OpenCodeInstruct, AceReason-1.1-SFT, Dolci-Think-SFT, APIGen-MT-5k, DeepScaleR against the dataset cards and papers. Review drafted 11 Nov, to be posted after Ravi approves.",
+      "status": "in_progress",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "licences",
+        "review"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "50"
+        }
+      ],
+      "comments": []
     }
   ],
-  "rev": 52
+  "rev": 53
 }
