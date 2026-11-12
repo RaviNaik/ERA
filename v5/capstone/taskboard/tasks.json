@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T19:30",
+  "updated": "2026-11-12T15:00",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -2631,7 +2631,7 @@
       "workstream": "G10 Post-training",
       "title": "Run the full decontam_check.py (fingerprints v2) on each SFT set and write sft/decontam_report.md",
       "desc": "Takes over Member C's task T-029 with Anirudh (agreed with Sai Teja in G10, 5 Nov). Full set only (no --benchmarks, --tags or --exclude), run canary_scan.py too, and record set_sha256 2826a3b8...d22a. Per set: flagged file, filtered shard, reconciliation (in = kept + removed, no duplicate ids). Report holds counts and ids only (eval firewall, TSAI #269). Prepare runner, filter, reconciliation and report scripts first and test them on sample rows. TSAI packs by Fri 13 Nov.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2765,6 +2765,11 @@
           "at": "2026-11-11T18:00",
           "by": "Ravi Naik",
           "text": "11 Nov: Sai reviewed PR 51 (5 points, all fixed in a second commit: stale proofs sentence, section 3 note, header dates, section 7, every_removed_row_is_hit note). Rebased on his tip. Sai then asked for Anirudh's OCR-2 records. The repo holds totals only; the section 2 OCR-2 row turned out to be the earlier two-shard run (4,557 flagged), now labelled as such (commit 8ebf0fc). Asked Anirudh for per-benchmark counts, coverage bands, top overlap items and input sha256 from the 70 shard records. PR 51 waits for that."
+        },
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: PR 51 merged on 11 Nov (16:09 UTC) with Sai's review points fixed; Anirudh's PR 55 then added the full OCR-2 run to sections 2, 3, 4 and 6. Report now covers 34 sets: 18,376,709 in, 464,365 removed (2.53%), 17,912,344 kept."
         }
       ]
     },
@@ -2974,6 +2979,11 @@
           "at": "2026-11-11T19:30",
           "by": "Ravi Naik",
           "text": "11 Nov evening: checked G9 chat and CAP again; no reply on the Codeforces RL pool yet (G9 posted #342 merged and the 68 contaminated docs go to Data A). Still waiting; add it to the single comment on lab PR 312 if it stays open."
+        },
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: G9 (Nisarg Tike) replied in the general group. Pool looks good: right benchmark (open-r1/codeforces test split at revision fbe3f6e9, 468 problems), full train split of 9,556 rows checked, second run on the 8,932 kept rows found nothing, strongest match about 12% of one test problem. Two asks before G9 calls it clean: (1) count the kept rows with a contest id from 1990 to 2070 (their test problems come from contests 1993 to 2067; Div. 1 and Div. 2 rounds share problems) and drop or list them; if 0 they call the pool clean; (2) add the dataset revision and split (default, train) to section 6 of rl/decontam_report.md. Asked Anirudh in G10 (he ran the 6 Nov RL decontam, commit ddba0cf); see T-115."
         }
       ]
     },
@@ -3026,7 +3036,7 @@
       "workstream": "G10 Post-training",
       "title": "Update decontam_report.md and sft_mix_proposal.md after PR 43",
       "desc": "Sai Teja is editing both. Section 1 and 7 of the report need the full-run rows for commitpackft (702,062 in, 1,001 removed) and Proofs-v3-SFT (293,648 in, 3,012 removed) in place of the partial ones; mix proposal line 155 still says commitpackft python split, 15 of 56,025. Mix shares are stale after decontam (codeforces-cots 45%, terminal 31%, OpenCodeReasoning 20% removed); per-set table is in sft/decontam_kept_rows.md.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Sai Teja"
@@ -3060,6 +3070,11 @@
           "at": "2026-11-11T14:00",
           "by": "Ravi Naik",
           "text": "11 Nov: the report, mix proposal revision table and kept-rows table fixes are in PR 51 (Ravi). Sai only needs to review and merge; mix shares after decontam still to be updated by Sai in T-031."
+        },
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: report, mix proposal revision table and kept-rows table fixed by PR 51 (merged) and PR 55. Mix shares after decontam are left to T-031 (Sai); PR 57 added an eligibility ledger and mix capacity check."
         }
       ]
     },
@@ -3130,6 +3145,16 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "54"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "59"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "60"
         }
       ],
       "comments": [
@@ -3137,6 +3162,11 @@
           "at": "2026-11-11T18:00",
           "by": "Ravi Naik",
           "text": "Comments posted on all three PRs. Waiting for Anirudh's answers; Sai said PR 52 should merge before PR 54 (one test)."
+        },
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: PR 52 merged (11 Nov); 53 and 54 still open, unchanged since my comments, both mergeable with checks green. PR 53 re-run on the merged tip: 87 passed in the two OCR-2 test files and 48 passed, 1 skipped in tests/. Also reviewed PR 59 (Sunil, licence table, 5 sets) and PR 60 (Anirudh, attainability survey code arm at 2048 tokens): claims checked against cards, papers, licence files and the tables; comments posted. PR 60 numbers all reconcile."
         }
       ]
     },
@@ -3146,7 +3176,7 @@
       "workstream": "G10 Post-training",
       "title": "OCR-2 per-shard aggregates for decontam report sections 2, 3, 4 and 6",
       "desc": "Anirudh to send, from the 70 shard records, counts only: flagged documents per benchmark, coverage bands (0.5 or more, 0.1 to 0.5, below 0.1), top overlap items per benchmark (item id, documents, highest coverage) and sha256 of each input file. Then Ravi adds the rows to PR 51 and removes the section 2 note.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Anirudh Narla",
@@ -3166,7 +3196,13 @@
           "ref": "51"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: delivered in PR 55 (merged 11 Nov): section 2 row is the full run (542,219 scanned, 115,067 flagged); section 3 bands and section 4 top items cover shards 0 to 3 only (records of shards 4 to 69 were not kept; item counts are lower bounds); section 6 has the 70 input hashes and results/ocr2_full_run_inputs.tsv. Anirudh flagged that the record.json hashes of shards 0 and 1 on disk do not match the summaries (counts and benchmark totals match; cause not established)."
+        }
+      ]
     },
     {
       "id": "T-112",
@@ -3193,7 +3229,13 @@
           "ref": "312"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: due tonight 11:59 PM IST. Added inputs: Sunil's three questions for TSAI from PR 59 (When2Call rows built on APIGen unsplit, indic-instruct licence stated only in the Airavata report, Kimi-K2 Modified MIT display term); G9 result on the Codeforces RL pool (T-106, T-115); TSAI #357 decision in G9 (ARC-Challenge, MMLU-Pro, Belebele, HellaSwag run as labelled diagnostics that never pick or block a candidate), relevant to the fingerprints v3 question. OCR-2 admission is answered (CC-BY-4.0, PR 53)."
+        }
+      ]
     },
     {
       "id": "T-113",
@@ -3242,8 +3284,50 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: Sunil opened PR 59 (Toucan, When2Call, indic-instruct hi, Updesh, aya_redteaming); reviewed and commented 12 Nov (source labels, one extra Llama model on Updesh, stale excluded count sentence). Not merged yet."
+        }
+      ]
+    },
+    {
+      "id": "T-115",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Codeforces RL pool: count kept rows with contest id 1990 to 2070, add revision and split to rl/decontam_report.md section 6",
+      "desc": "G9 (Nisarg Tike) asks, before calling rl-code-codeforces clean for G9: count the 8,932 kept rows whose id starts with a contest number from 1990 to 2070 and drop them or list them in the report; add the open-r1/codeforces revision and split (default, train) to section 6. The run files (rl-code-codeforces.jsonl sha efe89e87..., clean file 6bebfb332fef...) are from Anirudh's 6 Nov run and are not on Ravi's machine. Then Ravi updates rl/decontam_report.md (small PR) and answers in the general group.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Anirudh Narla",
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "rl",
+        "decontam",
+        "gate-2",
+        "g9"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "312"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-12T15:00",
+          "by": "Ravi Naik",
+          "text": "Posted in G10 on 12 Nov asking Anirudh for the count and the revision."
+        }
+      ]
     }
   ],
-  "rev": 56
+  "rev": 57
 }
