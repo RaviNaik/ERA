@@ -3678,7 +3678,7 @@
       "workstream": "G10 Post-training",
       "title": "Claim Member C tasks in G10: task 5 (small SFT run) and task 8 (eval_v1 with Member B)",
       "desc": "Draft message to Sai: Ravi takes task 5 (small SFT run, loss falls, job request, results/small_sft.md, D5) and task 8 (sft/eval_v1.md + sft/tests/, with Member B, D3), plus one task 2 verifier set (Go code). Anirudh also offered to take most open parts, so ask Sai to confirm and offer to sync with Anirudh.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3696,6 +3696,11 @@
           "at": "2026-11-14T12:00",
           "by": "Ravi Naik",
           "text": "14 Nov: draft ready, not posted yet. Waiting for Ravi's go-ahead."
+        },
+        {
+          "at": "2026-11-15T01:30",
+          "by": "Ravi Naik",
+          "text": "Posted in G10 (confirmed by Ravi, 14 Nov). Task 5 and task 8 are claimed; task 2 is the Go set in PR 78."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -3818,6 +3823,11 @@
           "at": "2026-11-15T01:00",
           "by": "Ravi Naik",
           "text": "PR 78 (saitej123/era-v5-lab) is at 581deb5 with 10 Go tasks, 91 Go tests, guard passes and it is mergeable. The PR body is corrected: the tasks were written by Claude for Ravi, so they are evaluation-only under TSAI's 3 Nov rule. Waiting for Sai's review and his answer on whether a Go set counts as the one set. G10 message to Sai is drafted, not posted. Link it in G10 by Wed 18 Nov."
+        },
+        {
+          "at": "2026-11-15T01:30",
+          "by": "Ravi Naik",
+          "text": "Message to Sai posted in G10 with the PR 78 link (confirmed by Ravi). Waiting for his review and his answer on whether the Go set counts as the one set."
         }
       ],
       "updated": "2026-11-14T18:00"
@@ -3991,6 +4001,11 @@
           "at": "2026-11-15T01:00",
           "by": "Ravi Naik",
           "text": "PR 450 (theschoolofai/era-v5-lab) is open with the job request jobs/2026-11-14-rotation-attn2-seed1237.md, guard passes. Waiting for TSAI to run attn-2 and the T2 reference at seed 1237 (due Wed 18 Nov) and to confirm the staged inputs. PR 441 may change the harness. G5 message to Shivanshu is drafted, not posted."
+        },
+        {
+          "at": "2026-11-15T01:30",
+          "by": "Ravi Naik",
+          "text": "Message to Shivanshu posted in G5 with the PR 450 link (confirmed by Ravi). Waiting for TSAI's run."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -4049,6 +4064,11 @@
           "at": "2026-11-15T01:00",
           "by": "Ravi Naik",
           "text": "Done: Shivanshu answered in G5 on 14 Nov and assigned attn2_swa128_sink and the T2 reference at seed 1237. Left: post the PR 450 link in G5 and the daily notes."
+        },
+        {
+          "at": "2026-11-15T01:30",
+          "by": "Ravi Naik",
+          "text": "PR 450 link posted in G5. Left: daily notes in G5 on each work day."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -4076,5 +4096,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 70
+  "rev": 71
 }
