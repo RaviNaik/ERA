@@ -3943,6 +3943,11 @@
           "at": "2026-11-14T12:00",
           "by": "Ravi Naik",
           "text": "Pick the experiment in G5 first. Compute only via job request. Do not change config v1."
+        },
+        {
+          "at": "2026-11-14T23:30",
+          "by": "Ravi Naik",
+          "text": "Shivanshu confirmed in G5: attn2_swa128_sink and the T2 reference at seed 1237. Job request committed locally in worktree g5-rotation-wt (branch g5-rotation-RaviNaik, b61ec81), not pushed. Pass rule corrected to the not-worse rule (docs/attention_harness.md). Needs approval to push and open the PR to theschoolofai/era-v5-lab main."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -4016,5 +4021,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 67
+  "rev": 68
 }
