@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T15:00",
+  "updated": "2026-11-14",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -11,6 +11,7 @@
     "Individual: code-go",
     "G10 Post-training",
     "G12 Quantization (rotation)",
+    "G5 Architecture (rotation)",
     "Dependencies (other teams)",
     "Lab milestones"
   ],
@@ -1785,7 +1786,7 @@
       "workstream": "G10 Post-training",
       "title": "Check the source dataset and licence of each of the 12 aya_collection Indic subsets",
       "desc": "PR #20 keeps 12 templated Indic subsets (Hindi, Bengali, Tamil, Telugu) only after each subset's source, licence and origin are written in its licence_table section. Good task for a rotation member.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-14",
@@ -1801,7 +1802,14 @@
           "ref": "20"
         }
       ],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov: done by Ranjani Chandrasekaran. Lab PR 399 merged 12 Nov (teams/12-quantization/docs/aya_licence_check.md): 10 usable (Apache 2.0, CC0, MIT), templated_hindi_headline excluded (CC BY-NC-SA 4.0), templated_hindi_news needs a TSAI decision (CC BY-SA 4.0). Recorded in PR 71 section 9.3. The licence table row (still 12 subsets) is not updated yet."
+        }
+      ],
+      "updated": "2026-11-12T23:50"
     },
     {
       "id": "T-079",
@@ -2562,7 +2570,7 @@
       "workstream": "Individual: code-go",
       "title": "Wait for TSAI review and merge of lab PR #36",
       "desc": "PR #36 has been open since 26 Oct, mergeable, pr-guard green, review required. Message sent to the instructor on 5 Nov with the timeline and a request to name any blocker. Act only on a TSAI comment or a Data A change to the gold set.",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -2591,7 +2599,9 @@
           "by": "Ravi Naik",
           "text": "5 Nov: the instructor replied in DM. Nothing in #36 blocks it, nothing more is needed from me, and TSAI merges the Gate 1 diagnosis PRs together in one batch after the Gate 1 re-check. Still open, not yet merged."
         }
-      ]
+      ],
+      "updated": "2026-11-12T08:18",
+      "completedAt": "2026-11-12"
     },
     {
       "id": "T-100",
@@ -2984,8 +2994,24 @@
           "at": "2026-11-12T15:00",
           "by": "Ravi Naik",
           "text": "12 Nov: G9 (Nisarg Tike) replied in the general group. Pool looks good: right benchmark (open-r1/codeforces test split at revision fbe3f6e9, 468 problems), full train split of 9,556 rows checked, second run on the 8,932 kept rows found nothing, strongest match about 12% of one test problem. Two asks before G9 calls it clean: (1) count the kept rows with a contest id from 1990 to 2070 (their test problems come from contests 1993 to 2067; Div. 1 and Div. 2 rounds share problems) and drop or list them; if 0 they call the pool clean; (2) add the dataset revision and split (default, train) to section 6 of rl/decontam_report.md. Asked Anirudh in G10 (he ran the 6 Nov RL decontam, commit ddba0cf); see T-115."
+        },
+        {
+          "at": "2026-11-12T16:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: G9's two asks are tracked in T-115. Anirudh counted 41 kept rows in contests 1990 to 1997 (none >= 1998); I asked to drop and rebuild. Waiting for the rebuilt clean sha and Sai Teja's confirmation, then answer G9."
+        },
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov late: rebuild done by Anirudh (8,891 kept, clean sha 220b2f86...). Waiting for his PR with the RL file and rl/decontam_report.md, then reply to Nisarg Tike in the general group that the 41 rows in contests 1990 to 1997 are dropped."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: PR 75 (Anirudh) carries the 41 dropped ids and the report update; needs the revision and split in section 6 before G9 can call the pool clean. Then reply to Nisarg Tike in the general group."
         }
-      ]
+      ],
+      "updated": "2026-11-13T11:20"
     },
     {
       "id": "T-107",
@@ -3234,8 +3260,14 @@
           "at": "2026-11-12T15:00",
           "by": "Ravi Naik",
           "text": "12 Nov: due tonight 11:59 PM IST. Added inputs: Sunil's three questions for TSAI from PR 59 (When2Call rows built on APIGen unsplit, indic-instruct licence stated only in the Airavata report, Kimi-K2 Modified MIT display term); G9 result on the Codeforces RL pool (T-106, T-115); TSAI #357 decision in G9 (ARC-Challenge, MMLU-Pro, Belebele, HellaSwag run as labelled diagnostics that never pick or block a candidate), relevant to the fingerprints v3 question. OCR-2 admission is answered (CC-BY-4.0, PR 53)."
+        },
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov night: instructor replied to Sai. The four TSAI decisions (OCR-2 quality threshold, Codeforces rows, SFT mix shares, safety share fallback) are decided at Gate 2 and are not blockers for Sai's file; each goes in as a decision item with a recommendation and numbers. Ravi's drop of the 41 Codeforces rows is accepted. Ravi's part is PR 71 (section 9 of sft_mix_proposal.md, see T-117)."
         }
-      ]
+      ],
+      "updated": "2026-11-12T23:50"
     },
     {
       "id": "T-113",
@@ -3289,8 +3321,14 @@
           "at": "2026-11-12T15:00",
           "by": "Ravi Naik",
           "text": "12 Nov: Sunil opened PR 59 (Toucan, When2Call, indic-instruct hi, Updesh, aya_redteaming); reviewed and commented 12 Nov (source labels, one extra Llama model on Updesh, stale excluded count sentence). Not merged yet."
+        },
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov night: Shankar's last licence set (Nemotron-RL-Agentic-Conversational-Tool-Use-Pivot-v1) is PR 72; reviewed (not posted): card matches except the row count (170,320 on the card, 96,968 on the Hub datasets-server) and the unnamed source of the expert trajectories sits badly with the generator rule wording; 838 domains not found on the card. Its row is already merged into PR 71 so the two do not conflict."
         }
-      ]
+      ],
+      "updated": "2026-11-12T23:50"
     },
     {
       "id": "T-115",
@@ -3298,7 +3336,7 @@
       "workstream": "G10 Post-training",
       "title": "Codeforces RL pool: count kept rows with contest id 1990 to 2070, add revision and split to rl/decontam_report.md section 6",
       "desc": "G9 (Nisarg Tike) asks, before calling rl-code-codeforces clean for G9: count the 8,932 kept rows whose id starts with a contest number from 1990 to 2070 and drop them or list them in the report; add the open-r1/codeforces revision and split (default, train) to section 6. The run files (rl-code-codeforces.jsonl sha efe89e87..., clean file 6bebfb332fef...) are from Anirudh's 6 Nov run and are not on Ravi's machine. Then Ravi updates rl/decontam_report.md (small PR) and answers in the general group.",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Anirudh Narla",
@@ -3318,6 +3356,11 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "312"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "75"
         }
       ],
       "comments": [
@@ -3325,9 +3368,586 @@
           "at": "2026-11-12T15:00",
           "by": "Ravi Naik",
           "text": "Posted in G10 on 12 Nov asking Anirudh for the count and the revision."
+        },
+        {
+          "at": "2026-11-12T16:00",
+          "by": "Ravi Naik",
+          "text": "12 Nov: Anirudh answered in G10. open-r1/codeforces revision fbe3f6e903ee854eec2e69e9d96d0306cde59baf, split train (data/train-*). Kept rows with contest id 1990 to 2070: 41, in contests 1990, 1991, 1992, 1994, 1995, 1996, 1997; contest ids >= 1998: zero. Raw sha efe89e87..., clean 6bebfb332fef.... The 41 ids are in work/g10-rl-data-pr-2026-11-11/out/cc_tasks.jsonl and the decontam clean file. He asked whether to drop them and rebuild or leave them flagged. My answer posted in G10: drop the 41 rows and rebuild, keep the ids in a separate excluded-ids file, post the new clean sha and row count as soon as rebuilt, Sai Teja to confirm."
+        },
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov late: Anirudh posted the rebuild in G10: 41 rows dropped, 8,891 kept, new clean sha256 220b2f86..., raw efe89e87... unchanged, excluded contest and problem ids in rl-code-codeforces.excluded_ids.jsonl. The instructor accepted the drop for the clean set. Still open: Anirudh to raise a PR for Sai's branch with the rebuilt RL file and the updated Codeforces rows in rl/decontam_report.md (asked in G10 at about 23:50 IST; not in PR 71 on purpose). Then answer G9."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: Anirudh raised PR 75 (excluded ids file with 41 rows, rl/decontam_report.md updated: 37,349 to 37,308 kept, 9,884 removed, 20.94%; arithmetic checked). He left the 9.14 MB clean file out because pr-guard rejects files over 5 MB and asked Sai and Ravi where it should live. Answer: hash only (220b2f86..., 8,891 rows), no LFS, no private transfer; precedent is that rl-data holds no data files. Review comment posted on PR 75 asking for two fixes: the report says the file is 'committed as clean.v2.jsonl' (it is not), and section 6 is missing the open-r1/codeforces revision fbe3f6e9... and split train that G9 asked for (plus a one-line rebuild recipe). Waiting for his update, then reply to G9."
         }
-      ]
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-116",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "README for every G10 folder (PR 68 merged, PR 70 open)",
+      "desc": "Asked by Sai Teja. PR 68 (README for each folder, docs/OVERVIEW.md, decontam and RL pointers) merged 12 Nov. Anirudh wrote PR 69 at the same time; he closed it after PR 70 folded in his extras (index and blockers in the team README, Gate, measured, not measured and reports sections). PR 70 also fixes the tokenizer wording he asked for: render_frozen_tokenizer.txt is the tokenizer v0.1 report (sha a33c9907...), not the Gate 2 tokenizer (C3 sample-v0, sha 15468e66...).",
+      "status": "progress",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "readme",
+        "docs"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "68"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "70"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov: PR 68 merged at 17:19 UTC. PR 70 opened, mergeable, pr-guard passes; waiting for Sai. After TSAI announces the tokenizer freeze, re-run verify_frozen_tokenizer.py and test_frozen_tokenizer.py and update the wording."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: PR 70 still open. Its tokenizer wording ('not announced as frozen', 'not in the repo') may need a revision once PR 74 (Amit, C3 integration) and TSAI's freeze are settled; lab main has teams/03-tokenizer/release/SHA256SUMS but no tokenizer.json. Hold until Sai decides on PR 74."
+        }
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-117",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Gate 2 file: TSAI decision items and excluded new-set licence rows (PR 71)",
+      "desc": "Sai Teja's pending item (due Thu 12 Nov 11:59 PM IST): updated sft/sft_mix_proposal.md and sft/decontam_report.md. PR 71 adds section 9 (four TSAI decision items with facts, numbers and a proposed answer: OCR-2 quality threshold, Codeforces rows, SFT mix shares, safety fallback), section 10 (the ten new datasets), licence rows for the 5 excluded new sets (SWE-smith, SWE-smith-trajectories, R1-Distill-SFT, Open-AgentRL-SFT-3K, Open-AgentRL-30K) and the six sets as not run in decontam_report.md section 7. Section 9.3 reflects lab PR 399. Shankar's PR 72 row is merged into it.",
+      "status": "progress",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik",
+        "Sai Teja"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "gate-2",
+        "sft",
+        "licences"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "71"
+        },
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "391"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov night: PR 71 open, mergeable, pr-guard passes; announced in G10. Rechecked against the cards and papers (corrected Open-AgentRL-30K contents, the 3K teacher wording and the SWE-smith bug generator). Proposed answers are Ravi's wording; Sai to confirm. Not in PR 71: Codeforces RL rebuild and rl/decontam_report.md (T-115)."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: PR 71 still open, mergeable, no review from Sai. Sai commented on lab PR 391 (12 Nov, 22:53 IST) that README files caused merge conflicts there and asked Ravi to raise a fix; a test merge of the branch into lab main (14e5789) on 13 Nov is clean, GitHub shows the state as unknown. Branch tip is still d38b18c, so PR 391 does not yet include PRs 70 to 73 or 75. Hema's PR 73 (aya update) is reviewed and consistent with section 9.3 and merges cleanly with PR 71. Ask Sai which conflict he saw and to merge PRs 70 and 71."
+        }
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-118",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review PRs 72 (Shankar), 73 (Hema) and 74 (Amit)",
+      "desc": "PR 72: one Stage 2 licence row (Nemotron-RL-Agentic-Conversational-Tool-Use-Pivot-v1). PR 73: aya_collection update in sft_mix_proposal.md after lab PR 399.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-12",
+      "week": 2,
+      "labels": [
+        "licences",
+        "review"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "72"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "73"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "74"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov: PR 73 review posted as a comment-only review: 'four of ten scripts' is stale (the 10 usable subsets cover 8 of the 10 proposal scripts; Hindi about 2,157 rows, Odia none), Telugu news is about 90% of the 10 subsets, 'eligible' should be 'licence-permissive', licence table row still says 12 subsets, about 1,156 Urdu rows in templated_indic_sentiment need filtering. PR 72 review given to Ravi only, not posted: row count mismatch, expert-trajectory source unnamed, 838 domains not on the card. Heads-up for PR 73 posted in G10."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: PR 73 re-reviewed after Hema's fixes (script and language coverage 9 of 10 languages across 8 scripts, 517,789 pool estimate and Telugu about 90% checked against the Hub, Urdu filter, licence table consistency); positive comment-only review posted. PR 72 review still not posted."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: PR 74 (Amit, C3 tokenizer integration) reviewed at fd6c426 and a polite comment-only review posted. Reproduced 21 passed, 1 skipped; sha matches c3_s0_manifest.json. Points: the report still runs on v0.1 (no C3 tokenizer.json in the repo) now with C3's normalizer attached, so the title and description should say so; the ZWJ/ZWNJ test uses sentences with 0 ZWJ and 2 ZWNJ, and C3's chillu normalizer rewrites Malayalam ZWJ sequences (U+0D15 U+0D4D U+200D to U+0D7F, U+0D28 U+0D4D U+200D to U+0D7B), so 'ZWJ preserved' is inaccurate and Sai or Team 3 should confirm it is intended; small items: unused TEAM3_C3_MANIFEST, removed noqa E402, either-hash test."
+        }
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-119",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "Kannada reading for the E4 dedup check (Kunal Sinha, group G)",
+      "desc": "Ravi volunteered in group G to be the Kannada reader for Kunal Sinha's E4 dedup check (lab PR 255, kunal2016). e4_review.py makes blind sheets in the git-ignored out/e4/ folder; return the filled labels.csv. Waiting for Kunal's sheet; group G not re-read since 12 Nov morning.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-13",
+      "week": 2,
+      "labels": [
+        "e4",
+        "kannada"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "255"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-12T23:50",
+          "by": "Ravi Naik",
+          "text": "12 Nov: still waiting for the sheet. Check group G."
+        },
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: group G read on the morning of 13 Nov (latest messages are about the C3 tokenizer and Data B spec v1.1); nothing from Kunal about the Kannada sheet seen in the latest messages, older messages not re-read."
+        }
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-120",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "Reply OK on lab PR 407: C3 eos = <|endoftext|> 130822 (G10 and Data A leads)",
+      "desc": "Team 3 (Rajiv Seelam) asks the G10 and Data A leads to reply OK on lab PR 407 or ask for a different eos. PR 407 sets C3's eos to <|endoftext|> id 130822, the id Data A's shards (lab PR 373) already use. G10's special_tokens_v1.md also assigns <|endoftext|> 130822, so G10 can confirm.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-14",
+      "week": 2,
+      "labels": [
+        "tokenizer",
+        "gate-2"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "407"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-13T11:20",
+          "by": "Ravi Naik",
+          "text": "13 Nov: nudge Sai (G10 lead) to reply OK on PR 407. Ravi can reply if Sai prefers."
+        }
+      ],
+      "updated": "2026-11-13T11:20"
+    },
+    {
+      "id": "T-121",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Post the G10 daily note on each work day (15 to 20 Nov)",
+      "desc": "Instructor rule for week 3: each work day post a short note in G10: what you did, what blocks you, what comes next. Ravi also posts for G5 (rotation).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-20",
+      "week": 3,
+      "labels": [
+        "week-3"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-122",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Claim Member C tasks in G10: task 5 (small SFT run) and task 8 (eval_v1 with Member B)",
+      "desc": "Draft message to Sai: Ravi takes task 5 (small SFT run, loss falls, job request, results/small_sft.md, D5) and task 8 (sft/eval_v1.md + sft/tests/, with Member B, D3), plus one task 2 verifier set (Go code). Anirudh also offered to take most open parts, so ask Sai to confirm and offer to sync with Anirudh.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-15",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "claim"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-14T12:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: draft ready, not posted yet. Waiting for Ravi's go-ahead."
+        }
+      ],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-123",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Task 8: write sft/eval_v1.md and the test sets with automatic scorers",
+      "desc": "Held-out prompts for code, tool calls, Indic, chat format and safety, each with an automatic scorer. Add forgetting check: pre-training bits per byte plus two short benchmarks before and after SFT. Output sft/eval_v1.md and sft/tests/. Owner Member B and C. One PR. Due D3 (Tue 17 Nov).",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-17",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "eval",
+        "sft"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-14T12:00",
+          "by": "Ravi Naik",
+          "text": "Depends on Member B's SFT data v1 (task 1, also D3) for the chat format. Gate 3: test sets and forgetting check must run on every SFT job."
+        }
+      ],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-124",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Task 5: small SFT run on a small open model, show the loss falls (job request)",
+      "desc": "Send a job request to TSAI, then record the loss curve in results/small_sft.md. Needs SFT data v1 with loss masks (task 1) and the task 8 eval. Owner Member C. Due D5 (Thu 19 Nov).",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-19",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "sft",
+        "job-request"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-125",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Task 2: one RL verifier set (Go code) with a correct and a wrong answer test",
+      "desc": "RL data v1 with verifiers, one set per member. Ravi's set: Go code (code-go diagnosis pack). Add rl/test_verifier.py cases: one correct answer passes, one wrong answer fails. Due D4 (Wed 18 Nov).",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rl",
+        "verifier"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-14T12:00",
+          "by": "Ravi Naik",
+          "text": "Proposed in the claim message to Sai; confirm which set Sai wants."
+        }
+      ],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-126",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Gate 3 evidence checklist for Ravi's tasks (PRs on main or linked in G10 by Fri 20 Nov)",
+      "desc": "Anything not on main or in a PR linked in G10 by Friday night counts as missing. Check: data v1 passes decontamination; verifiers pass 2 tests; SFT test sets and forgetting check run on every SFT job; link each PR in G10.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-20",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "gate-3"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-127",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Anirudh: build the C3/32k OCR-2 pack by Mon 16 Nov 11:59 PM IST",
+      "desc": "Instructor decisions: C3 tokenizer frozen (eos 130822), max_sequence_tokens 32768 provisional, hold the 69,690 Codeforces rows out of v1, record source repo and revision for TACO, APPS and code_contests; no big files in the repo (script, manifest with sha256 and row count, rebuild recipe).",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Anirudh Narla"
+      ],
+      "due": "2026-11-16",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "sft",
+        "ocr-2"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-14T12:00",
+          "by": "Ravi Naik",
+          "text": "Check in with Anirudh on Mon 16 Nov and agree who covers what so tasks do not overlap."
+        }
+      ],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-128",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Sai to confirm roles: Anirudh's offer to take most open week 3 parts",
+      "desc": "Anirudh offered the OCR-2 pack plus small SFT and forgetting eval, code-RL verifier checks, DT vs LoRA/full FT, DT then RL, effort control and the format handoff. The work order names owners (Member A to E). Ask Sai to confirm the split.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-15",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "roles"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-129",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "Week 3 handoffs for G10: Team 12 template (D3), Team 9 RL pool check (D4), Team 3 chat format (D5)",
+      "desc": "G10 gives Team 12 the chat template for serving by D3 (Tue 17 Nov), gives Team 9 the RL pool check by D4 (Wed 18 Nov), and does the chat format check both ways with Team 3 by D5 (Thu 19 Nov).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Sai Teja"
+      ],
+      "due": "2026-11-17",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "handoff"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-130",
+      "type": "task",
+      "workstream": "Dependencies (other teams)",
+      "title": "Mon 16 Nov: reply OK on lab PR 407 (C3 eos id 130822) if Sai has not",
+      "desc": "Carry-over of T-120. Ravi can reply if Sai prefers.",
+      "status": "todo",
+      "priority": "low",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-16",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "tokenizer"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-131",
+      "type": "task",
+      "workstream": "G5 Architecture (rotation)",
+      "title": "G5 R1: repeat one experiment with a new seed",
+      "desc": "Rotation task for Team 5 (Architecture). Repeat one experiment (e.g. EXP-2 or EXP-3 from TSAI's T2 results) with a new seed. Output experiments/rotation_RaviNaik.md under teams/05-architecture/. Due D4 (Wed 18 Nov). Use only Axiom groups and GitHub.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rotation",
+        "g5"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-14T12:00",
+          "by": "Ravi Naik",
+          "text": "Pick the experiment in G5 first. Compute only via job request. Do not change config v1."
+        }
+      ],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-132",
+      "type": "task",
+      "workstream": "G5 Architecture (rotation)",
+      "title": "G5 R2: report whether the result holds (same file)",
+      "desc": "Record whether the new-seed result matches the original in experiments/rotation_RaviNaik.md. Due D5 (Thu 19 Nov).",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-19",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rotation",
+        "g5"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-133",
+      "type": "task",
+      "workstream": "G5 Architecture (rotation)",
+      "title": "G5: introduce as rotation member, ask Team 5 lead which experiment to repeat, post daily notes",
+      "desc": "Context: config v1 signed at Gate 2 and runs in dry run 1. G5 depends on Team 7 (dry run 1 job, D2), Team 8 (alarms, D2), Team 6 (custom-part checks, D5). Recent G5 activity: Udit's PR 441 (G5 harness) awaits TSAI reply; Raj H asked Shivanshu for the config v1 path and commit SHA for G6 (due 14 Nov); Yasir Reshi joined as another rotation member.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-15",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rotation",
+        "g5"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-134",
+      "type": "task",
+      "workstream": "Lab milestones",
+      "title": "Gate 3 evidence due Fri 20 Nov 11:59 PM IST (Gate 3 and Session 19 on Sat 21 Nov)",
+      "desc": "TSAI checks progress on Wed 18 Nov (3-day rule). Everything must be on main or in a PR linked in the team group by Friday night.",
+      "status": "todo",
+      "priority": "high",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-20",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "gate-3"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [],
+      "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 57
+  "rev": 62
 }
