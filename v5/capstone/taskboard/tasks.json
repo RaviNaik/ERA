@@ -813,7 +813,7 @@
       "workstream": "G10 Post-training",
       "title": "sft/sft_mix_proposal.md, final proposal",
       "desc": "TSAI decides the SFT mix at Gate 2 (Sat 14 Nov).",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Sai Teja"
@@ -826,7 +826,14 @@
       ],
       "blockedBy": "T-030",
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: Gate 2 held and the briefing is out; the SFT mix (#391) is merged and week 3 builds SFT data v1 from it. Closed."
+        }
+      ],
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-032",
@@ -961,7 +968,7 @@
       "workstream": "G10 Post-training",
       "title": "Member A: run render.py tests on the frozen tokenizer, write results/render_frozen_tokenizer.txt",
       "desc": "Team 3 gives the frozen tokenizer on Sat 14 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "medium",
       "assignees": [],
       "due": "2026-11-14",
@@ -977,9 +984,15 @@
           "at": "2026-11-11T12:00",
           "by": "Ravi Naik",
           "text": "11 Nov: unblocked, frozen tokenizer is ready (T-064). Due 14 Nov."
+        },
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: PR 74 (frozen C3 tokenizer with render.py and the verification suite) is merged. Closed."
         }
       ],
-      "blockedBy": ""
+      "blockedBy": "",
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-037",
@@ -1474,7 +1487,7 @@
       "workstream": "Lab milestones",
       "title": "Gate 2 proposals with evidence due",
       "desc": "Each team gives its proposal by Thu 12 Nov. Work days: Thu 12 and Fri 13 Nov.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [],
       "due": "2026-11-12",
@@ -1483,7 +1496,14 @@
         "gate-2"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: proposals were in; Gate 2 results are in the Capstone Lab 3 briefing. Closed."
+        }
+      ],
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "M-05",
@@ -1491,7 +1511,7 @@
       "workstream": "Lab milestones",
       "title": "Gate 2 (TSAI decides)",
       "desc": "Tokenizer freeze, KE2, config v1, Indic share, dedup design, spec v1.1, SFT mix, quantization bit widths. G10 evidence: render.py passes on the frozen tokenizer; 20 SWE environments pass the gold check; each set has a licence decision, generator model and decontamination report.",
-      "status": "todo",
+      "status": "done",
       "priority": "high",
       "assignees": [],
       "due": "2026-11-14",
@@ -1500,7 +1520,14 @@
         "gate-2"
       ],
       "refs": [],
-      "comments": []
+      "comments": [
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: Gate 2 decided; results and decisions are in the Capstone Lab 3 briefing. Closed."
+        }
+      ],
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "M-06",
@@ -3009,9 +3036,14 @@
           "at": "2026-11-13T11:20",
           "by": "Ravi Naik",
           "text": "13 Nov: PR 75 (Anirudh) carries the 41 dropped ids and the report update; needs the revision and split in section 6 before G9 can call the pool clean. Then reply to Nisarg Tike in the general group."
+        },
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: PR 75 is merged. Still to do: reply to Nisarg Tike (G9) with the 8,891-row hash, revision and split. Check G first to see if it was already sent."
         }
       ],
-      "updated": "2026-11-13T11:20"
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-107",
@@ -3336,7 +3368,7 @@
       "workstream": "G10 Post-training",
       "title": "Codeforces RL pool: count kept rows with contest id 1990 to 2070, add revision and split to rl/decontam_report.md section 6",
       "desc": "G9 (Nisarg Tike) asks, before calling rl-code-codeforces clean for G9: count the 8,932 kept rows whose id starts with a contest number from 1990 to 2070 and drop them or list them in the report; add the open-r1/codeforces revision and split (default, train) to section 6. The run files (rl-code-codeforces.jsonl sha efe89e87..., clean file 6bebfb332fef...) are from Anirudh's 6 Nov run and are not on Ravi's machine. Then Ravi updates rl/decontam_report.md (small PR) and answers in the general group.",
-      "status": "progress",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Anirudh Narla",
@@ -3383,9 +3415,14 @@
           "at": "2026-11-13T11:20",
           "by": "Ravi Naik",
           "text": "13 Nov: Anirudh raised PR 75 (excluded ids file with 41 rows, rl/decontam_report.md updated: 37,349 to 37,308 kept, 9,884 removed, 20.94%; arithmetic checked). He left the 9.14 MB clean file out because pr-guard rejects files over 5 MB and asked Sai and Ravi where it should live. Answer: hash only (220b2f86..., 8,891 rows), no LFS, no private transfer; precedent is that rl-data holds no data files. Review comment posted on PR 75 asking for two fixes: the report says the file is 'committed as clean.v2.jsonl' (it is not), and section 6 is missing the open-r1/codeforces revision fbe3f6e9... and split train that G9 asked for (plus a one-line rebuild recipe). Waiting for his update, then reply to G9."
+        },
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: PR 75 merged on 13 Nov (41-row policy drop, clean-file hash, revision and split). Reply to G9 is tracked under T-106. Closed."
         }
       ],
-      "updated": "2026-11-13T11:20"
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-116",
@@ -3393,7 +3430,7 @@
       "workstream": "G10 Post-training",
       "title": "README for every G10 folder (PR 68 merged, PR 70 open)",
       "desc": "Asked by Sai Teja. PR 68 (README for each folder, docs/OVERVIEW.md, decontam and RL pointers) merged 12 Nov. Anirudh wrote PR 69 at the same time; he closed it after PR 70 folded in his extras (index and blockers in the team README, Gate, measured, not measured and reports sections). PR 70 also fixes the tokenizer wording he asked for: render_frozen_tokenizer.txt is the tokenizer v0.1 report (sha a33c9907...), not the Gate 2 tokenizer (C3 sample-v0, sha 15468e66...).",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -3427,9 +3464,14 @@
           "at": "2026-11-13T11:20",
           "by": "Ravi Naik",
           "text": "13 Nov: PR 70 still open. Its tokenizer wording ('not announced as frozen', 'not in the repo') may need a revision once PR 74 (Amit, C3 integration) and TSAI's freeze are settled; lab main has teams/03-tokenizer/release/SHA256SUMS but no tokenizer.json. Hold until Sai decides on PR 74."
+        },
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: PR 68 and PR 70 are merged. Closed."
         }
       ],
-      "updated": "2026-11-13T11:20"
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-117",
@@ -3437,7 +3479,7 @@
       "workstream": "G10 Post-training",
       "title": "Gate 2 file: TSAI decision items and excluded new-set licence rows (PR 71)",
       "desc": "Sai Teja's pending item (due Thu 12 Nov 11:59 PM IST): updated sft/sft_mix_proposal.md and sft/decontam_report.md. PR 71 adds section 9 (four TSAI decision items with facts, numbers and a proposed answer: OCR-2 quality threshold, Codeforces rows, SFT mix shares, safety fallback), section 10 (the ten new datasets), licence rows for the 5 excluded new sets (SWE-smith, SWE-smith-trajectories, R1-Distill-SFT, Open-AgentRL-SFT-3K, Open-AgentRL-30K) and the six sets as not run in decontam_report.md section 7. Section 9.3 reflects lab PR 399. Shankar's PR 72 row is merged into it.",
-      "status": "progress",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik",
@@ -3473,9 +3515,14 @@
           "at": "2026-11-13T11:20",
           "by": "Ravi Naik",
           "text": "13 Nov: PR 71 still open, mergeable, no review from Sai. Sai commented on lab PR 391 (12 Nov, 22:53 IST) that README files caused merge conflicts there and asked Ravi to raise a fix; a test merge of the branch into lab main (14e5789) on 13 Nov is clean, GitHub shows the state as unknown. Branch tip is still d38b18c, so PR 391 does not yet include PRs 70 to 73 or 75. Hema's PR 73 (aya update) is reviewed and consistent with section 9.3 and merges cleanly with PR 71. Ask Sai which conflict he saw and to merge PRs 70 and 71."
+        },
+        {
+          "at": "2026-11-14T13:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: PR 71 merged on 13 Nov (TSAI decision items, excluded licence rows). Closed."
         }
       ],
-      "updated": "2026-11-13T11:20"
+      "updated": "2026-11-14T13:00"
     },
     {
       "id": "T-118",
@@ -3949,5 +3996,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 62
+  "rev": 63
 }
