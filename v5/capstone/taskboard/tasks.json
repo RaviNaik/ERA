@@ -3792,6 +3792,11 @@
           "at": "2026-11-14T22:30",
           "by": "Ravi Naik",
           "text": "14 Nov (review pass): 10 Go tasks, 90 tests pass (process + docker), decontam 0 flagged 0 canary. Fixed: docker infra failure now raises instead of scoring as compile error, candidate output discarded in the container, prompt-copy lint now catches Go-style calls, Dockerfile renamed go.Dockerfile, lru_trace and expand_rle edge cases. Local commit f927868, not pushed."
+        },
+        {
+          "at": "2026-11-14T23:00",
+          "by": "Ravi Naik",
+          "text": "Go files moved to rl/go/ (go_verifier.py, runner, go.Dockerfile, tests, README, tasks/). Python files untouched. Local commit c34e3f2, not pushed."
         }
       ],
       "updated": "2026-11-14T18:00"
@@ -4011,5 +4016,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 66
+  "rev": 67
 }
