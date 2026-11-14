@@ -3786,6 +3786,11 @@
           "kind": "commit",
           "repo": "mine",
           "ref": "581deb5"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "97d49e9"
         }
       ],
       "comments": [
@@ -3828,6 +3833,11 @@
           "at": "2026-11-15T01:30",
           "by": "Ravi Naik",
           "text": "Message to Sai posted in G10 with the PR 78 link (confirmed by Ravi). Waiting for his review and his answer on whether the Go set counts as the one set."
+        },
+        {
+          "at": "2026-11-15T03:00",
+          "by": "Ravi Naik",
+          "text": "New TSAI rule (14 Nov): code for a TSAI run needs speed work, the exact command, last output lines and timing in the PR. PR 78 now has all three: 'Run and speed' section added to the description, sandbox build made 10 to 20 percent faster (97d49e9 pushed), 155 tests pass, throughput 1.7 per s with 1 worker up to 19.3 per s with 16, about 0.5 to 0.6 s per answer. No warm container pool (noted in the PR). guard passes. Waiting for Sai's review and his answer on the one-set question."
         }
       ],
       "updated": "2026-11-14T18:00"
@@ -3984,6 +3994,11 @@
           "kind": "commit",
           "repo": "mine",
           "ref": "03082f6"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "85154d1"
         }
       ],
       "comments": [
@@ -4006,6 +4021,11 @@
           "at": "2026-11-15T01:30",
           "by": "Ravi Naik",
           "text": "Message to Shivanshu posted in G5 with the PR 450 link (confirmed by Ravi). Waiting for TSAI's run."
+        },
+        {
+          "at": "2026-11-15T03:00",
+          "by": "Ravi Naik",
+          "text": "Shivanshu reviewed PR 450 (changes requested): one command in the Command field, and a train_week2.py log. Both done and pushed (3d63b9c, 7d403bf, 85154d1): single attn-2 command, smoke log of both arms in jobs/evidence/2026-11-14-rotation-smoke/ (CPU, 6 steps, exit 0, 22 s and 18 s, same hashes on a fresh clone), plus JOB_REQUEST.md template fixes. PR description has a Run and timing section. guard passes. Waiting for his re-review, then for TSAI's run (due Wed 18 Nov)."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -4096,5 +4116,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 71
+  "rev": 72
 }
