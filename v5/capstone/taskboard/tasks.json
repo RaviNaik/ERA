@@ -3758,7 +3758,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 2: one RL verifier set (Go code) with a correct and a wrong answer test",
       "desc": "RL data v1 with verifiers, one set per member. Ravi's set: Go code (code-go diagnosis pack). Add rl/test_verifier.py cases: one correct answer passes, one wrong answer fails. Due D4 (Wed 18 Nov).",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3777,9 +3777,14 @@
           "at": "2026-11-14T12:00",
           "by": "Ravi Naik",
           "text": "Proposed in the claim message to Sai; confirm which set Sai wants."
+        },
+        {
+          "at": "2026-11-14T18:00",
+          "by": "Ravi Naik",
+          "text": "14 Nov: Go verifier built locally on branch g10-rl-go-verifier-RaviNaik (worktree g10-go-verifier-wt, commit 705d7f6-ish, not pushed): go_verifier.py, _go_runner.go, Dockerfile.go, 3 Go tasks (parse_size, parse_kv_line, split_balanced), 52 tests pass in process and docker mode. To do: decontam check on the prompts, more tasks (aim 8-10), show Sai, then push and open the PR."
         }
       ],
-      "updated": "2026-11-14T12:00"
+      "updated": "2026-11-14T18:00"
     },
     {
       "id": "T-126",
@@ -3996,5 +4001,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 63
+  "rev": 64
 }
