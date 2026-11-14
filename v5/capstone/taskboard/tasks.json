@@ -3771,7 +3771,18 @@
         "verifier"
       ],
       "blockedBy": [],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "78"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "581deb5"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-14T12:00",
@@ -3802,6 +3813,11 @@
           "at": "2026-11-15T00:30",
           "by": "Ravi Naik",
           "text": "PR 78 open on saitej123/era-v5-lab (guard passes, 14a5d73). Review found: task.json source said written by Ravi Naik; the true author is Claude for Ravi (same as the Python tasks) and TSAI's 3 Nov data rule makes such tasks evaluation-only. Fixed locally in 6e4173b (not pushed); PR body also needs the same correction (draft in scratchpad pr-body-v2.md). 4,200 random cases: all Go references match independent Python models. Waiting for approval to push and edit the PR body, then post the link in G10 by Wed 18 Nov."
+        },
+        {
+          "at": "2026-11-15T01:00",
+          "by": "Ravi Naik",
+          "text": "PR 78 (saitej123/era-v5-lab) is at 581deb5 with 10 Go tasks, 91 Go tests, guard passes and it is mergeable. The PR body is corrected: the tasks were written by Claude for Ravi, so they are evaluation-only under TSAI's 3 Nov rule. Waiting for Sai's review and his answer on whether a Go set counts as the one set. G10 message to Sai is drafted, not posted. Link it in G10 by Wed 18 Nov."
         }
       ],
       "updated": "2026-11-14T18:00"
@@ -3812,7 +3828,7 @@
       "workstream": "G10 Post-training",
       "title": "Gate 3 evidence checklist for Ravi's tasks (PRs on main or linked in G10 by Fri 20 Nov)",
       "desc": "Anything not on main or in a PR linked in G10 by Friday night counts as missing. Check: data v1 passes decontamination; verifiers pass 2 tests; SFT test sets and forgetting check run on every SFT job; link each PR in G10.",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3825,7 +3841,13 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-11-15T01:00",
+          "by": "Ravi Naik",
+          "text": "Gate 3 status: task 2 verifier and 10 Go tasks done in PR 78 (tests pass, decontam 0 flagged and 0 canary, pr-guard passes), waiting for review and the link in G10. Not started: task 5 small SFT run, task 8 eval_v1 and tests with the forgetting check."
+        }
+      ],
       "updated": "2026-11-14T12:00"
     },
     {
@@ -3929,7 +3951,7 @@
       "workstream": "G5 Architecture (rotation)",
       "title": "G5 R1: repeat one experiment with a new seed",
       "desc": "Rotation task for Team 5 (Architecture). Repeat one experiment (e.g. EXP-2 or EXP-3 from TSAI's T2 results) with a new seed. Output experiments/rotation_RaviNaik.md under teams/05-architecture/. Due D4 (Wed 18 Nov). Use only Axiom groups and GitHub.",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3942,7 +3964,18 @@
         "g5"
       ],
       "blockedBy": [],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "450"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "03082f6"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-14T12:00",
@@ -3953,6 +3986,11 @@
           "at": "2026-11-14T23:30",
           "by": "Ravi Naik",
           "text": "Shivanshu confirmed in G5: attn2_swa128_sink and the T2 reference at seed 1237. Job request committed locally in worktree g5-rotation-wt (branch g5-rotation-RaviNaik, b61ec81), not pushed. Pass rule corrected to the not-worse rule (docs/attention_harness.md). Needs approval to push and open the PR to theschoolofai/era-v5-lab main."
+        },
+        {
+          "at": "2026-11-15T01:00",
+          "by": "Ravi Naik",
+          "text": "PR 450 (theschoolofai/era-v5-lab) is open with the job request jobs/2026-11-14-rotation-attn2-seed1237.md, guard passes. Waiting for TSAI to run attn-2 and the T2 reference at seed 1237 (due Wed 18 Nov) and to confirm the staged inputs. PR 441 may change the harness. G5 message to Shivanshu is drafted, not posted."
         }
       ],
       "updated": "2026-11-14T12:00"
@@ -3977,7 +4015,13 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-11-15T01:00",
+          "by": "Ravi Naik",
+          "text": "After the TSAI run returns: apply the not-worse rule (seed 1237 alone and four seeds), write experiments/rotation_RaviNaik.md, say in G5 whether it holds by Thu 19 Nov. Depends on PR 450 and the TSAI run."
+        }
+      ],
       "updated": "2026-11-14T12:00"
     },
     {
@@ -3986,7 +4030,7 @@
       "workstream": "G5 Architecture (rotation)",
       "title": "G5: introduce as rotation member, ask Team 5 lead which experiment to repeat, post daily notes",
       "desc": "Context: config v1 signed at Gate 2 and runs in dry run 1. G5 depends on Team 7 (dry run 1 job, D2), Team 8 (alarms, D2), Team 6 (custom-part checks, D5). Recent G5 activity: Udit's PR 441 (G5 harness) awaits TSAI reply; Raj H asked Shivanshu for the config v1 path and commit SHA for G6 (due 14 Nov); Yasir Reshi joined as another rotation member.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4000,7 +4044,13 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-11-15T01:00",
+          "by": "Ravi Naik",
+          "text": "Done: Shivanshu answered in G5 on 14 Nov and assigned attn2_swa128_sink and the T2 reference at seed 1237. Left: post the PR 450 link in G5 and the daily notes."
+        }
+      ],
       "updated": "2026-11-14T12:00"
     },
     {
@@ -4026,5 +4076,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 69
+  "rev": 70
 }
