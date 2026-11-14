@@ -4026,9 +4026,14 @@
           "at": "2026-11-15T03:00",
           "by": "Ravi Naik",
           "text": "Shivanshu reviewed PR 450 (changes requested): one command in the Command field, and a train_week2.py log. Both done and pushed (3d63b9c, 7d403bf, 85154d1): single attn-2 command, smoke log of both arms in jobs/evidence/2026-11-14-rotation-smoke/ (CPU, 6 steps, exit 0, 22 s and 18 s, same hashes on a fresh clone), plus JOB_REQUEST.md template fixes. PR description has a Run and timing section. guard passes. Waiting for his re-review, then for TSAI's run (due Wed 18 Nov)."
+        },
+        {
+          "at": "2026-11-14T20:00",
+          "by": "Ravi Naik",
+          "text": "Shivanshu approved PR 450 (14 Nov, 19:58 IST; reviewDecision APPROVED, guard passes, PR still open, not merged). Next: TSAI runs attn-2 and the T2 reference at seed 1237 (due Wed 18 Nov); TSAI to confirm the staged inputs; PR 441 may change the harness; check whether the C3 tokenizer freeze after Gate 2 changes the tokenizer or byte-table hashes in the request. Then write the R2 verdict in experiments/rotation_RaviNaik.md (Thu 19 Nov)."
         }
       ],
-      "updated": "2026-11-14T12:00"
+      "updated": "2026-11-14"
     },
     {
       "id": "T-132",
@@ -4116,5 +4121,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 72
+  "rev": 73
 }
