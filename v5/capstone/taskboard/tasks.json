@@ -3781,12 +3781,17 @@
         {
           "at": "2026-11-14T18:00",
           "by": "Ravi Naik",
-          "text": "14 Nov: Go verifier built locally on branch g10-rl-go-verifier-RaviNaik (worktree g10-go-verifier-wt, commit 705d7f6-ish, not pushed): go_verifier.py, _go_runner.go, Dockerfile.go, 3 Go tasks (parse_size, parse_kv_line, split_balanced), 52 tests pass in process and docker mode. To do: decontam check on the prompts, more tasks (aim 8-10), show Sai, then push and open the PR."
+          "text": "14 Nov: Go verifier built locally on branch g10-rl-go-verifier-RaviNaik (worktree g10-go-verifier-wt, local commit only, not pushed): go_verifier.py, _go_runner.go, Dockerfile.go, 3 Go tasks (parse_size, parse_kv_line, split_balanced), 52 tests pass in process and docker mode. To do: decontam check on the prompts, more tasks (aim 8-10), show Sai, then push and open the PR."
         },
         {
           "at": "2026-11-14T21:00",
           "by": "Ravi Naik",
           "text": "14 Nov (later): 9 Go tasks now (added merge_intervals, parse_roman, top_words, lru_trace, expand_rle, compare_semver), 82 tests pass in process and docker, decontam check on prompts and references 0 flagged 0 canary (fingerprints v2). Commit 37df287 local only. To do: show Sai, confirm a Go set is OK, then push and open the PR (needs approval); link in G10 by Wed 18 Nov."
+        },
+        {
+          "at": "2026-11-14T22:30",
+          "by": "Ravi Naik",
+          "text": "14 Nov (review pass): 10 Go tasks, 90 tests pass (process + docker), decontam 0 flagged 0 canary. Fixed: docker infra failure now raises instead of scoring as compile error, candidate output discarded in the container, prompt-copy lint now catches Go-style calls, Dockerfile renamed go.Dockerfile, lru_trace and expand_rle edge cases. Local commit f927868, not pushed."
         }
       ],
       "updated": "2026-11-14T18:00"
@@ -4006,5 +4011,5 @@
       "updated": "2026-11-14T12:00"
     }
   ],
-  "rev": 65
+  "rev": 66
 }
