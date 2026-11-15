@@ -3786,9 +3786,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "15 Nov: not started. Overlaps Anirudh's PR 81 (SmolLM2-135M, Modal A10, three full-FT seeds plus one LoRA, results/small_sft.md). Decide: reuse his run or send my own job request (due Wed 18 Nov, results Thu 19 Nov). TSAI rule: job code must be speed-optimized, PR reports step and wall time, exact command and last output lines."
+        },
+        {
+          "at": "2026-11-15T16:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: PR 79 already holds a small SFT run (SmolLM2-135M, loss curves for 3 full-FT seeds and one LoRA, speed and memory). Ask Sai whether that satisfies task 5 before sending my own job request."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-15T16:00"
     },
     {
       "id": "T-125",
@@ -4169,7 +4174,7 @@
       "workstream": "G10 Post-training",
       "title": "Review peers' PRs on g10-week3-post-training (Sai asked for reviews)",
       "desc": "Sai asked for reviews of other members' PRs and asked Rammohan to add Ravi and Anirudh as reviewers: PR 79 (OCR-2 pack), 80 (DeepCoder Python verifier), 81 (SFT bench), 85 (Deletion Tuning), 86, 87, 88 and 89 (Indic verifier set and prompts). Check the README and verifier files. Review comments need Ravi's approval before posting.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4187,9 +4192,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "Not started. Start with PR 81 (it shares eval_v1.md with PR 90) and 88/89 (verifiers)."
+        },
+        {
+          "at": "2026-11-15T16:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: reviewed PRs 80, 88, 89 and 79 and posted one comment on each (no approve or request-changes). PR 79 reviewed only for the SFT bench part (108 files, 33k lines); its torch tests could not be run here. PRs 81, 85, 86 and 87 are closed and merged into 79. Findings: PR 80 base is still week1 and three filters have no test; PR 88 three untested rules (first vs last think end, NFC vs NFKC, case folding); PR 89 sequence repetition passes the expression check and would exhaust memory, plus untested generator guarantees; PR 79 eval_v1 calls 17/24 a scorer ceiling while small_sft.md says it is not. Open for me: PR 90 conflicts with PR 79 in sft/eval_v1.md; my 0.05 forgetting limit would flag Anirudh's full FT runs (+0.0503 to +0.0515); ask Sai whether PR 79's small_sft run covers task 5."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-15T16:00"
     },
     {
       "id": "T-136",
@@ -4221,5 +4231,5 @@
       "updated": "2026-11-15T12:00"
     }
   ],
-  "rev": 74
+  "rev": 75
 }
