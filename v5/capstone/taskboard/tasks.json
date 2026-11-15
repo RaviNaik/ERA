@@ -4034,7 +4034,7 @@
       "workstream": "G5 Architecture (rotation)",
       "title": "G5 R1: repeat one experiment with a new seed",
       "desc": "Rotation task for Team 5 (Architecture). Repeat one experiment (e.g. EXP-2 or EXP-3 from TSAI's T2 results) with a new seed. Output experiments/rotation_RaviNaik.md under teams/05-architecture/. Due D4 (Wed 18 Nov). Use only Axiom groups and GitHub.",
-      "status": "progress",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -4094,9 +4094,14 @@
           "at": "2026-11-14T20:00",
           "by": "Ravi Naik",
           "text": "Shivanshu approved PR 450 (14 Nov, 19:58 IST; reviewDecision APPROVED, guard passes, PR still open, not merged). Next: TSAI runs attn-2 and the T2 reference at seed 1237 (due Wed 18 Nov); TSAI to confirm the staged inputs; PR 441 may change the harness; check whether the C3 tokenizer freeze after Gate 2 changes the tokenizer or byte-table hashes in the request. Then write the R2 verdict in experiments/rotation_RaviNaik.md (Thu 19 Nov)."
+        },
+        {
+          "at": "2026-11-15T18:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov 09:27 UTC: TSAI ran both jobs on PR 450 (1,221 steps, heldout_v1, seed 1237, trainer 71bc0fb with TSAI speed fixes). val/bpb: attn2_swa128_sink 1.7507, T2 reference 1.7542, difference -0.0035. T2 reference at seeds 1234, 1235, 1236 was 1.7673, 1.7796, 1.7792 (mean 1.7754, range 0.0123, std 0.0070). TSAI: the seed spread is larger than the difference; no winner. PR 450 is still open and approved. TSAI's comment gives only aggregate val/bpb; the not-worse rule needs three-group, code and Indic means for both arms at seed 1237 and for attn-2 at seeds 1234 to 1236."
         }
       ],
-      "updated": "2026-11-14"
+      "updated": "2026-11-15T18:00"
     },
     {
       "id": "T-132",
@@ -4104,7 +4109,7 @@
       "workstream": "G5 Architecture (rotation)",
       "title": "G5 R2: report whether the result holds (same file)",
       "desc": "Record whether the new-seed result matches the original in experiments/rotation_RaviNaik.md. Due D5 (Thu 19 Nov).",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4123,9 +4128,14 @@
           "at": "2026-11-15T01:00",
           "by": "Ravi Naik",
           "text": "After the TSAI run returns: apply the not-worse rule (seed 1237 alone and four seeds), write experiments/rotation_RaviNaik.md, say in G5 whether it holds by Thu 19 Nov. Depends on PR 450 and the TSAI run."
+        },
+        {
+          "at": "2026-11-15T18:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: result of the run is in (see T-131). To write experiments/rotation_RaviNaik.md I still need: summary.json (val/three_group_bpb, val/groups/code_bpb, val/groups/indic_mean_bpb) of both seed-1237 runs, and the same three metrics for attn-2 at seeds 1234 to 1236 from TSAI's T2 table. Note the rule uses the range, not the std: the reference range over 1234 to 1236 is 0.0123 (my job request said 'about 0.007', which is the standard deviation). Draft only until those numbers arrive."
         }
       ],
-      "updated": "2026-11-14T12:00"
+      "updated": "2026-11-15T18:00"
     },
     {
       "id": "T-133",
@@ -4246,5 +4256,5 @@
       "updated": "2026-11-15T12:00"
     }
   ],
-  "rev": 76
+  "rev": 77
 }
