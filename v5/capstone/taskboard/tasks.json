@@ -3757,9 +3757,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "15 Nov: my part of task 8 is done and in PR 90 (saitej123/era-v5-lab, base g10-week3-post-training): tool-call set 32 rows, Indic 44 (10 scripts), safety 41 (en, hi, mr, ta, te, bn, kn), pure-Python scorers with CLI, forgetting.py comparison (reads Anirudh's evaluate.py reports), eval_v1.md sections. 585 tests pass in 0.64 s, ruff clean, pr-guard-safe. Hi, mr, te, kn reviewed by native speakers; ta, bn, gu, ml, or, pa not yet. Code and chat-format sections are Anirudh's in PR 81; shared eval_v1.md merges by whichever PR lands second. Message with PR link and two questions (forgetting limits to Sai, report fields to Anirudh) posted in G10 15 Nov; no reply yet. Open: no real model run through the scorers; forgetting.py not tested on a real evaluate.py report."
+        },
+        {
+          "at": "2026-11-15T17:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: eval_v1.md in PR 90 now holds Anirudh's code and chat-format sections (copied unchanged from PR 79) and my sections in one file (951804d, guard passes). PR 90 still has an add/add conflict with PR 79 on sft/eval_v1.md; the fix is to keep this version, or rebase if 79 merges first. Message to Sai posted in G10: asks him to confirm the forgetting limits (my 0.05 bits-per-byte rise would flag Anirudh's full FT runs at +0.0503 to +0.0515) and gives the merge-order note. Waiting for his answer."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-15T17:00"
     },
     {
       "id": "T-124",
@@ -3791,9 +3796,14 @@
           "at": "2026-11-15T16:00",
           "by": "Ravi Naik",
           "text": "15 Nov: PR 79 already holds a small SFT run (SmolLM2-135M, loss curves for 3 full-FT seeds and one LoRA, speed and memory). Ask Sai whether that satisfies task 5 before sending my own job request."
+        },
+        {
+          "at": "2026-11-15T17:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: question to Sai posted in G10: does PR 79's small SFT run count for task 5, or does he want my own job request (due Wed 18 Nov)? Waiting for his answer; do not send a job request before he replies."
         }
       ],
-      "updated": "2026-11-15T16:00"
+      "updated": "2026-11-15T17:00"
     },
     {
       "id": "T-125",
@@ -3914,9 +3924,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "15 Nov: task 2 done (PR 78 merged). Task 8 done on my side, PR 90 open, waiting for review and native check of 6 more languages. Task 5 not started. Instructor note in G10: Deletion Tuning is a candidate for the final training, not decided; compare with LoRA and full fine-tuning (tasks 8 to 11 of the week 3 brief) - Anirudh has PR 85 on it."
+        },
+        {
+          "at": "2026-11-15T17:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: asked Sai in G10 to confirm the forgetting limits and whether PR 79's small SFT run counts for task 5. Both answers pending."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-15T17:00"
     },
     {
       "id": "T-127",
@@ -4231,5 +4246,5 @@
       "updated": "2026-11-15T12:00"
     }
   ],
-  "rev": 75
+  "rev": 76
 }
