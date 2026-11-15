@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14",
+  "updated": "2026-11-15",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -3669,8 +3669,14 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
-      "updated": "2026-11-14T12:00"
+      "comments": [
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: note for task 8 posted in G10 (PR 90 link and questions). G5 note not posted."
+        }
+      ],
+      "updated": "2026-11-15T12:00"
     },
     {
       "id": "T-122",
@@ -3711,7 +3717,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 8: write sft/eval_v1.md and the test sets with automatic scorers",
       "desc": "Held-out prompts for code, tool calls, Indic, chat format and safety, each with an automatic scorer. Add forgetting check: pre-training bits per byte plus two short benchmarks before and after SFT. Output sft/eval_v1.md and sft/tests/. Owner Member B and C. One PR. Due D3 (Tue 17 Nov).",
-      "status": "todo",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3724,15 +3730,36 @@
         "sft"
       ],
       "blockedBy": [],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "90"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "2d0c2b6"
+        },
+        {
+          "kind": "commit",
+          "repo": "mine",
+          "ref": "c61fbf3"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-14T12:00",
           "by": "Ravi Naik",
           "text": "Depends on Member B's SFT data v1 (task 1, also D3) for the chat format. Gate 3: test sets and forgetting check must run on every SFT job."
+        },
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: my part of task 8 is done and in PR 90 (saitej123/era-v5-lab, base g10-week3-post-training): tool-call set 32 rows, Indic 44 (10 scripts), safety 41 (en, hi, mr, ta, te, bn, kn), pure-Python scorers with CLI, forgetting.py comparison (reads Anirudh's evaluate.py reports), eval_v1.md sections. 585 tests pass in 0.64 s, ruff clean, pr-guard-safe. Hi, mr, te, kn reviewed by native speakers; ta, bn, gu, ml, or, pa not yet. Code and chat-format sections are Anirudh's in PR 81; shared eval_v1.md merges by whichever PR lands second. Message with PR link and two questions (forgetting limits to Sai, report fields to Anirudh) posted in G10 15 Nov; no reply yet. Open: no real model run through the scorers; forgetting.py not tested on a real evaluate.py report."
         }
       ],
-      "updated": "2026-11-14T12:00"
+      "updated": "2026-11-15T12:00"
     },
     {
       "id": "T-124",
@@ -3754,8 +3781,14 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
-      "updated": "2026-11-14T12:00"
+      "comments": [
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: not started. Overlaps Anirudh's PR 81 (SmolLM2-135M, Modal A10, three full-FT seeds plus one LoRA, results/small_sft.md). Decide: reuse his run or send my own job request (due Wed 18 Nov, results Thu 19 Nov). TSAI rule: job code must be speed-optimized, PR reports step and wall time, exact command and last output lines."
+        }
+      ],
+      "updated": "2026-11-15T12:00"
     },
     {
       "id": "T-125",
@@ -3763,7 +3796,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 2: one RL verifier set (Go code) with a correct and a wrong answer test",
       "desc": "RL data v1 with verifiers, one set per member. Ravi's set: Go code (code-go diagnosis pack). Add rl/test_verifier.py cases: one correct answer passes, one wrong answer fails. Due D4 (Wed 18 Nov).",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3838,9 +3871,14 @@
           "at": "2026-11-15T03:00",
           "by": "Ravi Naik",
           "text": "New TSAI rule (14 Nov): code for a TSAI run needs speed work, the exact command, last output lines and timing in the PR. PR 78 now has all three: 'Run and speed' section added to the description, sandbox build made 10 to 20 percent faster (97d49e9 pushed), 155 tests pass, throughput 1.7 per s with 1 worker up to 19.3 per s with 16, about 0.5 to 0.6 s per answer. No warm container pool (noted in the PR). guard passes. Waiting for Sai's review and his answer on the one-set question."
+        },
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "PR 78 was merged by Sai into g10-week3-post-training on 14 Nov 17:19 UTC. Open question put to Sai in G10 (15 Nov): the Go files are in rl/go/ while the assignment says rl/tasks/ and rl/test_verifier.py; no answer yet."
         }
       ],
-      "updated": "2026-11-14T18:00"
+      "updated": "2026-11-15T12:00"
     },
     {
       "id": "T-126",
@@ -3866,9 +3904,14 @@
           "at": "2026-11-15T01:00",
           "by": "Ravi Naik",
           "text": "Gate 3 status: task 2 verifier and 10 Go tasks done in PR 78 (tests pass, decontam 0 flagged and 0 canary, pr-guard passes), waiting for review and the link in G10. Not started: task 5 small SFT run, task 8 eval_v1 and tests with the forgetting check."
+        },
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "15 Nov: task 2 done (PR 78 merged). Task 8 done on my side, PR 90 open, waiting for review and native check of 6 more languages. Task 5 not started. Instructor note in G10: Deletion Tuning is a candidate for the final training, not decided; compare with LoRA and full fine-tuning (tasks 8 to 11 of the week 3 brief) - Anirudh has PR 85 on it."
         }
       ],
-      "updated": "2026-11-14T12:00"
+      "updated": "2026-11-15T12:00"
     },
     {
       "id": "T-127",
@@ -4119,7 +4162,64 @@
       "refs": [],
       "comments": [],
       "updated": "2026-11-14T12:00"
+    },
+    {
+      "id": "T-135",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review peers' PRs on g10-week3-post-training (Sai asked for reviews)",
+      "desc": "Sai asked for reviews of other members' PRs and asked Rammohan to add Ravi and Anirudh as reviewers: PR 79 (OCR-2 pack), 80 (DeepCoder Python verifier), 81 (SFT bench), 85 (Deletion Tuning), 86, 87, 88 and 89 (Indic verifier set and prompts). Check the README and verifier files. Review comments need Ravi's approval before posting.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "review"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-15T12:00",
+          "by": "Ravi Naik",
+          "text": "Not started. Start with PR 81 (it shares eval_v1.md with PR 90) and 88/89 (verifiers)."
+        }
+      ],
+      "updated": "2026-11-15T12:00"
+    },
+    {
+      "id": "T-136",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Native-speaker review of the Indic wording in PR 90 (ta, bn, gu, ml, or, pa)",
+      "desc": "Hi, mr, te and kn are reviewed. Still to review: Tamil, Bengali, Gujarati, Malayalam, Odia, Punjabi. Files: sft/tests/gen_indic_v1.py, gen_safety_v1.py (ta, bn), gen_toolcall_v1.py (ta), scorers.py refusal phrases (ta, bn). Safety rows and refusal phrases are missing for gu, ml, or, pa. Corrections go into the generators; regenerate the jsonl and re-run the tests.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-19",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "eval",
+        "indic"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "90"
+        }
+      ],
+      "comments": [],
+      "updated": "2026-11-15T12:00"
     }
   ],
-  "rev": 73
+  "rev": 74
 }
