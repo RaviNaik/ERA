@@ -4133,9 +4133,14 @@
           "at": "2026-11-15T18:00",
           "by": "Ravi Naik",
           "text": "15 Nov: result of the run is in (see T-131). To write experiments/rotation_RaviNaik.md I still need: summary.json (val/three_group_bpb, val/groups/code_bpb, val/groups/indic_mean_bpb) of both seed-1237 runs, and the same three metrics for attn-2 at seeds 1234 to 1236 from TSAI's T2 table. Note the rule uses the range, not the std: the reference range over 1234 to 1236 is 0.0123 (my job request said 'about 0.007', which is the standard deviation). Draft only until those numbers arrive."
+        },
+        {
+          "at": "2026-11-15T18:30",
+          "by": "Ravi Naik",
+          "text": "15 Nov: comment posted on PR 450 asking TSAI for summary.json (three-group, code, Indic means) of both seed-1237 runs and attn-2 and reference at seeds 1234 to 1236, and whether the R2 file goes into PR 450 or a new PR. Tagged shivman for the location of the T2 table. Waiting for the answer."
         }
       ],
-      "updated": "2026-11-15T18:00"
+      "updated": "2026-11-15T18:30"
     },
     {
       "id": "T-133",
@@ -4256,5 +4261,5 @@
       "updated": "2026-11-15T12:00"
     }
   ],
-  "rev": 77
+  "rev": 78
 }
