@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15",
+  "updated": "2026-11-16",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -3717,7 +3717,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 8: write sft/eval_v1.md and the test sets with automatic scorers",
       "desc": "Held-out prompts for code, tool calls, Indic, chat format and safety, each with an automatic scorer. Add forgetting check: pre-training bits per byte plus two short benchmarks before and after SFT. Output sft/eval_v1.md and sft/tests/. Owner Member B and C. One PR. Due D3 (Tue 17 Nov).",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3762,9 +3762,14 @@
           "at": "2026-11-15T17:00",
           "by": "Ravi Naik",
           "text": "15 Nov: eval_v1.md in PR 90 now holds Anirudh's code and chat-format sections (copied unchanged from PR 79) and my sections in one file (951804d, guard passes). PR 90 still has an add/add conflict with PR 79 on sft/eval_v1.md; the fix is to keep this version, or rebase if 79 merges first. Message to Sai posted in G10: asks him to confirm the forgetting limits (my 0.05 bits-per-byte rise would flag Anirudh's full FT runs at +0.0503 to +0.0515) and gives the merge-order note. Waiting for his answer."
+        },
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 90 merged by Sai (15 Nov 15:07 UTC). Instructor answered in G10: keep the forgetting limit at 0.05 for v1; it only sets the verdict line, so print all numbers and mark a result within 0.01 of the limit as 'at the limit'. Merge order in PR 90 is fine. Still to do in forgetting.py: the 'at the limit' mark within 0.01."
         }
       ],
-      "updated": "2026-11-15T17:00"
+      "updated": "2026-11-16T12:00"
     },
     {
       "id": "T-124",
@@ -3772,7 +3777,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 5: small SFT run on a small open model, show the loss falls (job request)",
       "desc": "Send a job request to TSAI, then record the loss curve in results/small_sft.md. Needs SFT data v1 with loss masks (task 1) and the task 8 eval. Owner Member C. Due D5 (Thu 19 Nov).",
-      "status": "todo",
+      "status": "progress",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3801,9 +3806,14 @@
           "at": "2026-11-15T17:00",
           "by": "Ravi Naik",
           "text": "15 Nov: question to Sai posted in G10: does PR 79's small SFT run count for task 5, or does he want my own job request (due Wed 18 Nov)? Waiting for his answer; do not send a job request before he replies."
+        },
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: instructor answered in G10: PR 79 counts for task 5, and Ravi takes the writing and review. No job request from me. Next: review PR 79 results/small_sft.md and write up my part."
         }
       ],
-      "updated": "2026-11-15T17:00"
+      "updated": "2026-11-16T12:00"
     },
     {
       "id": "T-125",
@@ -3929,9 +3939,14 @@
           "at": "2026-11-15T17:00",
           "by": "Ravi Naik",
           "text": "15 Nov: asked Sai in G10 to confirm the forgetting limits and whether PR 79's small SFT run counts for task 5. Both answers pending."
+        },
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: forgetting limit confirmed at 0.05; PR 79 counts for task 5 (Ravi writes and reviews); PR 90 merged. Open: 'at the limit' mark in forgetting.py, native review of ta, bn, gu, ml, or, pa."
         }
       ],
-      "updated": "2026-11-15T17:00"
+      "updated": "2026-11-16T12:00"
     },
     {
       "id": "T-127",
@@ -4138,9 +4153,14 @@
           "at": "2026-11-15T18:30",
           "by": "Ravi Naik",
           "text": "15 Nov: comment posted on PR 450 asking TSAI for summary.json (three-group, code, Indic means) of both seed-1237 runs and attn-2 and reference at seeds 1234 to 1236, and whether the R2 file goes into PR 450 or a new PR. Tagged shivman for the location of the T2 table. Waiting for the answer."
+        },
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: shivman approved PR 450; TSAI ran seed 1237 (1.7507 vs reference 1.7542). Still waiting for the three group values for the reference seeds 1234-1236 and attn-2. File goes in a new PR by Thu 19 Nov."
         }
       ],
-      "updated": "2026-11-15T18:30"
+      "updated": "2026-11-16T12:00"
     },
     {
       "id": "T-133",
@@ -4227,9 +4247,14 @@
           "at": "2026-11-15T16:00",
           "by": "Ravi Naik",
           "text": "15 Nov: reviewed PRs 80, 88, 89 and 79 and posted one comment on each (no approve or request-changes). PR 79 reviewed only for the SFT bench part (108 files, 33k lines); its torch tests could not be run here. PRs 81, 85, 86 and 87 are closed and merged into 79. Findings: PR 80 base is still week1 and three filters have no test; PR 88 three untested rules (first vs last think end, NFC vs NFKC, case folding); PR 89 sequence repetition passes the expression check and would exhaust memory, plus untested generator guarantees; PR 79 eval_v1 calls 17/24 a scorer ceiling while small_sft.md says it is not. Open for me: PR 90 conflicts with PR 79 in sft/eval_v1.md; my 0.05 forgetting limit would flag Anirudh's full FT runs (+0.0503 to +0.0515); ask Sai whether PR 79's small_sft run covers task 5."
+        },
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 93 was closed by Anirudh and folded into PR 79, so my second review (what was added since the first: stdio_check, ScorePool, trainer state, SFT data v1 close) is on PR 79 (comment 6898219009) at head 36ae7fc, plus a short pointer on PR 93 (6898219322). Findings: false-positive wording (3/254 vs 19/627, Fisher p about 0.15), CI text 0.142 vs 0.1407 vs 0.1419, early-exit branch untested (needs root), 7 of 12 mutations survived, MoE wording, E4b 'a third' is about 41%, refresh the 611-passed block. Tests on head: 1,225 passed, 39 skipped. Nothing blocks. Anirudh merged both PRs per Sai."
         }
       ],
-      "updated": "2026-11-15T16:00"
+      "updated": "2026-11-16T12:00"
     },
     {
       "id": "T-136",
@@ -4257,9 +4282,15 @@
           "ref": "90"
         }
       ],
-      "comments": [],
-      "updated": "2026-11-15T12:00"
+      "comments": [
+        {
+          "at": "2026-11-16T12:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 90 is merged, so corrections now go in a new PR from the fork against week 3."
+        }
+      ],
+      "updated": "2026-11-16T12:00"
     }
   ],
-  "rev": 78
+  "rev": 79
 }
