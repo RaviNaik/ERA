@@ -3717,7 +3717,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 8: write sft/eval_v1.md and the test sets with automatic scorers",
       "desc": "Held-out prompts for code, tool calls, Indic, chat format and safety, each with an automatic scorer. Add forgetting check: pre-training bits per byte plus two short benchmarks before and after SFT. Output sft/eval_v1.md and sft/tests/. Owner Member B and C. One PR. Due D3 (Tue 17 Nov).",
-      "status": "review",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3777,9 +3777,14 @@
           "at": "2026-11-16T15:00",
           "by": "Ravi Naik",
           "text": "16 Nov: follow-up PR 101 opened (forgetting.py marks a result within 0.01 of its limit as 'at the limit', verdict unchanged, eval_v1.md says the 0.05 limit is confirmed; 600 tests pass, pr-guard passes). Open question for Sai: also mark benchmarks, or only bits per byte. Waiting for review."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 101 merged by Sai (14:24 UTC). Sai confirmed the at-limit mark stays on both bits per byte and benchmarks (eval_v1.md in the branch says so). Task 8 is done on our side except the native-speaker review (T-136)."
         }
       ],
-      "updated": "2026-11-16T15:00"
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-124",
@@ -3800,7 +3805,13 @@
         "job-request"
       ],
       "blockedBy": [],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "105"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-15T12:00",
@@ -3821,9 +3832,14 @@
           "at": "2026-11-16T12:00",
           "by": "Ravi Naik",
           "text": "16 Nov: instructor answered in G10: PR 79 counts for task 5, and Ravi takes the writing and review. No job request from me. Next: review PR 79 results/small_sft.md and write up my part."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: Sai asked me in G10 to finalize results/small_sft.md. PR 105 merged 15:26 UTC: forgetting verdict at the confirmed limits (full FT +0.0503/+0.0515/+0.0507 = forgetting by bits per byte and at the limit; LoRA +0.0384 = no forgetting; ARC-C and HellaSwag rose), data status after p1536. The verdict is by hand from the table: forgetting.py was not run because the evaluate.py report JSONs are not in Git. Next: ask Anirudh for the reports (T-139), then re-run forgetting.py. Comparison of the C3 slice with the p1536 rebuild (PR 103, draft) not done."
         }
       ],
-      "updated": "2026-11-16T12:00"
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-125",
@@ -3859,6 +3875,11 @@
           "kind": "commit",
           "repo": "mine",
           "ref": "97d49e9"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "104"
         }
       ],
       "comments": [
@@ -3911,9 +3932,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "PR 78 was merged by Sai into g10-week3-post-training on 14 Nov 17:19 UTC. Open question put to Sai in G10 (15 Nov): the Go files are in rl/go/ while the assignment says rl/tasks/ and rl/test_verifier.py; no answer yet."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: Sai asked for a quick fix on PR 78 in G10: register go in rl/reward.py and add @needs_go at test_go_verifier.py:316. Done in PR 104, merged 15:25 UTC (go registered with docker as default sandbox; 111 tests pass; check-all for go: 20 outputs, 0 wrong). The rl/go versus rl/tasks layout question is still unanswered."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-126",
@@ -3959,9 +3985,14 @@
           "at": "2026-11-16T15:00",
           "by": "Ravi Naik",
           "text": "16 Nov: new open PRs to link in G10 for Gate 3: 100 (task 4 effort spec) and 101 (forgetting follow-up)."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov (evening): PRs 100, 101, 104 and 105 are merged in g10-week3-post-training. PR 106 (Anirudh, cross-stage overlap) reviewed at Sai's request, comment posted. Still open for Gate 3: T-136 (native review of six languages), T-139 (forgetting.py on real reports), T-132 (G5 R2)."
         }
       ],
-      "updated": "2026-11-16T15:00"
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-127",
@@ -4042,7 +4073,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Mon 16 Nov: reply OK on lab PR 407 (C3 eos id 130822) if Sai has not",
       "desc": "Carry-over of T-120. Ravi can reply if Sai prefers.",
-      "status": "todo",
+      "status": "done",
       "priority": "low",
       "assignees": [
         "Ravi Naik"
@@ -4055,8 +4086,14 @@
       ],
       "blockedBy": [],
       "refs": [],
-      "comments": [],
-      "updated": "2026-11-14T12:00"
+      "comments": [
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: moot. TSAI froze p1536 (sha e6b93a93...a64b), which keeps the same ids, and eos stays 130822. Nothing to reply on lab PR 407."
+        }
+      ],
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-131",
@@ -4173,9 +4210,14 @@
           "at": "2026-11-16T12:00",
           "by": "Ravi Naik",
           "text": "16 Nov: shivman approved PR 450; TSAI ran seed 1237 (1.7507 vs reference 1.7542). Still waiting for the three group values for the reference seeds 1234-1236 and attn-2. File goes in a new PR by Thu 19 Nov."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov (evening): PR 450 is merged. G5 dry run 1 (p1536 tokenizer, seed 1234, 1,221 steps, run 475): val/bpb 1.5159 (English 1.9844, code 1.8901, Indic mean 1.3289) against 1.6443 with the old tokenizer (delta -0.1284); run 474 (seed 1235): 1.5381 against 1.6601. This does not change R2. Still waiting for TSAI to share the three group metrics (reference seeds 1234-1236, attn-2 seed 1237); the R2 file goes in a new PR by Thu 19 Nov."
         }
       ],
-      "updated": "2026-11-16T12:00"
+      "updated": "2026-11-16T22:00"
     },
     {
       "id": "T-133",
@@ -4312,7 +4354,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 4: rl/effort_v1.md, effort subgroups and the length penalty (picked up; owner in the work order is Member A)",
       "desc": "Work order task 4 (D5, Thu 19 Nov): add the effort subgroups and the length penalty to the RL data spec; test the effort levels on 100 fixed prompts. The file was not on the week 3 branch. Spec, penalty function and 34 tests are in PR 100. The fixed-prompt test is only partly done (55 of 100 slots, stand-in models only, Stage C and a G10-format model not run). Needs Sai's five decisions.",
-      "status": "review",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4337,10 +4379,80 @@
           "at": "2026-11-16T15:00",
           "by": "Ravi Naik",
           "text": "16 Nov: PR 100 opened against g10-week3-post-training (pr-guard passes). Not checked in G10 whether anyone else claimed task 4; T-128 (Anirudh's offer incl. effort control) is still open. Waiting for Sai's decisions on subgroup shares, ramp width and using the shaped score as reward."
+        },
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 100 merged by Sai (14:32 UTC). Sai closed the effort_v1 decisions in the branch (his commit 5c90462 edits effort_v1.md and objective_v1.md). Nothing pending on our side."
         }
       ],
-      "updated": "2026-11-16T15:00"
+      "updated": "2026-11-16T22:00"
+    },
+    {
+      "id": "T-138",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review Anirudh's PR 106 (cross-stage overlap record, SFT data v1 vs RL side)",
+      "desc": "Sai asked for the review in G10 on 16 Nov. Checked: 15 tests, ruff, pr-guard, numbers against the record and against the p1536 manifest of PR 103 (rows and tokens match), no ids or text in the public files. Not checked: private inputs, the hand-read validation.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-16",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "review",
+        "sft",
+        "rl"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "106"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-16T22:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: review comment posted on PR 106. Nothing blocks merge. Suggestions: include the possible tier in the firewall sizing for the held-out and effort sets (8 of 30 pairs read in the 0.20-0.65 band were true copies), count pool problems near the 0.65 level, an error instead of a silent empty row when a set name is missing, add the p1536 manifest sha256, state row shares next to token shares. Waiting for Anirudh and Sai."
+        }
+      ],
+      "updated": "2026-11-16T22:00"
+    },
+    {
+      "id": "T-139",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Get the bench report JSONs for the small SFT runs and run forgetting.py (replace the hand verdict in small_sft.md)",
+      "desc": "PR 105 gives the forgetting verdict from the table by hand. Ask Anirudh for the base and run reports (schema g10-bench-eval/1, base, full FT seeds 1 to 3, LoRA), run forgetting.py --before base.json --after run.json, and update results/small_sft.md in a new PR. The full FT runs are 0.0003 to 0.0015 over the limit, so the 4th decimal can matter. Also compare the C3 slice with the p1536 rebuild if Anirudh has it.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "sft",
+        "eval"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "105"
+        }
+      ],
+      "comments": [],
+      "updated": "2026-11-16T22:00"
     }
   ],
-  "rev": 80
+  "rev": 81
 }
