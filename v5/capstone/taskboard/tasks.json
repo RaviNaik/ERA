@@ -3717,7 +3717,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 8: write sft/eval_v1.md and the test sets with automatic scorers",
       "desc": "Held-out prompts for code, tool calls, Indic, chat format and safety, each with an automatic scorer. Add forgetting check: pre-training bits per byte plus two short benchmarks before and after SFT. Output sft/eval_v1.md and sft/tests/. Owner Member B and C. One PR. Due D3 (Tue 17 Nov).",
-      "status": "done",
+      "status": "review",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3745,6 +3745,11 @@
           "kind": "commit",
           "repo": "mine",
           "ref": "c61fbf3"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "101"
         }
       ],
       "comments": [
@@ -3767,9 +3772,14 @@
           "at": "2026-11-16T12:00",
           "by": "Ravi Naik",
           "text": "16 Nov: PR 90 merged by Sai (15 Nov 15:07 UTC). Instructor answered in G10: keep the forgetting limit at 0.05 for v1; it only sets the verdict line, so print all numbers and mark a result within 0.01 of the limit as 'at the limit'. Merge order in PR 90 is fine. Still to do in forgetting.py: the 'at the limit' mark within 0.01."
+        },
+        {
+          "at": "2026-11-16T15:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: follow-up PR 101 opened (forgetting.py marks a result within 0.01 of its limit as 'at the limit', verdict unchanged, eval_v1.md says the 0.05 limit is confirmed; 600 tests pass, pr-guard passes). Open question for Sai: also mark benchmarks, or only bits per byte. Waiting for review."
         }
       ],
-      "updated": "2026-11-16T12:00"
+      "updated": "2026-11-16T15:00"
     },
     {
       "id": "T-124",
@@ -3944,9 +3954,14 @@
           "at": "2026-11-16T12:00",
           "by": "Ravi Naik",
           "text": "16 Nov: forgetting limit confirmed at 0.05; PR 79 counts for task 5 (Ravi writes and reviews); PR 90 merged. Open: 'at the limit' mark in forgetting.py, native review of ta, bn, gu, ml, or, pa."
+        },
+        {
+          "at": "2026-11-16T15:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: new open PRs to link in G10 for Gate 3: 100 (task 4 effort spec) and 101 (forgetting follow-up)."
         }
       ],
-      "updated": "2026-11-16T12:00"
+      "updated": "2026-11-16T15:00"
     },
     {
       "id": "T-127",
@@ -4290,7 +4305,42 @@
         }
       ],
       "updated": "2026-11-16T12:00"
+    },
+    {
+      "id": "T-137",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Task 4: rl/effort_v1.md, effort subgroups and the length penalty (picked up; owner in the work order is Member A)",
+      "desc": "Work order task 4 (D5, Thu 19 Nov): add the effort subgroups and the length penalty to the RL data spec; test the effort levels on 100 fixed prompts. The file was not on the week 3 branch. Spec, penalty function and 34 tests are in PR 100. The fixed-prompt test is only partly done (55 of 100 slots, stand-in models only, Stage C and a G10-format model not run). Needs Sai's five decisions.",
+      "status": "review",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-19",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rl",
+        "effort"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "100"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-16T15:00",
+          "by": "Ravi Naik",
+          "text": "16 Nov: PR 100 opened against g10-week3-post-training (pr-guard passes). Not checked in G10 whether anyone else claimed task 4; T-128 (Anirudh's offer incl. effort control) is still open. Waiting for Sai's decisions on subgroup shares, ramp width and using the shaped score as reward."
+        }
+      ],
+      "updated": "2026-11-16T15:00"
     }
   ],
-  "rev": 79
+  "rev": 80
 }
