@@ -3584,7 +3584,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Kannada reading for the E4 dedup check (Kunal Sinha, group G)",
       "desc": "Ravi volunteered in group G to be the Kannada reader for Kunal Sinha's E4 dedup check (lab PR 255, kunal2016). e4_review.py makes blind sheets in the git-ignored out/e4/ folder; return the filled labels.csv. Waiting for Kunal's sheet; group G not re-read since 12 Nov morning.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -3601,6 +3601,11 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "255"
+        },
+        {
+          "kind": "issue",
+          "repo": "lab",
+          "ref": "393"
         }
       ],
       "comments": [
@@ -3618,9 +3623,14 @@
           "at": "2026-11-17T17:30",
           "by": "Ravi Naik",
           "text": "17 Nov: Kunal Sinha asked Ravi, Pritish and Stephen in CAP for email ids, then emailed the E4 Kannada files (texts from the training data, not to be shared outside the Capstone). To do: label the pairs and attach labels.csv to lab PR 393. Ravi told the Instructor in CAP that no TSAI action is needed (the email address was for Kunal)."
+        },
+        {
+          "at": "2026-11-17T19:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: E4 Kannada review done (lab issue 393, part of 392). All 20 pairs labelled template (dictionary entries: different headword, same notice body; about ten entries recur, kn-02 is shorter). labels.csv checked for format (UTF-8 with BOM, 20 rows, valid labels), emailed to Kunal Sinha and attached to issue 393 with a comment. Texts not quoted anywhere. Files in /mnt/Dev/ERA_Submissions/E4_Kannada to be deleted as the issue asks."
         }
       ],
-      "updated": "2026-11-17T17:30"
+      "updated": "2026-11-17T19:00"
     },
     {
       "id": "T-120",
@@ -4470,9 +4480,14 @@
           "at": "2026-11-17T17:30",
           "by": "Ravi Naik",
           "text": "17 Nov: message to Anirudh drafted (asks for the base, full FT seeds 1 to 3 and LoRA report JSONs); not posted yet."
+        },
+        {
+          "at": "2026-11-17T19:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: the message to Anirudh asking for the bench report JSONs was posted in G10 by Ravi. Waiting for the files; then run forgetting.py and update small_sft.md in a new PR."
         }
       ],
-      "updated": "2026-11-17T17:30"
+      "updated": "2026-11-17T19:00"
     },
     {
       "id": "T-140",
@@ -4584,10 +4599,15 @@
           "at": "2026-11-17T17:30",
           "by": "Ravi Naik",
           "text": "17 Nov: review drafted, not posted yet (waiting for approval)."
+        },
+        {
+          "at": "2026-11-17T19:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: review posted on lab PR 559 (all five results reproduced; retarget to g10-week3-post-training; verify.py 0700 temp folder note). Waiting for vpw and Sai."
         }
       ],
-      "updated": "2026-11-17T17:30"
+      "updated": "2026-11-17T19:00"
     }
   ],
-  "rev": 82
+  "rev": 83
 }
