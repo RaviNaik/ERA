@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-17",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -3584,7 +3584,7 @@
       "workstream": "Dependencies (other teams)",
       "title": "Kannada reading for the E4 dedup check (Kunal Sinha, group G)",
       "desc": "Ravi volunteered in group G to be the Kannada reader for Kunal Sinha's E4 dedup check (lab PR 255, kunal2016). e4_review.py makes blind sheets in the git-ignored out/e4/ folder; return the filled labels.csv. Waiting for Kunal's sheet; group G not re-read since 12 Nov morning.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -3613,9 +3613,14 @@
           "at": "2026-11-13T11:20",
           "by": "Ravi Naik",
           "text": "13 Nov: group G read on the morning of 13 Nov (latest messages are about the C3 tokenizer and Data B spec v1.1); nothing from Kunal about the Kannada sheet seen in the latest messages, older messages not re-read."
+        },
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: Kunal Sinha asked Ravi, Pritish and Stephen in CAP for email ids, then emailed the E4 Kannada files (texts from the training data, not to be shared outside the Capstone). To do: label the pairs and attach labels.csv to lab PR 393. Ravi told the Instructor in CAP that no TSAI action is needed (the email address was for Kunal)."
         }
       ],
-      "updated": "2026-11-13T11:20"
+      "updated": "2026-11-17T17:30"
     },
     {
       "id": "T-120",
@@ -4384,9 +4389,14 @@
           "at": "2026-11-16T22:00",
           "by": "Ravi Naik",
           "text": "16 Nov: PR 100 merged by Sai (14:32 UTC). Sai closed the effort_v1 decisions in the branch (his commit 5c90462 edits effort_v1.md and objective_v1.md). Nothing pending on our side."
+        },
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: Member A's PR 110 (effort_penalty.py, rewrite of effort_v1.md) merged at 02:10 UTC and overlaps this task. Checked it: the ramp stays the v1 baseline, but the relative penalty at beta 0.001 is about 1,000 times weaker than the text says (0.001 at 2x budget, advantage +/-0.0004 against +/-0.379 for the ramp), and the Stage B columns budget obeyed, median penalty, net reward carry no information (cap 1,024 for every label). Fix in PR 116 (T-140)."
         }
       ],
-      "updated": "2026-11-16T22:00"
+      "updated": "2026-11-17T17:30"
     },
     {
       "id": "T-138",
@@ -4420,9 +4430,14 @@
           "at": "2026-11-16T22:00",
           "by": "Ravi Naik",
           "text": "16 Nov: review comment posted on PR 106. Nothing blocks merge. Suggestions: include the possible tier in the firewall sizing for the held-out and effort sets (8 of 30 pairs read in the 0.20-0.65 band were true copies), count pool problems near the 0.65 level, an error instead of a silent empty row when a set name is missing, add the p1536 manifest sha256, state row shares next to token shares. Waiting for Anirudh and Sai."
+        },
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: Sai asked Anirudh (02:19 UTC) to review my suggestions so the PR can close. Waiting."
         }
       ],
-      "updated": "2026-11-16T22:00"
+      "updated": "2026-11-17T17:30"
     },
     {
       "id": "T-139",
@@ -4450,9 +4465,129 @@
           "ref": "105"
         }
       ],
-      "comments": [],
-      "updated": "2026-11-16T22:00"
+      "comments": [
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: message to Anirudh drafted (asks for the base, full FT seeds 1 to 3 and LoRA report JSONs); not posted yet."
+        }
+      ],
+      "updated": "2026-11-17T17:30"
+    },
+    {
+      "id": "T-140",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "PR 116: correct the relative-penalty size and the Stage B reading in effort_v1.md (follow-up to PR 110)",
+      "desc": "Docs and one docstring. Marks effort_penalty.py comparison only, corrects the claim that over-generation costs 0.10 to 0.50 (it is 0.001 at 2x budget), explains the last three Stage B columns, softens 'proves' to a statement the 1,024 cap supports, restores the Not tested yet list. 45 tests pass, pr-guard passes. Review requested from Member A and Sai.",
+      "status": "review",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-19",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "rl",
+        "effort"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "116"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: PR 116 opened against g10-week3-post-training (branch g10-effort-v1-fixes-RaviNaik). Open question for the owner: should the relative penalty with beta 0.001 be used anywhere?"
+        }
+      ],
+      "updated": "2026-11-17T17:30"
+    },
+    {
+      "id": "T-141",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Peer review of PRs 111 (Lokesh), 112 (Anirudh) and 114 (Anirudh)",
+      "desc": "Sai asked for peer reviews. 111: merges cleanly, 156 tests pass, handoff note outdated. 112: conflicts in rl/README.md, ownership overlap with Ranjani (math) and Ajay (JavaScript), possible js/ts report-forgery path to test, split suggested. 114: reproduced (14 of 27 cells flip at 100 to 1000, 1 of 27 at the old setting); dt_vs_fft.md section 3 still says 1e3 to 1e4. PRs 107 and 108 (large drafts) not reviewed.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-17",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "review"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "111"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "112"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "114"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: three review comments posted (112, 111, 114). Waiting for the authors."
+        }
+      ],
+      "updated": "2026-11-17T17:30"
+    },
+    {
+      "id": "T-142",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review lab PR 559 (vpw rotation: SWE env python-validators__validators-191)",
+      "desc": "Sai cc'd Ravi on the PR (17 Nov 09:54 UTC) and asked the author to retarget to g10-week3-post-training. Reproduced all five results locally (check 5/5, gold 1, wrong 0, partial 0, tamper 0). Notes: base branch, and the uid 0700 temp-folder note on verify.py (a one-line chmod would fix it).",
+      "status": "progress",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "review",
+        "rotation"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "559"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-17T17:30",
+          "by": "Ravi Naik",
+          "text": "17 Nov: review drafted, not posted yet (waiting for approval)."
+        }
+      ],
+      "updated": "2026-11-17T17:30"
     }
   ],
-  "rev": 81
+  "rev": 82
 }
