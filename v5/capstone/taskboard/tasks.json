@@ -4230,9 +4230,14 @@
           "at": "2026-11-16T22:00",
           "by": "Ravi Naik",
           "text": "16 Nov (evening): PR 450 is merged. G5 dry run 1 (p1536 tokenizer, seed 1234, 1,221 steps, run 475): val/bpb 1.5159 (English 1.9844, code 1.8901, Indic mean 1.3289) against 1.6443 with the old tokenizer (delta -0.1284); run 474 (seed 1235): 1.5381 against 1.6601. This does not change R2. Still waiting for TSAI to share the three group metrics (reference seeds 1234-1236, attn-2 seed 1237); the R2 file goes in a new PR by Thu 19 Nov."
+        },
+        {
+          "at": "2026-11-17T22:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: no new TSAI numbers for R2. TSAI's only later action on PR 450 is the approval review of 16 Nov 05:42 ('files stay in the team folder'); no summary.json or three-group table for the seed 1237 runs in the repo or in G5. TSAI posted LR rechecks in G5 (Muon p1536 seed 1234: muon_lr 0.005 1.4957, 0.01 1.5159, 0.02 1.5528; result for #487). Options: nudge TSAI once more on PR 450 for the three values, or write R2 on aggregate val/bpb only with the limit stated. Due Thu 19 Nov."
         }
       ],
-      "updated": "2026-11-16T22:00"
+      "updated": "2026-11-17T22:00"
     },
     {
       "id": "T-133",
@@ -4455,7 +4460,7 @@
       "workstream": "G10 Post-training",
       "title": "Get the bench report JSONs for the small SFT runs and run forgetting.py (replace the hand verdict in small_sft.md)",
       "desc": "PR 105 gives the forgetting verdict from the table by hand. Ask Anirudh for the base and run reports (schema g10-bench-eval/1, base, full FT seeds 1 to 3, LoRA), run forgetting.py --before base.json --after run.json, and update results/small_sft.md in a new PR. The full FT runs are 0.0003 to 0.0015 over the limit, so the 4th decimal can matter. Also compare the C3 slice with the p1536 rebuild if Anirudh has it.",
-      "status": "todo",
+      "status": "progress",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4473,6 +4478,11 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "105"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "117"
         }
       ],
       "comments": [
@@ -4485,9 +4495,14 @@
           "at": "2026-11-17T19:00",
           "by": "Ravi Naik",
           "text": "17 Nov: the message to Anirudh asking for the bench report JSONs was posted in G10 by Ravi. Waiting for the files; then run forgetting.py and update small_sft.md in a new PR."
+        },
+        {
+          "at": "2026-11-17T22:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: Anirudh pushed the report files in PR 117 (open). Ran forgetting.py on them, base against each tuned run: full FT seeds 1 to 3 = FORGETTING (+0.0503, +0.0515, +0.0507, at the limit), LoRA = no forgetting (+0.0384). Same as the hand verdict in small_sft.md (PR 105); ARC-C and HellaSwag changes inside the stderr. To do: short review comment on PR 117, then a small PR after it merges that replaces the 'not run' line in small_sft.md with the forgetting.py output and commands."
         }
       ],
-      "updated": "2026-11-17T19:00"
+      "updated": "2026-11-17T22:00"
     },
     {
       "id": "T-140",
@@ -4604,10 +4619,50 @@
           "at": "2026-11-17T19:00",
           "by": "Ravi Naik",
           "text": "17 Nov: review posted on lab PR 559 (all five results reproduced; retarget to g10-week3-post-training; verify.py 0700 temp folder note). Waiting for vpw and Sai."
+        },
+        {
+          "at": "2026-11-17T22:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: nothing new on PR 559 after the review."
         }
       ],
-      "updated": "2026-11-17T19:00"
+      "updated": "2026-11-17T22:00"
+    },
+    {
+      "id": "T-143",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Review PR 118 (Task 11: Deletion Tuning to RL evidence and code canary, Hema Varshini Palpandian)",
+      "desc": "Sai asked for the review. Reproduced: 153 passed 44 skipped on the PR's command; 540 per-step records, 180 DT rows with deleted_nonzero 0; report numbers match the analysis JSONs. Five non-blocking suggestions: PREREG.md not in the repo, per-seed spread in the description, zero count holds by construction of the gradient mask, per-step check cost on the real model, run rule before the job request goes to TSAI.",
+      "status": "done",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-18",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "review",
+        "dt"
+      ],
+      "blockedBy": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "118"
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-11-17T22:00",
+          "by": "Ravi Naik",
+          "text": "17 Nov: review comment posted on PR 118 (head b23322d). Waiting for Hema."
+        }
+      ],
+      "updated": "2026-11-17T22:00"
     }
   ],
-  "rev": 83
+  "rev": 84
 }
