@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17",
+  "updated": "2026-11-18",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -3807,7 +3807,7 @@
       "workstream": "G10 Post-training",
       "title": "Task 5: small SFT run on a small open model, show the loss falls (job request)",
       "desc": "Send a job request to TSAI, then record the loss curve in results/small_sft.md. Needs SFT data v1 with loss masks (task 1) and the task 8 eval. Owner Member C. Due D5 (Thu 19 Nov).",
-      "status": "progress",
+      "status": "done",
       "priority": "high",
       "assignees": [
         "Ravi Naik"
@@ -3825,6 +3825,11 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "105"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "120"
         }
       ],
       "comments": [
@@ -3852,9 +3857,14 @@
           "at": "2026-11-16T22:00",
           "by": "Ravi Naik",
           "text": "16 Nov: Sai asked me in G10 to finalize results/small_sft.md. PR 105 merged 15:26 UTC: forgetting verdict at the confirmed limits (full FT +0.0503/+0.0515/+0.0507 = forgetting by bits per byte and at the limit; LoRA +0.0384 = no forgetting; ARC-C and HellaSwag rose), data status after p1536. The verdict is by hand from the table: forgetting.py was not run because the evaluate.py report JSONs are not in Git. Next: ask Anirudh for the reports (T-139), then re-run forgetting.py. Comparison of the C3 slice with the p1536 rebuild (PR 103, draft) not done."
+        },
+        {
+          "at": "2026-11-18T11:00",
+          "by": "Ravi Naik",
+          "text": "18 Nov: forgetting verdict in results/small_sft.md is now a forgetting.py output (PR 120 merged). Remaining gaps are listed in the file (one LoRA seed, no p1536 rebuild re-run). Task 5 evidence complete."
         }
       ],
-      "updated": "2026-11-16T22:00"
+      "updated": "2026-11-18T11:00"
     },
     {
       "id": "T-125",
@@ -4235,9 +4245,14 @@
           "at": "2026-11-17T22:00",
           "by": "Ravi Naik",
           "text": "17 Nov: no new TSAI numbers for R2. TSAI's only later action on PR 450 is the approval review of 16 Nov 05:42 ('files stay in the team folder'); no summary.json or three-group table for the seed 1237 runs in the repo or in G5. TSAI posted LR rechecks in G5 (Muon p1536 seed 1234: muon_lr 0.005 1.4957, 0.01 1.5159, 0.02 1.5528; result for #487). Options: nudge TSAI once more on PR 450 for the three values, or write R2 on aggregate val/bpb only with the limit stated. Due Thu 19 Nov."
+        },
+        {
+          "at": "2026-11-18T11:00",
+          "by": "Ravi Naik",
+          "text": "18 Nov: comment posted on lab PR 450 asking TSAI for the summary.json (or the three values) of the seed 1237 runs and the T2 seeds, or else R2 will be written on aggregate val/bpb only. Waiting. TSAI Gate 3 LR recheck in G5: Muon p1536 muon_lr 0.005 recommended (1.4957 vs 1.5159 at seed 1234; 1.5078 vs 1.5381 at seed 1235). Due Thu 19 Nov."
         }
       ],
-      "updated": "2026-11-17T22:00"
+      "updated": "2026-11-18T11:00"
     },
     {
       "id": "T-133",
@@ -4460,7 +4475,7 @@
       "workstream": "G10 Post-training",
       "title": "Get the bench report JSONs for the small SFT runs and run forgetting.py (replace the hand verdict in small_sft.md)",
       "desc": "PR 105 gives the forgetting verdict from the table by hand. Ask Anirudh for the base and run reports (schema g10-bench-eval/1, base, full FT seeds 1 to 3, LoRA), run forgetting.py --before base.json --after run.json, and update results/small_sft.md in a new PR. The full FT runs are 0.0003 to 0.0015 over the limit, so the 4th decimal can matter. Also compare the C3 slice with the p1536 rebuild if Anirudh has it.",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4483,6 +4498,11 @@
           "kind": "pr",
           "repo": "fork",
           "ref": "117"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "120"
         }
       ],
       "comments": [
@@ -4500,9 +4520,14 @@
           "at": "2026-11-17T22:00",
           "by": "Ravi Naik",
           "text": "17 Nov: Anirudh pushed the report files in PR 117 (open). Ran forgetting.py on them, base against each tuned run: full FT seeds 1 to 3 = FORGETTING (+0.0503, +0.0515, +0.0507, at the limit), LoRA = no forgetting (+0.0384). Same as the hand verdict in small_sft.md (PR 105); ARC-C and HellaSwag changes inside the stderr. To do: short review comment on PR 117, then a small PR after it merges that replaces the 'not run' line in small_sft.md with the forgetting.py output and commands."
+        },
+        {
+          "at": "2026-11-18T11:00",
+          "by": "Ravi Naik",
+          "text": "18 Nov: PR 120 opened and merged (small_sft.md verdict now from forgetting.py on the PR 117 reports; forgetting_check/ outputs added; no verdict change). Done."
         }
       ],
-      "updated": "2026-11-17T22:00"
+      "updated": "2026-11-18T11:00"
     },
     {
       "id": "T-140",
@@ -4589,7 +4614,7 @@
       "workstream": "G10 Post-training",
       "title": "Review lab PR 559 (vpw rotation: SWE env python-validators__validators-191)",
       "desc": "Sai cc'd Ravi on the PR (17 Nov 09:54 UTC) and asked the author to retarget to g10-week3-post-training. Reproduced all five results locally (check 5/5, gold 1, wrong 0, partial 0, tamper 0). Notes: base branch, and the uid 0700 temp-folder note on verify.py (a one-line chmod would fix it).",
-      "status": "progress",
+      "status": "done",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4607,6 +4632,11 @@
           "kind": "pr",
           "repo": "lab",
           "ref": "559"
+        },
+        {
+          "kind": "pr",
+          "repo": "fork",
+          "ref": "119"
         }
       ],
       "comments": [
@@ -4624,9 +4654,14 @@
           "at": "2026-11-17T22:00",
           "by": "Ravi Naik",
           "text": "17 Nov: nothing new on PR 559 after the review."
+        },
+        {
+          "at": "2026-11-18T11:00",
+          "by": "Ravi Naik",
+          "text": "18 Nov: lab PR 559 merged into lab main (TSAI approved 17 Nov 14:47) without the retarget. vpw re-raised the verify.py tempdir fix as PR 119 on the G10 branch (os.chmod 0755 on the temp dir, citing the review); merged. Done."
         }
       ],
-      "updated": "2026-11-17T22:00"
+      "updated": "2026-11-18T11:00"
     },
     {
       "id": "T-143",
@@ -4664,5 +4699,5 @@
       "updated": "2026-11-17T22:00"
     }
   ],
-  "rev": 84
+  "rev": 85
 }
