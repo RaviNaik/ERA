@@ -3628,9 +3628,14 @@
           "at": "2026-11-17T19:00",
           "by": "Ravi Naik",
           "text": "17 Nov: E4 Kannada review done (lab issue 393, part of 392). All 20 pairs labelled template (dictionary entries: different headword, same notice body; about ten entries recur, kn-02 is shorter). labels.csv checked for format (UTF-8 with BOM, 20 rows, valid labels), emailed to Kunal Sinha and attached to issue 393 with a comment. Texts not quoted anywhere. Files in /mnt/Dev/ERA_Submissions/E4_Kannada to be deleted as the issue asks."
+        },
+        {
+          "at": "2026-11-18T18:00",
+          "by": "Ravi Naik",
+          "text": "18 Nov: E4 Kannada files (reading.html, labels.csv) deleted from the local folder, as the issue asks. Nothing from them is kept or quoted."
         }
       ],
-      "updated": "2026-11-17T19:00"
+      "updated": "2026-11-18T18:00"
     },
     {
       "id": "T-120",
@@ -4699,5 +4704,5 @@
       "updated": "2026-11-17T22:00"
     }
   ],
-  "rev": 85
+  "rev": 86
 }
