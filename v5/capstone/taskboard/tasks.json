@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18",
+  "updated": "2026-11-19",
   "me": "Ravi Naik",
   "repos": {
     "lab": "theschoolofai/era-v5-lab",
@@ -3694,9 +3694,14 @@
           "at": "2026-11-15T12:00",
           "by": "Ravi Naik",
           "text": "15 Nov: note for task 8 posted in G10 (PR 90 link and questions). G5 note not posted."
+        },
+        {
+          "at": "2026-11-19T13:00",
+          "by": "Ravi Naik",
+          "text": "19 Nov: G10 and G5 notes still to post for 16 to 19 Nov (G5: R2 plan posted today)."
         }
       ],
-      "updated": "2026-11-15T12:00"
+      "updated": "2026-11-19T13:00"
     },
     {
       "id": "T-122",
@@ -4206,7 +4211,7 @@
       "workstream": "G5 Architecture (rotation)",
       "title": "G5 R2: report whether the result holds (same file)",
       "desc": "Record whether the new-seed result matches the original in experiments/rotation_RaviNaik.md. Due D5 (Thu 19 Nov).",
-      "status": "progress",
+      "status": "review",
       "priority": "medium",
       "assignees": [
         "Ravi Naik"
@@ -4219,7 +4224,13 @@
         "g5"
       ],
       "blockedBy": [],
-      "refs": [],
+      "refs": [
+        {
+          "kind": "pr",
+          "repo": "lab",
+          "ref": "657"
+        }
+      ],
       "comments": [
         {
           "at": "2026-11-15T01:00",
@@ -4255,9 +4266,14 @@
           "at": "2026-11-18T11:00",
           "by": "Ravi Naik",
           "text": "18 Nov: comment posted on lab PR 450 asking TSAI for the summary.json (or the three values) of the seed 1237 runs and the T2 seeds, or else R2 will be written on aggregate val/bpb only. Waiting. TSAI Gate 3 LR recheck in G5: Muon p1536 muon_lr 0.005 recommended (1.4957 vs 1.5159 at seed 1234; 1.5078 vs 1.5381 at seed 1235). Due Thu 19 Nov."
+        },
+        {
+          "at": "2026-11-19T13:00",
+          "by": "Ravi Naik",
+          "text": "19 Nov: TSAI has not answered the 18 Nov comment on PR 450 (last TSAI comment there is 15 Nov). Posted the plan in G5 (aggregate val/bpb, limit stated, asked Rohan to share the data). R2 file opened as lab PR 657 (pr-guard pass): seed 1237 attn-2 1.7507 vs reference 1.7542 (-0.0035) against a reference range of 0.0254 over seeds 1234-1237 (SD 0.0120); not-worse rule marked not determined because the three group metrics are not available. To do: when TSAI shares summary.json (or the three values), apply the rule and update the file in a follow-up PR."
         }
       ],
-      "updated": "2026-11-18T11:00"
+      "updated": "2026-11-19T13:00"
     },
     {
       "id": "T-133",
@@ -4384,9 +4400,14 @@
           "at": "2026-11-16T12:00",
           "by": "Ravi Naik",
           "text": "16 Nov: PR 90 is merged, so corrections now go in a new PR from the fork against week 3."
+        },
+        {
+          "at": "2026-11-19T13:00",
+          "by": "Ravi Naik",
+          "text": "19 Nov: due today. Sai's 18 Nov pending list still names Anirudh and Ravi for the Tamil, Bengali, Gujarati, Malayalam, Odia and Punjabi review (metrics must not be cited until reviewed). Not started."
         }
       ],
-      "updated": "2026-11-16T12:00"
+      "updated": "2026-11-19T13:00"
     },
     {
       "id": "T-137",
@@ -4702,7 +4723,35 @@
         }
       ],
       "updated": "2026-11-17T22:00"
+    },
+    {
+      "id": "T-144",
+      "type": "task",
+      "workstream": "G10 Post-training",
+      "title": "Deletion Tuning study and an independent big-model run with the paper's parameters",
+      "desc": "Own study task (not on Sai's list). Read arXiv 2611.10866 and the official repo (agentic-learning-ai-lab/deleting-weights @ 94f0340). Decision 18 Nov: keep the paper's parameters (GRPO lr 3e-4, sharpness 1e3 to 1e4; SFT lr 5e-4, sharpness 1e2 to 1e3; lambda 1e-5; eta 1/2048; gate_proj only). Findings: the paper's GRPO default is 1e3 to 1e4 (our rl-loop fallback is now 100 to 1000 after Sai's 537e4167; pilots set it explicitly); SFT lr 2e-3 in our runs is a deliberate deviation from the paper's 5e-4. Model candidates that fit 2 x 48 GB with FP32 logits: ZAYA1-8B (about 61 GB) or LFM2.5-8B-A1B (about 59 GB); 14B and larger do not fit with paper settings. Transformers 5.x stores experts as fused 3D tensors, so a masked-experts wrapper is needed (PR 127 covers Team 5's fused path only). Next: choose the model, init check and AdamW toy check on CPU, GSM8K SFT data, then the run.",
+      "status": "todo",
+      "priority": "medium",
+      "assignees": [
+        "Ravi Naik"
+      ],
+      "due": "2026-11-20",
+      "week": 3,
+      "labels": [
+        "week-3",
+        "dt"
+      ],
+      "blockedBy": [],
+      "refs": [],
+      "comments": [
+        {
+          "at": "2026-11-19T13:00",
+          "by": "Ravi Naik",
+          "text": "19 Nov: study done; model and regime not chosen yet. GSM8K SFT proposed as the task; full fine-tuning baseline needs 8-bit Adam or offload."
+        }
+      ],
+      "updated": "2026-11-19T13:00"
     }
   ],
-  "rev": 86
+  "rev": 87
 }
