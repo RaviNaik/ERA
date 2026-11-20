@@ -1,0 +1,12 @@
+# Official SFT environment (official/requirements_sft.txt) plus lm-eval from the official GRPO requirements.
+# torch is installed first by setup_env.sh (official: torch==2.7.1, CUDA 12.6).
+transformers==4.51.3
+accelerate==1.13.0
+datasets==4.8.2
+numpy==1.26.4
+zstandard==0.25.0
+pyarrow==21.0.0
+safetensors
+sentencepiece
+lm-eval[ifeval]==0.4.11
+pytest
