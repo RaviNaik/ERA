@@ -119,7 +119,9 @@ def run(args: argparse.Namespace) -> dict:
         p.requires_grad = False
     train_sft.TARGET_MODULES[:] = [GATE_TARGET]  # official module-level list, used by convert and by Wanda
 
-    loss_device = model.lm_head.weight.device
+    # accelerate's dispatch hook on a model spread over several GPUs returns the outputs, hence the loss, on the input
+    # device (cuda:0), not on the LM head's device. The regulariser term must be added on that same device.
+    loss_device = accelerator.device
     original_convert = train_sft.convert_to_sparse_model
     original_norms = train_sft.sum_sparse_weight_norms
 

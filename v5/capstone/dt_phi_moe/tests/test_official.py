@@ -125,3 +125,25 @@ def test_deterministic_moe_switch_removes_training_noise(tiny_dir):
             assert torch.equal(m(input_ids=ids).logits, ref)
     finally:
         mp.DETERMINISTIC_MOE = False
+
+
+def test_fast_moe_path_matches_the_expert_loop_and_is_not_used_for_training(tiny_dir):
+    from dtphi.phimoe import modeling_phimoe as mp
+    m = tiny(tiny_dir).eval()
+    ids = torch.randint(0, 1000, (3, 20))
+    try:
+        mp.FAST_MOE_MAX_TOKENS = 0
+        with torch.no_grad():
+            ref = m(input_ids=ids).logits
+            ref_gen = m.generate(input_ids=ids[:, :8], attention_mask=torch.ones(3, 8, dtype=torch.long), max_new_tokens=12, do_sample=False)
+        mp.FAST_MOE_MAX_TOKENS = 1024
+        with torch.no_grad():
+            fast = m(input_ids=ids).logits
+            fast_gen = m.generate(input_ids=ids[:, :8], attention_mask=torch.ones(3, 8, dtype=torch.long), max_new_tokens=12, do_sample=False)
+        assert torch.allclose(ref, fast, atol=1e-5, rtol=1e-5)
+        assert torch.equal(ref_gen, fast_gen)
+        # with gradients on, the original loop is used (same numbers, and gradients flow)
+        out = m(input_ids=ids).logits
+        assert out.requires_grad and torch.allclose(out, ref, atol=1e-5, rtol=1e-5)
+    finally:
+        mp.FAST_MOE_MAX_TOKENS = 0

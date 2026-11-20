@@ -43,6 +43,8 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--prior_limit", type=int, default=0)
     p.add_argument("--prior_batch", type=int, default=8)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--fast_moe_tokens", type=int, default=1024,
+                   help="dense MoE path for forwards of at most this many tokens (decoding); 0 = original expert loop")
     return p.parse_args(argv)
 
 
@@ -69,6 +71,8 @@ def run(args: argparse.Namespace) -> dict:
     tok = load_tokenizer(args.model_dir)
     all_rows = data.load_gsm8k(args.data_dir, "test")
     rows = all_rows[:args.gsm8k_limit] if args.gsm8k_limit else all_rows
+    from .phimoe import modeling_phimoe
+    modeling_phimoe.FAST_MOE_MAX_TOKENS = args.fast_moe_tokens
     model = load_model(args.model_dir, args.n_gpus)
     summary: dict = {"tag": args.tag, "args": vars(args)}
     pad_id = tok.pad_token_id

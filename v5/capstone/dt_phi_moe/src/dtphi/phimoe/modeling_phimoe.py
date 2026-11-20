@@ -885,6 +885,13 @@ class mp(torch.autograd.Function):
 # gradient estimator, no input jitter) even while model.train() is on. Set by dtphi.train.
 DETERMINISTIC_MOE = False
 
+# dt_phi_moe patch: inference fast path. For at most this many tokens per forward (decoding steps), the MoE block runs
+# every expert on all tokens and weights the outputs by the routing weights (zero for unselected experts) instead of the
+# original per-expert loop with torch.where / .tolist() (about 1,000 device syncs per decoded token). Same result:
+# each token's output is the sum of its two selected experts, added in the same order. 0 = original loop. Used only
+# when gradients are off. Set by dtphi.evaluate.
+FAST_MOE_MAX_TOKENS = 0
+
 
 def sparsemixer(scores, top_k, jitter_eps, training):
     assert top_k == 2
@@ -1039,6 +1046,14 @@ class PhiMoESparseMoeBlock(nn.Module):
         final_hidden_states = torch.zeros(
             (batch_size * sequence_length, hidden_dim), dtype=hidden_states.dtype, device=hidden_states.device
         )
+
+        if FAST_MOE_MAX_TOKENS and not torch.is_grad_enabled() and 0 < hidden_states.shape[0] <= FAST_MOE_MAX_TOKENS:
+            w = torch.zeros(hidden_states.shape[0], self.num_experts, dtype=routing_weights.dtype, device=routing_weights.device)
+            w.scatter_(1, selected_experts, routing_weights)
+            for expert_idx in range(self.num_experts):
+                out = self.experts[expert_idx](hidden_states) * w[:, expert_idx:expert_idx + 1]
+                final_hidden_states += out.to(hidden_states.dtype)
+            return final_hidden_states.reshape(batch_size, sequence_length, hidden_dim), router_logits
 
         # One hot encode the selected experts to create an expert mask
         # this will be used to easily index which expert is going to be sollicitated
