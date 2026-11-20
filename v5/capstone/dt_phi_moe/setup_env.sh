@@ -12,15 +12,19 @@ command -v uv >/dev/null 2>&1 || { echo "uv not found. Install: curl -LsSf https
 TORCH_INDEX="${TORCH_INDEX:-https://download.pytorch.org/whl/cu126}"
 export UV_HTTP_TIMEOUT="${UV_HTTP_TIMEOUT:-600}"   # the nvidia wheels are large (hundreds of MB each)
 export UV_HTTP_RETRIES="${UV_HTTP_RETRIES:-10}"
+export UV_CONCURRENT_DOWNLOADS="${UV_CONCURRENT_DOWNLOADS:-1}"   # one big wheel at a time: fewer dropped connections
+ATTEMPTS="${ATTEMPTS:-10}"
+# uv keeps every wheel it finished, so each retry only fetches what is still missing
+retry() { local n=1; until "$@"; do [[ $n -ge $ATTEMPTS ]] && { echo "failed after $n attempts: $*" >&2; return 1; }; echo "download failed, retry $n of $ATTEMPTS ..." >&2; n=$((n+1)); sleep 5; done; }
 TORCH_VERSION="${TORCH_VERSION:-2.7.1}"
 PY="${PYTHON_VERSION:-3.11}"
-uv venv "$ROOT/.venv" --python "$PY"
+[[ -x "$ROOT/.venv/bin/python" ]] || uv venv "$ROOT/.venv" --python "$PY"
 if [[ "$TORCH_INDEX" == "pypi" ]]; then
-  uv pip install --python "$ROOT/.venv/bin/python" "torch==$TORCH_VERSION"
+  retry uv pip install --python "$ROOT/.venv/bin/python" "torch==$TORCH_VERSION"
 else
-  uv pip install --python "$ROOT/.venv/bin/python" "torch==$TORCH_VERSION" --index-url "$TORCH_INDEX"
+  retry uv pip install --python "$ROOT/.venv/bin/python" "torch==$TORCH_VERSION" --index-url "$TORCH_INDEX"
 fi
-uv pip install --python "$ROOT/.venv/bin/python" -r "$ROOT/requirements.txt"
+retry uv pip install --python "$ROOT/.venv/bin/python" -r "$ROOT/requirements.txt"
 "$ROOT/.venv/bin/python" - <<'PY'
 import torch, transformers, accelerate, datasets, lm_eval
 print("torch", torch.__version__, "| transformers", transformers.__version__, "| accelerate", accelerate.__version__,
