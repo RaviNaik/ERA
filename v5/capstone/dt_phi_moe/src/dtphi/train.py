@@ -69,10 +69,14 @@ class _LossCapture(logging.Handler):
     def __init__(self):
         super().__init__(level=logging.INFO)
         self.records: list[dict] = []
+        self.t_train_start: float | None = None
         self.t0 = time.time()
 
     def emit(self, record):
-        m = self.PAT.search(record.getMessage())
+        msg = record.getMessage()
+        if "training:" in msg and "iters" in msg and self.t_train_start is None:
+            self.t_train_start = time.time()  # the official line printed right before the training loop starts
+        m = self.PAT.search(msg)
         if m:
             self.records.append({"iter": int(m.group(1)), "of": int(m.group(2)), "loss": float(m.group(3)),
                                  "elapsed_s": round(time.time() - self.t0, 1)})
@@ -174,7 +178,10 @@ def run(args: argparse.Namespace) -> dict:
     summary = {"args": vars(args), "official_commit": official.COMMIT, "train_samples": n_train,
                "dropped_too_long": splits.dropped, "wanda_prior": info, "mask": stats, "train_seconds": round(t_train, 1),
                "total_seconds": round(time.time() - t_all, 1),
-               "seconds_per_step": round(t_train / args.train_steps, 2), "peak_gpu_gib": peak,
+               # training loop only (no model load, no Wanda calibration); includes the mask save
+               "seconds_per_step": (round((time.time() - capture.t_train_start) / args.train_steps, 2)
+                                    if capture.t_train_start else None),
+               "peak_gpu_gib": peak,
                "command": " ".join(sys.argv)}
     (out / "train_summary.json").write_text(json.dumps(summary, indent=1))
     print(f"done: {stats['zero_params']:,d} of {stats['total_params']:,d} gate weights deleted "
