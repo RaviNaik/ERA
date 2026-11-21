@@ -22,3 +22,21 @@ def test_wrapped_send_to_device_skips_keys_and_delegates():
     finally:
         restore()
     assert not getattr(hooks.send_to_device, "_dtphi_via_cpu", False)
+
+
+def test_global_patch_leaves_ordinary_copies_alone_and_is_idempotent():
+    restore = devcopy.install_global()
+    try:
+        assert devcopy.install_global()() is None
+        x = torch.arange(4)
+        assert x.to(torch.float32).dtype == torch.float32 and x.to("cpu").equal(x) and x.to(x).equal(x)
+        assert x.to(device="cpu", dtype=torch.float64).dtype == torch.float64
+        y = torch.zeros(4, dtype=torch.long); y.copy_(x)
+        assert y.equal(x)
+        assert devcopy._target_device((torch.float32,), {}) is None
+        assert devcopy._target_device(("cuda:1",), {}) == torch.device("cuda:1")
+        assert devcopy._target_device((), {"device": torch.device("cpu")}) == torch.device("cpu")
+        assert not devcopy._cross_gpu(x, torch.device("cuda:1"))   # a CPU tensor is never a GPU-to-GPU copy
+    finally:
+        restore()
+    assert not devcopy._ORIG
