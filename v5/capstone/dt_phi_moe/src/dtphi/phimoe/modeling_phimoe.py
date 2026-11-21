@@ -14,6 +14,7 @@
 # limitations under the License.
 
 """ PyTorch PhiMoE model."""
+import os
 import inspect
 import math
 import warnings
@@ -247,6 +248,9 @@ def rotate_half(x):
 
 
 
+_CHECK_POSITIONS = os.environ.get("CUDA_LAUNCH_BLOCKING") == "1"
+
+
 def apply_rotary_pos_emb(q, k, cos, sin, position_ids, unsqueeze_dim=1):
     """Applies Rotary Position Embedding to the query and key tensors.
 
@@ -268,6 +272,12 @@ def apply_rotary_pos_emb(q, k, cos, sin, position_ids, unsqueeze_dim=1):
     Returns:
         `tuple(torch.Tensor)` comprising of the query and key tensors rotated using the Rotary Position Embedding.
     """
+    if _CHECK_POSITIONS:   # diagnostic (synchronous mode only): report a bad index with its context before the kernel asserts
+        hi = int(position_ids.max()); lo = int(position_ids.min())
+        if lo < 0 or hi >= cos.shape[0]:
+            raise RuntimeError(
+                f"rotary index out of range: position_ids min {lo} max {hi}, table {tuple(cos.shape)}, "
+                f"position_ids {tuple(position_ids.shape)} {position_ids.device}, cos {cos.device}, q {tuple(q.shape)} {q.device}")
     cos = cos[position_ids].unsqueeze(unsqueeze_dim)
     sin = sin[position_ids].unsqueeze(unsqueeze_dim)
     q_embed = (q * cos) + (rotate_half(q) * sin)

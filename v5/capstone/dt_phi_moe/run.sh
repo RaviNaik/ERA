@@ -29,7 +29,10 @@ export PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
 export HF_HOME="$ROOT/cache/hf_home"
 export HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1 HF_EVALUATE_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 export HF_ALLOW_CODE_EVAL=1 TOKENIZERS_PARALLELISM=false
-export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+# Asynchronous mode hit a timing-dependent device-side assert on two GPUs (all synchronous runs passed), so sync is the default.
+export CUDA_LAUNCH_BLOCKING="${CUDA_LAUNCH_BLOCKING:-1}"
+# expandable_segments is off on purpose: with two GPUs it is a known source of corrupted cross-device copies (random out-of-range indices).
+# Set PYTORCH_CUDA_ALLOC_CONF yourself if you want it.
 # nltk refuses data folders that others can write, so use a private copy
 NLTK_PRIV="${NLTK_PRIV:-$HOME/.cache/dt_phi_moe_nltk}"
 if [[ -d "$ROOT/cache/nltk_data" && $DRY == 0 ]]; then
@@ -83,6 +86,7 @@ cmd_for() {
 }
 
 echo "run: $RUN_NAME  profile: $PROFILE  stages: $STAGES"
+echo "CUDA_LAUNCH_BLOCKING=$CUDA_LAUNCH_BLOCKING"
 echo "out: $OUT_DIR"
 if [[ $DRY == 0 ]]; then { echo "# config used $(date -Iseconds)"; (set -o posix; set) | grep -E '^(PROFILE|RUN_NAME|STAGES|GPUS|N_GPUS|STEPS|BATCH_SIZE|GRAD_ACCUM|LR|WEIGHT_DECAY|MAX_GRAD_NORM|ALPHA_START|ALPHA_END|LAMBDA|ETA|PRIOR_STRENGTH|SEED|TRAIN_POOL|MAX_LEN|GSM8K_LIMIT|GEN_BATCH|MAX_NEW_TOKENS|KL_LIMIT|PRIOR_TASKS|PRIOR_LIMIT|PRIOR_BATCH)=' ; } > "$OUT_DIR/config_used.txt" 2>/dev/null || true; fi
 
