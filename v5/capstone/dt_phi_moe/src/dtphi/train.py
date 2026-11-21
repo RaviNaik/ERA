@@ -11,8 +11,8 @@ clipping, mask saving) is official code. Runtime wrappers around official functi
   - convert_to_sparse_model: afterwards every mask logit tensor is moved to the device of its layer's weight. The
     official function puts all logits on `model.device`, and the official Wanda prior then adds a tensor from the
     weight's device to the logits (`gate.data += ...`), which only works when both are on one GPU.
-  - sum_sparse_weight_norms: the same sum as the official function, accumulated on the device of the loss. The
-    official one starts from a tensor on the first parameter's device, so it fails when layers sit on two GPUs.
+  - sum_sparse_weight_norms: replaced by moe_reg's version (device-safe on two GPUs, and no stale terms from experts
+    that got no tokens; see moe_reg.py).
   - init_masks_from_wanda: calls the official function, then logs the deleted share at step 0.
   - the logging handler collects the official loss lines into train_log.jsonl."""
 from __future__ import annotations
@@ -28,6 +28,7 @@ from pathlib import Path
 import torch
 
 from . import official  # noqa: F401
+from . import moe_reg
 from .data import Gsm8kSplits
 from .modeling import load_model, load_tokenizer
 
@@ -127,7 +128,6 @@ def run(args: argparse.Namespace) -> dict:
     # device (cuda:0), not on the LM head's device. The regulariser term must be added on that same device.
     loss_device = accelerator.device
     original_convert = train_sft.convert_to_sparse_model
-    original_norms = train_sft.sum_sparse_weight_norms
 
     def convert_and_colocate(model, target_modules, sharpness, total_steps):
         m = original_convert(model=model, target_modules=target_modules, sharpness=sharpness, total_steps=total_steps)
@@ -136,15 +136,8 @@ def run(args: argparse.Namespace) -> dict:
                 mod.diff_mask.gate.data = mod.diff_mask.gate.data.to(mod.weight.device)
         return m
 
-    def sum_norms_on_loss_device(model):
-        total = torch.zeros((), device=loss_device)
-        for module in model.modules():
-            if isinstance(module, SparseLinear) and hasattr(module, "sparse_weight_norm"):
-                total = total + module.sparse_weight_norm.float().to(loss_device)
-        return total
-
     train_sft.convert_to_sparse_model = convert_and_colocate
-    train_sft.sum_sparse_weight_norms = sum_norms_on_loss_device
+    restore_reg, reg_stats = moe_reg.install(model, train_sft, loss_device)
     info: dict = {}
     original_init = wanda_calibration.init_masks_from_wanda
 
@@ -166,7 +159,7 @@ def run(args: argparse.Namespace) -> dict:
     finally:
         wanda_calibration.init_masks_from_wanda = original_init
         train_sft.convert_to_sparse_model = original_convert
-        train_sft.sum_sparse_weight_norms = original_norms
+        restore_reg()
         logging.getLogger().removeHandler(capture)
     t_train = time.time() - t_train
 
@@ -176,7 +169,7 @@ def run(args: argparse.Namespace) -> dict:
             for i in range(torch.cuda.device_count())} if use_cuda else {}
     (out / "train_log.jsonl").write_text("".join(json.dumps(r) + "\n" for r in capture.records))
     summary = {"args": vars(args), "official_commit": official.COMMIT, "train_samples": n_train,
-               "dropped_too_long": splits.dropped, "wanda_prior": info, "mask": stats, "train_seconds": round(t_train, 1),
+               "dropped_too_long": splits.dropped, "wanda_prior": info, "regulariser": {**reg_stats, "idle_terms_per_step": round(reg_stats["idle_terms"] / max(reg_stats["sums"], 1), 2)}, "mask": stats, "train_seconds": round(t_train, 1),
                "total_seconds": round(time.time() - t_all, 1),
                # training loop only (no model load, no Wanda calibration); includes the mask save
                "seconds_per_step": (round((time.time() - capture.t_train_start) / args.train_steps, 2)
