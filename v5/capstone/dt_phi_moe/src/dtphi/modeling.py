@@ -37,6 +37,9 @@ def load_model(model_dir: str, n_gpus: int = 2, dtype=torch.bfloat16):
         if torch.cuda.device_count() < n_gpus:
             raise RuntimeError(f"asked for {n_gpus} GPUs, {torch.cuda.device_count()} visible")
         kw["device_map"] = make_device_map(cfg.num_hidden_layers, n_gpus)
+        if n_gpus > 1:
+            from . import devcopy
+            devcopy.install()   # direct GPU-to-GPU copies are unreliable on the lab server
     model = PhiMoEForCausalLM.from_pretrained(model_dir, **kw)
     model.eval()
     return model

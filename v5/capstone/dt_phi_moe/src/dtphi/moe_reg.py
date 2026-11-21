@@ -18,6 +18,8 @@ import torch
 from learnable_sparsity import sparse_linear as sl
 from learnable_sparsity.sparse_linear import SparseLinear
 
+from . import devcopy
+
 
 def install(model: torch.nn.Module, train_sft, loss_device: torch.device):
     """Replace train_sft.sum_sparse_weight_norms; returns (restore function, stats dict)."""
@@ -44,7 +46,7 @@ def install(model: torch.nn.Module, train_sft, loss_device: torch.device):
                 mask = m.diff_mask(target_shape=m.weight.shape, dtype=m.weight.dtype).to(m.weight.device)
                 term = (m.weight.detach() * mask).pow(2).sum()
                 idle += 1
-            total = total + term.float().to(loss_device)
+            total = total + devcopy.via_cpu(term.float(), loss_device)
         sl.close_sparse_weight_norm_window()
         stats["sums"] += 1
         stats["idle_terms"] += idle
