@@ -1,0 +1,102 @@
+nohup: ignoring input
+official files verified: 32
+GPU 0: NVIDIA RTX 6000 Ada Generation, 47 GiB
+GPU 1: NVIDIA RTX 6000 Ada Generation, 48 GiB
+run: dt_phi_mini_sft_gsm8k_seed0_bounce  profile: full  stages: train
+CUDA_LAUNCH_BLOCKING=1
+out: <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_bounce
+[train] <repo>/v5/capstone/dt_phi_moe/.venv/bin/python -m dtphi.train --model_dir <repo>/v5/capstone/dt_phi_moe/assets/phi-mini-moe-instruct --data_dir <repo>/v5/capstone/dt_phi_moe/assets/data/gsm8k --output_dir <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_bounce/train --n_gpus 2 --train_steps 400 --train_batch_size 4 --grad_accum_steps 1 --learning_rate 5e-4 --weight_decay 0 --max_grad_norm 1.0 --init_sparsity 0.00048828125 --prior_strength 3 --sharpness_start 100 --sharpness_end 1000 --weight_reg 1e-5 --seed 0 --train_pool 2048 --max_len 512
+GSM8K training pool: 2048 samples (0 longer than 512 tokens dropped)
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:07<00:23,  7.99s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:14<00:14,  7.21s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:21<00:06,  6.97s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  4.37s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  5.43s/it]
+Converted 512 linear layers to masked layers
+2026-11-21 20:59:17,337 [RANK 0] TASK 1/1: gsm8k
+after Wanda prior: {'sparse_layers': 512, 'layers_with_wanda_scores': 512, 'layers_without_scores': 0, 'deleted_step0': 1008482200, 'targeted': 2013265920, 'deleted_frac_step0': 0.5009185274442037}
+2026-11-21 21:29:00,409 [RANK 0] [gsm8k] training: 2048 samples, batch_size=4, 400 iters, 2,013,265,920 trainable params
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [0,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [1,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [2,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [3,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [4,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [5,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [6,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [7,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [8,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [9,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [10,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [11,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [12,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [13,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [14,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [15,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [16,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [17,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [18,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [19,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [20,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [21,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [22,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [23,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [24,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [25,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [26,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [27,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [28,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [29,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [30,0,0] Assertion `t >= 0 && t < n_classes` failed.
+/pytorch/aten/src/ATen/native/cuda/Loss.cu:242: nll_loss_forward_reduce_cuda_kernel_2d: block: [0,0,0], thread: [31,0,0] Assertion `t >= 0 && t < n_classes` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/train.py", line 190, in <module>
+    main()
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/train.py", line 186, in main
+    run(parse_args(argv))
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/train.py", line 158, in run
+    train_sft.train_all_tasks(args=args, model=model, splits=splits, accelerator=accelerator)
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/official/src/train_sft.py", line 192, in train_all_tasks
+    train_task(args=args, task=task, splits=splits, model=model, accelerator=accelerator)
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/official/src/train_sft.py", line 146, in train_task
+    ce_loss = model(
+              ^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1857, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1805, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/phimoe/modeling_phimoe.py", line 1601, in forward
+    loss = loss_fct(shift_logits, shift_labels)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/loss.py", line 1297, in forward
+    return F.cross_entropy(
+           ^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/functional.py", line 3494, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

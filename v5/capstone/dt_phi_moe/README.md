@@ -114,9 +114,30 @@ variables; no model or dataset is downloaded at run time. `setup_env.sh` (uv) ne
 - Evaluation: the six prior benchmarks are the long part (MMLU 14k, HellaSwag 10k, IFEval and HumanEval generate);
   `PRIOR_LIMIT` and `PRIOR_TASKS` in config.sh shorten it.
 
+## Measured run (run `dt_phi_mini_sft_gsm8k_seed0_v4`, 22 Nov 2026)
+
+Two RTX 6000 Ada cards (47 and 48 GiB). Copies between the two cards gave garbage on this server, so every
+GPU-to-GPU copy goes through the CPU (`tools/p2p_check.py`, `devcopy`). Logs: `train_v4.out`, `eval_v4.out`.
+
+- Training: 400 steps, 12.8 s per step, 7,035 s. Weights deleted: 0.1837% at step 0 (Wanda prior), 0.6108% at the
+  end (12,296,351 of 2,013,265,920). Saved mask 23.2 MB.
+- Evaluation: 200 GSM8K test questions, 50 items per prior benchmark, 256 new tokens, zero-shot, bf16.
+
+| | base | Deletion Tuning | change |
+|---|---:|---:|---:|
+| GSM8K, training format (%) | 33.50 | 78.50 | +45.00 |
+| GSM8K, chat template (%) | 58.50 | 71.50 | +13.00 |
+| replies with `####`, training format (%) | 23.50 | 99.50 | +76.00 |
+| prior-task mean of six (%) | 59.27 | 58.53 | -0.74 |
+| forward KL per token (GSM8K) | 0 | 0.1412 | |
+
+Read it with the sample size in mind: with 200 questions the standard error of one GSM8K accuracy is about 3 points,
+and with 50 items one prior-task item is 2 points. The chat-template gain is outside that noise. The training-format
+gain is mostly the model learning to end with `####` (23.5% of replies before, 99.5% after). The prior-task changes
+(hellaswag 0, humaneval -2, ifeval -3.95, mmlu +0.21, truthfulqa -0.70, winogrande +2) are all within noise: this run
+shows no detectable forgetting at this size, not that there is none.
+
 ## Not verified
 
-The unit and end-to-end tests run on a tiny random Phi-MoE on the CPU (`bash run.sh test`). Not run anywhere yet: the
-real 7.65B model, anything on a GPU, the two-GPU split (the wrappers in item 4 exist for it), the memory and speed
-estimates, and the official `retention_forward_kl.response_logprobs`, which calls `.cuda()` and so needs a GPU
-(tested with `.cuda()` patched to a no-op). Run `PROFILE=smoke bash run.sh` on the server first.
+The unit and end-to-end tests run on a tiny random Phi-MoE on the CPU (`bash run.sh test`). The real model has been run on the two-GPU server (section above). Not done: full-size benchmarks (the evaluation used
+200 and 50 items), more than one seed, and a comparison with LoRA or full fine-tuning.

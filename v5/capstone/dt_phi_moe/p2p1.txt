@@ -1,0 +1,32 @@
+CUDA_LAUNCH_BLOCKING = None | devices: 2 | peer access 0->1: True
+direct             size         1 whole: 0/200 wrong
+direct             size         1 view : 0/200 wrong
+direct             size        32 whole: 0/200 wrong
+direct             size        32 view : 0/200 wrong
+direct             size      4096 whole: 0/200 wrong
+direct             size      4096 view : 0/200 wrong
+direct             size   1048576 whole: 200/200 wrong
+direct             size   1048576 view : 0/200 wrong
+direct             size  16777216 whole: 200/200 wrong
+direct             size  16777216 view : 0/200 wrong
+direct after sync  size         1 whole: 0/200 wrong
+direct after sync  size         1 view : 0/200 wrong
+direct after sync  size        32 whole: 0/200 wrong
+direct after sync  size        32 view : 0/200 wrong
+direct after sync  size      4096 whole: 0/200 wrong
+direct after sync  size      4096 view : 0/200 wrong
+direct after sync  size   1048576 whole: 200/200 wrong
+direct after sync  size   1048576 view : 0/200 wrong
+direct after sync  size  16777216 whole: 200/200 wrong
+direct after sync  size  16777216 view : 0/200 wrong
+via CPU            size         1 whole: 0/200 wrong
+via CPU            size         1 view : 0/200 wrong
+via CPU            size        32 whole: 0/200 wrong
+via CPU            size        32 view : 0/200 wrong
+via CPU            size      4096 whole: 0/200 wrong
+via CPU            size      4096 view : 0/200 wrong
+via CPU            size   1048576 whole: 0/200 wrong
+via CPU            size   1048576 view : 0/200 wrong
+via CPU            size  16777216 whole: 0/200 wrong
+via CPU            size  16777216 view : 0/200 wrong
+RESULT: {'direct': 'WRONG', 'direct after sync': 'WRONG', 'via CPU': 'ok'}

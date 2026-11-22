@@ -1,0 +1,172 @@
+official files verified: 32
+GPU 0: NVIDIA RTX 6000 Ada Generation, 47 GiB
+GPU 1: NVIDIA RTX 6000 Ada Generation, 48 GiB
+run: dt_phi_mini_sft_gsm8k_seed0_smoke  profile: smoke  stages: base_eval train dt_eval report
+out: <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_smoke
+[base_eval] already done (FORCE=1 to rerun)
+[train] <repo>/v5/capstone/dt_phi_moe/.venv/bin/python -m dtphi.train --model_dir <repo>/v5/capstone/dt_phi_moe/assets/phi-mini-moe-instruct --data_dir <repo>/v5/capstone/dt_phi_moe/assets/data/gsm8k --output_dir <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_smoke/train --n_gpus 2 --train_steps 5 --train_batch_size 4 --grad_accum_steps 1 --learning_rate 5e-4 --weight_decay 0 --max_grad_norm 1.0 --init_sparsity 0.00048828125 --prior_strength 3 --sharpness_start 100 --sharpness_end 1000 --weight_reg 1e-5 --seed 0 --train_pool 64 --max_len 512
+GSM8K training pool: 64 samples (0 longer than 512 tokens dropped)
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:13<00:39, 13.24s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:20<00:18,  9.49s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:27<00:08,  8.37s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:27<00:00,  5.22s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:27<00:00,  6.88s/it]
+Converted 512 linear layers to masked layers
+2026-11-20 23:38:42,009 [RANK 0] TASK 1/1: gsm8k
+after Wanda prior: {'sparse_layers': 512, 'layers_with_wanda_scores': 512, 'layers_without_scores': 0, 'deleted_step0': 3698650, 'targeted': 2013265920, 'deleted_frac_step0': 0.001837139328320821}
+2026-11-20 23:39:48,307 [RANK 0] [gsm8k] training: 64 samples, batch_size=4, 5 iters, 2,013,265,920 trainable params
+2026-11-20 23:41:19,535 [RANK 0] [gsm8k] mask saved to <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_smoke/train/masks/gsm8k
+done: 3,864,088 of 2,013,265,920 gate weights deleted (0.1919%), mask 8.9 MB, 283 s
+[train] finished in 378 s
+[dt_eval] <repo>/v5/capstone/dt_phi_moe/.venv/bin/python -m dtphi.evaluate --tag dt --model_dir <repo>/v5/capstone/dt_phi_moe/assets/phi-mini-moe-instruct --data_dir <repo>/v5/capstone/dt_phi_moe/assets/data/gsm8k --team10_dir <repo>/v5/capstone/dt_phi_moe/assets/data/team10_sft_tests --out_dir <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_smoke --mask_dir <repo>/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_smoke/train/masks/gsm8k --n_gpus 2 --parts gsm8k,gsm8k_chat,kl,team10,prior --gsm8k_limit 16 --kl_limit 8 --gen_batch 32 --max_new_tokens 200 --team10_max_new_tokens 32 --prior_tasks hellaswag,winogrande,humaneval_instruct --prior_limit 4 --prior_batch 8 --seed 0
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:20<01:02, 20.68s/it]
+Loading checkpoint shards:  50%|█████     | 2/4 [00:37<00:37, 18.56s/it]
+Loading checkpoint shards:  75%|███████▌  | 3/4 [00:52<00:16, 16.72s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:53<00:00, 10.43s/it]
+Loading checkpoint shards: 100%|██████████| 4/4 [00:53<00:00, 13.27s/it]
+mask applied: 3,864,088 weights zeroed
+forward KL: {'forward_kl_per_token_mean': -0.014823446661466733, 'n_prompts': 8}
+The `seen_tokens` attribute is deprecated and will be removed in v4.41. Use the `cache_position` model input instead.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [0,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [1,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [2,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [3,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [4,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [5,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [6,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [7,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [8,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [9,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [10,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [11,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [12,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [13,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [14,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [15,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [16,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [17,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [18,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [19,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [20,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [21,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [22,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [23,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [24,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [25,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [26,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [27,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [28,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [29,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [30,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [111,0,0], thread: [31,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [0,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [1,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [2,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [3,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [4,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [5,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [6,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [7,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [8,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [9,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [10,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [11,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [12,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [13,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [14,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [15,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [16,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [17,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [18,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [19,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [20,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [21,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [22,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [23,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [24,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [25,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [26,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [27,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [28,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [29,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [30,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:93: operator(): block: [189,0,0], thread: [31,0,0] Assertion `-sizes[i] <= index && index < sizes[i] && "index out of bounds"` failed.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/evaluate.py", line 138, in <module>
+    main()
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/evaluate.py", line 134, in main
+    run(parse_args(argv))
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/evaluate.py", line 106, in run
+    recs = generate_gsm8k(model, tok, rows, fn, args.gen_batch, args.max_new_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/eval_gsm8k.py", line 65, in generate_gsm8k
+    gen = model.generate(input_ids=ids, attention_mask=attn, max_new_tokens=max_new_tokens, do_sample=False,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 2465, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 3431, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/phimoe/modeling_phimoe.py", line 1563, in forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/phimoe/modeling_phimoe.py", line 1431, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/phimoe/modeling_phimoe.py", line 1149, in forward
+    hidden_states, router_logits = self.block_sparse_moe(hidden_states)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/.venv/lib/python3.11/site-packages/accelerate/hooks.py", line 192, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/v5/capstone/dt_phi_moe/src/dtphi/phimoe/modeling_phimoe.py", line 1065, in forward
+    idx, top_x = torch.where(expert_mask[expert_idx])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
