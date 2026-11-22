@@ -29,3 +29,6 @@ v5/session13/reversible_llm_experiments/scripts/build_notebook.py
 
 
 v5/session14/moe_experiments/scripts
+
+# local Claude settings (machine paths)
+.claude/settings.local.json
