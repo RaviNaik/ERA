@@ -137,6 +137,31 @@ gain is mostly the model learning to end with `####` (23.5% of replies before, 9
 (hellaswag 0, humaneval -2, ifeval -3.95, mmlu +0.21, truthfulqa -0.70, winogrande +2) are all within noise: this run
 shows no detectable forgetting at this size, not that there is none.
 
+## Larger evaluation and the LoRA / full fine-tuning baselines
+
+The v4 numbers above use 200 GSM8K questions and 50 items per prior task. Two additions make them firmer and put them
+next to two other ways of adapting the same model. None of this changes the Deletion Tuning code.
+
+1. **Paired test** (no GPU, uses the saved replies): `.venv/bin/python -m dtphi.paired --run_dir runs/<run>` compares
+   base with every evaluated variant on the same questions: accuracy change, 95% bootstrap interval, the questions only
+   one of the two got right, and the exact McNemar p-value. Written to `paired.md` / `paired.json`.
+2. **Extended evaluation** of a trained run: `PROFILE=extended RUN_NAME=<run> bash run.sh` runs all 1,319 GSM8K
+   questions in the chat template and hellaswag, truthfulqa_mc2, mmlu and winogrande at 200 items per task, then the
+   paired test and the report. Results go to `eval_base_full`, `eval_dt_full`, `paired_full.md`, `results_full.md`, so
+   the first evaluation stays. (ifeval and humaneval generate for hours and are not repeated.)
+3. **Baselines** (`dtphi/train_baseline.py`): `bash run.sh train_lora lora_eval train_ft ft_eval paired report`.
+   Same GSM8K pool, steps (400), batch size (4), AdamW, clipping, gradient checkpointing and training loop as the DT
+   run; different learning rate per method (common defaults, not tuned on this task: LoRA 2e-4, full FT 1e-5) and a
+   different shuffle order. LoRA (r 16, alpha 32) adapts the same 512 expert gate projections that DT masks
+   (`LORA_TARGETS=w1`; add `q_proj,k_proj,v_proj,o_proj` for attention). Full FT keeps bf16 weights and moments with
+   stochastic rounding (fp32 master weights do not fit on two 48 GB cards); `FT_SCOPE=all` trains every weight
+   (about 61 GB over the two cards), `FT_SCOPE=gate` only the gate projections DT masks. `dtphi.evaluate --tag lora|ft
+   --ckpt_dir <train folder>` merges the adapters or loads the weights, and runs the same evaluation parts as for DT.
+   Adapters are merged into the bf16 weights for evaluation (rounded once), which is how a LoRA model is deployed.
+
+The unit tests for all of this run on the CPU with a tiny model (`bash run.sh test`); the baselines have not run on the
+real model yet (this README is updated when they do).
+
 ## Not verified
 
 The unit and end-to-end tests run on a tiny random Phi-MoE on the CPU (`bash run.sh test`). The real model has been run on the two-GPU server (section above). Not done: full-size benchmarks (the evaluation used

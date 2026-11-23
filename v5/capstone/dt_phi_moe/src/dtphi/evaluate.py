@@ -1,4 +1,5 @@
-"""Evaluate the base model (--tag base) or the base model with a saved Deletion Tuning mask (--tag dt).
+"""Evaluate the base model (--tag base), the base model with a saved Deletion Tuning mask (--tag dt), or the base model
+with LoRA adapters merged in (--tag lora) or with fully fine-tuned weights (--tag ft; see train_baseline.py).
 
 Parts (--parts, comma separated):
   gsm8k       GSM8K test, the training format (question + newline, greedy): the number the SFT run optimises
@@ -7,7 +8,8 @@ Parts (--parts, comma separated):
   team10      Team 10 Indic and safety row sets
   prior       six prior-task benchmarks with lm-evaluation-harness (retention)
 The mask is applied with the official apply_mask.py; the KL log-probabilities come from the official
-retention_forward_kl.py. Results go to <out_dir>/eval_<tag>/."""
+retention_forward_kl.py (for lora and ft the "masked" model is the fine-tuned one). Results go to
+<out_dir>/eval_<tag><eval_suffix>/."""
 from __future__ import annotations
 
 import argparse
@@ -20,18 +22,22 @@ import torch
 from . import data, official
 from .eval_gsm8k import forward_kl, generate_gsm8k, gsm8k_metrics
 from .modeling import load_model, load_tokenizer
+from .train_baseline import apply_ft, apply_lora
 
 PARTS = ("gsm8k", "gsm8k_chat", "kl", "team10", "prior")
 
 
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    p.add_argument("--tag", required=True, choices=["base", "dt"])
+    p.add_argument("--tag", required=True, choices=["base", "dt", "lora", "ft"])
     p.add_argument("--model_dir", required=True)
     p.add_argument("--data_dir", required=True, help="folder holding main/test-*.parquet")
     p.add_argument("--team10_dir", default="", help="folder with indic_v1.jsonl and safety_v1.jsonl")
     p.add_argument("--out_dir", required=True)
     p.add_argument("--mask_dir", default="", help="official mask folder (model.safetensors + config.json), --tag dt")
+    p.add_argument("--ckpt_dir", default="", help="train_baseline output folder, --tag lora or ft")
+    p.add_argument("--eval_suffix", default="", help="appended to the result folders (eval_base<suffix>, ...), so a "
+                   "second evaluation with other sizes does not overwrite the first")
     p.add_argument("--n_gpus", type=int, default=2)
     p.add_argument("--parts", default="gsm8k,gsm8k_chat,kl,team10,prior")
     p.add_argument("--gsm8k_limit", type=int, default=0)
@@ -65,8 +71,10 @@ def run(args: argparse.Namespace) -> dict:
         raise ValueError(f"unknown parts {sorted(bad)}")
     if args.tag == "base" and "kl" in parts:
         parts.remove("kl")
-    out = Path(args.out_dir) / f"eval_{args.tag}"
-    base_gen_path = Path(args.out_dir) / "eval_base" / "gsm8k_generations.jsonl"
+    if args.tag in ("lora", "ft") and not args.ckpt_dir:
+        raise ValueError(f"--tag {args.tag} needs --ckpt_dir")
+    out = Path(args.out_dir) / f"eval_{args.tag}{args.eval_suffix}"
+    base_gen_path = Path(args.out_dir) / f"eval_base{args.eval_suffix}" / "gsm8k_generations.jsonl"
     out.mkdir(parents=True, exist_ok=True)
     tok = load_tokenizer(args.model_dir)
     all_rows = data.load_gsm8k(args.data_dir, "test")
@@ -77,8 +85,8 @@ def run(args: argparse.Namespace) -> dict:
     summary: dict = {"tag": args.tag, "args": vars(args)}
     pad_id = tok.pad_token_id
 
-    if args.tag == "dt":
-        masks = apply_mask.load_mask(mask_dir=args.mask_dir)
+    if args.tag != "base":
+        masks = apply_mask.load_mask(mask_dir=args.mask_dir) if args.tag == "dt" else None
         if "kl" in parts:
             if not base_gen_path.exists():
                 raise FileNotFoundError(f"{base_gen_path} missing: run the base evaluation (gsm8k part) first")
@@ -91,9 +99,13 @@ def run(args: argparse.Namespace) -> dict:
             base_lp = retention_forward_kl.response_logprobs(model=model, pad_id=pad_id, prompt_ids=prompts,
                                                              response_ids=resps)
             summary["kl_base_seconds"] = round(time.time() - t0, 1)
-        deleted = apply_mask.apply_mask(model=model, masks=masks)
-        summary["weights_zeroed"] = deleted
-        print(f"mask applied: {deleted:,d} weights zeroed", flush=True)
+        if args.tag == "dt":
+            deleted = apply_mask.apply_mask(model=model, masks=masks)
+            summary["weights_zeroed"] = deleted
+            print(f"mask applied: {deleted:,d} weights zeroed", flush=True)
+        else:
+            summary["weights_changed"] = (apply_lora if args.tag == "lora" else apply_ft)(model, args.ckpt_dir)
+            print(f"{args.tag} weights applied: {summary['weights_changed']}", flush=True)
         if "kl" in parts:
             masked_lp = retention_forward_kl.response_logprobs(model=model, pad_id=pad_id, prompt_ids=prompts,
                                                                response_ids=resps)
