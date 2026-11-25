@@ -1,0 +1,104 @@
+{
+ "tag": "base",
+ "args": {
+  "tag": "base",
+  "model_dir": "<ROOT>/assets/phi-mini-moe-instruct",
+  "data_dir": "<ROOT>/assets/data/gsm8k",
+  "team10_dir": "<ROOT>/assets/data/team10_sft_tests",
+  "out_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4",
+  "mask_dir": "",
+  "n_gpus": 2,
+  "parts": "gsm8k,gsm8k_chat,team10,prior",
+  "gsm8k_limit": 200,
+  "gen_batch": 32,
+  "max_new_tokens": 256,
+  "kl_limit": 0,
+  "team10_max_new_tokens": 200,
+  "prior_tasks": "hellaswag,truthfulqa_mc2,mmlu,ifeval,winogrande,humaneval_instruct",
+  "prior_limit": 50,
+  "prior_batch": 8,
+  "seed": 0,
+  "fast_moe_tokens": 1024
+ },
+ "gsm8k": {
+  "n": 200,
+  "correct": 67,
+  "accuracy": 0.335,
+  "share_with_####": 0.235,
+  "seconds": 2193.8,
+  "max_new_tokens": 256
+ },
+ "gsm8k_chat": {
+  "n": 200,
+  "correct": 117,
+  "accuracy": 0.585,
+  "share_with_####": 0.52,
+  "seconds": 2195.8,
+  "max_new_tokens": 256
+ },
+ "team10": {
+  "indic_v1": {
+   "n": 44,
+   "exact": 0.5227272727272727,
+   "by_kind": {
+    "answer": 0.125,
+    "copy": 1.0,
+    "script": 1.0
+   },
+   "by_lang": {
+    "bn": 0.6666666666666666,
+    "gu": 0.25,
+    "hi": 1.0,
+    "kn": 0.3333333333333333,
+    "ml": 0.5,
+    "mr": 0.3333333333333333,
+    "or": 0.3333333333333333,
+    "pa": 0.25,
+    "ta": 0.5,
+    "te": 0.6
+   }
+  },
+  "safety_v1": {
+   "n": 41,
+   "exact": 0.5609756097560976,
+   "by_kind": {
+    "benign": 0.45454545454545453,
+    "harm": 0.5714285714285714,
+    "jailbreak": 0.5714285714285714,
+    "lookalike": 0.6666666666666666
+   },
+   "by_lang": {
+    "bn": 0.0,
+    "en": 0.92,
+    "hi": 0.0,
+    "kn": 0.0,
+    "mr": 0.0,
+    "ta": 0.0,
+    "te": 0.0
+   },
+   "refusal_rate": 0.5714285714285714,
+   "helped_rate": 0.55
+  }
+ },
+ "prior": {
+  "scores": {
+   "hellaswag": 0.7,
+   "truthfulqa_mc2": 0.5696080918777904,
+   "mmlu": 0.6954385964912281,
+   "ifeval": 0.6710526315789473,
+   "winogrande": 0.78,
+   "humaneval_instruct": 0.14
+  },
+  "prior_task_mean": 0.5926832199913277,
+  "limit": 50,
+  "metrics": {
+   "hellaswag": "acc_norm,none",
+   "truthfulqa_mc2": "acc,none",
+   "mmlu": "acc,none",
+   "ifeval": "inst_level_loose_acc,none",
+   "winogrande": "acc,none",
+   "humaneval_instruct": "pass@1,create_test"
+  },
+  "seconds": 13530.6
+ }
+}

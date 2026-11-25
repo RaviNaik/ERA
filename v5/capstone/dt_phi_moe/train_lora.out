@@ -1,0 +1,53 @@
+official files verified: 32
+GPU 0: NVIDIA RTX 6000 Ada Generation, 48 GiB
+run: dt_phi_mini_sft_gsm8k_seed0_v4  profile: full  stages: train_lora
+CUDA_LAUNCH_BLOCKING=1
+out: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4
+[train_lora] <ROOT>/.venv/bin/python -m dtphi.train_baseline --method lora --model_dir <ROOT>/assets/phi-mini-moe-instruct --data_dir <ROOT>/assets/data/gsm8k --output_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_lora --n_gpus 1 --train_steps 400 --train_batch_size 4 --grad_accum_steps 1 --learning_rate 2e-4 --weight_decay 0 --max_grad_norm 1.0 --seed 0 --train_pool 2048 --max_len 512 --lora_r 16 --lora_alpha 32 --lora_targets w1
+GSM8K training pool: 2048 samples (0 longer than 512 tokens dropped)
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:07<00:23,  7.81s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:14<00:14,  7.29s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:21<00:07,  7.10s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  4.44s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  5.50s/it]
+lora: 41,418,752 trainable of 7,647,632,704 parameters (0.5416%)
+2026-11-23 22:42:45,210 [lora] training: 2048 samples, batch_size=4, 400 iters, 41,418,752 trainable params
+2026-11-23 22:44:49,397 [lora] iter 10/400 | loss=0.5899
+2026-11-23 22:46:40,102 [lora] iter 20/400 | loss=0.5064
+2026-11-23 22:48:30,047 [lora] iter 30/400 | loss=0.3789
+2026-11-23 22:50:18,841 [lora] iter 40/400 | loss=0.4419
+2026-11-23 22:52:09,100 [lora] iter 50/400 | loss=0.3600
+2026-11-23 22:53:58,377 [lora] iter 60/400 | loss=0.4917
+2026-11-23 22:55:49,123 [lora] iter 70/400 | loss=0.3203
+2026-11-23 22:57:42,479 [lora] iter 80/400 | loss=0.2826
+2026-11-23 22:59:34,719 [lora] iter 90/400 | loss=0.3856
+2026-11-23 23:01:25,782 [lora] iter 100/400 | loss=0.5403
+2026-11-23 23:03:17,513 [lora] iter 110/400 | loss=0.3330
+2026-11-23 23:05:09,169 [lora] iter 120/400 | loss=0.4487
+2026-11-23 23:06:59,164 [lora] iter 130/400 | loss=0.3219
+2026-11-23 23:08:49,757 [lora] iter 140/400 | loss=0.5767
+2026-11-23 23:10:41,048 [lora] iter 150/400 | loss=0.3891
+2026-11-23 23:12:32,466 [lora] iter 160/400 | loss=0.3196
+2026-11-23 23:14:23,508 [lora] iter 170/400 | loss=0.4089
+2026-11-23 23:16:14,130 [lora] iter 180/400 | loss=0.5651
+2026-11-23 23:18:05,472 [lora] iter 190/400 | loss=0.4494
+2026-11-23 23:19:56,785 [lora] iter 200/400 | loss=0.4928
+2026-11-23 23:21:49,173 [lora] iter 210/400 | loss=0.3196
+2026-11-23 23:23:39,728 [lora] iter 220/400 | loss=0.4139
+2026-11-23 23:25:30,527 [lora] iter 230/400 | loss=0.4415
+2026-11-23 23:27:21,901 [lora] iter 240/400 | loss=0.3285
+2026-11-23 23:29:12,109 [lora] iter 250/400 | loss=0.4327
+2026-11-23 23:31:04,798 [lora] iter 260/400 | loss=0.3804
+2026-11-23 23:32:57,418 [lora] iter 270/400 | loss=0.3410
+2026-11-23 23:34:49,518 [lora] iter 280/400 | loss=0.3985
+2026-11-23 23:36:41,091 [lora] iter 290/400 | loss=0.4054
+2026-11-23 23:38:32,449 [lora] iter 300/400 | loss=0.4918
+2026-11-23 23:40:24,106 [lora] iter 310/400 | loss=0.4203
+2026-11-23 23:42:15,896 [lora] iter 320/400 | loss=0.3296
+2026-11-23 23:44:09,049 [lora] iter 330/400 | loss=0.2693
+2026-11-23 23:46:00,182 [lora] iter 340/400 | loss=0.3890
+2026-11-23 23:47:51,613 [lora] iter 350/400 | loss=0.4188
+2026-11-23 23:49:43,421 [lora] iter 360/400 | loss=0.3961
+2026-11-23 23:51:35,856 [lora] iter 370/400 | loss=0.5125
+2026-11-23 23:53:27,506 [lora] iter 380/400 | loss=0.3743
+2026-11-23 23:55:20,652 [lora] iter 390/400 | loss=0.6125
+2026-11-23 23:57:10,848 [lora] iter 400/400 | loss=0.5796
+done: lora, 41,418,752 trainable parameters, 4466 s
+[train_lora] finished in 4562 s
+all requested stages finished. results: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/results.md (after the report stage)

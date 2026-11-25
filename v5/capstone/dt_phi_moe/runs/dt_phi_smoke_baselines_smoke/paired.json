@@ -1,0 +1,62 @@
+{
+ "lora/gsm8k": {
+  "n": 16,
+  "acc_a": 0.1875,
+  "acc_b": 0.1875,
+  "diff": 0.0,
+  "ci95": [
+   -0.1875,
+   0.1875
+  ],
+  "only_a": 1,
+  "only_b": 1,
+  "mcnemar_p": 1.0,
+  "resamples": 10000,
+  "seed": 0
+ },
+ "lora/gsm8k_chat": {
+  "n": 16,
+  "acc_a": 0.125,
+  "acc_b": 0.125,
+  "diff": 0.0,
+  "ci95": [
+   0.0,
+   0.0
+  ],
+  "only_a": 0,
+  "only_b": 0,
+  "mcnemar_p": 1.0,
+  "resamples": 10000,
+  "seed": 0
+ },
+ "ft/gsm8k": {
+  "n": 16,
+  "acc_a": 0.1875,
+  "acc_b": 0.25,
+  "diff": 0.0625,
+  "ci95": [
+   -0.125,
+   0.25
+  ],
+  "only_a": 1,
+  "only_b": 2,
+  "mcnemar_p": 1.0,
+  "resamples": 10000,
+  "seed": 0
+ },
+ "ft/gsm8k_chat": {
+  "n": 16,
+  "acc_a": 0.125,
+  "acc_b": 0.125,
+  "diff": 0.0,
+  "ci95": [
+   0.0,
+   0.0
+  ],
+  "only_a": 0,
+  "only_b": 0,
+  "mcnemar_p": 1.0,
+  "resamples": 10000,
+  "seed": 0
+ }
+}

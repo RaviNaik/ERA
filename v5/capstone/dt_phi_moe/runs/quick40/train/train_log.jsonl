@@ -1,0 +1,4 @@
+{"iter": 10, "of": 40, "loss": 0.5491, "elapsed_s": 338.1}
+{"iter": 20, "of": 40, "loss": 0.3216, "elapsed_s": 452.2}
+{"iter": 30, "of": 40, "loss": 0.4259, "elapsed_s": 565.6}
+{"iter": 40, "of": 40, "loss": 0.4024, "elapsed_s": 678.7}

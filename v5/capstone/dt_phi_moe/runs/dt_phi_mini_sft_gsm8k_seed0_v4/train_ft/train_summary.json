@@ -1,0 +1,41 @@
+{
+ "method": "ft",
+ "args": {
+  "method": "ft",
+  "model_dir": "<ROOT>/assets/phi-mini-moe-instruct",
+  "data_dir": "<ROOT>/assets/data/gsm8k",
+  "output_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_ft",
+  "n_gpus": 2,
+  "train_steps": 400,
+  "train_batch_size": 4,
+  "grad_accum_steps": 1,
+  "learning_rate": 1e-05,
+  "weight_decay": 0.0,
+  "max_grad_norm": 1.0,
+  "seed": 0,
+  "train_pool": 2048,
+  "max_len": 512,
+  "lora_r": 16,
+  "lora_alpha": 32.0,
+  "lora_targets": "w1",
+  "ft_scope": "all"
+ },
+ "train_samples": 2048,
+ "dropped_too_long": 0,
+ "total_params": 7647632704,
+ "trainable_params": 7647632704,
+ "trainable_share": 1.0,
+ "checkpoint": {
+  "scope": "all",
+  "tensors": 1957
+ },
+ "train_seconds": 7044.7,
+ "total_seconds": 7196.4,
+ "seconds_per_step": 17.61,
+ "peak_gpu_gib": {
+  "cuda:0": 32.7,
+  "cuda:1": 32.8
+ },
+ "final_loss": 0.6092676520347595,
+ "command": "<ROOT>/src/dtphi/train_baseline.py --method ft --model_dir <ROOT>/assets/phi-mini-moe-instruct --data_dir <ROOT>/assets/data/gsm8k --output_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_ft --n_gpus 2 --train_steps 400 --train_batch_size 4 --grad_accum_steps 1 --learning_rate 1e-5 --weight_decay 0 --max_grad_norm 1.0 --seed 0 --train_pool 2048 --max_len 512 --ft_scope all"
+}

@@ -1,0 +1,55 @@
+{
+ "tag": "ft",
+ "args": {
+  "tag": "ft",
+  "model_dir": "<ROOT>/assets/phi-mini-moe-instruct",
+  "data_dir": "<ROOT>/assets/data/gsm8k",
+  "team10_dir": "<ROOT>/assets/data/team10_sft_tests",
+  "out_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4",
+  "mask_dir": "",
+  "ckpt_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_ft",
+  "eval_suffix": "_full",
+  "n_gpus": 1,
+  "parts": "gsm8k_chat,prior",
+  "gsm8k_limit": 0,
+  "gen_batch": 32,
+  "max_new_tokens": 256,
+  "kl_limit": 0,
+  "team10_max_new_tokens": 200,
+  "prior_tasks": "hellaswag,truthfulqa_mc2,mmlu,winogrande",
+  "prior_limit": 200,
+  "prior_batch": 8,
+  "seed": 0,
+  "fast_moe_tokens": 1024
+ },
+ "weights_changed": {
+  "ft_tensors_loaded": 1957,
+  "ft_elements": 7647632704,
+  "scope": "all"
+ },
+ "gsm8k_chat": {
+  "n": 1319,
+  "correct": 717,
+  "accuracy": 0.5435936315390447,
+  "share_with_####": 0.9408642911296436,
+  "seconds": 8671.0,
+  "max_new_tokens": 256
+ },
+ "prior": {
+  "scores": {
+   "hellaswag": 0.63,
+   "truthfulqa_mc2": 0.5046446339792502,
+   "mmlu": 0.6873570728520092,
+   "winogrande": 0.725
+  },
+  "prior_task_mean": 0.6367504267078149,
+  "limit": 200,
+  "metrics": {
+   "hellaswag": "acc_norm,none",
+   "truthfulqa_mc2": "acc,none",
+   "mmlu": "acc,none",
+   "winogrande": "acc,none"
+  },
+  "seconds": 2376.2
+ }
+}

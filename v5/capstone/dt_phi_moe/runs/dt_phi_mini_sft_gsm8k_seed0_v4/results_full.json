@@ -1,0 +1,183 @@
+{
+ "run_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4",
+ "train": {
+  "train_samples": 2048,
+  "seconds_per_step": 12.8,
+  "train_seconds": 7035.4,
+  "peak_gpu_gib": {
+   "cuda:0": 35.2,
+   "cuda:1": 31.0
+  },
+  "mask": {
+   "format": "packbits_zstd",
+   "total_params": 2013265920,
+   "zero_params": 12296351,
+   "original_size_mb": 1920.0,
+   "compressed_size_mb": 23.218499183654785,
+   "sparsity_ratio": 0.006107663611570994,
+   "compression_ratio": 82.69268331312429
+  },
+  "wanda_prior": {
+   "sparse_layers": 512,
+   "layers_with_wanda_scores": 512,
+   "layers_without_scores": 0,
+   "deleted_step0": 3698655,
+   "targeted": 2013265920,
+   "deleted_frac_step0": 0.0018371418118476868
+  }
+ },
+ "base": {
+  "gsm8k": null,
+  "gsm8k_chat": {
+   "n": 1319,
+   "correct": 738,
+   "accuracy": 0.5595147839272175,
+   "share_with_####": 0.5299469294920395,
+   "seconds": 9093.2,
+   "max_new_tokens": 256
+  },
+  "prior": {
+   "scores": {
+    "hellaswag": 0.63,
+    "truthfulqa_mc2": 0.5221444005474565,
+    "mmlu": 0.7047805727975607,
+    "winogrande": 0.715
+   },
+   "prior_task_mean": 0.6429812433362543,
+   "limit": 200,
+   "metrics": {
+    "hellaswag": "acc_norm,none",
+    "truthfulqa_mc2": "acc,none",
+    "mmlu": "acc,none",
+    "winogrande": "acc,none"
+   },
+   "seconds": 2361.6
+  },
+  "team10": null
+ },
+ "dt": {
+  "gsm8k": null,
+  "gsm8k_chat": {
+   "n": 1319,
+   "correct": 885,
+   "accuracy": 0.6709628506444276,
+   "share_with_####": 0.6982562547384382,
+   "seconds": 9042.8,
+   "max_new_tokens": 256
+  },
+  "forward_kl": null,
+  "prior": {
+   "scores": {
+    "hellaswag": 0.625,
+    "truthfulqa_mc2": 0.5262881462072433,
+    "mmlu": 0.7020581509310683,
+    "winogrande": 0.725
+   },
+   "prior_task_mean": 0.6445865742845779,
+   "limit": 200,
+   "metrics": {
+    "hellaswag": "acc_norm,none",
+    "truthfulqa_mc2": "acc,none",
+    "mmlu": "acc,none",
+    "winogrande": "acc,none"
+   },
+   "seconds": 2365.7
+  },
+  "weights_zeroed": 12296351,
+  "weights_changed": null,
+  "team10": null
+ },
+ "lora": {
+  "gsm8k": null,
+  "gsm8k_chat": {
+   "n": 1319,
+   "correct": 989,
+   "accuracy": 0.7498104624715694,
+   "share_with_####": 0.8203184230477635,
+   "seconds": 8978.6,
+   "max_new_tokens": 256
+  },
+  "forward_kl": null,
+  "prior": {
+   "scores": {
+    "hellaswag": 0.62,
+    "truthfulqa_mc2": 0.5225622839056099,
+    "mmlu": 0.6998802134378743,
+    "winogrande": 0.74
+   },
+   "prior_task_mean": 0.645610624335871,
+   "limit": 200,
+   "metrics": {
+    "hellaswag": "acc_norm,none",
+    "truthfulqa_mc2": "acc,none",
+    "mmlu": "acc,none",
+    "winogrande": "acc,none"
+   },
+   "seconds": 2364.5
+  },
+  "weights_zeroed": null,
+  "weights_changed": {
+   "lora_modules_merged": 512,
+   "r": 16,
+   "alpha": 32.0
+  },
+  "team10": null
+ },
+ "ft": {
+  "gsm8k": null,
+  "gsm8k_chat": {
+   "n": 1319,
+   "correct": 717,
+   "accuracy": 0.5435936315390447,
+   "share_with_####": 0.9408642911296436,
+   "seconds": 8671.0,
+   "max_new_tokens": 256
+  },
+  "forward_kl": null,
+  "prior": {
+   "scores": {
+    "hellaswag": 0.63,
+    "truthfulqa_mc2": 0.5046446339792502,
+    "mmlu": 0.6873570728520092,
+    "winogrande": 0.725
+   },
+   "prior_task_mean": 0.6367504267078149,
+   "limit": 200,
+   "metrics": {
+    "hellaswag": "acc_norm,none",
+    "truthfulqa_mc2": "acc,none",
+    "mmlu": "acc,none",
+    "winogrande": "acc,none"
+   },
+   "seconds": 2376.2
+  },
+  "weights_zeroed": null,
+  "weights_changed": {
+   "ft_tensors_loaded": 1957,
+   "ft_elements": 7647632704,
+   "scope": "all"
+  },
+  "team10": null
+ },
+ "train_lora": {
+  "trainable_params": 41418752,
+  "total_params": 7647632704,
+  "train_seconds": 4465.8,
+  "seconds_per_step": 11.16,
+  "peak_gpu_gib": {
+   "cuda:0": 16.5
+  },
+  "final_loss": 0.579631507396698
+ },
+ "train_ft": {
+  "trainable_params": 7647632704,
+  "total_params": 7647632704,
+  "train_seconds": 7044.7,
+  "seconds_per_step": 17.61,
+  "peak_gpu_gib": {
+   "cuda:0": 32.7,
+   "cuda:1": 32.8
+  },
+  "final_loss": 0.6092676520347595
+ }
+}

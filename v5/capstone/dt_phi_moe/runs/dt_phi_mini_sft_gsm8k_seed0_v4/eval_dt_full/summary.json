@@ -1,0 +1,51 @@
+{
+ "tag": "dt",
+ "args": {
+  "tag": "dt",
+  "model_dir": "<ROOT>/assets/phi-mini-moe-instruct",
+  "data_dir": "<ROOT>/assets/data/gsm8k",
+  "team10_dir": "<ROOT>/assets/data/team10_sft_tests",
+  "out_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4",
+  "mask_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train/masks/gsm8k",
+  "ckpt_dir": "",
+  "eval_suffix": "_full",
+  "n_gpus": 1,
+  "parts": "gsm8k_chat,prior",
+  "gsm8k_limit": 0,
+  "gen_batch": 32,
+  "max_new_tokens": 256,
+  "kl_limit": 0,
+  "team10_max_new_tokens": 200,
+  "prior_tasks": "hellaswag,truthfulqa_mc2,mmlu,winogrande",
+  "prior_limit": 200,
+  "prior_batch": 8,
+  "seed": 0,
+  "fast_moe_tokens": 1024
+ },
+ "weights_zeroed": 12296351,
+ "gsm8k_chat": {
+  "n": 1319,
+  "correct": 885,
+  "accuracy": 0.6709628506444276,
+  "share_with_####": 0.6982562547384382,
+  "seconds": 9042.8,
+  "max_new_tokens": 256
+ },
+ "prior": {
+  "scores": {
+   "hellaswag": 0.625,
+   "truthfulqa_mc2": 0.5262881462072433,
+   "mmlu": 0.7020581509310683,
+   "winogrande": 0.725
+  },
+  "prior_task_mean": 0.6445865742845779,
+  "limit": 200,
+  "metrics": {
+   "hellaswag": "acc_norm,none",
+   "truthfulqa_mc2": "acc,none",
+   "mmlu": "acc,none",
+   "winogrande": "acc,none"
+  },
+  "seconds": 2365.7
+ }
+}
