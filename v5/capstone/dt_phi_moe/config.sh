@@ -65,6 +65,8 @@ FT_SCOPE="${FT_SCOPE:-all}"            # all = every weight (bf16 + stochastic r
 # Evaluation (the same for the base model and the masked model)
 GSM8K_LIMIT="${GSM8K_LIMIT:-0}"        # 0 = all 1,319 test rows
 GEN_BATCH="${GEN_BATCH:-32}"
+EVAL_SHARDS="${EVAL_SHARDS:-1}"        # 2 = the evaluation stages run one single-GPU process per card (GPUS=0,1) and merge: ~2x faster
+                                       # (try GEN_BATCH=96 as well: a card holds only the 15 GB model, decoding is memory bound)
 MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-400}"
 KL_LIMIT="${KL_LIMIT:-0}"              # 0 = every base reply
 TEAM10_MAX_NEW_TOKENS="${TEAM10_MAX_NEW_TOKENS:-200}"

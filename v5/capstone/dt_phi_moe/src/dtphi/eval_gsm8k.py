@@ -24,10 +24,15 @@ def stop_ids(model, tok) -> list[int]:
 class AnswerDone(StoppingCriteria):
     """Per sequence: stop once the first '#### <number>' of the reply is complete."""
 
-    def __init__(self, tok, prompt_len: int):
-        self.tok, self.prompt_len = tok, prompt_len
+    def __init__(self, tok, prompt_len: int, every: int = 8):
+        self.tok, self.prompt_len, self.every, self.step = tok, prompt_len, every, 0
 
     def __call__(self, input_ids, scores, **kwargs):
+        # Decoding the whole batch every token is slow CPU work. Checking every `every` steps only lets a finished
+        # reply run a few tokens longer; trim_to_answer cuts it back, so the stored reply is the same.
+        self.step += 1
+        if self.step % self.every:
+            return torch.zeros(input_ids.shape[0], dtype=torch.bool, device=input_ids.device)
         texts = self.tok.batch_decode(input_ids[:, self.prompt_len:], skip_special_tokens=True)
         return torch.tensor([ANSWER_DONE.search(t) is not None for t in texts], device=input_ids.device)
 

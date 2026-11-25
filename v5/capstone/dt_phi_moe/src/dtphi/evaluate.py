@@ -49,6 +49,10 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--prior_limit", type=int, default=0)
     p.add_argument("--prior_batch", type=int, default=8)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--shard", type=int, default=0, help="data-parallel evaluation: this process handles slice k of N "
+                   "(GSM8K rows, Team 10 rows, KL prompts k::N; prior tasks k::N); one process per GPU, then --merge")
+    p.add_argument("--num_shards", type=int, default=1)
+    p.add_argument("--merge", action="store_true", help="combine the summary.shard*.json files of a sharded evaluation")
     p.add_argument("--fast_moe_tokens", type=int, default=1024,
                    help="dense MoE path for forwards of at most this many tokens (decoding); 0 = original expert loop")
     return p.parse_args(argv)
@@ -79,6 +83,10 @@ def run(args: argparse.Namespace) -> dict:
     tok = load_tokenizer(args.model_dir)
     all_rows = data.load_gsm8k(args.data_dir, "test")
     rows = all_rows[:args.gsm8k_limit] if args.gsm8k_limit else all_rows
+    k, n_sh = args.shard, args.num_shards
+    sharded = n_sh > 1
+    gidx = list(range(len(rows)))[k::n_sh]       # global index of every row this process handles
+    rows = rows[k::n_sh]
     from .phimoe import modeling_phimoe
     modeling_phimoe.FAST_MOE_MAX_TOKENS = args.fast_moe_tokens
     model = load_model(args.model_dir, args.n_gpus)
@@ -94,6 +102,7 @@ def run(args: argparse.Namespace) -> dict:
             recs = [r for r in recs if r["response_ids"]]
             if args.kl_limit:
                 recs = recs[:args.kl_limit]
+            recs = recs[k::n_sh]
             prompts, resps = [r["prompt_ids"] for r in recs], [r["response_ids"] for r in recs]
             t0 = time.time()
             base_lp = retention_forward_kl.response_logprobs(model=model, pad_id=pad_id, prompt_ids=prompts,
@@ -116,34 +125,96 @@ def run(args: argparse.Namespace) -> dict:
         if part in parts:
             t0 = time.time()
             recs = generate_gsm8k(model, tok, rows, fn, args.gen_batch, args.max_new_tokens)
+            for r in recs:
+                r["idx"] = gidx[r["idx"]]
             summary[part] = gsm8k_metrics(recs) | {"seconds": round(time.time() - t0, 1),
                                                    "max_new_tokens": args.max_new_tokens}
-            _dump(out / f"{part}_generations.jsonl", recs)
+            _dump(out / (f"{part}_generations.shard{k}.jsonl" if sharded else f"{part}_generations.jsonl"), recs)
             print(f"{part}:", summary[part], flush=True)
 
     if "team10" in parts:
         from .eval_team10 import run_team10
-        res = run_team10(model, tok, args.team10_dir, args.gen_batch, args.team10_max_new_tokens)
-        summary["team10"] = {k: {x: v[x] for x in ("n", "exact", "by_kind", "by_lang") if x in v}
-                             | ({"refusal_rate": v["refusal_rate"], "helped_rate": v["helped_rate"]}
-                                if "refusal_rate" in v else {}) for k, v in res.items()}
-        (out / "team10_reports.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
-        print("team10:", json.dumps(summary["team10"], ensure_ascii=False), flush=True)
+        res = run_team10(model, tok, args.team10_dir, args.gen_batch, args.team10_max_new_tokens,
+                         shard=(k, n_sh) if sharded else None)
+        if sharded:   # replies only; scored once all shards are in (--merge)
+            (out / f"team10_gens.shard{k}.json").write_text(json.dumps(res, ensure_ascii=False))
+        else:
+            _team10_summary(summary, res, out)
 
     if "prior" in parts:
         from .eval_prior import run_prior_tasks
         t0 = time.time()
-        pr = run_prior_tasks(model, tok, [t for t in args.prior_tasks.split(",") if t], args.prior_batch,
-                             args.prior_limit)
-        summary["prior"] = pr | {"seconds": round(time.time() - t0, 1)}
-        print("prior tasks:", pr["scores"], "mean", round(pr["prior_task_mean"], 4), flush=True)
+        tasks = [t for t in args.prior_tasks.split(",") if t][k::n_sh]
+        if tasks:
+            pr = run_prior_tasks(model, tok, tasks, args.prior_batch, args.prior_limit)
+            summary["prior"] = pr | {"seconds": round(time.time() - t0, 1)}
+            print("prior tasks:", pr["scores"], "mean", round(pr["prior_task_mean"], 4), flush=True)
 
+    (out / (f"summary.shard{k}.json" if sharded else "summary.json")).write_text(
+        json.dumps(summary, indent=1, ensure_ascii=False))
+    return summary
+
+
+def _team10_summary(summary: dict, res: dict, out: Path) -> None:
+    summary["team10"] = {k: {x: v[x] for x in ("n", "exact", "by_kind", "by_lang") if x in v}
+                         | ({"refusal_rate": v["refusal_rate"], "helped_rate": v["helped_rate"]}
+                            if "refusal_rate" in v else {}) for k, v in res.items()}
+    (out / "team10_reports.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
+    print("team10:", json.dumps(summary["team10"], ensure_ascii=False), flush=True)
+
+
+def merge(args: argparse.Namespace) -> dict:
+    """Combine the shards of a data-parallel evaluation into the files a single-process evaluation writes."""
+    n_sh = args.num_shards
+    out = Path(args.out_dir) / f"eval_{args.tag}{args.eval_suffix}"
+    shards = [json.loads((out / f"summary.shard{k}.json").read_text()) for k in range(n_sh)]
+    parts = [x for x in args.parts.split(",") if x]
+    if args.tag == "base" and "kl" in parts:
+        parts.remove("kl")
+    summary: dict = {"tag": args.tag, "args": {a: v for a, v in vars(args).items()
+                                              if a not in ("shard", "num_shards", "merge")}}
+    for key in ("kl_base_seconds", "weights_zeroed", "weights_changed"):
+        if key in shards[0]:
+            summary[key] = shards[0][key]
+    for part in ("gsm8k", "gsm8k_chat"):
+        if part in parts:
+            recs = [json.loads(l) for k in range(n_sh)
+                    for l in (out / f"{part}_generations.shard{k}.jsonl").read_text().splitlines()]
+            recs.sort(key=lambda r: r["idx"])
+            summary[part] = gsm8k_metrics(recs) | {"seconds": max(s[part]["seconds"] for s in shards),
+                                                   "max_new_tokens": args.max_new_tokens}
+            _dump(out / f"{part}_generations.jsonl", recs)
+            print(f"{part}:", summary[part], flush=True)
+    if "kl" in parts:
+        w = [(s["forward_kl"]["n_prompts"], s["forward_kl"]["forward_kl_per_token_mean"]) for s in shards
+             if s["forward_kl"]["n_prompts"]]
+        tot = sum(n for n, _ in w)
+        summary["forward_kl"] = {"forward_kl_per_token_mean": sum(n * m for n, m in w) / tot if tot else float("nan"),
+                                 "n_prompts": tot}
+        print("forward KL:", summary["forward_kl"], flush=True)
+    if "team10" in parts:
+        from .eval_team10 import score_team10
+        gens: dict = {}
+        for k in range(n_sh):
+            for name, g in json.loads((out / f"team10_gens.shard{k}.json").read_text()).items():
+                gens.setdefault(name, {}).update(g)
+        _team10_summary(summary, score_team10(args.team10_dir, gens), out)
+    if "prior" in parts:
+        tasks = [t for t in args.prior_tasks.split(",") if t]
+        got = [s["prior"] for s in shards if "prior" in s]
+        scores = {t: g["scores"][t] for g in got for t in g["scores"]}
+        scores = {t: scores[t] for t in tasks}
+        summary["prior"] = {"scores": scores, "prior_task_mean": sum(scores.values()) / len(scores),
+                            "limit": args.prior_limit, "metrics": {t: m for g in got for t, m in g["metrics"].items()},
+                            "seconds": max(g["seconds"] for g in got)}
+        print("prior tasks:", scores, "mean", round(summary["prior"]["prior_task_mean"], 4), flush=True)
     (out / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False))
     return summary
 
 
 def main(argv=None) -> None:
-    run(parse_args(argv))
+    a = parse_args(argv)
+    merge(a) if a.merge else run(a)
 
 
 if __name__ == "__main__":

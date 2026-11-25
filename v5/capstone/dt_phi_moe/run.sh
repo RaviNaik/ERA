@@ -8,6 +8,7 @@
 #   bash run.sh --dry-run        print what would run, change nothing
 # A finished stage leaves <run>/.done_<stage>; it is skipped next time unless FORCE=1.
 set -euo pipefail
+shopt -s extglob
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DRY=0; ARGS=()
 for a in "$@"; do
@@ -114,6 +115,25 @@ for s in $STAGES; do
   fi
   if [[ $DRY == 0 && "$s" == dt_eval && ! -f "$OUT_DIR/train/masks/gsm8k/model.safetensors" ]]; then die "dt_eval needs the trained mask: run train"; fi
   c="$(cmd_for "$s")"
+  if [[ "$EVAL_SHARDS" -gt 1 && "$s" == @(base_eval|dt_eval|lora_eval|ft_eval) ]]; then
+    # data parallel: one single-GPU process per shard (the model is 15 GB, it fits on one card), then --merge
+    IFS=, read -ra gpu_list <<< "$GPUS"
+    [[ ${#gpu_list[@]} -ge $EVAL_SHARDS ]] || die "EVAL_SHARDS=$EVAL_SHARDS needs $EVAL_SHARDS ids in GPUS (GPUS=$GPUS)"
+    c="${c// --n_gpus $N_GPUS / --n_gpus 1 }"
+    echo "[$s] $c  (x$EVAL_SHARDS: --shard k --num_shards $EVAL_SHARDS, GPUS ${gpu_list[*]:0:$EVAL_SHARDS}; then --merge)"
+    if [[ $DRY == 1 ]]; then continue; fi
+    echo "[$s] $c --num_shards $EVAL_SHARDS --shard k ... --merge" >> "$OUT_DIR/commands.txt"
+    t0=$(date +%s); pids=()
+    for ((k = 0; k < EVAL_SHARDS; k++)); do
+      ( CUDA_VISIBLE_DEVICES="${gpu_list[$k]}" eval "$c --num_shards $EVAL_SHARDS --shard $k" ) \
+        > "$OUT_DIR/logs/$s.shard$k.log" 2>&1 & pids+=($!)
+    done
+    rc=0; for p in "${pids[@]}"; do wait "$p" || rc=$?; done
+    [[ $rc == 0 ]] || die "a shard of $s failed (logs: $OUT_DIR/logs/$s.shard*.log)"
+    eval "$c --num_shards $EVAL_SHARDS --merge" 2>&1 | tee "$OUT_DIR/logs/$s.log"
+    echo "[$s] finished in $(( $(date +%s) - t0 )) s" | tee -a "$OUT_DIR/logs/$s.log"
+    touch "$marker"; continue
+  fi
   echo "[$s] $c"
   if [[ $DRY == 1 ]]; then continue; fi
   echo "[$s] $c" >> "$OUT_DIR/commands.txt"

@@ -54,3 +54,20 @@ def test_forward_kl_is_zero_for_the_same_model_and_log_ratio_otherwise():
     assert forward_kl(a, a)["forward_kl_per_token_mean"] == 0.0
     b = [torch.tensor([-1.5, -2.5]), torch.tensor([-1.0])]
     assert forward_kl(a, b)["forward_kl_per_token_mean"] == pytest.approx(0.5)  # mean of log p0 - log p: (-1)-(-1.5), (-2)-(-2.5), (-0.5)-(-1) are all +0.5
+
+
+def test_two_shards_merge_to_the_single_process_evaluation(tiny_dir, data_dir, tmp_path):
+    common = ["--model_dir", str(tiny_dir), "--data_dir", str(data_dir), "--team10_dir", str(TEAM10_DIR),
+              "--n_gpus", "0", "--gsm8k_limit", "7", "--gen_batch", "3", "--max_new_tokens", "6",
+              "--team10_max_new_tokens", "6", "--parts", "gsm8k,gsm8k_chat,team10"]
+    one = evaluate.run(evaluate.parse_args(["--tag", "base", "--out_dir", str(tmp_path / "one")] + common))
+    two_args = ["--tag", "base", "--out_dir", str(tmp_path / "two"), "--num_shards", "2"] + common
+    for k in (0, 1):
+        evaluate.run(evaluate.parse_args(two_args + ["--shard", str(k)]))
+    two = evaluate.merge(evaluate.parse_args(two_args + ["--merge"]))
+    for part in ("gsm8k", "gsm8k_chat"):
+        assert {x: two[part][x] for x in ("n", "correct")} == {x: one[part][x] for x in ("n", "correct")}
+        a = (tmp_path / "one" / "eval_base" / f"{part}_generations.jsonl").read_text()
+        b = (tmp_path / "two" / "eval_base" / f"{part}_generations.jsonl").read_text()
+        assert a == b
+    assert two["team10"] == one["team10"]

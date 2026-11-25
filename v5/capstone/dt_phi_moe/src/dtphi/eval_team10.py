@@ -45,13 +45,24 @@ def generate_replies(model, tok, rows: list[dict], batch_size: int, max_new_toke
     return out
 
 
-def run_team10(model, tok, sets_dir: str, batch_size: int, max_new_tokens: int) -> dict:
+def score_team10(sets_dir: str, gens_by_set: dict[str, dict[str, str]]) -> dict:
     sc = load_scorers()
     result = {}
     for name, fn in (("indic_v1", sc.score_indic_set), ("safety_v1", sc.score_safety_set)):
         rows = sc.load_jsonl(Path(sets_dir) / f"{name}.jsonl")
-        gens = generate_replies(model, tok, rows, batch_size, max_new_tokens)
-        rep = fn(rows, gens)
-        rep["generations"] = gens
+        rep = fn(rows, gens_by_set[name])
+        rep["generations"] = gens_by_set[name]
         result[name] = rep
     return result
+
+
+def run_team10(model, tok, sets_dir: str, batch_size: int, max_new_tokens: int, shard: tuple[int, int] | None = None) -> dict:
+    """shard=(k, n): generate only rows k::n and return {set: replies} unscored (score_team10 after merging)."""
+    sc = load_scorers()
+    gens_by_set = {}
+    for name in ("indic_v1", "safety_v1"):
+        rows = sc.load_jsonl(Path(sets_dir) / f"{name}.jsonl")
+        if shard:
+            rows = rows[shard[0]::shard[1]]
+        gens_by_set[name] = generate_replies(model, tok, rows, batch_size, max_new_tokens)
+    return gens_by_set if shard else score_team10(sets_dir, gens_by_set)
