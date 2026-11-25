@@ -1,0 +1,12 @@
+nohup: ignoring input
+official files verified: 32
+GPU 0: NVIDIA RTX 6000 Ada Generation, 47 GiB
+run: dt_phi_mini_sft_gsm8k_seed0_v4  profile: full  stages: lora_eval
+CUDA_LAUNCH_BLOCKING=1
+out: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4
+[lora_eval] <ROOT>/.venv/bin/python -m dtphi.evaluate --tag lora --model_dir <ROOT>/assets/phi-mini-moe-instruct --data_dir <ROOT>/assets/data/gsm8k --team10_dir <ROOT>/assets/data/team10_sft_tests --out_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4 --ckpt_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_lora --n_gpus 1 --parts kl --gsm8k_limit 0 --kl_limit 50 --gen_batch 32 --max_new_tokens 400 --team10_max_new_tokens 200 --prior_tasks hellaswag,truthfulqa_mc2,mmlu,ifeval,winogrande,humaneval_instruct --prior_limit 0 --prior_batch 8 --seed 0 --eval_suffix '_kl50'
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:07<00:22,  7.34s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:13<00:13,  6.89s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:20<00:06,  6.70s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:20<00:00,  4.20s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:20<00:00,  5.19s/it]
+lora weights applied: {'lora_modules_merged': 512, 'r': 16, 'alpha': 32.0}
+forward KL: {'forward_kl_per_token_mean': 0.2690888488292694, 'n_prompts': 50}
+[lora_eval] finished in 133 s
+all requested stages finished. results: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/results.md (after the report stage)

@@ -1,0 +1,12 @@
+nohup: ignoring input
+official files verified: 32
+GPU 0: NVIDIA RTX 6000 Ada Generation, 48 GiB
+run: dt_phi_mini_sft_gsm8k_seed0_v4  profile: full  stages: ft_eval
+CUDA_LAUNCH_BLOCKING=1
+out: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4
+[ft_eval] <ROOT>/.venv/bin/python -m dtphi.evaluate --tag ft --model_dir <ROOT>/assets/phi-mini-moe-instruct --data_dir <ROOT>/assets/data/gsm8k --team10_dir <ROOT>/assets/data/team10_sft_tests --out_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4 --ckpt_dir <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_ft --n_gpus 1 --parts kl --gsm8k_limit 0 --kl_limit 50 --gen_batch 32 --max_new_tokens 400 --team10_max_new_tokens 200 --prior_tasks hellaswag,truthfulqa_mc2,mmlu,ifeval,winogrande,humaneval_instruct --prior_limit 0 --prior_batch 8 --seed 0 --eval_suffix '_kl50'
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:07<00:22,  7.50s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:14<00:13,  6.97s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:20<00:06,  6.79s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  4.26s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:21<00:00,  5.26s/it]
+ft weights applied: {'ft_tensors_loaded': 1957, 'ft_elements': 7647632704, 'scope': 'all'}
+forward KL: {'forward_kl_per_token_mean': 0.4825420159101486, 'n_prompts': 50}
+[ft_eval] finished in 144 s
+all requested stages finished. results: <ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/results.md (after the report stage)

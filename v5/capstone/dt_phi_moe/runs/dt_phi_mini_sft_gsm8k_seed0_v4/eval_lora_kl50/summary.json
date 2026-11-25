@@ -1,0 +1,38 @@
+{
+ "tag": "lora",
+ "args": {
+  "tag": "lora",
+  "model_dir": "<ROOT>/assets/phi-mini-moe-instruct",
+  "data_dir": "<ROOT>/assets/data/gsm8k",
+  "team10_dir": "<ROOT>/assets/data/team10_sft_tests",
+  "out_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4",
+  "mask_dir": "",
+  "ckpt_dir": "<ROOT>/runs/dt_phi_mini_sft_gsm8k_seed0_v4/train_lora",
+  "eval_suffix": "_kl50",
+  "n_gpus": 1,
+  "parts": "kl",
+  "gsm8k_limit": 0,
+  "gen_batch": 32,
+  "max_new_tokens": 400,
+  "kl_limit": 50,
+  "team10_max_new_tokens": 200,
+  "prior_tasks": "hellaswag,truthfulqa_mc2,mmlu,ifeval,winogrande,humaneval_instruct",
+  "prior_limit": 0,
+  "prior_batch": 8,
+  "seed": 0,
+  "shard": 0,
+  "num_shards": 1,
+  "merge": false,
+  "fast_moe_tokens": 1024
+ },
+ "kl_base_seconds": 30.4,
+ "weights_changed": {
+  "lora_modules_merged": 512,
+  "r": 16,
+  "alpha": 32.0
+ },
+ "forward_kl": {
+  "forward_kl_per_token_mean": 0.2690888488292694,
+  "n_prompts": 50
+ }
+}
