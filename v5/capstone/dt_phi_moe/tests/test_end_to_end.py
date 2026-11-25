@@ -71,3 +71,56 @@ def test_two_shards_merge_to_the_single_process_evaluation(tiny_dir, data_dir, t
         b = (tmp_path / "two" / "eval_base" / f"{part}_generations.jsonl").read_text()
         assert a == b
     assert two["team10"] == one["team10"]
+
+
+def test_gen_bench_runs_and_is_deterministic(tiny_dir, data_dir):
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("gen_bench", Path(__file__).resolve().parents[1] / "tools" / "gen_bench.py")
+    gb = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gb)
+    args = ["--model_dir", str(tiny_dir), "--data_dir", str(data_dir), "--n_gpus", "0", "--n_rows", "4", "--batch", "2",
+            "--max_new_tokens", "5"]
+    a, b = gb.main(args), gb.main(args)
+    assert a["rows"] == 4 and a["replies_sha"] == b["replies_sha"]
+
+
+def test_humaneval_check_runs_on_the_tiny_model(tiny_dir):
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("he_check", Path(__file__).resolve().parents[1] / "tools" / "humaneval_check.py")
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    s = m.main(["--tag", "base", "--model_dir", str(tiny_dir), "--n_gpus", "0", "--n", "2", "--show", "1"])
+    assert s["n"] == 2
+
+
+def test_humaneval_rescore_recovers_a_first_line_indent_fault(tmp_path):
+    import importlib.util
+    import json
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("he_rescore", Path(__file__).resolve().parents[1] / "tools" / "humaneval_rescore.py")
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    assert m.fix_first_line("   x = 1\n    return x") == "    x = 1\n    return x"
+    from datasets import load_dataset
+    docs = {d["task_id"]: d for d in load_dataset("openai/openai_humaneval", split="test")}
+    ids = ["HumanEval/0", "HumanEval/1"]
+    good = [{"task_id": i, "reply": docs[i]["canonical_solution"]} for i in ids]     # correct bodies, 4-space first line
+    broken = [{"task_id": i, "reply": docs[i]["canonical_solution"][1:]} for i in ids]  # first line one space short
+    assert m.score(docs, good, False)[0] == 1.0
+    assert m.score(docs, broken, False)[0] == 0.0
+    assert m.score(docs, broken, True)[0] == 1.0
+
+
+def test_decode_keeps_the_first_space_of_a_continuation():
+    from dtphi.eval_prior import decode_keep_leading_space
+    from dtphi.modeling import load_tokenizer
+    from conftest import MODEL_DIR
+    tok = load_tokenizer(str(MODEL_DIR))
+    prompt = 'def f(x):\n    """doc"""\n'
+    body = "    for i in range(3):\n        return i\n"
+    cont = tok(prompt + body, add_special_tokens=False)["input_ids"][len(tok(prompt, add_special_tokens=False)["input_ids"]):]
+    assert tok.decode(cont, skip_special_tokens=True) == body[1:]          # the harness decode loses one space
+    assert decode_keep_leading_space(tok, cont) == body
+    assert decode_keep_leading_space(tok, cont[:1]) == "   "[:0] + tok.decode(tok.encode("\n", add_special_tokens=False)[-1:] + cont[:1])[1:]
