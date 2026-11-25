@@ -175,3 +175,26 @@ def test_paired_variants_compares_two_variants(tmp_path):
     out = pv.main([str(tmp_path), "--suffix", "_full", "--resamples", "200"])
     r = out["dt_vs_lora/gsm8k_chat"]
     assert r["n"] == 6 and r["only_a"] == 0 and r["only_b"] == 2
+
+
+def test_expert_load_routes_every_token_and_a_perturbed_model_differs(tiny_dir):
+    import numpy as np
+    import torch
+    el = _load_tool("expert_load")
+    from dtphi.modeling import load_model
+    model = load_model(str(tiny_dir), 0, dtype=torch.float32)
+    seqs = [[5, 6, 7, 8, 9], [10, 11, 12], [13, 14, 15, 16]]
+    sel = el.route(model, seqs, pad_id=0, batch=2)
+    assert sel.shape == (2, 12, 2)                                  # layers, non-pad tokens, top-2
+    assert (sel[..., 0] != sel[..., 1]).all() and sel.max() < 4
+    sel_b1 = el.route(model, seqs, pad_id=0, batch=1)               # padding must not change the choices
+    assert (np.sort(sel, -1) == np.sort(sel_b1, -1)).mean() > 0.95
+    s0 = el.summarize(sel, 4, ref=sel)
+    assert s0["same_top2_set_as_base"] == 1.0 and s0["load_total_variation_to_base_mean"] == 0.0
+    assert 0 <= s0["entropy_bits_mean"] <= 2.0 + 1e-9
+    torch.manual_seed(1)
+    for m in model.modules():
+        if m.__class__.__name__ == "PhiMoESparseMoeBlock":
+            m.gate.weight.data += 2.0 * torch.randn_like(m.gate.weight)
+    s1 = el.summarize(el.route(model, seqs, pad_id=0), 4, ref=sel)
+    assert s1["same_top2_set_as_base"] < 1.0
