@@ -1,0 +1,64 @@
+{
+ "weights": {
+  "groups": {
+   "attention": {
+    "tensors": 64,
+    "elements": 335626240,
+    "share_changed": 0.8987406973900491,
+    "mean_abs_change": 0.00024190516481183318,
+    "mean_abs_weight": 0.015809261867823426,
+    "mean_change_in_bf16_spacings": 24.942815677963118
+   },
+   "experts w1": {
+    "tensors": 128,
+    "elements": 503316480,
+    "share_changed": 0.9058335185050964,
+    "mean_abs_change": 0.00022847350307226105,
+    "mean_abs_weight": 0.013343908445676789,
+    "mean_change_in_bf16_spacings": 32.70830693244934
+   },
+   "experts w2": {
+    "tensors": 128,
+    "elements": 503316480,
+    "share_changed": 0.905608578523,
+    "mean_abs_change": 0.0002308318541963672,
+    "mean_abs_weight": 0.013226894564771404,
+    "mean_change_in_bf16_spacings": 28.020854783058166
+   },
+   "experts w3": {
+    "tensors": 128,
+    "elements": 503316480,
+    "share_changed": 0.9091921130816142,
+    "mean_abs_change": 0.00022981011558537528,
+    "mean_abs_weight": 0.012956789062203218,
+    "mean_change_in_bf16_spacings": 28.91788024107615
+   },
+   "lm_head": {
+    "tensors": 1,
+    "elements": 32064,
+    "share_changed": 0.685503992015968,
+    "mean_abs_change": 0.0004714519499304766,
+    "mean_abs_weight": 0.020769825476610257,
+    "mean_change_in_bf16_spacings": 79.62691803892216
+   },
+   "norms and other": {
+    "tensors": 33,
+    "elements": 135168,
+    "share_changed": 0.5758167613636364,
+    "mean_abs_change": 0.0004510636486388235,
+    "mean_abs_weight": 0.26585596467537637,
+    "mean_change_in_bf16_spacings": 13.900592861753521
+   },
+   "router": {
+    "tensors": 8,
+    "elements": 524288,
+    "share_changed": 0.9032363891601562,
+    "mean_abs_change": 0.00024125355048454367,
+    "mean_abs_weight": 0.015167278936132789,
+    "mean_change_in_bf16_spacings": 29.656089425086975
+   }
+  },
+  "tensors_compared": 490,
+  "missing_in_base": 0
+ }
+}
