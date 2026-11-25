@@ -124,3 +124,54 @@ def test_decode_keeps_the_first_space_of_a_continuation():
     assert tok.decode(cont, skip_special_tokens=True) == body[1:]          # the harness decode loses one space
     assert decode_keep_leading_space(tok, cont) == body
     assert decode_keep_leading_space(tok, cont[:1]) == "   "[:0] + tok.decode(tok.encode("\n", add_special_tokens=False)[-1:] + cont[:1])[1:]
+
+
+def _load_tool(name):
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location(name, Path(__file__).resolve().parents[1] / "tools" / f"{name}.py")
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_optimizer_probe_stochastic_rounding_keeps_the_movement_and_plain_bf16_loses_it():
+    wc = _load_tool("weight_change")
+    r = wc.optimizer_probe(n=4000, steps=60)
+    s = r["constant_gradient / stochastic_bf16 (training)"]
+    plain = r["constant_gradient / plain_adamw_bf16"]
+    assert abs(s["mean_movement_over_intended"] - 1.0) < 0.15
+    assert plain["mean_movement_over_intended"] < 0.5
+    assert r["constant_gradient / fp32_reference"]["mean_movement_over_intended"] == pytest.approx(1.0, abs=1e-3)
+
+
+def test_weight_change_reports_a_known_perturbation(tiny_dir, tmp_path):
+    import json
+    from safetensors import safe_open
+    from safetensors.torch import save_file
+    wc = _load_tool("weight_change")
+    with safe_open(str(tiny_dir / "model.safetensors"), framework="pt") as f:
+        names = [n for n in f.keys() if n.endswith(".w1.weight") or "self_attn.q_proj" in n]
+        base = {n: f.get_tensor(n) for n in names}
+    ft = {n: (t + (1e-3 if ".w1." in n else 0.0)) for n, t in base.items()}      # only the expert tensors change
+    save_file(ft, str(tmp_path / "ft-00001.safetensors"))
+    (tmp_path / "ft_index.json").write_text(json.dumps({"scope": "all", "tensors": len(ft),
+                                                       "weight_map": {n: "ft-00001.safetensors" for n in ft}}))
+    r = wc.compare_weights(str(tiny_dir), str(tmp_path))
+    g = r["groups"]
+    assert r["missing_in_base"] == 0 and "experts w1" in g and "attention" in g
+    assert g["experts w1"]["share_changed"] == 1.0 and g["attention"]["share_changed"] == 0.0
+    assert g["experts w1"]["mean_abs_change"] == pytest.approx(1e-3, rel=0.05)
+
+
+def test_paired_variants_compares_two_variants(tmp_path):
+    import json
+    pv = _load_tool("paired_variants")
+    for tag, correct in (("dt", [1, 1, 0, 0, 1, 0]), ("lora", [1, 1, 1, 1, 1, 0])):
+        d = tmp_path / f"eval_{tag}_full"
+        d.mkdir()
+        (d / "gsm8k_chat_generations.jsonl").write_text(
+            "\n".join(json.dumps({"idx": i, "prompt_ids": [i], "correct": bool(c)}) for i, c in enumerate(correct)))
+    out = pv.main([str(tmp_path), "--suffix", "_full", "--resamples", "200"])
+    r = out["dt_vs_lora/gsm8k_chat"]
+    assert r["n"] == 6 and r["only_a"] == 0 and r["only_b"] == 2
