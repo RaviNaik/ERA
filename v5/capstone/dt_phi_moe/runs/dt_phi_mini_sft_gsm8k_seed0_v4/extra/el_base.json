@@ -1,0 +1,13 @@
+{
+ "tag": "base",
+ "sequences": 50,
+ "layers": 32,
+ "tokens": 13817,
+ "experts": 16,
+ "max_entropy_bits": 4.0,
+ "entropy_bits_mean": 3.754380283054033,
+ "entropy_bits_min": 3.3730896922307854,
+ "largest_share_mean": 0.1748174802779185,
+ "largest_share_max": 0.34316421799232827,
+ "near_dead_experts_total": 7
+}

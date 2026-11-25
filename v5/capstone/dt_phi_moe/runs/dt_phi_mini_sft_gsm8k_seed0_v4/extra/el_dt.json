@@ -1,0 +1,16 @@
+{
+ "tag": "dt",
+ "sequences": 50,
+ "layers": 32,
+ "tokens": 13817,
+ "experts": 16,
+ "max_entropy_bits": 4.0,
+ "entropy_bits_mean": 3.7534606776624666,
+ "entropy_bits_min": 3.366665729149196,
+ "largest_share_mean": 0.17535124303394367,
+ "largest_share_max": 0.34265759571542304,
+ "near_dead_experts_total": 7,
+ "same_top2_set_as_base": 0.8857069190128103,
+ "same_top2_set_as_base_by_layer_min": 0.7985090830136788,
+ "load_total_variation_to_base_mean": 0.010406112035897808
+}

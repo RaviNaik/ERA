@@ -1,0 +1,16 @@
+{
+ "tag": "ft",
+ "sequences": 50,
+ "layers": 32,
+ "tokens": 13817,
+ "experts": 16,
+ "max_entropy_bits": 4.0,
+ "entropy_bits_mean": 3.7424617069055874,
+ "entropy_bits_min": 3.403289777559674,
+ "largest_share_mean": 0.17421473547079683,
+ "largest_share_max": 0.3275313020192516,
+ "near_dead_experts_total": 8,
+ "same_top2_set_as_base": 0.655551132662662,
+ "same_top2_set_as_base_by_layer_min": 0.4904103640442933,
+ "load_total_variation_to_base_mean": 0.07089658572772672
+}
