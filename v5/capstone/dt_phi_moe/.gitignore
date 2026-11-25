@@ -1,7 +1,33 @@
 .venv/
-runs/
 assets/
 cache/
 __pycache__/
 .pytest_cache/
 *.pyc
+
+# runs/: ignore everything (weights, masks, adapters, generations, logs) except the small result files
+# that can be reviewed and compared: results/paired tables, per-evaluation summaries, training summaries.
+# Re-including a file needs every parent folder re-included first.
+runs/**
+!runs/*/
+!runs/*/results*.md
+!runs/*/results*.json
+!runs/*/paired*.md
+!runs/*/paired*.json
+!runs/*/eval_*/
+runs/*/eval_*/*
+!runs/*/eval_*/summary.json
+!runs/*/eval_*/team10_reports.json
+!runs/*/train/
+runs/*/train/*
+!runs/*/train/train_summary.json
+!runs/*/train/train_log.jsonl
+!runs/*/train_lora/
+runs/*/train_lora/*
+!runs/*/train_lora/train_summary.json
+!runs/*/train_lora/train_log.jsonl
+!runs/*/train_lora/lora_config.json
+!runs/*/train_ft/
+runs/*/train_ft/*
+!runs/*/train_ft/train_summary.json
+!runs/*/train_ft/train_log.jsonl
