@@ -1,0 +1,41 @@
+{
+ "method": "ft",
+ "args": {
+  "method": "ft",
+  "model_dir": "/home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/assets/phi-mini-moe-instruct",
+  "data_dir": "/home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/assets/data/gsm8k",
+  "output_dir": "/home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_v4_ft3e5/train_ft",
+  "n_gpus": 2,
+  "train_steps": 400,
+  "train_batch_size": 4,
+  "grad_accum_steps": 1,
+  "learning_rate": 3e-05,
+  "weight_decay": 0.0,
+  "max_grad_norm": 1.0,
+  "seed": 0,
+  "train_pool": 2048,
+  "max_len": 512,
+  "lora_r": 16,
+  "lora_alpha": 32.0,
+  "lora_targets": "w1",
+  "ft_scope": "all"
+ },
+ "train_samples": 2048,
+ "dropped_too_long": 0,
+ "total_params": 7647632704,
+ "trainable_params": 7647632704,
+ "trainable_share": 1.0,
+ "checkpoint": {
+  "scope": "all",
+  "tensors": 1957
+ },
+ "train_seconds": 6948.1,
+ "total_seconds": 7097.5,
+ "seconds_per_step": 17.37,
+ "peak_gpu_gib": {
+  "cuda:0": 32.5,
+  "cuda:1": 32.5
+ },
+ "final_loss": 0.8844889402389526,
+ "command": "/home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/src/dtphi/train_baseline.py --method ft --model_dir /home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/assets/phi-mini-moe-instruct --data_dir /home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/assets/data/gsm8k --output_dir /home/ravi.naik/era/ERA/v5/capstone/dt_phi_moe/runs/dt_phi_mini_sft_gsm8k_seed0_v4_ft3e5/train_ft --n_gpus 2 --train_steps 400 --train_batch_size 4 --grad_accum_steps 1 --learning_rate 3e-5 --weight_decay 0 --max_grad_norm 1.0 --seed 0 --train_pool 2048 --max_len 512 --ft_scope all"
+}
